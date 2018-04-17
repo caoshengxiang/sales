@@ -41,6 +41,10 @@ export default new Router({
       component: indexPage,
       children: [
         {
+          path: '*',
+          name: 'saleHome',
+          component: saleHome
+        }, {
           path: 'saleHome',
           name: 'saleHome',
           component: saleHome
