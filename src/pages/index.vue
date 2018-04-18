@@ -1,6 +1,6 @@
 <template>
     <div class="page-container">
-      <page-container :footerStyle="footerStyle" :headerStyle="headerStyle" :asideStyle="asideStyle">
+      <page-container :footerStyle="footerStyle" :headerStyle="headerStyle" :asideStyle="asideStyle" :mainStyle="mainStyle">
         <div slot="header">
           <page-header></page-header>
         </div>
@@ -31,7 +31,11 @@
         },
         asideStyle: {
           width: '240px',
-          borderRight: '1px solid #e6e6e6'
+          borderTop: '6px solid #F0F3F6',
+        },
+        mainStyle: {
+          borderTop: '6px solid #F0F3F6',
+          borderLeft: '6px solid #F0F3F6',
         }
       }
     },

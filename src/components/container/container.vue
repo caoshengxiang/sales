@@ -5,6 +5,7 @@
     headerStyle
     asideStyle
     footerStyle
+    mainStyle
   2. slot
     header
     aside
@@ -26,7 +27,7 @@
       <div class="aside" :style="asideStyle">
         <slot name="aside"></slot>
       </div>
-      <div style="" class="main">
+      <div style="" class="main" :style="mainStyle">
         <div class="top">
           <slot name="mainTop"></slot>
         </div>
@@ -69,6 +70,12 @@
           return {
             height: '80px',
           }
+        },
+      },
+      mainStyle: {
+        type: Object,
+        default () {
+          return {}
         },
       },
     },
