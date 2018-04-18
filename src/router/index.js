@@ -21,7 +21,7 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'signIn',
+      name: 'root',
       component: signIn
     }, {
       path: '*',
@@ -42,7 +42,7 @@ export default new Router({
       children: [
         {
           path: '*',
-          name: 'saleHome',
+          name: 'home',
           component: saleHome
         }, {
           path: 'saleHome',
