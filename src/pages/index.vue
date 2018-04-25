@@ -32,10 +32,12 @@
         asideStyle: {
           width: '240px',
           borderTop: '6px solid #F0F3F6',
+          overflowY: 'auto',
         },
         mainStyle: {
           borderTop: '6px solid #F0F3F6',
           borderLeft: '6px solid #F0F3F6',
+          overflowY: 'auto',
         }
       }
     },

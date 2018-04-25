@@ -1,7 +1,7 @@
 <!--
   布局容器
   使用flex布局，注意兼容性
-  1.　prop
+  1.prop
     headerStyle
     asideStyle
     footerStyle

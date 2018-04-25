@@ -3,6 +3,19 @@
 
 > A Vue.js project
 
+
+## 运行环境
+
+* node@8
+* window、linux
+
+## 兼容要求
+
+* chrome
+* IE9+
+* 360、QQ等
+// todo 暂定
+
 ## 技术栈
 
 * [vue](https://cn.vuejs.org/v2/guide/)
@@ -212,5 +225,28 @@ function f () {
 }
 </script>
 ```
+
+## vue{{}}数据未渲染不显示的问题
+
+[文档](https://vuejs.org/v2/api/#v-cloak)
+
+可在挂在的根元素添加，不必在所有`{{}}`标签中添加
+```html
+<div class="#app" v-cloak>
+    <p>{{value.name}}</p>
+</div>
+```
+```css
+[v-cloak] {
+    display: none;
+}
+```
+<font color="red">v-cloak的display属性被层级更高的给覆盖掉了，所以要提高层级</font>
+```
+[v-cloak] {
+    display: none !important;
+}
+```
+<font color="red">v-cloak的这个样式放在@import 引入的css文件中不起作用</font>
 
 # 项目有其他注意事项【记得此说明】

@@ -45,6 +45,10 @@ export default new Router({
           name: 'home',
           component: saleHome
         }, {
+          path: '',
+          name: 'home',
+          component: saleHome
+        }, {
           path: 'saleHome',
           name: 'saleHome',
           component: saleHome
