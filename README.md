@@ -26,6 +26,8 @@
 * [socket.io](https://socket.io/)
 * [element-ui](http://element.eleme.io/#/zh-CN/component/installation)
 * [webpack](https://webpack.js.org/)
+* sass
+* eslint (standard风格)
 
 ## 项目运行
 
