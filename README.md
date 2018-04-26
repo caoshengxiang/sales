@@ -156,9 +156,34 @@ plugins: [
   ],
 ```
 
-### sass报错
+### node-sass安装失败的问题
 
-<font color="red">如果sass-node无法安装，尝试使用cnpm 安装</font>
+#### 1. 使用cnpm
+
+```
+cnpm install
+```
+<font color="red">如果sass-node无法安装，尝试使用cnpm 安装，</font>
+
+#### 2. 设置淘宝源
+
+    此方案将把下载源指定为cnpm仓库：
+    全部的下载源指向cnpm的指令:
+    　　npm :
+    npm config set registry http://registry.npm.taobao.org
+    　　yarn :
+    yarn config set registry http://registry.npm.taobao.org
+    　只指定node-sass的下载源：
+    　　npm：
+    npm config set sass-binary-site http://npm.taobao.org/mirrors/node-sass
+    　　yarn：
+    yarn config set sass-binary-site http://npm.taobao.org/mirrors/node-sass
+
+#### 3. 暴力一点直接从其他项目copy
+
+> (网上方法很多扯淡,包括用第二步也是不行,第二步安装玩后node-sass编译会报错,删除node_modules下的node-sass,再使用cnpm install安装)
+
+### sass报错
 
 组件中要使用sass,要
 ```
