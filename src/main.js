@@ -7,7 +7,7 @@ import store from './store'
 import './element_ui'
 import './styles/basic.scss'
 
-Vue.config.productionTip = false
+Vue.config.productionTip = false // 关闭生产模式下给出的提示
 
 /* eslint-disable no-new */
 new Vue({
