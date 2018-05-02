@@ -1,0 +1,153 @@
+<template>
+  <div class="com-container">
+    <!--头部-->
+    <div class="com-head">
+      <el-breadcrumb separator-class="el-icon-arrow-right">
+        <el-breadcrumb-item :to="{ name: 'saleHome' }">销售管理系统</el-breadcrumb-item>
+        <el-breadcrumb-item>客户</el-breadcrumb-item>
+      </el-breadcrumb>
+    </div>
+    <!--控制栏-->
+    <div class="com-bar">
+      <div class="com-bar-left">
+        <el-button icon="el-icon-plus">新增</el-button>
+        <el-button>转移</el-button>
+        <el-button>退回公海池</el-button>
+      </div>
+      <div class="com-bar-right">
+        <el-select v-model="value" placeholder="请选择" class="com-el-select">
+          <el-option
+            v-for="item in options"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value">
+          </el-option>
+        </el-select>
+      </div>
+    </div>
+    <!--详细-->
+    <div class="com-box">
+      <el-table
+        ref="multipleTable"
+        border
+        :data="tableData"
+        tooltip-effect="dark"
+        style="width: 100%"
+        @selection-change="handleSelectionChange">
+        <el-table-column
+          type="selection"
+          width="55">
+        </el-table-column>
+        <el-table-column
+          label="日期"
+          width="120">
+          <template slot-scope="scope">{{ scope.row.date }}</template>
+        </el-table-column>
+        <el-table-column
+          prop="name"
+          label="姓名"
+          width="120">
+        </el-table-column>
+        <el-table-column
+          prop="address"
+          label="地址"
+          show-overflow-tooltip>
+        </el-table-column>
+      </el-table>
+    </div>
+    <!--分页-->
+    <div class="com-pages-box">
+      <el-pagination
+        background
+        :total="1000"
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :current-page="currentPage"
+        :layout="pagesOptions.layout"
+        :page-sizes="pagesOptions.pageSizes"
+        :page-size="pagesOptions.pageSize">
+      </el-pagination>
+    </div>
+  </div>
+</template>
+
+<script>
+  import { pagesOptions } from '../../../utils/const'
+  export default {
+    name: 'list',
+    data () {
+      return {
+        options: [
+          {
+            value: '选项1',
+            label: '黄金糕',
+          }, {
+            value: '选项2',
+            label: '双皮奶',
+          }, {
+            value: '选项3',
+            label: '蚵仔煎',
+          }, {
+            value: '选项4',
+            label: '龙须面',
+          }, {
+            value: '选项5',
+            label: '北京烤鸭',
+          }],
+        value: '',
+        tableData: [
+          {
+            date: '2016-05-03',
+            name: '王小虎',
+            address: '上海市普陀区金沙江路 1518 弄',
+          }, {
+            date: '2016-05-02',
+            name: '王小虎',
+            address: '上海市普陀区金沙江路 1518 弄',
+          }, {
+            date: '2016-05-04',
+            name: '王小虎',
+            address: '上海市普陀区金沙江路 1518 弄',
+          }, {
+            date: '2016-05-01',
+            name: '王小虎',
+            address: '上海市普陀区金沙江路 1518 弄',
+          }, {
+            date: '2016-05-08',
+            name: '王小虎',
+            address: '上海市普陀区金沙江路 1518 弄',
+          }, {
+            date: '2016-05-06',
+            name: '王小虎',
+            address: '上海市普陀区金沙江路 1518 弄',
+          }, {
+            date: '2016-05-07',
+            name: '王小虎',
+            address: '上海市普陀区金沙江路 1518 弄',
+          }],
+        multipleSelection: [],
+        currentPage: 1,
+      }
+    },
+    computed: {
+      pagesOptions () {
+        return pagesOptions
+      },
+    },
+    methods: {
+      handleSelectionChange (val) {
+        this.multipleSelection = val
+      },
+      handleSizeChange (val) {
+        console.log(`每页 ${val} 条`)
+      },
+      handleCurrentChange (val) {
+        console.log(`当前页: ${val}`)
+      },
+    },
+  }
+</script>
+
+<style scoped lang="scss" rel="stylesheet/scss">
+  @import "../../../styles/common";
+</style>

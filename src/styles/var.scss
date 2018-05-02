@@ -1,7 +1,10 @@
 $base-font-size: 37.5px; // html字体大小(注意这个值相对于设计图（设计图分为100a，10a=1rem, 750px设计图font-size为75px）,用于移动端计算)
 
-$page-padding: 20px; // 页面边距
+$page-min-width: 1100px; // 页面最小宽度
+$page-base-padding: 16px; // 页面边距
 
 $theme_color: #0BC3C4;
-$theme_bg: #ecf5ff;
+$theme_bg: #F0F3F6;
 $theme_font_color: #5a5e66;
+
+$--color-primary: #0BC3C4; // element 主题色

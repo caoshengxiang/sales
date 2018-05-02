@@ -50,8 +50,10 @@
 </script>
 
 <style scoped lang="scss" rel="stylesheet/scss">
+  @import "../styles/var";
   .page-container {
     width: 100%;
+    min-width: $page-min-width;
     height: 100%;
     position: absolute;
     top: 0;
