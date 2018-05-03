@@ -1,5 +1,5 @@
 <template>
-  <div class="page-header">
+  <div class="page-header" v-bind:class="{'font-end-bg': fontEnd, 'manage-bg': !fontEnd}">
     <div class="left">众智联邦销售管理系统</div>
     <div class="right">
       <ul>
@@ -8,16 +8,18 @@
           <a>注销</a>
         </li>
         <li class="item">
-          <el-badge :value="3" class="badge">
+          <el-badge :is-dot="false" class="badge">
             <i class="el-icon-picture"></i>
           </el-badge>
+          消息通知<span></span>
         </li>
         <li class="item">
-          <el-badge :value="3" class="badge">
+          <el-badge is-dot class="badge">
             <i class="el-icon-picture"></i>
           </el-badge>
+          提醒事项<span>(2)</span>
         </li>
-        <li class="item item-hello">下午好，张三</li>
+        <li class="item item-hello">下午好，张三 !</li>
       </ul>
     </div>
   </div>
@@ -27,7 +29,10 @@
   export default {
     name: 'pageHeader',
     data () {
-      return {}
+      return {
+        fontEnd: true,
+        bgColor: '#D7DDE4'
+      }
     },
   }
 </script>
@@ -38,10 +43,18 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  color: #fff;
+  &.font-end-bg {
+    background-color: #D7DDE4;
+    color: #333E48
+  }
+  &.manage-bg {
+    background-color: #0BC3C4;
+    color: #fff;
+  }
   .left {
     font-size: 18px;
     margin-left: 20px;
+    font-weight: 600;
   }
   .right {
     margin-right: 20px;
@@ -49,10 +62,10 @@
       float: right;
       margin: 0 0 0 20px;
       .badge {
-        margin-bottom: -5px;
+        margin-right: 2px;
       }
       &.item-hello {
-        margin-right: 10px;
+        margin-right: 30px;
       }
     }
   }

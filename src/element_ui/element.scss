@@ -1,3 +1,12 @@
 .el-menu {
   border: 0;
 }
+.el-pagination.is-background .el-pager li:not(.disabled).active{
+  background-color: #4BCF99;
+  &:hover {
+    color: #fff;
+  }
+}
+.el-pagination.is-background .el-pager li:not(.disabled):hover {
+  color: #4BCF99;
+}

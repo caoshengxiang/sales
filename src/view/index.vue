@@ -27,7 +27,7 @@
         },
         headerStyle: {
           height: '52px',
-          backgroundColor: '#0BC3C4',
+          // backgroundColor: '#0BC3C4',
         },
         asideStyle: {
           width: '240px',

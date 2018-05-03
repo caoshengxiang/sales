@@ -131,6 +131,7 @@
       }
       .ma {
         flex: 1;
+        position: relative;
       }
       .bottom {
 

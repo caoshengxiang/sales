@@ -42,11 +42,11 @@
         rules: {
           username: [
             {required: true, message: '请输入你的登陆账号', trigger: 'blur'},
-            chartLengthRule,
+            chartLengthRule.defaultRule,
           ],
           password: [
             {required: true, message: '请输入你的登陆密码', trigger: 'blur'},
-            chartLengthRule,
+            chartLengthRule.defaultRule,
           ],
         },
       }

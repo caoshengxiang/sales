@@ -54,14 +54,14 @@
   .com-bar {
     padding: $page-base-padding 0;
     .com-el-select {
-      width: 160px;
+      width: 130px;
     }
     .com-bar-left {
-
+      display: inline-block;
     }
     .com-bar-right {
-      float: right;
-      margin-top: -32px;
+      display: inline-block;
+      margin-left: 50px;
     }
     &:after{
       content: '';
@@ -73,13 +73,31 @@
       margin-top: $page-base-padding;
     }
   }
-  .com-box {}
+  .com-box {
+    margin-bottom: 60px;
+    .col-link {
+      color: #1E88E5;
+      cursor: pointer;
+    }
+  }
   .com-pages-box {
-    border-top: 1px solid $theme_bg;
+    &:before {
+      content: '';
+      display: block;
+      height: 6px;
+      width: 120%;
+      background-color: $theme_bg;
+    }
+    background-color: #fff;
     height: 60px;
-    margin-top: $page-base-padding;
-    padding-top: $page-base-padding;
-    padding-right: 50px;
     text-align: right;
+    position: absolute;
+    bottom: 0;
+    right: 50px;
+    width: 100%;
+    z-index: 10;
+    .el-pagination {
+      margin-top: 10px;
+    }
   }
 }

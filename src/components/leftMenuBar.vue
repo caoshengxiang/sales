@@ -22,23 +22,67 @@
       active-text-color="#0BC3C4">
       <el-menu-item index="saleHome">
         <i class="el-icon-location"></i>
-        <span slot="title">概览</span>
+        <span slot="title">管理中心</span>
       </el-menu-item>
       <el-menu-item index="customersList">
-        <i class="el-icon-menu"></i>
-        <span slot="title">客户</span>
+        <template slot="title">
+          <i class="el-icon-menu"></i>
+          <span slot="title">客户</span>
+          <div class="child-menu">
+            <i class="el-icon-arrow-right"></i>
+            <div class="child-fixed">
+              <ul class="child-menu-box">
+                <li>客户相关信息</li>
+                <li>客户资料信息</li>
+              </ul>
+            </div>
+          </div>
+        </template>
       </el-menu-item>
       <el-menu-item index="contactsList">
-        <i class="el-icon-document"></i>
-        <span slot="title">联系人</span>
+        <template slot="title">
+          <i class="el-icon-document"></i>
+          <span slot="title">联系人</span>
+          <div class="child-menu">
+            <i class="el-icon-arrow-right"></i>
+            <div class="child-fixed">
+              <ul class="child-menu-box">
+                <li>联系人相关信息</li>
+                <li>联系人资料信息</li>
+              </ul>
+            </div>
+          </div>
+        </template>
       </el-menu-item>
       <el-menu-item index="salesOpportunitiesList">
-        <i class="el-icon-setting"></i>
-        <span slot="title">销售机会</span>
+        <template slot="title">
+          <i class="el-icon-setting"></i>
+          <span slot="title">销售机会</span>
+          <div class="child-menu">
+            <i class="el-icon-arrow-right"></i>
+            <div class="child-fixed">
+              <ul class="child-menu-box">
+                <li>销售机会相关信息</li>
+                <li>销售机会资料信息</li>
+              </ul>
+            </div>
+          </div>
+        </template>
       </el-menu-item>
       <el-menu-item index="salesOrdersList">
-        <i class="el-icon-setting"></i>
-        <span slot="title">销售订单</span>
+        <template slot="title">
+          <i class="el-icon-setting"></i>
+          <span slot="title">销售订单</span>
+          <div class="child-menu">
+            <i class="el-icon-arrow-right"></i>
+            <div class="child-fixed">
+              <ul class="child-menu-box">
+                <li>销售订单相关信息</li>
+                <li>销售订单资料信息</li>
+              </ul>
+            </div>
+          </div>
+        </template>
       </el-menu-item>
       <el-menu-item index="documentaryRecordsList">
         <i class="el-icon-setting"></i>
@@ -92,19 +136,58 @@
       display: inline-block;
       margin-left: 20px;
       .username {
-        font-size:16px;
-        color:rgba(51,62,72,1);
+        font-size: 16px;
+        color: rgba(51, 62, 72, 1);
       }
       .tags {
         margin-top: 5px;
       }
       .tag {
         padding: 3px 10px;
-        background:rgba(255,119,0,1);
+        background: rgba(255, 119, 0, 1);
         border-radius: 11px;
         font-size: 12px;
         color: #fff;
       }
     }
+  }
+
+  .child-menu {
+    float: right;
+    display: inline-block;
+    line-height: 56px;
+    width: 30px;
+    position: relative;
+    .child-fixed {
+      z-index: 199;
+      position: fixed;
+      height: 0;
+    }
+    .child-menu-box {
+      display: none;
+      position: relative;
+      top: -55px;
+      left: 30px;
+      li {
+        background-color: #e4e4e4;
+        width: 120px;
+        padding-left: 20px;
+        line-height: 30px;
+        color: #2d2d2d;
+        &:hover {
+          background-color: #f4f6f8;
+          color: #333e48;
+        }
+      }
+    }
+    &:hover {
+      .child-menu-box {
+        display: block;
+      }
+    }
+  }
+
+  .el-menu-item {
+    padding: 0;
   }
 </style>
