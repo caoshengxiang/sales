@@ -10,3 +10,12 @@
 .el-pagination.is-background .el-pager li:not(.disabled):hover {
   color: #4BCF99;
 }
+
+.el-radio-button__orig-radio:checked+.el-radio-button__inner {
+  background-color: #4BCF99;
+  border-color: #4BCF99;
+  box-shadow: -1px 0 0 0 #4BCF99;
+}
+.el-radio-button__inner:hover {
+
+}

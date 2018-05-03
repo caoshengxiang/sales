@@ -20,6 +20,11 @@ const saleHome = resolve => require.ensure([],
 // 客户
 const customersList = resolve => require.ensure([],
   () => resolve(require('../view/saleManage/customers/list')), 'customers')
+const customersDetail = resolve => require.ensure([],
+  () => resolve(require('../view/saleManage/customers/detailInfo')), 'customers')
+const customersRelated = resolve => require.ensure([],
+  () => resolve(require('../view/saleManage/customers/relatedInfo')), 'customers')
+
 // 联系人
 const contactsList = resolve => require.ensure([],
   () => resolve(require('../view/saleManage/contacts/list')), 'contacts')
@@ -90,6 +95,14 @@ export default new Router({
           path: 'customersList',
           name: 'customersList',
           component: customersList,
+        }, {
+          path: 'customersDetail',
+          name: 'customersDetail',
+          component: customersDetail,
+        }, {
+          path: 'customersRelated',
+          name: 'customersRelated',
+          component: customersRelated,
         }, {
           path: 'contactsList',
           name: 'contactsList',

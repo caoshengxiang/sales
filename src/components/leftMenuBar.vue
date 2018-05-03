@@ -32,8 +32,8 @@
             <i class="el-icon-arrow-right"></i>
             <div class="child-fixed">
               <ul class="child-menu-box">
-                <li>客户相关信息</li>
-                <li>客户资料信息</li>
+                <li @click="handleRouter('customersDetail')">客户相关信息</li>
+                <li @click="handleRouter('customersRelated')">客户资料信息</li>
               </ul>
             </div>
           </div>
@@ -116,6 +116,11 @@
       },
       handleClose (key, keyPath) {
         console.log(key, keyPath)
+      },
+      handleRouter (name) {
+        this.$nextTick(() => {
+          this.$router.push({name: name})
+        })
       },
     },
   }

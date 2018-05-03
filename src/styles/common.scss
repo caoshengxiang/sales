@@ -52,7 +52,7 @@
     }
   }
   .com-bar {
-    padding: $page-base-padding 0;
+    padding-top: $page-base-padding;
     .com-el-select {
       width: 130px;
     }
@@ -63,6 +63,34 @@
       display: inline-block;
       margin-left: 50px;
     }
+    .com-info-left {
+      display: inline-block;
+      .com-info-img {
+        width: 62px;
+        float: left;
+      }
+      .com-info-text {
+        float: left;
+        margin-left: 20px;
+        margin-top: 3px;
+        h3 {
+          font-size: 20px;
+          font-weight: 400;
+        }
+        p {
+          margin-top: 5px;
+        }
+        .com-d-item {
+          display: inline-block;
+          margin-right: 30px;
+        }
+      }
+    }
+    .com-info-right {
+      float: right;
+
+    }
+
     &:after{
       content: '';
       display: block;
@@ -73,11 +101,53 @@
       margin-top: $page-base-padding;
     }
   }
+  .com-box-padding {
+    padding-top: $page-base-padding;
+  }
   .com-box {
     margin-bottom: 60px;
     .col-link {
       color: #1E88E5;
       cursor: pointer;
+    }
+    .table-title {
+      padding: 10px 0;
+      &:before {
+        content: '';
+        display: inline-block;
+        width: 4px;
+        height: 20px;
+        background: #26C6DA;
+        position: relative;
+        top: 5px;
+        left: 0px;
+        margin-right: 10px;
+      }
+    }
+    .detail-left {
+      display: inline-block;
+      border-right: 6px solid #F0F3F6;
+      padding-right: $page-base-padding;
+    }
+    .detail-right {
+      display: inline-block;
+      float: right;
+    }
+    .detail-table {
+      font-size: 12px;
+      td {
+        border: 1px solid #ccc;
+        padding: 5px;
+        width: 140px;
+      }
+      .td-title {
+        text-align: center;
+        background-color: #f6f6f6;
+        width: 120px;
+      }
+      .td-text {
+
+      }
     }
   }
   .com-pages-box {

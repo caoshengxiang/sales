@@ -27,7 +27,7 @@
       </div>
     </div>
     <!--详细-->
-    <div class="com-box">
+    <div class="com-box com-box-padding">
       <el-table
         ref="multipleTable"
         border
