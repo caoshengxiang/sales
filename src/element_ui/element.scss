@@ -3,19 +3,19 @@
   border: 0;
 }
 .el-pagination.is-background .el-pager li:not(.disabled).active{
-  background-color: #4BCF99;
+  background-color: $color-1;
   &:hover {
     color: #fff;
   }
 }
 .el-pagination.is-background .el-pager li:not(.disabled):hover {
-  color: #4BCF99;
+  color: $color-1;
 }
 
 .el-radio-button__orig-radio:checked+.el-radio-button__inner {
-  background-color: #4BCF99;
-  border-color: #4BCF99;
-  box-shadow: -1px 0 0 0 #4BCF99;
+  background-color: $color-1;
+  border-color: $color-1;
+  box-shadow: -1px 0 0 0 $color-1;
 }
 .el-radio-button__inner:hover {
 
@@ -39,4 +39,7 @@
 .el-tabs__item:hover {
   color: $color-1;
   cursor: pointer;
+}
+.el-button--small {
+  //font-size: $font-size-small;
 }

@@ -50,6 +50,7 @@
     &:hover, &:focus {
       background-color: #00A7FE;
       color: #fff;
+      border-color:#00A7FE;
     }
   }
   .move{
@@ -59,6 +60,7 @@
     &:hover, &:focus {
       background-color: #FFA94B;
       color: #fff;
+      border-color: #FFA94B;
     }
   }
   .back-high-seas {
@@ -68,6 +70,7 @@
     &:hover, &:focus {
       background-color: #26C6DA;
       color: #fff;
+      border-color: #26C6DA;
     }
   }
   .search {
@@ -77,7 +80,7 @@
     &:hover, &:focus {
       background-color: #39C189;
       color: #fff;
-      border-color: #39C189
+      border-color: #39C189;
     }
   }
   .theme {
@@ -87,7 +90,7 @@
     &:hover, &:focus {
       background-color: #4BCF99;
       color: #fff;
-      border-color: #4BCF99
+      border-color: #4BCF99;
     }
   }
   .grey {
@@ -98,7 +101,7 @@
     &:hover, &:focus {
       background-color: #f6f6f6;
       color: $font-color-2;
-      border-color: #DDDDDD
+      border-color: #DDDDDD;
     }
   }
 </style>

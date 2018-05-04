@@ -1,5 +1,5 @@
 <template>
-  <div class="com-container">
+  <div class="com-container com-detail-container">
     <!--头部-->
     <div class="com-head">
       <el-breadcrumb separator-class="el-icon-arrow-right">
@@ -111,7 +111,11 @@
               <com-button buttonType="grey">销售订单(2)</com-button>
             </div>
 
-            <p class="table-title">联系人(2) <a class="more">更多》</a></p>
+            <p class="table-title">
+              联系人(2)
+              <a class="more">更多》</a>
+              <a class="table-add"><i class="el-icon-plus"></i>新增联系人</a>
+            </p>
             <table class="detail-table related-table">
               <tr>
                 <th class="td-title">所在公海</th>
@@ -147,7 +151,11 @@
               </tr>
             </table>
 
-            <p class="table-title">销售机会(2) <a class="more">更多》</a></p>
+            <p class="table-title">
+              销售机会(2)
+              <a class="more">更多》</a>
+              <a class="table-add"><i class="el-icon-plus"></i>新增销售需求</a>
+            </p>
             <table class="detail-table related-table">
               <tr>
                 <th class="td-title">所在公海</th>
@@ -183,7 +191,11 @@
               </tr>
             </table>
 
-            <p class="table-title">销售订单(2) <a class="more">更多》</a></p>
+            <p class="table-title">
+              销售订单(2)
+              <a class="more">更多》</a>
+              <a class="table-add"><i class="el-icon-plus"></i>新增销售订单</a>
+            </p>
             <table class="detail-table related-table">
               <tr>
                 <th class="td-title">所在公海</th>

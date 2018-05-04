@@ -33,6 +33,7 @@
           width: '240px',
           borderTop: '6px solid #F0F3F6',
           overflowY: 'auto',
+          backgroundColor: '#3A4651',
         },
         mainStyle: {
           borderTop: '6px solid #F0F3F6',

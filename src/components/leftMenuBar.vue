@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="left-menu-bar">
     <div class="u-show">
       <div class="u-head">
         <img src="../assets/icon/headDefault.png" alt="">
@@ -19,7 +19,9 @@
       @close="handleClose"
       :unique-opened="true"
       :router="true"
-      active-text-color="#0BC3C4">
+      text-color="#9BA1A7"
+      background-color="#3A4651"
+      active-text-color="#39C189">
       <el-menu-item index="saleHome">
         <i class="el-icon-location"></i>
         <span slot="title">管理中心</span>
@@ -117,9 +119,9 @@
       handleClose (key, keyPath) {
         console.log(key, keyPath)
       },
-      handleRouter (name) {
+      handleRouter (name, view) {
         this.$nextTick(() => {
-          this.$router.push({name: 'customersDetail', query: {view: name}})
+          // this.$router.push({name: name, query: {view: view}})
         })
       },
     },
@@ -127,13 +129,16 @@
 </script>
 
 <style scoped lang="scss" rel="stylesheet/scss">
+  .left-menu-bar {
+  }
   .u-show {
     height: 160px;
-    border-bottom: 2px solid #F0F3F6;
+    border-bottom: 2px solid #3A4651;
     text-align: center;
     display: flex;
     justify-content: center;
     align-items: center;
+    background-color: #3A4651;
     .u-head {
       display: inline-block;
     }
@@ -142,7 +147,8 @@
       margin-left: 20px;
       .username {
         font-size: 16px;
-        color: rgba(51, 62, 72, 1);
+        font-weight: normal;
+        color: #FEFEFE
       }
       .tags {
         margin-top: 5px;

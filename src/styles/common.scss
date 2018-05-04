@@ -35,8 +35,9 @@
 
 /* 路由部分 公用样式 */
 .com-container {
-  padding: $page-base-padding;
+  padding: $page-base-padding $page-base-padding 0 $page-base-padding;
   min-width: $detail-min-width;
+  //&.com-detail-container {}
   //overflow: scroll;
   .com-head {
     padding: 0 10px 10px 10px;
@@ -84,6 +85,7 @@
         }
         p {
           margin-top: 5px;
+          @include font-style($font-color-1, $font-size-small)
         }
         .com-d-item {
           display: inline-block;
@@ -113,8 +115,14 @@
   }
 
   .com-box {
-    margin-bottom: 60px;
-    min-height: 600px;
+    &.com-list-box {
+      margin-bottom: 60px;
+    }
+    &.detail-info-box {
+      display: flex;
+      min-height: 660px;
+    }
+
     .col-link {
       color: $font-color-4;
       cursor: pointer;
@@ -125,6 +133,17 @@
         margin-left: 20px;
         color: $font-color-2;
         cursor: pointer;
+      }
+      .table-add {
+        float: right;
+        color: $font-color-1;
+        margin-top: 8px;
+        cursor: pointer;
+        .el-icon-plus {
+          color: #00A7FE;
+          font-weight: 900;
+          margin-right: 4px;
+        }
       }
       &:before {
         content: '';
@@ -137,9 +156,6 @@
         left: 0px;
         margin-right: 10px;
       }
-    }
-    &.detail-info-box {
-      display: flex;
     }
     .detail-left {
       border-right: 6px solid #F0F3F6;
@@ -156,13 +172,14 @@
       padding-left: $page-base-padding;
     }
     .detail-table {
-      font-size: $font-size-small-extra-extra;
-      margin-bottom: 20px;
       &.related-table { // 相关信息
         th, td {
           text-align: center;
         }
       }
+
+      font-size: $font-size-small-extra-extra;
+      margin-bottom: 20px;
       td, th {
         border: 1px solid #ccc;
         padding: 5px;
@@ -216,6 +233,7 @@
           h4 {
             margin-bottom: 7px;
             color: $font-color-1;
+            font-size: $font-size-medium;
           }
           p {
             color: $font-color-3;

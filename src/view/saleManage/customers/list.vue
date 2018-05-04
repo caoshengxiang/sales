@@ -27,7 +27,7 @@
       </div>
     </div>
     <!--详细-->
-    <div class="com-box com-box-padding">
+    <div class="com-box com-box-padding com-list-box">
       <el-table
         ref="multipleTable"
         border
@@ -45,9 +45,9 @@
           align="center"
           label="客户名称"
           width="200"
-          >
+        >
           <template slot-scope="scope">
-            <a class="col-link">{{ scope.row.customerName }}</a>
+            <a class="col-link" @click="handleRouter('detail')">{{ scope.row.customerName }}</a>
           </template>
         </el-table-column>
         <el-table-column
@@ -75,19 +75,22 @@
           label="地址"
           width="160"
           show-overflow-tooltip>
-        </el-table-column><el-table-column
+        </el-table-column>
+        <el-table-column
           align="center"
           prop="address"
           label="地址"
           width="160"
           show-overflow-tooltip>
-        </el-table-column><el-table-column
+        </el-table-column>
+        <el-table-column
           align="center"
           prop="address"
           label="地址"
           width="160"
           show-overflow-tooltip>
-        </el-table-column><el-table-column
+        </el-table-column>
+        <el-table-column
           align="center"
           prop="address"
           label="地址"
@@ -116,6 +119,7 @@
 <script>
   import { pagesOptions } from '../../../utils/const'
   import comButton from '../../../components/button/comButton'
+
   export default {
     name: 'list',
     data () {
@@ -220,6 +224,9 @@
       },
       handleCurrentChange (val) {
         console.log(`当前页: ${val}`)
+      },
+      handleRouter (name) {
+        this.$router.push({name: 'customersDetail', query: {view: name}})
       },
     },
   }
