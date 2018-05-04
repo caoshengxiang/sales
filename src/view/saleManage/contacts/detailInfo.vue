@@ -4,8 +4,8 @@
     <div class="com-head">
       <el-breadcrumb separator-class="el-icon-arrow-right">
         <el-breadcrumb-item :to="{ name: 'saleHome' }">销售管理系统</el-breadcrumb-item>
-        <el-breadcrumb-item>客户</el-breadcrumb-item>
-        <el-breadcrumb-item>客户详情</el-breadcrumb-item>
+        <el-breadcrumb-item>联系人</el-breadcrumb-item>
+        <el-breadcrumb-item>联系人详情</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <!--控制栏-->
@@ -24,8 +24,6 @@
       <div class="com-info-right">
         <el-radio-group v-model="tapOption">
           <el-radio-button class="btn-width" label="edit">编辑</el-radio-button>
-          <el-radio-button class="btn-width" label="back">退回公海</el-radio-button>
-          <el-radio-button class="btn-width" label="move">转移</el-radio-button>
         </el-radio-group>
       </div>
     </div>
@@ -33,8 +31,8 @@
     <div class="com-box detail-info-box">
       <div class="detail-left com-box-padding">
         <el-tabs v-model="activeViewName" type="card" @tab-click="handleTabsClick">
-          <el-tab-pane label="客户资料信息" name="detail">
-            <p class="table-title">客户资料信息</p>
+          <el-tab-pane label="联系人资料信息" name="detail">
+            <p class="table-title">联系人资料信息</p>
             <table class="detail-table">
               <tr>
                 <td class="td-title">公司名称</td>
@@ -70,7 +68,7 @@
               </tr>
             </table>
 
-            <p class="table-title">客户其他信息</p>
+            <p class="table-title">联系人其他信息</p>
             <table class="detail-table">
               <tr>
                 <td class="td-title">所在公海</td>
@@ -103,58 +101,17 @@
             </table>
           </el-tab-pane>
           <!---->
-          <el-tab-pane label="客户相关信息" name="related">
+          <el-tab-pane label="联系人相关信息" name="related">
 
             <div class="related-btn-group">
-              <com-button buttonType="theme">联系人(2)</com-button>
-              <com-button buttonType="grey">销售需求(2)</com-button>
+              <com-button buttonType="grey">销售机会(2)</com-button>
               <com-button buttonType="grey">销售订单(2)</com-button>
             </div>
 
             <p class="table-title">
-              联系人(2)
-              <a class="more">更多》</a>
-              <a class="table-add"><i class="el-icon-plus"></i>新增联系人</a>
-            </p>
-            <table class="detail-table related-table">
-              <tr>
-                <th class="td-title">所在公海</th>
-                <th class="td-title">所在公海</th>
-                <th class="td-title">所在公海</th>
-                <th class="td-title">所在公海</th>
-                <th class="td-title">所在公海</th>
-                <th class="td-title">所在公海</th>
-              </tr>
-              <tr>
-                <td>客户创建时间</td>
-                <td>2018.11.12 12:12:12</td>
-                <td>创建人</td>
-                <td>创建人</td>
-                <td>创建人</td>
-                <td>test</td>
-              </tr>
-              <tr>
-                <td>客户创建时间</td>
-                <td>2018.11.12 12:12:12</td>
-                <td>创建人</td>
-                <td>创建人</td>
-                <td>创建人</td>
-                <td>test</td>
-              </tr>
-              <tr>
-                <td>客户创建时间</td>
-                <td>2018.11.12 12:12:12</td>
-                <td>创建人</td>
-                <td>创建人</td>
-                <td>创建人</td>
-                <td>test</td>
-              </tr>
-            </table>
-
-            <p class="table-title">
               销售机会(2)
               <a class="more">更多》</a>
-              <a class="table-add"><i class="el-icon-plus"></i>新增销售需求</a>
+              <a class="table-add"><i class="el-icon-plus"></i>新增销售机会</a>
             </p>
             <table class="detail-table related-table">
               <tr>
@@ -306,7 +263,7 @@
     methods: {
       handleTabsClick (tab, event) {
         // console.log(tab.name)
-        this.$router.push({name: 'customersDetail', query: {view: tab.name}})
+        this.$router.push({name: 'contactsDetail', query: {view: tab.name}})
       },
     },
     created () {

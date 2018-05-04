@@ -4,8 +4,8 @@
     <div class="com-head">
       <el-breadcrumb separator-class="el-icon-arrow-right">
         <el-breadcrumb-item :to="{ name: 'saleHome' }">销售管理系统</el-breadcrumb-item>
-        <el-breadcrumb-item>客户</el-breadcrumb-item>
-        <el-breadcrumb-item>客户详情</el-breadcrumb-item>
+        <el-breadcrumb-item>销售机会</el-breadcrumb-item>
+        <el-breadcrumb-item>销售机会详情</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <!--控制栏-->
@@ -23,18 +23,18 @@
       </div>
       <div class="com-info-right">
         <el-radio-group v-model="tapOption">
-          <el-radio-button class="btn-width" label="edit">编辑</el-radio-button>
-          <el-radio-button class="btn-width" label="back">退回公海</el-radio-button>
           <el-radio-button class="btn-width" label="move">转移</el-radio-button>
+          <el-radio-button class="btn-width" label="move">删除</el-radio-button>
         </el-radio-group>
       </div>
+      <!--todo 进度-->
     </div>
     <!--详细-->
     <div class="com-box detail-info-box">
       <div class="detail-left com-box-padding">
         <el-tabs v-model="activeViewName" type="card" @tab-click="handleTabsClick">
-          <el-tab-pane label="客户资料信息" name="detail">
-            <p class="table-title">客户资料信息</p>
+          <el-tab-pane label="销售机会资料信息" name="detail">
+            <p class="table-title">销售机会基本信息</p>
             <table class="detail-table">
               <tr>
                 <td class="td-title">公司名称</td>
@@ -70,7 +70,7 @@
               </tr>
             </table>
 
-            <p class="table-title">客户其他信息</p>
+            <p class="table-title">销售机会其他信息</p>
             <table class="detail-table">
               <tr>
                 <td class="td-title">所在公海</td>
@@ -103,7 +103,7 @@
             </table>
           </el-tab-pane>
           <!---->
-          <el-tab-pane label="客户相关信息" name="related">
+          <el-tab-pane label="销售机会相关信息" name="related">
 
             <div class="related-btn-group">
               <com-button buttonType="theme">联系人(2)</com-button>
@@ -152,9 +152,9 @@
             </table>
 
             <p class="table-title">
-              销售机会(2)
+              跟单记录(2)
               <a class="more">更多》</a>
-              <a class="table-add"><i class="el-icon-plus"></i>新增销售需求</a>
+              <a class="table-add"><i class="el-icon-plus"></i>新增跟单记录</a>
             </p>
             <table class="detail-table related-table">
               <tr>
@@ -192,9 +192,9 @@
             </table>
 
             <p class="table-title">
-              销售订单(2)
+              APP订单(2)
               <a class="more">更多》</a>
-              <a class="table-add"><i class="el-icon-plus"></i>新增销售订单</a>
+              <a class="table-add"><i class="el-icon-plus"></i>新增关联订单</a>
             </p>
             <table class="detail-table related-table">
               <tr>
@@ -279,6 +279,7 @@
             </div>
           </li>
         </ul>
+        <!--todo 操作-->
       </div>
     </div>
   </div>

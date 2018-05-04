@@ -26,13 +26,20 @@ const customersDetail = resolve => require.ensure([],
 // 联系人
 const contactsList = resolve => require.ensure([],
   () => resolve(require('../view/saleManage/contacts/list')), 'contacts')
+const contactsDetail = resolve => require.ensure([],
+  () => resolve(require('../view/saleManage/contacts/detailInfo')), 'customers')
 // 销售机会
 const salesOpportunitiesList = resolve => require.ensure([],
   () => resolve(require('../view/saleManage/salesOpportunities/list')),
   'salesOpportunities')
+const salesOpportunitiesDetail = resolve => require.ensure([],
+  () => resolve(require('../view/saleManage/salesOpportunities/detailInfo')),
+  'salesOpportunities')
 // 销售订单
 const salesOrdersList = resolve => require.ensure([],
   () => resolve(require('../view/saleManage/salesOrders/list')), 'salesOrders')
+const salesOrdersDetail = resolve => require.ensure([],
+  () => resolve(require('../view/saleManage/salesOrders/detailInfo')), 'salesOrders')
 // 跟单记录
 const documentaryRecordsList = resolve => require.ensure([],
   () => resolve(require('../view/saleManage/documentaryRecords/list')),
@@ -102,13 +109,25 @@ export default new Router({
           name: 'contactsList',
           component: contactsList,
         }, {
+          path: 'contactsDetail',
+          name: 'contactsDetail',
+          component: contactsDetail,
+        }, {
           path: 'salesOpportunitiesList',
           name: 'salesOpportunitiesList',
           component: salesOpportunitiesList,
         }, {
+          path: 'salesOpportunitiesDetail',
+          name: 'salesOpportunitiesDetail',
+          component: salesOpportunitiesDetail,
+        }, {
           path: 'salesOrdersList',
           name: 'salesOrdersList',
           component: salesOrdersList,
+        }, {
+          path: 'salesOrdersDetail',
+          name: 'salesOrdersDetail',
+          component: salesOrdersDetail,
         }, {
           path: 'documentaryRecordsList',
           name: 'documentaryRecordsList',

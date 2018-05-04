@@ -10,6 +10,10 @@
       'search': buttonType === 'search' ? true : false,
       'theme': buttonType === 'theme' ? true : false,
       'grey': buttonType === 'grey' ? true : false,
+      'delete': buttonType === 'delete' ? true : false,
+      'export': buttonType === 'export' ? true : false,
+      'card-num': buttonType === 'cardNum' ? true : false,
+      'import': buttonType === 'import' ? true : false,
     }">
     <slot></slot>
   </el-button>
@@ -43,65 +47,50 @@
   .el-button--small {
     padding: 9px 0px;
   }
-  .add {
-    background-color: #00A7FE;
-    width: 100px;
-    color: #fff;
+  @mixin btn-style ($bg-color, $font-color: #fff, $width: 100px) {
+    background-color: $bg-color;
+    width: $width;
+    color: $font-color;
     &:hover, &:focus {
-      background-color: #00A7FE;
-      color: #fff;
-      border-color:#00A7FE;
+      background-color: $bg-color;
+      color: $font-color;
+      border-color:$bg-color;
     }
+  }
+  .add {
+    @include btn-style(#00A7FE)
   }
   .move{
-    background-color: #FFA94B;
-    width: 100px;
-    color: #fff;
-    &:hover, &:focus {
-      background-color: #FFA94B;
-      color: #fff;
-      border-color: #FFA94B;
-    }
+    @include btn-style(#FFA94B)
   }
   .back-high-seas {
-    background-color: #26C6DA;
-    width: 100px;
-    color: #fff;
-    &:hover, &:focus {
-      background-color: #26C6DA;
-      color: #fff;
-      border-color: #26C6DA;
-    }
+    @include btn-style(#26C6DA)
   }
   .search {
-    background-color: #39C189;
-    width: 72px;
-    color: #fff;
-    &:hover, &:focus {
-      background-color: #39C189;
-      color: #fff;
-      border-color: #39C189;
-    }
+    @include btn-style(#39C189, #fff, 72px)
   }
   .theme {
-    background-color: #4BCF99;
-    width: 100px;
-    color: #fff;
-    &:hover, &:focus {
-      background-color: #4BCF99;
-      color: #fff;
-      border-color: #4BCF99;
-    }
+    @include btn-style(#4BCF99)
   }
   .grey {
-    background-color: #f6f6f6;
-    width: 100px;
-    color: $font-color-2;
-    border: 1px solid #DDDDDD;
+    @include btn-style(#f6f6f6, $font-color-2)
+  }
+  .delete {
+    @include btn-style(#FE5455)
+  }
+  .export {
+    @include btn-style(#4BCF99)
+  }
+  .import {
+    @include btn-style(#FF7700, #fff, 72px)
+  }
+  .card-num {
+    @include btn-style(#39C189, #39C189, 160px);
+    background-color: #fff;
+    border-color: #39C189;
     &:hover, &:focus {
-      background-color: #f6f6f6;
-      color: $font-color-2;
-      border-color: #DDDDDD;
+      background-color: #fff;
+      border-color: #39C189;
     }
   }
 </style>
