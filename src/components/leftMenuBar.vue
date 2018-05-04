@@ -32,8 +32,8 @@
             <i class="el-icon-arrow-right"></i>
             <div class="child-fixed">
               <ul class="child-menu-box">
-                <li @click="handleRouter('customersDetail')">客户相关信息</li>
-                <li @click="handleRouter('customersRelated')">客户资料信息</li>
+                <li @click="handleRouter('detail')">客户相关信息</li>
+                <li @click="handleRouter('related')">客户资料信息</li>
               </ul>
             </div>
           </div>
@@ -119,7 +119,7 @@
       },
       handleRouter (name) {
         this.$nextTick(() => {
-          this.$router.push({name: name})
+          this.$router.push({name: 'customersDetail', query: {view: name}})
         })
       },
     },

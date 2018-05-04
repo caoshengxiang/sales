@@ -38,14 +38,20 @@
 </script>
 
 <style scoped lang="scss" rel="stylesheet/scss">
+  @import "../styles/var";
 .page-header {
   height: 52px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   &.font-end-bg {
-    background-color: #D7DDE4;
-    color: #333E48
+    background-color: $page-header-bg;
+    .left {
+      color: $font-color-0;
+    }
+    .right {
+      color: $font-color-1;
+    }
   }
   &.manage-bg {
     background-color: #0BC3C4;

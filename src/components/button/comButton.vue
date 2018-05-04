@@ -7,7 +7,9 @@
       'add': buttonType === 'add' ? true : false,
       'move': buttonType === 'move' ? true : false,
       'back-high-seas': buttonType === 'backHighSeas' ? true : false,
-      'search': buttonType === 'search' ? true : false
+      'search': buttonType === 'search' ? true : false,
+      'theme': buttonType === 'theme' ? true : false,
+      'grey': buttonType === 'grey' ? true : false,
     }">
     <slot></slot>
   </el-button>
@@ -37,6 +39,7 @@
   }
 </script>
 <style lang="scss" rel="stylesheet/scss">
+  @import "../../styles/var";
   .el-button--small {
     padding: 9px 0px;
   }
@@ -74,6 +77,28 @@
     &:hover, &:focus {
       background-color: #39C189;
       color: #fff;
+      border-color: #39C189
+    }
+  }
+  .theme {
+    background-color: #4BCF99;
+    width: 100px;
+    color: #fff;
+    &:hover, &:focus {
+      background-color: #4BCF99;
+      color: #fff;
+      border-color: #4BCF99
+    }
+  }
+  .grey {
+    background-color: #f6f6f6;
+    width: 100px;
+    color: $font-color-2;
+    border: 1px solid #DDDDDD;
+    &:hover, &:focus {
+      background-color: #f6f6f6;
+      color: $font-color-2;
+      border-color: #DDDDDD
     }
   }
 </style>

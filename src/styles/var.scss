@@ -2,9 +2,31 @@ $base-font-size: 37.5px; // html字体大小(注意这个值相对于设计图�
 
 $page-min-width: 1100px; // 页面最小宽度
 $page-base-padding: 16px; // 页面边距
+$detail-min-width: 1024px; // 详细页内容部分最小宽度
 
 $theme_color: #0BC3C4;
 $theme_bg: #F0F3F6;
-$theme_font_color: #5a5e66;
+$page-header-bg: #D7DDE4; // 页头背景色
 
 $--color-primary: #0BC3C4; // element 主题色
+
+// 字体颜色
+$font-color-0: #333E48;
+$font-color-1: #4F5F6F;
+$font-color-2: #728395;
+$font-color-3: #9CA2A8;
+$font-color-4: #1E88E5;
+$font-color-5: #FF7700;
+
+// 字体大小
+$font-size-small-extra-extra: 12px;
+$font-size-small-extra: 13px;
+$font-size-small: 14px;
+$font-size-medium: 16px;
+$font-size-large: 18px;
+$font-size-extra-large: 20px;
+
+// othen color
+$color-1: #39C189;
+$color-white: #ffffff;
+$color-2: #f6f6f6;

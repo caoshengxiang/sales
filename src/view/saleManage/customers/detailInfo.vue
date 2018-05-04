@@ -30,9 +30,9 @@
       </div>
     </div>
     <!--详细-->
-    <div class="com-box">
+    <div class="com-box detail-info-box">
       <div class="detail-left com-box-padding">
-        <el-tabs v-model="activeName" type="card" @tab-click="handleTabsClick">
+        <el-tabs v-model="activeViewName" type="card" @tab-click="handleTabsClick">
           <el-tab-pane label="客户资料信息" name="detail">
             <p class="table-title">客户资料信息</p>
             <table class="detail-table">
@@ -102,40 +102,208 @@
               </tr>
             </table>
           </el-tab-pane>
-          <el-tab-pane label="客户相关" name="related">客户相关</el-tab-pane>
+          <!---->
+          <el-tab-pane label="客户相关信息" name="related">
+
+            <div class="related-btn-group">
+              <com-button buttonType="theme">联系人(2)</com-button>
+              <com-button buttonType="grey">销售需求(2)</com-button>
+              <com-button buttonType="grey">销售订单(2)</com-button>
+            </div>
+
+            <p class="table-title">联系人(2) <a class="more">更多》</a></p>
+            <table class="detail-table related-table">
+              <tr>
+                <th class="td-title">所在公海</th>
+                <th class="td-title">所在公海</th>
+                <th class="td-title">所在公海</th>
+                <th class="td-title">所在公海</th>
+                <th class="td-title">所在公海</th>
+                <th class="td-title">所在公海</th>
+              </tr>
+              <tr>
+                <td>客户创建时间</td>
+                <td>2018.11.12 12:12:12</td>
+                <td>创建人</td>
+                <td>创建人</td>
+                <td>创建人</td>
+                <td>test</td>
+              </tr>
+              <tr>
+                <td>客户创建时间</td>
+                <td>2018.11.12 12:12:12</td>
+                <td>创建人</td>
+                <td>创建人</td>
+                <td>创建人</td>
+                <td>test</td>
+              </tr>
+              <tr>
+                <td>客户创建时间</td>
+                <td>2018.11.12 12:12:12</td>
+                <td>创建人</td>
+                <td>创建人</td>
+                <td>创建人</td>
+                <td>test</td>
+              </tr>
+            </table>
+
+            <p class="table-title">销售机会(2) <a class="more">更多》</a></p>
+            <table class="detail-table related-table">
+              <tr>
+                <th class="td-title">所在公海</th>
+                <th class="td-title">所在公海</th>
+                <th class="td-title">所在公海</th>
+                <th class="td-title">所在公海</th>
+                <th class="td-title">所在公海</th>
+                <th class="td-title">所在公海</th>
+              </tr>
+              <tr>
+                <td>客户创建时间</td>
+                <td>2018.11.12 12:12:12</td>
+                <td>创建人</td>
+                <td>创建人</td>
+                <td>创建人</td>
+                <td>test</td>
+              </tr>
+              <tr>
+                <td>客户创建时间</td>
+                <td>2018.11.12 12:12:12</td>
+                <td>创建人</td>
+                <td>创建人</td>
+                <td>创建人</td>
+                <td>test</td>
+              </tr>
+              <tr>
+                <td>客户创建时间</td>
+                <td>2018.11.12 12:12:12</td>
+                <td>创建人</td>
+                <td>创建人</td>
+                <td>创建人</td>
+                <td>test</td>
+              </tr>
+            </table>
+
+            <p class="table-title">销售订单(2) <a class="more">更多》</a></p>
+            <table class="detail-table related-table">
+              <tr>
+                <th class="td-title">所在公海</th>
+                <th class="td-title">所在公海</th>
+                <th class="td-title">所在公海</th>
+                <th class="td-title">所在公海</th>
+                <th class="td-title">所在公海</th>
+                <th class="td-title">所在公海</th>
+              </tr>
+              <tr>
+                <td>客户创建时间</td>
+                <td>2018.11.12 12:12:12</td>
+                <td>创建人</td>
+                <td>创建人</td>
+                <td>创建人</td>
+                <td>test</td>
+              </tr>
+              <tr>
+                <td>客户创建时间</td>
+                <td>2018.11.12 12:12:12</td>
+                <td>创建人</td>
+                <td>创建人</td>
+                <td>创建人</td>
+                <td>test</td>
+              </tr>
+              <tr>
+                <td>客户创建时间</td>
+                <td>2018.11.12 12:12:12</td>
+                <td>创建人</td>
+                <td>创建人</td>
+                <td>创建人</td>
+                <td>test</td>
+              </tr>
+            </table>
+          </el-tab-pane>
         </el-tabs>
       </div>
+      <!--团队成员-->
       <div class="detail-right com-box-padding">
-        <el-tabs v-model="activeTeamMembers" @tab-click="handleClick">
-          <el-tab-pane label="团队成员" name="list">团队成员</el-tab-pane>
-          <el-tab-pane label="团队成员" name="a">团队成员</el-tab-pane>
-          <el-tab-pane label="团队成员" name="b">团队成员</el-tab-pane>
-          <el-tab-pane label="团队成员" name="c">团队成员</el-tab-pane>
-        </el-tabs>
+        <div class="team-title">
+          <span class="title-text">团队成员</span>
+        </div>
+        <ul class="team-member">
+          <li class="team-member-item">
+            <div class="head">
+              <img src="../../../assets/icon/headDefault.png" alt="">
+            </div>
+            <div class="text">
+              <h4>张珊珊</h4>
+              <p>123456748912</p>
+            </div>
+            <div class="post">
+              <span class="post-tag-1">创建人</span>
+              <!--<span class="post-tag-2">销售员</span>-->
+            </div>
+          </li>
+          <li class="team-member-item">
+            <div class="head">
+              <img src="../../../assets/icon/headDefault.png" alt="">
+            </div>
+            <div class="text">
+              <h4>张珊珊</h4>
+              <p>123456748912</p>
+            </div>
+            <div class="post">
+              <span class="post-tag-1">创建人</span>
+              <!--<span class="post-tag-2">销售员</span>-->
+            </div>
+          </li>
+          <li class="team-member-item">
+            <div class="head">
+              <img src="../../../assets/icon/headDefault.png" alt="">
+            </div>
+            <div class="text">
+              <h4>张珊珊</h4>
+              <p>123456748912</p>
+            </div>
+            <div class="post">
+              <span class="post-tag-1">创建人</span>
+              <!--<span class="post-tag-2">销售员</span>-->
+            </div>
+          </li>
+        </ul>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+  import comButton from '../../../components/button/comButton'
+
   export default {
     name: 'detailInfo',
     data () {
       return {
         tapOption: '',
-        activeName: 'detail',
-        activeTeamMembers: 'list'
+        activeViewName: '',
       }
+    },
+    watch: {
+      '$route.query.view' (view) {
+        this.activeViewName = view
+      },
+    },
+    components: {
+      comButton,
     },
     methods: {
       handleTabsClick (tab, event) {
-        console.log(tab, event)
+        // console.log(tab.name)
+        this.$router.push({name: 'customersDetail', query: {view: tab.name}})
       },
+    },
+    created () {
+      this.activeViewName = this.$route.query.view
     },
   }
 </script>
 
 <style scoped lang="scss" rel="stylesheet/scss">
   @import "../../../styles/common";
-
+  @import '../../../styles/mixins';
 </style>

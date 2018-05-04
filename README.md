@@ -12,7 +12,7 @@
 ## 兼容要求
 
 * chrome
-* IE9+
+* IE10+
 * 360、QQ等
 // todo 暂定
 
@@ -26,7 +26,7 @@
 * [socket.io](https://socket.io/)
 * [element-ui](http://element.eleme.io/#/zh-CN/component/installation)
 * [webpack](https://webpack.js.org/)
-* sass
+* [sass](https://www.sass.hk/)
 * eslint (standard风格)
 
 ## 项目运行
