@@ -1,7 +1,7 @@
 <template>
   <div class="left-menu-bar">
     <div class="u-show">
-      <div class="u-head">
+      <div class="u-head" @click="routePersonal">
         <img src="../assets/icon/headDefault.png" alt="">
       </div>
       <div class="u-text">
@@ -124,6 +124,9 @@
           // this.$router.push({name: name, query: {view: view}})
         })
       },
+      routePersonal () {
+        this.$router.push({name: 'personal', query: {view: 'base'}})
+      }
     },
   }
 </script>
@@ -141,6 +144,7 @@
     background-color: #3A4651;
     .u-head {
       display: inline-block;
+      cursor: pointer;
     }
     .u-text {
       display: inline-block;

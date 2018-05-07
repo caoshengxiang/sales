@@ -5,6 +5,8 @@ import HelloWorld from '@/components/HelloWorld'
 // 登陆，重置
 const signIn = resolve => require.ensure([],
   () => resolve(require('../view/sign/signIn')), 'sign')
+const recoverPassword = resolve => require.ensure([],
+  () => resolve(require('../view/sign/recoverPassword')), 'sign')
 const resetPassword = resolve => require.ensure([],
   () => resolve(require('../view/sign/resetPassword')), 'sign')
 
@@ -56,6 +58,24 @@ const rebateRecordsList = resolve => require.ensure([],
 const customersHighSeasList = resolve => require.ensure([],
   () => resolve(require('../view/saleManage/customersHighSeas/list')),
   'customersHighSeas')
+// 消息
+const messageList = resolve => require.ensure([],
+  () => resolve(require('../view/saleManage/message/list')),
+  'message')
+const messageDetail = resolve => require.ensure([],
+  () => resolve(require('../view/saleManage/message/detailInfo')),
+  'message')
+// 任务
+const taskApprovalList = resolve => require.ensure([],
+  () => resolve(require('../view/saleManage/taskApproval/list')),
+  'taskApproval')
+const taskApprovalDetail = resolve => require.ensure([],
+  () => resolve(require('../view/saleManage/taskApproval/detailInfo')),
+  'taskApproval')
+// 个人信息
+const personal = resolve => require.ensure([],
+  () => resolve(require('../view/saleManage/personalCenter/personal')),
+  'personal')
 
 // 销售前端 end
 
@@ -83,6 +103,10 @@ export default new Router({
       path: '/signIn',
       name: 'signIn',
       component: signIn,
+    }, {
+      path: '/recoverPassword',
+      name: 'recoverPassword',
+      component: recoverPassword,
     }, {
       path: '/resetPassword',
       name: 'resetPassword',
@@ -144,6 +168,26 @@ export default new Router({
           path: 'customersHighSeasList',
           name: 'customersHighSeasList',
           component: customersHighSeasList,
+        }, {
+          path: 'messageList',
+          name: 'messageList',
+          component: messageList,
+        }, {
+          path: 'messageDetail',
+          name: 'messageDetail',
+          component: messageDetail,
+        }, {
+          path: 'taskApprovalList',
+          name: 'taskApprovalList',
+          component: taskApprovalList,
+        }, {
+          path: 'taskApprovalDetail',
+          name: 'taskApprovalDetail',
+          component: taskApprovalDetail,
+        }, {
+          path: 'personal',
+          name: 'personal',
+          component: personal,
         },
         // 企业管理
         {

@@ -3,13 +3,24 @@ export const pageMinWidth = 1100 // 页面最小宽度
 export const server = 'localhost:3000/api' // server地址
 
 // 表单验证
+const validatePhone = (rule, value, callback) => { // 自定义规则验证手机号
+  let regPhone = /^1[3,4,5,7,8][0-9]\d{9}$/
+  if (value === '') {
+    callback(new Error('请输入手机号'))
+  } else if (!regPhone.test(value)) {
+    callback(new Error('手机号格式错误!'))
+  } else {
+    callback()
+  }
+}
 export const chartLengthRule = {
-  defaultRule: {
+  defaultRule: [{ // 通用规则 ，...[]方式加入
     min: 1,
     max: 20,
     message: '长度在 1 到 20 个字符',
     trigger: 'blur',
-  }
+  }],
+  validatePhone: {validator: validatePhone, trigger: 'blur'}, // 自定义规则验证手机号
 }
 
 // 分页

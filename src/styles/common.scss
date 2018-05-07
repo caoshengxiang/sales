@@ -175,30 +175,6 @@
       flex: 1;
       padding-left: $page-base-padding;
     }
-    .detail-table {
-      &.related-table { // 相关信息
-        th, td {
-          text-align: center;
-        }
-      }
-
-      font-size: $font-size-small-extra-extra;
-      margin-bottom: 20px;
-      td, th {
-        border: 1px solid #ccc;
-        padding: 5px;
-        width: 140px;
-        font-weight: normal;
-      }
-      .td-title {
-        text-align: center;
-        background-color: $color-2;
-        width: 120px;
-      }
-      .td-text {
-
-      }
-    }
     .team-title {
       width: 100%;
       border-bottom: 2px solid #DDDDDD;
@@ -269,6 +245,30 @@
           }
         }
       }
+    }
+  }
+  .detail-table {
+    &.related-table { // 相关信息
+      th, td {
+        text-align: center;
+      }
+    }
+
+    font-size: $font-size-small-extra-extra;
+    margin-bottom: 20px;
+    td, th {
+      border: 1px solid #ccc;
+      padding: 5px;
+      width: 140px;
+      font-weight: normal;
+    }
+    .td-title {
+      text-align: center;
+      background-color: $color-2;
+      width: 120px;
+    }
+    .td-text {
+
     }
   }
   .com-pages-box {

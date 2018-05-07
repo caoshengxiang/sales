@@ -3,17 +3,17 @@
     <div class="left">众智联邦销售管理系统</div>
     <div class="right">
       <ul>
-        <li class="item">
+        <li class="item cursor">
           <i class="el-icon-picture"></i>
           <a>注销</a>
         </li>
-        <li class="item">
+        <li class="item cursor" @click="messageHandle">
           <el-badge :is-dot="false" class="badge">
             <i class="el-icon-picture"></i>
           </el-badge>
           消息通知<span></span>
         </li>
-        <li class="item">
+        <li class="item cursor" @click="taskHandle">
           <el-badge is-dot class="badge">
             <i class="el-icon-picture"></i>
           </el-badge>
@@ -34,6 +34,14 @@
         bgColor: '#D7DDE4'
       }
     },
+    methods: {
+      messageHandle () {
+        this.$router.push({name: 'messageList'})
+      },
+      taskHandle () {
+        this.$router.push({name: 'taskApprovalList'})
+      }
+    }
   }
 </script>
 
@@ -72,6 +80,12 @@
       }
       &.item-hello {
         margin-right: 30px;
+      }
+      &.cursor {
+        cursor: pointer;
+        &:hover {
+          text-decoration: underline;
+        }
       }
     }
   }
