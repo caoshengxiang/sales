@@ -87,6 +87,38 @@
           </el-tab-pane>
           <!---->
           <el-tab-pane label="用户头像修改" name="head">
+            <div class="head-text-box">
+              <com-button buttonType="uploadImg">本地图片</com-button>
+              <span class="tips">使用高质量图片，可生成高清头像</span>
+              <p>仅支持JPG、静态GIF和PNG图片文件，且文件小于3M</p>
+            </div>
+            <div class="img-box">
+              <div class="upload">
+                <img width="115px" src="../../../assets/icon/placeholder.jpg" alt="">
+                <p class="up-link">选择你要上传的头像</p>
+                <p class="up-tips">本地照片：选择一张本地的图片编辑后上传为头像</p>
+              </div>
+              <div class="show">
+                <p class="tips">您上传的图片将会自动生成三种尺寸头像和高清头像，<br>
+                  请注意中小尺寸的头像是否清晰。</p>
+                <div class="img-size-3">
+                  <div class="size-1">
+                    <img width="180px" src="../../../assets/icon/placeholder.jpg" alt="">
+                    <p class="description">大尺寸头像，180*180像素</p>
+                  </div>
+                  <div class="size-23">
+                    <div class="size-2">
+                      <img width="50" src="../../../assets/icon/placeholder.jpg" alt="">
+                      <p class="description">中尺寸头像 <br>50*50像素</p>
+                    </div>
+                    <div class="size-3">
+                      <img width="30" src="../../../assets/icon/placeholder.jpg" alt="">
+                      <p class="description">大尺寸头像 <br>30*30像素</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </el-tab-pane>
           <!---->
           <el-tab-pane label="用户密码修改" name="pass">
@@ -207,6 +239,7 @@
 <style scoped lang="scss" rel="stylesheet/scss">
   @import "../../../styles/common";
 
+  $box-margin: 26px;
   .com-box-padding {
     width: 100%;
     padding-top: 16px;
@@ -219,5 +252,66 @@
   .form-box {
     margin-top: 5px;
     margin-left: 20px;
+  }
+
+  .head-text-box {
+    .tips {
+      margin-left: 10px;
+      color: $font-color-5;
+      font-size: 12px;
+    }
+    p {
+      color: $font-color-2;
+      margin: $box-margin 0;
+    }
+  }
+  .img-box {
+    display: flex;
+    .upload {
+      width: 445px;
+      height: 394px;
+      border: 1px dashed $border-color;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      .up-link {
+        margin: $box-margin;
+        color: $font-color-4;
+        text-decoration: underline;
+      }
+      .up-tips {
+        font-size: 12px;
+        color: #BDBDBD;
+      }
+    }
+    .show {
+      margin-left: $box-margin;
+      padding-left: $box-margin;
+      border-left: 1px solid $border-color;
+    }
+    .tips {
+      color: $font-color-2;
+    }
+    .img-size-3 {
+      display: flex;
+      margin-top: $box-margin;
+      .description {
+        font-size: 12px;
+        color: $font-color-2;
+        text-align: center;
+      }
+      .size-23 {
+        margin-left: $box-margin;
+        text-align: center;
+      }
+      .size-2 {
+        text-align: center;
+      }
+      .size-3 {
+        text-align: center;
+        margin-top: $box-margin + 4px;
+      }
+    }
   }
 </style>

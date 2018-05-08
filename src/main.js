@@ -6,6 +6,7 @@ import router from './router'
 import store from './store'
 import './element_ui'
 import './styles/basic.scss'
+import './components/register'
 
 Vue.config.productionTip = false // 关闭生产模式下给出的提示
 

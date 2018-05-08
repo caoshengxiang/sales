@@ -14,6 +14,7 @@
       'export': buttonType === 'export' ? true : false,
       'card-num': buttonType === 'cardNum' ? true : false,
       'import': buttonType === 'import' ? true : false,
+      'upload-img': buttonType === 'uploadImg' ? true : false
     }">
     <slot></slot>
   </el-button>
@@ -92,5 +93,8 @@
       background-color: #fff;
       border-color: #39C189;
     }
+  }
+  .upload-img {
+    @include btn-style(#39C189, #fff, 100px);
   }
 </style>
