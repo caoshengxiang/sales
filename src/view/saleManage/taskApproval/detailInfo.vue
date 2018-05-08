@@ -111,9 +111,9 @@
       </div>
       <!--团队成员-->
       <div class="detail-right com-box-padding">
-        <div class="team-title">
-          <span class="title-text">团队成员</span>
-        </div>
+        <!--<div class="team-title">-->
+          <!--<span class="title-text">团队成员</span>-->
+        <!--</div>-->
         <ul class="team-member">
           <li class="team-member-item">
             <div class="head">

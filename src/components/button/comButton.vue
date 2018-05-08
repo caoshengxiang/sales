@@ -46,7 +46,8 @@
 <style lang="scss" rel="stylesheet/scss">
   @import "../../styles/var";
   .el-button--small {
-    padding: 9px 0px;
+    /*padding: 9px 0px;*/
+    box-sizing: border-box;
   }
   @mixin btn-style ($bg-color, $font-color: #fff, $width: 100px) {
     background-color: $bg-color;

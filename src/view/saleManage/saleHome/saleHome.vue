@@ -377,6 +377,8 @@
   .welcome {
     font-size: 22px;
     color: $color-1-active;
+    margin-left: $page-base-padding;
+    margin-top: $page-base-padding;
   }
 
   .latest-announcement {
