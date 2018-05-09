@@ -1,6 +1,6 @@
 export const pageMinWidth = 1100 // 页面最小宽度
 
-export const server = 'localhost:3000/api' // server地址
+export const serverUrl = 'http://localhost:3000/sales/' // server地址
 
 // 表单验证
 const validatePhone = (rule, value, callback) => { // 自定义规则验证手机号
@@ -14,12 +14,13 @@ const validatePhone = (rule, value, callback) => { // 自定义规则验证手�
   }
 }
 export const chartLengthRule = {
-  defaultRule: [{ // 通用规则 ，...[]方式加入
-    min: 1,
-    max: 20,
-    message: '长度在 1 到 20 个字符',
-    trigger: 'blur',
-  }],
+  defaultRule: [
+    { // 通用规则 ，...[]方式加入
+      min: 1,
+      max: 20,
+      message: '长度在 1 到 20 个字符',
+      trigger: 'blur',
+    }],
   validatePhone: {validator: validatePhone, trigger: 'blur'}, // 自定义规则验证手机号
 }
 

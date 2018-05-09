@@ -66,7 +66,6 @@ npm test
   - config
   - dist
   - src
-    - API // 定义所有的接口
     - assets // 会打包到项目
     - components // 通用组件目录，或全局组件
     - element_ui // element-ui的配置
@@ -83,6 +82,7 @@ npm test
       - sprites.css // 雪碧图
       - var.scss // 定义变量
     - utils // 工具目录
+      - api.js // 定义所有的接口
       - utils.js // 工具函数
       - const.js // 项目中常量，如：url 【这个文件暂时就放在这里】
   - static // 静态目录

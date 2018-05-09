@@ -28,5 +28,6 @@ module.exports = {
 
     "comma-dangle": 0, // [2, "never"],//对象字面量项尾不能有逗号
     "indent": 0, //[2, 4],//缩进风格
+    "no-undef": 0, // 未定义，jqeuery,axios全局配置
   }
 }

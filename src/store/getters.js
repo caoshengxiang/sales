@@ -3,7 +3,4 @@
  */
 
 export default {
-  getterTest (st) {
-    return 'allen: ' + st.test
-  }
 }
