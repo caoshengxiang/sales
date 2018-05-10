@@ -128,7 +128,24 @@
     }
     .com-info-right {
       float: right;
-
+      .com-info-op-group {
+        display: flex;
+        border: 1px solid #DDDDDD;
+        border-radius: 3px;
+        li {
+          color: $font-color-1;
+          padding: 6px 20px;
+          cursor: pointer;
+          border-right: 1px solid #DDDDDD;
+          &.op-active {
+            background-color: $color-1;
+            color: #fff;
+          }
+          &:last-child {
+            border: 0;
+          }
+        }
+      }
     }
 
     &:after{

@@ -1,5 +1,7 @@
 <template>
-  <div class="com-container">
+  <div class="com-container"
+       v-loading="tableLoading"
+       element-loading-text="数据加载中...">
     <!--头部-->
     <div class="com-head">
       <el-breadcrumb separator-class="el-icon-arrow-right">
@@ -29,8 +31,6 @@
     <!--详细-->
     <div class="com-box com-box-padding com-list-box">
       <el-table
-        v-loading="tableLoading"
-        element-loading-text="数据加载中..."
         ref="multipleTable"
         border
         :data="customerContent"
@@ -50,7 +50,7 @@
           show-overflow-tooltip
         >
           <template slot-scope="scope">
-            <a class="col-link" @click="handleRouter('detail')">{{ scope.row.name }}</a>
+            <a class="col-link" @click="handleRouter('detail', scope.row.id)">{{ scope.row.name }}</a>
           </template>
         </el-table-column>
         <el-table-column
@@ -132,6 +132,10 @@
           prop=""
           label="销售人"
           width="160">
+          <template slot-scope="scope">
+            <span v-for="item in scope.row.salerList"
+                  :key="item.salerId">{{item.salerName}}&nbsp;</span>
+          </template>
         </el-table-column>
         <el-table-column
           show-overflow-tooltip
@@ -170,69 +174,11 @@
     <!-- -->
     <!-- -->
     <!--新增弹窗-->
-    <el-dialog title="新增客户" :visible.sync="addDialogVisible" width="900px" :show-close="false">
-      <div class="com-dialog">
-        <table class="com-dialog-table">
-          <tr>
-            <td class="td-title">公司名称</td>
-            <td class="td-text"><input type="text"></td>
-            <td class="td-title">营业执照</td>
-            <td class="td-text"><input type="text"></td>
-            <td class="td-title">客户级别</td>
-            <td class="td-text"><input type="text"></td>
-          </tr>
-          <tr>
-            <td class="td-title">客户简称</td>
-            <td class="td-text"><input type="text"></td>
-            <td class="td-title">客户行业</td>
-            <td class="td-text"><input type="text"></td>
-            <td class="td-title">客户地区</td>
-            <td class="td-text"><input type="text"></td>
-          </tr>
-          <tr>
-            <td class="td-title">公司网站</td>
-            <td class="td-text"><input type="text"></td>
-            <td class="td-title">联系电话</td>
-            <td class="td-text"><input type="text"></td>
-            <td class="td-title">所属公海</td>
-            <td class="td-text"><input type="text"></td>
-          </tr>
-          <tr>
-            <td class="td-title">联系地址</td>
-            <td class="td-text" colspan="5"><input type="text"></td>
-          </tr>
-          <tr>
-            <td class="td-title">主营业务</td>
-            <td class="td-text" colspan="5"><input type="text"></td>
-          </tr>
-        </table>
-        <div slot="footer" class="dialog-footer">
-          <el-button class="cancel-button" @click="addDialogVisible = false">取 消</el-button>
-          <el-button class="save-button" @click="addDialogVisible = false">保存并新建联系人</el-button>
-          <el-button class="save-button" @click="addDialogVisible = false">确 定</el-button>
-        </div>
-      </div>
-    </el-dialog>
+    <add-dialog :addDialogOpen="addDialogOpen" @hasAddDialogOpen="addDialogOpen = false"></add-dialog>
     <!-- -->
     <!-- -->
     <!--转移客户弹窗-->
-    <el-dialog title="转移客户" :visible.sync="moveDialogVisible" width="900px" :show-close="false">
-      <div class="com-dialog">
-        <el-form :model="moveCustomerForm" :rules="rules" ref="moveCustomerForm" label-width="100px"
-                 class="demo-ruleForm">
-          <el-form-item label="活动区域" prop="salesperson">
-            <el-select v-model="moveCustomerForm.salesperson" placeholder="请选择活动区域">
-              <el-option label="区域一" value="shanghai"></el-option>
-              <el-option label="区域二" value="beijing"></el-option>
-            </el-select>
-          </el-form-item>
-        </el-form>
-        <div slot="footer" class="dialog-footer">
-          <el-button class="cancel-button" @click="moveDialogVisible = false">取 消</el-button>
-          <el-button class="save-button" @click="moveDialogVisible = false">确 定</el-button>
-        </div>
-      </div>
-    </el-dialog>
+    <move-dialog :moveDialogOpen="moveDialogOpen" @hasMoveDialogOpen="moveDialogOpen = false"></move-dialog>
   </div>
 </template>
 
@@ -241,20 +187,16 @@
   import comButton from '../../../components/button/comButton'
   import API from '../../../utils/api'
   import { mapState, mapActions } from 'vuex'
+  import addDialog from './addDialog'
+  import moveDialog from './moveDialog'
 
   export default {
     name: 'list',
     data () {
       return {
         tableLoading: true,
-        addDialogVisible: false, // 新增弹窗
-        addCustomersForm: { // 新增表单
-        },
-        moveDialogVisible: false, // 转移弹窗
-        moveCustomerForm: {
-          salesperson: '',
-        },
-        rules: {},
+        addDialogOpen: false, // 新增弹窗
+        moveDialogOpen: false, // 转移弹窗
         multipleSelection: [],
         customerType: 0, // 客户选项
         currentPage: 1, // 当前页
@@ -276,6 +218,8 @@
     },
     components: {
       comButton,
+      addDialog,
+      moveDialog,
     },
     methods: {
       ...mapActions('customer', [
@@ -309,14 +253,14 @@
         this.currentPage = val
         this.getCustomerList(this.currentPage, this.pagesOptions.pageSize, this.customerType)
       },
-      handleRouter (name) {
-        this.$router.push({name: 'customersDetail', query: {view: name}})
+      handleRouter (name, id) {
+        this.$router.push({name: 'customersDetail', query: {view: name, customerId: id}})
       },
       addHandle () {
-        this.addDialogVisible = true
+        this.addDialogOpen = true
       },
       moveHandle () {
-        this.moveDialogVisible = true
+        this.moveDialogOpen = true
       },
       returnHighSeaHandle () {
         this.$confirm('确定退回公海池, 是否继续?', '提示', {

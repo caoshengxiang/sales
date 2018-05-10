@@ -11,6 +11,9 @@ export default {
   state: {
     customerContent: [],
     customerTotal: 0,
+    customerDetail: {
+      team: {}
+    }
   },
   getters,
   actions,

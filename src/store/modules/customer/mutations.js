@@ -8,5 +8,8 @@ export default {
   },
   mut_customerTotal (st, data) {
     st.customerTotal = data
+  },
+  mut_customerDetail (st, data) {
+    st.customerDetail = data
   }
 }
