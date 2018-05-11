@@ -166,7 +166,7 @@
         areaSelectedOptions: [],
         rules: {
         customerName: [
-            {required: true, message: '请输入所属公司', trigger: 'blur'},
+            {required: true, message: '请输入所属公司', trigger: 'blur'}, // todo 验证内容
           ],
           contacterName: [
             {required: true, message: '请输入联系人姓名', trigger: 'blur'},
