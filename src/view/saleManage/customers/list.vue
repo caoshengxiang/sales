@@ -33,7 +33,7 @@
       <el-table
         ref="multipleTable"
         border
-        :data="customerContent"
+        :data="customerList"
         tooltip-effect="dark"
         style="width: 100%"
         @selection-change="handleSelectionChange">
@@ -209,7 +209,7 @@
         'customerState',
       ]),
       ...mapState('customer', [
-        'customerContent',
+        'customerList',
         'customerTotal',
       ]),
       pagesOptions () {

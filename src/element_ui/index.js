@@ -2,7 +2,7 @@
  * Created by allen on 17-4-14.
  */
 import Vue from 'vue'
-import 'element-ui/lib/theme-chalk/index.css'
+import './element-variables.scss'
 import './element.scss' // 自定义样式覆盖element-ui 默认并且不能修改的样式
 import {
   Pagination,

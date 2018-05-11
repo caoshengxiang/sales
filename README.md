@@ -69,6 +69,7 @@ npm test
     - assets // 会打包到项目
     - components // 通用组件目录，或全局组件
     - element_ui // element-ui的配置
+      - element-variables.scss // 自定义element主题
       - index.js // 配置按需引入elementUI
       - element.css // 定义一些用于覆盖element样式
     - pages // 页面目录，按页面逻辑划分
@@ -83,6 +84,7 @@ npm test
       - var.scss // 定义变量
     - utils // 工具目录
       - api.js // 定义所有的接口
+      - axiosConfig.js // axios配置，$axios webpack插件配置全局变量
       - utils.js // 工具函数
       - const.js // 项目中常量，如：url 【这个文件暂时就放在这里】
   - static // 静态目录
@@ -276,4 +278,30 @@ function f () {
 ```
 <font color="red">v-cloak的这个样式放在@import 引入的css文件中不起作用</font>
 
+
 # 项目有其他注意事项【记得此说明】
+
+## axios 说明
+axios 在webpack定义全局变量 `$axios`
+```js
+ plugins: [
+    new webpack.ProvidePlugin({ // 配置全局变量
+      $:"jquery",
+      jQuery:"jquery",
+      $axios: 'axios'
+    })
+  ],
+```
+`axiosConfig.js`是配置文件，在`main.js`中引入
+
+## element 主题
+
+[文档](http://element.eleme.io/#/zh-CN/component/custom-theme)
+
+
+## 一些常量数据的定义规则
+
+1. 与后台数据相关的常量，定义在store中的constData模块（要在template中使用的数据定义在这）
+> 如：客户类型选项，客户来源，客户状态
+2. 非后台数据的常量，const.js中
+> 如：服务器地址,表单校验规则
