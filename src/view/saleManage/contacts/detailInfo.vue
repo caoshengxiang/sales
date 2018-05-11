@@ -1,5 +1,7 @@
 <template>
-  <div class="com-container com-detail-container">
+  <div class="com-container com-detail-container"
+       v-loading="dataLoading"
+       element-loading-text="数据加载中...">
     <!--头部-->
     <div class="com-head">
       <el-breadcrumb separator-class="el-icon-arrow-right">
@@ -15,9 +17,9 @@
         <div class="com-info-text">
           <h3>成都凡特塞科技有限公司</h3>
           <p>
-            <span class="com-d-item">客户所有人: <span>凡特塞科技</span></span>
-            <span class="com-d-item">所属公海: <span>成都公海</span></span>
-            <span class="com-d-item">创建时间: <span>2018.02.13 12:20:20</span></span>
+            <span class="com-d-item">客户公司: <span>{{contactsDetail.customerName}}</span></span>
+            <span class="com-d-item">联系电话: <span>{{contactsDetail.phone}}</span></span>
+            <span class="com-d-item">创建时间: <span>{{contactsDetail.created}}</span></span>
           </p>
         </div>
       </div>
@@ -32,71 +34,65 @@
       <div class="detail-left com-box-padding">
         <el-tabs v-model="activeViewName" type="card" @tab-click="handleTabsClick">
           <el-tab-pane label="联系人资料信息" name="detail">
-            <p class="table-title">联系人资料信息</p>
+            <p class="table-title">联系人基本信息</p>
             <table class="detail-table">
               <tr>
-                <td class="td-title">公司名称</td>
-                <td>成都凡特塞科技有限公司</td>
-                <td class="td-title">营业执照</td>
-                <td>455655213213123</td>
-                <td class="td-title">客户级别</td>
-                <td>重要客户</td>
+                <td class="td-title">所属公司</td>
+                <td>{{contactsDetail.customerName}}</td>
+                <td class="td-title">所在部门</td>
+                <td>{{contactsDetail.department}}</td>
+                <td class="td-title">公司职务</td>
+                <td>{{contactsDetail.position}}</td>
               </tr>
               <tr>
-                <td class="td-title">客户简称</td>
-                <td>凡特塞科技</td>
-                <td class="td-title">客户行业</td>
-                <td>互联网</td>
-                <td class="td-title">客户来源</td>
-                <td>自拓</td>
-              </tr>
-              <tr>
-                <td class="td-title">所在地区</td>
-                <td>四川省 成都市 高新区</td>
-                <td class="td-title">公司网站</td>
-                <td>www.djksdj.com</td>
                 <td class="td-title">联系电话</td>
-                <td>12135678912</td>
+                <td>{{contactsDetail.phone}}</td>
+                <td class="td-title">备用电话</td>
+                <td>{{contactsDetail.bakPhone}}</td>
+                <td class="td-title">微信</td>
+                <td>{{contactsDetail.wx}}</td>
+              </tr>
+              <tr>
+                <td class="td-title">QQ</td>
+                <td>{{contactsDetail.qq}}</td>
+                <td class="td-title">出生日期</td>
+                <td>{{contactsDetail.birthday}}</td>
+                <td class="td-title">性别</td>
+                <td>{{contactsDetail.sex}}</td>
+              </tr>
+              <tr>
+                <td class="td-title">电子邮箱</td>
+                <td colspan="5">{{contactsDetail.mail}}</td>
               </tr>
               <tr>
                 <td class="td-title">联系地址</td>
-                <td colspan="5">京东卡积分等级ask京东卡时间</td>
+                <td colspan="5">{{contactsDetail.address}}</td>
               </tr>
               <tr>
-                <td class="td-title">主营业务</td>
-                <td colspan="5">暂未填写主营业务</td>
+                <td class="td-title">备注</td>
+                <td colspan="5">{{contactsDetail.remark?contactsDetail.remark:'暂未备注信息'}}</td>
               </tr>
             </table>
 
             <p class="table-title">联系人其他信息</p>
             <table class="detail-table">
               <tr>
-                <td class="td-title">所在公海</td>
-                <td>成都公海</td>
-                <td class="td-title">客户来源</td>
-                <td>公司资源</td>
-                <td class="td-title">客户状态</td>
-                <td>自建</td>
+                <td class="td-title">联系人创建时间</td>
+                <td colspan="3">{{contactsDetail.created}}</td>
+                <td class="td-title">所有人</td>
+                <td>{{contactsDetail.creatorName}}</td>
               </tr>
               <tr>
-                <td class="td-title">客户创建时间</td>
-                <td colspan="3">2018.11.12 12:12:12</td>
-                <td class="td-title">创建人</td>
-                <td>test</td>
+                <td class="td-title">联系人修改时间</td>
+                <td colspan="3">{{contactsDetail.modified}}</td>
+                <td class="td-title">修改人</td>
+                <td>{{contactsDetail.modifierName}}</td>
               </tr>
               <tr>
-                <td class="td-title">最新修改时间</td>
-                <td colspan="3">2018.11.12 12:12:12</td>
+                <td class="td-title">联系人活动时间</td>
+                <td colspan="3">{{contactsDetail.activeTime}}</td>
                 <td class="td-title">跟进人</td>
-                <td>test</td>
-              </tr>
-              <tr>
-                <td class="td-title">最新活动时间</td>
-                <td colspan="5">2018.11.12 12:12:12</td>
-              </tr>
-              <tr>
-                <td class="td-title">主营业务</td>
-                <td colspan="5">暂未填写主营业务</td>
+                <td>{{contactsDetail.followerName}}</td>
               </tr>
             </table>
           </el-tab-pane>
@@ -201,38 +197,24 @@
               <img src="../../../assets/icon/headDefault.png" alt="">
             </div>
             <div class="text">
-              <h4>张珊珊</h4>
-              <p>123456748912</p>
+              <h4>{{contactsDetail.team.creatorName}}</h4>
+              <p>{{contactsDetail.team.mobilePhone}}</p>
             </div>
             <div class="post">
               <span class="post-tag-1">创建人</span>
-              <!--<span class="post-tag-2">销售员</span>-->
             </div>
           </li>
-          <li class="team-member-item">
+          <li class="team-member-item" :key="item.salerId" v-for="item in contactsDetail.team.salerList">
             <div class="head">
               <img src="../../../assets/icon/headDefault.png" alt="">
             </div>
             <div class="text">
-              <h4>张珊珊</h4>
-              <p>123456748912</p>
+              <h4>{{item.salerName}}</h4>
+              <p>{{item.mobilePhone}}</p>
             </div>
             <div class="post">
-              <span class="post-tag-1">创建人</span>
-              <!--<span class="post-tag-2">销售员</span>-->
-            </div>
-          </li>
-          <li class="team-member-item">
-            <div class="head">
-              <img src="../../../assets/icon/headDefault.png" alt="">
-            </div>
-            <div class="text">
-              <h4>张珊珊</h4>
-              <p>123456748912</p>
-            </div>
-            <div class="post">
-              <span class="post-tag-1">创建人</span>
-              <!--<span class="post-tag-2">销售员</span>-->
+              <!--<span class="post-tag-1">创建人</span>-->
+              <span class="post-tag-2">销售员</span>
             </div>
           </li>
         </ul>
@@ -243,14 +225,22 @@
 
 <script>
   import comButton from '../../../components/button/comButton'
+  import API from '../../../utils/api'
+  import { mapState, mapActions } from 'vuex'
 
   export default {
     name: 'detailInfo',
     data () {
       return {
+        dataLoading: false,
         tapOption: '',
         activeViewName: '',
       }
+    },
+    computed: {
+      ...mapState('contacts', [
+        'contactsDetail',
+      ]),
     },
     watch: {
       '$route.query.view' (view) {
@@ -261,13 +251,27 @@
       comButton,
     },
     methods: {
+      ...mapActions('contacts', [
+        'ac_contactsDetail',
+      ]),
       handleTabsClick (tab, event) {
         // console.log(tab.name)
-        this.$router.push({name: 'contactsDetail', query: {view: tab.name}})
+        this.$router.push({name: 'contactsDetail', query: {view: tab.name, contactsId: this.$route.query.contactsId}})
+      },
+      getContactsDetail () {
+        this.dataLoading = true
+        API.contactsDetail(this.$route.query.contactsId, (data) => {
+          this.ac_contactsDetail(data.data)
+          this.dataLoading = false
+        }, (data) => {
+          this.ac_contactsDetail(data.data)
+          this.dataLoading = false
+        })
       },
     },
     created () {
       this.activeViewName = this.$route.query.view
+      this.getContactsDetail()
     },
   }
 </script>

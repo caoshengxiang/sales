@@ -4,7 +4,7 @@
 
 export default {
   ac_customerList ({commit}, data) {
-    commit('mut_customerContent', data.content)
+    commit('mut_customerList', data.content)
     commit('mut_customerTotal', data.totalElements)
   },
   ac_customerDetail ({commit}, data) {

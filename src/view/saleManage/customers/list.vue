@@ -1,6 +1,6 @@
 <template>
   <div class="com-container"
-       v-loading="tableLoading"
+       v-loading="dataLoading"
        element-loading-text="数据加载中...">
     <!--头部-->
     <div class="com-head">
@@ -194,7 +194,7 @@
     name: 'list',
     data () {
       return {
-        tableLoading: true,
+        dataLoading: true,
         addDialogOpen: false, // 新增弹窗
         moveDialogOpen: false, // 转移弹窗
         multipleSelection: [],
@@ -231,12 +231,12 @@
           pageSize: pageSize,
           type: type,
         }
-        this.tableLoading = true
+        this.dataLoading = true
         API.customerList(param, (res) => {
           console.log(res)
         }, (mock) => {
           this.ac_customerList(mock.data)
-          this.tableLoading = false
+          this.dataLoading = false
         })
       },
       searchHandle () {

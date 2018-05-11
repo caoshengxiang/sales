@@ -9,11 +9,11 @@ import mutations from './mutations'
 export default {
   namespaced: true,
   state: {
-    customerList: [],
-    customerTotal: 0,
-    customerDetail: {
+    contactsList: [],
+    contactsTotal: 0,
+    contactsDetail: {
       team: {}
-    }
+    },
   },
   getters,
   actions,

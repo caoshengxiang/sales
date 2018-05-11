@@ -35,7 +35,7 @@ export default {
         value: '公司资源',
       },
     ],
-    customerState: [
+    customerState: [ // 状态
       {
         type: 1,
         value: '自建',
@@ -46,6 +46,28 @@ export default {
         type: 3,
         value: '已分配',
       },
+    ],
+    contactsTypeOptions: [ // 联系人类型选择
+      {
+        type: 0,
+        value: '全部联系人',
+      }, {
+        type: 1,
+        value: '我负责的联系人',
+      }, {
+        type: 2,
+        value: '我更进的联系人',
+      }
+    ],
+    contactsStatus: [ // 联系人状态
+      {
+        type: 1,
+        value: '正在使用'
+      },
+      {
+        type: -1,
+        value: '已作废'
+      }
     ]
   },
   // getters,

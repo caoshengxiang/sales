@@ -3,8 +3,8 @@
  */
 
 export default {
-  mut_customerContent (st, data) {
-    st.customerContent = data
+  mut_customerList (st, data) {
+    st.customerList = data
   },
   mut_customerTotal (st, data) {
     st.customerTotal = data

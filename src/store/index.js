@@ -10,6 +10,7 @@ import mutations from './mutations'
 
 import constData from './modules/constData'
 import customer from './modules/customer'
+import contacts from './modules/contacts'
 
 Vue.use(Vuex)
 
@@ -24,5 +25,6 @@ export default new Vuex.Store({
   modules: {
     constData,
     customer,
+    contacts,
   }
 })
