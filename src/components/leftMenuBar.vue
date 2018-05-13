@@ -102,6 +102,22 @@
         <i class="el-icon-location"></i>
         <span slot="title">客户公海</span>
       </el-menu-item>
+
+      <el-menu-item index="userList">
+        <template slot="title">
+          <i class="el-icon-menu"></i>
+          <span slot="title">用戶管理</span>
+          <div class="child-menu">
+            <i class="el-icon-arrow-right"></i>
+            <div class="child-fixed">
+              <ul class="child-menu-box">
+                <li @click="handleRouter('userList')">用戶管理</li>
+                <li @click="handleRouter('related')">角色管理</li>
+              </ul>
+            </div>
+          </div>
+        </template>
+      </el-menu-item>
     </el-menu>
   </div>
 </template>

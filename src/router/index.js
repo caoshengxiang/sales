@@ -85,6 +85,12 @@ const companyManageHome = resolve => require.ensure([],
   () => resolve(require('../view/companyManage/manageHome/companyManageHome')),
   'manageHome')
 
+// 用户管理
+const userList = resolve => require.ensure([],
+  () => resolve(require('../view/companyManage/user/list')), 'user')
+const userDetail = resolve => require.ensure([],
+  () => resolve(require('../view/companyManage/user/detailInfo')), 'user')
+
 // 企业管理 end
 
 Vue.use(Router)
@@ -194,6 +200,17 @@ export default new Router({
           path: 'companyManageHome',
           name: 'companyManageHome',
           component: companyManageHome,
+        },
+        // 企业管理 -- 用户管理
+        {
+          path: 'userList',
+          name: 'userList',
+          component: userList,
+        },
+        {
+          path: 'userDetail',
+          name: 'userDetail',
+          component: userDetail,
         },
       ],
     },

@@ -1,0 +1,329 @@
+<template>
+  <div class="com-container"
+       v-loading="dataLoading"
+       element-loading-text="数据加载中...">
+    <!--头部-->
+    <div class="com-head">
+      <el-breadcrumb separator-class="el-icon-arrow-right">
+        <el-breadcrumb-item :to="{ name: 'saleHome' }">销售管理系统</el-breadcrumb-item>
+        <el-breadcrumb-item>客户</el-breadcrumb-item>
+      </el-breadcrumb>
+    </div>
+    <!--控制栏-->
+    <div class="com-bar">
+      <div class="com-bar-left">
+        <com-button buttonType="delete" icon="el-icon-delete" :disabled="this.multipleSelection.length <= 0" @click="deleteHandle">刪除</com-button>
+        <com-button buttonType="add" icon="el-icon-plus" @click="addHandle">新增</com-button>
+        <com-button buttonType="grey" icon="el-icon-edit" :disabled="this.multipleSelection.length !== 1" @click="modifyHandle">修改</com-button>
+        <com-button buttonType="grey" icon="el-icon-remove-outline" :disabled="this.multipleSelection.length <= 0" @click="disableHandle">禁用</com-button>
+        <com-button buttonType="grey" icon="el-icon-setting"  :disabled="this.multipleSelection.length !== 1" @click="resetPassword">重置密码</com-button>
+      </div>
+    </div>
+    <!--详细-->
+    <div class="com-box com-box-padding com-list-box">
+      <el-table
+        ref="multipleTable"
+        border
+        :data="userList"
+        tooltip-effect="dark"
+        style="width: 100%"
+        @selection-change="handleSelectionChange">
+        <el-table-column
+          fixed
+          type="selection"
+          align="center"
+          prop="id"
+          reserve-selection=""
+          width="40">
+        </el-table-column>
+        <el-table-column
+          align="center"
+          label="姓名"
+          width="200"
+          show-overflow-tooltip
+        >
+          <template slot-scope="scope">
+            <a class="col-link" @click="handleRouter('detail', scope.row.id)">{{ scope.row.name }}</a>
+          </template>
+        </el-table-column>
+        <el-table-column
+          show-overflow-tooltip
+          align="center"
+          label="工号"
+          prop="jobNo"
+        >
+        </el-table-column>
+        <el-table-column
+          show-overflow-tooltip
+          align="center"
+          prop="mobilePhone"
+          label="手机号"
+        >
+        </el-table-column>
+        <el-table-column
+          show-overflow-tooltip
+          align="center"
+          prop="organizationName"
+          label="组织"
+        >
+        </el-table-column>
+        <el-table-column
+          show-overflow-tooltip
+          align="center"
+          prop="departmentName"
+          label="部门"
+        >
+        </el-table-column>
+        <el-table-column
+          show-overflow-tooltip
+          align="center"
+          prop=""
+          label="角色"
+        >
+          <template slot-scope="scope">
+            <span v-for="item in scope.row.roles"
+                  :key="item.id"
+                 >{{item.name}}&nbsp;</span>
+          </template>
+        </el-table-column>
+        <el-table-column
+          show-overflow-tooltip
+          align="center"
+          prop="superiorName"
+          label="直接上级"
+        >
+        </el-table-column>
+        <el-table-column
+          show-overflow-tooltip
+          align="center"
+          prop="trainerName"
+          label="部门培训师"
+          width="160">
+        </el-table-column>
+        <el-table-column
+          show-overflow-tooltip
+          align="center"
+          prop="assistantName"
+          label="部门销售助理"
+         >
+        </el-table-column>
+        <el-table-column
+          show-overflow-tooltip
+          align="center"
+          prop="sex"
+          label="性别"
+        >
+        </el-table-column>
+      </el-table>
+    </div>
+    <!--分页-->
+    <div class="com-pages-box">
+      <el-pagination
+        background
+        :total="userTotal"
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :current-page="currentPage"
+        :layout="pagesOptions.layout"
+        :page-sizes="pagesOptions.pageSizes"
+        :page-size="pagesOptions.pageSize">
+      </el-pagination>
+    </div>
+    <!-- -->
+    <!-- -->
+    <!--新增弹窗-->
+    <add-dialog :addDialogOpen="addDialogOpen" :type="type" @hasAddDialogOpen="addDialogOpen = false"></add-dialog>
+    <!-- -->
+    <!-- -->
+  </div>
+</template>
+
+<script>
+  import { pagesOptions } from '../../../utils/const'
+  import comButton from '../../../components/button/comButton'
+  import API from '../../../utils/api'
+  import { mapState, mapActions } from 'vuex'
+  import addDialog from './addDialog'
+  export default {
+    props: {
+      vaules: {
+        default: '1'
+      }
+    },
+    name: 'list',
+    data () {
+      return {
+        dataLoading: true,
+        addDialogOpen: false, // 新增弹窗
+        moveDialogOpen: false, // 转移弹窗
+        type: 'add', // 新增弹窗
+        multipleSelection: [],
+        userType: 0, // 客户选项
+        currentPage: 1, // 当前页
+        sels: [], // 选中的值显示
+      }
+    },
+    computed: {
+      ...mapState('constData', [
+        'userTypeOptions',
+        'userourceType',
+        'usertate',
+      ]),
+      ...mapState('user', [
+        'userList',
+        'userTotal',
+      ]),
+      pagesOptions () {
+        return pagesOptions
+      },
+    },
+    components: {
+      comButton,
+      addDialog,
+    },
+    methods: {
+      selsChange (sels) {
+        this.sels = sels
+        alert(this.sels)
+      },
+      delGroup () {
+        var ids = this.sels.map(item => item.id).join()//获取所有选中行的id组成的字符串，以逗号分隔
+        alert(ids)
+      },
+      ...mapActions('user', [
+        'ac_userList',
+      ]),
+      getuserList (page, pageSize, type) { // 获取列表数据
+        let param = {
+          page: page,
+          pageSize: pageSize,
+          type: type,
+        }
+        this.dataLoading = true
+        API.userList(param, (res) => {
+          console.log(res)
+        }, (mock) => {
+          this.ac_userList(mock.data)
+          this.dataLoading = false
+        })
+      },
+      searchHandle () {
+        this.currentPage = 1
+        this.getuserList(this.currentPage, this.pagesOptions.pageSize, this.userType)
+      },
+      handleSelectionChange (val) {
+        this.multipleSelection = val
+      },
+      handleSizeChange (val) {
+        console.log(`每页 ${val} 条`)
+      },
+      handleCurrentChange (val) {
+        this.currentPage = val
+        this.getuserList(this.currentPage, this.pagesOptions.pageSize, this.userType)
+      },
+      handleRouter (name, id) {
+       // this.$router.push({name: 'userDetail', query: {view: name, userId: id}})
+      },
+      addHandle () {
+        this.addDialogOpen = true
+        this.type = 'add'
+      },
+      modifyHandle () {
+        var id = this.multipleSelection.map(item => item.id).join()  // 当前选中的所有ID
+        this.addDialogOpen = true
+        this.type = 'edit'
+      },
+      deleteHandle () {
+        this.$confirm('确定删除当前选中所有用户, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning',
+        }).then(() => {
+          var id = this.multipleSelection.map(item => item.id).join()  // 当前选中的所有ID
+          let param = {
+            ids: id,
+          }
+          API.userDelete(param, (res) => {
+            console.log(res)
+          }, (mock) => {
+            if (mock.status) {
+              this.$message({
+                type: 'success',
+                message: '删除成功!',
+              })
+            }
+            this.dataLoading = false
+          })
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除',
+          })
+        })
+      },
+      disableHandle () {
+        this.$confirm('确定禁用当前选中所有用户, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning',
+        }).then(() => {
+          var id = this.multipleSelection.map(item => item.id).join()  // 当前选中的所有ID
+          let param = {
+            ids: id,
+          }
+          API.userDelete(param, (res) => {
+            console.log(res)
+          }, (mock) => {
+            if (mock.status) {
+              this.$message({
+                type: 'success',
+                message: '禁用成功!',
+              })
+            }
+            this.dataLoading = false
+          })
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消禁用',
+          })
+        })
+      },
+      resetPassword() {
+        this.$confirm('确定重置当前选中所有用户密码, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning',
+        }).then(() => {
+          var id = this.multipleSelection.map(item => item.id).join()  // 当前选中的所有ID
+          let param = {
+            ids: id,
+          }
+          API.userResetPassword(param, (res) => {
+            console.log(res)
+          }, (mock) => {
+            if (mock.status) {
+              this.$message({
+                type: 'success',
+                message: '重置成功!',
+              })
+            }
+            this.dataLoading = false
+          })
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消重置',
+          })
+        })
+      }
+    },
+    created () {
+      this.getuserList(this.currentPage, this.pagesOptions.pageSize, this.userType)
+    },
+  }
+</script>
+
+<style scoped lang="scss" rel="stylesheet/scss">
+  @import "../../../styles/common";
+</style>
