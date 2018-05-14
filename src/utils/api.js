@@ -294,7 +294,21 @@ export default {
       }, 1000)
     })
   },
-  userDetail (params, success, error) { // 用户列表
+  userAdd (params, success, error) {
+    $axios.post('user', {
+      params: params,
+    }).then((res) => {
+      success && success(res.data)
+    }).catch(() => {
+      let mockdata = {
+        'status': true,
+      }
+      setTimeout(() => {
+        error && error(mockdata)
+      }, 1000)
+    })
+  },
+   userDetail (params, success, error) { // 用户列表
     $axios.get('user', {
       params: params,
     }).then((res) => {
@@ -338,8 +352,12 @@ export default {
           'departmentName': '川东', // 部门名称
           'roles': [ // 多个角色
             {
-              'id': 1,
-              'name': '管理员',
+              'id': 1, // 角色ID
+              'name': '管理员', // 角色名称
+            },
+            {
+              'id': 2, // 角色ID
+              'name': '推销员', // 角色名称
             },
           ],
           'superiorId': 1, // 直接上级ID

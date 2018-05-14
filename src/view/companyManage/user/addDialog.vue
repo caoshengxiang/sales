@@ -58,9 +58,9 @@
               <td class="td-text">
                 <!--<input type="text">-->
                 <el-form-item prop="industry">
-                  <el-select v-model="choseRoles" multiple placeholder="请选择人员角色">
+                  <el-select v-model="form.roles" multiple placeholder="请选择人员角色">
                     <el-option
-                      v-for="item in form.roles"
+                      v-for="item in allroles"
                       :key="item.id"
                       :label="item.name"
                       :value="item.id">
@@ -113,7 +113,6 @@
       return {
         id: 1,
         addDialogVisible: false, // 新增弹窗
-        choseRoles: [],
         form: { // 添加用户表单
           mobilePhone: '',
           birthday: '',
@@ -166,7 +165,8 @@
           departmentId: [
             {required: true, message: '请选择用户所属部门', trigger: 'blur'},
           ],
-          roles: [],
+          allroles: [],
+          choseroles: 1
         },
       }
     },
@@ -192,10 +192,10 @@
         pageSize: 999,
       }
       API.roleList(params, (res) => {
-        this.form.roles = res
+        this.allroles = res
         alert(res)
       }, (mock) => {
-        this.form.roles = mock.data
+        this.allroles = mock.data
         // this.ac_userList(mock.data) // todo ac_userList 未定义
         this.dataLoading = false
       })
@@ -212,11 +212,9 @@
 
             API.userDetail(param, (res) => {
               this.form = res
-              alert(res)
             }, (mock) => {
               this.form = mock.data
               this.form.birthday = '2018-01-03'
-              this.ac_userDetail(mock.data)
               this.dataLoading = false
             })
           }
@@ -250,7 +248,11 @@
       saveSubmitForm (formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            alert('submit!')
+            API.userAdd(this.form, (res) => {
+              alert('添加数据成功')
+            }, (mock) => {
+              alert('添加数据异常')
+            })
             this.initData()
           } else {
             console.log('error submit!!')
