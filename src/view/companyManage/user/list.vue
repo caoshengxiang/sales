@@ -12,11 +12,19 @@
     <!--控制栏-->
     <div class="com-bar">
       <div class="com-bar-left">
-        <com-button buttonType="delete" icon="el-icon-delete" :disabled="this.multipleSelection.length <= 0" @click="deleteHandle">刪除</com-button>
+        <com-button buttonType="delete" icon="el-icon-delete" :disabled="this.multipleSelection.length <= 0"
+                    @click="deleteHandle">刪除
+        </com-button>
         <com-button buttonType="add" icon="el-icon-plus" @click="addHandle">新增</com-button>
-        <com-button buttonType="grey" icon="el-icon-edit" :disabled="this.multipleSelection.length !== 1" @click="modifyHandle">修改</com-button>
-        <com-button buttonType="grey" icon="el-icon-remove-outline" :disabled="this.multipleSelection.length <= 0" @click="disableHandle">禁用</com-button>
-        <com-button buttonType="grey" icon="el-icon-setting"  :disabled="this.multipleSelection.length !== 1" @click="resetPassword">重置密码</com-button>
+        <com-button buttonType="grey" icon="el-icon-edit" :disabled="this.multipleSelection.length !== 1"
+                    @click="modifyHandle">修改
+        </com-button>
+        <com-button buttonType="grey" icon="el-icon-remove-outline" :disabled="this.multipleSelection.length <= 0"
+                    @click="disableHandle">禁用
+        </com-button>
+        <com-button buttonType="grey" icon="el-icon-setting" :disabled="this.multipleSelection.length !== 1"
+                    @click="resetPassword">重置密码
+        </com-button>
       </div>
     </div>
     <!--详细-->
@@ -83,7 +91,7 @@
           <template slot-scope="scope">
             <span v-for="item in scope.row.roles"
                   :key="item.id"
-                 >{{item.name}}&nbsp;</span>
+            >{{item.name}}&nbsp;</span>
           </template>
         </el-table-column>
         <el-table-column
@@ -105,7 +113,7 @@
           align="center"
           prop="assistantName"
           label="部门销售助理"
-         >
+        >
         </el-table-column>
         <el-table-column
           show-overflow-tooltip
@@ -144,11 +152,12 @@
   import API from '../../../utils/api'
   import { mapState, mapActions } from 'vuex'
   import addDialog from './addDialog'
+
   export default {
     props: {
       vaules: {
-        default: '1'
-      }
+        default: '1',
+      },
     },
     name: 'list',
     data () {
@@ -187,7 +196,7 @@
         alert(this.sels)
       },
       delGroup () {
-        var ids = this.sels.map(item => item.id).join()//获取所有选中行的id组成的字符串，以逗号分隔
+        var ids = this.sels.map(item => item.id).join() // 获取所有选中行的id组成的字符串，以逗号分隔
         alert(ids)
       },
       ...mapActions('user', [
@@ -222,14 +231,15 @@
         this.getuserList(this.currentPage, this.pagesOptions.pageSize, this.userType)
       },
       handleRouter (name, id) {
-       // this.$router.push({name: 'userDetail', query: {view: name, userId: id}})
+        // this.$router.push({name: 'userDetail', query: {view: name, userId: id}})
       },
       addHandle () {
         this.addDialogOpen = true
         this.type = 'add'
       },
       modifyHandle () {
-        var id = this.multipleSelection.map(item => item.id).join()  // 当前选中的所有ID
+        var id = this.multipleSelection.map(item => item.id).join() // 当前选中的所有ID
+        console.info(id) // todo 暂时处理'id' is assigned a value but never used
         this.addDialogOpen = true
         this.type = 'edit'
       },
@@ -239,7 +249,7 @@
           cancelButtonText: '取消',
           type: 'warning',
         }).then(() => {
-          var id = this.multipleSelection.map(item => item.id).join()  // 当前选中的所有ID
+          var id = this.multipleSelection.map(item => item.id).join() // 当前选中的所有ID
           let param = {
             ids: id,
           }
@@ -267,7 +277,7 @@
           cancelButtonText: '取消',
           type: 'warning',
         }).then(() => {
-          var id = this.multipleSelection.map(item => item.id).join()  // 当前选中的所有ID
+          var id = this.multipleSelection.map(item => item.id).join() // 当前选中的所有ID
           let param = {
             ids: id,
           }
@@ -289,13 +299,13 @@
           })
         })
       },
-      resetPassword() {
+      resetPassword () {
         this.$confirm('确定重置当前选中所有用户密码, 是否继续?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning',
         }).then(() => {
-          var id = this.multipleSelection.map(item => item.id).join()  // 当前选中的所有ID
+          var id = this.multipleSelection.map(item => item.id).join() // 当前选中的所有ID
           let param = {
             ids: id,
           }
@@ -316,7 +326,7 @@
             message: '已取消重置',
           })
         })
-      }
+      },
     },
     created () {
       this.getuserList(this.currentPage, this.pagesOptions.pageSize, this.userType)

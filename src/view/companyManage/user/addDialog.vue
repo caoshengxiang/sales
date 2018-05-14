@@ -24,7 +24,7 @@
               <td class="td-title">人员姓名</td>
               <td class="td-text">
                 <el-form-item prop="name">
-                  <el-input type="text" v-model="form.name"  placeholder="请输入人员姓名"></el-input>
+                  <el-input type="text" v-model="form.name" placeholder="请输入人员姓名"></el-input>
                 </el-form-item>
               </td>
             </tr>
@@ -106,6 +106,7 @@
 </template>
 <script>
   import API from '../../../utils/api'
+
   export default {
     name: 'addDialog',
     data () {
@@ -166,7 +167,7 @@
             {required: true, message: '请选择用户所属部门', trigger: 'blur'},
           ],
           roles: [],
-        }
+        },
       }
     },
     props: {
@@ -195,7 +196,7 @@
         alert(res)
       }, (mock) => {
         this.form.roles = mock.data
-        this.ac_userList(mock.data)
+        // this.ac_userList(mock.data) // todo ac_userList 未定义
         this.dataLoading = false
       })
     },
@@ -206,7 +207,7 @@
           this.$emit('hasAddDialogOpen')
           if (this.id > 0 && this.type === 'edit') { // 这里是修改数据
             let param = {
-              id: this.id
+              id: this.id,
             }
 
             API.userDetail(param, (res) => {
@@ -223,7 +224,7 @@
       },
       userDetail (d) {
         this.form = JSON.parse(JSON.stringify(d))
-      }
+      },
     },
     methods: {
       initData () {

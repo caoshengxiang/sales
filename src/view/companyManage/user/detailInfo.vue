@@ -25,9 +25,9 @@
       </div>
       <div class="com-info-right">
         <!--<el-radio-group v-model="tapOption">-->
-          <!--<el-radio-button class="btn-width" label="edit" @click.native="operateOptions">编辑</el-radio-button>-->
-          <!--<el-radio-button class="btn-width" label="back" @click.native="operateOptions">退回公海</el-radio-button>-->
-          <!--<el-radio-button class="btn-width" label="move" @click.native="operateOptions">转移</el-radio-button>-->
+        <!--<el-radio-button class="btn-width" label="edit" @click.native="operateOptions">编辑</el-radio-button>-->
+        <!--<el-radio-button class="btn-width" label="back" @click.native="operateOptions">退回公海</el-radio-button>-->
+        <!--<el-radio-button class="btn-width" label="move" @click.native="operateOptions">转移</el-radio-button>-->
         <!--</el-radio-group>-->
         <ul class="com-info-op-group">
           <li class="op-active" @click="operateOptions('edit')">编辑</li>
@@ -289,7 +289,8 @@
     <!-- -->
     <!-- -->
     <!--编辑弹窗-->
-    <add-dialog type="edit" :customerDetail="customerDetail" :addDialogOpen="addDialogOpen" @hasAddDialogOpen="addDialogOpen = false"></add-dialog>
+    <add-dialog type="edit" :customerDetail="customerDetail" :addDialogOpen="addDialogOpen"
+                @hasAddDialogOpen="addDialogOpen = false"></add-dialog>
     <!-- -->
     <!-- -->
     <!--转移客户弹窗-->
@@ -353,31 +354,31 @@
         })
       },
       operateOptions (option) {
-          switch (option) {
-            case 'edit':
-              this.addDialogOpen = true
-              break
-            case 'back':
-              this.$confirm('确定退回公海池, 是否继续?', '提示', {
-                confirmButtonText: '确定',
-                cancelButtonText: '取消',
-                type: 'warning',
-              }).then(() => {
-                this.$message({
-                  type: 'success',
-                  message: '删除成功!',
-                })
-              }).catch(() => {
-                this.$message({
-                  type: 'info',
-                  message: '已取消删除',
-                })
+        switch (option) {
+          case 'edit':
+            this.addDialogOpen = true
+            break
+          case 'back':
+            this.$confirm('确定退回公海池, 是否继续?', '提示', {
+              confirmButtonText: '确定',
+              cancelButtonText: '取消',
+              type: 'warning',
+            }).then(() => {
+              this.$message({
+                type: 'success',
+                message: '删除成功!',
               })
-              break
-            case 'move':
-              this.moveDialogOpen = true
-              break
-          }
+            }).catch(() => {
+              this.$message({
+                type: 'info',
+                message: '已取消删除',
+              })
+            })
+            break
+          case 'move':
+            this.moveDialogOpen = true
+            break
+        }
       },
     },
     created () {

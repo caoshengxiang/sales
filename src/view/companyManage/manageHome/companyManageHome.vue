@@ -1,7 +1,7 @@
 <template>
-    <div>
-      企业
-    </div>
+  <div>
+    企业
+  </div>
 </template>
 
 <script>
