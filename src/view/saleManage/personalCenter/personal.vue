@@ -207,7 +207,7 @@
     methods: {
       handleTabsClick (tab, event) {
         // console.log(tab.name)
-        this.$router.push({name: 'personal', query: {view: tab.name}})
+        this.$router.push({name: 'personal', params: {end: 'FE'}, query: {view: tab.name}})
       },
       submitForm (formName) {
         this.$refs[formName].validate((valid) => {

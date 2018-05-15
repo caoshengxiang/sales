@@ -183,7 +183,6 @@
 </template>
 
 <script>
-  import { pagesOptions } from '../../../utils/const'
   import comButton from '../../../components/button/comButton'
   import API from '../../../utils/api'
   import { mapState, mapActions } from 'vuex'
@@ -207,14 +206,12 @@
         'customerTypeOptions',
         'customerSourceType',
         'customerState',
+        'pagesOptions',
       ]),
       ...mapState('customer', [
         'customerList',
         'customerTotal',
       ]),
-      pagesOptions () {
-        return pagesOptions
-      },
     },
     components: {
       comButton,
@@ -254,7 +251,7 @@
         this.getCustomerList(this.currentPage, this.pagesOptions.pageSize, this.customerType)
       },
       handleRouter (name, id) {
-        this.$router.push({name: 'customersDetail', query: {view: name, customerId: id}})
+        this.$router.push({name: 'customersDetail', query: {view: name, customerId: id}, params: {end: 'FE'}})
       },
       addHandle () {
         this.addDialogOpen = true

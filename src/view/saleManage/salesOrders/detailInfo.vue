@@ -270,7 +270,7 @@
     methods: {
       handleTabsClick (tab, event) {
         // console.log(tab.name)
-        this.$router.push({name: 'salesOrdersDetail', query: {view: tab.name}})
+        this.$router.push({name: 'salesOrdersDetail', params: {end: 'FE'}, query: {view: tab.name}})
       },
     },
     created () {

@@ -1,5 +1,7 @@
 <template>
-  <div class="com-container">
+  <div class="com-container"
+       v-loading="dataLoading"
+       element-loading-text="数据加载中...">
     <!--头部-->
     <div class="com-head">
       <el-breadcrumb separator-class="el-icon-arrow-right">
@@ -15,15 +17,15 @@
         <com-button buttonType="move" icon="el-icon-plus" @click="moveHandle">转移</com-button>
       </div>
       <div class="com-bar-right">
-        <el-select v-model="value" placeholder="请选择" class="com-el-select">
+        <el-select v-model="salesOpportunitiesOptionsType" placeholder="请选择" class="com-el-select">
           <el-option
-            v-for="item in options"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value">
+            v-for="item in salesOpportunitiesOptions"
+            :key="item.type"
+            :label="item.value"
+            :value="item.type">
           </el-option>
         </el-select>
-        <com-button buttonType="search">搜索</com-button>
+        <com-button buttonType="search" @click="searchHandle">搜索</com-button>
       </div>
     </div>
     <!--详细-->
@@ -31,7 +33,7 @@
       <el-table
         ref="multipleTable"
         border
-        :data="tableData"
+        :data="salesOpportunitiesList"
         tooltip-effect="dark"
         style="width: 100%"
         @selection-change="handleSelectionChange">
@@ -43,68 +45,115 @@
         </el-table-column>
         <el-table-column
           align="center"
-          label="客户名称"
-          width="200"
+          label="意向商品"
+          width="160"
+          show-overflow-tooltip
         >
           <template slot-scope="scope">
-            <a class="col-link" @click="handleRouter('detail')">{{ scope.row.customerName }}</a>
+            <a class="col-link" @click="handleRouter('detail', scope.row.id)">{{ scope.row.intentProductName }}</a>
           </template>
         </el-table-column>
         <el-table-column
           align="center"
-          label="日期"
-          width="120">
-          <template slot-scope="scope">{{ scope.row.date }}</template>
-        </el-table-column>
-        <el-table-column
-          align="center"
-          prop="name"
-          label="姓名"
+          label="客户名称"
+          prop="customerName"
+          show-overflow-tooltip
           width="160">
         </el-table-column>
         <el-table-column
           align="center"
-          prop="address"
-          label="地址"
+          prop="contracterName"
+          label="联系人"
           width="160"
           show-overflow-tooltip>
         </el-table-column>
         <el-table-column
           align="center"
-          prop="address"
-          label="地址"
+          prop="intentBillAmount"
+          label="预计签单金额"
           width="160"
           show-overflow-tooltip>
         </el-table-column>
         <el-table-column
           align="center"
-          prop="address"
-          label="地址"
+          prop="billDate"
+          label="预计签单日期"
+          width="160"
+          show-overflow-tooltip>
+          <!--todo 需要处理时间 年月日-->
+        </el-table-column>
+        <el-table-column
+          align="center"
+          prop=""
+          label="销售阶段"
+          width="160"
+          show-overflow-tooltip>
+          <template slot-scope="scope">
+            <span v-for="item in salesState" :key="item.type" v-if="item.type === scope.row.stage">{{item.value}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column
+          align="center"
+          prop=""
+          label="赢率"
+          width="80"
+          show-overflow-tooltip>
+          <template slot-scope="scope">
+            <span v-for="item in salesState" :key="item.type" v-if="item.type === scope.row.stage">{{item.percent}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column
+          align="center"
+          prop=""
+          label="需求来源"
+          width="160"
+          show-overflow-tooltip>
+          <template slot-scope="scope">
+            <span v-for="item in demandSource" :key="item.type" v-if="item.type === scope.row.source">{{item.value}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column
+          align="center"
+          prop="creatorName"
+          label="需求创建人"
           width="160"
           show-overflow-tooltip>
         </el-table-column>
         <el-table-column
           align="center"
-          prop="address"
-          label="地址"
+          prop="salerName"
+          label="需求销售员"
           width="160"
           show-overflow-tooltip>
         </el-table-column>
         <el-table-column
           align="center"
-          prop="address"
-          label="地址"
+          prop="counselorName"
+          label="需求咨询师"
           width="160"
           show-overflow-tooltip>
         </el-table-column>
-
+        <el-table-column
+          align="center"
+          prop="created"
+          label="创建日期"
+          width="160"
+          show-overflow-tooltip>
+        </el-table-column>
+        <el-table-column
+          align="center"
+          prop="followDate"
+          label="最近跟单记录"
+          width="160"
+          show-overflow-tooltip>
+        </el-table-column>
       </el-table>
     </div>
     <!--分页-->
     <div class="com-pages-box">
       <el-pagination
         background
-        :total="1000"
+        :total="salesOpportunitiesTotal"
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
         :current-page="currentPage"
@@ -113,121 +162,99 @@
         :page-size="pagesOptions.pageSize">
       </el-pagination>
     </div>
+
+    <!-- -->
+    <!-- -->
+    <!--新增弹窗-->
+    <add-dialog :addDialogOpen="addDialogOpen" @hasAddDialogOpen="addDialogOpen = false"></add-dialog>
+    <!-- -->
+    <!-- -->
+    <!--转移弹窗-->
+    <move-dialog :moveDialogOpen="moveDialogOpen" @hasMoveDialogOpen="moveDialogOpen = false"></move-dialog>
   </div>
 </template>
 
 <script>
-  import { pagesOptions } from '../../../utils/const'
   import comButton from '../../../components/button/comButton'
+  import { mapState, mapActions } from 'vuex'
+  import API from '../../../utils/api'
+  import addDialog from './addDialog'
+  import moveDialog from './moveDialog'
 
   export default {
     name: 'list',
     data () {
       return {
-        options: [
-          {
-            value: 1,
-            label: '全部客户',
-          }, {
-            value: 2,
-            label: '我负责的客户',
-          }, {
-            value: 3,
-            label: '我更进的客户',
-          }, {
-            value: 4,
-            label: '我参与的客户',
-          }],
-        value: 3,
-        tableData: [
-          {
-            customerName: '财税金融全托管',
-            businessLicense: '',
-            date: '2016-05-03',
-            name: '王小虎',
-            address: '上海市普陀区金沙江路 1518 弄',
-          }, {
-            customerName: '财税金融全托管',
-            date: '2016-05-02',
-            name: '王小虎',
-            address: '上海市普陀区金沙江路 1518 弄',
-          }, {
-            customerName: '财税金融全托管',
-            date: '2016-05-04',
-            name: '王小虎',
-            address: '上海市普陀区金沙江路 1518 弄',
-          }, {
-            customerName: '财税金融全托管',
-            date: '2016-05-01',
-            name: '王小虎',
-            address: '上海市普陀区金沙江路 1518 弄',
-          }, {
-            customerName: '财税金融全托管',
-            date: '2016-05-08',
-            name: '王小虎',
-            address: '上海市普陀区金沙江路 1518 弄',
-          }, {
-            customerName: '财税金融全托管',
-            date: '2016-05-06',
-            name: '王小虎',
-            address: '上海市普陀区金沙江路 1518 弄',
-          }, {
-            customerName: '财税金融全托管',
-            date: '2016-05-07',
-            name: '王小虎',
-            address: '上海市普陀区金沙江路 1518 弄',
-          }, {
-            customerName: '财税金融全托管',
-            date: '2016-05-07',
-            name: '王小虎',
-            address: '上海市普陀区金沙江路 1518 弄',
-          }, {
-            customerName: '财税金融全托管',
-            date: '2016-05-07',
-            name: '王小虎',
-            address: '上海市普陀区金沙江路 1518 弄',
-          }, {
-            customerName: '财税金融全托管',
-            date: '2016-05-07',
-            name: '王小虎',
-            address: '上海市普陀区金沙江路 1518 弄',
-          }, {
-            customerName: '财税金融全托管',
-            date: '2016-05-07',
-            name: '王小虎',
-            address: '上海市普陀区金沙江路 1518 弄',
-          }],
+        dataLoading: false,
+        addDialogOpen: false,
+        moveDialogOpen: false,
+        salesOpportunitiesOptionsType: 0,
         multipleSelection: [],
         currentPage: 1,
       }
     },
     computed: {
-      pagesOptions () {
-        return pagesOptions
-      },
+      ...mapState('constData', [
+        'pagesOptions',
+        'salesState',
+        'demandSource',
+        'salesOpportunitiesOptions',
+      ]),
+      ...mapState('salesOpportunities', [
+        'salesOpportunitiesList',
+        'salesOpportunitiesTotal',
+      ]),
     },
     components: {
       comButton,
+      addDialog,
+      moveDialog,
     },
     methods: {
+      ...mapActions('salesOpportunities', [
+        'ac_salesOpportunitiesList',
+      ]),
       addHandle () {
-        alert('add btn')
+        this.addDialogOpen = true
       },
       moveHandle () {
-        alert('move')
+        this.moveDialogOpen = true
       },
       handleSelectionChange (val) {
         this.multipleSelection = val
       },
+      getSalesOpportunititeisList (page, pageSize, type) { // 获取列表
+        this.dataLoading = true
+        API.salesOpportunitiesList({
+          page: page,
+          pageSize: pageSize,
+          type: type,
+        }, (data) => {
+          this.ac_salesOpportunitiesList(data.data)
+          this.dataLoading = false
+        }, (data) => {
+          this.ac_salesOpportunitiesList(data.data)
+          this.dataLoading = false
+        })
+      },
       handleSizeChange (val) {
         console.log(`每页 ${val} 条`)
+        this.getSalesOpportunititeisList(this.currentPage, this.pagesOptions.pageSize, this.salesOpportunitiesOptionsType)
       },
       handleCurrentChange (val) {
-        console.log(`当前页: ${val}`)
+        // console.log(`当前页: ${val}`)
+        this.currentPage = val
+        this.getSalesOpportunititeisList(this.currentPage, this.pagesOptions.pageSize, this.salesOpportunitiesOptionsType)
       },
-      handleRouter (name) {
-        this.$router.push({name: 'salesOpportunitiesDetail', query: {view: name}})
+      handleRouter (name, id) {
+        this.$router.push({name: 'salesOpportunitiesDetail', query: {view: name, id: id}, params: {end: 'FE'}})
       },
+      searchHandle () {
+        this.getSalesOpportunititeisList(this.currentPage, this.pagesOptions.pageSize, this.salesOpportunitiesOptionsType)
+      }
+    },
+    created () {
+      this.getSalesOpportunititeisList(this.currentPage, this.pagesOptions.pageSize, this.salesOpportunitiesOptionsType)
     },
   }
 </script>

@@ -117,7 +117,7 @@
 </template>
 
 <script>
-  import { pagesOptions } from '../../../utils/const'
+  import { mapState } from 'vuex'
   import comButton from '../../../components/button/comButton'
 
   export default {
@@ -202,9 +202,9 @@
       }
     },
     computed: {
-      pagesOptions () {
-        return pagesOptions
-      },
+      ...mapState('constData', [
+        'pagesOptions',
+      ]),
     },
     components: {
       comButton,
@@ -226,7 +226,7 @@
         console.log(`当前页: ${val}`)
       },
       handleRouter (name) {
-        this.$router.push({name: 'salesOpportunitiesDetail', query: {view: name}})
+        this.$router.push({name: 'salesOpportunitiesDetail', query: {view: name}, params: {end: 'FE'}})
       },
     },
   }

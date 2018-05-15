@@ -184,7 +184,7 @@ export default {
       }, 1000)
     })
   },
-  contactsDetail (params, success, error) { // 联系人列表
+  contactsDetail (params, success, error) { // 联系人详细
     $axios({
       method: 'get',
       url: '/customerContacter/' + params.id,
@@ -230,6 +230,127 @@ export default {
                 'mobilePhone': '15696895689',
               },
             ],
+          },
+        },
+        'error': null,
+        'status': true,
+      }
+      setTimeout(() => {
+        error && error(mockdata)
+      }, 1000)
+    })
+  },
+  salesOpportunitiesList (params, success, error) { // 销售机会列表
+    $axios({
+      method: 'get',
+      url: '/salerChance/',
+      // params: params,
+    }).then(res => {
+      success && success(res.data)
+    }).catch(() => {
+// error && error()
+      let mockdata = {
+        'data': {
+          'content': [
+            {
+              'billDate': '2018-05-09 00:00:00',
+              'billProductId': '1',
+              'billProductName': '财税金融托管',
+              'chanceRemark': '',
+              'contacterId': '1',
+              'contracterName': '测试人员',
+              'contractId': 1,
+              'contractUrl': 'http://www.zzcfo.cn/124214124124.html',
+              'counselorId': 1,
+              'counselorName': '测试人员',
+              'created': '2018-05-09 14:29:37',
+              'creator': 1,
+              'creatorName': '测试人员',
+              'customerId': 1,
+              'customerName': '凡特赛科技',
+              'discardRemark': '',
+              'followDate': '2018-05-09 11:45:50',
+              'id': 1,
+              'intentBillAmount': 3000,
+              'intentProductCate': 1,
+              'intentProductCateName': '会计记账',
+              'intentProductId': '1',
+              'intentProductName': '财税金融全托管',
+              'modified': '2018-05-09 14:29:50',
+              'salerId': 1,
+              'salerName': '测试人员',
+              'source': 1,
+              'stage': 1,
+              'status': 1,
+            },
+          ],
+          'first': true,
+          'last': true,
+          'number': 0,
+          'numberOfElements': 1,
+          'size': 5,
+          'sort': null,
+          'totalElements': 1,
+          'totalPages': 1,
+        },
+        'error': null,
+        'status': true,
+      }
+      setTimeout(() => {
+        error && error(mockdata)
+      }, 1000)
+    })
+  },
+  salesOpportunitiesDetail (params, success, error) { // 销售机会详细
+    $axios({
+      method: 'get',
+      url: '/customerContacter/' + params.id,
+      // params: params,
+    }).then(res => {
+      success && success(res.data)
+    }).catch(() => {
+// error && error()
+      let mockdata = {
+        'data': {
+          'billDate': '2018-05-09 00:00:00',
+          'billProductId': '1',
+          'billProductName': '财税金融托管',
+          'chanceRemark': '',
+          'contacterId': '1',
+          'contracterName': '张三',
+          'contractId': 1,
+          'contractUrl': 'http://www.zzcfo.cn/124214124124.html',
+          'created': '2018-05-09 14:29:37',
+          'creator': 1,
+          'creatorName': '测试人员',
+          'modifier': 1,
+          'modifierName': '测试人员',
+          'customerId': 1,
+          'customerName': '凡特赛科技',
+          'discardRemark': '',
+          'followDate': '2018-05-09 11:45:50',
+          'id': 1,
+          'intentBillAmount': 3000,
+          'intentProductCate': 1,
+          'intentProductCateName': '会计记账',
+          'intentProductId': '1',
+          'intentProductName': '财税金融全托管',
+          'modified': '2018-05-09 14:29:50',
+          'salerId': 1,
+          'salerName': '测试人员',
+          'source': 1,
+          'stage': 1,
+          'status': 1,
+          'team': {
+            'creator': 1,
+            'creatorName': '测试人员',
+            'creatorMobilePhone': '15696895689',
+            'salerId': 1,
+            'salerName': '测试人员',
+            'salerMobilePhone': '15696895689',
+            'counselorId': 1,
+            'counselorName': '测试人员',
+            'counselorMobilePhone': '15696895689',
           },
         },
         'error': null,
@@ -308,7 +429,7 @@ export default {
       }, 1000)
     })
   },
-   userDetail (params, success, error) { // 用户列表
+  userDetail (params, success, error) { // 用户列表
     $axios.get('user', {
       params: params,
     }).then((res) => {
@@ -349,7 +470,7 @@ export default {
           'organizationId': 1, // 组织ID
           'organizationName': '成都凡特赛科技有限公司', // 组织名称
           'departmentId': 2, // 部门ID
-          'departmentName': '川东', // 部门名称
+          'departmentName': '开发部', // 部门名称
           'roles': [ // 多个角色
             {
               'id': 1, // 角色ID
@@ -440,4 +561,41 @@ export default {
       }, 1000)
     })
   },
+  organizationList (params, success, error) { // 组织或部门列表
+    $axios.get('organization', {
+      params: params,
+    }).then((res) => {
+      success && success(res.data)
+    }).catch(() => {
+      // error && error()
+      let mockdata = {
+        'data': [
+          {
+            'id': 1,    //ID
+            'level': 1,    //级别
+            'name': '开发部', //组织名称
+            'admins': [{    //管理员
+              'id': 1,    //管理员用户ID
+              'name': '张三'    //管理员姓名
+            }],
+            'pid': 0    //上级组织ID
+          },
+          {
+            'id': 2,    //ID
+            'level': 2,    //级别
+            'name': '测试部', //组织名称
+            'admins': [{    //管理员
+              'id':2,    //管理员用户ID
+              'name': '李四'    //管理员姓名
+            }],
+            'pid': 2    //上级组织ID
+          }
+        ],
+        'status': true,
+      }
+      setTimeout(() => {
+        error && error(mockdata)
+      }, 1000)
+    })
+  }
 }

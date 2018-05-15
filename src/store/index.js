@@ -12,6 +12,7 @@ import constData from './modules/constData'
 import customer from './modules/customer'
 import contacts from './modules/contacts'
 import user from './modules/user'
+import salesOpportunities from './modules/salesOpportunities'
 
 Vue.use(Vuex)
 
@@ -27,6 +28,7 @@ export default new Vuex.Store({
     constData,
     customer,
     contacts,
+    salesOpportunities,
     user,
   }
 })

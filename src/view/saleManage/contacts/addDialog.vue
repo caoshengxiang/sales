@@ -1,6 +1,8 @@
 <template>
   <div>
-    <el-dialog :title="type==='edit'? '编辑客户':'新增客户'" :visible.sync="addDialogVisible" width="900px" :show-close="false">
+    <el-dialog :title="type==='edit'? '编辑客户':'新增客户'"
+               :before-close="initData"
+               :visible.sync="addDialogVisible" width="900px" :show-close="false">
       <div class="com-dialog">
         <el-form :model="addForm" ref="addForm" label-width="0px" :rules="rules">
           <table class="com-dialog-table">
@@ -47,16 +49,15 @@
             <tr>
               <td class="td-title">出生日期</td>
               <td class="td-text">
-                <!--<el-form-item prop="birthday">-->
-                  <!--<el-input type="text" v-model="addForm.birthday"></el-input>-->
-                <!--</el-form-item>-->
-                <el-date-picker
-                  style="width: 100%"
-                  v-model="addForm.birthday"
-                  type="date"
-                  value-format="yyyy-MM-dd"
-                  placeholder="选择日期">
-                </el-date-picker>
+                <el-form-item prop="birthday">
+                  <el-date-picker
+                    style="width: 100%"
+                    v-model="addForm.birthday"
+                    type="date"
+                    value-format="yyyy-MM-dd"
+                    placeholder="选择日期">
+                  </el-date-picker>
+                </el-form-item>
               </td>
               <td class="td-title">性别</td>
               <td class="td-text">
@@ -121,6 +122,8 @@
 </template>
 
 <script>
+  import { mapState } from 'vuex'
+
   export default {
     name: 'addDialog',
     data () {
@@ -133,7 +136,7 @@
           department: '',
           position: '',
           qq: '',
-          birthday: '2018-05-14 12:00:00',
+          birthday: '',
           sex: '',
           wx: '',
           bakPhone: '',
@@ -141,68 +144,45 @@
           address: '',
           remark: '',
         },
-        areaOptions_testData: [
-          {
-            value: 1,
-            label: '四川',
-            children: [
-              {
-                value: 2,
-                label: '成都',
-                children: [
-                  {
-                    value: 3,
-                    label: '高新区',
-                  },
-                  {
-                    value: 4,
-                    label: '天府新区',
-                  },
-                ],
-              },
-            ],
-          },
-        ],
-        areaSelectedOptions: [],
         rules: {
-        customerName: [
-            {required: true, message: '请输入所属公司', trigger: 'blur'}, // todo 验证内容
+          customerName: [
+            {required: true, message: '请输入所属公司', trigger: 'blur'},
           ],
           contacterName: [
             {required: true, message: '请输入联系人姓名', trigger: 'blur'},
           ],
-          // levelName: '',
           phone: [
-            {required: true, message: '请选择客户等级', trigger: 'blur'},
-          ],
-          position: [
-            {required: true, message: '请输入客户简称', trigger: 'blur'},
-          ],
-          qq: [
-            {required: true, message: '请选择客户行业', trigger: 'blur'},
-          ],
-          // industryName: '',
-          birthday: [
-            {required: true, message: '请选择客户地区', trigger: 'blur'},
-          ],
-          sex: [],
-          // areaName: '',
-          wx: [],
-          website: [
-            {required: true, message: '请输入公司网站', trigger: 'blur'},
-          ],
-          bakPhone: [
             {required: true, message: '请输入联系电话', trigger: 'blur'},
           ],
-          // seaName: '',
+          department: [
+            {required: true, message: '请输入任职部门', trigger: 'blur'},
+          ],
+          position: [
+            {required: true, message: '请输入公司职务', trigger: 'blur'},
+          ],
+          qq: [
+            {required: true, message: '请输入联系QQ', trigger: 'blur'},
+          ],
+          birthday: [
+            {required: true, message: '请选择出生日期', trigger: 'blur'},
+          ],
+          sex: [
+            {required: true, message: '请选择性别', trigger: 'blur'},
+          ],
+          wx: [
+            {required: true, message: '请输入联系微信', trigger: 'blur'},
+          ],
+          bakPhone: [
+            {required: true, message: '请输入备用电话', trigger: 'blur'},
+          ],
           mail: [
-            {required: true, message: '请选择客户公海', trigger: 'blur'},
+            {required: true, message: '请请输入电子邮箱', trigger: 'blur'},
           ],
           address: [
             {required: true, message: '请输入联系地址', trigger: 'blur'},
           ],
           remark: [
-            {required: true, message: '请输入主营业务', trigger: 'blur'},
+            // {required: true, message: '请输入备注', trigger: 'blur'},
           ],
         },
       }
@@ -212,16 +192,21 @@
         default: false,
         type: Boolean,
       },
-      customerDetail: {
-        default () {
-          return {}
-        },
-        type: Object,
-      },
+      // contactsDetail: {
+      //   default () {
+      //     return {}
+      //   },
+      //   type: Object,
+      // },
       type: {
         default: '',
         type: String,
       },
+    },
+    computed: {
+      ...mapState('contacts', [
+        'contactsDetail',
+      ])
     },
     watch: {
       addDialogOpen (open) {
@@ -230,16 +215,16 @@
           this.$emit('hasAddDialogOpen')
         }
       },
-      customerDetail (d) {
+      contactsDetail (d) {
         this.addForm = JSON.parse(JSON.stringify(d))
-      }
+      },
     },
     methods: {
       initData () {
         if (this.type === 'edit') {
-          this.addForm = JSON.parse(JSON.stringify(this.customerDetail))
+          this.addForm = JSON.parse(JSON.stringify(this.contactsDetail))
         } else {
-          this.addForm = { // 添加客户表单
+          this.addForm = { // 添加联系人表单
             customerName: '',
             contacterName: '',
             phone: '',
@@ -251,14 +236,11 @@
             wx: '',
             bakPhone: '',
             mail: '',
-            business: '',
             address: '',
+            remark: '',
           }
         }
         this.addDialogVisible = false
-      },
-      areaSelectedOptionsHandleChange (value) {
-        console.log(value)
       },
       saveSubmitForm (formName) {
         this.$refs[formName].validate((valid) => {
@@ -272,6 +254,8 @@
         })
       },
     },
+    created () {
+    }
   }
 </script>
 

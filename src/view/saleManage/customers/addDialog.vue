@@ -1,28 +1,30 @@
 <template>
   <div>
-    <el-dialog :title="type==='edit'? '编辑客户':'新增客户'" :visible.sync="addDialogVisible" width="900px" :show-close="false">
+    <el-dialog :title="type==='edit'? '编辑客户':'新增客户'"
+               :before-close="initData"
+               :visible.sync="addDialogVisible" width="900px" :show-close="false">
       <div class="com-dialog">
-        <el-form :model="addCustomerForm" ref="addCustomerForm" label-width="0px" :rules="rules">
+        <el-form :model="addForm" ref="addForm" label-width="0px" :rules="rules">
           <table class="com-dialog-table">
             <tr>
               <td class="td-title">公司名称</td>
               <td class="td-text">
                 <el-form-item prop="name">
-                  <el-input type="text" v-model="addCustomerForm.name"></el-input>
+                  <el-input type="text" v-model="addForm.name"></el-input>
                 </el-form-item>
               </td>
 
               <td class="td-title">营业执照</td>
               <td class="td-text">
                 <el-form-item prop="businessLicense">
-                  <el-input type="text" v-model="addCustomerForm.businessLicense"></el-input>
+                  <el-input type="text" v-model="addForm.businessLicense"></el-input>
                 </el-form-item>
               </td>
               <td class="td-title">客户级别</td>
               <td class="td-text">
-                <!--<input type="text" v-model="addCustomerForm.levelName">-->
+                <!--<input type="text" v-model="addForm.levelName">-->
                 <el-form-item prop="level">
-                  <el-select v-model.number="addCustomerForm.level" placeholder="请选择客户级别">
+                  <el-select v-model.number="addForm.level" placeholder="请选择客户级别">
                     <el-option label="客户级别1" :value="1"></el-option>
                     <el-option label="客户级别2" :value="2"></el-option>
                   </el-select>
@@ -33,14 +35,14 @@
               <td class="td-title">客户简称</td>
               <td class="td-text">
                 <el-form-item prop="shortName">
-                  <el-input type="text" v-model="addCustomerForm.shortName"></el-input>
+                  <el-input type="text" v-model="addForm.shortName"></el-input>
                 </el-form-item>
               </td>
               <td class="td-title">客户行业</td>
               <td class="td-text">
-                <!--<input type="text" v-model="addCustomerForm.industry">-->
+                <!--<input type="text" v-model="addForm.industry">-->
                 <el-form-item prop="industry">
-                  <el-select v-model.number="addCustomerForm.industry" placeholder="请选择客户行业">
+                  <el-select v-model.number="addForm.industry" placeholder="请选择客户行业">
                     <el-option label="客户行业1" :value="1"></el-option>
                     <el-option label="客户行业2" :value="2"></el-option>
                   </el-select>
@@ -63,20 +65,20 @@
               <td class="td-title">公司网站</td>
               <td class="td-text">
                 <el-form-item prop="website">
-                  <el-input type="text" v-model="addCustomerForm.website"></el-input>
+                  <el-input type="text" v-model="addForm.website"></el-input>
                 </el-form-item>
               </td>
               <td class="td-title">联系电话</td>
               <td class="td-text">
                 <el-form-item prop="phone">
-                  <el-input type="text" v-model="addCustomerForm.phone"></el-input>
+                  <el-input type="text" v-model="addForm.phone"></el-input>
                 </el-form-item>
               </td>
               <td class="td-title">所属公海</td>
               <td class="td-text">
-                <!--<input type="text" v-model="addCustomerForm.shortName">-->
+                <!--<input type="text" v-model="addForm.shortName">-->
                 <el-form-item prop="seaId">
-                  <el-select v-model.number="addCustomerForm.seaId" placeholder="请选择所属公海">
+                  <el-select v-model.number="addForm.seaId" placeholder="请选择所属公海">
                     <el-option label="所属公海1" :value="1"></el-option>
                     <el-option label="所属公海2" :value="2"></el-option>
                   </el-select>
@@ -87,7 +89,7 @@
               <td class="td-title">联系地址</td>
               <td class="td-text" colspan="5">
                 <el-form-item prop="address">
-                  <el-input type="text" v-model="addCustomerForm.address"></el-input>
+                  <el-input type="text" v-model="addForm.address"></el-input>
                 </el-form-item>
               </td>
             </tr>
@@ -95,7 +97,7 @@
               <td class="td-title">主营业务</td>
               <td class="td-text" colspan="5">
                 <el-form-item prop="business">
-                  <el-input type="text" v-model="addCustomerForm.business"></el-input>
+                  <el-input type="text" v-model="addForm.business"></el-input>
                 </el-form-item>
               </td>
             </tr>
@@ -104,7 +106,7 @@
         <div slot="footer" class="dialog-footer">
           <el-button class="cancel-button" @click="initData">取 消</el-button>
           <el-button class="save-button" @click="addDialogVisible = false">保存并新建联系人</el-button>
-          <el-button class="save-button" @click="saveSubmitForm('addCustomerForm')">确 定</el-button>
+          <el-button class="save-button" @click="saveSubmitForm('addForm')">确 定</el-button>
         </div>
       </div>
     </el-dialog>
@@ -117,7 +119,7 @@
     data () {
       return {
         addDialogVisible: false, // 新增弹窗
-        addCustomerForm: { // 添加客户表单
+        addForm: { // 添加客户表单
           name: '',
           businessLicense: '',
           // levelName: '',
@@ -201,7 +203,7 @@
             {required: true, message: '请输入联系地址', trigger: 'blur'},
           ],
           business: [
-            {required: true, message: '请输入主营业务', trigger: 'blur'},
+            // {required: true, message: '请输入主营业务', trigger: 'blur'},
           ],
         },
       }
@@ -230,15 +232,15 @@
         }
       },
       customerDetail (d) {
-        this.addCustomerForm = JSON.parse(JSON.stringify(d))
+        this.addForm = JSON.parse(JSON.stringify(d))
       }
     },
     methods: {
       initData () {
         if (this.type === 'edit') {
-          this.addCustomerForm = JSON.parse(JSON.stringify(this.customerDetail))
+          this.addForm = JSON.parse(JSON.stringify(this.customerDetail))
         } else {
-          this.addCustomerForm = { // 添加客户表单
+          this.addForm = { // 添加客户表单
             name: '',
             businessLicense: '',
             // levelName: '',

@@ -25,9 +25,9 @@ export const chartLengthRule = {
 }
 
 // 分页
-export const pagesOptions = {
-  // layout: 'total,sizes, prev, pager, next, jumper', // 分页
-  layout: 'total, prev, pager, next, jumper', // 分页
-  pageSizes: [10, 20, 30, 40],
-  pageSize: 10,
-}
+// export const pagesOptions = {
+//   // layout: 'total,sizes, prev, pager, next, jumper', // 分页
+//   layout: 'total, prev, pager, next, jumper', // 分页
+//   pageSizes: [10, 20, 30, 40],
+//   pageSize: 10,
+// }

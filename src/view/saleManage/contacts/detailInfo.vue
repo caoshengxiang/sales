@@ -24,9 +24,12 @@
         </div>
       </div>
       <div class="com-info-right">
-        <el-radio-group v-model="tapOption">
-          <el-radio-button class="btn-width" label="edit">编辑</el-radio-button>
-        </el-radio-group>
+        <!--<el-radio-group v-model="tapOption">-->
+          <!--<el-radio-button class="btn-width" label="edit">编辑</el-radio-button>-->
+        <!--</el-radio-group>-->
+        <ul class="com-info-op-group">
+          <li class="op-active" @click="operateOptions('edit')">编辑</li>
+        </ul>
       </div>
     </div>
     <!--详细-->
@@ -220,6 +223,11 @@
         </ul>
       </div>
     </div>
+    <!-- -->
+    <!-- -->
+    <!--编辑弹窗-->
+    <add-dialog type="edit" :addDialogOpen="addDialogOpen"
+                @hasAddDialogOpen="addDialogOpen = false"></add-dialog>
   </div>
 </template>
 
@@ -227,12 +235,14 @@
   import comButton from '../../../components/button/comButton'
   import API from '../../../utils/api'
   import { mapState, mapActions } from 'vuex'
+  import addDialog from './addDialog'
 
   export default {
     name: 'detailInfo',
     data () {
       return {
         dataLoading: false,
+        addDialogOpen: false,
         tapOption: '',
         activeViewName: '',
       }
@@ -249,6 +259,7 @@
     },
     components: {
       comButton,
+      addDialog,
     },
     methods: {
       ...mapActions('contacts', [
@@ -256,7 +267,7 @@
       ]),
       handleTabsClick (tab, event) {
         // console.log(tab.name)
-        this.$router.push({name: 'contactsDetail', query: {view: tab.name, contactsId: this.$route.query.contactsId}})
+        this.$router.push({name: 'contactsDetail', params: {end: 'FE'}, query: {view: tab.name, contactsId: this.$route.query.contactsId}})
       },
       getContactsDetail () {
         this.dataLoading = true
@@ -267,6 +278,13 @@
           this.ac_contactsDetail(data.data)
           this.dataLoading = false
         })
+      },
+      operateOptions (option) {
+        switch (option) {
+          case 'edit':
+            this.addDialogOpen = true
+            break
+        }
       },
     },
     created () {
