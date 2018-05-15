@@ -112,7 +112,7 @@
             <div class="child-fixed">
               <ul class="child-menu-box">
                 <li @click="handleRouter('userList')">用戶管理</li>
-                <li @click="handleRouter('related')">角色管理</li>
+                <li @click="handleRouter('roleList')">角色管理1</li>
               </ul>
             </div>
           </div>
