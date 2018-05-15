@@ -1,12 +1,16 @@
 <template>
   <div class="left-menu-bar">
-    <div class="u-show">
+    <div class="u-show"
+         :style="{
+            backgroundColor: theme[themeIndex].leftMenuBarBg,
+            borderColor: theme[themeIndex].leftMenuBarBorderButtonColor
+     }">
       <div class="u-head" @click="routePersonal">
         <img src="../assets/icon/headDefault.png" alt="">
       </div>
       <div class="u-text">
-        <h4 class="username">用户名</h4>
-        <div class="tags">
+        <h4 class="username" :style="{color: theme[themeIndex].leftMenuBarUserTextColor}">用户名</h4>
+        <div class="tags"  v-if="themeIndex === 1">
           <span class="tag">管理员</span>
         </div>
       </div>
@@ -19,9 +23,9 @@
       @close="handleClose"
       :unique-opened="true"
       :router="true"
-      text-color="#9BA1A7"
-      background-color="#3A4651"
-      active-text-color="#39C189">
+      :text-color="theme[themeIndex].leftMenuBarColor"
+      :background-color="theme[themeIndex].leftMenuBarBg"
+      :active-text-color="theme[themeIndex].leftMenuBarActiveColor">
       <el-menu-item index="saleHome">
         <i class="el-icon-location"></i>
         <span slot="title">管理中心</span>
@@ -123,10 +127,18 @@
 </template>
 
 <script>
+  import { mapState } from 'vuex'
+
   export default {
     name: 'leftMenuBar',
     data () {
       return {}
+    },
+    computed: {
+      ...mapState('constData', [
+        'theme',
+        'themeIndex',
+      ]),
     },
     methods: {
       handleOpen (key, keyPath) {
@@ -137,12 +149,12 @@
       },
       handleRouter (name, view) {
         this.$nextTick(() => {
-          // this.$router.push({name: name, query: {view: view}})
+          // this.$router.push({name: name, query: {view: view}, params: {end: 'FE'}})
         })
       },
       routePersonal () {
-        this.$router.push({name: 'personal', query: {view: 'base'}})
-      }
+        this.$router.push({name: 'personal', query: {view: 'base'}, params: {end: 'FE'}})
+      },
     },
   }
 </script>
@@ -150,14 +162,15 @@
 <style scoped lang="scss" rel="stylesheet/scss">
   .left-menu-bar {
   }
+
   .u-show {
     height: 160px;
-    border-bottom: 2px solid #3A4651;
+    border-bottom: 2px solid;
     text-align: center;
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #3A4651;
+    /*background-color: #3A4651;*/
     .u-head {
       display: inline-block;
       cursor: pointer;
@@ -168,7 +181,7 @@
       .username {
         font-size: 16px;
         font-weight: normal;
-        color: #FEFEFE
+        /*color: #FEFEFE*/
       }
       .tags {
         margin-top: 5px;

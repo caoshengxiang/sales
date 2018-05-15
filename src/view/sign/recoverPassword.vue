@@ -102,7 +102,7 @@
         })
       },
       signIn () {
-        this.$router.push({name: 'signIn'})
+        this.$router.push({name: 'signIn', params: {end: 'FE'}})
       },
       getCode () {
         this.time = 60

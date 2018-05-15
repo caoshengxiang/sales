@@ -146,7 +146,7 @@
           width="160"
           show-overflow-tooltip>
           <template slot-scope="scope">
-            <span>{{}}</span>
+            <!--<span>{{}}</span>--><!--todo 缺销售人员-->
           </template>
         </el-table-column>
         <el-table-column
@@ -236,7 +236,7 @@
         this.getContactsList(this.currentPage, pagesOptions.pageSize, this.contactsTypeOption)
       },
       handleRouter (name, id) {
-        this.$router.push({name: 'contactsDetail', query: {view: name, contactsId: id}})
+        this.$router.push({name: 'contactsDetail', query: {view: name, contactsId: id}, params: {end: 'FE'}})
       },
       getContactsList (page, pageSize, type) {
         this.dataLoading = true

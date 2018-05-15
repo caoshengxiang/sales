@@ -201,7 +201,7 @@
             {required: true, message: '请输入联系地址', trigger: 'blur'},
           ],
           business: [
-            {required: true, message: '请输入主营业务', trigger: 'blur'},
+            // {required: true, message: '请输入主营业务', trigger: 'blur'},
           ],
         },
       }

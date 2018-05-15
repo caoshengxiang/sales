@@ -254,7 +254,7 @@
         this.getCustomerList(this.currentPage, this.pagesOptions.pageSize, this.customerType)
       },
       handleRouter (name, id) {
-        this.$router.push({name: 'customersDetail', query: {view: name, customerId: id}})
+        this.$router.push({name: 'customersDetail', query: {view: name, customerId: id}, params: {end: 'FE'}})
       },
       addHandle () {
         this.addDialogOpen = true

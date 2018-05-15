@@ -219,7 +219,7 @@
         console.log(`当前页: ${val}`)
       },
       handleRouter (name) {
-        this.$router.push({name: 'customersDetail', query: {view: name}})
+        this.$router.push({name: 'customersDetail', query: {view: name}, params: {end: 'FE'}})
       },
     },
   }

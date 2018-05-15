@@ -231,7 +231,7 @@
         this.getuserList(this.currentPage, this.pagesOptions.pageSize, this.userType)
       },
       handleRouter (name, id) {
-        // this.$router.push({name: 'userDetail', query: {view: name, userId: id}})
+        // this.$router.push({name: 'userDetail', params: {end: 'ME'}, query: {view: name, userId: id}})
       },
       addHandle () {
         this.addDialogOpen = true

@@ -4,7 +4,7 @@
 
 // import getters from './getters'
 // import actions from './actions'
-// import mutations from './mutations'
+import mutations from './mutations'
 
 export default {
   namespaced: true,
@@ -57,20 +57,48 @@ export default {
       }, {
         type: 2,
         value: '我更进的联系人',
-      }
+      },
     ],
     contactsStatus: [ // 联系人状态
       {
         type: 1,
-        value: '正在使用'
+        value: '正在使用',
       },
       {
         type: -1,
-        value: '已作废'
-      }
-    ]
+        value: '已作废',
+      },
+    ],
+    themeIndex: 0, // 主题数组索引，默认为0销售前端
+    theme: [ // 主题颜色
+      {
+        end: 'FE',
+        headerBg: '#D7DDE4',
+        headerColor: '#333E48',
+        leftMenuBarBg: '#3A4651',
+        leftMenuBarColor: '#9BA1A7',
+        leftMenuBarActiveColor: '#39C189',
+        leftMenuBarUserTextColor: '#FEFEFE',
+        leftMenuBarBorderButtonColor: '#3A4651'
+      }, {
+        end: 'ME',
+        headerBg: '#0BC3C4',
+        headerColor: '#FFFFFF',
+        leftMenuBarBg: '#ffffff',
+        leftMenuBarColor: '#89A0AC',
+        leftMenuBarActiveColor: '#0BC3C4',
+        leftMenuBarUserColor: '#333E48',
+        leftMenuBarBorderButtonColor: '#EBEBEB',
+      },
+    ],
+    pagesOptions: { // 分页参数
+      // layout: 'total,sizes, prev, pager, next, jumper', // 分页
+      layout: 'total, prev, pager, next, jumper', // 分页
+      pageSizes: [10, 20, 30, 40],
+      pageSize: 10,
+    }
   },
   // getters,
   // actions,
-  // mutations
+  mutations
 }

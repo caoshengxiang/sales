@@ -106,19 +106,19 @@ export default new Router({
       name: 'HelloWorld',
       component: HelloWorld,
     }, {
-      path: '/signIn',
+      path: '/FE/signIn',
       name: 'signIn',
       component: signIn,
     }, {
-      path: '/recoverPassword',
+      path: '/FE/recoverPassword',
       name: 'recoverPassword',
       component: recoverPassword,
     }, {
-      path: '/resetPassword',
+      path: '/FE/resetPassword',
       name: 'resetPassword',
       component: resetPassword,
     }, {
-      path: '/sales',
+      path: '/sales/:end',
       name: 'indexPage',
       component: indexPage,
       children: [

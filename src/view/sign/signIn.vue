@@ -59,7 +59,7 @@
       submitForm (formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            this.$router.push({name: 'saleHome'})
+            this.$router.push({name: 'saleHome', params: {end: 'FE'}})
           } else {
             console.log('error submit!!')
             return false
@@ -67,7 +67,7 @@
         })
       },
       recoverPassword () {
-        this.$router.push({name: 'recoverPassword'})
+        this.$router.push({name: 'recoverPassword', params: {end: 'FE'}})
       }
     },
   }

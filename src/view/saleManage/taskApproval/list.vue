@@ -181,7 +181,7 @@
         console.log(`当前页: ${val}`)
       },
       handleRouter (name) {
-        this.$router.push({name: 'taskApprovalDetail', query: {view: name}})
+        this.$router.push({name: 'taskApprovalDetail', params: {end: 'FE'}, query: {view: name}})
       },
     },
   }

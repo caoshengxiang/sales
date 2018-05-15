@@ -148,7 +148,7 @@
         console.log(`当前页: ${val}`)
       },
       handleRouter (name) {
-        this.$router.push({name: 'messageDetail', query: {view: name}})
+        this.$router.push({name: 'messageDetail', params: {end: 'FE'}, query: {view: name}})
       },
     },
   }

@@ -341,7 +341,7 @@
       ]),
       handleTabsClick (tab, event) {
         // console.log(tab.name)
-        this.$router.push({name: 'customersDetail', query: {view: tab.name, customerId: this.$route.query.customerId}})
+        this.$router.push({name: 'customersDetail', params: {end: 'ME'}, query: {view: tab.name, customerId: this.$route.query.customerId}})
       },
       getCustomerDetail () {
         this.dataLoading = true

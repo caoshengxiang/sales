@@ -305,3 +305,30 @@ axios 在webpack定义全局变量 `$axios`
 > 如：客户类型选项，客户来源，客户状态
 2. 非后台数据的常量，const.js中
 > 如：服务器地址,表单校验规则
+
+## 前端和管理端风格
+
+1. const.js定义主题常量
+2. 通过路由参数区分主题，`'/sales/:end'`,
+
+ 路由分别设置前端和管理端的参数 `this.$router.push({name: 'test', params: {end: 'FE'})`
+
+ 管理端 `this.$router.push({name: 'test', params: {end: 'ME'})`
+
+ 页面获取 this.$route.params.end
+
+3. 主题需要修改的文件，和地方
+* index.vue
+  在created周期设置store 中theme 的索引themeIndex,(也可以通过themeIndex来判断使用那种主题)
+```
+        asideStyle () {
+           return {
+             width: '240px',
+             borderTop: '6px solid #F0F3F6',
+             overflowY: 'auto',
+             backgroundColor: this.theme[this.themeIndex].leftMenuBarBg, // 主题
+           }
+         },
+```
+* leftMenuBar.vue
+
