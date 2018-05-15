@@ -26,6 +26,15 @@
                     @click="resetPassword">重置密码
         </com-button>
       </div>
+      <div class="com-bar-right" style="float: right">
+        <com-button buttonType="search" @click="searchHandle">搜索</com-button>
+      </div>
+      <div class="com-bar-right" style="float: right">
+        <el-input v-model="name" placeholder="员工姓名"  style="float: left">
+          <template slot="prepend">员工姓名</template>
+        </el-input>
+
+      </div>
     </div>
     <!--详细-->
     <div class="com-box com-box-padding com-list-box">
@@ -228,7 +237,7 @@
         this.getuserList(this.currentPage, this.pagesOptions.pageSize, this.userType)
       },
       handleRouter (name, id) {
-        // this.$router.push({name: 'userDetail', params: {end: 'ME'}, query: {view: name, userId: id}})
+         this.$router.push({name: 'userDetail', params: {end: 'ME'}, query: {view: name, userId: id}})
       },
       addHandle () {
         this.addDialogOpen = true
