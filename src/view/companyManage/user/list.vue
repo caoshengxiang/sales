@@ -147,7 +147,6 @@
 </template>
 
 <script>
-  import { pagesOptions } from '../../../utils/const'
   import comButton from '../../../components/button/comButton'
   import API from '../../../utils/api'
   import { mapState, mapActions } from 'vuex'
@@ -177,14 +176,12 @@
         'userTypeOptions',
         'userourceType',
         'usertate',
+        'pagesOptions',
       ]),
       ...mapState('user', [
         'userList',
         'userTotal',
       ]),
-      pagesOptions () {
-        return pagesOptions
-      },
     },
     components: {
       comButton,
