@@ -107,7 +107,7 @@
 </template>
 
 <script>
-  import { pagesOptions } from '../../../utils/const'
+  import { mapState } from 'vuex'
   import comButton from '../../../components/button/comButton'
 
   export default {
@@ -157,9 +157,9 @@
       }
     },
     computed: {
-      pagesOptions () {
-        return pagesOptions
-      },
+      ...mapState('constData', [
+        'pagesOptions',
+      ]),
     },
     components: {
       comButton,

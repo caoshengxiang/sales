@@ -301,14 +301,12 @@ axios 在webpack定义全局变量 `$axios`
 
 ## 一些常量数据的定义规则
 
-1. 与后台数据相关的常量，定义在store中的constData模块（要在template中使用的数据定义在这）
-> 如：客户类型选项，客户来源，客户状态
-2. 非后台数据的常量，const.js中
-> 如：服务器地址,表单校验规则
+1. 定义在store中的constData模块
+2. const.js中
 
 ## 前端和管理端风格
 
-1. const.js定义主题常量
+1. store中定义主题常量
 2. 通过路由参数区分主题，`'/sales/:end'`,
 
  路由分别设置前端和管理端的参数 `this.$router.push({name: 'test', params: {end: 'FE'})`
