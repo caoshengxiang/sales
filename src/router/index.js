@@ -220,7 +220,7 @@ export default new Router({
         {
           path: 'roleList',
           name: 'roleList',
-          component: roleList,
+          component: roleList
         }
       ],
     },

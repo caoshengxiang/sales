@@ -88,19 +88,6 @@
         </el-col>
       </el-row>
     </div>
-    <!--分页-->
-    <div class="com-pages-box">
-      <el-pagination
-        background
-        :total="userTotal"
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
-        :current-page="currentPage"
-        :layout="pagesOptions.layout"
-        :page-sizes="pagesOptions.pageSizes"
-        :page-size="pagesOptions.pageSize">
-      </el-pagination>
-    </div>
   </div>
 </template>
 
@@ -138,10 +125,7 @@
       ...mapState('user', [
         'userList',
         'userTotal',
-      ]),
-      pagesOptions () {
-        return pagesOptions
-      },
+      ])
     },
     components: {
       comButton
