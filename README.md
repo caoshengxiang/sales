@@ -320,15 +320,10 @@ axios 在webpack定义全局变量 `$axios`
 3. 主题需要修改的文件，和地方
 * index.vue
   在created周期设置store 中theme 的索引themeIndex,(也可以通过themeIndex来判断使用那种主题)
-```
-        asideStyle () {
-           return {
-             width: '240px',
-             borderTop: '6px solid #F0F3F6',
-             overflowY: 'auto',
-             backgroundColor: this.theme[this.themeIndex].leftMenuBarBg, // 主题
-           }
-         },
-```
+
 * leftMenuBar.vue
 
+* pageHeader.vue
+
+4. 修改element主题
+  目前是通过feElement.vue和meElement.vue两个组件分别在index.vue中引入element的主题

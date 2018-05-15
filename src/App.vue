@@ -10,7 +10,7 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss" rel="stylesheet/scss">
 #app {
 }
 [v-cloak] {

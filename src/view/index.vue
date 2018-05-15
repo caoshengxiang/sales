@@ -12,6 +12,8 @@
         <router-view></router-view>
       </div>
     </page-container>
+    <fe-element v-if="themeIndex === 0"></fe-element>
+    <me-element v-if="themeIndex === 1"></me-element>
   </div>
 </template>
 
@@ -20,6 +22,8 @@
   import pageHeader from '../components/pageHeader'
   import pageContainer from '../components/container/container'
   import { mapState, mapMutations } from 'vuex'
+  import feElement from '../components/feElement'
+  import meElement from '../components/meElement'
 
   export default {
     name: 'index',
@@ -57,6 +61,8 @@
       leftMenuBar,
       pageHeader,
       pageContainer,
+      feElement,
+      meElement,
     },
     methods: {
       ...mapMutations('constData', [
