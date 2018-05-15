@@ -33,24 +33,29 @@
               <td class="td-text">
                 <!--<input type="text" v-model="form.levelName">-->
                 <el-form-item prop="level">
-                  <el-select v-model.number="form.level" placeholder="请选择人员组织">
-                    <el-option label="客户级别1" :value="1"></el-option>
-                    <el-option label="客户级别2" :value="2"></el-option>
-                  </el-select>
+                  <el-form-item prop="areaSelectedOptions">
+                    <el-cascader
+                      placeholder="请选择人员组织"
+                      :options="allorganization"
+                      v-model="areaSelectedOptions"
+                      @change="areaSelectedOptionsHandleChange">
+                    </el-cascader>
+                  </el-form-item>
+
                 </el-form-item>
               </td>
             </tr>
             <tr>
               <td class="td-title">人员部门</td>
               <td class="td-text">
-                <el-form-item prop="areaSelectedOptions">
-                  <el-cascader
-                    placeholder="请选择人员部门"
-                    :options="areaOptions_testData"
-                    v-model="areaSelectedOptions"
-                    @change="areaSelectedOptionsHandleChange">
-                  </el-cascader>
-                </el-form-item>
+                <el-select v-model.number="form.departmentId" placeholder="请选择人员部门">
+                  <el-option
+                    v-for="item in alldepartments"
+                    :key="item.id"
+                    :label="item.name"
+                    :value="item.id">
+                  </el-option>
+                </el-select>
               </td>
             </tr>
             <tr>
@@ -58,7 +63,7 @@
               <td class="td-text">
                 <!--<input type="text">-->
                 <el-form-item prop="industry">
-                  <el-select v-model="form.roles" multiple placeholder="请选择人员角色">
+                  <el-select v-model="choseroles" multiple placeholder="请选择人员角色">
                     <el-option
                       v-for="item in allroles"
                       :key="item.id"
@@ -123,29 +128,6 @@
           departmentId: '',
           roles: [],
         },
-        areaOptions_testData: [
-          {
-            value: 1,
-            label: '四川',
-            children: [
-              {
-                value: 2,
-                label: '成都',
-                children: [
-                  {
-                    value: 3,
-                    label: '高新区',
-                  },
-                  {
-                    value: 4,
-                    label: '天府新区',
-                  },
-                ],
-              },
-            ],
-          },
-        ],
-        areaSelectedOptions: [],
         rules: {
           name: [
             {required: true, message: '请输入用户姓名', trigger: 'blur'},
@@ -165,9 +147,31 @@
           departmentId: [
             {required: true, message: '请选择用户所属部门', trigger: 'blur'},
           ],
-          allroles: [],
-          choseroles: 1
         },
+        allroles: [],
+        areaSelectedOptions: [1, 2, 3],
+        allorganization: [ {
+          value: 1,
+          label: '一级组织',
+          children: [
+            {
+              value: 2,
+              label: '二级组织',
+              children: [
+                {
+                  value: 3,
+                  label: '三级组织01',
+                },
+                {
+                  value: 4,
+                  label: '三级组织02',
+                },
+              ],
+            },
+          ],
+        }, ],
+        alldepartments: [],
+        choseroles: []
       }
     },
     props: {
@@ -199,6 +203,14 @@
         // this.ac_userList(mock.data) // todo ac_userList 未定义
         this.dataLoading = false
       })
+      params.pid = 0
+      params.type = 1 // 查询出组织
+      API.organizationList(params, (res) => {
+        alert(res)
+      }, (mock) => {
+        this.alldepartments = mock.data
+        this.dataLoading = false
+      })
     },
     watch: {
       addDialogOpen (open) {
@@ -212,10 +224,18 @@
 
             API.userDetail(param, (res) => {
               this.form = res
+              // todo:1、需要初始化组织 2需要初始化部门
+              for (var i = 0; i < this.form.roles.length; i++) {
+                this.choseroles.push(this.form.roles[i].id)
+              }
             }, (mock) => {
               this.form = mock.data
               this.form.birthday = '2018-01-03'
               this.dataLoading = false
+
+              for (var i = 0; i < this.form.roles.length; i++) {
+                this.choseroles.push(this.form.roles[i].id)
+              }
             })
           }
         }
@@ -244,8 +264,23 @@
       },
       areaSelectedOptionsHandleChange (value) {
         console.log(value)
+        this.form.organizationId = value.pop()  // 取当前选中的组织
+        let params = {
+          page: 1,
+          pageSize: 999,
+        }
+        params.pid = this.form.organizationId
+        params.type = 2 // 查询出部门
+        API.organizationList(params, (res) => {
+          this.alldepartments = res
+          alert(res)
+        }, (mock) => {
+          this.alldepartments = mock.data
+          this.dataLoading = false
+        })
       },
       saveSubmitForm (formName) {
+        alert(this.form.departmentId)
         this.$refs[formName].validate((valid) => {
           if (valid) {
             API.userAdd(this.form, (res) => {
