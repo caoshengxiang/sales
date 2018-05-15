@@ -325,5 +325,5 @@ axios 在webpack定义全局变量 `$axios`
 
 * pageHeader.vue
 
-4. 修改element主题
+4. 修改element主题【目前没想到什么更好的方法】
   目前是通过feElement.vue和meElement.vue两个组件分别在index.vue中引入element的主题

@@ -183,7 +183,6 @@
 </template>
 
 <script>
-  import { pagesOptions } from '../../../utils/const'
   import comButton from '../../../components/button/comButton'
   import API from '../../../utils/api'
   import { mapState, mapActions } from 'vuex'
@@ -207,14 +206,12 @@
         'customerTypeOptions',
         'customerSourceType',
         'customerState',
+        'pagesOptions',
       ]),
       ...mapState('customer', [
         'customerList',
         'customerTotal',
       ]),
-      pagesOptions () {
-        return pagesOptions
-      },
     },
     components: {
       comButton,

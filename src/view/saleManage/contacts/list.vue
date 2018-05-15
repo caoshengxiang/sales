@@ -179,7 +179,6 @@
 </template>
 
 <script>
-  import { pagesOptions } from '../../../utils/const'
   import comButton from '../../../components/button/comButton'
   import { mapState, mapActions } from 'vuex'
   import API from '../../../utils/api'
@@ -200,14 +199,12 @@
       ...mapState('constData', [
         'contactsTypeOptions',
         'contactsStatus',
+        'pagesOptions'
       ]),
       ...mapState('contacts', [
         'contactsList',
         'contactsTotal',
       ]),
-      pagesOptions () {
-        return pagesOptions
-      },
     },
     components: {
       comButton,
@@ -228,12 +225,12 @@
       },
       handleSizeChange (val) {
         // console.log(`每页 ${val} 条`)
-        this.getContactsList(this.currentPage, pagesOptions.pageSize, this.contactsTypeOption)
+        this.getContactsList(this.currentPage, this.pagesOptions.pageSize, this.contactsTypeOption)
       },
       handleCurrentChange (val) {
         // console.log(`当前页: ${val}`)
         this.currentPage = val
-        this.getContactsList(this.currentPage, pagesOptions.pageSize, this.contactsTypeOption)
+        this.getContactsList(this.currentPage, this.pagesOptions.pageSize, this.contactsTypeOption)
       },
       handleRouter (name, id) {
         this.$router.push({name: 'contactsDetail', query: {view: name, contactsId: id}, params: {end: 'FE'}})
@@ -253,11 +250,11 @@
         })
       },
       searchHandle () {
-        this.getContactsList(this.currentPage, pagesOptions.pageSize, this.contactsTypeOption)
+        this.getContactsList(this.currentPage, this.pagesOptions.pageSize, this.contactsTypeOption)
       }
     },
     created () {
-      this.getContactsList(this.currentPage, pagesOptions.pageSize, this.contactsTypeOption)
+      this.getContactsList(this.currentPage, this.pagesOptions.pageSize, this.contactsTypeOption)
     },
   }
 </script>

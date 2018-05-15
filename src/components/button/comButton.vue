@@ -50,13 +50,13 @@
     box-sizing: border-box;
   }
   @mixin btn-style ($bg-color, $font-color: #fff, $width: 100px) {
-    background-color: $bg-color;
-    width: $width;
-    color: $font-color;
+    background-color: $bg-color !important;
+    width: $width!important;
+    color: $font-color!important;
     &:hover, &:focus {
-      background-color: $bg-color;
-      color: $font-color;
-      border-color:$bg-color;
+      background-color: $bg-color !important;
+      color: $font-color !important;
+      border-color:$bg-color !important;
     }
   }
   .add {
@@ -88,11 +88,11 @@
   }
   .card-num {
     @include btn-style(#39C189, #39C189, 160px);
-    background-color: #fff;
-    border-color: #39C189;
+    background-color: #fff !important;
+    border-color: #39C189 !important;
     &:hover, &:focus {
-      background-color: #fff;
-      border-color: #39C189;
+      background-color: #fff !important;
+      border-color: #39C189 !important;
     }
   }
   .upload-img {
