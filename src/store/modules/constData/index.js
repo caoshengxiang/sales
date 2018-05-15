@@ -35,6 +35,24 @@ export default {
         value: '公司资源',
       },
     ],
+    salesOpportunitiesOptions: [
+      {
+        type: 0,
+        value: '全部销售机会'
+      },
+      {
+        type: 1,
+        value: '我创建的销售机会'
+      },
+      {
+        type: 2,
+        value: '我跟进的销售机会'
+      },
+      {
+        type: 3,
+        value: '我参与的销售机会'
+      }
+    ],
     customerState: [ // 状态
       {
         type: 1,
@@ -69,6 +87,41 @@ export default {
         value: '已作废',
       },
     ],
+    salesState: [ // 销售阶段
+      {
+        type: 1,
+        value: '初步接洽',
+        percent: '20%',
+      }, {
+        type: 2,
+        value: '销售跟单',
+        percent: '40%',
+      }, {
+        type: 3,
+        value: '需求确定',
+        percent: '60%',
+      }, {
+        type: 4,
+        value: ' 预下订单',
+        percent: '80%',
+      }, {
+        type: 5,
+        value: '客户签单',
+        percent: '100%',
+      },
+    ],
+    demandSource: [
+      {
+        type: 1,
+        value: '销售自建',
+      }, {
+        type: 2,
+        value: '代理商',
+      }, {
+        type: 3,
+        value: '公司资源',
+      },
+    ],
     themeIndex: 0, // 主题数组索引，默认为0销售前端
     theme: [ // 主题颜色
       {
@@ -79,7 +132,7 @@ export default {
         leftMenuBarColor: '#9BA1A7',
         leftMenuBarActiveColor: '#39C189',
         leftMenuBarUserTextColor: '#FEFEFE',
-        leftMenuBarBorderButtonColor: '#3A4651'
+        leftMenuBarBorderButtonColor: '#3A4651',
       }, {
         end: 'ME',
         headerBg: '#0BC3C4',
@@ -96,9 +149,9 @@ export default {
       layout: 'total, prev, pager, next, jumper', // 分页
       pageSizes: [10, 20, 30, 40],
       pageSize: 10,
-    }
+    },
   },
   // getters,
   // actions,
-  mutations
+  mutations,
 }

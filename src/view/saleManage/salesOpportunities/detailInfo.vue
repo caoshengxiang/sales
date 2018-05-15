@@ -1,5 +1,7 @@
 <template>
-  <div class="com-container com-detail-container">
+  <div class="com-container com-detail-container"
+       v-loading="dataLoading"
+       element-loading-text="数据加载中...">
     <!--头部-->
     <div class="com-head">
       <el-breadcrumb separator-class="el-icon-arrow-right">
@@ -22,10 +24,14 @@
         </div>
       </div>
       <div class="com-info-right">
-        <el-radio-group v-model="tapOption">
-          <el-radio-button class="btn-width" label="move">转移</el-radio-button>
-          <el-radio-button class="btn-width" label="move">删除</el-radio-button>
-        </el-radio-group>
+        <!--<el-radio-group v-model="tapOption">-->
+          <!--<el-radio-button class="btn-width" label="move">转移</el-radio-button>-->
+          <!--<el-radio-button class="btn-width" label="move">删除</el-radio-button>-->
+        <!--</el-radio-group>-->
+        <ul class="com-info-op-group">
+          <li class="op-active" @click="operateOptions('move')">转移</li>
+          <li @click="operateOptions('delete')">删除</li>
+        </ul>
       </div>
       <!--todo 进度-->
     </div>
@@ -287,14 +293,22 @@
 
 <script>
   import comButton from '../../../components/button/comButton'
+  import { mapState, mapActions } from 'vuex'
+  import API from '../../../utils/api'
 
   export default {
     name: 'detailInfo',
     data () {
       return {
-        tapOption: '',
+        dataLoading: false,
+        // tapOption: '',
         activeViewName: '',
       }
+    },
+    computed: {
+      ...mapState('salesOpportunities', [
+        'salesOpportunitiesDetail',
+      ]),
     },
     watch: {
       '$route.query.view' (view) {
@@ -305,13 +319,27 @@
       comButton,
     },
     methods: {
+      ...mapActions('salesOpportunities', [
+        'ac_salesOpportunitiesDetail',
+      ]),
       handleTabsClick (tab, event) {
         // console.log(tab.name)
-        this.$router.push({name: 'customersDetail', params: {end: 'FE'}, query: {view: tab.name}})
+        this.$router.push({name: 'salesOpportunitiesDetail', params: {end: 'FE'}, query: {view: tab.name, id: this.$route.query.id}})
+      },
+      getSalesOpportunitiesDetail () {
+        this.dataLoading = true
+        API.salesOpportunitiesDetail(this.$route.query.id, (data) => {
+          this.ac_salesOpportunitiesDetail(data.data)
+          this.dataLoading = false
+        }, (data) => {
+          this.ac_salesOpportunitiesDetail(data.data)
+          this.dataLoading = false
+        })
       },
     },
     created () {
       this.activeViewName = this.$route.query.view
+      this.getSalesOpportunitiesDetail()
     },
   }
 </script>

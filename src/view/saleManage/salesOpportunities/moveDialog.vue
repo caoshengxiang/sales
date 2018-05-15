@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-dialog title="转移客户" :visible.sync="moveDialogVisible" width="700px" :show-close="false">
+    <el-dialog title="转移销售机会" :visible.sync="moveDialogVisible" width="700px" :show-close="false">
       <div class="com-dialog">
         <el-form :model="moveCustomerForm" :rules="rules" ref="moveCustomerForm" label-width="160px"
                  class="demo-ruleForm">
@@ -10,14 +10,14 @@
               <el-option label="销售人员2" value="2"></el-option>
             </el-select>
           </el-form-item>
-          <el-form-item label="请选择转移业务类型" prop="type">
-            <el-checkbox v-model="moveCustomerForm.isOnlyCustomer" label="仅转移客户"></el-checkbox>
-            <div style="margin-left: 26px">
-              <el-checkbox v-model="moveCustomerForm.isReserveTeam">转移后保留团队成员身份</el-checkbox>
-            </div>
-            <el-checkbox v-model="moveCustomerForm.isTransferChance"
-                         label="转移客户相关销售需求，保留团队身份（关联客户、联系人、预下单订单跟随转移）"></el-checkbox>
-          </el-form-item>
+          <!--<el-form-item label="请选择转移业务类型" prop="type">-->
+            <!--<el-checkbox v-model="moveCustomerForm.isOnlyCustomer" label="仅转移客户"></el-checkbox>-->
+            <!--<div style="margin-left: 26px">-->
+              <!--<el-checkbox v-model="moveCustomerForm.isReserveTeam">转移后保留团队成员身份</el-checkbox>-->
+            <!--</div>-->
+            <!--<el-checkbox v-model="moveCustomerForm.isTransferChance"-->
+                         <!--label="转移客户相关销售需求，保留团队身份（关联客户、联系人、预下单订单跟随转移）"></el-checkbox>-->
+          <!--</el-form-item>-->
         </el-form>
         <div slot="footer" class="dialog-footer">
           <el-button class="cancel-button" @click="cancelSubmitForm">取 消</el-button>
@@ -36,9 +36,6 @@
         moveDialogVisible: false,
         moveCustomerForm: {
           salerId: '',
-          isOnlyCustomer: '',
-          isReserveTeam: '',
-          isTransferChance: '',
         },
         rules: {
           salerId: [
@@ -66,9 +63,6 @@
         this.moveDialogVisible = false
         this.moveCustomerForm = {
           salerId: '',
-          isOnlyCustomer: '',
-          isReserveTeam: '',
-          isTransferChance: '',
         }
       },
       cancelSubmitForm () {

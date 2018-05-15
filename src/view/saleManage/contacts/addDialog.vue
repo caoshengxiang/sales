@@ -1,6 +1,8 @@
 <template>
   <div>
-    <el-dialog :title="type==='edit'? '编辑客户':'新增客户'" :visible.sync="addDialogVisible" width="900px" :show-close="false">
+    <el-dialog :title="type==='edit'? '编辑客户':'新增客户'"
+               :before-close="initData"
+               :visible.sync="addDialogVisible" width="900px" :show-close="false">
       <div class="com-dialog">
         <el-form :model="addForm" ref="addForm" label-width="0px" :rules="rules">
           <table class="com-dialog-table">
