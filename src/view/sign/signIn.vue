@@ -28,11 +28,13 @@
     <div class="footer">
       <p>众智联邦销售管理平台  2017-2017 @凡特赛科技</p>
     </div>
+    <fe-element></fe-element>
   </div>
 </template>
 
 <script>
   import { chartLengthRule } from '../../utils/const'
+  import feElement from '../../components/feElement'
 
   export default {
     name: 'signIn',
@@ -54,6 +56,9 @@
           ],
         },
       }
+    },
+    components: {
+      feElement
     },
     methods: {
       submitForm (formName) {

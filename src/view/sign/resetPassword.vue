@@ -10,6 +10,7 @@
   }
 </script>
 
-<style scoped>
-
+<style scoped  lang="scss" rel="stylesheet/scss">
+  @import '../../element_ui/element-variables';
+  @import '../../element_ui/element';
 </style>
