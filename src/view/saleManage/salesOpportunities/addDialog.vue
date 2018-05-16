@@ -8,10 +8,13 @@
         <el-form :model="addForm" ref="addForm" label-width="0px" :rules="rules">
           <table class="com-dialog-table">
             <tr>
-              <td class="td-title">所属公司</td>
+              <td class="td-title">客户名称</td>
               <td class="td-text">
-                <el-form-item prop="name">
-                  <el-input type="text" v-model="addForm.name"></el-input>
+                <el-form-item prop="customerId">
+                  <el-select v-model.number="addForm.intentProductCate" placeholder="请选择客户名称" style="width: 100%">
+                    <el-option label="客户" :value="1"></el-option>
+                    <el-option label="客户2" :value="2"></el-option>
+                  </el-select>
                 </el-form-item>
               </td>
 
@@ -92,7 +95,7 @@
       return {
         addDialogVisible: false, // 新增弹窗
         addForm: { // 添加表单
-          name: '', // todo 缺少字段
+          customerId: '',
           state: '',
           billDate: '',
           intentBillAmount: '',
@@ -101,7 +104,7 @@
           remark: '', // todo
         },
         rules: {
-          name: [
+          customerId: [
             {required: true, message: '请输入所属公司', trigger: 'blur'},
           ],
           state: [

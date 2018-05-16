@@ -60,12 +60,12 @@
           show-overflow-tooltip
           width="160">
         </el-table-column>
-        <el-table-column
+        <!--<el-table-column
           align="center"
-          prop="contracterName"
+          prop="contacterName"
           label="联系人"
           width="160"
-          show-overflow-tooltip>
+          show-overflow-tooltip>-->
         </el-table-column>
         <el-table-column
           align="center"

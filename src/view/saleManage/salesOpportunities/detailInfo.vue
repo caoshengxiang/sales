@@ -15,25 +15,35 @@
       <div class="com-info-left">
         <img class="com-info-img" src="../../../assets/placeholder.jpg" alt="">
         <div class="com-info-text">
-          <h3>成都凡特塞科技有限公司</h3>
+          <h3>{{salesOpportunitiesDetail.intentProductName}}</h3>
           <p>
-            <span class="com-d-item">客户所有人: <span>凡特塞科技</span></span>
-            <span class="com-d-item">所属公海: <span>成都公海</span></span>
-            <span class="com-d-item">创建时间: <span>2018.02.13 12:20:20</span></span>
+            <span class="com-d-item">客户名称: <span>{{salesOpportunitiesDetail.customerName}}</span></span>
+            <span class="com-d-item">预计签单金额: <span>{{salesOpportunitiesDetail.intentBillAmount}}</span></span>
+            <span class="com-d-item">预计签单日期: <span>{{salesOpportunitiesDetail.billDate}}</span></span>
+            <span class="com-d-item">销售机会所有人: <span>todo</span></span>
           </p>
         </div>
       </div>
       <div class="com-info-right">
         <!--<el-radio-group v-model="tapOption">-->
-          <!--<el-radio-button class="btn-width" label="move">转移</el-radio-button>-->
-          <!--<el-radio-button class="btn-width" label="move">删除</el-radio-button>-->
+        <!--<el-radio-button class="btn-width" label="move">转移</el-radio-button>-->
+        <!--<el-radio-button class="btn-width" label="move">删除</el-radio-button>-->
         <!--</el-radio-group>-->
         <ul class="com-info-op-group">
           <li class="op-active" @click="operateOptions('move')">转移</li>
           <li @click="operateOptions('delete')">删除</li>
         </ul>
       </div>
-      <!--todo 进度-->
+      <div class="step-box">
+        <div class="step">
+          <el-steps :active="salesOpportunitiesDetail.stage" align-center>
+            <el-step v-for="(item, index) in salesState" :key="index"
+                     :title="item.value + '(' + item.percent + ')'"></el-step>
+          </el-steps>
+        </div>
+        <a class="lose-bill">输单</a>
+      </div>
+
     </div>
     <!--详细-->
     <div class="com-box detail-info-box">
@@ -43,68 +53,66 @@
             <p class="table-title">销售机会基本信息</p>
             <table class="detail-table">
               <tr>
-                <td class="td-title">公司名称</td>
-                <td>成都凡特塞科技有限公司</td>
-                <td class="td-title">营业执照</td>
-                <td>455655213213123</td>
-                <td class="td-title">客户级别</td>
-                <td>重要客户</td>
+                <td class="td-title">客户名称</td>
+                <td>{{salesOpportunitiesDetail.customerName}}</td>
+                <td class="td-title">需求进度</td>
+                <td>
+                  <span v-for="item in salesState"
+                        :key="item.type"
+                        v-if="item.type === salesOpportunitiesDetail.stage">{{item.value}}&nbsp;{{item.percent}}</span>
+                </td>
+                <td class="td-title">预计签单金额</td>
+                <td>{{salesOpportunitiesDetail.intentBillAmount}}</td>
               </tr>
               <tr>
-                <td class="td-title">客户简称</td>
-                <td>凡特塞科技</td>
-                <td class="td-title">客户行业</td>
-                <td>互联网</td>
-                <td class="td-title">客户来源</td>
-                <td>自拓</td>
+                <td class="td-title">预计签单时间</td>
+                <td>{{salesOpportunitiesDetail.billDate}}</td>
+                <td class="td-title">意向商品</td>
+                <td>{{salesOpportunitiesDetail.intentProductName}}</td>
+                <td class="td-title">实际签单金额</td>
+                <td>{{salesOpportunitiesDetail.billAmount}}</td>
               </tr>
               <tr>
-                <td class="td-title">所在地区</td>
-                <td>四川省 成都市 高新区</td>
-                <td class="td-title">公司网站</td>
-                <td>www.djksdj.com</td>
-                <td class="td-title">联系电话</td>
-                <td>12135678912</td>
+                <td class="td-title">签单订单号</td>
+                <td>{{salesOpportunitiesDetail.billOrderId}}</td>
+                <td class="td-title">签单商品</td>
+                <td>{{salesOpportunitiesDetail.billProductName}}</td>
+                <td class="td-title"></td>
+                <td></td>
               </tr>
               <tr>
-                <td class="td-title">联系地址</td>
-                <td colspan="5">京东卡积分等级ask京东卡时间</td>
+                <td class="td-title">销售机会备注</td>
+                <td colspan="5">{{salesOpportunitiesDetail.chanceRemark || '暂无备注信息'}}</td>
               </tr>
               <tr>
-                <td class="td-title">主营业务</td>
-                <td colspan="5">暂未填写主营业务</td>
+                <td class="td-title">销售合同网址</td>
+                <td colspan="5">{{salesOpportunitiesDetail.contractUrl}}</td>
+              </tr>
+              <tr>
+                <td class="td-title">机会输单备注</td>
+                <td colspan="5">{{salesOpportunitiesDetail.discardRemark || '暂无备注信息'}}</td>
               </tr>
             </table>
 
             <p class="table-title">销售机会其他信息</p>
             <table class="detail-table">
               <tr>
-                <td class="td-title">所在公海</td>
-                <td>成都公海</td>
-                <td class="td-title">客户来源</td>
-                <td>公司资源</td>
-                <td class="td-title">客户状态</td>
-                <td>自建</td>
+                <td class="td-title">销售机会创建时间</td>
+                <td colspan="3">{{salesOpportunitiesDetail.created}}</td>
+                <td class="td-title">所有人</td>
+                <td>{{salesOpportunitiesDetail.creatorName}}</td>
               </tr>
               <tr>
-                <td class="td-title">客户创建时间</td>
-                <td colspan="3">2018.11.12 12:12:12</td>
-                <td class="td-title">创建人</td>
-                <td>test</td>
+                <td class="td-title">销售机会修改时间</td>
+                <td colspan="3">{{salesOpportunitiesDetail.modified}}</td>
+                <td class="td-title">修改人</td>
+                <td>{{salesOpportunitiesDetail.modifierName}}</td>
               </tr>
               <tr>
-                <td class="td-title">最新修改时间</td>
-                <td colspan="3">2018.11.12 12:12:12</td>
+                <td class="td-title">销售机会活动时间</td>
+                <td colspan="3">{{salesOpportunitiesDetail.followDate}}</td>
                 <td class="td-title">跟进人</td>
-                <td>test</td>
-              </tr>
-              <tr>
-                <td class="td-title">最新活动时间</td>
-                <td colspan="5">2018.11.12 12:12:12</td>
-              </tr>
-              <tr>
-                <td class="td-title">主营业务</td>
-                <td colspan="5">暂未填写主营业务</td>
+                <td>{{salesOpportunitiesDetail.salerName}}</td>
               </tr>
             </table>
           </el-tab-pane>
@@ -241,6 +249,8 @@
       </div>
       <!--团队成员-->
       <div class="detail-right com-box-padding">
+        <!--<team-member :detail="salesOpportunitiesDetail"></team-member>-->
+
         <div class="team-title">
           <span class="title-text">团队成员</span>
         </div>
@@ -250,12 +260,11 @@
               <img src="../../../assets/icon/headDefault.png" alt="">
             </div>
             <div class="text">
-              <h4>张珊珊</h4>
-              <p>123456748912</p>
+              <h4>{{salesOpportunitiesDetail.team.creatorName}}</h4>
+              <p>{{salesOpportunitiesDetail.team.creatorMobilePhone}}</p>
             </div>
             <div class="post">
               <span class="post-tag-1">创建人</span>
-              <!--<span class="post-tag-2">销售员</span>-->
             </div>
           </li>
           <li class="team-member-item">
@@ -263,12 +272,11 @@
               <img src="../../../assets/icon/headDefault.png" alt="">
             </div>
             <div class="text">
-              <h4>张珊珊</h4>
-              <p>123456748912</p>
+              <h4>{{salesOpportunitiesDetail.team.salerName}}</h4>
+              <p>{{salesOpportunitiesDetail.team.salerMobilePhone}}</p>
             </div>
             <div class="post">
-              <span class="post-tag-1">创建人</span>
-              <!--<span class="post-tag-2">销售员</span>-->
+              <span class="post-tag-2">销售员</span>
             </div>
           </li>
           <li class="team-member-item">
@@ -276,16 +284,19 @@
               <img src="../../../assets/icon/headDefault.png" alt="">
             </div>
             <div class="text">
-              <h4>张珊珊</h4>
-              <p>123456748912</p>
+              <h4>{{salesOpportunitiesDetail.team.counselorName}}</h4>
+              <p>{{salesOpportunitiesDetail.team.counselorMobilePhone}}</p>
             </div>
             <div class="post">
-              <span class="post-tag-1">创建人</span>
-              <!--<span class="post-tag-2">销售员</span>-->
+              <span class="post-tag-2">咨询师</span>
             </div>
           </li>
         </ul>
-        <!--todo 操作-->
+        <div class="team-btn-group">
+          <div class="btn-item-1">申请咨询师协同</div>
+          <div class="btn-item-2">咨询师主动退出</div>
+          <div class="btn-item-3">申请替换咨询师</div>
+        </div>
       </div>
     </div>
   </div>
@@ -295,6 +306,7 @@
   import comButton from '../../../components/button/comButton'
   import { mapState, mapActions } from 'vuex'
   import API from '../../../utils/api'
+  // import teamMember from '../../../components/teamMember'
 
   export default {
     name: 'detailInfo',
@@ -306,6 +318,9 @@
       }
     },
     computed: {
+      ...mapState('constData', [
+        'salesState',
+      ]),
       ...mapState('salesOpportunities', [
         'salesOpportunitiesDetail',
       ]),
@@ -317,6 +332,7 @@
     },
     components: {
       comButton,
+      // teamMember,
     },
     methods: {
       ...mapActions('salesOpportunities', [
@@ -324,7 +340,8 @@
       ]),
       handleTabsClick (tab, event) {
         // console.log(tab.name)
-        this.$router.push({name: 'salesOpportunitiesDetail', params: {end: 'FE'}, query: {view: tab.name, id: this.$route.query.id}})
+        this.$router.push(
+          {name: 'salesOpportunitiesDetail', params: {end: 'FE'}, query: {view: tab.name, id: this.$route.query.id}})
       },
       getSalesOpportunitiesDetail () {
         this.dataLoading = true
@@ -346,4 +363,47 @@
 
 <style scoped lang="scss" rel="stylesheet/scss">
   @import "../../../styles/common";
+
+  .step-box {
+    margin-top: 20px;
+  }
+  .step {
+    width: 90%;
+    display: inline-block;
+  }
+  .lose-bill {
+    display: inline-block;
+    padding: 4px 22px;
+    background-color: #00A7FE;
+    color: #fff;
+    border-radius: 20px;
+    cursor: pointer;
+  }
+  .team-btn-group {
+    border: 1px;
+    padding: 20px;
+    .base {
+      text-align: center;
+      padding: 10px;
+      border-radius: 4px;
+      border: 1px solid;
+      margin-top: 20px;
+      cursor: pointer;
+    }
+    .btn-item-1 {
+      @extend .base;
+      border-color: #39C189;
+      color: #39C189;
+    }
+    .btn-item-2 {
+      @extend .base;
+      border-color: #00A7FE;
+      color: #00A7FE;
+    }
+    .btn-item-3 {
+      @extend .base;
+      border-color: #F94849;
+      color: #F94849;
+    }
+  }
 </style>

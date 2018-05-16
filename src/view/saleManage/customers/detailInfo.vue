@@ -15,7 +15,7 @@
       <div class="com-info-left">
         <img class="com-info-img" src="../../../assets/placeholder.jpg" alt="">
         <div class="com-info-text">
-          <h3>成都凡特塞科技有限公司</h3>
+          <h3>{{customerDetail.name}}</h3>
           <p>
             <span class="com-d-item">客户所有人: <span>{{customerDetail.shortName}}</span></span>
             <span class="com-d-item">所属公海: <span>{{customerDetail.seaName}}</span></span>

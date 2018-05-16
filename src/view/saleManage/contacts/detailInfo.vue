@@ -15,7 +15,7 @@
       <div class="com-info-left">
         <img class="com-info-img" src="../../../assets/placeholder.jpg" alt="">
         <div class="com-info-text">
-          <h3>成都凡特塞科技有限公司</h3>
+          <h3>{{contactsDetail.contacterName}}</h3>
           <p>
             <span class="com-d-item">客户公司: <span>{{contactsDetail.customerName}}</span></span>
             <span class="com-d-item">联系电话: <span>{{contactsDetail.phone}}</span></span>

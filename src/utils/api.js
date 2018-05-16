@@ -258,7 +258,7 @@ export default {
               'billProductName': '财税金融托管',
               'chanceRemark': '',
               'contacterId': '1',
-              'contracterName': '测试人员',
+              'contacterName': '测试人员',
               'contractId': 1,
               'contractUrl': 'http://www.zzcfo.cn/124214124124.html',
               'counselorId': 1,
@@ -315,6 +315,8 @@ export default {
           'billDate': '2018-05-09 00:00:00',
           'billProductId': '1',
           'billProductName': '财税金融托管',
+          'billOrderId': 'CRM232345',
+          'billAmount': 3000,
           'chanceRemark': '',
           'contacterId': '1',
           'contracterName': '张三',
@@ -341,20 +343,32 @@ export default {
           'source': 1,
           'stage': 1,
           'status': 1,
-          'team': {
-            'creator': 1,
-            'creatorName': '测试人员',
-            'creatorMobilePhone': '15696895689',
-            'salerId': 1,
-            'salerName': '测试人员',
-            'salerMobilePhone': '15696895689',
-            'counselorId': 1,
-            'counselorName': '测试人员',
-            'counselorMobilePhone': '15696895689',
-          },
+          'team':
+            {
+              'creator':
+                1,
+              'creatorName':
+                '测试人员',
+              'creatorMobilePhone':
+                '15696895689',
+              'salerId':
+                1,
+              'salerName':
+                '测试人员',
+              'salerMobilePhone':
+                '15696895689',
+              'counselorId':
+                1,
+              'counselorName':
+                '测试人员',
+              'counselorMobilePhone':
+                '15696895689',
+            },
         },
-        'error': null,
-        'status': true,
+        'error':
+          null,
+        'status':
+          true,
       }
       setTimeout(() => {
         error && error(mockdata)
@@ -574,22 +588,24 @@ export default {
             'id': 1,    //ID
             'level': 1,    //级别
             'name': '开发部', //组织名称
-            'admins': [{    //管理员
-              'id': 1,    //管理员用户ID
-              'name': '张三'    //管理员姓名
-            }],
-            'pid': 0    //上级组织ID
+            'admins': [
+              {    //管理员
+                'id': 1,    //管理员用户ID
+                'name': '张三',    //管理员姓名
+              }],
+            'pid': 0,    //上级组织ID
           },
           {
             'id': 2,    //ID
             'level': 2,    //级别
             'name': '测试部', //组织名称
-            'admins': [{    //管理员
-              'id':2,    //管理员用户ID
-              'name': '李四'    //管理员姓名
-            }],
-            'pid': 2    //上级组织ID
-          }
+            'admins': [
+              {    //管理员
+                'id': 2,    //管理员用户ID
+                'name': '李四',    //管理员姓名
+              }],
+            'pid': 2,    //上级组织ID
+          },
         ],
         'status': true,
       }
@@ -597,5 +613,5 @@ export default {
         error && error(mockdata)
       }, 1000)
     })
-  }
+  },
 }
