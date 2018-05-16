@@ -31,9 +31,7 @@
           <div class="role-head-con">角色名称</div>
           <el-menu
             default-active="2"
-            class="el-menu-vertical-demo"
-            @open="handleOpen"
-            @close="handleClose">
+            class="el-menu-vertical-demo">
             <el-menu-item index="2">
               <span slot="title">区域经理</span>
             </el-menu-item>
@@ -92,7 +90,6 @@
 </template>
 
 <script>
-  import { pagesOptions } from '../../../utils/const'
   import comButton from '../../../components/button/comButton'
   import API from '../../../utils/api'
   import { mapState, mapActions } from 'vuex'
@@ -118,9 +115,7 @@
     },
     computed: {
       ...mapState('constData', [
-        'userTypeOptions',
-        'userourceType',
-        'usertate',
+        'pagesOptions'
       ]),
       ...mapState('user', [
         'userList',
