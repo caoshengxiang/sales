@@ -470,7 +470,7 @@ export default {
           'organizationId': 1, // 组织ID
           'organizationName': '成都凡特赛科技有限公司', // 组织名称
           'departmentId': 2, // 部门ID
-          'departmentName': '川东', // 部门名称
+          'departmentName': '开发部', // 部门名称
           'roles': [ // 多个角色
             {
               'id': 1, // 角色ID
@@ -561,4 +561,41 @@ export default {
       }, 1000)
     })
   },
+  organizationList (params, success, error) { // 组织或部门列表
+    $axios.get('organization', {
+      params: params,
+    }).then((res) => {
+      success && success(res.data)
+    }).catch(() => {
+      // error && error()
+      let mockdata = {
+        'data': [
+          {
+            'id': 1,    //ID
+            'level': 1,    //级别
+            'name': '开发部', //组织名称
+            'admins': [{    //管理员
+              'id': 1,    //管理员用户ID
+              'name': '张三'    //管理员姓名
+            }],
+            'pid': 0    //上级组织ID
+          },
+          {
+            'id': 2,    //ID
+            'level': 2,    //级别
+            'name': '测试部', //组织名称
+            'admins': [{    //管理员
+              'id':2,    //管理员用户ID
+              'name': '李四'    //管理员姓名
+            }],
+            'pid': 2    //上级组织ID
+          }
+        ],
+        'status': true,
+      }
+      setTimeout(() => {
+        error && error(mockdata)
+      }, 1000)
+    })
+  }
 }

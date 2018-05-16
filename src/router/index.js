@@ -91,6 +91,10 @@ const userList = resolve => require.ensure([],
 const userDetail = resolve => require.ensure([],
   () => resolve(require('../view/companyManage/user/detailInfo')), 'user')
 
+//角色管理
+const roleList = resolve => require.ensure([],
+  () => resolve(require('../view/companyManage/role/list')), 'role')
+
 // 企业管理 end
 
 Vue.use(Router)
@@ -212,6 +216,12 @@ export default new Router({
           name: 'userDetail',
           component: userDetail,
         },
+        //企业管理 -- 角色管理
+        {
+          path: 'roleList',
+          name: 'roleList',
+          component: roleList
+        }
       ],
     },
 
