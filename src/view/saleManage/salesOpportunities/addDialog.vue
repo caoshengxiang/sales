@@ -91,7 +91,7 @@
     data () {
       return {
         addDialogVisible: false, // 新增弹窗
-        addForm: { // 添加客户表单
+        addForm: { // 添加表单
           name: '', // todo 缺少字段
           state: '',
           billDate: '',
