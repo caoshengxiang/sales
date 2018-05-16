@@ -117,6 +117,9 @@
     data () {
       return {
         id: 1,
+        props:{
+          children: 'subOrgs'
+        },
         addDialogVisible: false, // 新增弹窗
         form: { // 添加用户表单
           mobilePhone: '',
@@ -264,7 +267,7 @@
       },
       areaSelectedOptionsHandleChange (value) {
         console.log(value)
-        this.form.organizationId = value.pop()  // 取当前选中的组织
+        this.form.organizationId =value[value.length -1] // 取当前选中的组织
         let params = {
           page: 1,
           pageSize: 999,
