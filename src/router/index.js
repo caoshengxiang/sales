@@ -91,9 +91,14 @@ const userList = resolve => require.ensure([],
 const userDetail = resolve => require.ensure([],
   () => resolve(require('../view/companyManage/user/detailInfo')), 'user')
 
+//代理商管理
+const agentList = resolve => require.ensure([],
+  () => resolve(require('../view/companyManage/user/agentList')), 'user')
+
 //角色管理
 const roleList = resolve => require.ensure([],
   () => resolve(require('../view/companyManage/role/list')), 'role')
+
 
 // 企业管理 end
 
@@ -215,6 +220,12 @@ export default new Router({
           path: 'userDetail',
           name: 'userDetail',
           component: userDetail,
+        },
+        // 企业管理 -- 代理商管理
+        {
+          path: 'agentList',
+          name: 'agentList',
+          component: agentList,
         },
         //企业管理 -- 角色管理
         {

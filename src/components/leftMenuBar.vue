@@ -117,6 +117,7 @@
               <ul class="child-menu-box">
                 <li @click="handleRouter('userList')">用戶管理</li>
                 <li @click="handleRouter('roleList')">角色管理1</li>
+                <li @click="handleRouter('agentList')">代理商管理</li>
               </ul>
             </div>
           </div>

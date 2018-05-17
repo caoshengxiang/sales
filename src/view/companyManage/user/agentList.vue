@@ -7,7 +7,7 @@
       <el-breadcrumb separator-class="el-icon-arrow-right">
         <el-breadcrumb-item :to="{ name: 'saleHome' }">销售管理系统</el-breadcrumb-item>
         <el-breadcrumb-item>用户管理</el-breadcrumb-item>
-        <el-breadcrumb-item>用户管理</el-breadcrumb-item>
+        <el-breadcrumb-item>代理商管理</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <!--控制栏-->
@@ -16,7 +16,6 @@
         <com-button buttonType="delete" icon="el-icon-delete" :disabled="this.multipleSelection.length <= 0"
                     @click="deleteHandle">刪除
         </com-button>
-        <com-button buttonType="add" icon="el-icon-plus" @click="addHandle">新增</com-button>
         <com-button buttonType="grey" icon="el-icon-edit" :disabled="this.multipleSelection.length !== 1"
                     @click="modifyHandle">修改
         </com-button>
@@ -31,8 +30,8 @@
         <com-button buttonType="search" @click="searchHandle">搜索</com-button>
       </div>
       <div class="com-bar-right" style="float: right">
-        <el-input v-model="name" placeholder="员工姓名"  style="float: left">
-          <template slot="prepend">员工姓名</template>
+        <el-input v-model="name" placeholder="姓名"  style="float: left">
+          <template slot="prepend">姓名</template>
         </el-input>
 
       </div>
@@ -67,7 +66,7 @@
         <el-table-column
           show-overflow-tooltip
           align="center"
-          label="工号"
+          label="代理商号"
           prop="jobNo"
         >
         </el-table-column>
@@ -213,7 +212,7 @@
         let param = {
           page: page,
           pageSize: pageSize,
-          type: 1,  // 查询员工
+          type: 2, // 查询代理商
         }
         this.dataLoading = true
         API.userList(param, (res) => {
