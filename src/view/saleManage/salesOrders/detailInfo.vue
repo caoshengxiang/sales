@@ -341,6 +341,7 @@
 
 <style scoped lang="scss" rel="stylesheet/scss">
   @import "../../../styles/common";
+  @import "../../../styles/sprites.css";
   .btn-base {
     width: 80px;
     text-align: center;
