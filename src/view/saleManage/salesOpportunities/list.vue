@@ -65,8 +65,8 @@
           prop="contacterName"
           label="联系人"
           width="160"
-          show-overflow-tooltip>-->
-        </el-table-column>
+          show-overflow-tooltip>
+          </el-table-column>-->
         <el-table-column
           align="center"
           prop="intentBillAmount"
