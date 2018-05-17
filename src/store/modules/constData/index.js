@@ -18,7 +18,7 @@ export default {
         value: '我负责的客户',
       }, {
         type: 2,
-        value: '我更进的客户',
+        value: '我跟进的客户',
       }, {
         type: 3,
         value: '我参与的客户',
@@ -74,7 +74,7 @@ export default {
         value: '我负责的联系人',
       }, {
         type: 2,
-        value: '我更进的联系人',
+        value: '我跟进的联系人',
       },
     ],
     contactsStatus: [ // 联系人状态
@@ -121,6 +121,54 @@ export default {
         type: 3,
         value: '公司资源',
       },
+    ],
+    orderTypeOptions: [ // 订单类型选择
+      {
+        type: 0,
+        value: '全部销售订单',
+      }, {
+        type: 1,
+        value: '我负责的销售订单',
+      }, {
+        type: 2,
+        value: '我跟进的销售订单',
+      }, {
+        type: 3,
+        value: '我参与的销售订单',
+      },
+    ],
+    orderState: [ // 订单状态
+      {
+        type: 1,
+        value: '待支付'
+      }, {
+        type: 2,
+        value: '已支付'
+      }, {
+        type: 3,
+        value: '服务中'
+      }, {
+        type: 4,
+        value: '已完成'
+      }, {
+        type: 5,
+        value: '已取消'
+      }, {
+        type: 6,
+        value: '预下单',
+      },
+    ],
+    orderSource: [ // 订单来源
+      {
+        type: 1,
+        value: '销售自建'
+      }, {
+        type: 2,
+        value: '代理商'
+      }, {
+        type: 3,
+        value: '公司资源'
+      }
     ],
     themeIndex: 0, // 主题数组索引，默认为0销售前端
     theme: [ // 主题颜色

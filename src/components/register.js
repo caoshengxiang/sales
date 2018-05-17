@@ -15,6 +15,10 @@ import Vue from 'vue'
 
 // echart
 import echarts from 'echarts'
+//引入弹窗组件
+import vDialogs from 'v-dialogs'
+
+Vue.use(vDialogs)
 
 // Vue.use(vueXlsxTable, {rABS: false})
 // Vue.use(BackButton)

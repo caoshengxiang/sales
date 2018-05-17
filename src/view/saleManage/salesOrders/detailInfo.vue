@@ -1,5 +1,7 @@
 <template>
-  <div class="com-container com-detail-container">
+  <div class="com-container com-detail-container"
+       v-loading="dataLoading"
+       element-loading-text="数据加载中...">
     <!--头部-->
     <div class="com-head">
       <el-breadcrumb separator-class="el-icon-arrow-right">
@@ -13,8 +15,10 @@
       <div class="com-info-left">
         <img class="com-info-img" src="../../../assets/placeholder.jpg" alt="">
         <div class="com-info-text">
-          <h3>成都凡特塞科技有限公司</h3>
-          <!--todo 按钮连接-->
+          <div>
+            <h3 style="display: inline-block">成都凡特塞科技有限公司</h3>
+            <a class="order-info" @click="operateOptions('orderInfo')">APP订单信息浏览</a>
+          </div>
           <p>
             <span class="com-d-item">客户所有人: <span>凡特塞科技</span></span>
             <span class="com-d-item">所属公海: <span>成都公海</span></span>
@@ -23,12 +27,16 @@
         </div>
       </div>
       <div class="com-info-right">
-        <el-radio-group v-model="tapOption">
-          <el-radio-button class="btn-width" label="move">APP下单</el-radio-button>
-          <el-radio-button class="btn-width" label="move">修改</el-radio-button>
-          <el-radio-button class="btn-width" label="move">删除</el-radio-button>
-          <!--todo 调整按钮样式-->
-        </el-radio-group>
+        <!--<el-radio-group v-model="tapOption">-->
+          <!--<el-radio-button class="btn-width" label="move">APP下单</el-radio-button>-->
+          <!--<el-radio-button class="btn-width" label="move">修改</el-radio-button>-->
+          <!--<el-radio-button class="btn-width" label="move">删除</el-radio-button>-->
+        <!--</el-radio-group>-->
+        <ul class="btn-group">
+          <li class="btn-order" @click="operateOptions('order')">APP下单</li>
+          <li class="btn-edit" @click="operateOptions('edit')">修改</li>
+          <li class="btn-delete" @click="operateOptions('delete')">删除</li>
+        </ul>
       </div>
     </div>
     <!--详细-->
@@ -250,13 +258,17 @@
 
 <script>
   import comButton from '../../../components/button/comButton'
+  import addDialog from './addDialog'
+  import API from '../../../utils/api'
 
   export default {
     name: 'detailInfo',
     data () {
       return {
+        dataLoading: false,
         tapOption: '',
         activeViewName: '',
+        orderDetail: {},
       }
     },
     watch: {
@@ -270,15 +282,98 @@
     methods: {
       handleTabsClick (tab, event) {
         // console.log(tab.name)
-        this.$router.push({name: 'salesOrdersDetail', params: {end: 'FE'}, query: {view: tab.name}})
+        this.$router.push(
+          {name: 'salesOrdersDetail', params: {end: 'FE'}, query: {view: tab.name, id: this.$route.query.id}})
+      },
+      operateOptions (op) {
+        switch (op) {
+          case 'edit':
+            this.$vDialog.modal(addDialog, {
+              title: '修改订单',
+              width: 900,
+              height: 340,
+              params: {
+                orderDetail: this.orderDetail,
+              },
+              callback (data) {
+                if (data.type === 'save') {
+                  alert('弹窗关闭，添加成功刷新列表')
+                }
+              },
+            })
+            break
+          case 'delete':
+            this.$confirm('确定删除销售订单, 是否继续?', '提示', {
+              confirmButtonText: '确定',
+              cancelButtonText: '取消',
+              type: 'warning',
+            }).then(() => {
+              this.$message({
+                type: 'success',
+                message: '删除成功!',
+              })
+            }).catch(() => {
+              this.$message({
+                type: 'info',
+                message: '已取消删除',
+              })
+            })
+            break
+        }
+      },
+      getSalesOrderDetail () {
+        this.dataLoading = true
+        API.salesOrderDetail(this.$route.query.id, (data) => {
+          this.orderDetail = data.data
+          this.dataLoading = false
+        }, (data) => {
+          this.orderDetail = data.data
+          this.dataLoading = false
+        })
       },
     },
     created () {
       this.activeViewName = this.$route.query.view
+      this.getSalesOrderDetail()
     },
   }
 </script>
 
 <style scoped lang="scss" rel="stylesheet/scss">
   @import "../../../styles/common";
+  .btn-base {
+    width: 80px;
+    text-align: center;
+    padding: 5px 0;
+    border: 1px solid;
+    border-radius: 1px;
+    display: inline-block;
+    cursor: pointer;
+  }
+  .btn-order {
+    @extend .btn-base;
+    color: #39C189;
+    border-color: #39C189;
+  }
+  .btn-edit {
+    @extend .btn-base;
+    color: #FFA94B;
+    border-color: #FFA94B;
+  }
+  .btn-delete {
+    @extend .btn-base;
+    color: #FE5455;
+    border-color: #FE5455;
+  }
+  .order-info {
+    background-color: #4BCF99;
+    border-radius: 12px;
+    color: #fff;
+    width: 120px;
+    text-align: center;
+    padding: 5px 0;
+    font-size: 12px;
+    display: inline-block;
+    margin-left: 10px;
+  }
 </style>

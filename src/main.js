@@ -11,16 +11,12 @@ import './utils/axiosConfig' // axios配置文件
 
 Vue.config.productionTip = false // 关闭生产模式下给出的提示
 
-//引入弹窗组件
-import vDialogs from 'v-dialogs'
-Vue.use(vDialogs);
-
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
   router,
   store,
   components: {App},
-  template: '<App/>'
+  template: '<App/>',
   // render: h => h(App)
 })
