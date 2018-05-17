@@ -39,7 +39,7 @@
         },
         rules: {
           salerId: [
-            {required: true, message: '请输入公司名称', trigger: 'blur'},
+            {required: true, message: '请选择新的销售人员', trigger: 'blur'},
           ],
         },
       }

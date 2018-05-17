@@ -17,7 +17,7 @@
         <div class="com-info-text">
           <h3>{{customerDetail.name}}</h3>
           <p>
-            <span class="com-d-item">客户所有人: <span>{{customerDetail.shortName}}</span></span>
+            <span class="com-d-item">客户所有人: <span>{{customerDetail.ownerName}}</span></span>
             <span class="com-d-item">所属公海: <span>{{customerDetail.seaName}}</span></span>
             <span class="com-d-item">创建时间: <span>{{customerDetail.created}}</span></span>
           </p>

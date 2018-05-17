@@ -12,9 +12,9 @@
     <!--控制栏-->
     <div class="com-bar">
       <div class="com-bar-left">
-        <com-button buttonType="delete" icon="el-icon-plus">删除</com-button>
-        <com-button buttonType="add" icon="el-icon-plus" @click="addHandle">新增</com-button>
-        <com-button buttonType="move" icon="el-icon-plus" @click="moveHandle">转移</com-button>
+        <com-button buttonType="delete" icon="el-icon-plus" @click="operateOptions('delete')">删除</com-button>
+        <com-button buttonType="add" icon="el-icon-plus" @click="operateOptions('add')">新增</com-button>
+        <com-button buttonType="move" icon="el-icon-plus" @click="operateOptions('move')">转移</com-button>
       </div>
       <div class="com-bar-right">
         <el-select v-model="salesOpportunitiesOptionsType" placeholder="请选择" class="com-el-select">
@@ -214,11 +214,32 @@
       ...mapActions('salesOpportunities', [
         'ac_salesOpportunitiesList',
       ]),
-      addHandle () {
-        this.addDialogOpen = true
-      },
-      moveHandle () {
-        this.moveDialogOpen = true
+      operateOptions (op) {
+        switch (op) {
+          case 'add':
+            this.addDialogOpen = true
+            break
+          case 'move':
+            this.moveDialogOpen = true
+            break
+          case 'delete':
+            this.$confirm('确定删除销售机会, 是否继续?', '提示', {
+              confirmButtonText: '确定',
+              cancelButtonText: '取消',
+              type: 'warning',
+            }).then(() => {
+              this.$message({
+                type: 'success',
+                message: '删除成功!',
+              })
+            }).catch(() => {
+              this.$message({
+                type: 'info',
+                message: '已取消删除',
+              })
+            })
+            break
+        }
       },
       handleSelectionChange (val) {
         this.multipleSelection = val
