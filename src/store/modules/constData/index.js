@@ -150,6 +150,64 @@ export default {
       pageSizes: [10, 20, 30, 40],
       pageSize: 10,
     },
+    //角色职能
+    roleBilitys: [
+      {
+        value: 100,
+        name: '代理商',
+      },
+      {
+        value: 200,
+        name: '咨询师',
+      },
+      {
+        value: 300,
+        name: '需求录入员',
+      },
+      {
+        value: 400,
+        name: '培训师',
+      },
+      {
+        value: 500,
+        name: '销售助理',
+      },
+      {
+        value: 600,
+        name: '销售员',
+      },
+      {
+        value: 700,
+        name: '客服',
+      },
+      {
+        value: 800,
+        name: '全职服务管家',
+      },
+      {
+        value: 900,
+        name: '普通职能',
+      }
+    ],
+    //角色系统
+    businessSystems: [
+      {
+        value: 100,
+        name: '平台后台系统',
+      },
+      {
+        value: 200,
+        name: '销售系统',
+      },
+      {
+        value: 300,
+        name: '服务系统',
+      },
+      {
+        value: 400,
+        name: '客满系统',
+      }
+    ]
   },
   // getters,
   // actions,

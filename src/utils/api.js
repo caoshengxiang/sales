@@ -575,6 +575,26 @@ export default {
       }, 1000)
     })
   },
+  role:{
+    add (params, success, error) {
+      $axios.post('role', {
+        params: params,
+      }).then((res) => {
+        success && success(res)
+      }).catch((errorData) => {
+        error && error(errorData)
+      })
+    },
+    update (params, success, error) {
+      $axios.put(`role/${params.id}`, {
+        params: params,
+      }).then((res) => {
+        success && success(res)
+      }).catch((errorData) => {
+        error && error(errorData)
+      })
+    }
+  },
   organizationList (params, success, error) { // 组织或部门列表
     $axios.get('organization', {
       params: params,

@@ -14,7 +14,7 @@
       <div class="com-bar-left">
         <com-button buttonType="delete" icon="el-icon-delete">刪除
         </com-button>
-        <com-button buttonType="add" icon="el-icon-plus" @click="testClick">新增</com-button>
+        <com-button buttonType="add" icon="el-icon-plus" @click="add">新增</com-button>
         <com-button buttonType="grey" icon="el-icon-edit">修改
         </com-button>
         <com-button buttonType="grey" icon="el-icon-remove-outline">保存
@@ -108,13 +108,16 @@
           this.dataLoading = false;
         })
       },
-      testClick(){
+      add(){
+        var that = this;
         this.$vDialog.modal(add,{
           title:'新增角色',
           width:700,
-          height:300,
+          height:400,
           params: {
-            id: '123456'
+            id: '123456',
+            store:that.$store, //弹窗组件如果需要用到vuex，必须传值过去赋值
+            action:"add"
           },
           callback: function(data){
             alert("弹窗关闭，这里可以执行新增后的刷新方法");
@@ -141,5 +144,20 @@
   }
   .role-view-con{
     padding: 0 15px;
+  }
+
+  .el-menu-item{
+    $select_bg: #F4F6F8;
+    &:hover{
+      background-color:#fbfbfb;
+    }
+    &:focus{
+      background-color:$select_bg;
+    }
+    &.is-active{
+      font-weight: 600;
+      color: #426585;
+      background-color:$select_bg;
+    }
   }
 </style>
