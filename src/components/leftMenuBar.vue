@@ -34,60 +34,60 @@
         <template slot="title">
           <i class="el-icon-menu"></i>
           <span slot="title">客户</span>
-          <div class="child-menu">
-            <i class="el-icon-arrow-right"></i>
-            <div class="child-fixed">
-              <ul class="child-menu-box">
-                <li @click="handleRouter('detail')">客户相关信息</li>
-                <li @click="handleRouter('related')">客户资料信息</li>
-              </ul>
-            </div>
-          </div>
+          <!--<div class="child-menu">-->
+            <!--<i class="el-icon-arrow-right"></i>-->
+            <!--<div class="child-fixed">-->
+              <!--<ul class="child-menu-box">-->
+                <!--<li @click="handleRouter('detail')">客户相关信息</li>-->
+                <!--<li @click="handleRouter('related')">客户资料信息</li>-->
+              <!--</ul>-->
+            <!--</div>-->
+          <!--</div>-->
         </template>
       </el-menu-item>
       <el-menu-item index="contactsList">
         <template slot="title">
           <i class="el-icon-document"></i>
           <span slot="title">联系人</span>
-          <div class="child-menu">
-            <i class="el-icon-arrow-right"></i>
-            <div class="child-fixed">
-              <ul class="child-menu-box">
-                <li>联系人相关信息</li>
-                <li>联系人资料信息</li>
-              </ul>
-            </div>
-          </div>
+          <!--<div class="child-menu">-->
+            <!--<i class="el-icon-arrow-right"></i>-->
+            <!--<div class="child-fixed">-->
+              <!--<ul class="child-menu-box">-->
+                <!--<li>联系人相关信息</li>-->
+                <!--<li>联系人资料信息</li>-->
+              <!--</ul>-->
+            <!--</div>-->
+          <!--</div>-->
         </template>
       </el-menu-item>
       <el-menu-item index="salesOpportunitiesList">
         <template slot="title">
           <i class="el-icon-setting"></i>
           <span slot="title">销售机会</span>
-          <div class="child-menu">
-            <i class="el-icon-arrow-right"></i>
-            <div class="child-fixed">
-              <ul class="child-menu-box">
-                <li>销售机会相关信息</li>
-                <li>销售机会资料信息</li>
-              </ul>
-            </div>
-          </div>
+          <!--<div class="child-menu">-->
+            <!--<i class="el-icon-arrow-right"></i>-->
+            <!--<div class="child-fixed">-->
+              <!--<ul class="child-menu-box">-->
+                <!--<li>销售机会相关信息</li>-->
+                <!--<li>销售机会资料信息</li>-->
+              <!--</ul>-->
+            <!--</div>-->
+          <!--</div>-->
         </template>
       </el-menu-item>
       <el-menu-item index="salesOrdersList">
         <template slot="title">
           <i class="el-icon-setting"></i>
           <span slot="title">销售订单</span>
-          <div class="child-menu">
-            <i class="el-icon-arrow-right"></i>
-            <div class="child-fixed">
-              <ul class="child-menu-box">
-                <li>销售订单相关信息</li>
-                <li>销售订单资料信息</li>
-              </ul>
-            </div>
-          </div>
+          <!--<div class="child-menu">-->
+            <!--<i class="el-icon-arrow-right"></i>-->
+            <!--<div class="child-fixed">-->
+              <!--<ul class="child-menu-box">-->
+                <!--<li>销售订单相关信息</li>-->
+                <!--<li>销售订单资料信息</li>-->
+              <!--</ul>-->
+            <!--</div>-->
+          <!--</div>-->
         </template>
       </el-menu-item>
       <el-menu-item index="documentaryRecordsList">
@@ -117,6 +117,7 @@
               <ul class="child-menu-box">
                 <li @click="handleRouter('userList')">用戶管理</li>
                 <li @click="handleRouter('roleList')">角色管理1</li>
+                <li @click="handleRouter('agentList')">代理商管理</li>
               </ul>
             </div>
           </div>
@@ -149,7 +150,7 @@
       },
       handleRouter (name, view) {
         this.$nextTick(() => {
-          // this.$router.push({name: name, query: {view: view}, params: {end: 'FE'}})
+          this.$router.push({name: name, query: {view: view}, params: {end: 'ME'}})
         })
       },
       routePersonal () {

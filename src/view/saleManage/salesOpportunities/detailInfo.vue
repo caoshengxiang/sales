@@ -293,12 +293,19 @@
           </li>
         </ul>
         <div class="team-btn-group">
-          <div class="btn-item-1">申请咨询师协同</div>
-          <div class="btn-item-2">咨询师主动退出</div>
-          <div class="btn-item-3">申请替换咨询师</div>
+          <div class="btn-item-1" @click="operateOptions('apply')">申请咨询师协同</div>
+          <div class="btn-item-2" @click="operateOptions('exit')">咨询师主动退出</div>
+          <div class="btn-item-3" @click="operateOptions('replace')">申请替换咨询师</div>
         </div>
       </div>
     </div>
+    <!-- -->
+    <!-- -->
+    <!--转移弹窗-->
+    <move-dialog :moveDialogOpen="moveDialogOpen" @hasMoveDialogOpen="moveDialogOpen = false"></move-dialog><!-- -->
+    <!-- -->
+    <!--咨询师 申请替换-->
+    <apply-dialog :type="consultantType" :dialogOpen="applyDialogOpen" @hasDialogOpen="applyDialogOpen = false"></apply-dialog>
   </div>
 </template>
 
@@ -307,14 +314,19 @@
   import { mapState, mapActions } from 'vuex'
   import API from '../../../utils/api'
   // import teamMember from '../../../components/teamMember'
+  import moveDialog from './moveDialog'
+  import applyDialog from './applyDialog'
 
   export default {
     name: 'detailInfo',
     data () {
       return {
         dataLoading: false,
+        moveDialogOpen: false,
+        applyDialogOpen: false,
         // tapOption: '',
         activeViewName: '',
+        consultantType: '',
       }
     },
     computed: {
@@ -333,6 +345,8 @@
     components: {
       comButton,
       // teamMember,
+      moveDialog,
+      applyDialog,
     },
     methods: {
       ...mapActions('salesOpportunities', [
@@ -353,6 +367,55 @@
           this.dataLoading = false
         })
       },
+      operateOptions (op) {
+        switch (op) {
+          case 'move': // 转移
+            this.moveDialogOpen = true
+            break
+          case 'delete': // 删除
+            this.$confirm('确定删除销售机会, 是否继续?', '提示', {
+              confirmButtonText: '确定',
+              cancelButtonText: '取消',
+              type: 'warning',
+            }).then(() => {
+              this.$message({
+                type: 'success',
+                message: '删除成功!',
+              })
+            }).catch(() => {
+              this.$message({
+                type: 'info',
+                message: '已取消删除',
+              })
+            })
+            break
+          case 'apply': // 申请咨询师
+            this.consultantType = 'apply'
+            this.applyDialogOpen = true
+            break
+          case 'exit': // 咨询师退出
+            this.$confirm('确定咨询师主动退出, 是否继续?', '提示', {
+              confirmButtonText: '确定',
+              cancelButtonText: '取消',
+              type: 'warning',
+            }).then(() => {
+              this.$message({
+                type: 'success',
+                message: '操作成功!',
+              })
+            }).catch(() => {
+              this.$message({
+                type: 'info',
+                message: '已取消',
+              })
+            })
+            break
+          case 'replace': // 咨询师替换
+            this.consultantType = 'replace'
+            this.applyDialogOpen = true
+            break
+        }
+      },
     },
     created () {
       this.activeViewName = this.$route.query.view
@@ -367,10 +430,12 @@
   .step-box {
     margin-top: 20px;
   }
+
   .step {
     width: 90%;
     display: inline-block;
   }
+
   .lose-bill {
     display: inline-block;
     padding: 4px 22px;
@@ -379,6 +444,7 @@
     border-radius: 20px;
     cursor: pointer;
   }
+
   .team-btn-group {
     border: 1px;
     padding: 20px;

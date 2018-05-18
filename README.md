@@ -80,7 +80,7 @@ npm test
       - common.scss // 通用样式
       - mixin.scss // 定义一些混合的样式
       - fun.scss // 函数
-      - sprites.css // 雪碧图
+      - sprites.css // 雪碧图, 使用<i class="sprites sprites-btn-1"></i>
       - var.scss // 定义变量
     - utils // 工具目录
       - api.js // 定义所有的接口
@@ -325,3 +325,9 @@ axios 在webpack定义全局变量 `$axios`
 
 4. 修改element主题【目前没想到什么更好的方法】
   目前是通过feElement.vue和meElement.vue两个组件分别在index.vue中引入element的主题
+
+
+
+## 雪碧图
+  class名为： spretes-文件名
+ 如：<i class="sprites sprites-btn-1"></i>

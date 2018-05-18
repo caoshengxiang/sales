@@ -1,5 +1,7 @@
 <template>
-  <div class="com-container">
+  <div class="com-container"
+       v-loading="dataLoading"
+       element-loading-text="数据加载中...">
     <!--头部-->
     <div class="com-head">
       <el-breadcrumb separator-class="el-icon-arrow-right">
@@ -10,19 +12,19 @@
     <!--控制栏-->
     <div class="com-bar">
       <div class="com-bar-left">
-        <com-button buttonType="delete" icon="el-icon-plus">删除</com-button>
-        <com-button buttonType="add" icon="el-icon-plus" @click="addHandle">新增</com-button>
+        <com-button buttonType="delete" icon="el-icon-plus" @click="operateOptions('delete')">删除</com-button>
+        <com-button buttonType="add" icon="el-icon-plus" @click="operateOptions('add')">新增</com-button>
       </div>
       <div class="com-bar-right">
-        <el-select v-model="value" placeholder="请选择" class="com-el-select">
+        <el-select v-model="orderTypeOption" placeholder="请选择" class="com-el-select">
           <el-option
-            v-for="item in options"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value">
+            v-for="item in orderTypeOptions"
+            :key="item.type"
+            :label="item.value"
+            :value="item.type">
           </el-option>
         </el-select>
-        <com-button buttonType="search">搜索</com-button>
+        <com-button buttonType="search" @click="searchHandle">搜索</com-button>
       </div>
     </div>
     <!--详细-->
@@ -43,67 +45,129 @@
         <el-table-column
           align="center"
           label="订单编号"
+          show-overflow-tooltip
           width="200"
         >
           <template slot-scope="scope">
-            <a class="col-link" @click="handleRouter('detail')">{{ scope.row.customerName }}</a>
+            <a class="col-link" @click="handleRouter('detail', scope.row.id)">{{ scope.row.billOrderId }} todo 缺字段</a>
           </template>
         </el-table-column>
         <el-table-column
           align="center"
-          label="日期"
+          label="关联销售机会"
+          show-overflow-tooltip
           width="120">
-          <template slot-scope="scope">{{ scope.row.date }}</template>
+          <template slot-scope="scope">
+            <a class="col-link">{{ scope.row.changeName }}</a></template>
         </el-table-column>
         <el-table-column
           align="center"
-          prop="name"
-          label="姓名"
+          label="关联客户名称"
+          show-overflow-tooltip
           width="160">
+          <template slot-scope="scope">
+            <a class="col-link">{{ scope.row.customerName }}</a></template>
         </el-table-column>
         <el-table-column
           align="center"
-          prop="address"
-          label="地址"
+          label="联系人"
+          width="160"
+          show-overflow-tooltip>
+          <template slot-scope="scope">{{ scope.row.contracterName }}</template>
+        </el-table-column>
+        <el-table-column
+          align="center"
+          prop="productName"
+          label="购买商品"
           width="160"
           show-overflow-tooltip>
         </el-table-column>
         <el-table-column
           align="center"
-          prop="address"
-          label="地址"
+          prop="billAmount"
+          label="签单金额"
           width="160"
           show-overflow-tooltip>
         </el-table-column>
         <el-table-column
           align="center"
-          prop="address"
-          label="地址"
+          prop="refund_amount"
+          label="回款金额"
           width="160"
           show-overflow-tooltip>
         </el-table-column>
         <el-table-column
           align="center"
-          prop="address"
-          label="地址"
+          prop="not_refund_amount"
+          label="待回款金额"
           width="160"
           show-overflow-tooltip>
         </el-table-column>
         <el-table-column
           align="center"
+          prop="isRenew"
+          label="是否续费"
+          width="160"
+          show-overflow-tooltip>
+          <template slot-scope="scope">{{scope.row.isRenew?'续费订单':'新签订单'}}</template>
+        </el-table-column>
+        <el-table-column
+          align="center"
           prop="address"
-          label="地址"
+          label="订单状态"
+          width="160"
+          show-overflow-tooltip>
+          <template slot-scope="scope">
+            <span v-for="item in orderState" :key="item.type"
+                  v-if="scope.row.orderState === item.type">{{item.value}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column
+          align="center"
+          prop="source"
+          label="订单来源"
+          width="160"
+          show-overflow-tooltip>
+          <template slot-scope="scope">
+            <span v-for="item in orderSource" :key="item.type"
+                  v-if="scope.row.source === item.type">{{item.value}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column
+          align="center"
+          prop="creatorName"
+          label="创建人"
           width="160"
           show-overflow-tooltip>
         </el-table-column>
-
+        <el-table-column
+          align="center"
+          prop="salerName"
+          label="销售员"
+          width="160"
+          show-overflow-tooltip>
+        </el-table-column>
+        <el-table-column
+          align="center"
+          prop="counselorName"
+          label="咨询师"
+          width="160"
+          show-overflow-tooltip>
+        </el-table-column>
+        <el-table-column
+          align="center"
+          prop="created"
+          label="创建日期"
+          width="160"
+          show-overflow-tooltip>
+        </el-table-column>
       </el-table>
     </div>
     <!--分页-->
     <div class="com-pages-box">
       <el-pagination
         background
-        :total="1000"
+        :total="tableDataTotal"
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
         :current-page="currentPage"
@@ -118,11 +182,14 @@
 <script>
   import { mapState } from 'vuex'
   import comButton from '../../../components/button/comButton'
+  import API from '../../../utils/api'
+  import addDialog from './addDialog'
 
   export default {
     name: 'list',
     data () {
       return {
+        dataLoading: false,
         options: [
           {
             value: 1,
@@ -132,70 +199,14 @@
             label: '我负责的客户',
           }, {
             value: 3,
-            label: '我更进的客户',
+            label: '我跟进的客户',
           }, {
             value: 4,
             label: '我参与的客户',
           }],
-        value: 3,
-        tableData: [
-          {
-            customerName: 'CRM1234564789',
-            businessLicense: '',
-            date: '2016-05-03',
-            name: '王小虎',
-            address: '上海市普陀区金沙江路 1518 弄',
-          }, {
-            customerName: 'CRM1234564789',
-            date: '2016-05-02',
-            name: '王小虎',
-            address: '上海市普陀区金沙江路 1518 弄',
-          }, {
-            customerName: 'CRM1234564789',
-            date: '2016-05-04',
-            name: '王小虎',
-            address: '上海市普陀区金沙江路 1518 弄',
-          }, {
-            customerName: 'CRM1234564789',
-            date: '2016-05-01',
-            name: '王小虎',
-            address: '上海市普陀区金沙江路 1518 弄',
-          }, {
-            customerName: 'CRM1234564789',
-            date: '2016-05-08',
-            name: '王小虎',
-            address: '上海市普陀区金沙江路 1518 弄',
-          }, {
-            customerName: 'CRM1234564789',
-            date: '2016-05-06',
-            name: '王小虎',
-            address: '上海市普陀区金沙江路 1518 弄',
-          }, {
-            customerName: 'CRM1234564789',
-            date: '2016-05-07',
-            name: '王小虎',
-            address: '上海市普陀区金沙江路 1518 弄',
-          }, {
-            customerName: 'CRM1234564789',
-            date: '2016-05-07',
-            name: '王小虎',
-            address: '上海市普陀区金沙江路 1518 弄',
-          }, {
-            customerName: 'CRM1234564789',
-            date: '2016-05-07',
-            name: '王小虎',
-            address: '上海市普陀区金沙江路 1518 弄',
-          }, {
-            customerName: 'CRM1234564789',
-            date: '2016-05-07',
-            name: '王小虎',
-            address: '上海市普陀区金沙江路 1518 弄',
-          }, {
-            customerName: 'CRM1234564789',
-            date: '2016-05-07',
-            name: '王小虎',
-            address: '上海市普陀区金沙江路 1518 弄',
-          }],
+        orderTypeOption: 0,
+        tableData: [],
+        tableDataTotal: 0,
         multipleSelection: [],
         currentPage: 1,
       }
@@ -203,30 +214,88 @@
     computed: {
       ...mapState('constData', [
         'pagesOptions',
+        'orderTypeOptions',
+        'orderState',
+        'orderSource',
       ]),
     },
     components: {
       comButton,
     },
     methods: {
-      addHandle () {
-        alert('add btn')
+      operateOptions (op) {
+        switch (op) {
+          case 'add':
+            this.$vDialog.modal(addDialog, {
+              title: '添加订单',
+              width: 900,
+              height: 340,
+              params: {
+                // id: '123456',
+              },
+              callback (data) {
+                if (data.type === 'save') {
+                  alert('弹窗关闭，添加成功刷新列表')
+                }
+              },
+            })
+            break
+          case 'delete':
+            this.$confirm('确定删除销售订单, 是否继续?', '提示', {
+              confirmButtonText: '确定',
+              cancelButtonText: '取消',
+              type: 'warning',
+            }).then(() => {
+              this.$message({
+                type: 'success',
+                message: '删除成功!',
+              })
+            }).catch(() => {
+              this.$message({
+                type: 'info',
+                message: '已取消删除',
+              })
+            })
+            break
+        }
       },
-      moveHandle () {
-        alert('move')
+      searchHandle () {
+        this.getSalesOrderList(this.currentPage, this.pagesOptions.pageSize, this.orderTypeOption)
       },
       handleSelectionChange (val) {
         this.multipleSelection = val
       },
       handleSizeChange (val) {
         console.log(`每页 ${val} 条`)
+        this.getSalesOrderList(this.currentPage, this.pagesOptions.pageSize, this.orderTypeOption)
       },
       handleCurrentChange (val) {
         console.log(`当前页: ${val}`)
+        this.currentPage = val
+        this.getSalesOrderList(this.currentPage, this.pagesOptions.pageSize, this.orderTypeOption)
       },
-      handleRouter (name) {
-        this.$router.push({name: 'salesOrdersDetail', query: {view: name}, params: {end: 'FE'}})
+      handleRouter (name, id) {
+        this.$router.push({name: 'salesOrdersDetail', query: {view: name, id: id}, params: {end: 'FE'}})
       },
+      getSalesOrderList (page, pageSize, type) {
+        this.dataLoading = true
+        API.salesOrderList({
+          page: page,
+          pageSize: pageSize,
+          type: type,
+        }, (data) => {
+          this.tableData = data.data.content
+          this.tableDataTotal = data.data.totalElements
+          this.dataLoading = false
+        }, (data) => {
+          this.tableData = data.data.content
+          this.tableDataTotal = data.data.totalElements
+          this.dataLoading = false
+        })
+      },
+    },
+    created () {
+      this.getSalesOrderList(this.currentPage, this.pagesOptions.pageSize, this.orderTypeOption)
     },
   }
 </script>
