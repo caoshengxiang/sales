@@ -336,9 +336,6 @@
       },
     },
     created () {
-
-    alert(this.$store);
-
       this.getuserList(this.currentPage, this.pagesOptions.pageSize, this.userType)
     },
   }
