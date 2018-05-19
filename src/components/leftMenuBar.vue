@@ -90,7 +90,7 @@
           <!--</div>-->
         </template>
       </el-menu-item>
-      <el-menu-item index="documentaryRecordsList">
+      <el-menu-item index="orderRecordsList">
         <i class="el-icon-setting"></i>
         <span slot="title">跟单记录</span>
       </el-menu-item>

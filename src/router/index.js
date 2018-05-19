@@ -43,9 +43,9 @@ const salesOrdersList = resolve => require.ensure([],
 const salesOrdersDetail = resolve => require.ensure([],
   () => resolve(require('../view/saleManage/salesOrders/detailInfo')), 'salesOrders')
 // 跟单记录
-const documentaryRecordsList = resolve => require.ensure([],
-  () => resolve(require('../view/saleManage/documentaryRecords/list')),
-  'documentaryRecords')
+const orderRecordsList = resolve => require.ensure([],
+  () => resolve(require('../view/saleManage/orderRecords/list')),
+  'orderRecordsList')
 // 回款记录
 const remittanceRecords = resolve => require.ensure([],
   () => resolve(require('../view/saleManage/remittanceRecords/list')),
@@ -98,7 +98,6 @@ const agentList = resolve => require.ensure([],
 //角色管理
 const roleList = resolve => require.ensure([],
   () => resolve(require('../view/companyManage/role/list')), 'role')
-
 
 // 企业管理 end
 
@@ -168,9 +167,9 @@ export default new Router({
           name: 'salesOrdersDetail',
           component: salesOrdersDetail,
         }, {
-          path: 'documentaryRecordsList',
-          name: 'documentaryRecordsList',
-          component: documentaryRecordsList,
+          path: 'orderRecordsList',
+          name: 'orderRecordsList',
+          component: orderRecordsList,
         }, {
           path: 'remittanceRecords',
           name: 'remittanceRecords',

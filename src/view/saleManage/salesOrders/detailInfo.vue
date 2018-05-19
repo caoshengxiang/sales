@@ -28,9 +28,9 @@
       </div>
       <div class="com-info-right">
         <!--<el-radio-group v-model="tapOption">-->
-          <!--<el-radio-button class="btn-width" label="move">APP下单</el-radio-button>-->
-          <!--<el-radio-button class="btn-width" label="move">修改</el-radio-button>-->
-          <!--<el-radio-button class="btn-width" label="move">删除</el-radio-button>-->
+        <!--<el-radio-button class="btn-width" label="move">APP下单</el-radio-button>-->
+        <!--<el-radio-button class="btn-width" label="move">修改</el-radio-button>-->
+        <!--<el-radio-button class="btn-width" label="move">删除</el-radio-button>-->
         <!--</el-radio-group>-->
         <ul class="btn-group">
           <li class="btn-order" @click="operateOptions('order')">APP下单</li>
@@ -47,68 +47,47 @@
             <p class="table-title">销售订单基本信息</p>
             <table class="detail-table">
               <tr>
-                <td class="td-title">公司名称</td>
-                <td>成都凡特塞科技有限公司</td>
-                <td class="td-title">营业执照</td>
-                <td>455655213213123</td>
-                <td class="td-title">客户级别</td>
-                <td>重要客户</td>
+                <td class="td-title">订单机会</td>
+                <td>{{orderDetail.changeName}}</td>
+                <td class="td-title">客户名称</td>
+                <td>{{orderDetail.customerName}}</td>
+                <td class="td-title">客户联系人</td>
+                <td>{{orderDetail.contracterName}}[电话]</td>
               </tr>
               <tr>
-                <td class="td-title">客户简称</td>
-                <td>凡特塞科技</td>
-                <td class="td-title">客户行业</td>
-                <td>互联网</td>
-                <td class="td-title">客户来源</td>
-                <td>自拓</td>
+                <td class="td-title">是否续费</td>
+                <td>{{orderDetail.isRenew?'续费订单':'新签订单'}}</td>
+                <td class="td-title">购买商品</td>
+                <td colspan="3">{{orderDetail.productName}}</td>
               </tr>
               <tr>
-                <td class="td-title">所在地区</td>
-                <td>四川省 成都市 高新区</td>
-                <td class="td-title">公司网站</td>
-                <td>www.djksdj.com</td>
-                <td class="td-title">联系电话</td>
-                <td>12135678912</td>
+                <td class="td-title">购买规格</td>
+                <td>{{orderDetail.specification}}</td>
+                <td class="td-title">购买数量</td>
+                <td>x{{orderDetail.quantity}}</td>
+                <td class="td-title">订单状态</td>
+                <td><span v-for="item in orderState" :key="item.type"
+                          v-if="orderDetail.orderState === item.type">{{item.value}}</span></td>
               </tr>
               <tr>
-                <td class="td-title">联系地址</td>
-                <td colspan="5">京东卡积分等级ask京东卡时间</td>
+                <td class="td-title">签单金额</td>
+                <td>{{orderDetail.billAmount}}</td>
+                <td class="td-title">回款金额</td>
+                <td>{{orderDetail.refund_amount}}</td>
+                <td class="td-title">待回款金额</td>
+                <td>{{orderDetail.not_refund_amount}}</td>
               </tr>
               <tr>
-                <td class="td-title">主营业务</td>
-                <td colspan="5">暂未填写主营业务</td>
+                <td class="td-title">订单备注</td>
+                <td colspan="5">{{orderDetail.remark}}</td>
               </tr>
             </table>
 
             <p class="table-title">销售订单其他信息</p>
             <table class="detail-table">
               <tr>
-                <td class="td-title">所在公海</td>
-                <td>成都公海</td>
-                <td class="td-title">客户来源</td>
-                <td>公司资源</td>
-                <td class="td-title">客户状态</td>
-                <td>自建</td>
-              </tr>
-              <tr>
-                <td class="td-title">客户创建时间</td>
-                <td colspan="3">2018.11.12 12:12:12</td>
-                <td class="td-title">创建人</td>
-                <td>test</td>
-              </tr>
-              <tr>
-                <td class="td-title">最新修改时间</td>
-                <td colspan="3">2018.11.12 12:12:12</td>
-                <td class="td-title">跟进人</td>
-                <td>test</td>
-              </tr>
-              <tr>
-                <td class="td-title">最新活动时间</td>
-                <td colspan="5">2018.11.12 12:12:12</td>
-              </tr>
-              <tr>
-                <td class="td-title">主营业务</td>
-                <td colspan="5">暂未填写主营业务</td>
+                <td class="td-title">销售订单创建时间</td>
+                <td colspan="5">{{orderDetail.created}}</td>
               </tr>
             </table>
           </el-tab-pane>
@@ -116,9 +95,9 @@
           <el-tab-pane label="销售订单回款信息" name="related">
 
             <!--<div class="related-btn-group">-->
-              <!--<com-button buttonType="theme">联系人(2)</com-button>-->
-              <!--<com-button buttonType="grey">销售需求(2)</com-button>-->
-              <!--<com-button buttonType="grey">销售订单(2)</com-button>-->
+            <!--<com-button buttonType="theme">联系人(2)</com-button>-->
+            <!--<com-button buttonType="grey">销售需求(2)</com-button>-->
+            <!--<com-button buttonType="grey">销售订单(2)</com-button>-->
             <!--</div>-->
 
             <p class="table-title">
@@ -215,11 +194,11 @@
               <img src="../../../assets/icon/headDefault.png" alt="">
             </div>
             <div class="text">
-              <h4>张珊珊</h4>
-              <p>123456748912</p>
+              <h4>{{orderDetail.team.creatorName}}</h4>
+              <p>{{orderDetail.team.creatorMobilePhone}}</p>
             </div>
             <div class="post">
-              <span class="post-tag-1">创建人</span>
+              <span class="post-tag-1">负责人</span>
               <!--<span class="post-tag-2">销售员</span>-->
             </div>
           </li>
@@ -228,12 +207,11 @@
               <img src="../../../assets/icon/headDefault.png" alt="">
             </div>
             <div class="text">
-              <h4>张珊珊</h4>
-              <p>123456748912</p>
+              <h4>{{orderDetail.team.salerName}}</h4>
+              <p>{{orderDetail.team.salerMobilePhone}}</p>
             </div>
             <div class="post">
-              <span class="post-tag-1">创建人</span>
-              <!--<span class="post-tag-2">销售员</span>-->
+              <span class="post-tag-2">跟单人</span>
             </div>
           </li>
           <li class="team-member-item">
@@ -241,12 +219,11 @@
               <img src="../../../assets/icon/headDefault.png" alt="">
             </div>
             <div class="text">
-              <h4>张珊珊</h4>
-              <p>123456748912</p>
+              <h4>{{orderDetail.team.counselorName}}</h4>
+              <p>{{orderDetail.team.counselorMobilePhone}}</p>
             </div>
             <div class="post">
-              <span class="post-tag-1">创建人</span>
-              <!--<span class="post-tag-2">销售员</span>-->
+              <span class="post-tag-2">咨询师</span>
             </div>
           </li>
         </ul>
@@ -259,7 +236,10 @@
 <script>
   import comButton from '../../../components/button/comButton'
   import addDialog from './addDialog'
+  import order from './oder'
+  import orderInfo from './oderInfo'
   import API from '../../../utils/api'
+  import { mapState } from 'vuex'
 
   export default {
     name: 'detailInfo',
@@ -268,8 +248,18 @@
         dataLoading: false,
         tapOption: '',
         activeViewName: '',
-        orderDetail: {},
+        orderDetail: {
+          team: {}
+        },
       }
+    },
+    computed: {
+      ...mapState('constData', [
+        'pagesOptions',
+        'orderTypeOptions',
+        'orderState',
+        'orderSource',
+      ]),
     },
     watch: {
       '$route.query.view' (view) {
@@ -319,6 +309,36 @@
               })
             })
             break
+          case 'orderInfo':
+            this.$vDialog.modal(orderInfo, {
+              title: '修改订单',
+              width: 900,
+              height: 740,
+              params: {
+                orderDetail: this.orderDetail,
+              },
+              callback (data) {
+                if (data.type === 'save') {
+                  alert('弹窗关闭，添加成功刷新列表')
+                }
+              },
+            })
+            break
+          case 'order':
+            this.$vDialog.modal(order, {
+              title: '修改订单',
+              width: 514,
+              height: 260,
+              params: {
+                orderDetail: this.orderDetail,
+              },
+              callback (data) {
+                if (data.type === 'save') {
+                  alert('弹窗关闭，添加成功刷新列表')
+                }
+              },
+            })
+            break
         }
       },
       getSalesOrderDetail () {
@@ -342,6 +362,7 @@
 <style scoped lang="scss" rel="stylesheet/scss">
   @import "../../../styles/common";
   @import "../../../styles/sprites.css";
+
   .btn-base {
     width: 80px;
     text-align: center;
@@ -351,21 +372,25 @@
     display: inline-block;
     cursor: pointer;
   }
+
   .btn-order {
     @extend .btn-base;
     color: #39C189;
     border-color: #39C189;
   }
+
   .btn-edit {
     @extend .btn-base;
     color: #FFA94B;
     border-color: #FFA94B;
   }
+
   .btn-delete {
     @extend .btn-base;
     color: #FE5455;
     border-color: #FE5455;
   }
+
   .order-info {
     background-color: #4BCF99;
     border-radius: 12px;
@@ -376,5 +401,6 @@
     font-size: 12px;
     display: inline-block;
     margin-left: 10px;
+    cursor: pointer;
   }
 </style>

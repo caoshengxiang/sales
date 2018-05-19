@@ -494,6 +494,76 @@ export default {
       }, 1000)
     })
   },
+  orderRecordsList (params, success, error) { // 销售机会列表
+    $axios({
+      method: 'get',
+      url: '/followOrderRecord/',
+      // params: params,
+    }).then(res => {
+      success && success(res.data)
+    }).catch(() => {
+// error && error()
+      let mockdata = {
+        'data': {
+          'content': [
+            {
+              'chanceId': 1,
+              'chanceName': '财税金融托管',
+              'customerId': 1,
+              'customerName': '成都凡特赛科技有限公司',
+              'created': '2018-05-10 14:42:57',
+              'creator': 1,
+              'creatorName': '测试人员',
+              'stage': 1,
+              'followDesc': '跟进；没有电话号码，已加微信跟进',
+              'id': 1,
+              'modified': '2018-05-10 14:43:01',
+              'status': 1,
+            }, {
+              'chanceId': 1,
+              'chanceName': '财税金融托管',
+              'customerId': 1,
+              'customerName': '成都凡特赛科技有限公司',
+              'created': '2018-05-10 14:42:57',
+              'creator': 1,
+              'creatorName': '测试人员',
+              'stage': 1,
+              'followDesc': '跟进；没有电话号码，已加微信跟进',
+              'id': 2,
+              'modified': '2018-05-10 14:43:01',
+              'status': 1,
+            }, {
+              'chanceId': 1,
+              'chanceName': '财税金融托管',
+              'customerId': 1,
+              'customerName': '成都凡特赛科技有限公司',
+              'created': '2018-05-10 14:42:57',
+              'creator': 1,
+              'creatorName': '测试人员',
+              'stage': 1,
+              'followDesc': '跟进；没有电话号码，已加微信跟进',
+              'id': 3,
+              'modified': '2018-05-10 14:43:01',
+              'status': 1,
+            },
+          ],
+          'first': true,
+          'last': true,
+          'number': 0,
+          'numberOfElements': 1,
+          'size': 20,
+          'sort': null,
+          'totalElements': 3,
+          'totalPages': 1,
+        },
+        'error': null,
+        'status': true,
+      }
+      setTimeout(() => {
+        error && error(mockdata)
+      }, 1000)
+    })
+  },
   userList (params, success, error) { // 用户列表
     $axios.get('user', {
       params: params,

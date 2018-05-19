@@ -196,7 +196,7 @@ export default {
       // layout: 'total,sizes, prev, pager, next, jumper', // 分页
       layout: 'total, prev, pager, next, jumper', // 分页
       pageSizes: [10, 20, 30, 40],
-      pageSize: 10,
+      pageSize: 1,
     },
     //角色职能
     roleBilitys: [
