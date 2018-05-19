@@ -10,7 +10,7 @@
       </div>
       <div class="u-text">
         <h4 class="username" :style="{color: theme[themeIndex].leftMenuBarUserTextColor}">用户名</h4>
-        <div class="tags"  v-if="themeIndex === 1">
+        <div class="tags" v-if="themeIndex === 1">
           <span class="tag">管理员</span>
         </div>
       </div>
@@ -34,15 +34,15 @@
         <template slot="title">
           <i class="el-icon-menu"></i>
           <span slot="title">客户</span>
-          <!--<div class="child-menu">-->
-            <!--<i class="el-icon-arrow-right"></i>-->
-            <!--<div class="child-fixed">-->
-              <!--<ul class="child-menu-box">-->
-                <!--<li @click="handleRouter('detail')">客户相关信息</li>-->
-                <!--<li @click="handleRouter('related')">客户资料信息</li>-->
-              <!--</ul>-->
-            <!--</div>-->
-          <!--</div>-->
+          <!--<div class="child-menu">
+            <i class="el-icon-arrow-right"></i>
+            <div class="child-fixed">
+              <ul class="child-menu-box">
+                <li @click="handleRouter('detail')">客户相关信息</li>
+                <li @click="handleRouter('related')">客户资料信息</li>
+              </ul>
+            </div>
+          </div>-->
         </template>
       </el-menu-item>
       <el-menu-item index="contactsList">
@@ -50,13 +50,13 @@
           <i class="el-icon-document"></i>
           <span slot="title">联系人</span>
           <!--<div class="child-menu">-->
-            <!--<i class="el-icon-arrow-right"></i>-->
-            <!--<div class="child-fixed">-->
-              <!--<ul class="child-menu-box">-->
-                <!--<li>联系人相关信息</li>-->
-                <!--<li>联系人资料信息</li>-->
-              <!--</ul>-->
-            <!--</div>-->
+          <!--<i class="el-icon-arrow-right"></i>-->
+          <!--<div class="child-fixed">-->
+          <!--<ul class="child-menu-box">-->
+          <!--<li>联系人相关信息</li>-->
+          <!--<li>联系人资料信息</li>-->
+          <!--</ul>-->
+          <!--</div>-->
           <!--</div>-->
         </template>
       </el-menu-item>
@@ -65,13 +65,13 @@
           <i class="el-icon-setting"></i>
           <span slot="title">销售机会</span>
           <!--<div class="child-menu">-->
-            <!--<i class="el-icon-arrow-right"></i>-->
-            <!--<div class="child-fixed">-->
-              <!--<ul class="child-menu-box">-->
-                <!--<li>销售机会相关信息</li>-->
-                <!--<li>销售机会资料信息</li>-->
-              <!--</ul>-->
-            <!--</div>-->
+          <!--<i class="el-icon-arrow-right"></i>-->
+          <!--<div class="child-fixed">-->
+          <!--<ul class="child-menu-box">-->
+          <!--<li>销售机会相关信息</li>-->
+          <!--<li>销售机会资料信息</li>-->
+          <!--</ul>-->
+          <!--</div>-->
           <!--</div>-->
         </template>
       </el-menu-item>
@@ -80,13 +80,13 @@
           <i class="el-icon-setting"></i>
           <span slot="title">销售订单</span>
           <!--<div class="child-menu">-->
-            <!--<i class="el-icon-arrow-right"></i>-->
-            <!--<div class="child-fixed">-->
-              <!--<ul class="child-menu-box">-->
-                <!--<li>销售订单相关信息</li>-->
-                <!--<li>销售订单资料信息</li>-->
-              <!--</ul>-->
-            <!--</div>-->
+          <!--<i class="el-icon-arrow-right"></i>-->
+          <!--<div class="child-fixed">-->
+          <!--<ul class="child-menu-box">-->
+          <!--<li>销售订单相关信息</li>-->
+          <!--<li>销售订单资料信息</li>-->
+          <!--</ul>-->
+          <!--</div>-->
           <!--</div>-->
         </template>
       </el-menu-item>
@@ -111,7 +111,7 @@
         <template slot="title">
           <i class="el-icon-menu"></i>
           <span slot="title">用戶管理</span>
-          <div class="child-menu">
+          <div class="child-menu"><!--todo 有兼容问题-->
             <i class="el-icon-arrow-right"></i>
             <div class="child-fixed">
               <ul class="child-menu-box">
@@ -123,16 +123,28 @@
           </div>
         </template>
       </el-menu-item>
+      <el-submenu index="user">
+        <template slot="title">
+          <i class="el-icon-location"></i>
+          <span>用戶管理</span>
+        </template>
+        <el-menu-item-group>
+          <!--<template slot="title">分组一</template>-->
+          <el-menu-item index="userList">用戶管理</el-menu-item>
+          <el-menu-item index="roleList">角色管理</el-menu-item>
+          <el-menu-item index="agentList">代理商管理</el-menu-item>
+        </el-menu-item-group>
+      </el-submenu>
     </el-menu>
   </div>
 </template>
 
 <script>
-  import { mapState } from 'vuex'
+  import {mapState} from 'vuex'
 
   export default {
     name: 'leftMenuBar',
-    data () {
+    data() {
       return {}
     },
     computed: {
@@ -142,18 +154,18 @@
       ]),
     },
     methods: {
-      handleOpen (key, keyPath) {
+      handleOpen(key, keyPath) {
         console.log(key, keyPath)
       },
-      handleClose (key, keyPath) {
+      handleClose(key, keyPath) {
         console.log(key, keyPath)
       },
-      handleRouter (name, view) {
+      handleRouter(name, view) {
         this.$nextTick(() => {
           this.$router.push({name: name, query: {view: view}, params: {end: 'ME'}})
         })
       },
-      routePersonal () {
+      routePersonal() {
         this.$router.push({name: 'personal', query: {view: 'base'}, params: {end: 'FE'}})
       },
     },
@@ -205,7 +217,7 @@
     position: relative;
     .child-fixed {
       z-index: 199;
-      position: fixed;
+      position: absolute;
       height: 0;
     }
     .child-menu-box {

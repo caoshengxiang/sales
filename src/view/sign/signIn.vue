@@ -11,7 +11,7 @@
             <el-input v-model="formData.username" placeholder="请输入你的登陆账号"></el-input>
           </el-form-item>
           <el-form-item label="" prop="password">
-            <el-input v-model="formData.password" placeholder="请输入你的登陆密码"></el-input>
+            <el-input @keydown.native="keydown" v-model="formData.password" placeholder="请输入你的登陆密码"></el-input>
           </el-form-item>
           <el-form-item label="" prop="type">
             <el-checkbox-group v-model="isRemember">
@@ -71,6 +71,11 @@
           }
         })
       },
+      keydown (e) {
+        if (e.keyCode === 13) {
+          this.submitForm('ruleForm')
+        }
+      },
       recoverPassword () {
         this.$router.push({name: 'recoverPassword', params: {end: 'FE'}})
       }
@@ -125,7 +130,7 @@
     }
   }
   .footer {
-    height: 200px;
+    height: 20%;
     background-color: #D7DDE4;
     position: absolute;
     bottom: 0;
