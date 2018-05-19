@@ -174,11 +174,11 @@
     <!-- -->
     <!-- -->
     <!--新增弹窗-->
-    <add-dialog :addDialogOpen="addDialogOpen" @hasAddDialogOpen="addDialogOpen = false"></add-dialog>
+    <!--<add-dialog :addDialogOpen="addDialogOpen" @hasAddDialogOpen="addDialogOpen = false"></add-dialog>-->
     <!-- -->
     <!-- -->
     <!--转移客户弹窗-->
-    <move-dialog :moveDialogOpen="moveDialogOpen" @hasMoveDialogOpen="moveDialogOpen = false"></move-dialog>
+    <!--<move-dialog :moveDialogOpen="moveDialogOpen" @hasMoveDialogOpen="moveDialogOpen = false"></move-dialog>-->
   </div>
 </template>
 
@@ -194,8 +194,8 @@
     data () {
       return {
         dataLoading: true,
-        addDialogOpen: false, // 新增弹窗
-        moveDialogOpen: false, // 转移弹窗
+        // addDialogOpen: false, // 新增弹窗
+        // moveDialogOpen: false, // 转移弹窗
         multipleSelection: [],
         customerType: 0, // 客户选项
         currentPage: 1, // 当前页
@@ -254,10 +254,36 @@
         this.$router.push({name: 'customersDetail', query: {view: name, customerId: id}, params: {end: 'FE'}})
       },
       addHandle () {
-        this.addDialogOpen = true
+        // this.addDialogOpen = true
+        this.$vDialog.modal(addDialog, {
+          title: '新增客户',
+          width: 900,
+          height: 400,
+          params: {
+            // id: '123456',
+          },
+          callback (data) {
+            if (data.type === 'save') {
+              alert('弹窗关闭，添加成功刷新列表')
+            }
+          },
+        })
       },
       moveHandle () {
-        this.moveDialogOpen = true
+        // this.moveDialogOpen = true
+        this.$vDialog.modal(moveDialog, {
+          title: '转移客户',
+          width: 900,
+          height: 310,
+          params: {
+            // id: '123456',
+          },
+          callback (data) {
+            if (data.type === 'save') {
+              alert('弹窗关闭，添加成功刷新列表')
+            }
+          },
+        })
       },
       returnHighSeaHandle () {
         this.$confirm('确定退回公海池, 是否继续?', '提示', {

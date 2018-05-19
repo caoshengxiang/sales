@@ -97,19 +97,19 @@
         },
         rules: {
           customerId: [
-            {required: true, message: '请选择签单客户', trigger: 'blur'},
+            {required: true, message: '请选择签单客户', trigger: 'change'},
           ],
           contracterId: [
-            {required: true, message: '请选择签单联系人', trigger: 'blur'},
+            {required: true, message: '请选择签单联系人', trigger: 'change'},
           ],
           changeId: [
-            {required: true, message: '请选择关联销售机会', trigger: 'blur'},
+            {required: true, message: '请选择关联销售机会', trigger: 'change'},
           ],
           productId: [
-            {required: true, message: '请选择购买商品', trigger: 'blur'},
+            {required: true, message: '请选择购买商品', trigger: 'change'},
           ],
           specification: [
-            {required: true, message: '请选择购买规格', trigger: 'blur'},
+            {required: true, message: '请选择购买规格', trigger: 'change'},
           ],
           quantity: [
             {required: true, message: '请输入购买数量', trigger: 'blur'},

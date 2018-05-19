@@ -302,10 +302,10 @@
     <!-- -->
     <!-- -->
     <!--转移弹窗-->
-    <move-dialog :moveDialogOpen="moveDialogOpen" @hasMoveDialogOpen="moveDialogOpen = false"></move-dialog><!-- -->
+    <!--<move-dialog :moveDialogOpen="moveDialogOpen" @hasMoveDialogOpen="moveDialogOpen = false"></move-dialog>&lt;!&ndash; &ndash;&gt;-->
     <!-- -->
     <!--咨询师 申请替换-->
-    <apply-dialog :type="consultantType" :dialogOpen="applyDialogOpen" @hasDialogOpen="applyDialogOpen = false"></apply-dialog>
+    <!--<apply-dialog :type="consultantType" :dialogOpen="applyDialogOpen" @hasDialogOpen="applyDialogOpen = false"></apply-dialog>-->
   </div>
 </template>
 
@@ -322,11 +322,7 @@
     data () {
       return {
         dataLoading: false,
-        moveDialogOpen: false,
-        applyDialogOpen: false,
-        // tapOption: '',
         activeViewName: '',
-        consultantType: '',
       }
     },
     computed: {
@@ -370,7 +366,21 @@
       operateOptions (op) {
         switch (op) {
           case 'move': // 转移
-            this.moveDialogOpen = true
+            // this.moveDialogOpen = true
+            this.$vDialog.modal(moveDialog, {
+              title: '编辑销售机会',
+              width: 500,
+              height: 200,
+              params: {
+                salesState: this.salesState,
+                detail: this.customerDetail,
+              },
+              callback (data) {
+                if (data.type === 'save') {
+                  alert('弹窗关闭，添加成功刷新列表')
+                }
+              },
+            })
             break
           case 'delete': // 删除
             this.$confirm('确定删除销售机会, 是否继续?', '提示', {
@@ -390,8 +400,19 @@
             })
             break
           case 'apply': // 申请咨询师
-            this.consultantType = 'apply'
-            this.applyDialogOpen = true
+            this.$vDialog.modal(applyDialog, {
+              title: '申请咨询师协同',
+              width: 520,
+              height: 240,
+              params: {
+                consultantType: 'apply',
+              },
+              callback (data) {
+                if (data.type === 'save') {
+                  alert('弹窗关闭，添加成功刷新列表')
+                }
+              },
+            })
             break
           case 'exit': // 咨询师退出
             this.$confirm('确定咨询师主动退出, 是否继续?', '提示', {
@@ -411,8 +432,19 @@
             })
             break
           case 'replace': // 咨询师替换
-            this.consultantType = 'replace'
-            this.applyDialogOpen = true
+            this.$vDialog.modal(applyDialog, {
+              title: '申请替换咨询师',
+              width: 520,
+              height: 240,
+              params: {
+                consultantType: 'replace',
+              },
+              callback (data) {
+                if (data.type === 'save') {
+                  alert('弹窗关闭，添加成功刷新列表')
+                }
+              },
+            })
             break
         }
       },

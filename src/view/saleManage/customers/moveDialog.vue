@@ -1,6 +1,5 @@
 <template>
-  <div>
-    <el-dialog title="转移客户" :visible.sync="moveDialogVisible" width="700px" :show-close="false">
+  <div class="com-dialog-container">
       <div class="com-dialog">
         <el-form :model="moveCustomerForm" :rules="rules" ref="moveCustomerForm" label-width="160px"
                  class="demo-ruleForm">
@@ -24,7 +23,6 @@
           <el-button class="save-button" @click="saveSubmitForm('moveCustomerForm')">确 定</el-button>
         </div>
       </div>
-    </el-dialog>
   </div>
 </template>
 
@@ -33,7 +31,6 @@
     name: 'moveDialog',
     data () {
       return {
-        moveDialogVisible: false,
         moveCustomerForm: {
           salerId: '',
           isOnlyCustomer: '',
@@ -42,43 +39,20 @@
         },
         rules: {
           salerId: [
-            {required: true, message: '请输入公司名称', trigger: 'blur'},
+            {required: true, message: '请输入公司名称', trigger: 'change'},
           ],
         },
       }
     },
-    props: {
-      moveDialogOpen: {
-        default: false,
-        type: Boolean,
-      },
-    },
-    watch: {
-      moveDialogOpen (open) {
-        if (open) {
-          this.moveDialogVisible = true
-          this.$emit('hasMoveDialogOpen')
-        }
-      },
-    },
     methods: {
-      initData () {
-        this.moveDialogVisible = false
-        this.moveCustomerForm = {
-          salerId: '',
-          isOnlyCustomer: '',
-          isReserveTeam: '',
-          isTransferChance: '',
-        }
-      },
       cancelSubmitForm () {
-        this.initData()
+        this.$vDialog.close({type: 'cancel'})
       },
       saveSubmitForm (formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
             alert('submit!')
-            this.initData()
+            this.$vDialog.close({type: 'save'})
           } else {
             console.log('error submit!!')
             return false

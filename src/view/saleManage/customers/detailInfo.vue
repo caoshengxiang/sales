@@ -289,11 +289,11 @@
     <!-- -->
     <!-- -->
     <!--编辑弹窗-->
-    <add-dialog type="edit" :customerDetail="customerDetail" :addDialogOpen="addDialogOpen" @hasAddDialogOpen="addDialogOpen = false"></add-dialog>
+    <!--<add-dialog type="edit" :customerDetail="customerDetail" :addDialogOpen="addDialogOpen" @hasAddDialogOpen="addDialogOpen = false"></add-dialog>-->
     <!-- -->
     <!-- -->
     <!--转移客户弹窗-->
-    <move-dialog :moveDialogOpen="moveDialogOpen" @hasMoveDialogOpen="moveDialogOpen = false"></move-dialog>
+    <!--<move-dialog :moveDialogOpen="moveDialogOpen" @hasMoveDialogOpen="moveDialogOpen = false"></move-dialog>-->
   </div>
 </template>
 
@@ -309,8 +309,8 @@
     data () {
       return {
         dataLoading: false,
-        addDialogOpen: false, // 新增弹窗
-        moveDialogOpen: false, // 转移弹窗
+        // addDialogOpen: false, // 新增弹窗
+        // moveDialogOpen: false, // 转移弹窗
         tapOption: '',
         activeViewName: '',
       }
@@ -355,7 +355,20 @@
       operateOptions (option) {
           switch (option) {
             case 'edit':
-              this.addDialogOpen = true
+              // this.addDialogOpen = true
+              this.$vDialog.modal(addDialog, {
+                title: '编辑客户',
+                width: 900,
+                height: 400,
+                params: {
+                  detail: this.customerDetail,
+                },
+                callback (data) {
+                  if (data.type === 'save') {
+                    alert('弹窗关闭，添加成功刷新列表')
+                  }
+                },
+              })
               break
             case 'back':
               this.$confirm('确定退回公海池, 是否继续?', '提示', {
@@ -375,7 +388,20 @@
               })
               break
             case 'move':
-              this.moveDialogOpen = true
+              // this.moveDialogOpen = true
+              this.$vDialog.modal(moveDialog, {
+                title: '转移客户',
+                width: 900,
+                height: 310,
+                params: {
+                  // detail: this.customerDetail,
+                },
+                callback (data) {
+                  if (data.type === 'save') {
+                    alert('弹窗关闭，添加成功刷新列表')
+                  }
+                },
+              })
               break
           }
       },

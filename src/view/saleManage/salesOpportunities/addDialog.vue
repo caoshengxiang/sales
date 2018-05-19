@@ -1,9 +1,5 @@
 <template>
-  <div>
-    <el-dialog :title="type==='edit'? '编辑销售机会':'新增销售机会'"
-               :before-close="initData"
-               :visible.sync="addDialogVisible" width="900px"
-               :show-close="false">
+  <div class="com-dialog-container">
       <div class="com-dialog">
         <el-form :model="addForm" ref="addForm" label-width="0px" :rules="rules">
           <table class="com-dialog-table">
@@ -78,11 +74,10 @@
           </table>
         </el-form>
         <div slot="footer" class="dialog-footer">
-          <el-button class="cancel-button" @click="initData">取 消</el-button>
+          <el-button class="cancel-button" @click="$vDialog.close({type: 'cancel'})">取 消</el-button>
           <el-button class="save-button" @click="saveSubmitForm('addForm')">确 定</el-button>
         </div>
       </div>
-    </el-dialog>
   </div>
 </template>
 
@@ -93,7 +88,6 @@
     name: 'addDialog',
     data () {
       return {
-        addDialogVisible: false, // 新增弹窗
         addForm: { // 添加表单
           customerId: '',
           state: '',
@@ -103,24 +97,25 @@
           intentProductId: '',
           remark: '', // todo
         },
+        salesState: [],
         rules: {
           customerId: [
             {required: true, message: '请输入所属公司', trigger: 'blur'},
           ],
           state: [
-            {required: true, message: '请输入选择需求阶段', trigger: 'blur'},
+            {required: true, message: '请选择需求阶段', trigger: 'change'},
           ],
           billDate: [
-            {required: true, message: '请选择预计签单时间', trigger: 'blur'},
+            {required: true, message: '请选择预计签单时间', trigger: 'change'},
           ],
           intentBillAmount: [
             {required: true, message: '请输入预计签单金额', trigger: 'blur'},
           ],
           intentProductCate: [
-            {required: true, message: '请选择意向商品分类', trigger: 'blur'},
+            {required: true, message: '请选择意向商品分类', trigger: 'change'},
           ],
           intentProductId: [
-            {required: true, message: '请输选择意向商品', trigger: 'blur'},
+            {required: true, message: '请选择意向商品', trigger: 'change'},
           ],
           remark: [
             {required: true, message: '请输入需求描述', trigger: 'blur'},
@@ -128,55 +123,13 @@
         },
       }
     },
-    props: {
-      addDialogOpen: {
-        default: false,
-        type: Boolean,
-      },
-      salesOpportunitiesDetail: {
-        default () {
-          return {}
-        },
-        type: Object,
-      },
-      type: {
-        default: '',
-        type: String,
-      },
-    },
-    computed: {
-      ...mapState('constData', [
-        'salesState',
-      ])
-    },
-    watch: {
-      addDialogOpen (open) {
-        if (open) {
-          this.addDialogVisible = true
-          this.$emit('hasAddDialogOpen')
-        }
-      },
-      salesOpportunitiesDetail (d) {
-        this.addForm = JSON.parse(JSON.stringify(d))
-      },
-    },
+    props: ['params'],
+    // computed: {
+    //   ...mapState('constData', [
+    //     'salesState',
+    //   ])
+    // },
     methods: {
-      initData () {
-        if (this.type === 'edit') {
-          this.addForm = JSON.parse(JSON.stringify(this.salesOpportunitiesDetail))
-        } else {
-          this.addForm = { // 添加客户表单
-            name: '', // todo 缺少字段
-            state: '',
-            billDate: '',
-            intentBillAmount: '',
-            intentProductCate: '',
-            intentProductId: '',
-            remark: '', // todo
-          }
-        }
-        this.addDialogVisible = false
-      },
       areaSelectedOptionsHandleChange (value) {
         console.log(value)
       },
@@ -184,7 +137,7 @@
         this.$refs[formName].validate((valid) => {
           if (valid) {
             alert('submit!')
-            this.initData()
+            this.$vDialog.close({type: 'save'})
           } else {
             console.log('error submit!!')
             return false
@@ -192,6 +145,12 @@
         })
       },
     },
+    created () {
+      this.salesState = this.params.salesState
+      if (this.params.detail) {
+        this.addForm = this.params.detail
+      }
+    }
   }
 </script>
 

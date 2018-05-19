@@ -226,8 +226,8 @@
     <!-- -->
     <!-- -->
     <!--编辑弹窗-->
-    <add-dialog type="edit" :addDialogOpen="addDialogOpen"
-                @hasAddDialogOpen="addDialogOpen = false"></add-dialog>
+    <!--<add-dialog type="edit" :addDialogOpen="addDialogOpen"-->
+                <!--@hasAddDialogOpen="addDialogOpen = false"></add-dialog>-->
   </div>
 </template>
 
@@ -242,7 +242,7 @@
     data () {
       return {
         dataLoading: false,
-        addDialogOpen: false,
+        // addDialogOpen: false,
         tapOption: '',
         activeViewName: '',
       }
@@ -282,7 +282,20 @@
       operateOptions (option) {
         switch (option) {
           case 'edit':
-            this.addDialogOpen = true
+            // this.addDialogOpen = true
+            this.$vDialog.modal(addDialog, {
+              title: '编辑联系人',
+              width: 900,
+              height: 400,
+              params: {
+                detail: this.contactsDetail,
+              },
+              callback (data) {
+                if (data.type === 'save') {
+                  alert('弹窗关闭，添加成功刷新列表')
+                }
+              },
+            })
             break
         }
       },

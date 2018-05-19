@@ -166,11 +166,11 @@
     <!-- -->
     <!-- -->
     <!--新增弹窗-->
-    <add-dialog :addDialogOpen="addDialogOpen" @hasAddDialogOpen="addDialogOpen = false"></add-dialog>
+    <!--<add-dialog :addDialogOpen="addDialogOpen" @hasAddDialogOpen="addDialogOpen = false"></add-dialog>-->
     <!-- -->
     <!-- -->
     <!--转移弹窗-->
-    <move-dialog :moveDialogOpen="moveDialogOpen" @hasMoveDialogOpen="moveDialogOpen = false"></move-dialog>
+    <!--<move-dialog :moveDialogOpen="moveDialogOpen" @hasMoveDialogOpen="moveDialogOpen = false"></move-dialog>-->
   </div>
 </template>
 
@@ -186,8 +186,8 @@
     data () {
       return {
         dataLoading: false,
-        addDialogOpen: false,
-        moveDialogOpen: false,
+        // addDialogOpen: false,
+        // moveDialogOpen: false,
         salesOpportunitiesOptionsType: 0,
         multipleSelection: [],
         currentPage: 1,
@@ -217,10 +217,36 @@
       operateOptions (op) {
         switch (op) {
           case 'add':
-            this.addDialogOpen = true
+            // this.addDialogOpen = true
+            this.$vDialog.modal(addDialog, {
+              title: '新增销售机会',
+              width: 900,
+              height: 400,
+              params: {
+                salesState: this.salesState,
+              },
+              callback (data) {
+                if (data.type === 'save') {
+                  alert('弹窗关闭，添加成功刷新列表')
+                }
+              },
+            })
             break
           case 'move':
-            this.moveDialogOpen = true
+            // this.moveDialogOpen = true
+            this.$vDialog.modal(moveDialog, {
+              title: '转移销售机会',
+              width: 500,
+              height: 200,
+              params: {
+                // id: '123456',
+              },
+              callback (data) {
+                if (data.type === 'save') {
+                  alert('弹窗关闭，添加成功刷新列表')
+                }
+              },
+            })
             break
           case 'delete':
             this.$confirm('确定删除销售机会, 是否继续?', '提示', {

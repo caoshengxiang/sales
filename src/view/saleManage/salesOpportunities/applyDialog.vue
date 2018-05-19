@@ -1,6 +1,5 @@
 <template>
-  <div>
-    <el-dialog :title="type === 'apply' ? '申请咨询师协同':'申请替换咨询师'" :visible.sync="moveDialogVisible" width="700px" :show-close="false">
+  <div class="com-dialog-container">
       <div class="com-dialog">
         <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="180px"
                  class="demo-ruleForm">
@@ -22,7 +21,6 @@
           <el-button class="save-button" @click="saveSubmitForm('ruleForm')">确 定</el-button>
         </div>
       </div>
-    </el-dialog>
   </div>
 </template>
 
@@ -31,55 +29,29 @@
     name: 'applyDialog',
     data () {
       return {
-        moveDialogVisible: false,
         ruleForm: {
           consultantType: '',
           consultant: '',
         },
         rules: {
           consultantType: [
-            {required: true, message: '请选择协同咨询师类型', trigger: 'blur'},
+            {required: true, message: '请选择协同咨询师类型', trigger: 'change'},
           ],
           consultant: [
-            {required: true, message: '请选择协同咨询师人员', trigger: 'blur'},
+            {required: true, message: '请选择协同咨询师人员', trigger: 'change'},
           ],
         },
       }
     },
-    props: {
-      dialogOpen: {
-        default: false,
-        type: Boolean,
-      },
-      type: {
-        default: '',
-        type: String
-      }
-    },
-    watch: {
-      dialogOpen (open) {
-        if (open) {
-          this.moveDialogVisible = true
-          this.$emit('hasDialogOpen')
-        }
-      },
-    },
     methods: {
-      initData () {
-        this.moveDialogVisible = false
-        this.ruleForm = {
-          consultantType: '',
-          consultant: '',
-        }
-      },
       cancelSubmitForm () {
-        this.initData()
+        this.$vDialog.close({type: 'cancel'})
       },
       saveSubmitForm (formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
             alert('submit!')
-            this.initData()
+            this.$vDialog.close({type: 'save'})
           } else {
             console.log('error submit!!')
             return false

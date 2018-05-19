@@ -1,8 +1,5 @@
 <template>
-  <div>
-    <el-dialog :title="type==='edit'? '编辑客户':'新增客户'"
-               :before-close="initData"
-               :visible.sync="addDialogVisible" width="900px" :show-close="false">
+  <div class="com-dialog-container">
       <div class="com-dialog">
         <el-form :model="addForm" ref="addForm" label-width="0px" :rules="rules">
           <table class="com-dialog-table">
@@ -104,12 +101,11 @@
           </table>
         </el-form>
         <div slot="footer" class="dialog-footer">
-          <el-button class="cancel-button" @click="initData">取 消</el-button>
+          <el-button class="cancel-button" @click="$vDialog.close({type: 'cancel'})">取 消</el-button>
           <el-button class="save-button" @click="addDialogVisible = false">保存并新建联系人</el-button>
           <el-button class="save-button" @click="saveSubmitForm('addForm')">确 定</el-button>
         </div>
       </div>
-    </el-dialog>
   </div>
 </template>
 
@@ -172,17 +168,17 @@
           ],
           // levelName: '',
           level: [
-            {required: true, message: '请选择客户等级', trigger: 'blur'},
+            {required: true, message: '请选择客户等级', trigger: 'change'},
           ],
           shortName: [
             {required: true, message: '请输入客户简称', trigger: 'blur'},
           ],
           industry: [
-            {required: true, message: '请选择客户行业', trigger: 'blur'},
+            {required: true, message: '请选择客户行业', trigger: 'change'},
           ],
           // industryName: '',
           provinceId: [
-            {required: true, message: '请选择客户地区', trigger: 'blur'},
+            {required: true, message: '请选择客户地区', trigger: 'change'},
           ],
           // provinceName: '',
           // cityName: '',
@@ -208,62 +204,8 @@
         },
       }
     },
-    props: {
-      addDialogOpen: {
-        default: false,
-        type: Boolean,
-      },
-      customerDetail: {
-        default () {
-          return {}
-        },
-        type: Object,
-      },
-      type: {
-        default: '',
-        type: String,
-      },
-    },
-    watch: {
-      addDialogOpen (open) {
-        if (open) {
-          this.addDialogVisible = true
-          this.$emit('hasAddDialogOpen')
-        }
-      },
-      customerDetail (d) {
-        this.addForm = JSON.parse(JSON.stringify(d))
-      }
-    },
+    props: ['params'],
     methods: {
-      initData () {
-        if (this.type === 'edit') {
-          this.addForm = JSON.parse(JSON.stringify(this.customerDetail))
-        } else {
-          this.addForm = { // 添加客户表单
-            name: '',
-            businessLicense: '',
-            // levelName: '',
-            level: '',
-            shortName: '',
-            industry: '',
-            // industryName: '',
-            provinceId: '',
-            // provinceName: '',
-            // cityName: '',
-            cityId: '',
-            // areaName: '',
-            areaId: '',
-            website: '',
-            phone: '',
-            // seaName: '',
-            seaId: '',
-            address: '',
-            business: '',
-          }
-        }
-        this.addDialogVisible = false
-      },
       areaSelectedOptionsHandleChange (value) {
         console.log(value)
       },
@@ -271,13 +213,18 @@
         this.$refs[formName].validate((valid) => {
           if (valid) {
             alert('submit!')
-            this.initData()
+            this.$vDialog.close({type: 'save'})
           } else {
             console.log('error submit!!')
             return false
           }
         })
       },
+    },
+    created () {
+      if (this.params.detail) {
+        this.addForm = this.params.detail
+      }
     },
   }
 </script>

@@ -174,7 +174,7 @@
     <!---->
     <!---->
     <!--新增弹窗-->
-    <add-dialog :addDialogOpen="addDialogOpen" @hasAddDialogOpen="addDialogOpen = false"></add-dialog>
+    <!--<add-dialog :addDialogOpen="addDialogOpen" @hasAddDialogOpen="addDialogOpen = false"></add-dialog>-->
   </div>
 </template>
 
@@ -189,7 +189,7 @@
     data () {
       return {
         dataLoading: false,
-        addDialogOpen: false,
+        // addDialogOpen: false,
         contactsTypeOption: 0,
         multipleSelection: [],
         currentPage: 1,
@@ -215,7 +215,20 @@
         'ac_contactsList',
       ]),
       addHandle () {
-        this.addDialogOpen = true
+        // this.addDialogOpen = true
+        this.$vDialog.modal(addDialog, {
+          title: '新增联系人',
+          width: 900,
+          height: 400,
+          params: {
+            // id: '123456',
+          },
+          callback (data) {
+            if (data.type === 'save') {
+              alert('弹窗关闭，添加成功刷新列表')
+            }
+          },
+        })
       },
       moveHandle () {
         alert('move')
