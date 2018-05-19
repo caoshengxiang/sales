@@ -1,13 +1,13 @@
 <template>
-  <div class="com-dialog-container">
+  <div class="com-dialog-container" v-loading="loading">
     <div class="com-dialog">
-      <el-form v-loading="loading" :model="form" ref="form" :rules="rules" :disabled ="isFormDisabled">
+      <el-form :model="form" ref="form" :rules="rules" :disabled ="isFormDisabled">
         <table class="com-dialog-table">
           <tr>
             <td class="td-title">请输入角色名称</td>
             <td class="td-text">
               <el-form-item prop="name">
-                <el-input type="text" v-model="form.name" placeholder="请输入角色名称"></el-input>
+                <el-input type="text" v-model="form.name" placeholder="请输入角色名称" :maxlength="30"></el-input>
               </el-form-item>
             </td>
           </tr>
@@ -15,7 +15,7 @@
             <td class="td-title">请选择角色系统</td>
             <td class="td-text">
               <el-form-item prop="businessSystems">
-                <el-select v-model="form.businessSystems" multiple placeholder="请选择角色系统">
+                <el-select v-model="businessSystemsOptions" multiple placeholder="请选择角色系统">
                   <el-option
                     v-for="item in businessSystems"
                     :key="item.value"
@@ -30,7 +30,7 @@
             <td class="td-title">请选择角色职能</td>
             <td class="td-text">
               <el-form-item prop="roleBilitys">
-                <el-select v-model="form.roleBilitys" multiple placeholder="请选择角色职能">
+                <el-select v-model="roleBilitysOptions" multiple placeholder="请选择角色职能">
                   <el-option
                     v-for="item in roleBilitys"
                     :key="item.value"
@@ -45,7 +45,7 @@
             <td class="td-title">请设置角色跟进公池客户最大数量</td>
             <td class="td-text">
               <el-form-item prop="maxSeaFollower">
-                <el-input type="text" v-model="form.maxSeaFollower" placeholder="请设置角色跟进公池客户最大数量"></el-input>
+                <el-input-number v-model="form.maxSeaFollower" controls-position="right" :min="1" :max="999999" placeholder="请设置角色跟进公池客户最大数量"></el-input-number>
               </el-form-item>
             </td>
           </tr>
@@ -53,14 +53,14 @@
             <td class="td-title">请设置角色每月公池客户最大获取量</td>
             <td class="td-text">
               <el-form-item prop="maxSeaFollowerPerMonth">
-                <el-input type="text" v-model="form.maxSeaFollowerPerMonth" placeholder="请设置角色每月公池客户最大获取量"></el-input>
+                <el-input-number v-model="form.maxSeaFollowerPerMonth" controls-position="right" :min="1" :max="999999" placeholder="请设置角色每月公池客户最大获取量"></el-input-number>
               </el-form-item>
             </td>
           </tr>
         </table>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button class="cancel-button">取 消</el-button>
+        <el-button class="cancel-button" @click="closeDialog">取 消</el-button>
         <el-button class="save-button" @click="save('form')">确 定</el-button>
       </div>
     </div>
@@ -77,12 +77,14 @@
         loading:false,
         isFormDisabled:false,
         form: {
-          businessSystems:[100],
-          roleBilitys:[600]
+          maxSeaFollower:1,
+          maxSeaFollowerPerMonth:1
         },
+        businessSystemsOptions:[100],
+        roleBilitysOptions:[600],
         rules: {
           name: [
-            {required: true, message: '请输入角色名称', trigger: 'blur'},
+            {required: true, message: '请输入角色名称', trigger: 'blur'}
           ],
           roleBilitys: [
             {required: true, message: '请选择角色职能', trigger: 'blur'},
@@ -91,10 +93,10 @@
             {required: true, message: '请选择角色系统', trigger: 'blur'},
           ],
           maxSeaFollower: [
-            {required: true, message: '请设置角色跟进公池客户最大数量', trigger: 'blur'},
+            {required: true, message: '请设置角色跟进公池客户最大数量', trigger: 'blur'}
           ],
           maxSeaFollowerPerMonth: [
-            {required: true, message: '请设置角色每月公池客户最大获取量', trigger: 'blur'},
+            {required: true, message: '请设置角色每月公池客户最大获取量', trigger: 'blur'}
           ]
         }
       }
@@ -110,8 +112,26 @@
       this.$store = this.params.store;//状态库赋值
     },
     methods: {
+      closeDialog(){
+        this.$vDialog.close();
+      },
       save(formName) {
         var that = this;
+        //组装部分字段数据格式
+        var businessSystemsNewArray = [];
+        for (var i=0;i<that.businessSystemsOptions.length;i++) {
+          var item = {id:that.businessSystemsOptions[i]};
+          businessSystemsNewArray.push(item);
+        }
+        that.form.businessSystems = businessSystemsNewArray;
+
+        var roleBilitysNewArray = [];
+        for (var i=0;i<that.roleBilitysOptions.length;i++) {
+          var item = {id:that.roleBilitysOptions[i]};
+          roleBilitysNewArray.push(item);
+        }
+        that.form.roleBilitys = roleBilitysNewArray;
+
         that.$refs[formName].validate((valid) => {
           if(valid){
             switch (that.params.action) {

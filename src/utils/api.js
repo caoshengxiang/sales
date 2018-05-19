@@ -695,9 +695,22 @@ export default {
     })
   },
   role:{
+    queryList (params, success, error) {
+      $axios({
+        method: 'get',
+        url: 'role',
+        params: params
+      }).then((res) => {
+        success && success(res)
+      }).catch((errorData) => {
+        error && error(errorData)
+      })
+    },
     add (params, success, error) {
-      $axios.post('role', {
-        params: params,
+      $axios({
+        method: 'post',
+        url: 'role',
+        data: params
       }).then((res) => {
         success && success(res)
       }).catch((errorData) => {
@@ -705,8 +718,20 @@ export default {
       })
     },
     update (params, success, error) {
-      $axios.put(`role/${params.id}`, {
-        params: params,
+      $axios({
+        method: 'post',
+        url: `/role/${params.id}`,
+        data: params
+      }).then((res) => {
+        success && success(res)
+      }).catch((errorData) => {
+        error && error(errorData)
+      })
+    },
+    getDetail (params, success, error) {
+      $axios({
+        method: 'get',
+        url: `/role/${params.id}`
       }).then((res) => {
         success && success(res)
       }).catch((errorData) => {
