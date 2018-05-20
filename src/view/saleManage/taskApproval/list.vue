@@ -31,13 +31,7 @@
         :data="tableData"
         tooltip-effect="dark"
         style="width: 100%"
-        @selection-change="handleSelectionChange">
-        <el-table-column
-          fixed
-          type="selection"
-          align="center"
-          width="40">
-        </el-table-column>
+        >
         <el-table-column
           align="center"
           label="任务名称"
