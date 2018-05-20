@@ -5,35 +5,37 @@
       <el-breadcrumb separator-class="el-icon-arrow-right">
         <el-breadcrumb-item :to="{ name: 'saleHome' }">销售管理系统</el-breadcrumb-item>
         <el-breadcrumb-item>工作任务</el-breadcrumb-item>
-        <el-breadcrumb-item>客户详情</el-breadcrumb-item>
+        <el-breadcrumb-item>任务详情</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <!--控制栏-->
     <div class="com-bar">
       <table class="detail-table">
         <tr>
-          <td class="td-title">公司名称</td>
-          <td>成都凡特塞科技有限公司</td>
-          <td class="td-title">营业执照</td>
-          <td>455655213213123</td>
-          <td class="td-title">客户级别</td>
-          <td>重要客户</td>
-          <td class="td-title">客户级别</td>
-          <td>重要客户</td>
+          <td class="td-title">任务名称</td>
+          <td>咨询人员派单</td>
+          <td class="td-title">负责人员</td>
+          <td>张三</td>
+          <td class="td-title">任务发布人员</td>
+          <td>李四</td>
+          <td class="td-title">任务发布时间</td>
+          <td>2018.05.20 12:14</td>
         </tr>
         <tr>
-          <td class="td-title">公司名称</td>
-          <td>成都凡特塞科技有限公司</td>
-          <td class="td-title">营业执照</td>
-          <td>455655213213123</td>
-          <td class="td-title">客户级别</td>
-          <td colspan="3">重要客户</td>
+          <td class="td-title">任务截止时间</td>
+          <td>2018.05.20 12:14</td>
+          <td class="td-title">任务业务类型</td>
+          <td>销售机会</td>
+          <td class="td-title">任务业务描述</td>
+          <td colspan="3">财税金融全托管</td>
         </tr>
         <tr>
           <td class="td-title">公司名称</td>
           <td colspan="7">
-            <el-button>审核通过</el-button>
-            <el-button>审核拒绝</el-button>
+            <com-button buttonType="backHighSeas" @click="addHandle">审核通过
+            </com-button>
+            <com-button buttonType="grey">审核拒绝
+            </com-button>
           </td>
         </tr>
       </table>
