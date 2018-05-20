@@ -56,7 +56,14 @@ npm test
 
 ## 项目部署
 
-// todo
+### window 上运行bash
+[教程](https://www.ithome.com/html/win10/233457.htm)
+
+控制台输入bash 就可运行bash 命令
+
+* npm run releaseTest 测试服
+* npm run release 正式服
+
 
 ## 目录说明
 ```
