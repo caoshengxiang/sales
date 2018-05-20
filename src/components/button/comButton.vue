@@ -91,7 +91,10 @@
   }
 
   .grey {
-    @include btn-style(#f6f6f6, $font-color-2)
+    @include btn-style(#f6f6f6, $font-color-2);
+    &:hover, &:focus {
+      border-color: #cdcdcd !important;
+    }
   }
 
   .delete {
@@ -102,12 +105,13 @@
     @include btn-style(#4BCF99)
   }
 
+  .orange {
+    @include btn-style(#FFA94B)
+  }
+
   /* 销售前端 e*/
 
   /* 扩展的其他按钮 - 销售前端 */
-  .move {
-    @include btn-style(#FFA94B)
-  }
 
   .back-high-seas {
     @include btn-style(#26C6DA)
