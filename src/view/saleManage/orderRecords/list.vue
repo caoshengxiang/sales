@@ -12,7 +12,7 @@
     <!--控制栏-->
     <div class="com-bar">
       <div class="com-bar-left">
-        <com-button buttonType="export" icon="el-icon-plus">导出</com-button>
+        <com-button buttonType="export" icon="el-icon-plus" :disabled="multipleSelection.length <= 0">导出</com-button>
       </div>
       <div class="com-bar-right">
         <!--<el-select v-model="value" placeholder="请选择" class="com-el-select">-->

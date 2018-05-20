@@ -13,8 +13,8 @@
     <div class="com-bar">
       <div class="com-bar-left">
         <com-button buttonType="add" icon="el-icon-plus" @click="addHandle">新增</com-button>
-        <com-button buttonType="orange" icon="el-icon-plus" @click="moveHandle">转移</com-button>
-        <com-button buttonType="backHighSeas" icon="el-icon-plus" @click="returnHighSeaHandle">退回公海池</com-button>
+        <com-button buttonType="orange" icon="el-icon-plus" @click="moveHandle" :disabled="multipleSelection.length <= 0">转移</com-button>
+        <com-button buttonType="backHighSeas" icon="el-icon-plus" @click="returnHighSeaHandle" :disabled="multipleSelection.length <= 0">退回公海池</com-button>
       </div>
       <div class="com-bar-right">
         <el-select v-model="customerType" placeholder="请选择" class="com-el-select">

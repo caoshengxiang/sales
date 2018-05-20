@@ -12,7 +12,7 @@
     <!--控制栏-->
     <div class="com-bar">
       <div class="com-bar-left">
-        <com-button buttonType="delete" icon="el-icon-plus" @click="operateOptions('delete')">删除</com-button>
+        <com-button buttonType="delete" icon="el-icon-plus" @click="operateOptions('delete')" :disabled="multipleSelection.length <= 0">删除</com-button>
         <com-button buttonType="add" icon="el-icon-plus" @click="operateOptions('add')">新增</com-button>
       </div>
       <div class="com-bar-right">

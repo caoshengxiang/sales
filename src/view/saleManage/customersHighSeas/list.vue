@@ -11,9 +11,9 @@
     <div class="com-bar">
       <div class="com-bar-left">
         <com-button buttonType="add" icon="el-icon-plus" @click="operateOptions('add')">新增</com-button>
-        <com-button buttonType="orange" icon="el-icon-plus" @click="operateOptions('assign')">分配</com-button>
-        <com-button buttonType="backHighSeas" icon="el-icon-plus" @click="operateOptions('gain')">捞取</com-button>
-        <com-button buttonType="theme" icon="el-icon-plus" @click="operateOptions('group')">改变分组</com-button>
+        <com-button buttonType="orange" icon="el-icon-plus" @click="operateOptions('assign')" :disabled="multipleSelection.length <= 0">分配</com-button>
+        <com-button buttonType="backHighSeas" icon="el-icon-plus" @click="operateOptions('gain')" :disabled="multipleSelection.length <= 0">捞取</com-button>
+        <com-button buttonType="theme" icon="el-icon-plus" @click="operateOptions('group')" :disabled="multipleSelection.length <= 0">改变分组</com-button>
       </div>
       <div class="com-bar-float-right">
         <com-button buttonType="import">导入</com-button>
@@ -133,58 +133,28 @@
             customerName: '成都凡特塞科技有限公司',
             businessLicense: '',
             date: '2016-05-03',
-            name: '王小虎',
-            address: '上海市普陀区金沙江路 1518 弄',
+            name: '',
+            address: '',
           }, {
             customerName: '成都凡特塞科技有限公司',
             date: '2016-05-02',
-            name: '王小虎',
-            address: '上海市普陀区金沙江路 1518 弄',
+            name: '',
+            address: '',
           }, {
             customerName: '成都凡特塞科技有限公司',
             date: '2016-05-04',
-            name: '王小虎',
-            address: '上海市普陀区金沙江路 1518 弄',
+            name: '',
+            address: '',
           }, {
             customerName: '成都凡特塞科技有限公司',
             date: '2016-05-01',
-            name: '王小虎',
-            address: '上海市普陀区金沙江路 1518 弄',
-          }, {
-            customerName: '成都凡特塞科技有限公司',
-            date: '2016-05-08',
-            name: '王小虎',
-            address: '上海市普陀区金沙江路 1518 弄',
-          }, {
-            customerName: '成都凡特塞科技有限公司',
-            date: '2016-05-06',
-            name: '王小虎',
-            address: '上海市普陀区金沙江路 1518 弄',
-          }, {
+            name: '',
+            address: '',
+          },{
             customerName: '成都凡特塞科技有限公司',
             date: '2016-05-07',
-            name: '王小虎',
-            address: '上海市普陀区金沙江路 1518 弄',
-          }, {
-            customerName: '成都凡特塞科技有限公司',
-            date: '2016-05-07',
-            name: '王小虎',
-            address: '上海市普陀区金沙江路 1518 弄',
-          }, {
-            customerName: '成都凡特塞科技有限公司',
-            date: '2016-05-07',
-            name: '王小虎',
-            address: '上海市普陀区金沙江路 1518 弄',
-          }, {
-            customerName: '成都凡特塞科技有限公司',
-            date: '2016-05-07',
-            name: '王小虎',
-            address: '上海市普陀区金沙江路 1518 弄',
-          }, {
-            customerName: '成都凡特塞科技有限公司',
-            date: '2016-05-07',
-            name: '王小虎',
-            address: '上海市普陀区金沙江路 1518 弄',
+            name: '',
+            address: '',
           }],
         multipleSelection: [],
         currentPage: 1,
