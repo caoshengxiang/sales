@@ -106,7 +106,10 @@
         <i class="el-icon-location"></i>
         <span slot="title">客户公海</span>
       </el-menu-item>
-
+      <el-menu-item index="taskApprovalList">
+        <i class="el-icon-location"></i>
+        <span slot="title">任务审批</span>
+      </el-menu-item>
       <el-menu-item index="userList">
         <template slot="title">
           <i class="el-icon-menu"></i>
