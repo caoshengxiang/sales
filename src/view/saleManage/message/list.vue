@@ -10,7 +10,7 @@
     <!--控制栏-->
     <div class="com-bar">
       <div class="com-bar-left">
-        <com-button buttonType="move" icon="el-icon-plus" @click="moveHandle">删除</com-button>
+        <com-button buttonType="orange" icon="el-icon-plus" @click="moveHandle">删除</com-button>
         <com-button buttonType="add" icon="el-icon-plus" @click="addHandle">标记已读</com-button>
       </div>
       <div class="com-bar-right">

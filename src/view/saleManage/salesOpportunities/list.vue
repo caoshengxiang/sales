@@ -14,7 +14,7 @@
       <div class="com-bar-left">
         <com-button buttonType="delete" icon="el-icon-plus" @click="operateOptions('delete')">删除</com-button>
         <com-button buttonType="add" icon="el-icon-plus" @click="operateOptions('add')">新增</com-button>
-        <com-button buttonType="move" icon="el-icon-plus" @click="operateOptions('move')">转移</com-button>
+        <com-button buttonType="orange" icon="el-icon-plus" @click="operateOptions('move')">转移</com-button>
       </div>
       <div class="com-bar-right">
         <el-select v-model="salesOpportunitiesOptionsType" placeholder="请选择" class="com-el-select">

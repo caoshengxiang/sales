@@ -11,7 +11,7 @@
     <div class="com-bar">
       <div class="com-bar-left">
         <com-button buttonType="add" icon="el-icon-plus" @click="operateOptions('add')">新增</com-button>
-        <com-button buttonType="move" icon="el-icon-plus" @click="operateOptions('assign')">分配</com-button>
+        <com-button buttonType="orange" icon="el-icon-plus" @click="operateOptions('assign')">分配</com-button>
         <com-button buttonType="backHighSeas" icon="el-icon-plus" @click="operateOptions('gain')">捞取</com-button>
         <com-button buttonType="theme" icon="el-icon-plus" @click="operateOptions('group')">改变分组</com-button>
       </div>
