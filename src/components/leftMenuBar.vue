@@ -110,11 +110,11 @@
         <i class="el-icon-location"></i>
         <span slot="title">任务审批</span>
       </el-menu-item>
-      <el-menu-item index="userList">
+     <!-- <el-menu-item index="userList">
         <template slot="title">
           <i class="el-icon-menu"></i>
           <span slot="title">用戶管理</span>
-          <div class="child-menu"><!--todo 有兼容问题-->
+          <div class="child-menu">
             <i class="el-icon-arrow-right"></i>
             <div class="child-fixed">
               <ul class="child-menu-box">
@@ -125,17 +125,28 @@
             </div>
           </div>
         </template>
-      </el-menu-item>
+      </el-menu-item><!--todo 有兼容问题-->
       <el-submenu index="user">
+      <template slot="title">
+        <i class="el-icon-location"></i>
+        <span>用戶管理</span>
+      </template>
+      <el-menu-item-group>
+        <!--<template slot="title">分组一</template>-->
+        <el-menu-item index="userList">用戶管理</el-menu-item>
+        <el-menu-item index="roleList">角色管理</el-menu-item>
+        <el-menu-item index="agentList">代理商管理</el-menu-item>
+      </el-menu-item-group>
+    </el-submenu>
+      <el-submenu index="financial">
         <template slot="title">
           <i class="el-icon-location"></i>
-          <span>用戶管理</span>
+          <span>财务管理</span>
         </template>
         <el-menu-item-group>
           <!--<template slot="title">分组一</template>-->
-          <el-menu-item index="userList">用戶管理</el-menu-item>
-          <el-menu-item index="roleList">角色管理</el-menu-item>
-          <el-menu-item index="agentList">代理商管理</el-menu-item>
+          <el-menu-item index="settlementList">佣金结算管理</el-menu-item>
+          <el-menu-item index="spendingList">佣金支出管理</el-menu-item>
         </el-menu-item-group>
       </el-submenu>
     </el-menu>

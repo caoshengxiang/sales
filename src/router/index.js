@@ -48,11 +48,11 @@ const orderRecordsList = resolve => require.ensure([],
   'orderRecordsList')
 // 回款记录
 const remittanceRecords = resolve => require.ensure([],
-  () => resolve(require('../view/saleManage/remittanceRecords/list')),
+  () => resolve(require('../view/saleManage/financial/remittanceList')),
   'remittanceRecords')
 // 返佣记录
 const rebateRecordsList = resolve => require.ensure([],
-  () => resolve(require('../view/saleManage/rebateRecords/list')),
+  () => resolve(require('../view/saleManage/financial/spendinglist')),
   'rebateRecords')
 // 客户公海
 const customersHighSeasList = resolve => require.ensure([],
@@ -99,6 +99,12 @@ const agentList = resolve => require.ensure([],
 const roleList = resolve => require.ensure([],
   () => resolve(require('../view/companyManage/role/list')), 'role')
 
+// 财务管理
+const settlementList = resolve => require.ensure([],
+  () => resolve(require('../view/companyManage/financial/settlementList')), 'financial')
+// 财务管理
+const spendingList = resolve => require.ensure([],
+  () => resolve(require('../view/companyManage/financial/spendingList')), 'financial')
 // 企业管理 end
 
 Vue.use(Router)
@@ -231,7 +237,18 @@ export default new Router({
           path: 'roleList',
           name: 'roleList',
           component: roleList
-        }
+        },
+        //企业管理 -- 财务管理
+        {
+          path: 'settlementList',
+          name: 'settlementList',
+          component: settlementList
+        },
+        {
+          path: 'spendingList',
+          name: 'spendingList',
+          component: spendingList
+        },
       ],
     },
 
