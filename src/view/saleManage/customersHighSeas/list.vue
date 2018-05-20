@@ -10,10 +10,10 @@
     <!--控制栏-->
     <div class="com-bar">
       <div class="com-bar-left">
-        <com-button buttonType="add" icon="el-icon-plus" @click="addHandle">新增</com-button>
-        <com-button buttonType="move" icon="el-icon-plus" @click="moveHandle">分配</com-button>
-        <com-button buttonType="backHighSeas" icon="el-icon-plus">捞取</com-button>
-        <com-button buttonType="theme" icon="el-icon-plus">改变分组</com-button>
+        <com-button buttonType="add" icon="el-icon-plus" @click="operateOptions('add')">新增</com-button>
+        <com-button buttonType="move" icon="el-icon-plus" @click="operateOptions('assign')">分配</com-button>
+        <com-button buttonType="backHighSeas" icon="el-icon-plus" @click="operateOptions('gain')">捞取</com-button>
+        <com-button buttonType="theme" icon="el-icon-plus" @click="operateOptions('group')">改变分组</com-button>
       </div>
       <div class="com-bar-float-right">
         <com-button buttonType="import">导入</com-button>
@@ -45,52 +45,45 @@
         </el-table-column>
         <el-table-column
           align="center"
-          label="日期"
+          label="客户来源"
+          prop=""
           width="120">
-          <template slot-scope="scope">{{ scope.row.date }}</template>
+          <!--<template slot-scope="scope">{{ scope.row.date }}</template>-->
         </el-table-column>
         <el-table-column
           align="center"
           prop="name"
-          label="姓名"
+          label="所属公海"
           width="160">
         </el-table-column>
         <el-table-column
           align="center"
           prop="address"
-          label="地址"
+          label="客户级别"
           width="160"
           show-overflow-tooltip>
         </el-table-column>
         <el-table-column
           align="center"
           prop="address"
-          label="地址"
+          label="最新动态日期"
           width="160"
           show-overflow-tooltip>
         </el-table-column>
         <el-table-column
           align="center"
           prop="address"
-          label="地址"
+          label="最近跟进人"
           width="160"
           show-overflow-tooltip>
         </el-table-column>
         <el-table-column
           align="center"
           prop="address"
-          label="地址"
+          label="创建人"
           width="160"
           show-overflow-tooltip>
         </el-table-column>
-        <el-table-column
-          align="center"
-          prop="address"
-          label="地址"
-          width="160"
-          show-overflow-tooltip>
-        </el-table-column>
-
       </el-table>
     </div>
     <!--分页-->
@@ -112,6 +105,9 @@
 <script>
   import comButton from '../../../components/button/comButton'
   import { mapState } from 'vuex'
+  import addDialog from '../customers/addDialog'
+  import assignDialog from './assignDialog'
+  import groupDialog from './groupDialog'
 
   export default {
     name: 'list',
@@ -203,11 +199,74 @@
       comButton,
     },
     methods: {
-      addHandle () {
-        alert('add btn')
-      },
-      moveHandle () {
-        alert('move')
+      operateOptions (op) {
+        switch (op) {
+          case 'add':
+            // this.addDialogOpen = true
+            this.$vDialog.modal(addDialog, {
+              title: '新增销售机会',
+              width: 900,
+              height: 400,
+              params: {
+                salesState: this.salesState,
+              },
+              callback (data) {
+                if (data.type === 'save') {
+                  alert('弹窗关闭，添加成功刷新列表')
+                }
+              },
+            })
+            break
+          case 'assign':
+            // this.moveDialogOpen = true
+            this.$vDialog.modal(assignDialog, {
+              title: '分配客户',
+              width: 500,
+              height: 200,
+              params: {
+                // id: '123456',
+              },
+              callback (data) {
+                if (data.type === 'save') {
+                  alert('弹窗关闭，添加成功刷新列表')
+                }
+              },
+            })
+            break
+          case 'gain':
+            this.$confirm('确定捞取, 是否继续?', '提示', {
+              confirmButtonText: '确定',
+              cancelButtonText: '取消',
+              type: 'warning',
+            }).then(() => {
+              this.$message({
+                type: 'success',
+                message: '捞取成功!',
+              })
+            }).catch(() => {
+              this.$message({
+                type: 'info',
+                message: '已取消捞取',
+              })
+            })
+            break
+          case 'group':
+            // this.moveDialogOpen = true
+            this.$vDialog.modal(groupDialog, {
+              title: '改变分组',
+              width: 500,
+              height: 200,
+              params: {
+                // id: '123456',
+              },
+              callback (data) {
+                if (data.type === 'save') {
+                  alert('弹窗关闭，添加成功刷新列表')
+                }
+              },
+            })
+            break
+        }
       },
       handleSelectionChange (val) {
         this.multipleSelection = val

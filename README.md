@@ -331,3 +331,4 @@ axios 在webpack定义全局变量 `$axios`
 ## 雪碧图
   class名为： spretes-文件名
  如：<i class="sprites sprites-btn-1"></i>
+> 将雪碧图换成了base64

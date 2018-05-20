@@ -107,11 +107,11 @@
         <span slot="title">客户公海</span>
       </el-menu-item>
 
-      <el-menu-item index="userList">
+      <!--<el-menu-item index="userList">
         <template slot="title">
           <i class="el-icon-menu"></i>
           <span slot="title">用戶管理</span>
-          <div class="child-menu"><!--todo 有兼容问题-->
+          <div class="child-menu">&lt;!&ndash;todo 有兼容问题&ndash;&gt;
             <i class="el-icon-arrow-right"></i>
             <div class="child-fixed">
               <ul class="child-menu-box">
@@ -122,7 +122,7 @@
             </div>
           </div>
         </template>
-      </el-menu-item>
+      </el-menu-item>-->
       <el-submenu index="user">
         <template slot="title">
           <i class="el-icon-location"></i>
