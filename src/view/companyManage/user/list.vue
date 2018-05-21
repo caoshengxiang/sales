@@ -225,7 +225,7 @@
       },
       searchHandle () {
         this.currentPage = 1
-        this.getuserList(this.currentPage, this.pagesOptions.pageSize, this.userType)
+        this.getuserList(this.currentPage - 1, this.pagesOptions.pageSize, this.userType)
       },
       handleSelectionChange (val) {
         this.multipleSelection = val
@@ -235,7 +235,7 @@
       },
       handleCurrentChange (val) {
         this.currentPage = val
-        this.getuserList(this.currentPage, this.pagesOptions.pageSize, this.userType)
+        this.getuserList(this.currentPage - 1, this.pagesOptions.pageSize, this.userType)
       },
       handleRouter (name, id) {
          this.$router.push({name: 'userDetail', params: {end: 'ME'}, query: {view: name, userId: id}})
@@ -336,7 +336,7 @@
       },
     },
     created () {
-      this.getuserList(this.currentPage, this.pagesOptions.pageSize, this.userType)
+      this.getuserList(this.currentPage - 1, this.pagesOptions.pageSize, this.userType)
     },
   }
 </script>

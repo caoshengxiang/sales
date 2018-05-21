@@ -48,7 +48,7 @@
             <td class="td-title">客户地区</td>
             <td class="td-text">
               <!--<input type="text">-->
-              <el-form-item prop="areaSelectedOptions">
+              <el-form-item prop="provinceId">
                 <el-cascader
                   placeholder="请选择客户地区"
                   :options="areaOptions_testData"
@@ -102,8 +102,8 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button class="cancel-button" @click="$vDialog.close({type: 'cancel'})">取 消</el-button>
-        <el-button class="save-button" @click="saveSubmitForm('addForm', true)">保存并新建联系人</el-button>
-        <el-button class="save-button" @click="saveSubmitForm('addForm', false)">确 定</el-button>
+        <el-button class="save-button" :loading="saveLoading" @click="saveSubmitForm('addForm', true)">保存并新建联系人</el-button>
+        <el-button class="save-button" :loading="saveLoading" @click="saveSubmitForm('addForm', false)">确 定</el-button>
       </div>
     </div>
   </div>
@@ -111,12 +111,14 @@
 
 <script>
   import addContact from '../contacts/addDialog'
+  import API from '../../../utils/api'
 
   export default {
     name: 'addDialog',
     data () {
       return {
-        addDialogVisible: false, // 新增弹窗
+        addDialogVisible: false, // 新增
+        saveLoading: false,
         addForm: { // 添加客户表单
           name: '',
           businessLicense: '',
@@ -207,6 +209,13 @@
       }
     },
     props: ['params'],
+    watch: {
+      areaSelectedOptions (d) {
+        this.addForm.provinceId = d[0]
+        this.addForm.cityId = d[1]
+        this.addForm.areaId = d[2]
+      },
+    },
     methods: {
       areaSelectedOptionsHandleChange (value) {
         console.log(value)
@@ -214,7 +223,21 @@
       saveSubmitForm (formName, addContact) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            this.$vDialog.close({type: 'save'})
+            this.saveLoading = true
+            API.customer.add({
+              query: this.params.customerAddSource[0].type,
+              body: this.addForm
+            }, (data) => {
+              if (data.status) {
+                this.$message.success('添加成功')
+              } else {
+                this.$message.error('添加失败')
+              }
+              setTimeout(() => {
+                this.saveLoading = false
+                this.$vDialog.close({type: 'save'})
+              }, 300)
+            })
             if (addContact) {
               this.saveAndAddContact()
             }
@@ -238,7 +261,7 @@
             }
           },
         })
-      }
+      },
     },
     created () {
       if (this.params.detail) {

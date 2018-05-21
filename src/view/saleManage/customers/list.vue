@@ -197,7 +197,7 @@
         // addDialogOpen: false, // 新增弹窗
         // moveDialogOpen: false, // 转移弹窗
         multipleSelection: [],
-        customerType: 0, // 客户选项
+        customerType: null, // 客户选项
         currentPage: 1, // 当前页
       }
     },
@@ -207,6 +207,7 @@
         'customerSourceType',
         'customerState',
         'pagesOptions',
+        'customerAddSource',
       ]),
       ...mapState('customer', [
         'customerList',
@@ -230,15 +231,15 @@
         }
         this.dataLoading = true
         API.customer.list(param, (res) => {
-          console.log(res)
-        }, (mock) => {
-          this.ac_customerList(mock.data)
-          this.dataLoading = false
+          this.ac_customerList(res.data)
+            setTimeout(() => {
+              this.dataLoading = false
+            }, 300)
         })
       },
       searchHandle () {
         this.currentPage = 1
-        this.getCustomerList(this.currentPage, this.pagesOptions.pageSize, this.customerType)
+        this.getCustomerList(this.currentPage - 1, this.pagesOptions.pageSize, this.customerType)
       },
       handleSelectionChange (val) {
         this.multipleSelection = val
@@ -248,7 +249,7 @@
       },
       handleCurrentChange (val) {
         this.currentPage = val
-        this.getCustomerList(this.currentPage, this.pagesOptions.pageSize, this.customerType)
+        this.getCustomerList(this.currentPage - 1, this.pagesOptions.pageSize, this.customerType)
       },
       handleRouter (name, id) {
         this.$router.push({name: 'customersDetail', query: {view: name, customerId: id}, params: {end: 'FE'}})
@@ -260,7 +261,7 @@
           width: 900,
           height: 400,
           params: {
-            // id: '123456',
+            customerAddSource: this.customerAddSource,
           },
           callback (data) {
             if (data.type === 'save') {
@@ -304,7 +305,7 @@
       },
     },
     created () {
-      this.getCustomerList(this.currentPage, this.pagesOptions.pageSize, this.customerType)
+      this.getCustomerList(this.currentPage - 1, this.pagesOptions.pageSize, this.customerType)
     },
   }
 </script>

@@ -11,7 +11,7 @@ export default {
   state: {
     customerTypeOptions: [ // 客户类型选项
       {
-        type: 0,
+        type: null,
         value: '全部客户',
       }, {
         type: 1,
@@ -34,6 +34,16 @@ export default {
         type: 3,
         value: '公司资源',
       },
+    ],
+    customerAddSource: [ // 客户新增来源
+      {
+        type: 1,
+        value: '客户管理模块',
+      },
+      {
+        type: 2,
+        value: '客户池模块'
+      }
     ],
     salesOpportunitiesOptions: [
       {

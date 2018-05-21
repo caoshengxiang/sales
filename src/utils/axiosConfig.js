@@ -13,7 +13,9 @@ $axios.interceptors.response.use((response) => {
   if (!response.data.status) { // 后台返回错误
     Message.error(response.data.error.message)
   }
+  // setTimeout(() => {
   return response
+  // }, 300)
 }, (error) => {
   //对返回的错误进行一些处理
   return Promise.reject(error)

@@ -144,12 +144,12 @@
       },
       handleSizeChange (val) {
         console.log(`每页 ${val} 条`)
-        this.getContactsList(this.currentPage, this.pagesOptions.pageSize)
+        this.getContactsList(this.currentPage - 1, this.pagesOptions.pageSize)
       },
       handleCurrentChange (val) {
         console.log(`当前页: ${val}`)
         this.currentPage = val
-        this.getContactsList(this.currentPage, this.pagesOptions.pageSize)
+        this.getContactsList(this.currentPage - 1, this.pagesOptions.pageSize)
       },
       handleRouter (name) {
         this.$router.push({name: 'salesOpportunitiesDetail', query: {view: name, id: 1}, params: {end: 'FE'}})
@@ -174,7 +174,7 @@
       },
     },
     created () {
-      this.getContactsList(this.currentPage, this.pagesOptions.pageSize)
+      this.getContactsList(this.currentPage - 1, this.pagesOptions.pageSize)
     },
   }
 </script>

@@ -260,19 +260,19 @@
         }
       },
       searchHandle () {
-        this.getSalesOrderList(this.currentPage, this.pagesOptions.pageSize, this.orderTypeOption)
+        this.getSalesOrderList(this.currentPage - 1, this.pagesOptions.pageSize, this.orderTypeOption)
       },
       handleSelectionChange (val) {
         this.multipleSelection = val
       },
       handleSizeChange (val) {
         console.log(`每页 ${val} 条`)
-        this.getSalesOrderList(this.currentPage, this.pagesOptions.pageSize, this.orderTypeOption)
+        this.getSalesOrderList(this.currentPage - 1, this.pagesOptions.pageSize, this.orderTypeOption)
       },
       handleCurrentChange (val) {
         console.log(`当前页: ${val}`)
         this.currentPage = val
-        this.getSalesOrderList(this.currentPage, this.pagesOptions.pageSize, this.orderTypeOption)
+        this.getSalesOrderList(this.currentPage - 1, this.pagesOptions.pageSize, this.orderTypeOption)
       },
       handleRouter (name, id) {
         this.$router.push({name: 'salesOrdersDetail', query: {view: name, id: id}, params: {end: 'FE'}})
@@ -295,7 +295,7 @@
       },
     },
     created () {
-      this.getSalesOrderList(this.currentPage, this.pagesOptions.pageSize, this.orderTypeOption)
+      this.getSalesOrderList(this.currentPage - 1, this.pagesOptions.pageSize, this.orderTypeOption)
     },
   }
 </script>

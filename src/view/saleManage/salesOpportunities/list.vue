@@ -286,22 +286,22 @@
       },
       handleSizeChange (val) {
         console.log(`每页 ${val} 条`)
-        this.getSalesOpportunititeisList(this.currentPage, this.pagesOptions.pageSize, this.salesOpportunitiesOptionsType)
+        this.getSalesOpportunititeisList(this.currentPage - 1, this.pagesOptions.pageSize, this.salesOpportunitiesOptionsType)
       },
       handleCurrentChange (val) {
         // console.log(`当前页: ${val}`)
         this.currentPage = val
-        this.getSalesOpportunititeisList(this.currentPage, this.pagesOptions.pageSize, this.salesOpportunitiesOptionsType)
+        this.getSalesOpportunititeisList(this.currentPage - 1, this.pagesOptions.pageSize, this.salesOpportunitiesOptionsType)
       },
       handleRouter (name, id) {
         this.$router.push({name: 'salesOpportunitiesDetail', query: {view: name, id: id}, params: {end: 'FE'}})
       },
       searchHandle () {
-        this.getSalesOpportunititeisList(this.currentPage, this.pagesOptions.pageSize, this.salesOpportunitiesOptionsType)
+        this.getSalesOpportunititeisList(this.currentPage - 1, this.pagesOptions.pageSize, this.salesOpportunitiesOptionsType)
       }
     },
     created () {
-      this.getSalesOpportunititeisList(this.currentPage, this.pagesOptions.pageSize, this.salesOpportunitiesOptionsType)
+      this.getSalesOpportunititeisList(this.currentPage - 1, this.pagesOptions.pageSize, this.salesOpportunitiesOptionsType)
     },
   }
 </script>
