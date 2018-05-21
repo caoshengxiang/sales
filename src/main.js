@@ -20,3 +20,5 @@ new Vue({
   template: '<App/>',
   // render: h => h(App)
 })
+
+console.log('version: 1.1.2')
