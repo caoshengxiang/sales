@@ -272,7 +272,7 @@
       },
       getSalesOpportunititeisList (page, pageSize, type) { // 获取列表
         this.dataLoading = true
-        API.salesOpportunitiesList({
+        API.salesOpportunities.list({
           page: page,
           pageSize: pageSize,
           type: type,

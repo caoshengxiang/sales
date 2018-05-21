@@ -344,7 +344,7 @@
       },
       getCustomerDetail () {
         this.dataLoading = true
-        API.customerDetail({id: this.$route.query.customerId}, (data) => {
+        API.customer.detail({id: this.$route.query.customerId}, (data) => {
           this.ac_customerDetail(data.data)
           this.dataLoading = false
         }, (mock) => {

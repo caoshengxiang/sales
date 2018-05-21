@@ -271,7 +271,7 @@
       },
       getContactsDetail () {
         this.dataLoading = true
-        API.contactsDetail(this.$route.query.contactsId, (data) => {
+        API.contacts.detail(this.$route.query.contactsId, (data) => {
           this.ac_contactsDetail(data.data)
           this.dataLoading = false
         }, (data) => {

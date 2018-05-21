@@ -343,7 +343,7 @@
       },
       getSalesOrderDetail () {
         this.dataLoading = true
-        API.salesOrderDetail(this.$route.query.id, (data) => {
+        API.salesOrder.detail(this.$route.query.id, (data) => {
           this.orderDetail = data.data
           this.dataLoading = false
         }, (data) => {

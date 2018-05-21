@@ -279,7 +279,7 @@
       },
       getSalesOrderList (page, pageSize, type) {
         this.dataLoading = true
-        API.salesOrderList({
+        API.salesOrder.list({
           page: page,
           pageSize: pageSize,
           type: type,

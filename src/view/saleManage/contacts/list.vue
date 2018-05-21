@@ -250,7 +250,7 @@
       },
       getContactsList (page, pageSize, type) {
         this.dataLoading = true
-        API.contactsList({
+        API.contacts.list({
           page: page,
           pageSize: pageSize,
           type: type,

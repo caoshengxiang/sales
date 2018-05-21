@@ -229,7 +229,7 @@
           type: type,
         }
         this.dataLoading = true
-        API.customerList(param, (res) => {
+        API.customer.list(param, (res) => {
           console.log(res)
         }, (mock) => {
           this.ac_customerList(mock.data)

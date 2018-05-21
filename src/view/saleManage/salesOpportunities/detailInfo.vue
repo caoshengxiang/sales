@@ -355,7 +355,7 @@
       },
       getSalesOpportunitiesDetail () {
         this.dataLoading = true
-        API.salesOpportunitiesDetail(this.$route.query.id, (data) => {
+        API.salesOpportunities.detail(this.$route.query.id, (data) => {
           this.ac_salesOpportunitiesDetail(data.data)
           this.dataLoading = false
         }, (data) => {

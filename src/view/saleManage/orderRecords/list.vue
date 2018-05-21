@@ -156,7 +156,7 @@
       },
       getContactsList (page, pageSize, type) {
         this.dataLoading = true
-        API.orderRecordsList({
+        API.orderRecords.list({
           page: page,
           pageSize: pageSize,
           type: type,

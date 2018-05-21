@@ -1,5 +1,7 @@
 <template>
-  <div class="com-container">
+  <div class="com-container"
+       v-loading="dataLoading"
+       element-loading-text="数据加载中...">
     <!--头部-->
     <div class="com-head">
       <el-breadcrumb separator-class="el-icon-arrow-right">
@@ -113,46 +115,12 @@
     name: 'list',
     data () {
       return {
-        options: [
-          {
-            value: 1,
-            label: '全部客户',
-          }, {
-            value: 2,
-            label: '我负责的客户',
-          }, {
-            value: 3,
-            label: '我跟进的客户',
-          }, {
-            value: 4,
-            label: '我参与的客户',
-          }],
-        value: 3,
+        dataLoading: false,
         tableData: [
           {
             customerName: '成都凡特塞科技有限公司',
             businessLicense: '',
             date: '2016-05-03',
-            name: '',
-            address: '',
-          }, {
-            customerName: '成都凡特塞科技有限公司',
-            date: '2016-05-02',
-            name: '',
-            address: '',
-          }, {
-            customerName: '成都凡特塞科技有限公司',
-            date: '2016-05-04',
-            name: '',
-            address: '',
-          }, {
-            customerName: '成都凡特塞科技有限公司',
-            date: '2016-05-01',
-            name: '',
-            address: '',
-          },{
-            customerName: '成都凡特塞科技有限公司',
-            date: '2016-05-07',
             name: '',
             address: '',
           }],
