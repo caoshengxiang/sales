@@ -16,7 +16,7 @@
         <com-button buttonType="delete" icon="el-icon-delete" :disabled="this.multipleSelection.length <= 0"
                     @click="deleteHandle">刪除
         </com-button>
-        <com-button buttonType="add" icon="el-icon-plus" @click="addHandle">新增</com-button>
+        <com-button buttonType="add" icon="el-icon-plus" @click="add">新增</com-button>
         <com-button buttonType="grey" icon="el-icon-edit" :disabled="this.multipleSelection.length !== 1"
                     @click="modifyHandle">修改
         </com-button>
@@ -150,7 +150,7 @@
     <!-- -->
     <!-- -->
     <!--新增弹窗-->
-    <add-dialog :addDialogOpen="addDialogOpen" :type="type" @hasAddDialogOpen="addDialogOpen = false"></add-dialog>
+    <!--<add-dialog :addDialogOpen="addDialogOpen" :type="type" @hasAddDialogOpen="addDialogOpen = false"></add-dialog>-->
     <!-- -->
     <!-- -->
   </div>
@@ -171,6 +171,7 @@
     name: 'list',
     data () {
       return {
+        loading: false,
         dataLoading: true,
         addDialogOpen: false, // 新增弹窗
         moveDialogOpen: false, // 转移弹窗
@@ -197,14 +198,40 @@
       comButton,
       addDialog,
     },
+    props: ['params'],
+    created() {
+      var that = this;
+      that.$store = that.params.store;//状态库赋值
+      if (that.params.action == 'update') {
+        that.$options.methods.getRoleDetail.bind(that)(that.params.id);
+      }
+    },
     methods: {
+      closeDialog(){
+        this.$vDialog.close();
+      },
+      add(){
+        var that = this;
+        this.$vDialog.modal(addDialog,{
+          title:'新增用户',
+          width:700,
+          height:500,
+          params: {
+            store:that.$store, //弹窗组件如果需要用到vuex，必须传值过去赋值
+            action:"add"
+          },
+          callback: function(data){
+            that.$options.methods.getRoleList.bind(that)();
+          }
+        });
+      },
       selsChange (sels) {
         this.sels = sels
-        alert(this.sels)
+        //alert(this.sels)
       },
       delGroup () {
         var ids = this.sels.map(item => item.id).join() // 获取所有选中行的id组成的字符串，以逗号分隔
-        alert(ids)
+        //alert(ids)
       },
       ...mapActions('user', [
         'ac_userList',
@@ -216,8 +243,11 @@
           type: 1,  // 查询员工
         }
         this.dataLoading = true
-        API.userList(param, (res) => {
-          console.log(res)
+        API.user.userList(param, (res) => {
+          this.ac_userList(res.data)
+          setTimeout(() => {
+            this.dataLoading = false
+          }, 300)
         }, (mock) => {
           this.ac_userList(mock.data)
           this.dataLoading = false
@@ -288,7 +318,7 @@
           let param = {
             ids: id,
           }
-          API.userDelete(param, (res) => {
+          API.user.userDisable(param, (res) => {
             console.log(res)
           }, (mock) => {
             if (mock.status) {
