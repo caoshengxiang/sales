@@ -263,7 +263,6 @@
             if (addContact) {
               this.saveAndAddContact()
             }
-
           } else {
             console.log('error submit!!')
             return false
@@ -279,9 +278,7 @@
             // id: '123456',
           },
           callback (data) {
-            if (data.type === 'save') {
-              alert('弹窗关闭，添加成功刷新列表')
-            }
+            if (data.type === 'save') {}
           },
         })
       },
