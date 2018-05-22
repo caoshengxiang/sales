@@ -105,6 +105,11 @@ const settlementList = resolve => require.ensure([],
 // 财务管理
 const spendingList = resolve => require.ensure([],
   () => resolve(require('../view/companyManage/financial/spendingList')), 'financial')
+
+//组织管理
+const organizationList = resolve => require.ensure([],
+  () => resolve(require('../view/companyManage/organization/list')), 'organization')
+
 // 企业管理 end
 
 Vue.use(Router)
@@ -249,6 +254,12 @@ export default new Router({
           name: 'spendingList',
           component: spendingList
         },
+        //企业管理 -- 组织管理
+        {
+          path: 'organizationList',
+          name: 'organizationList',
+          component: organizationList
+        }
       ],
     },
 

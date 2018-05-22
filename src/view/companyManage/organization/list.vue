@@ -6,7 +6,7 @@
     <div class="com-head">
       <el-breadcrumb separator-class="el-icon-arrow-right">
         <el-breadcrumb-item :to="{ name: 'saleHome' }">销售管理系统</el-breadcrumb-item>
-        <el-breadcrumb-item>角色管理</el-breadcrumb-item>
+        <el-breadcrumb-item>组织管理</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <!--控制栏-->
@@ -17,15 +17,13 @@
         <com-button buttonType="add" icon="el-icon-plus" @click="add">新增</com-button>
         <com-button buttonType="grey" icon="el-icon-edit" @click="update">修改
         </com-button>
-        <com-button buttonType="grey" icon="el-icon-remove-outline">保存
-        </com-button>
       </div>
     </div>
     <!--详细-->
     <div class="com-box com-box-padding com-list-box">
       <el-row :gutter="2">
         <el-col :span="6">
-          <div class="role-head-con">角色名称</div>
+          <div class="role-head-con">组织机构</div>
           <el-menu
             :default-active="roleDefaultIndex"
             @select="selectRole">
@@ -40,11 +38,64 @@
         <el-col :span="18">
           <div class="role-head-con">
             描述：<span style="padding-right: 10px;">{{roleDetail.name}}</span>
-            职能：<span>{{splitName(roleDetail.bilities)}}</span>
           </div>
           <div class="role-view-con">
-            <el-tabs :value="businessSystemList[0].id">
-              <el-tab-pane :label="item.name" :name="item.id" v-for="item in businessSystemList" :key="item.id">
+            <el-tabs value="one">
+              <el-tab-pane label="分子机构" name="one">
+                <el-table
+                  ref="multipleTable"
+                  border
+                  tooltip-effect="dark">
+                  <el-table-column
+                    align="center"
+                    label="功能模块"
+                    show-overflow-tooltip
+                  >
+                  </el-table-column>
+                  <el-table-column
+                    show-overflow-tooltip
+                    align="center"
+                    label="浏览权限"
+                    prop="jobNo"
+                  >
+                  </el-table-column>
+                  <el-table-column
+                    show-overflow-tooltip
+                    align="center"
+                    prop="mobilePhone"
+                    label="操作权限"
+                  >
+                  </el-table-column>
+                </el-table>
+              </el-tab-pane>
+              <el-tab-pane label="部门" name="two">
+                <el-table
+                  ref="multipleTable"
+                  border
+                  tooltip-effect="dark">
+                  <el-table-column
+                    align="center"
+                    label="功能模块"
+                    show-overflow-tooltip
+                  >
+                  </el-table-column>
+                  <el-table-column
+                    show-overflow-tooltip
+                    align="center"
+                    label="浏览权限"
+                    prop="jobNo"
+                  >
+                  </el-table-column>
+                  <el-table-column
+                    show-overflow-tooltip
+                    align="center"
+                    prop="mobilePhone"
+                    label="操作权限"
+                  >
+                  </el-table-column>
+                </el-table>
+              </el-tab-pane>
+              <el-tab-pane label="用户" name="three">
                 <el-table
                   ref="multipleTable"
                   border

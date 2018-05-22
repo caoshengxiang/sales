@@ -12,30 +12,15 @@
             </td>
           </tr>
           <tr>
-            <td class="td-title">请选择角色系统</td>
-            <td class="td-text">
-              <el-form-item prop="selectBusinessSystems">
-                <el-select v-model="businessSystemsOptions" multiple placeholder="请选择角色系统" @change="changeBusinessSystem">
-                  <el-option
-                    v-for="item in businessSystemList"
-                    :key="item.id"
-                    :label="item.name"
-                    :value="item.id">
-                  </el-option>
-                </el-select>
-              </el-form-item>
-            </td>
-          </tr>
-          <tr>
             <td class="td-title">请选择角色职能</td>
             <td class="td-text">
               <el-form-item prop="bilities">
                 <el-select v-model="roleBilitysOptions" multiple placeholder="请选择角色职能">
                   <el-option
                     v-for="item in bilityList"
-                    :key="item.id"
+                    :key="item.value"
                     :label="item.name"
-                    :value="item.id">
+                    :value="item.value">
                   </el-option>
                 </el-select>
               </el-form-item>
@@ -79,14 +64,10 @@
           maxSeaFollower:1,
           maxSeaFollowerPerMonth:1
         },
-        businessSystemsOptions:[],
-        roleBilitysOptions:[],
+        roleBilitysOptions:[600],
         rules: {
           name: [
             {required: true, message: '请输入角色名称', trigger: 'blur'}
-          ],
-          selectBusinessSystems: [
-            {required: true, message: '请选择角色系统', trigger: 'blur'},
           ],
           roleBilitys: [
             {required: true, message: '请选择角色职能', trigger: 'blur'},
@@ -98,7 +79,6 @@
             {required: true, message: '请设置角色每月公池客户最大获取量', trigger: 'blur'}
           ]
         },
-        businessSystemList:[],
         bilityList:[]
       }
     },
@@ -106,17 +86,16 @@
     created() {
       var that = this;
       that.$store = that.params.store;//状态库赋值
-      API.role.getBusinessSystemList(function (res) {
+      API.role.getBilityList(function (res) {
         if(res.status){
-          that.businessSystemList = res.data;
-          //that.form.selectBusinessSystems.push(res.data[0].id);
+          that.bilityList = res.data;
           if (that.params.action == 'update') {
             that.$options.methods.getRoleDetail.bind(that)(that.params.id);
           }
         }
       },function () {
         Message({
-          message: '系统繁忙，请稍后再试1！',
+          message: '系统繁忙，请稍后再试！',
           type: 'error'
         });
       });
@@ -200,18 +179,6 @@
             type: 'error'
           });
         });
-      },
-      changeBusinessSystem(){
-        API.role.getBilityList({businessSystemIds:"1,2"},function (res) {
-            if(res.status){
-              that.bilityList = res.data;
-            }
-          },function (error) {
-            Message({
-              message: '系统繁忙，请稍后再试！',
-              type: 'error'
-            });
-          });
       }
     }
   }

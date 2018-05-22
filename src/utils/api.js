@@ -808,6 +808,17 @@ export default {
         error && error(errorData)
       })
     },
+    delete (params, success, error) {
+      $axios({
+        method: 'delete',
+        url: `/role/${params.id}`,
+        data: params,
+      }).then((res) => {
+        success && success(res.data)
+      }).catch((errorData) => {
+        error && error(errorData)
+      })
+    },
     getDetail (params, success, error) {
       $axios({
         method: 'get',
@@ -818,6 +829,27 @@ export default {
         error && error(errorData)
       })
     },
+    getBusinessSystemList (success, error) {
+      $axios({
+        method: 'get',
+        url: '/businessSystem'
+      }).then((res) => {
+        success && success(res.data)
+      }).catch((errorData) => {
+        error && error(errorData)
+      })
+    },
+    getBilityList (params,success, error) {
+      $axios({
+        method: 'get',
+        url: '/bility',
+        params:params
+      }).then((res) => {
+        success && success(res.data)
+      }).catch((errorData) => {
+        error && error(errorData)
+      })
+    }
   },
   organizationList (params, success, error) { // 组织或部门列表
     $axios.get('organization', {
@@ -858,4 +890,17 @@ export default {
       }, 1000)
     })
   },
+  organization:{
+    queryList (params, success, error) {
+      $axios({
+        method: 'get',
+        url: 'organization/tree',
+        params: params,
+      }).then((res) => {
+        success && success(res.data)
+      }).catch((errorData) => {
+        error && error(errorData)
+      })
+    }
+  }
 }
