@@ -16,7 +16,7 @@ $axios.get('/user',{
 $axios.post('/user',{
   firstName:'Fred',
   lastName:'Flintstone'
-})
+}, {config})
 .then(function(res){
   console.log(res);
 })

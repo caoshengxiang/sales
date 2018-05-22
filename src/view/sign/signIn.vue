@@ -8,10 +8,10 @@
       <div class="sign-form-box">
         <el-form label-width="0px" :model="formData" :rules="rules" ref="ruleForm">
           <el-form-item label="" prop="username">
-            <el-input v-model="formData.username" placeholder="请输入你的登陆账号"></el-input>
+            <el-input v-model="formData.username" placeholder="请输入你的登录账号"></el-input>
           </el-form-item>
           <el-form-item label="" prop="password">
-            <el-input @keydown.native="keydown" v-model="formData.password" placeholder="请输入你的登陆密码"></el-input>
+            <el-input @keydown.native="keydown" v-model="formData.password" placeholder="请输入你的登录密码"></el-input>
           </el-form-item>
           <el-form-item label="" prop="type">
             <el-checkbox-group v-model="isRemember">
@@ -20,7 +20,7 @@
             <a class="forget" @click="recoverPassword">忘记密码</a>
           </el-form-item>
           <el-form-item>
-            <el-button class="el-submit" @click="submitForm('ruleForm')">登陆</el-button>
+            <el-button class="el-submit" @click="submitForm('ruleForm')">登录</el-button>
           </el-form-item>
         </el-form>
       </div>
@@ -47,11 +47,11 @@
         isRemember: false,
         rules: {
           username: [
-            {required: true, message: '请输入你的登陆账号', trigger: 'blur'},
+            {required: true, message: '请输入你的登录账号', trigger: 'blur'},
             ...chartLengthRule.defaultRule,
           ],
           password: [
-            {required: true, message: '请输入你的登陆密码', trigger: 'blur'},
+            {required: true, message: '请输入你的登录密码', trigger: 'blur'},
             ...chartLengthRule.defaultRule,
           ],
         },

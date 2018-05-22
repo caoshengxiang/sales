@@ -188,6 +188,7 @@
   import { mapState, mapActions } from 'vuex'
   import addDialog from './addDialog'
   import moveDialog from './moveDialog'
+  import { arrToStr } from '../../../utils/utils'
 
   export default {
     name: 'list',
@@ -255,33 +256,33 @@
         this.$router.push({name: 'customersDetail', query: {view: name, customerId: id}, params: {end: 'FE'}})
       },
       addHandle () {
-        // this.addDialogOpen = true
+        let that = this
         this.$vDialog.modal(addDialog, {
           title: '新增客户',
           width: 900,
-          height: 400,
+          height: 410,
           params: {
             customerAddSource: this.customerAddSource,
           },
           callback (data) {
             if (data.type === 'save') {
-              alert('弹窗关闭，添加成功刷新列表')
+              that.getCustomerList(that.currentPage - 1, that.pagesOptions.pageSize, that.customerType)
             }
           },
         })
       },
       moveHandle () {
-        // this.moveDialogOpen = true
+        let that = this
         this.$vDialog.modal(moveDialog, {
           title: '转移客户',
-          width: 900,
-          height: 310,
+          width: 600,
+          height: 320,
           params: {
-            // id: '123456',
+            customerIds: this.multipleSelection,
           },
           callback (data) {
             if (data.type === 'save') {
-              alert('弹窗关闭，添加成功刷新列表')
+              that.getCustomerList(that.currentPage - 1, that.pagesOptions.pageSize, that.customerType)
             }
           },
         })
@@ -292,14 +293,18 @@
           cancelButtonText: '取消',
           type: 'warning',
         }).then(() => {
-          this.$message({
-            type: 'success',
-            message: '删除成功!',
+          API.customer.return(arrToStr(this.multipleSelection, 'id'), (data) => {
+            if (data.status) {
+              this.$message({
+                type: 'success',
+                message: '成功!',
+              })
+            }
           })
         }).catch(() => {
           this.$message({
             type: 'info',
-            message: '已取消删除',
+            message: '已取消',
           })
         })
       },

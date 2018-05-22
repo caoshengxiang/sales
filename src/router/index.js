@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import HelloWorld from '@/components/HelloWorld'
 
-// 登陆，重置
+// 登录，重置
 const signIn = resolve => require.ensure([],
   () => resolve(require('../view/sign/signIn')), 'sign')
 const recoverPassword = resolve => require.ensure([],

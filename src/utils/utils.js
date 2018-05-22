@@ -203,3 +203,11 @@ export function isJsonObj (o) {
     return false
   }
 }
+
+export function arrToStr (arr, attr) { // 对象数组id属性转为字符串[{id: 1},{id, 2}] to '1,2'
+  let tempArr = []
+  arr.forEach(item => {
+    tempArr.push(item[attr])
+  })
+  return tempArr.join(',')
+}

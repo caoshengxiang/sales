@@ -29,7 +29,7 @@
           <el-form-item label="" prop="type">
             <div class="has-account">
               <span>已有账号&nbsp;&nbsp;</span>
-              <a class="forget" @click="signIn">立即登陆</a>
+              <a class="forget" @click="signIn">立即登录</a>
             </div>
           </el-form-item>
         </el-form>

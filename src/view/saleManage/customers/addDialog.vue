@@ -1,5 +1,5 @@
 <template>
-  <div class="com-dialog-container">
+  <div class="com-dialog-container" v-loading="saveLoading">
     <div class="com-dialog">
       <el-form :model="addForm" ref="addForm" label-width="0px" :rules="rules">
         <table class="com-dialog-table">
@@ -102,8 +102,8 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button class="cancel-button" @click="$vDialog.close({type: 'cancel'})">取 消</el-button>
-        <el-button class="save-button" :loading="saveLoading" @click="saveSubmitForm('addForm', true)">保存并新建联系人</el-button>
-        <el-button class="save-button" :loading="saveLoading" @click="saveSubmitForm('addForm', false)">确 定</el-button>
+        <el-button class="save-button" @click="saveSubmitForm('addForm', true)">保存并新建联系人</el-button>
+        <el-button class="save-button" @click="saveSubmitForm('addForm', false)">确 定</el-button>
       </div>
     </div>
   </div>
@@ -225,18 +225,21 @@
           if (valid) {
             this.saveLoading = true
             API.customer.add({
-              query: this.params.customerAddSource[0].type,
-              body: this.addForm
+              query: {source: this.params.customerAddSource[0].type},
+              body: this.addForm,
             }, (data) => {
               if (data.status) {
                 this.$message.success('添加成功')
+                setTimeout(() => {
+                  this.saveLoading = false
+                  this.$vDialog.close({type: 'save'})
+                }, 500)
               } else {
-                this.$message.error('添加失败')
+                // this.$message.error('添加失败')
+                setTimeout(() => {
+                  this.saveLoading = false
+                }, 500)
               }
-              setTimeout(() => {
-                this.saveLoading = false
-                this.$vDialog.close({type: 'save'})
-              }, 300)
             })
             if (addContact) {
               this.saveAndAddContact()

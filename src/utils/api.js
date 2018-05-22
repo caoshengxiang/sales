@@ -6,8 +6,8 @@ export default {
         params: params,
       }).then((res) => {
         success && success(res.data)
-      }).catch(() => {
-        error && error()
+      }).catch((err) => {
+        error && error(err)
       })
     },
     detail (params, success, error) { // 客户详细
@@ -16,7 +16,7 @@ export default {
       }).then((res) => {
         success && success(res.data)
       }).catch(() => {
-        // error && error()
+        // error && error(err)
         let mockdata = {
           'data': {
             'address': '四川省成都市高新区太平洋保险金融大厦A座10F',
@@ -75,14 +75,35 @@ export default {
       })
     },
     add (params, success, error) {
-      $axios.post('customer/test_detail', params.body, {
+      $axios.post('customer', params.body, {
         params: params.query,
       }).then((res) => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+    },
+    edit (params, success, error) {
+      $axios.put('customer' + params.path, params.body).then(res => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+    },
+    transfer (params, success, error) {
+      $axios.post('customer/transfer', params).then((res) => {
         success && success(res.data)
       }).catch(() => {
         error && error()
       })
-    }
+    },
+    return (params, success, error) {
+      $axios.post('customer/return', params).then((res) => {
+        success && success(res.data)
+      }).catch(() => {
+        error && error()
+      })
+    },
   },
   // 联系人
   contacts: { // 联系人
