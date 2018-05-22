@@ -781,7 +781,7 @@ export default {
         url: 'role',
         params: params,
       }).then((res) => {
-        success && success(res)
+        success && success(res.data)
       }).catch((errorData) => {
         error && error(errorData)
       })
@@ -792,18 +792,18 @@ export default {
         url: 'role',
         data: params,
       }).then((res) => {
-        success && success(res)
+        success && success(res.data)
       }).catch((errorData) => {
         error && error(errorData)
       })
     },
     update (params, success, error) {
       $axios({
-        method: 'post',
+        method: 'put',
         url: `/role/${params.id}`,
         data: params,
       }).then((res) => {
-        success && success(res)
+        success && success(res.data)
       }).catch((errorData) => {
         error && error(errorData)
       })
@@ -813,7 +813,7 @@ export default {
         method: 'get',
         url: `/role/${params.id}`,
       }).then((res) => {
-        success && success(res)
+        success && success(res.data)
       }).catch((errorData) => {
         error && error(errorData)
       })
