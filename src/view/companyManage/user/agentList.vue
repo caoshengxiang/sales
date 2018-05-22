@@ -215,8 +215,11 @@
           type: 2, // 查询代理商
         }
         this.dataLoading = true
-        API.userList(param, (res) => {
-          console.log(res)
+        API.user.userList(param, (res) => {
+          this.ac_userList(res.data)
+          setTimeout(() => {
+            this.dataLoading = false
+          }, 300)
         }, (mock) => {
           this.ac_userList(mock.data)
           this.dataLoading = false

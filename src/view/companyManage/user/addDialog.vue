@@ -1,8 +1,7 @@
 <template>
-  <div>
-    <el-dialog :title="type==='edit'? '编辑人员':'新增人员'" :visible.sync="addDialogVisible" width="900px" :show-close="false">
+  <div class="com-dialog-container" v-loading="loading">
       <div class="com-dialog">
-        <el-form :model="form" ref="form" label-width="0px" :rules="rules">
+        <el-form :model="form" ref="form" label-width="0px" :rules="rules"  :disabled ="isFormDisabled">
           <table class="com-dialog-table">
             <tr v-if="type==='edit'">
               <td class="td-title">员工号</td>
@@ -36,9 +35,12 @@
                   <el-form-item prop="areaSelectedOptions">
                     <el-cascader
                       placeholder="请选择人员组织"
+                      :change-on-select="true"
                       :options="allorganization"
                       v-model="areaSelectedOptions"
-                      @change="areaSelectedOptionsHandleChange">
+                      @change="areaSelectedOptionsHandleChange"
+                      :props="props"
+                 >
                     </el-cascader>
                   </el-form-item>
 
@@ -53,7 +55,8 @@
                     v-for="item in alldepartments"
                     :key="item.id"
                     :label="item.name"
-                    :value="item.id">
+                    :value="item.id"
+                    >
                   </el-option>
                 </el-select>
               </td>
@@ -106,7 +109,6 @@
           <el-button class="save-button" @click="saveSubmitForm('form')">确 定</el-button>
         </div>
       </div>
-    </el-dialog>
   </div>
 </template>
 <script>
@@ -116,9 +118,13 @@
     name: 'addDialog',
     data () {
       return {
+        loading:false,
+        isFormDisabled:false,
         id: 1,
         props:{
-          children: 'subOrgs'
+          children:'children',
+          value:'id',
+          label:'name',
         },
         addDialogVisible: false, // 新增弹窗
         form: { // 添加用户表单
@@ -152,27 +158,9 @@
           ],
         },
         allroles: [],
-        areaSelectedOptions: [1, 2, 3],
-        allorganization: [ {
-          value: 1,
-          label: '一级组织',
-          children: [
-            {
-              value: 2,
-              label: '二级组织',
-              children: [
-                {
-                  value: 3,
-                  label: '三级组织01',
-                },
-                {
-                  value: 4,
-                  label: '三级组织02',
-                },
-              ],
-            },
-          ],
-        }, ],
+        areaSelectedOptions: [],
+        allorganization: [
+        ],
         alldepartments: [],
         choseroles: []
       }
@@ -198,20 +186,18 @@
         page: 1,
         pageSize: 999,
       }
-      API.roleList(params, (res) => {
-        this.allroles = res
-        alert(res)
+      API.user.roleList(params, (res) => {
+        this.allroles = res.data
       }, (mock) => {
         this.allroles = mock.data
         // this.ac_userList(mock.data) // todo ac_userList 未定义
         this.dataLoading = false
       })
-      params.pid = 0
-      params.type = 1 // 查询出组织
-      API.organizationList(params, (res) => {
-        alert(res)
+      params = {}
+      API.organizationTreeList(params, (res) => {
+        this.allorganization = res.data
       }, (mock) => {
-        this.alldepartments = mock.data
+        this.allorganization = mock.data
         this.dataLoading = false
       })
     },
@@ -266,17 +252,15 @@
         this.addDialogVisible = false
       },
       areaSelectedOptionsHandleChange (value) {
-        console.log(value)
         this.form.organizationId =value[value.length -1] // 取当前选中的组织
-        let params = {
+        let depparams = {
           page: 1,
           pageSize: 999,
         }
-        params.pid = this.form.organizationId
-        params.type = 2 // 查询出部门
-        API.organizationList(params, (res) => {
-          this.alldepartments = res
-          alert(res)
+        depparams.pid = this.form.organizationId
+        depparams.type = 2 // 查询出部门
+        API.organizationList(depparams, (res) => {
+          this.alldepartments = res.data
         }, (mock) => {
           this.alldepartments = mock.data
           this.dataLoading = false
@@ -286,7 +270,7 @@
         alert(this.form.departmentId)
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            API.userAdd(this.form, (res) => {
+            API.user.userAdd(this.form, (res) => {
               alert('添加数据成功')
             }, (mock) => {
               alert('添加数据异常')

@@ -1,5 +1,5 @@
 <template>
-  <div class="com-dialog-container" v-loading="saveLoading">
+  <div class="com-dialog-container" v-loading="dataLoading">
     <div class="com-dialog">
       <el-form :model="addForm" ref="addForm" label-width="0px" :rules="rules">
         <table class="com-dialog-table">
@@ -118,7 +118,7 @@
     data () {
       return {
         addDialogVisible: false, // 新增
-        saveLoading: false,
+        dataLoading: false,
         addForm: { // 添加客户表单
           name: '',
           businessLicense: '',
@@ -206,6 +206,7 @@
             // {required: true, message: '请输入主营业务', trigger: 'blur'},
           ],
         },
+        dialogType: 'add',
       }
     },
     props: ['params'],
@@ -223,24 +224,42 @@
       saveSubmitForm (formName, addContact) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            this.saveLoading = true
-            API.customer.add({
-              query: {source: this.params.customerAddSource[0].type},
-              body: this.addForm,
-            }, (data) => {
-              if (data.status) {
-                this.$message.success('添加成功')
-                setTimeout(() => {
-                  this.saveLoading = false
-                  this.$vDialog.close({type: 'save'})
-                }, 500)
-              } else {
-                // this.$message.error('添加失败')
-                setTimeout(() => {
-                  this.saveLoading = false
-                }, 500)
-              }
-            })
+            this.dataLoading = true
+            if (this.dialogType === 'add') {
+              API.customer.add({
+                query: {source: this.params.customerAddSource[0].type},
+                body: this.addForm,
+              }, (data) => {
+                if (data.status) {
+                  this.$message.success('添加成功')
+                  setTimeout(() => {
+                    this.dataLoading = false
+                    this.$vDialog.close({type: 'save'})
+                  }, 500)
+                } else {
+                  setTimeout(() => {
+                    this.dataLoading = false
+                  }, 500)
+                }
+              })
+            } else {
+              API.customer.edit({
+                path: this.addForm.id,
+                body: this.addForm
+              }, (data) => {
+                if (data.status) {
+                  this.$message.success('编辑成功')
+                  setTimeout(() => {
+                    this.dataLoading = false
+                    this.$vDialog.close({type: 'save'})
+                  }, 500)
+                } else {
+                  setTimeout(() => {
+                    this.dataLoading = false
+                  }, 500)
+                }
+              })
+            }
             if (addContact) {
               this.saveAndAddContact()
             }
@@ -259,9 +278,7 @@
             // id: '123456',
           },
           callback (data) {
-            if (data.type === 'save') {
-              alert('弹窗关闭，添加成功刷新列表')
-            }
+            if (data.type === 'save') {}
           },
         })
       },
@@ -269,6 +286,7 @@
     created () {
       if (this.params.detail) {
         this.addForm = this.params.detail
+        this.dialogType = 'edit'
       }
     },
   }
