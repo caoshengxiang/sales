@@ -293,12 +293,21 @@
           cancelButtonText: '取消',
           type: 'warning',
         }).then(() => {
-          API.customer.return(arrToStr(this.multipleSelection, 'id'), (data) => {
+          API.customer.return({customerIds: arrToStr(this.multipleSelection, 'id')}, (data) => {
             if (data.status) {
-              this.$message({
-                type: 'success',
-                message: '成功!',
-              })
+              if (data.data.fail > 0) {
+                this.$message.warning(`成功${data.data.success},失败${data.data.fail}`)
+              } else {
+                this.$message.success(`成功${data.data.success},失败${data.data.fail}`)
+              }
+              setTimeout(() => {
+                this.dataLoading = false
+                this.$vDialog.close({type: 'save'})
+              }, 500)
+            } else {
+              setTimeout(() => {
+                this.dataLoading = false
+              }, 500)
             }
           })
         }).catch(() => {

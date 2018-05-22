@@ -25,9 +25,9 @@
       </div>
       <div class="com-info-right">
         <!--<el-radio-group v-model="tapOption">-->
-          <!--<el-radio-button class="btn-width" label="edit" @click.native="operateOptions">编辑</el-radio-button>-->
-          <!--<el-radio-button class="btn-width" label="back" @click.native="operateOptions">退回公海</el-radio-button>-->
-          <!--<el-radio-button class="btn-width" label="move" @click.native="operateOptions">转移</el-radio-button>-->
+        <!--<el-radio-button class="btn-width" label="edit" @click.native="operateOptions">编辑</el-radio-button>-->
+        <!--<el-radio-button class="btn-width" label="back" @click.native="operateOptions">退回公海</el-radio-button>-->
+        <!--<el-radio-button class="btn-width" label="move" @click.native="operateOptions">转移</el-radio-button>-->
         <!--</el-radio-group>-->
         <ul class="com-info-op-group">
           <li class="op-active" @click="operateOptions('edit')">编辑</li>
@@ -319,6 +319,7 @@
       ...mapState('constData', [
         'customerSourceType',
         'customerState',
+        'customerAddSource',
       ]),
       ...mapState('customer', [
         'customerDetail',
@@ -340,70 +341,77 @@
       ]),
       handleTabsClick (tab, event) {
         // console.log(tab.name)
-        this.$router.push({name: 'customersDetail', params: {end: 'FE'}, query: {view: tab.name, customerId: this.$route.query.customerId}})
+        this.$router.push({
+          name: 'customersDetail',
+          params: {end: 'FE'},
+          query: {view: tab.name, customerId: this.$route.query.customerId},
+        })
       },
       getCustomerDetail () {
         this.dataLoading = true
         API.customer.detail({id: this.$route.query.customerId}, (data) => {
-          this.ac_customerDetail(data.data)
-          this.dataLoading = false
-        }, (mock) => {
-          this.ac_customerDetail(mock.data)
-          this.dataLoading = false
+          setTimeout(() => {
+            this.ac_customerDetail(data.data)
+            this.dataLoading = false
+          }, 500)
         })
       },
       operateOptions (option) {
-          switch (option) {
-            case 'edit':
-              // this.addDialogOpen = true
-              this.$vDialog.modal(addDialog, {
-                title: '编辑客户',
-                width: 900,
-                height: 400,
-                params: {
-                  detail: this.customerDetail,
-                },
-                callback (data) {
-                  if (data.type === 'save') {
-                    alert('弹窗关闭，添加成功刷新列表')
+        switch (option) {
+          case 'edit':
+            // this.addDialogOpen = true
+            this.$vDialog.modal(addDialog, {
+              title: '编辑客户',
+              width: 900,
+              height: 410,
+              params: {
+                customerAddSource: this.customerAddSource,
+                detail: this.customerDetail,
+              },
+              callback (data) {
+                if (data.type === 'save') {}
+              },
+            })
+            break
+          case 'back':
+            this.$confirm('确定退回公海池, 是否继续?', '提示', {
+              confirmButtonText: '确定',
+              cancelButtonText: '取消',
+              type: 'warning',
+            }).then(() => {
+              API.customer.return({customerIds: arrToStr(this.multipleSelection, 'id')}, (data) => {
+                if (data.status) {
+                  if (data.data.fail > 0) {
+                    this.$message.warning(`成功${data.data.success},失败${data.data.fail}`)
+                  } else {
+                    this.$message.success(`成功${data.data.success},失败${data.data.fail}`)
                   }
-                },
+                }
+                setTimeout(() => {
+                  this.dataLoading = false
+                }, 500)
               })
-              break
-            case 'back':
-              this.$confirm('确定退回公海池, 是否继续?', '提示', {
-                confirmButtonText: '确定',
-                cancelButtonText: '取消',
-                type: 'warning',
-              }).then(() => {
-                this.$message({
-                  type: 'success',
-                  message: '删除成功!',
-                })
-              }).catch(() => {
-                this.$message({
-                  type: 'info',
-                  message: '已取消删除',
-                })
+            }).catch(() => {
+              this.$message({
+                type: 'info',
+                message: '已取消',
               })
-              break
-            case 'move':
-              // this.moveDialogOpen = true
-              this.$vDialog.modal(moveDialog, {
-                title: '转移客户',
-                width: 900,
-                height: 310,
-                params: {
-                  // detail: this.customerDetail,
-                },
-                callback (data) {
-                  if (data.type === 'save') {
-                    alert('弹窗关闭，添加成功刷新列表')
-                  }
-                },
-              })
-              break
-          }
+            })
+            break
+          case 'move':
+            this.$vDialog.modal(moveDialog, {
+              title: '转移客户',
+              width: 600,
+              height: 320,
+              params: {
+                customerIds: [{id: this.$route.query.customerId}],
+              },
+              callback (data) {
+                if (data.type === 'save') {}
+              },
+            })
+            break
+        }
       },
     },
     created () {

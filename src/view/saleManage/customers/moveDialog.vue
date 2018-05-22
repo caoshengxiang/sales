@@ -1,5 +1,5 @@
 <template>
-  <div class="com-dialog-container" v-loading="saveLoading">
+  <div class="com-dialog-container" v-loading="dataLoading">
       <div class="com-dialog">
         <el-form :model="moveCustomerForm" :rules="rules" ref="moveCustomerForm" label-width="160px"
                  class="demo-ruleForm">
@@ -38,7 +38,7 @@
     name: 'moveDialog',
     data () {
       return {
-        saveLoading: false,
+        dataLoading: false,
         moveCustomerForm: {
           customerIds: '',
           transferType: '',
@@ -62,7 +62,7 @@
       saveSubmitForm (formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            this.saveLoading = true
+            this.dataLoading = true
             API.customer.transfer(this.moveCustomerForm, (data) => {
               if (data.status) {
                 if (data.data.fail > 0) {
@@ -71,12 +71,12 @@
                   this.$message.success(`成功${data.data.success},失败${data.data.fail}`)
                 }
                 setTimeout(() => {
-                  this.saveLoading = false
+                  this.dataLoading = false
                   this.$vDialog.close({type: 'save'})
                 }, 500)
               } else {
                 setTimeout(() => {
-                  this.saveLoading = false
+                  this.dataLoading = false
                 }, 500)
               }
             })
@@ -86,13 +86,6 @@
           }
         })
       },
-      arrToStr (arr) { // 对象数组id属性转为字符串[{id: 1},{id, 2}] to '1,2'
-        let tempArr = []
-        arr.forEach(item => {
-          tempArr.push(item.id)
-        })
-        return tempArr.join(',')
-      }
     },
     created () {
       this.moveCustomerForm.customerIds = arrToStr(this.params.customerIds, 'id')
