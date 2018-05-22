@@ -12,24 +12,9 @@
             </td>
           </tr>
           <tr>
-            <td class="td-title">请选择角色系统</td>
-            <td class="td-text">
-              <el-form-item prop="businessSystems">
-                <el-select v-model="businessSystemsOptions" multiple placeholder="请选择角色系统">
-                  <el-option
-                    v-for="item in businessSystems"
-                    :key="item.value"
-                    :label="item.name"
-                    :value="item.value">
-                  </el-option>
-                </el-select>
-              </el-form-item>
-            </td>
-          </tr>
-          <tr>
             <td class="td-title">请选择角色职能</td>
             <td class="td-text">
-              <el-form-item prop="roleBilitys">
+              <el-form-item prop="bilities">
                 <el-select v-model="roleBilitysOptions" multiple placeholder="请选择角色职能">
                   <el-option
                     v-for="item in roleBilitys"
@@ -80,7 +65,6 @@
           maxSeaFollower:1,
           maxSeaFollowerPerMonth:1
         },
-        businessSystemsOptions:[100],
         roleBilitysOptions:[600],
         rules: {
           name: [
@@ -88,9 +72,6 @@
           ],
           roleBilitys: [
             {required: true, message: '请选择角色职能', trigger: 'blur'},
-          ],
-          businessSystems: [
-            {required: true, message: '请选择角色系统', trigger: 'blur'},
           ],
           maxSeaFollower: [
             {required: true, message: '请设置角色跟进公池客户最大数量', trigger: 'blur'}
@@ -109,7 +90,11 @@
     },
     props: ['params'],
     created() {
-      this.$store = this.params.store;//状态库赋值
+      var that = this;
+      that.$store = that.params.store;//状态库赋值
+      if (that.params.action == 'update') {
+        that.$options.methods.getRoleDetail.bind(that)(that.params.id);
+      }
     },
     methods: {
       closeDialog(){
@@ -118,19 +103,12 @@
       save(formName) {
         var that = this;
         //组装部分字段数据格式
-        var businessSystemsNewArray = [];
-        for (var i=0;i<that.businessSystemsOptions.length;i++) {
-          var item = {id:that.businessSystemsOptions[i]};
-          businessSystemsNewArray.push(item);
-        }
-        that.form.businessSystems = businessSystemsNewArray;
-
         var roleBilitysNewArray = [];
         for (var i=0;i<that.roleBilitysOptions.length;i++) {
           var item = {id:that.roleBilitysOptions[i]};
           roleBilitysNewArray.push(item);
         }
-        that.form.roleBilitys = roleBilitysNewArray;
+        that.form.bilities = roleBilitysNewArray;
 
         that.$refs[formName].validate((valid) => {
           if(valid){
@@ -144,6 +122,7 @@
                       message: '新增角色成功！',
                       type: 'success'
                     });
+                    that.$vDialog.close(); // 关闭弹窗
                   }else{
                     Message({
                       message: resData.error.message,
@@ -167,6 +146,7 @@
                       message: '修改角色成功！',
                       type: 'success'
                     });
+                    that.$vDialog.close(); // 关闭弹窗
                   }else{
                     Message({
                       message: resData.error.message,
@@ -184,6 +164,27 @@
             }
           }
         })
+      },
+      getRoleDetail(id){
+        var that = this;
+        that.loading = true;
+        API.role.getDetail({id:id},function (res) {
+          that.loading = false;
+          if(res.status){
+            that.form = res.data;
+          }else{
+            Message({
+              message: res.error.message,
+              type: 'error'
+            });
+          }
+        },function () {
+          that.loading = false;
+          Message({
+            message: '系统繁忙，请稍后再试1！',
+            type: 'error'
+          });
+        });
       }
     }
   }

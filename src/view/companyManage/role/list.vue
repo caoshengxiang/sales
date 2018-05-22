@@ -15,7 +15,7 @@
         <com-button buttonType="delete" icon="el-icon-delete">刪除
         </com-button>
         <com-button buttonType="add" icon="el-icon-plus" @click="add">新增</com-button>
-        <com-button buttonType="grey" icon="el-icon-edit">修改
+        <com-button buttonType="grey" icon="el-icon-edit" @click="update">修改
         </com-button>
         <com-button buttonType="grey" icon="el-icon-remove-outline">保存
         </com-button>
@@ -40,7 +40,7 @@
         <el-col :span="18">
           <div class="role-head-con">
             描述：<span style="padding-right: 10px;">{{roleDetail.name}}</span>
-            职能：<span>{{splitName(roleDetail.bilitys)}}</span>
+            职能：<span>{{splitName(roleDetail.bilities)}}</span>
           </div>
           <div class="role-view-con">
             <el-tabs value="first">
@@ -160,20 +160,6 @@
     },
     methods: {
       getRoleList () {
-        /*================假数据==================*/
-        this.roleList = [
-          {
-            "id": 1,  //角色ID
-            "name": "区域经理" //角色名称
-          },
-          {
-            "id": 2,  //角色ID
-            "name": "销售代表" //角色名称
-          }
-        ];
-        return;
-        /*================假数据==================*/
-
         var that = this;
         this.loading = true
         API.role.queryList({name:""}, (res) => {
@@ -181,7 +167,7 @@
           if(res.status){
             that.roleList = res.data;
             if (that.roleList.length > 0) {
-              that.roleDefaultIndex = that.roleList[0].id;
+              that.roleDefaultIndex = that.roleList[0].id.toString();
               that.$options.methods.getRoleDetail.bind(that)(that.roleDefaultIndex);
             }
           }else{
@@ -206,12 +192,11 @@
           width:700,
           height:400,
           params: {
-            id: '123456',
             store:that.$store, //弹窗组件如果需要用到vuex，必须传值过去赋值
             action:"add"
           },
           callback: function(data){
-            alert("弹窗关闭，这里可以执行新增后的刷新方法");
+            that.$options.methods.getRoleList.bind(that)();
           }
         });
       },
@@ -220,65 +205,49 @@
         that.$options.methods.getRoleDetail.bind(that)(index);
       },
       getRoleDetail(id){
-        /*================假数据==================*/
-        this.roleDetail = {
-          "id": 1,  //角色ID
-          "maxSeaFollower": 10, //跟进公海客户最大数量
-          "maxSeaFollowerPerMonth": 10, //每月公海客户最大获取量
-          "name": "管理员", //角色名称
-          "businessSystems": [//多个业务系统
-            {
-              "id": 1,
-              "name": "销售系统",
-              "functionModules": [//多个功能模块
-                {
-                  "id": 1,
-                  "name": "客户管理",
-                  "dataAuthority": 5, //数据权限 1:本人 2:本人及下属 3:本部门 4:本部门及下属部门 5:全部
-                  "operateAuthority": 3 //操作权限 1:无权限 2:浏览 3:操作
-                }
-              ]
-            }
-          ],
-          "bilitys": [//多个职能ID
-            {
-              "id": 1,
-              "name": "销售员"
-            },
-            {
-              "id": 2,
-              "name": "代理商"
-            }
-          ]
-        };
-        return;
-        /*================假数据==================*/
-
         var that = this;
+        that.roleDefaultIndex = id.toString();
         that.loading = true;
-        API.role.getDetail({id:id},function (resData) {
+        API.role.getDetail({id:id},function (res) {
           that.loading = false;
-          if(resData.status){
-            that.roleDetail = resData;
+          if(res.status){
+            that.roleDetail = res.data;
           }else{
             Message({
-              message: resData.error.message,
+              message: res.error.message,
               type: 'error'
             });
           }
         },function () {
           that.loading = false;
           Message({
-            message: '系统繁忙，请稍后再试！',
+            message: '系统繁忙，请稍后再试1！',
             type: 'error'
           });
         });
       },
       splitName(arrayName){
-        if (arrayName) {
+        if (arrayName && arrayName.length > 0) {
           return Array.from(arrayName,(x) => x.name).join("、");
         }
-        return "";
+        return "无";
+      },
+      update(){
+        var that = this;
+        var that = this;
+        this.$vDialog.modal(add,{
+          title:'修改角色',
+          width:700,
+          height:400,
+          params: {
+            id: that.roleDefaultIndex,
+            store:that.$store, //弹窗组件如果需要用到vuex，必须传值过去赋值
+            action:"update"
+          },
+          callback: function(data){
+            that.$options.methods.getRoleList.bind(that)();
+          }
+        });
       }
     }
   }
