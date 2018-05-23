@@ -885,6 +885,50 @@ export default {
       }).catch((errorData) => {
         error && error(errorData)
       })
+    },
+    add (params, success, error) {
+      $axios({
+        method: 'post',
+        url: 'organization',
+        data: params,
+      }).then((res) => {
+        success && success(res.data)
+      }).catch((errorData) => {
+        error && error(errorData)
+      })
+    },
+    update (params, success, error) {
+      $axios({
+        method: 'put',
+        url: 'organization',
+        data: params,
+      }).then((res) => {
+        success && success(res.data)
+      }).catch((errorData) => {
+        error && error(errorData)
+      })
+    },
+    delete (params, success, error) {
+      $axios({
+        method: 'delete',
+        url: '/organization/',
+        params: params,
+      }).then((res) => {
+        success && success(res.data)
+      }).catch((errorData) => {
+        error && error(errorData)
+      })
+    },
+    queryAllList (params, success, error) {
+      $axios({
+        method: 'get',
+        url: 'organization',
+        params: params,
+      }).then((res) => {
+        success && success(res.data)
+      }).catch((errorData) => {
+        error && error(errorData)
+      })
     }
   }
 }

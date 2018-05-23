@@ -17,7 +17,7 @@
         <com-button buttonType="add" icon="el-icon-plus" @click="add">新增</com-button>
         <com-button buttonType="grey" icon="el-icon-edit" @click="update">修改
         </com-button>
-        <com-button buttonType="grey" icon="el-icon-remove-outline">保存
+        <com-button buttonType="grey" icon="el-icon-remove-outline" @click="save">保存
         </com-button>
       </div>
     </div>
@@ -43,31 +43,45 @@
             职能：<span>{{splitName(roleDetail.bilities)}}</span>
           </div>
           <div class="role-view-con">
-            <el-tabs :value="businessSystemList[0].id">
+            <el-tabs :value="initBusinessSystemsIndex">
               <el-tab-pane :label="item.name" :name="item.id" v-for="item in businessSystemList" :key="item.id">
                 <el-table
-                  ref="multipleTable"
                   border
-                  tooltip-effect="dark">
+                  tooltip-effect="dark"
+                  :data="item.functionModules">
                   <el-table-column
                     align="center"
                     label="功能模块"
                     show-overflow-tooltip
+                    prop="name"
+                    width="300"
                   >
                   </el-table-column>
                   <el-table-column
                     show-overflow-tooltip
                     align="center"
                     label="浏览权限"
-                    prop="jobNo"
+                    width="600"
                   >
+                    <template slot-scope="scope">
+                      <el-radio v-model="scope.row.dataAuthority" :label="1">本人</el-radio>
+                      <el-radio v-model="scope.row.dataAuthority" :label="2">本人及下属</el-radio>
+                      <el-radio v-model="scope.row.dataAuthority" :label="3">本部门</el-radio>
+                      <el-radio v-model="scope.row.dataAuthority" :label="4">本部门及下属部门</el-radio>
+                      <el-radio v-model="scope.row.dataAuthority" :label="5">全部</el-radio>
+                    </template>
                   </el-table-column>
                   <el-table-column
                     show-overflow-tooltip
                     align="center"
-                    prop="mobilePhone"
                     label="操作权限"
+                    width="300"
                   >
+                    <template slot-scope="scope">
+                      <el-radio v-model="scope.row.operateAuthority" :label="1">无权限</el-radio>
+                      <el-radio v-model="scope.row.operateAuthority" :label="2">浏览</el-radio>
+                      <el-radio v-model="scope.row.operateAuthority" :label="3">操作</el-radio>
+                    </template>
                   </el-table-column>
                 </el-table>
               </el-tab-pane>
@@ -93,6 +107,7 @@
         roleList:[],
         roleDefaultIndex:"1",
         roleDetail:{},
+        initBusinessSystemsIndex:"",
         businessSystemList:[]
       }
     },
@@ -102,7 +117,6 @@
     created () {
       var that = this;
       that.$options.methods.getRoleList.bind(that)();
-      that.$options.methods.getBusinessSystemList.bind(that)();
     },
     methods: {
       getRoleList () {
@@ -158,6 +172,10 @@
           that.loading = false;
           if(res.status){
             that.roleDetail = res.data;
+            if (res.data.businessSystems && res.data.businessSystems.length > 0) {
+              that.businessSystemList = res.data.businessSystems;
+              that.initBusinessSystemsIndex = res.data.businessSystems[0].id;
+            }
           }else{
             Message({
               message: res.error.message,
@@ -194,24 +212,6 @@
           }
         });
       },
-      getBusinessSystemList(){
-        var that = this;
-        API.role.getBusinessSystemList(function (res) {
-          if(res.status){
-            that.businessSystemList = res.data;
-          }else{
-            Message({
-              message: res.error.message,
-              type: 'error'
-            });
-          }
-        },function () {
-          Message({
-            message: '系统繁忙，请稍后再试1！',
-            type: 'error'
-          });
-        });
-      },
       deleteRole(){
         var that = this;
         this.$confirm('确认是否删除?', '提示', {
@@ -233,13 +233,33 @@
             });
           }
         },function () {
+            that.loading = false;
+            Message({
+              message: '系统繁忙，请稍后再试1！',
+              type: 'error'
+            });
+          });
+        }).catch(() => {});
+      },
+      save() {
+        var that = this;
+        that.loading = true;
+        API.role.update(that.roleDetail,function (resData) {
+          that.loading = false;
+          if(resData.status){
+            Message({
+              message: '保存成功！',
+              type: 'success'
+            });
+            that.$options.methods.getRoleList.bind(that)();
+          }
+        },function () {
           that.loading = false;
           Message({
-            message: '系统繁忙，请稍后再试1！',
+            message: '系统繁忙，请稍后再试！',
             type: 'error'
           });
-        });
-        });
+        })
       }
     }
   }

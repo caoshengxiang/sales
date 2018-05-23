@@ -14,7 +14,7 @@
           <tr>
             <td class="td-title">请选择角色系统</td>
             <td class="td-text">
-              <el-form-item prop="selectBusinessSystems">
+              <el-form-item prop="businessSystems">
                 <el-select v-model="businessSystemsOptions" multiple placeholder="请选择角色系统" @change="changeBusinessSystem">
                   <el-option
                     v-for="item in businessSystemList"
@@ -78,6 +78,7 @@
         form: {
           maxSeaFollower:1,
           maxSeaFollowerPerMonth:1
+
         },
         businessSystemsOptions:[],
         roleBilitysOptions:[],
@@ -85,10 +86,10 @@
           name: [
             {required: true, message: '请输入角色名称', trigger: 'blur'}
           ],
-          selectBusinessSystems: [
+          businessSystems: [
             {required: true, message: '请选择角色系统', trigger: 'blur'},
           ],
-          roleBilitys: [
+          bilities: [
             {required: true, message: '请选择角色职能', trigger: 'blur'},
           ],
           maxSeaFollower: [
@@ -109,7 +110,6 @@
       API.role.getBusinessSystemList(function (res) {
         if(res.status){
           that.businessSystemList = res.data;
-          //that.form.selectBusinessSystems.push(res.data[0].id);
           if (that.params.action == 'update') {
             that.$options.methods.getRoleDetail.bind(that)(that.params.id);
           }
@@ -128,6 +128,13 @@
       save(formName) {
         var that = this;
         //组装部分字段数据格式
+        var businessSystemsNewArray = [];
+        for (var i=0;i<that.businessSystemsOptions.length;i++) {
+          var item = {id:that.businessSystemsOptions[i]};
+          businessSystemsNewArray.push(item);
+        }
+        that.form.businessSystems = businessSystemsNewArray;
+
         var roleBilitysNewArray = [];
         for (var i=0;i<that.roleBilitysOptions.length;i++) {
           var item = {id:that.roleBilitysOptions[i]};
@@ -187,6 +194,7 @@
           that.loading = false;
           if(res.status){
             that.form = res.data;
+            that.businessSystemsOptions = Array.from(that.form.businessSystems,(x) =>x.id);
           }else{
             Message({
               message: res.error.message,
@@ -202,7 +210,11 @@
         });
       },
       changeBusinessSystem(){
-        API.role.getBilityList({businessSystemIds:"1,2"},function (res) {
+        var that = this;
+        that.bilityList = [];
+        that.form.businessSystems = that.businessSystemsOptions;
+        console.log(that.businessSystemsOptions);
+        API.role.getBilityList({businessSystemIds:that.businessSystemsOptions.join(',')},function (res) {
             if(res.status){
               that.bilityList = res.data;
             }

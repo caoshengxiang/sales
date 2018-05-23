@@ -265,6 +265,17 @@ export default {
         value: 400,
         name: '客满系统',
       }
+    ],
+    //组织类型
+    organizationType: [
+      {
+        value: 1,
+        name: '分子机构',
+      },
+      {
+        value: 2,
+        name: '部门',
+      }
     ]
   },
   // getters,

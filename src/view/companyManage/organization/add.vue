@@ -4,20 +4,20 @@
       <el-form :model="form" ref="form" :rules="rules" :disabled ="isFormDisabled">
         <table class="com-dialog-table">
           <tr>
-            <td class="td-title">请输入角色名称</td>
+            <td class="td-title">请输入{{title}}名称</td>
             <td class="td-text">
               <el-form-item prop="name">
-                <el-input type="text" v-model="form.name" placeholder="请输入角色名称" :maxlength="30"></el-input>
+                <el-input type="text" v-model="form.name" :placeholder="'请输入'+title+'名称'" :maxlength="30"></el-input>
               </el-form-item>
             </td>
           </tr>
-          <tr>
-            <td class="td-title">请选择角色职能</td>
+          <tr v-if="params.action === 'add'">
+            <td class="td-title">请选择{{title}}类型</td>
             <td class="td-text">
-              <el-form-item prop="bilities">
-                <el-select v-model="roleBilitysOptions" multiple placeholder="请选择角色职能">
+              <el-form-item prop="type">
+                <el-select v-model="form.type" :placeholder="'请选择'+title+'类型'" :disabled="ozTypeSelectDisabled">
                   <el-option
-                    v-for="item in bilityList"
+                    v-for="item in organizationType"
                     :key="item.value"
                     :label="item.name"
                     :value="item.value">
@@ -26,19 +26,11 @@
               </el-form-item>
             </td>
           </tr>
-          <tr>
-            <td class="td-title">请设置角色跟进公池客户最大数量</td>
+          <tr v-if="params.action === 'add'">
+            <td class="td-title">上级{{title}}</td>
             <td class="td-text">
-              <el-form-item prop="maxSeaFollower">
-                <el-input-number v-model="form.maxSeaFollower" controls-position="right" :min="1" :max="999999" placeholder="请设置角色跟进公池客户最大数量"></el-input-number>
-              </el-form-item>
-            </td>
-          </tr>
-          <tr>
-            <td class="td-title">请设置角色每月公池客户最大获取量</td>
-            <td class="td-text">
-              <el-form-item prop="maxSeaFollowerPerMonth">
-                <el-input-number v-model="form.maxSeaFollowerPerMonth" controls-position="right" :min="1" :max="999999" placeholder="请设置角色每月公池客户最大获取量"></el-input-number>
+              <el-form-item>
+                <el-input type="text" v-model="pName" placeholder="无" :disabled="true"></el-input>
               </el-form-item>
             </td>
           </tr>
@@ -54,6 +46,7 @@
 <script>
   import API from '../../../utils/api'
   import { Message } from 'element-ui'
+  import { mapState } from 'vuex'
 
   export default {
     data () {
@@ -61,44 +54,46 @@
         loading:false,
         isFormDisabled:false,
         form: {
-          maxSeaFollower:1,
-          maxSeaFollowerPerMonth:1
+          pid:0
         },
-        roleBilitysOptions:[600],
         rules: {
           name: [
-            {required: true, message: '请输入角色名称', trigger: 'blur'}
+            {required: true, message: '请输入名称', trigger: 'blur'}
           ],
-          roleBilitys: [
-            {required: true, message: '请选择角色职能', trigger: 'blur'},
-          ],
-          maxSeaFollower: [
-            {required: true, message: '请设置角色跟进公池客户最大数量', trigger: 'blur'}
-          ],
-          maxSeaFollowerPerMonth: [
-            {required: true, message: '请设置角色每月公池客户最大获取量', trigger: 'blur'}
+          type: [
+            {required: true, message: '请选择类型', trigger: 'blur'}
           ]
         },
-        bilityList:[]
+        pName:"",
+        ozTypeSelectDisabled:false,
+        title:"组织"
       }
     },
+    computed: {
+      ...mapState('constData', [
+        'organizationType'
+      ])
+  },
     props: ['params'],
     created() {
       var that = this;
       that.$store = that.params.store;//状态库赋值
-      API.role.getBilityList(function (res) {
-        if(res.status){
-          that.bilityList = res.data;
-          if (that.params.action == 'update') {
-            that.$options.methods.getRoleDetail.bind(that)(that.params.id);
+      if (that.params.currentNode) {
+        if (that.params.action === 'add') {
+          that.pName = that.params.currentNode.name;
+          that.form.pid = that.params.currentNode.id;
+          if (that.params.currentNode.type == that.organizationType.find((n) => n.name=='部门').value) {
+            that.ozTypeSelectDisabled = true;
           }
+        }else{
+          that.form.name = that.params.currentNode.name;
+          that.form.id = that.params.currentNode.id;
         }
-      },function () {
-        Message({
-          message: '系统繁忙，请稍后再试！',
-          type: 'error'
-        });
-      });
+        if (that.params.currentNode.type == that.organizationType.find((n) => n.name=='部门').value) {
+          that.form.type = that.params.currentNode.type;
+          that.title = "部门";
+        }
+      }
     },
     methods: {
       closeDialog(){
@@ -106,24 +101,16 @@
       },
       save(formName) {
         var that = this;
-        //组装部分字段数据格式
-        var roleBilitysNewArray = [];
-        for (var i=0;i<that.roleBilitysOptions.length;i++) {
-          var item = {id:that.roleBilitysOptions[i]};
-          roleBilitysNewArray.push(item);
-        }
-        that.form.bilities = roleBilitysNewArray;
-
         that.$refs[formName].validate((valid) => {
           if(valid){
             switch (that.params.action) {
               case 'add':
                 that.loading = true;
-                API.role.add(that.form,function (resData) {
+                API.organization.add(that.form,function (resData) {
                   that.loading = false;
                   if(resData.status){
                     Message({
-                      message: '新增角色成功！',
+                      message: '新增组织成功！',
                       type: 'success'
                     });
                     that.$vDialog.close(); // 关闭弹窗
@@ -138,11 +125,11 @@
                 break;
               case 'update':
                 that.loading = true;
-                API.role.update(that.form,function (resData) {
+                API.organization.update(that.form,function (resData) {
                   that.loading = false;
                   if(resData.status){
                     Message({
-                      message: '修改角色成功！',
+                      message: '修改组织成功！',
                       type: 'success'
                     });
                     that.$vDialog.close(); // 关闭弹窗
