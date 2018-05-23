@@ -31,7 +31,7 @@
         <com-button buttonType="search" @click="searchHandle">搜索</com-button>
       </div>
       <div class="com-bar-right" style="float: right">
-        <el-input v-model="name" placeholder="员工姓名"  style="float: left">
+        <el-input v-model="name" placeholder="员工姓名" style="float: left">
           <template slot="prepend">员工姓名</template>
         </el-input>
 
@@ -199,31 +199,31 @@
       addDialog,
     },
     props: ['params'],
-    created() {
-      var that = this;
-      that.$store = that.params.store;//状态库赋值
+    created () {
+      var that = this
+      that.$store = that.params.store//状态库赋值
       if (that.params.action == 'update') {
-        that.$options.methods.getRoleDetail.bind(that)(that.params.id);
+        that.$options.methods.getRoleDetail.bind(that)(that.params.id)
       }
     },
     methods: {
-      closeDialog(){
-        this.$vDialog.close();
+      closeDialog () {
+        this.$vDialog.close()
       },
-      add(){
-        var that = this;
-        this.$vDialog.modal(addDialog,{
-          title:'新增用户',
-          width:700,
-          height:500,
+      add () {
+        var that = this
+        this.$vDialog.modal(addDialog, {
+          title: '新增用户',
+          width: 700,
+          height: 500,
           params: {
-            store:that.$store, //弹窗组件如果需要用到vuex，必须传值过去赋值
-            action:"add"
+            store: that.$store, //弹窗组件如果需要用到vuex，必须传值过去赋值
+            action: 'add',
           },
-          callback: function(data){
-            that.$options.methods.getRoleList.bind(that)();
-          }
-        });
+          callback: function (data) {
+            that.searchHandle()
+          },
+        })
       },
       selsChange (sels) {
         this.sels = sels
@@ -268,17 +268,27 @@
         this.getuserList(this.currentPage - 1, this.pagesOptions.pageSize, this.userType)
       },
       handleRouter (name, id) {
-         this.$router.push({name: 'userDetail', params: {end: 'ME'}, query: {view: name, userId: id}})
+        this.$router.push({name: 'userDetail', params: {end: 'ME'}, query: {view: name, userId: id}})
       },
       addHandle () {
         this.addDialogOpen = true
         this.type = 'add'
       },
       modifyHandle () {
-        var id = this.multipleSelection.map(item => item.id).join() // 当前选中的所有ID
-        console.info(id) // todo 暂时处理'id' is assigned a value but never used
-        this.addDialogOpen = true
-        this.type = 'edit'
+        var that = this;
+        this.$vDialog.modal(addDialog,{
+          title:'修改用户',
+          width: 700,
+          height: 500,
+          params: {
+            id: that.multipleSelection.map(item => item.id).join(),
+            store:that.$store, //弹窗组件如果需要用到vuex，必须传值过去赋值
+            action:"update"
+          },
+          callback: function(data){
+            that.searchHandle()
+          }
+        });
       },
       deleteHandle () {
         this.$confirm('确定删除当前选中所有用户, 是否继续?', '提示', {
@@ -290,7 +300,7 @@
           let param = {
             ids: id,
           }
-          API.userDelete(param, (res) => {
+          API.user.userDelete(param, (res) => {
             console.log(res)
           }, (mock) => {
             if (mock.status) {
@@ -320,6 +330,10 @@
           }
           API.user.userDisable(param, (res) => {
             console.log(res)
+            this.$message({
+              type: 'success',
+              message: '禁用成功了!',
+            })
           }, (mock) => {
             if (mock.status) {
               this.$message({
@@ -346,7 +360,7 @@
           let param = {
             ids: id,
           }
-          API.userResetPassword(param, (res) => {
+          API.user.userResetPassword(param, (res) => {
             console.log(res)
           }, (mock) => {
             if (mock.status) {

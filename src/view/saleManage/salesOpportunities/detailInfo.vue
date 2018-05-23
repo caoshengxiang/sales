@@ -20,7 +20,7 @@
             <span class="com-d-item">客户名称: <span>{{salesOpportunitiesDetail.customerName}}</span></span>
             <span class="com-d-item">预计签单金额: <span>{{salesOpportunitiesDetail.intentBillAmount}}</span></span>
             <span class="com-d-item">预计签单日期: <span>{{salesOpportunitiesDetail.billDate}}</span></span>
-            <span class="com-d-item">销售机会所有人: <span>todo</span></span>
+            <span class="com-d-item">销售机会所有人: <span></span></span>
           </p>
         </div>
       </div>
@@ -260,8 +260,8 @@
               <img src="../../../assets/icon/headDefault.png" alt="">
             </div>
             <div class="text">
-              <h4>{{salesOpportunitiesDetail.team.creatorName}}</h4>
-              <p>{{salesOpportunitiesDetail.team.creatorMobilePhone}}</p>
+              <h4>{{salesOpportunitiesDetail.team && salesOpportunitiesDetail.team.creatorName}}</h4>
+              <p>{{salesOpportunitiesDetail.team && salesOpportunitiesDetail.team.creatorMobilePhone}}</p>
             </div>
             <div class="post">
               <span class="post-tag-1">创建人</span>
@@ -272,8 +272,8 @@
               <img src="../../../assets/icon/headDefault.png" alt="">
             </div>
             <div class="text">
-              <h4>{{salesOpportunitiesDetail.team.salerName}}</h4>
-              <p>{{salesOpportunitiesDetail.team.salerMobilePhone}}</p>
+              <h4>{{salesOpportunitiesDetail.team && salesOpportunitiesDetail.team.salerName}}</h4>
+              <p>{{salesOpportunitiesDetail.team && salesOpportunitiesDetail.team.salerMobilePhone}}</p>
             </div>
             <div class="post">
               <span class="post-tag-2">销售员</span>
@@ -284,8 +284,8 @@
               <img src="../../../assets/icon/headDefault.png" alt="">
             </div>
             <div class="text">
-              <h4>{{salesOpportunitiesDetail.team.counselorName}}</h4>
-              <p>{{salesOpportunitiesDetail.team.counselorMobilePhone}}</p>
+              <h4>{{salesOpportunitiesDetail.team && salesOpportunitiesDetail.team.counselorName}}</h4>
+              <p>{{salesOpportunitiesDetail.team && salesOpportunitiesDetail.team.counselorMobilePhone}}</p>
             </div>
             <div class="post">
               <span class="post-tag-2">咨询师</span>
@@ -357,10 +357,9 @@
         this.dataLoading = true
         API.salesOpportunities.detail(this.$route.query.id, (data) => {
           this.ac_salesOpportunitiesDetail(data.data)
-          this.dataLoading = false
-        }, (data) => {
-          this.ac_salesOpportunitiesDetail(data.data)
-          this.dataLoading = false
+          setTimeout(() => {
+            this.dataLoading = false
+          }, 500)
         })
       },
       operateOptions (op) {

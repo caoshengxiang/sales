@@ -303,6 +303,7 @@
   import { mapState, mapActions } from 'vuex'
   import addDialog from './addDialog'
   import moveDialog from './moveDialog'
+  import { arrToStr } from '../../../utils/utils'
 
   export default {
     name: 'detailInfo',
@@ -350,13 +351,14 @@
       getCustomerDetail () {
         this.dataLoading = true
         API.customer.detail({id: this.$route.query.customerId}, (data) => {
+          this.ac_customerDetail(data.data)
           setTimeout(() => {
-            this.ac_customerDetail(data.data)
             this.dataLoading = false
           }, 500)
         })
       },
       operateOptions (option) {
+        let that = this
         switch (option) {
           case 'edit':
             // this.addDialogOpen = true
@@ -369,7 +371,9 @@
                 detail: this.customerDetail,
               },
               callback (data) {
-                if (data.type === 'save') {}
+                if (data.type === 'save') {
+                  that.getCustomerDetail()
+                }
               },
             })
             break
@@ -379,7 +383,7 @@
               cancelButtonText: '取消',
               type: 'warning',
             }).then(() => {
-              API.customer.return({customerIds: arrToStr(this.multipleSelection, 'id')}, (data) => {
+              API.customer.return({customerIds: arrToStr([{id: this.$route.query.customerId}], 'id')}, (data) => {
                 if (data.status) {
                   if (data.data.fail > 0) {
                     this.$message.warning(`成功${data.data.success},失败${data.data.fail}`)
@@ -387,9 +391,6 @@
                     this.$message.success(`成功${data.data.success},失败${data.data.fail}`)
                   }
                 }
-                setTimeout(() => {
-                  this.dataLoading = false
-                }, 500)
               })
             }).catch(() => {
               this.$message({

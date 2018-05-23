@@ -190,7 +190,7 @@
       return {
         dataLoading: false,
         // addDialogOpen: false,
-        contactsTypeOption: 0,
+        contactsTypeOption: null,
         multipleSelection: [],
         currentPage: 1,
       }
@@ -219,13 +219,13 @@
         this.$vDialog.modal(addDialog, {
           title: '新增联系人',
           width: 900,
-          height: 400,
+          height: 460,
           params: {
             // id: '123456',
           },
           callback (data) {
             if (data.type === 'save') {
-              alert('弹窗关闭，添加成功刷新列表')
+              this.getContactsList(this.currentPage - 1, this.pagesOptions.pageSize, this.contactsTypeOption)
             }
           },
         })
@@ -256,10 +256,11 @@
           type: type,
         }, (data) => {
           this.ac_contactsList(data.data)
-          this.dataLoading = false
-        }, (data) => {
-          this.ac_contactsList(data.data)
-          this.dataLoading = false
+          setTimeout(() => {
+            this.dataLoading = false
+          }, 500)
+        }, (err) => {
+          console.error(err)
         })
       },
       searchHandle () {

@@ -82,7 +82,6 @@
 </template>
 
 <script>
-  import { mapState } from 'vuex'
 
   export default {
     name: 'addDialog',
@@ -124,11 +123,6 @@
       }
     },
     props: ['params'],
-    // computed: {
-    //   ...mapState('constData', [
-    //     'salesState',
-    //   ])
-    // },
     methods: {
       areaSelectedOptionsHandleChange (value) {
         console.log(value)

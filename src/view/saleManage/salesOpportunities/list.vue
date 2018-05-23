@@ -186,9 +186,7 @@
     data () {
       return {
         dataLoading: false,
-        // addDialogOpen: false,
-        // moveDialogOpen: false,
-        salesOpportunitiesOptionsType: 0,
+        salesOpportunitiesOptionsType: null,
         multipleSelection: [],
         currentPage: 1,
       }
@@ -217,7 +215,6 @@
       operateOptions (op) {
         switch (op) {
           case 'add':
-            // this.addDialogOpen = true
             this.$vDialog.modal(addDialog, {
               title: '新增销售机会',
               width: 900,
@@ -233,7 +230,6 @@
             })
             break
           case 'move':
-            // this.moveDialogOpen = true
             this.$vDialog.modal(moveDialog, {
               title: '转移销售机会',
               width: 500,
@@ -278,10 +274,9 @@
           type: type,
         }, (data) => {
           this.ac_salesOpportunitiesList(data.data)
-          this.dataLoading = false
-        }, (data) => {
-          this.ac_salesOpportunitiesList(data.data)
-          this.dataLoading = false
+          setTimeout(() => {
+            this.dataLoading = false
+          }, 500)
         })
       },
       handleSizeChange (val) {

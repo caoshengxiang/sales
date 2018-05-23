@@ -1,13 +1,15 @@
 <template>
-  <div class="com-dialog-container">
+  <div class="com-dialog-container" v-loading="dataLoading">
     <div class="com-dialog">
       <el-form :model="addForm" ref="addForm" label-width="0px" :rules="rules">
         <table class="com-dialog-table">
           <tr>
-            <td class="td-title">所属公司</td>
+            <td class="td-title">客户名称</td>
             <td class="td-text">
-              <el-form-item prop="customerName">
-                <el-input type="text" v-model="addForm.customerName"></el-input>
+              <el-form-item prop="customerId">
+                <el-select v-model.number="addForm.customerId" placeholder="请选择客户">
+                  <el-option v-for="item in customersList" :key="item.id" :label="item.name" :value="item.id"></el-option>
+                </el-select>
               </el-form-item>
             </td>
 
@@ -51,7 +53,7 @@
                   style="width: 100%"
                   v-model="addForm.birthday"
                   type="date"
-                  value-format="yyyy-MM-dd"
+                  value-format="timestamp"
                   placeholder="选择日期">
                 </el-date-picker>
               </el-form-item>
@@ -118,15 +120,15 @@
 </template>
 
 <script>
-  import { mapState } from 'vuex'
+  import API from '../../../utils/api'
 
   export default {
     name: 'addDialog',
     data () {
       return {
-        addDialogVisible: false, // 新增弹窗
+        dataLoading: false,
         addForm: { // 添加表单
-          customerName: '',
+          customerId: '',
           contacterName: '',
           phone: '',
           department: '',
@@ -141,8 +143,8 @@
           remark: '',
         },
         rules: {
-          customerName: [
-            {required: true, message: '请输入所属公司', trigger: 'blur'},
+          customerId: [
+            {required: true, message: '请选择客户', trigger: 'blur'},
           ],
           contacterName: [
             {required: true, message: '请输入联系人姓名', trigger: 'blur'},
@@ -181,14 +183,11 @@
             // {required: true, message: '请输入备注', trigger: 'blur'},
           ],
         },
+        dialogType: 'add',
+        customersList: [],
       }
     },
     props: ['params'],
-    computed: {
-      ...mapState('contacts', [
-        'contactsDetail',
-      ])
-    },
     methods: {
       cancelSubmitForm () {
         this.$vDialog.close({type: 'cancel'})
@@ -196,20 +195,60 @@
       saveSubmitForm (formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            alert('submit!')
-            this.$vDialog.close({type: 'save'})
+            this.dataLoading = true
+            if (this.dialogType === 'add') {
+              API.contacts.add(this.addForm, (data) => {
+                if (data.status) {
+                  this.$message.success('添加成功')
+                  setTimeout(() => {
+                    this.dataLoading = false
+                    this.$vDialog.close({type: 'save'})
+                  }, 500)
+                } else {
+                  setTimeout(() => {
+                    this.dataLoading = false
+                  }, 500)
+                }
+              })
+            } else {
+              API.contacts.edit({
+                path: this.addForm.id,
+                body: this.addForm,
+              }, (data) => {
+                if (data.status) {
+                  this.$message.success('编辑成功')
+                  setTimeout(() => {
+                    this.dataLoading = false
+                    this.$vDialog.close({type: 'save'})
+                  }, 500)
+                } else {
+                  setTimeout(() => {
+                    this.dataLoading = false
+                  }, 500)
+                }
+              })
+            }
           } else {
             console.log('error submit!!')
             return false
           }
         })
       },
+      getCustomersList () { // “跟进”的所有客户
+        API.customer.list({page: 0, pageSize: 100000, type: 2}, data => {
+          if (data.status) {
+            this.customersList = data.data.content
+          }
+        })
+      },
     },
     created () {
+      this.getCustomersList()
       if (this.params.detail) {
-        this.addForm = this.params.detail
+        this.addForm = JSON.parse(JSON.stringify(this.params.detail))
+        this.dialogType = 'edit'
       }
-    }
+    },
   }
 </script>
 

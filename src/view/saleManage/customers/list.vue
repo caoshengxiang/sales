@@ -13,8 +13,12 @@
     <div class="com-bar">
       <div class="com-bar-left">
         <com-button buttonType="add" icon="el-icon-plus" @click="addHandle">新增</com-button>
-        <com-button buttonType="orange" icon="el-icon-plus" @click="moveHandle" :disabled="multipleSelection.length <= 0">转移</com-button>
-        <com-button buttonType="backHighSeas" icon="el-icon-plus" @click="returnHighSeaHandle" :disabled="multipleSelection.length <= 0">退回公海池</com-button>
+        <com-button buttonType="orange" icon="el-icon-plus" @click="moveHandle"
+                    :disabled="multipleSelection.length <= 0">转移
+        </com-button>
+        <com-button buttonType="backHighSeas" icon="el-icon-plus" @click="returnHighSeaHandle"
+                    :disabled="multipleSelection.length <= 0">退回公海池
+        </com-button>
       </div>
       <div class="com-bar-right">
         <el-select v-model="customerType" placeholder="请选择" class="com-el-select">
@@ -195,8 +199,6 @@
     data () {
       return {
         dataLoading: true,
-        // addDialogOpen: false, // 新增弹窗
-        // moveDialogOpen: false, // 转移弹窗
         multipleSelection: [],
         customerType: null, // 客户选项
         currentPage: 1, // 当前页
@@ -233,9 +235,9 @@
         this.dataLoading = true
         API.customer.list(param, (res) => {
           this.ac_customerList(res.data)
-            setTimeout(() => {
-              this.dataLoading = false
-            }, 300)
+          setTimeout(() => {
+            this.dataLoading = false
+          }, 300)
         })
       },
       searchHandle () {
@@ -263,6 +265,7 @@
           height: 410,
           params: {
             customerAddSource: this.customerAddSource,
+            customerAddSourceIndex: 1,
           },
           callback (data) {
             if (data.type === 'save') {
@@ -300,14 +303,7 @@
               } else {
                 this.$message.success(`成功${data.data.success},失败${data.data.fail}`)
               }
-              setTimeout(() => {
-                this.dataLoading = false
-                this.$vDialog.close({type: 'save'})
-              }, 500)
-            } else {
-              setTimeout(() => {
-                this.dataLoading = false
-              }, 500)
+              this.getCustomerList(this.currentPage - 1, this.pagesOptions.pageSize, this.customerType)
             }
           })
         }).catch(() => {

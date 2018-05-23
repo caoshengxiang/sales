@@ -25,7 +25,7 @@
       </div>
       <div class="com-info-right">
         <!--<el-radio-group v-model="tapOption">-->
-          <!--<el-radio-button class="btn-width" label="edit">编辑</el-radio-button>-->
+        <!--<el-radio-button class="btn-width" label="edit">编辑</el-radio-button>-->
         <!--</el-radio-group>-->
         <ul class="com-info-op-group">
           <li class="op-active" @click="operateOptions('edit')">编辑</li>
@@ -227,7 +227,7 @@
     <!-- -->
     <!--编辑弹窗-->
     <!--<add-dialog type="edit" :addDialogOpen="addDialogOpen"-->
-                <!--@hasAddDialogOpen="addDialogOpen = false"></add-dialog>-->
+    <!--@hasAddDialogOpen="addDialogOpen = false"></add-dialog>-->
   </div>
 </template>
 
@@ -267,32 +267,36 @@
       ]),
       handleTabsClick (tab, event) {
         // console.log(tab.name)
-        this.$router.push({name: 'contactsDetail', params: {end: 'FE'}, query: {view: tab.name, contactsId: this.$route.query.contactsId}})
+        this.$router.push({
+          name: 'contactsDetail',
+          params: {end: 'FE'},
+          query: {view: tab.name, contactsId: this.$route.query.contactsId},
+        })
       },
       getContactsDetail () {
         this.dataLoading = true
         API.contacts.detail(this.$route.query.contactsId, (data) => {
-          this.ac_contactsDetail(data.data)
-          this.dataLoading = false
-        }, (data) => {
-          this.ac_contactsDetail(data.data)
-          this.dataLoading = false
+          setTimeout(() => {
+            this.ac_contactsDetail(data.data)
+            this.dataLoading = false
+          }, 500)
         })
       },
       operateOptions (option) {
+        let that = this
         switch (option) {
           case 'edit':
             // this.addDialogOpen = true
             this.$vDialog.modal(addDialog, {
               title: '编辑联系人',
               width: 900,
-              height: 400,
+              height: 460,
               params: {
                 detail: this.contactsDetail,
               },
               callback (data) {
                 if (data.type === 'save') {
-                  alert('弹窗关闭，添加成功刷新列表')
+                  that.getContactsDetail()
                 }
               },
             })

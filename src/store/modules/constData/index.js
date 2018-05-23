@@ -47,7 +47,7 @@ export default {
     ],
     salesOpportunitiesOptions: [
       {
-        type: 0,
+        type: null,
         value: '全部销售机会'
       },
       {
@@ -77,7 +77,7 @@ export default {
     ],
     contactsTypeOptions: [ // 联系人类型选择
       {
-        type: 0,
+        type: null,
         value: '全部联系人',
       }, {
         type: 1,
@@ -134,7 +134,7 @@ export default {
     ],
     orderTypeOptions: [ // 订单类型选择
       {
-        type: 0,
+        type: null,
         value: '全部销售订单',
       }, {
         type: 1,
@@ -206,7 +206,7 @@ export default {
       // layout: 'total,sizes, prev, pager, next, jumper', // 分页
       layout: 'total, prev, pager, next, jumper', // 分页
       pageSizes: [10, 20, 30, 40],
-      pageSize: 1,
+      pageSize: 5,
     },
     //角色职能
     roleBilitys: [

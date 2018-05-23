@@ -13,9 +13,15 @@
     <div class="com-bar">
       <div class="com-bar-left">
         <com-button buttonType="add" icon="el-icon-plus" @click="operateOptions('add')">新增</com-button>
-        <com-button buttonType="orange" icon="el-icon-plus" @click="operateOptions('assign')" :disabled="multipleSelection.length <= 0">分配</com-button>
-        <com-button buttonType="backHighSeas" icon="el-icon-plus" @click="operateOptions('gain')" :disabled="multipleSelection.length <= 0">捞取</com-button>
-        <com-button buttonType="theme" icon="el-icon-plus" @click="operateOptions('group')" :disabled="multipleSelection.length <= 0">改变分组</com-button>
+        <com-button buttonType="orange" icon="el-icon-plus" @click="operateOptions('assign')"
+                    :disabled="multipleSelection.length <= 0">分配
+        </com-button>
+        <com-button buttonType="backHighSeas" icon="el-icon-plus" @click="operateOptions('gain')"
+                    :disabled="multipleSelection.length <= 0">捞取
+        </com-button>
+        <com-button buttonType="theme" icon="el-icon-plus" @click="operateOptions('group')"
+                    :disabled="multipleSelection.length <= 0">改变分组
+        </com-button>
       </div>
       <div class="com-bar-float-right">
         <com-button buttonType="import">导入</com-button>
@@ -42,46 +48,51 @@
           width="200"
         >
           <template slot-scope="scope">
-            <a class="col-link" @click="handleRouter('detail')">{{ scope.row.customerName }}</a>
+            <a class="col-link" @click="handleRouter('detail', scope.row.id)">{{ scope.row.name }}</a>
+          </template>
+        </el-table-column>
+        <el-table-column
+          show-overflow-tooltip
+          align="center"
+          prop="source"
+          label="客户来源"
+          width="160">
+          <template slot-scope="scope">
+            <span v-for="item in customerSourceType"
+                  :key="item.type"
+                  v-if="item.type === scope.row.source">{{item.value}}</span>
           </template>
         </el-table-column>
         <el-table-column
           align="center"
-          label="客户来源"
-          prop=""
-          width="120">
-          <!--<template slot-scope="scope">{{ scope.row.date }}</template>-->
-        </el-table-column>
-        <el-table-column
-          align="center"
-          prop="name"
+          prop="seaName"
           label="所属公海"
           width="160">
         </el-table-column>
         <el-table-column
           align="center"
-          prop="address"
+          prop="levelName"
           label="客户级别"
           width="160"
           show-overflow-tooltip>
         </el-table-column>
         <el-table-column
           align="center"
-          prop="address"
+          prop="modified"
           label="最新动态日期"
           width="160"
           show-overflow-tooltip>
         </el-table-column>
         <el-table-column
           align="center"
-          prop="address"
+          prop=""
           label="最近跟进人"
           width="160"
           show-overflow-tooltip>
         </el-table-column>
         <el-table-column
           align="center"
-          prop="address"
+          prop="creatorName"
           label="创建人"
           width="160"
           show-overflow-tooltip>
@@ -92,7 +103,7 @@
     <div class="com-pages-box">
       <el-pagination
         background
-        :total="1000"
+        :total="total"
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
         :current-page="currentPage"
@@ -110,20 +121,16 @@
   import addDialog from '../customers/addDialog'
   import assignDialog from './assignDialog'
   import groupDialog from './groupDialog'
+  import API from '../../../utils/api'
+  import { arrToStr } from '../../../utils/utils'
 
   export default {
     name: 'list',
     data () {
       return {
         dataLoading: false,
-        tableData: [
-          {
-            customerName: '成都凡特塞科技有限公司',
-            businessLicense: '',
-            date: '2016-05-03',
-            name: '',
-            address: '',
-          }],
+        total: 0,
+        tableData: [],
         multipleSelection: [],
         currentPage: 1,
       }
@@ -131,6 +138,8 @@
     computed: {
       ...mapState('constData', [
         'pagesOptions',
+        'customerAddSource',
+        'customerSourceType',
       ]),
     },
     components: {
@@ -138,35 +147,35 @@
     },
     methods: {
       operateOptions (op) {
+        let that = this
         switch (op) {
           case 'add':
-            // this.addDialogOpen = true
             this.$vDialog.modal(addDialog, {
-              title: '新增销售机会',
+              title: '添加客户',
               width: 900,
-              height: 400,
+              height: 410,
               params: {
-                salesState: this.salesState,
+                customerAddSource: this.customerAddSource,
+                customerAddSourceIndex: 1,
               },
               callback (data) {
                 if (data.type === 'save') {
-                  alert('弹窗关闭，添加成功刷新列表')
+                  that.getCustomersSeaList(that.currentPage - 1, that.pagesOptions.pageSize)
                 }
               },
             })
             break
           case 'assign':
-            // this.moveDialogOpen = true
             this.$vDialog.modal(assignDialog, {
               title: '分配客户',
               width: 500,
-              height: 200,
+              height: 230,
               params: {
-                // id: '123456',
+                customerIds: arrToStr(this.multipleSelection, 'id'),
               },
               callback (data) {
                 if (data.type === 'save') {
-                  alert('弹窗关闭，添加成功刷新列表')
+                  this.getCustomersSeaList(this.currentPage - 1, this.pagesOptions.pageSize)
                 }
               },
             })
@@ -177,9 +186,22 @@
               cancelButtonText: '取消',
               type: 'warning',
             }).then(() => {
-              this.$message({
-                type: 'success',
-                message: '捞取成功!',
+              this.dataLoading = true
+              API.customerSea.fish({customerIds: arrToStr(this.multipleSelection, 'id')}, (data) => {
+                if (data.status) {
+                  if (data.data.fail > 0) {
+                    this.$message.warning(`成功${data.data.success},失败${data.data.fail}`)
+                  } else {
+                    this.$message.success(`成功${data.data.success},失败${data.data.fail}`)
+                  }
+                  setTimeout(() => {
+                    this.dataLoading = false
+                  }, 500)
+                } else {
+                  setTimeout(() => {
+                    this.dataLoading = false
+                  }, 500)
+                }
               })
             }).catch(() => {
               this.$message({
@@ -189,17 +211,16 @@
             })
             break
           case 'group':
-            // this.moveDialogOpen = true
             this.$vDialog.modal(groupDialog, {
               title: '改变分组',
               width: 500,
-              height: 200,
+              height: 240,
               params: {
-                // id: '123456',
+                customerIds: arrToStr(this.multipleSelection, 'id'),
               },
               callback (data) {
                 if (data.type === 'save') {
-                  alert('弹窗关闭，添加成功刷新列表')
+                  this.getCustomersSeaList(this.currentPage - 1, this.pagesOptions.pageSize)
                 }
               },
             })
@@ -215,9 +236,24 @@
       handleCurrentChange (val) {
         console.log(`当前页: ${val}`)
       },
-      handleRouter (name) {
-        this.$router.push({name: 'customersDetail', query: {view: name}, params: {end: 'FE'}})
+      handleRouter (name, id) {
+        this.$router.push({name: 'customersDetail', query: {view: name, customerId: id}, params: {end: 'FE'}})
       },
+      getCustomersSeaList (page, pageSize) {
+        this.dataLoading = true
+        API.customer.list({page: page, pageSize: pageSize}, (data) => {
+          if (data.status) {
+            this.tableData = data.data.content
+            this.total = data.data.totalElements
+          }
+          setTimeout(() => {
+            this.dataLoading = false
+          }, 500)
+        })
+      },
+    },
+    created () {
+      this.getCustomersSeaList(this.currentPage - 1, this.pagesOptions.pageSize)
     },
   }
 </script>

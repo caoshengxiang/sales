@@ -18,9 +18,8 @@ export default {
       })
     },
     add (params, success, error) {
-      $axios.post('customer', params.body, {
-        params: params.query,
-      }).then((res) => {
+      let p = Object.assign({}, params.body, params.query)
+      $axios.post('customer', p).then((res) => {
         success && success(res.data)
       }).catch((err) => {
         error && error(err)
@@ -36,15 +35,48 @@ export default {
     transfer (params, success, error) {
       $axios.post('customer/transfer', params).then((res) => {
         success && success(res.data)
-      }).catch(() => {
-        error && error()
+      }).catch((err) => {
+        error && error(err)
       })
     },
     return (params, success, error) {
       $axios.post('customer/return', params).then((res) => {
         success && success(res.data)
-      }).catch(() => {
-        error && error()
+      }).catch((err) => {
+        error && error(err)
+      })
+    },
+  },
+  // 客户公海
+  customerSea: {
+    list (params, success, error) { //
+      $axios.get('customerSea', {
+        params: params,
+      }).then((res) => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+    },
+    allocate (params, success, error) { // 分配
+      $axios.post('customerSea/allocate', params).then((res) => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+    },
+    fish (params, success, error) { // 捞取
+      $axios.post('customerSea/fish', params).then((res) => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+    },
+    regroup (params, success, error) { // 分组
+      $axios.post('customerSea/regroup', params).then((res) => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
       })
     },
   },
@@ -57,130 +89,40 @@ export default {
         params: params,
       }).then(res => {
         success && success(res.data)
-      }).catch(() => {
-// error && error()
-        let mockdata = {
-          'data': {
-            'content': [
-              {
-                'bakPhone': '15690050900',
-                'birthday': '2018-05-08 00:00:00',
-                'contacterName': '张三',
-                'created': '2018-05-08 21:18:40',
-                'creator': 1,
-                'creatorName': '测试人员',
-                'customerId': 1,
-                'customerName': '凡特赛科技',
-                'department': '技术部',
-                'id': 1,
-                'mail': '15690050900@qq.com',
-                'modified': '2018-05-08 21:20:58',
-                'modifier': 1,
-                'modifierName': '测试人员',
-                'phone': '15690050900',
-                'position': '技术总监',
-                'qq': '23569897896',
-                'remark': '',
-                'sex': '男',
-                'status': 1,
-                'wx': '23569897896',
-              },
-            ],
-            'first': true,
-            'last': true,
-            'number': 0,
-            'numberOfElements': 1,
-            'size': 20,
-            'sort': null,
-            'totalElements': 1,
-            'totalPages': 1,
-          },
-          'error': null,
-          'status': true,
-        }
-        setTimeout(() => {
-          error && error(mockdata)
-        }, 1000)
+      }).catch((err) => {
+        error && error(err)
       })
     },
     detail (params, success, error) { // 联系人详细
       $axios({
         method: 'get',
-        url: '/customerContacter/' + params.id,
-        // params: params,
+        url: '/customerContacter/' + params,
       }).then(res => {
         success && success(res.data)
-      }).catch(() => {
-// error && error()
-        let mockdata = {
-          'data': {
-            'bakPhone': '15690050900',
-            'birthday': '2018-05-08 00:00:00',
-            'contacterName': '张三',
-            'created': '2018-05-08 21:18:40',
-            'creator': 1,
-            'creatorName': '测试人员',
-            'customerId': 1,
-            'customerName': '凡特赛科技',
-            'department': '技术部',
-            'id': 1,
-            'mail': '15690050900@qq.com',
-            'modified': '2018-05-08 21:20:58',
-            'modifier': 1,
-            'modifierName': '测试人员',
-            'phone': '15690050900',
-            'position': '技术总监',
-            'qq': '23569897896',
-            'remark': '',
-            'sex': '男',
-            'status': 1,
-            'wx': '23569897896',
-            'activeTime': '2018-05-08 21:20:58',
-            'followerId': 1,
-            'followerName': '测试人员',
-            'team': {
-              'creator': 1,
-              'creatorName': '测试人员',
-              'mobilePhone': '15696895689',
-              'salerList': [
-                {
-                  'salerId': 1,
-                  'salerName': '测试人员',
-                  'mobilePhone': '15696895689',
-                },
-              ],
-            },
-          },
-          'error': null,
-          'status': true,
-        }
-        setTimeout(() => {
-          error && error(mockdata)
-        }, 1000)
+      }).catch((err) => {
+        error && error(err)
       })
     },
     add (params, success, error) {
       $axios({
         method: 'post',
-        url: '/customerContacter/',
-        // params: params,
+        url: '/customerContacter',
         data: params,
       }).then(res => {
         success && success(res.data)
-      }).catch(() => {
-        error && error()
+      }).catch((err) => {
+        error && error(err)
       })
     },
-    delete (params, success, error) {
+    edit (params, success, error) {
       $axios({
-        method: 'post',
-        url: '/customerContacter/',
-        // params: params,
-        data: params,
+        method: 'put',
+        url: '/customerContacter/' + params.path,
+        data: params.body,
       }).then(res => {
         success && success(res.data)
-      }).catch(() => {
-        error && error()
+      }).catch((err) => {
+        error && error(err)
       })
     },
   },
@@ -189,136 +131,52 @@ export default {
     list (params, success, error) { // 销售机会列表
       $axios({
         method: 'get',
-        url: '/salerChance/',
+        url: '/salerChance',
         // params: params,
       }).then(res => {
         success && success(res.data)
-      }).catch(() => {
-// error && error()
-        let mockdata = {
-          'data': {
-            'content': [
-              {
-                'billDate': '2018-05-09 00:00:00',
-                'billProductId': '1',
-                'billProductName': '财税金融托管',
-                'chanceRemark': '',
-                'contacterId': '1',
-                'contacterName': '测试人员',
-                'contractId': 1,
-                'contractUrl': 'http://www.zzcfo.cn/124214124124.html',
-                'counselorId': 1,
-                'counselorName': '测试人员',
-                'created': '2018-05-09 14:29:37',
-                'creator': 1,
-                'creatorName': '测试人员',
-                'customerId': 1,
-                'customerName': '凡特赛科技',
-                'discardRemark': '',
-                'followDate': '2018-05-09 11:45:50',
-                'id': 1,
-                'intentBillAmount': 3000,
-                'intentProductCate': 1,
-                'intentProductCateName': '会计记账',
-                'intentProductId': '1',
-                'intentProductName': '财税金融全托管',
-                'modified': '2018-05-09 14:29:50',
-                'salerId': 1,
-                'salerName': '测试人员',
-                'source': 1,
-                'stage': 1,
-                'status': 1,
-              },
-            ],
-            'first': true,
-            'last': true,
-            'number': 0,
-            'numberOfElements': 1,
-            'size': 5,
-            'sort': null,
-            'totalElements': 1,
-            'totalPages': 1,
-          },
-          'error': null,
-          'status': true,
-        }
-        setTimeout(() => {
-          error && error(mockdata)
-        }, 1000)
+      }).catch((err) => {
+        error && error(err)
       })
     },
     detail (params, success, error) { // 销售机会详细
       $axios({
         method: 'get',
-        url: '/customerContacter/' + params.id,
-        // params: params,
+        url: '/salerChance/' + params,
       }).then(res => {
         success && success(res.data)
-      }).catch(() => {
-// error && error()
-        let mockdata = {
-          'data': {
-            'billDate': '2018-05-09 00:00:00',
-            'billProductId': '1',
-            'billProductName': '财税金融托管',
-            'billOrderId': 'CRM232345',
-            'billAmount': 3000,
-            'chanceRemark': '',
-            'contacterId': '1',
-            'contracterName': '张三',
-            'contractId': 1,
-            'contractUrl': 'http://www.zzcfo.cn/124214124124.html',
-            'created': '2018-05-09 14:29:37',
-            'creator': 1,
-            'creatorName': '测试人员',
-            'modifier': 1,
-            'modifierName': '测试人员',
-            'customerId': 1,
-            'customerName': '凡特赛科技',
-            'discardRemark': '',
-            'followDate': '2018-05-09 11:45:50',
-            'id': 1,
-            'intentBillAmount': 3000,
-            'intentProductCate': 1,
-            'intentProductCateName': '会计记账',
-            'intentProductId': '1',
-            'intentProductName': '财税金融全托管',
-            'modified': '2018-05-09 14:29:50',
-            'salerId': 1,
-            'salerName': '测试人员',
-            'source': 1,
-            'stage': 1,
-            'status': 1,
-            'team':
-              {
-                'creator':
-                  1,
-                'creatorName':
-                  '测试人员',
-                'creatorMobilePhone':
-                  '15696895689',
-                'salerId':
-                  1,
-                'salerName':
-                  '测试人员',
-                'salerMobilePhone':
-                  '15696895689',
-                'counselorId':
-                  1,
-                'counselorName':
-                  '测试人员',
-                'counselorMobilePhone':
-                  '15696895689',
-              },
-          },
-          'error':
-            null,
-          'status':
-            true,
-        }
-        setTimeout(() => {
-          error && error(mockdata)
-        }, 1000)
+      }).catch((err) => {
+        error && error(err)
+      })
+    },
+    add (params, success, error) {
+      $axios.post('salerChance', params).then((res) => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+    },
+    confirm (params, success, error) {
+      $axios.put('salerChance/confirm/' + params.path,
+        params.body).then((res) => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+    },
+    discard (params, success, error) {
+      $axios.post('salerChance/discard/' + params.path,
+        params.body).then((res) => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+    },
+    delete (params, success, error) {
+      $axios.delete('salerChance/' + params).then((res) => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
       })
     },
   },
@@ -517,192 +375,114 @@ export default {
       })
     },
   },
-  user:
-    {
-      userList (params, success, error) { // 用户列表
-        $axios.get('user', {
-          params: params,
-        }).then((res) => {
-          success && success(res.data)
-        }).catch(() => {
-          // error && error()
-          let mockdata = {
-            'data': {
-              'content': [
-                {
-                  'birthday': 1525622400000, // 生日
-                  'id': 1, // 用户ID
-                  'mobilePhone': '13281232100', // 手机号
-                  'name': '测试', // 姓名
-                  'sex': '男', // 性别
-                  'wx': '278067641', // 微信号
-                  'agentNo': 'xxx123', // 代理商号
-                  'assistantId': 1, // 部门销售助理用户ID
-                  'assistantName': '赵二', // 部门销售助理用户姓名
-                  'created': 1525681401000, // 创建or注册时间
-                  'jobNo': 'xxx123', // 工号
-                  'modified': 1525681406000, // 更新时间
-                  'organizationId': 1, // 组织机构ID
-                  'organizationName': '成都凡特赛科技有限公司', // 组织名称
-                  'departmentId': 2, // 部门ID
-                  'departmentName': '川东', // 部门名称
-                  'roles': [
-                    { // 角色
-                      'id': 1,
-                      'name': '管理员',
-                    }],
-                  'superiorId': 1, // 直接上级用户ID
-                  'superiorName': '李四', // 直接上级用户姓名
-                  'trainerId': 1, // 部门培训师用户ID
-                  'trainerName': '王五', // 部门培训师用户姓名
-                  'type': 1, // 代理商和员工: 1.员工  2.代理
-                },
-              ],
-              'first': true,
-              'last': true,
-              'number': 0,
-              'numberOfElements': 1,
-              'size': 20,
-              'totalElements': 1,
-              'totalPages': 1,
-            },
-            'status': true,
-          }
-          setTimeout(() => {
-            error && error(mockdata)
-          }, 1000)
-        })
-      },
-      userAdd (params, success, error) {
-        $axios.post('user', {
-          params: params,
-        }).then((res) => {
-          success && success(res.data)
-        }).catch(() => {
-          let mockdata = {
-            'status': true,
-          }
-          setTimeout(() => {
-            error && error(mockdata)
-          }, 1000)
-        })
-      },
-      userDetail (params, success, error) { // 用户列表
-        $axios.get('user', {
-          params: params,
-        }).then((res) => {
-          success && success(res.data)
-        }).catch(() => {
-          // error && error()
-          let mockdata = {
-            'data': {
-              'address': '高新区菁蓉国际广场', // 详细地址
-              'age': 29, // 年龄
-              'areaId': 510101, // 区ID
-              'areaName': '市辖区', // 区名
-              'avatar': '/1/1/1.jpg', // 头像URL
-              'bankAccount': '1', // 开户账号
-              'bankDeposit': '1', // 开户银行
-              'bankUsername': '1', // 开户户名
-              'birthday': 1525622400000, // 生日
-              'cityId': 510100, // 城市ID
-              'cityName': '成都市', // 城市名称
-              'created': 1525681332000, // 创建or注册时间
-              'id': 1, // 用户ID
-              'idCard': '510511198905110034', // 身份证号码
-              'mail': '278067641@qq.com', // 邮箱
-              'mobilePhone': '13281232100', // 手机号
-              'modified': 1525681334000, // 更新时间
-              'name': '测试', // 姓名
-              'provinceId': 510000, // 省ID
-              'provinceName': '四川省', // 省份名称
-              'qq': '278067641', // qq号
-              'sex': '男', // 性别
-              'wx': '278067641', // 微信号
-              'agentNo': '1', // 代理商号
-              'assistantId': 1, // 销售助理ID
-              'assistantName': '赵二', // 销售助理姓名
-              'availableCash': 100.1, // 可提现金额
-              'frozenCash': 1.1, // 冻结金额
-              'jobNo': '1', // 工号
-              'organizationId': 1, // 组织ID
-              'organizationName': '成都凡特赛科技有限公司', // 组织名称
-              'departmentId': 2, // 部门ID
-              'departmentName': '开发部', // 部门名称
-              'roles': [ // 多个角色
-                {
-                  'id': 1, // 角色ID
-                  'name': '管理员', // 角色名称
-                },
-                {
-                  'id': 2, // 角色ID
-                  'name': '推销员', // 角色名称
-                },
-              ],
-              'superiorId': 1, // 直接上级ID
-              'superiorName': '李四', // 直接上级姓名
-              'trainerId': 1, // 培训师ID
-              'trainerName': '王五', // 培训师姓名
-              'type': 1, // 代理商和员工: 1.员工  2.代理
-            },
-            'status': true,
-          }
-          setTimeout(() => {
-            error && error(mockdata)
-          }, 1000)
-        })
-      },
-      userDelete (params, success, error) { // 批量删除用户
-        $axios.get('user', {
-          params: params,
-        }).then((res) => {
-          success && success(res.data)
-        }).catch(() => {
-          let mockdata = {
-            'status': true,
-          }
-          setTimeout(() => {
-            error && error(mockdata)
-          }, 1000)
-        })
-      },
-      userDisable (params, success, error) { // 批量禁用用户
-        $axios.get('user/disable', {
-          params: params,
-        }).then((res) => {
-          success && success(res.data)
-        }).catch(() => {
-          let mockdata = {
-            'status': true,
-          }
-          setTimeout(() => {
-            error && error(mockdata)
-          }, 1000)
-        })
-      },
-      userResetPassword (params, success, error) { // 批量禁用用户
-        $axios.get('user/resetPwd', {
-          params: params,
-        }).then((res) => {
-          success && success(res.data)
-        }).catch(() => {
-          let mockdata = {
-            'status': true,
-          }
-          setTimeout(() => {
-            error && error(mockdata)
-          }, 1000)
-        })
-      },
-      roleList (params, success, error) { // 角色列表
-        $axios.get('role', {
-          params: params,
-        }).then((res) => {
-          success && success(res.data)
-        }).catch(() => {
-          // error && error()
-          let mockdata = {
-            'data': [
+  user: {
+    userList (params, success, error) { // 用户列表
+      $axios.get('user', {
+        params: params,
+      }).then((res) => {
+        success && success(res.data)
+      }).catch(() => {
+        // error && error()
+        let mockdata = {
+          'data': {
+            'content': [
+              {
+                'birthday': 1525622400000, // 生日
+                'id': 1, // 用户ID
+                'mobilePhone': '13281232100', // 手机号
+                'name': '测试', // 姓名
+                'sex': '男', // 性别
+                'wx': '278067641', // 微信号
+                'agentNo': 'xxx123', // 代理商号
+                'assistantId': 1, // 部门销售助理用户ID
+                'assistantName': '赵二', // 部门销售助理用户姓名
+                'created': 1525681401000, // 创建or注册时间
+                'jobNo': 'xxx123', // 工号
+                'modified': 1525681406000, // 更新时间
+                'organizationId': 1, // 组织机构ID
+                'organizationName': '成都凡特赛科技有限公司', // 组织名称
+                'departmentId': 2, // 部门ID
+                'departmentName': '川东', // 部门名称
+                'roles': [
+                  { // 角色
+                    'id': 1,
+                    'name': '管理员',
+                  }],
+                'superiorId': 1, // 直接上级用户ID
+                'superiorName': '李四', // 直接上级用户姓名
+                'trainerId': 1, // 部门培训师用户ID
+                'trainerName': '王五', // 部门培训师用户姓名
+                'type': 1, // 代理商和员工: 1.员工  2.代理
+              },
+            ],
+            'first': true,
+            'last': true,
+            'number': 0,
+            'numberOfElements': 1,
+            'size': 20,
+            'totalElements': 1,
+            'totalPages': 1,
+          },
+          'status': true,
+        }
+        setTimeout(() => {
+          error && error(mockdata)
+        }, 1000)
+      })
+    },
+    userAdd (params, success, error) {
+      $axios({
+        method: 'post',
+        url: '/user',
+        data: params,
+      }).then(res => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+    },
+    userDetail (params, success, error) { // 用户列表
+      $axios.get('user/'+params.id, {
+      }).then((res) => {
+        success && success(res.data)
+      }).catch(() => {
+        // error && error()
+        let mockdata = {
+          'data': {
+            'address': '高新区菁蓉国际广场', // 详细地址
+            'age': 29, // 年龄
+            'areaId': 510101, // 区ID
+            'areaName': '市辖区', // 区名
+            'avatar': '/1/1/1.jpg', // 头像URL
+            'bankAccount': '1', // 开户账号
+            'bankDeposit': '1', // 开户银行
+            'bankUsername': '1', // 开户户名
+            'birthday': 1525622400000, // 生日
+            'cityId': 510100, // 城市ID
+            'cityName': '成都市', // 城市名称
+            'created': 1525681332000, // 创建or注册时间
+            'id': 1, // 用户ID
+            'idCard': '510511198905110034', // 身份证号码
+            'mail': '278067641@qq.com', // 邮箱
+            'mobilePhone': '13281232100', // 手机号
+            'modified': 1525681334000, // 更新时间
+            'name': '测试', // 姓名
+            'provinceId': 510000, // 省ID
+            'provinceName': '四川省', // 省份名称
+            'qq': '278067641', // qq号
+            'sex': '男', // 性别
+            'wx': '278067641', // 微信号
+            'agentNo': '1', // 代理商号
+            'assistantId': 1, // 销售助理ID
+            'assistantName': '赵二', // 销售助理姓名
+            'availableCash': 100.1, // 可提现金额
+            'frozenCash': 1.1, // 冻结金额
+            'jobNo': '1', // 工号
+            'organizationId': 1, // 组织ID
+            'organizationName': '成都凡特赛科技有限公司', // 组织名称
+            'departmentId': 2, // 部门ID
+            'departmentName': '开发部', // 部门名称
+            'roles': [ // 多个角色
               {
                 'id': 1, // 角色ID
                 'name': '管理员', // 角色名称
@@ -712,14 +492,79 @@ export default {
                 'name': '推销员', // 角色名称
               },
             ],
-            'status': true,
-          }
-          setTimeout(() => {
-            error && error(mockdata)
-          }, 1000)
-        })
-      },
+            'superiorId': 1, // 直接上级ID
+            'superiorName': '李四', // 直接上级姓名
+            'trainerId': 1, // 培训师ID
+            'trainerName': '王五', // 培训师姓名
+            'type': 1, // 代理商和员工: 1.员工  2.代理
+          },
+          'status': true,
+        }
+        setTimeout(() => {
+          error && error(mockdata)
+        }, 1000)
+      })
     },
+    userDelete (params, success, error) { // 批量删除用户
+      $axios({
+        method: 'post',
+        url: '/user',
+        data: params,
+      }).then(res => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+    },
+    userDisable (params, success, error) { // 批量禁用用户
+      $axios({
+        method: 'post',
+        url: '/user/disable',
+        data: params,
+      }).then(res => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+    },
+    userResetPassword (params, success, error) { // 批量禁用用户
+      $axios({
+        method: 'post',
+        url: '/user/resetPwd',
+        data: params,
+      }).then(res => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+    },
+    roleList (params, success, error) { // 角色列表
+      $axios.get('role', {
+        params: params,
+      }).then((res) => {
+        success && success(res.data)
+      }).catch(() => {
+        // error && error()
+        let mockdata = {
+          'data': [
+            {
+              'id': 1, // 角色ID
+              'name': '管理员', // 角色名称
+            },
+            {
+              'id': 2, // 角色ID
+              'name': '推销员', // 角色名称
+            },
+          ],
+          'status': true,
+        }
+        setTimeout(() => {
+          error && error(mockdata)
+        }, 1000)
+      })
+    },
+  },
+  //角色管理
   role: {
     queryList (params, success, error) {
       $axios({
@@ -778,102 +623,15 @@ export default {
     getBusinessSystemList (success, error) {
       $axios({
         method: 'get',
-        url: '/businessSystem'
-      }).then((res) => {
-        success && success(res.data)
-      }).catch((errorData) => {
-        error && error(errorData)
-      })
-    },
-    getBilityList (params,success, error) {
-      $axios({
-        method: 'get',
         url: '/bility',
-        params:params
       }).then((res) => {
         success && success(res.data)
       }).catch((errorData) => {
         error && error(errorData)
       })
-    }
+  }
   },
-  organizationTreeList (params, success, error) { // 组织或部门列表
-    $axios.get('organization/tree', {
-    }).then((res) => {
-      success && success(res.data)
-    }).catch(() => {
-      // error && error()
-      let mockdata = {
-        'data': [
-          {
-            'id': 1,    //ID
-            'level': 1,    //级别
-            'name': '开发部', //组织名称
-            'admins': [
-              {    //管理员
-                'id': 1,    //管理员用户ID
-                'name': '张三',    //管理员姓名
-              }],
-            'pid': 0,    //上级组织ID
-          },
-          {
-            'id': 2,    //ID
-            'level': 2,    //级别
-            'name': '测试部', //组织名称
-            'admins': [
-              {    //管理员
-                'id': 2,    //管理员用户ID
-                'name': '李四',    //管理员姓名
-              }],
-            'pid': 2,    //上级组织ID
-          },
-        ],
-        'status': true,
-      }
-      setTimeout(() => {
-        error && error(mockdata)
-      }, 1000)
-    })
-  },
-  organizationList (params, success, error) { // 组织或部门列表
-    $axios.get('organization', {
-      params: params,
-    }).then((res) => {
-      success && success(res.data)
-    }).catch(() => {
-      // error && error()
-      let mockdata = {
-        'data': [
-          {
-            'id': 1,    //ID
-            'level': 1,    //级别
-            'name': '开发部', //组织名称
-            'admins': [
-              {    //管理员
-                'id': 1,    //管理员用户ID
-                'name': '张三',    //管理员姓名
-              }],
-            'pid': 0,    //上级组织ID
-          },
-          {
-            'id': 2,    //ID
-            'level': 2,    //级别
-            'name': '测试部', //组织名称
-            'admins': [
-              {    //管理员
-                'id': 2,    //管理员用户ID
-                'name': '李四',    //管理员姓名
-              }],
-            'pid': 2,    //上级组织ID
-          },
-        ],
-        'status': true,
-      }
-      setTimeout(() => {
-        error && error(mockdata)
-      }, 1000)
-    })
-  },
+  //组织管理
   organization:{
     queryList (params, success, error) {
       $axios({

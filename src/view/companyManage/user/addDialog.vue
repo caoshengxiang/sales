@@ -83,8 +83,8 @@
                 <!--<input type="text" v-model="form.industry">-->
                 <el-form-item prop="sex">
                   <el-select v-model.number="form.sex" placeholder="请选择员工性别">
-                    <el-option label="男" :value="1"></el-option>
-                    <el-option label="女" :value="2"></el-option>
+                    <el-option label="男" value="男"></el-option>
+                    <el-option label="女" value="女"></el-option>
                   </el-select>
                 </el-form-item>
               </td>
@@ -97,7 +97,6 @@
                   style="width: 100%"
                   v-model="form.birthday"
                   type="date"
-                  value-format="yyyy-MM-dd"
                   placeholder="选择出生日期">
                 </el-date-picker>
               </td>
@@ -181,75 +180,51 @@
         type: String,
       },
     },
+    props: ['params'],
     created () {
+      var that = this;
       let params = {
         page: 1,
         pageSize: 999,
       }
       API.user.roleList(params, (res) => {
-        this.allroles = res.data
+        that.allroles = res.data
       }, (mock) => {
-        this.allroles = mock.data
+        that.allroles = mock.data
         // this.ac_userList(mock.data) // todo ac_userList 未定义
-        this.dataLoading = false
+        that.dataLoading = false
       })
       params = {}
       API.organizationTreeList(params, (res) => {
-        this.allorganization = res.data
+        that.allorganization = res.data
       }, (mock) => {
-        this.allorganization = mock.data
-        this.dataLoading = false
+        that.allorganization = mock.data
+        that.dataLoading = false
       })
-    },
-    watch: {
-      addDialogOpen (open) {
-        if (open) {
-          this.addDialogVisible = true
-          this.$emit('hasAddDialogOpen')
-          if (this.id > 0 && this.type === 'edit') { // 这里是修改数据
-            let param = {
-              id: this.id,
-            }
-
-            API.userDetail(param, (res) => {
-              this.form = res
-              // todo:1、需要初始化组织 2需要初始化部门
-              for (var i = 0; i < this.form.roles.length; i++) {
-                this.choseroles.push(this.form.roles[i].id)
-              }
-            }, (mock) => {
-              this.form = mock.data
-              this.form.birthday = '2018-01-03'
-              this.dataLoading = false
-
-              for (var i = 0; i < this.form.roles.length; i++) {
-                this.choseroles.push(this.form.roles[i].id)
-              }
-            })
-          }
+      alert(that.params.id )
+      if (that.params.id > 0) { // 这里是修改数据
+        that.form.id  = that.params.id
+        let param = {
+          id: that.params.id ,
         }
-      },
-      userDetail (d) {
-        this.form = JSON.parse(JSON.stringify(d))
-      },
+        API.user.userDetail(param, (res) => {
+          if(res.status)
+          {
+            that.form = res.data
+            // todo:1、需要初始化组织 2需要初始化部门
+            for (var i = 0; i < that.form.roles.length; i++) {
+              that.choseroles.push(this.form.roles[i].id)
+            }
+          }
+        }, (mock) => {
+          alert("mock")
+        })
+      }
+
     },
     methods: {
       initData () {
-        if (this.type === 'edit') {
-          this.form = JSON.parse(JSON.stringify(this.userDetail))
-        } else {
-          this.form = { // 添加客户表单
-            mobilePhone: '',
-            birthday: '',
-            name: '',
-            sex: '',
-            jobNo: '',
-            organizationId: '',
-            departmentId: '',
-            roles: [],
-          }
-        }
-        this.addDialogVisible = false
+        this.$vDialog.close()
       },
       areaSelectedOptionsHandleChange (value) {
         this.form.organizationId =value[value.length -1] // 取当前选中的组织
@@ -267,15 +242,25 @@
         })
       },
       saveSubmitForm (formName) {
-        alert(this.form.departmentId)
+        alert(this.choseroles[0])
+        this.form.roles = [];
+        for (var i = 0; i < this.choseroles.length; i++) {
+          var temp = {}
+          temp.id = this.choseroles[i];
+          this.form.roles.push(temp)
+        }
         this.$refs[formName].validate((valid) => {
           if (valid) {
             API.user.userAdd(this.form, (res) => {
-              alert('添加数据成功')
+              this.$message({
+                type: 'success',
+                message: '添加用户成功!',
+              })
+              this.$vDialog.close()
             }, (mock) => {
               alert('添加数据异常')
             })
-            this.initData()
+           // this.initData()
           } else {
             console.log('error submit!!')
             return false

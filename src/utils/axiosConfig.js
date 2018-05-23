@@ -1,11 +1,30 @@
 import { serverUrl } from './const'
+// import { Message, Loading } from 'element-ui'
 import { Message } from 'element-ui'
 
 $axios.defaults.baseURL = serverUrl
 $axios.defaults.timeout = 100000
 // $axios.defaults.headers['Content-Type'] = 'application/json; charset=UTF-8'
 $axios.defaults.headers.common['authKey'] = '1234567890' // todo 改为实际authKey
-$axios.defaults.headers.post['Content-Type'] = 'application/json; charset=UTF-8'
+$axios.defaults.headers.post['Content-Type'] = 'application/json;charset=UTF-8'
+
+// 添加一个请求拦截器
+// let loadinginstace
+$axios.interceptors.request.use((config) => {
+  // TODO 考虑做全局loading效果，（注意html,body高度设为100%）
+  // loadinginstace = Loading.service({
+  //   fullscreen: true,
+  //   background: 'rgba(0, 0, 0, 0.4)'
+  // })
+  return config
+}, (error) => {
+  // 当出现请求错误是做一些事
+  // loadinginstace.close()
+  Message.error({
+    message: '加载超时',
+  })
+  return Promise.reject(error)
+})
 
 // 添加一个返回拦截器
 $axios.interceptors.response.use((response) => {
@@ -17,10 +36,14 @@ $axios.interceptors.response.use((response) => {
     }, 1000)
   }
   // setTimeout(() => {
-  return response
-  // }, 300)
+  //   loadinginstace.close()
+  // }, 1000)
+  return Promise.resolve(response)
 }, (error) => {
   // 对返回的错误进行一些处理
-  console.error(error)
+  // loadinginstace.close()
+  Message.error({
+    message: '好像发生了一点错误',
+  })
   return Promise.reject(error)
 })
