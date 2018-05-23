@@ -199,8 +199,6 @@
     data () {
       return {
         dataLoading: true,
-        // addDialogOpen: false, // 新增弹窗
-        // moveDialogOpen: false, // 转移弹窗
         multipleSelection: [],
         customerType: null, // 客户选项
         currentPage: 1, // 当前页
@@ -237,7 +235,9 @@
         this.dataLoading = true
         API.customer.list(param, (res) => {
           this.ac_customerList(res.data)
-          this.dataLoading = false
+          setTimeout(() => {
+            this.dataLoading = false
+          }, 300)
         })
       },
       searchHandle () {

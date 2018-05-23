@@ -232,10 +232,14 @@
               }, (data) => {
                 if (data.status) {
                   this.$message.success('添加成功')
-                  this.dataLoading = false
-                  this.$vDialog.close({type: 'save'})
+                  setTimeout(() => {
+                    this.dataLoading = false
+                    this.$vDialog.close({type: 'save'})
+                  }, 500)
                 } else {
-                  this.dataLoading = false
+                  setTimeout(() => {
+                    this.dataLoading = false
+                  }, 500)
                 }
               })
             } else {
@@ -245,10 +249,14 @@
               }, (data) => {
                 if (data.status) {
                   this.$message.success('编辑成功')
-                  this.dataLoading = false
-                  this.$vDialog.close({type: 'save'})
+                  setTimeout(() => {
+                    this.dataLoading = false
+                    this.$vDialog.close({type: 'save'})
+                  }, 500)
                 } else {
-                  this.dataLoading = false
+                  setTimeout(() => {
+                    this.dataLoading = false
+                  }, 500)
                 }
               })
             }

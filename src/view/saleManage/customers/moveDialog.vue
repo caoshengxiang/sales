@@ -71,10 +71,14 @@
                 } else {
                   this.$message.success(`成功${data.data.success},失败${data.data.fail}`)
                 }
-                this.dataLoading = false
-                this.$vDialog.close({type: 'save'})
+                setTimeout(() => {
+                  this.dataLoading = false
+                  this.$vDialog.close({type: 'save'})
+                }, 500)
               } else {
-                this.dataLoading = false
+                setTimeout(() => {
+                  this.dataLoading = false
+                }, 500)
               }
             })
           } else {

@@ -352,7 +352,9 @@
         this.dataLoading = true
         API.customer.detail({id: this.$route.query.customerId}, (data) => {
           this.ac_customerDetail(data.data)
-          this.dataLoading = false
+          setTimeout(() => {
+            this.dataLoading = false
+          }, 500)
         })
       },
       operateOptions (option) {
