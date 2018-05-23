@@ -97,7 +97,6 @@
                   style="width: 100%"
                   v-model="form.birthday"
                   type="date"
-                  value-format="yyyy-MM-dd"
                   placeholder="选择出生日期">
                 </el-date-picker>
               </td>
@@ -204,6 +203,7 @@
       })
       alert(that.params.id )
       if (that.params.id > 0) { // 这里是修改数据
+        that.form.id  = that.params.id
         let param = {
           id: that.params.id ,
         }
@@ -224,22 +224,7 @@
     },
     methods: {
       initData () {
-        if (this.type === 'edit') {
-          this.form = JSON.parse(JSON.stringify(this.userDetail))
-        } else {
-          this.form = { // 添加客户表单
-            mobilePhone: '',
-            birthday: '',
-            name: '',
-            sex: '',
-            jobNo: '',
-            organizationId: '',
-            departmentId: '',
-            roles: [],
-          }
-          this.choseroles = []
-        }
-        this.addDialogVisible = false
+        this.$vDialog.close()
       },
       areaSelectedOptionsHandleChange (value) {
         this.form.organizationId =value[value.length -1] // 取当前选中的组织
