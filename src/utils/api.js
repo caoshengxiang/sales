@@ -18,9 +18,8 @@ export default {
       })
     },
     add (params, success, error) {
-      $axios.post('customer', params.body, {
-        params: params.query,
-      }).then((res) => {
+      let p = Object.assign({}, params.body, params.query)
+      $axios.post('customer', p).then((res) => {
         success && success(res.data)
       }).catch((err) => {
         error && error(err)
@@ -36,15 +35,48 @@ export default {
     transfer (params, success, error) {
       $axios.post('customer/transfer', params).then((res) => {
         success && success(res.data)
-      }).catch(() => {
-        error && error()
+      }).catch((err) => {
+        error && error(err)
       })
     },
     return (params, success, error) {
       $axios.post('customer/return', params).then((res) => {
         success && success(res.data)
-      }).catch(() => {
-        error && error()
+      }).catch((err) => {
+        error && error(err)
+      })
+    },
+  },
+  // 客户公海
+  customerSea: {
+    list (params, success, error) { //
+      $axios.get('customerSea', {
+        params: params,
+      }).then((res) => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+    },
+    allocate (params, success, error) { // 分配
+      $axios.post('customerSea/allocate', params).then((res) => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+    },
+    fish (params, success, error) { // 捞取
+      $axios.post('customerSea/fish', params).then((res) => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+    },
+    regroup (params, success, error) { // 分组
+      $axios.post('customerSea/regroup', params).then((res) => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
       })
     },
   },
@@ -103,132 +135,48 @@ export default {
         // params: params,
       }).then(res => {
         success && success(res.data)
-      }).catch(() => {
-// error && error()
-        let mockdata = {
-          'data': {
-            'content': [
-              {
-                'billDate': '2018-05-09 00:00:00',
-                'billProductId': '1',
-                'billProductName': '财税金融托管',
-                'chanceRemark': '',
-                'contacterId': '1',
-                'contacterName': '测试人员',
-                'contractId': 1,
-                'contractUrl': 'http://www.zzcfo.cn/124214124124.html',
-                'counselorId': 1,
-                'counselorName': '测试人员',
-                'created': '2018-05-09 14:29:37',
-                'creator': 1,
-                'creatorName': '测试人员',
-                'customerId': 1,
-                'customerName': '凡特赛科技',
-                'discardRemark': '',
-                'followDate': '2018-05-09 11:45:50',
-                'id': 1,
-                'intentBillAmount': 3000,
-                'intentProductCate': 1,
-                'intentProductCateName': '会计记账',
-                'intentProductId': '1',
-                'intentProductName': '财税金融全托管',
-                'modified': '2018-05-09 14:29:50',
-                'salerId': 1,
-                'salerName': '测试人员',
-                'source': 1,
-                'stage': 1,
-                'status': 1,
-              },
-            ],
-            'first': true,
-            'last': true,
-            'number': 0,
-            'numberOfElements': 1,
-            'size': 5,
-            'sort': null,
-            'totalElements': 1,
-            'totalPages': 1,
-          },
-          'error': null,
-          'status': true,
-        }
-        setTimeout(() => {
-          error && error(mockdata)
-        }, 1000)
+      }).catch((err) => {
+        error && error(err)
       })
     },
     detail (params, success, error) { // 销售机会详细
       $axios({
         method: 'get',
-        url: '/customerContacter/' + params.id,
-        // params: params,
+        url: '/salerChance/' + params,
       }).then(res => {
         success && success(res.data)
-      }).catch(() => {
-// error && error()
-        let mockdata = {
-          'data': {
-            'billDate': '2018-05-09 00:00:00',
-            'billProductId': '1',
-            'billProductName': '财税金融托管',
-            'billOrderId': 'CRM232345',
-            'billAmount': 3000,
-            'chanceRemark': '',
-            'contacterId': '1',
-            'contracterName': '张三',
-            'contractId': 1,
-            'contractUrl': 'http://www.zzcfo.cn/124214124124.html',
-            'created': '2018-05-09 14:29:37',
-            'creator': 1,
-            'creatorName': '测试人员',
-            'modifier': 1,
-            'modifierName': '测试人员',
-            'customerId': 1,
-            'customerName': '凡特赛科技',
-            'discardRemark': '',
-            'followDate': '2018-05-09 11:45:50',
-            'id': 1,
-            'intentBillAmount': 3000,
-            'intentProductCate': 1,
-            'intentProductCateName': '会计记账',
-            'intentProductId': '1',
-            'intentProductName': '财税金融全托管',
-            'modified': '2018-05-09 14:29:50',
-            'salerId': 1,
-            'salerName': '测试人员',
-            'source': 1,
-            'stage': 1,
-            'status': 1,
-            'team':
-              {
-                'creator':
-                  1,
-                'creatorName':
-                  '测试人员',
-                'creatorMobilePhone':
-                  '15696895689',
-                'salerId':
-                  1,
-                'salerName':
-                  '测试人员',
-                'salerMobilePhone':
-                  '15696895689',
-                'counselorId':
-                  1,
-                'counselorName':
-                  '测试人员',
-                'counselorMobilePhone':
-                  '15696895689',
-              },
-          },
-          'error':
-            null,
-          'status':
-            true,
-        }
-        setTimeout(() => {
-          error && error(mockdata)
-        }, 1000)
+      }).catch((err) => {
+        error && error(err)
+      })
+    },
+    add (params, success, error) {
+      $axios.post('salerChance', params).then((res) => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+    },
+    confirm (params, success, error) {
+      $axios.put('salerChance/confirm/' + params.path,
+        params.body).then((res) => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+    },
+    discard (params, success, error) {
+      $axios.post('salerChance/discard/' + params.path,
+        params.body).then((res) => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+    },
+    delete (params, success, error) {
+      $axios.delete('salerChance/' + params).then((res) => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
       })
     },
   },

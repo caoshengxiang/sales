@@ -358,6 +358,7 @@
         })
       },
       operateOptions (option) {
+        let that = this
         switch (option) {
           case 'edit':
             // this.addDialogOpen = true
@@ -370,7 +371,9 @@
                 detail: this.customerDetail,
               },
               callback (data) {
-                if (data.type === 'save') {}
+                if (data.type === 'save') {
+                  that.getCustomerDetail()
+                }
               },
             })
             break

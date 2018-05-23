@@ -265,6 +265,7 @@
           height: 410,
           params: {
             customerAddSource: this.customerAddSource,
+            customerAddSourceIndex: 1,
           },
           callback (data) {
             if (data.type === 'save') {

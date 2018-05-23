@@ -4,10 +4,12 @@
       <el-form :model="addForm" ref="addForm" label-width="0px" :rules="rules">
         <table class="com-dialog-table">
           <tr>
-            <td class="td-title">所属公司</td>
+            <td class="td-title">客户名称</td>
             <td class="td-text">
-              <el-form-item prop="customerName">
-                <el-input type="text" v-model="addForm.customerName"></el-input>
+              <el-form-item prop="customerId">
+                <el-select v-model.number="addForm.customerId" placeholder="请选择客户">
+                  <el-option v-for="item in customersList" :key="item.id" :label="item.name" :value="item.id"></el-option>
+                </el-select>
               </el-form-item>
             </td>
 
@@ -126,7 +128,7 @@
       return {
         dataLoading: false,
         addForm: { // 添加表单
-          customerName: '',
+          customerId: '',
           contacterName: '',
           phone: '',
           department: '',
@@ -141,8 +143,8 @@
           remark: '',
         },
         rules: {
-          customerName: [
-            {required: true, message: '请输入所属公司', trigger: 'blur'},
+          customerId: [
+            {required: true, message: '请选择客户', trigger: 'blur'},
           ],
           contacterName: [
             {required: true, message: '请输入联系人姓名', trigger: 'blur'},
@@ -182,6 +184,7 @@
           ],
         },
         dialogType: 'add',
+        customersList: [],
       }
     },
     props: ['params'],
@@ -231,8 +234,16 @@
           }
         })
       },
+      getCustomersList () { // “跟进”的所有客户
+        API.customer.list({page: 0, pageSize: 100000, type: 2}, data => {
+          if (data.status) {
+            this.customersList = data.data.content
+          }
+        })
+      },
     },
     created () {
+      this.getCustomersList()
       if (this.params.detail) {
         this.addForm = JSON.parse(JSON.stringify(this.params.detail))
         this.dialogType = 'edit'

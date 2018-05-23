@@ -227,7 +227,7 @@
             this.dataLoading = true
             if (this.dialogType === 'add') {
               API.customer.add({
-                query: {source: this.params.customerAddSource[0].type},
+                query: {source: this.params.customerAddSource[this.params.customerAddSourceIndex].type},
                 body: this.addForm,
               }, (data) => {
                 if (data.status) {
@@ -235,6 +235,9 @@
                   setTimeout(() => {
                     this.dataLoading = false
                     this.$vDialog.close({type: 'save'})
+                    if (addContact) {
+                      this.saveAndAddContact()
+                    }
                   }, 500)
                 } else {
                   setTimeout(() => {
@@ -252,6 +255,9 @@
                   setTimeout(() => {
                     this.dataLoading = false
                     this.$vDialog.close({type: 'save'})
+                    if (addContact) {
+                      this.saveAndAddContact()
+                    }
                   }, 500)
                 } else {
                   setTimeout(() => {
@@ -259,9 +265,6 @@
                   }, 500)
                 }
               })
-            }
-            if (addContact) {
-              this.saveAndAddContact()
             }
           } else {
             console.log('error submit!!')
@@ -273,7 +276,7 @@
         this.$vDialog.modal(addContact, {
           title: '新增联系人',
           width: 900,
-          height: 400,
+          height: 460,
           params: {
             // id: '123456',
           },
@@ -285,7 +288,7 @@
     },
     created () {
       if (this.params.detail) {
-        this.addForm = this.params.detail
+        this.addForm = JSON.parse(JSON.stringify(this.params.detail))
         this.dialogType = 'edit'
       }
     },

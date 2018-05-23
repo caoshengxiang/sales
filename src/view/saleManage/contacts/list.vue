@@ -225,7 +225,7 @@
           },
           callback (data) {
             if (data.type === 'save') {
-              alert('弹窗关闭，添加成功刷新列表')
+              this.getContactsList(this.currentPage - 1, this.pagesOptions.pageSize, this.contactsTypeOption)
             }
           },
         })
