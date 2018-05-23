@@ -64,81 +64,33 @@ export default {
     detail (params, success, error) { // 联系人详细
       $axios({
         method: 'get',
-        url: '/customerContacter/' + params.id,
-        // params: params,
+        url: '/customerContacter/' + params,
       }).then(res => {
         success && success(res.data)
-      }).catch(() => {
-// error && error()
-        let mockdata = {
-          'data': {
-            'bakPhone': '15690050900',
-            'birthday': '2018-05-08 00:00:00',
-            'contacterName': '张三',
-            'created': '2018-05-08 21:18:40',
-            'creator': 1,
-            'creatorName': '测试人员',
-            'customerId': 1,
-            'customerName': '凡特赛科技',
-            'department': '技术部',
-            'id': 1,
-            'mail': '15690050900@qq.com',
-            'modified': '2018-05-08 21:20:58',
-            'modifier': 1,
-            'modifierName': '测试人员',
-            'phone': '15690050900',
-            'position': '技术总监',
-            'qq': '23569897896',
-            'remark': '',
-            'sex': '男',
-            'status': 1,
-            'wx': '23569897896',
-            'activeTime': '2018-05-08 21:20:58',
-            'followerId': 1,
-            'followerName': '测试人员',
-            'team': {
-              'creator': 1,
-              'creatorName': '测试人员',
-              'mobilePhone': '15696895689',
-              'salerList': [
-                {
-                  'salerId': 1,
-                  'salerName': '测试人员',
-                  'mobilePhone': '15696895689',
-                },
-              ],
-            },
-          },
-          'error': null,
-          'status': true,
-        }
-        setTimeout(() => {
-          error && error(mockdata)
-        }, 1000)
+      }).catch((err) => {
+        error && error(err)
       })
     },
     add (params, success, error) {
       $axios({
         method: 'post',
-        url: '/customerContacter/',
-        // params: params,
+        url: '/customerContacter',
         data: params,
       }).then(res => {
         success && success(res.data)
-      }).catch(() => {
-        error && error()
+      }).catch((err) => {
+        error && error(err)
       })
     },
-    delete (params, success, error) {
+    edit (params, success, error) {
       $axios({
-        method: 'post',
-        url: '/customerContacter/',
-        // params: params,
-        data: params,
+        method: 'put',
+        url: '/customerContacter/' + params.path,
+        data: params.body,
       }).then(res => {
         success && success(res.data)
-      }).catch(() => {
-        error && error()
+      }).catch((err) => {
+        error && error(err)
       })
     },
   },

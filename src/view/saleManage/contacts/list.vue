@@ -190,7 +190,7 @@
       return {
         dataLoading: false,
         // addDialogOpen: false,
-        contactsTypeOption: 0,
+        contactsTypeOption: null,
         multipleSelection: [],
         currentPage: 1,
       }
@@ -219,7 +219,7 @@
         this.$vDialog.modal(addDialog, {
           title: '新增联系人',
           width: 900,
-          height: 400,
+          height: 460,
           params: {
             // id: '123456',
           },
@@ -256,7 +256,9 @@
           type: type,
         }, (data) => {
           this.ac_contactsList(data.data)
-          this.dataLoading = false
+          setTimeout(() => {
+            this.dataLoading = false
+          }, 500)
         }, (err) => {
           console.error(err)
         })

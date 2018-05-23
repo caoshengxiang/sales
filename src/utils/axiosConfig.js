@@ -6,12 +6,12 @@ $axios.defaults.baseURL = serverUrl
 $axios.defaults.timeout = 100000
 // $axios.defaults.headers['Content-Type'] = 'application/json; charset=UTF-8'
 $axios.defaults.headers.common['authKey'] = '1234567890' // todo 改为实际authKey
-$axios.defaults.headers.post['Content-Type'] = 'application/json; charset=UTF-8'
+$axios.defaults.headers.post['Content-Type'] = 'application/json;charset=UTF-8'
 
 // 添加一个请求拦截器
 // let loadinginstace
 $axios.interceptors.request.use((config) => {
-  // TODO 考虑做全局loading效果
+  // TODO 考虑做全局loading效果，（注意html,body高度设为100%）
   // loadinginstace = Loading.service({
   //   fullscreen: true,
   //   background: 'rgba(0, 0, 0, 0.4)'
