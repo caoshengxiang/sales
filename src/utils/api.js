@@ -442,8 +442,7 @@ export default {
       })
     },
     userDetail (params, success, error) { // 用户列表
-      $axios.get('user', {
-        params: params,
+      $axios.get('user/'+params.id, {
       }).then((res) => {
         success && success(res.data)
       }).catch(() => {
@@ -507,45 +506,36 @@ export default {
       })
     },
     userDelete (params, success, error) { // 批量删除用户
-      $axios.get('user', {
-        params: params,
-      }).then((res) => {
+      $axios({
+        method: 'post',
+        url: '/user',
+        data: params,
+      }).then(res => {
         success && success(res.data)
-      }).catch(() => {
-        let mockdata = {
-          'status': true,
-        }
-        setTimeout(() => {
-          error && error(mockdata)
-        }, 1000)
+      }).catch((err) => {
+        error && error(err)
       })
     },
     userDisable (params, success, error) { // 批量禁用用户
-      $axios.post('user/disable', {
+      $axios({
+        method: 'post',
+        url: '/user/disable',
         data: params,
-      }).then((res) => {
+      }).then(res => {
         success && success(res.data)
-      }).catch(() => {
-        let mockdata = {
-          'status': true,
-        }
-        setTimeout(() => {
-          error && error(mockdata)
-        }, 1000)
+      }).catch((err) => {
+        error && error(err)
       })
     },
     userResetPassword (params, success, error) { // 批量禁用用户
-      $axios.get('user/resetPwd', {
-        params: params,
-      }).then((res) => {
+      $axios({
+        method: 'post',
+        url: '/user/resetPwd',
+        data: params,
+      }).then(res => {
         success && success(res.data)
-      }).catch(() => {
-        let mockdata = {
-          'status': true,
-        }
-        setTimeout(() => {
-          error && error(mockdata)
-        }, 1000)
+      }).catch((err) => {
+        error && error(err)
       })
     },
     roleList (params, success, error) { // 角色列表

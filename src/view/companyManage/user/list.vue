@@ -221,7 +221,7 @@
             action: 'add',
           },
           callback: function (data) {
-            that.$options.methods.getRoleList.bind(that)()
+            that.searchHandle()
           },
         })
       },
@@ -275,10 +275,20 @@
         this.type = 'add'
       },
       modifyHandle () {
-        var id = this.multipleSelection.map(item => item.id).join() // 当前选中的所有ID
-        console.info(id) // todo 暂时处理'id' is assigned a value but never used
-        this.addDialogOpen = true
-        this.type = 'edit'
+        var that = this;
+        this.$vDialog.modal(addDialog,{
+          title:'修改用户',
+          width: 700,
+          height: 500,
+          params: {
+            id: that.multipleSelection.map(item => item.id).join(),
+            store:that.$store, //弹窗组件如果需要用到vuex，必须传值过去赋值
+            action:"update"
+          },
+          callback: function(data){
+            that.searchHandle()
+          }
+        });
       },
       deleteHandle () {
         this.$confirm('确定删除当前选中所有用户, 是否继续?', '提示', {
@@ -290,7 +300,7 @@
           let param = {
             ids: id,
           }
-          API.userDelete(param, (res) => {
+          API.user.userDelete(param, (res) => {
             console.log(res)
           }, (mock) => {
             if (mock.status) {
@@ -350,7 +360,7 @@
           let param = {
             ids: id,
           }
-          API.userResetPassword(param, (res) => {
+          API.user.userResetPassword(param, (res) => {
             console.log(res)
           }, (mock) => {
             if (mock.status) {

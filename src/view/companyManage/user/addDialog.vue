@@ -181,57 +181,46 @@
         type: String,
       },
     },
+    props: ['params'],
     created () {
+      var that = this;
       let params = {
         page: 1,
         pageSize: 999,
       }
       API.user.roleList(params, (res) => {
-        this.allroles = res.data
+        that.allroles = res.data
       }, (mock) => {
-        this.allroles = mock.data
+        that.allroles = mock.data
         // this.ac_userList(mock.data) // todo ac_userList 未定义
-        this.dataLoading = false
+        that.dataLoading = false
       })
       params = {}
       API.organizationTreeList(params, (res) => {
-        this.allorganization = res.data
+        that.allorganization = res.data
       }, (mock) => {
-        this.allorganization = mock.data
-        this.dataLoading = false
+        that.allorganization = mock.data
+        that.dataLoading = false
       })
-    },
-    watch: {
-      addDialogOpen (open) {
-        if (open) {
-          this.addDialogVisible = true
-          this.$emit('hasAddDialogOpen')
-          if (this.id > 0 && this.type === 'edit') { // 这里是修改数据
-            let param = {
-              id: this.id,
-            }
-
-            API.userDetail(param, (res) => {
-              this.form = res
-              // todo:1、需要初始化组织 2需要初始化部门
-              for (var i = 0; i < this.form.roles.length; i++) {
-                this.choseroles.push(this.form.roles[i].id)
-              }
-            }, (mock) => {
-              this.form = mock.data
-              this.form.birthday = '2018-01-03'
-              this.dataLoading = false
-
-              for (var i = 0; i < this.form.roles.length; i++) {
-                this.choseroles.push(this.form.roles[i].id)
-              }
-            })
-          }
+      alert(that.params.id )
+      if (that.params.id > 0) { // 这里是修改数据
+        let param = {
+          id: that.params.id ,
         }
-      },
-      userDetail (d) {
-        this.form = JSON.parse(JSON.stringify(d))
-      },
+        API.user.userDetail(param, (res) => {
+          if(res.status)
+          {
+            that.form = res.data
+            // todo:1、需要初始化组织 2需要初始化部门
+            for (var i = 0; i < that.form.roles.length; i++) {
+              that.choseroles.push(this.form.roles[i].id)
+            }
+          }
+        }, (mock) => {
+          alert("mock")
+        })
+      }
+
     },
     methods: {
       initData () {
