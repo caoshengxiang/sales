@@ -31,7 +31,7 @@
         <com-button buttonType="search" @click="searchHandle">搜索</com-button>
       </div>
       <div class="com-bar-right" style="float: right">
-        <el-input v-model="name" placeholder="员工姓名"  style="float: left">
+        <el-input v-model="name" placeholder="员工姓名" style="float: left">
           <template slot="prepend">员工姓名</template>
         </el-input>
 
@@ -199,31 +199,31 @@
       addDialog,
     },
     props: ['params'],
-    created() {
-      var that = this;
-      that.$store = that.params.store;//状态库赋值
+    created () {
+      var that = this
+      that.$store = that.params.store//状态库赋值
       if (that.params.action == 'update') {
-        that.$options.methods.getRoleDetail.bind(that)(that.params.id);
+        that.$options.methods.getRoleDetail.bind(that)(that.params.id)
       }
     },
     methods: {
-      closeDialog(){
-        this.$vDialog.close();
+      closeDialog () {
+        this.$vDialog.close()
       },
-      add(){
-        var that = this;
-        this.$vDialog.modal(addDialog,{
-          title:'新增用户',
-          width:700,
-          height:500,
+      add () {
+        var that = this
+        this.$vDialog.modal(addDialog, {
+          title: '新增用户',
+          width: 700,
+          height: 500,
           params: {
-            store:that.$store, //弹窗组件如果需要用到vuex，必须传值过去赋值
-            action:"add"
+            store: that.$store, //弹窗组件如果需要用到vuex，必须传值过去赋值
+            action: 'add',
           },
-          callback: function(data){
-            that.$options.methods.getRoleList.bind(that)();
-          }
-        });
+          callback: function (data) {
+            that.$options.methods.getRoleList.bind(that)()
+          },
+        })
       },
       selsChange (sels) {
         this.sels = sels
@@ -245,9 +245,7 @@
         this.dataLoading = true
         API.user.userList(param, (res) => {
           this.ac_userList(res.data)
-          setTimeout(() => {
-            this.dataLoading = false
-          }, 300)
+          this.dataLoading = false
         }, (mock) => {
           this.ac_userList(mock.data)
           this.dataLoading = false
@@ -268,7 +266,7 @@
         this.getuserList(this.currentPage - 1, this.pagesOptions.pageSize, this.userType)
       },
       handleRouter (name, id) {
-         this.$router.push({name: 'userDetail', params: {end: 'ME'}, query: {view: name, userId: id}})
+        this.$router.push({name: 'userDetail', params: {end: 'ME'}, query: {view: name, userId: id}})
       },
       addHandle () {
         this.addDialogOpen = true

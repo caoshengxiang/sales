@@ -339,3 +339,8 @@ axios 在webpack定义全局变量 `$axios`
   class名为： spretes-文件名
  如：<i class="sprites sprites-btn-1"></i>
 > 将雪碧图换成了base64
+
+## 接口全局配置 axios
+> axiosConfig.js 中配置服务器基本地址，统一的请求头不（包括authKey，Content-Type），后台返回的错误日志(error.message)
+
+> axios().then().catch()注意，catch不止捕获接口错误还会返回then回掉函数执行的错误

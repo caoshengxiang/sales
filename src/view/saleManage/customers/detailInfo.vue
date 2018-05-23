@@ -351,10 +351,8 @@
       getCustomerDetail () {
         this.dataLoading = true
         API.customer.detail({id: this.$route.query.customerId}, (data) => {
-          setTimeout(() => {
-            this.ac_customerDetail(data.data)
-            this.dataLoading = false
-          }, 500)
+          this.ac_customerDetail(data.data)
+          this.dataLoading = false
         })
       },
       operateOptions (option) {

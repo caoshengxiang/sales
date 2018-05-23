@@ -232,31 +232,23 @@
               }, (data) => {
                 if (data.status) {
                   this.$message.success('添加成功')
-                  setTimeout(() => {
-                    this.dataLoading = false
-                    this.$vDialog.close({type: 'save'})
-                  }, 500)
+                  this.dataLoading = false
+                  this.$vDialog.close({type: 'save'})
                 } else {
-                  setTimeout(() => {
-                    this.dataLoading = false
-                  }, 500)
+                  this.dataLoading = false
                 }
               })
             } else {
               API.customer.edit({
                 path: this.addForm.id,
-                body: this.addForm
+                body: this.addForm,
               }, (data) => {
                 if (data.status) {
                   this.$message.success('编辑成功')
-                  setTimeout(() => {
-                    this.dataLoading = false
-                    this.$vDialog.close({type: 'save'})
-                  }, 500)
+                  this.dataLoading = false
+                  this.$vDialog.close({type: 'save'})
                 } else {
-                  setTimeout(() => {
-                    this.dataLoading = false
-                  }, 500)
+                  this.dataLoading = false
                 }
               })
             }

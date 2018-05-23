@@ -106,7 +106,7 @@
         <i class="el-icon-location"></i>
         <span slot="title">客户公海</span>
       </el-menu-item>
-<el-menu-item index="taskApprovalList">
+      <el-menu-item index="taskApprovalList">
         <i class="el-icon-location"></i>
         <span slot="title">任务审批</span>
       </el-menu-item>
@@ -127,17 +127,17 @@
         </template>
       </el-menu-item>-->
       <el-submenu index="user">
-      <template slot="title">
-        <i class="el-icon-location"></i>
-        <span>用戶管理</span>
-      </template>
-      <el-menu-item-group>
-        <!--<template slot="title">分组一</template>-->
-        <el-menu-item index="userList">用戶管理</el-menu-item>
-        <el-menu-item index="roleList">角色管理</el-menu-item>
-        <el-menu-item index="agentList">代理商管理</el-menu-item>
-      </el-menu-item-group>
-    </el-submenu>
+        <template slot="title">
+          <i class="el-icon-location"></i>
+          <span>用戶管理</span>
+        </template>
+        <el-menu-item-group>
+          <!--<template slot="title">分组一</template>-->
+          <el-menu-item index="userList">用戶管理</el-menu-item>
+          <el-menu-item index="roleList">角色管理</el-menu-item>
+          <el-menu-item index="agentList">代理商管理</el-menu-item>
+        </el-menu-item-group>
+      </el-submenu>
       <el-submenu index="organization">
         <template slot="title">
           <i class="el-icon-share"></i>
@@ -166,11 +166,11 @@
 </template>
 
 <script>
-  import {mapState} from 'vuex'
+  import { mapState } from 'vuex'
 
   export default {
     name: 'leftMenuBar',
-    data() {
+    data () {
       return {}
     },
     computed: {
@@ -180,18 +180,18 @@
       ]),
     },
     methods: {
-      handleOpen(key, keyPath) {
+      handleOpen (key, keyPath) {
         console.log(key, keyPath)
       },
-      handleClose(key, keyPath) {
+      handleClose (key, keyPath) {
         console.log(key, keyPath)
       },
-      handleRouter(name, view) {
+      handleRouter (name, view) {
         this.$nextTick(() => {
           this.$router.push({name: name, query: {view: view}, params: {end: 'ME'}})
         })
       },
-      routePersonal() {
+      routePersonal () {
         this.$router.push({name: 'personal', query: {view: 'base'}, params: {end: 'FE'}})
       },
     },

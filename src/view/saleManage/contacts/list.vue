@@ -257,9 +257,8 @@
         }, (data) => {
           this.ac_contactsList(data.data)
           this.dataLoading = false
-        }, (data) => {
-          this.ac_contactsList(data.data)
-          this.dataLoading = false
+        }, (err) => {
+          console.error(err)
         })
       },
       searchHandle () {
