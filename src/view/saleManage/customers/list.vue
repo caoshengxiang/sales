@@ -300,14 +300,7 @@
               } else {
                 this.$message.success(`成功${data.data.success},失败${data.data.fail}`)
               }
-              setTimeout(() => {
-                this.dataLoading = false
-                this.$vDialog.close({type: 'save'})
-              }, 500)
-            } else {
-              setTimeout(() => {
-                this.dataLoading = false
-              }, 500)
+              this.getCustomerList(this.currentPage - 1, this.pagesOptions.pageSize, this.customerType)
             }
           })
         }).catch(() => {
