@@ -431,17 +431,14 @@ export default {
       })
     },
     userAdd (params, success, error) {
-      $axios.post('user', {
-        params: params,
-      }).then((res) => {
+      $axios({
+        method: 'post',
+        url: '/user',
+        data: params,
+      }).then(res => {
         success && success(res.data)
-      }).catch(() => {
-        let mockdata = {
-          'status': true,
-        }
-        setTimeout(() => {
-          error && error(mockdata)
-        }, 1000)
+      }).catch((err) => {
+        error && error(err)
       })
     },
     userDetail (params, success, error) { // 用户列表
@@ -524,8 +521,8 @@ export default {
       })
     },
     userDisable (params, success, error) { // 批量禁用用户
-      $axios.get('user/disable', {
-        params: params,
+      $axios.post('user/disable', {
+        data: params,
       }).then((res) => {
         success && success(res.data)
       }).catch(() => {

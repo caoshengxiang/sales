@@ -320,6 +320,10 @@
           }
           API.user.userDisable(param, (res) => {
             console.log(res)
+            this.$message({
+              type: 'success',
+              message: '禁用成功了!',
+            })
           }, (mock) => {
             if (mock.status) {
               this.$message({

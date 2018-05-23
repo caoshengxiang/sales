@@ -83,8 +83,8 @@
                 <!--<input type="text" v-model="form.industry">-->
                 <el-form-item prop="sex">
                   <el-select v-model.number="form.sex" placeholder="请选择员工性别">
-                    <el-option label="男" :value="1"></el-option>
-                    <el-option label="女" :value="2"></el-option>
+                    <el-option label="男" value="男"></el-option>
+                    <el-option label="女" value="女"></el-option>
                   </el-select>
                 </el-form-item>
               </td>
@@ -248,6 +248,7 @@
             departmentId: '',
             roles: [],
           }
+          this.choseroles = []
         }
         this.addDialogVisible = false
       },
@@ -267,15 +268,25 @@
         })
       },
       saveSubmitForm (formName) {
-        alert(this.form.departmentId)
+        alert(this.choseroles[0])
+        this.form.roles = [];
+        for (var i = 0; i < this.choseroles.length; i++) {
+          var temp = {}
+          temp.id = this.choseroles[i];
+          this.form.roles.push(temp)
+        }
         this.$refs[formName].validate((valid) => {
           if (valid) {
             API.user.userAdd(this.form, (res) => {
-              alert('添加数据成功')
+              this.$message({
+                type: 'success',
+                message: '添加用户成功!',
+              })
+              this.$vDialog.close()
             }, (mock) => {
               alert('添加数据异常')
             })
-            this.initData()
+           // this.initData()
           } else {
             console.log('error submit!!')
             return false
