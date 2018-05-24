@@ -7,7 +7,7 @@
       <el-breadcrumb separator-class="el-icon-arrow-right">
         <el-breadcrumb-item :to="{ name: 'saleHome' }">销售管理系统</el-breadcrumb-item>
         <el-breadcrumb-item>用户管理</el-breadcrumb-item>
-        <el-breadcrumb-item>代理商管理</el-breadcrumb-item>
+        <el-breadcrumb-item>用户管理</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <!--控制栏-->
@@ -30,10 +30,25 @@
         <com-button buttonType="search" @click="searchHandle">搜索</com-button>
       </div>
       <div class="com-bar-right" style="float: right">
-        <el-input v-model="name" placeholder="姓名" style="float: left">
-          <template slot="prepend">姓名</template>
-        </el-input>
+        <el-cascader
+          placeholder="请选择人员组织"
+          :change-on-select="true"
+          :options="allorganization"
+          v-model="selectedOptions"
+          @change="selectedOptionsHandleChange"
+          :props="props"
+        >
+        </el-cascader>
 
+        <el-select v-model.number="form.departmentId" placeholder="请选择人员部门">
+          <el-option
+            v-for="item in alldepartments"
+            :key="item.id"
+            :label="item.name"
+            :value="item.id"
+          >
+          </el-option>
+        </el-select>
       </div>
     </div>
     <!--详细-->
@@ -156,11 +171,6 @@
   import addDialog from './addDialog'
 
   export default {
-    props: {
-      vaules: {
-        default: '1',
-      },
-    },
     name: 'list',
     data () {
       return {
@@ -173,6 +183,18 @@
         userType: 0, // 客户选项
         currentPage: 1, // 当前页
         sels: [], // 选中的值显示
+        selectedOptions: [],
+        allorganization: [],
+        alldepartments: [],
+        props:{
+          children:'children',
+          value:'id',
+          label:'name',
+        },
+        form: { // 添加用户表单
+          departmentId: '',
+          organizationId:''
+        },
       }
     },
     computed: {
@@ -193,13 +215,32 @@
     },
     props: ['params'],
     created () {
-      var that = this
-      that.$store = that.params.store//状态库赋值
-      if (that.params.action == 'update') {
-        that.$options.methods.getRoleDetail.bind(that)(that.params.id)
-      }
+      this.getuserList(this.currentPage - 1, this.pagesOptions.pageSize, this.userType)
+      console.log("为什么不执行")
+      let params = {}
+      API.organization.queryList(params, (res) => {
+        this.allorganization = res.data
+      }, (mock) => {
+        this.allorganization = mock.data
+        this.dataLoading = false
+      })
     },
     methods: {
+      selectedOptionsHandleChange (value) {
+        this.form.organizationId =value[value.length -1] // 取当前选中的组织
+        let depparams = {
+          page: 1,
+          pageSize: 999,
+        }
+        depparams.pid = this.form.organizationId
+        depparams.type = 2 // 查询出部门
+        API.organization.queryAllList(depparams, (res) => {
+          this.alldepartments = res.data
+        }, (mock) => {
+          this.alldepartments = mock.data
+          this.dataLoading = false
+        })
+      },
       closeDialog () {
         this.$vDialog.close()
       },
@@ -233,7 +274,9 @@
         let param = {
           page: page,
           pageSize: pageSize,
-          type: 1,  // 查询员工
+          type: 2,  // 查询员工
+          departmentId:this.form.departmentId,
+          organizationId:this.form.organizationId
         }
         this.dataLoading = true
         API.user.userList(param, (res) => {
@@ -376,9 +419,6 @@
           })
         })
       },
-    },
-    created () {
-      this.getuserList(this.currentPage - 1, this.pagesOptions.pageSize, this.userType)
     },
   }
 </script>
