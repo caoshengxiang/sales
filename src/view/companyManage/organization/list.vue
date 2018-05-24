@@ -27,10 +27,10 @@
           </com-button>
         </template>
         <template v-if="listType == '3'">
-          <com-button buttonType="delete" icon="el-icon-delete" @click="deleteRole">刪除用户
+          <com-button buttonType="delete" icon="el-icon-delete" @click="deleteUser">刪除用户
           </com-button>
-          <com-button buttonType="add" icon="el-icon-plus" @click="add">新增用户</com-button>
-          <com-button buttonType="grey" icon="el-icon-edit" @click="update">修改用户
+          <com-button buttonType="add" icon="el-icon-plus">新增用户</com-button>
+          <com-button buttonType="grey" icon="el-icon-edit">修改用户
           </com-button>
         </template>
       </div>
@@ -49,7 +49,16 @@
                 <el-table
                   border
                   tooltip-effect="dark"
-                  :data="organizationAllList">
+                  :data="organizationAllList"
+                  @selection-change="handleSelectionChange">
+                  <el-table-column
+                    fixed
+                    type="selection"
+                    align="center"
+                    prop="id"
+                    reserve-selection=""
+                    width="40">
+                  </el-table-column>
                   <el-table-column
                     align="center"
                     label="组织"
@@ -78,13 +87,22 @@
               </el-tab-pane>
               <el-tab-pane label="部门" name="2">
                 <el-table
-                  ref="multipleTable"
                   border
-                  tooltip-effect="dark">
+                  tooltip-effect="dark"
+                  :data="organizationAllList">
+                  <el-table-column
+                    fixed
+                    type="selection"
+                    align="center"
+                    prop="id"
+                    reserve-selection=""
+                    width="40">
+                  </el-table-column>
                   <el-table-column
                     align="center"
                     label="部门"
                     show-overflow-tooltip
+                    prop="name"
                   >
                   </el-table-column>
                   <el-table-column
@@ -126,7 +144,6 @@
               </el-tab-pane>
               <el-tab-pane label="用户" name="3">
                 <el-table
-                  ref="multipleTable"
                   border
                   :data="userList"
                   tooltip-effect="dark"
@@ -145,10 +162,8 @@
                     label="姓名"
                     width="200"
                     show-overflow-tooltip
+                    prop="name"
                   >
-                    <template slot-scope="scope">
-                      <a class="col-link" @click="handleRouter('detail', scope.row.id)">{{ scope.row.name }}</a>
-                    </template>
                   </el-table-column>
                   <el-table-column
                     show-overflow-tooltip
@@ -240,8 +255,6 @@
       return {
         loading: false,
         organizationList:[],
-        roleDetail:{},
-        businessSystemList:[],
         defaultProps: {
           children: 'children',
           label: 'name'
@@ -249,7 +262,9 @@
         listType:"1",
         currentTreeNode:null,
         selectedOrganizationIdList:[],
-        organizationAllList:[]
+        organizationAllList:[],
+        userList:[],
+        selectedUserIdList:[]
       }
     },
     components: {
@@ -257,10 +272,14 @@
     },
     created () {
       var that = this;
-      that.$options.methods.getList.bind(that)();
-      that.$options.methods.queryOrganizationList.bind(that)(0,1);
+      that.$options.methods.init.bind(that)();
     },
     methods: {
+      init(){
+        var that = this;
+        that.$options.methods.getList.bind(that)();
+        that.$options.methods.queryOrganizationList.bind(that)(0,1);
+      },
       getList () {
         var that = this;
         that.selectedOrganizationIdList = [];
@@ -271,10 +290,6 @@
           that.loading = false;
           if(res.status){
             that.organizationList = res.data;
-            if (that.organizationList.length > 0) {
-              //that.roleDefaultIndex = that.roleList[0].id.toString();
-              //that.$options.methods.getRoleDetail.bind(that)(that.roleDefaultIndex);
-            }
           }else{
             Message({
               message: res.error.message,
@@ -302,37 +317,11 @@
             currentNode:that.currentTreeNode
           },
           callback: function(data){
-            that.$options.methods.getList.bind(that)();
+            that.$options.methods.init.bind(that)();
           },
           cancelCallback:function () {
-            that.$options.methods.getList.bind(that)();
+            that.$options.methods.init.bind(that)();
           }
-        });
-      },
-      selectRole(index){
-        var that = this;
-        that.$options.methods.getRoleDetail.bind(that)(index);
-      },
-      getRoleDetail(id){
-        var that = this;
-        that.roleDefaultIndex = id.toString();
-        that.loading = true;
-        API.role.getDetail({id:id},function (res) {
-          that.loading = false;
-          if(res.status){
-            that.roleDetail = res.data;
-          }else{
-            Message({
-              message: res.error.message,
-              type: 'error'
-            });
-          }
-        },function () {
-          that.loading = false;
-          Message({
-            message: '系统繁忙，请稍后再试1！',
-            type: 'error'
-          });
         });
       },
       splitName(arrayName){
@@ -360,29 +349,11 @@
             currentNode:that.currentTreeNode
           },
           callback: function(data){
-            that.$options.methods.getList.bind(that)();
+            that.$options.methods.init.bind(that)();
           },
           cancelCallback:function () {
-            that.$options.methods.getList.bind(that)();
+            that.$options.methods.init.bind(that)();
           }
-        });
-      },
-      getBusinessSystemList(){
-        var that = this;
-        API.role.getBusinessSystemList(function (res) {
-          if(res.status){
-            that.businessSystemList = res.data;
-          }else{
-            Message({
-              message: res.error.message,
-              type: 'error'
-            });
-          }
-        },function () {
-          Message({
-            message: '系统繁忙，请稍后再试1！',
-            type: 'error'
-          });
         });
       },
       deleteOrganization(){
@@ -405,7 +376,7 @@
               message: '删除成功！',
               type: 'success'
             });
-            that.$options.methods.getList.bind(that)();
+            that.$options.methods.init.bind(that)();
           }else{
             Message({
               message: res.error.message,
@@ -415,7 +386,7 @@
         },function () {
           that.loading = false;
           Message({
-            message: '系统繁忙，请稍后再试1！',
+            message: '系统繁忙，请稍后再试！',
             type: 'error'
           });
         });
@@ -430,7 +401,14 @@
         that.$options.methods.queryOrganizationList.bind(that)(that.currentTreeNode.id,that.currentTreeNode.type);
       },
       handleTabClick(tab){
-        this.listType = tab.name;
+        var that = this;
+        that.listType = tab.name;
+        if (that.listType != "3") {
+          that.currentTreeNode = that.$refs.organizationTree.getCurrentNode();
+          that.$options.methods.queryOrganizationList.bind(that)(that.currentTreeNode?that.currentTreeNode.id:0,that.listType);
+        }else{
+          that.$options.methods.queryUserList.bind(that)(that.currentTreeNode?that.currentTreeNode.id:0);
+        }
       },
       queryOrganizationList(pid,type){
         var that = this;
@@ -454,6 +432,73 @@
             type: 'error'
           });
         })
+      },
+      handleSelectionChange(val) {
+        var that = this;
+        if (val.length > 0) {
+          that.selectedUserIdList.push(Array.from(val,(n) => n.id));
+        }else{
+          that.selectedUserIdList = [];
+        }
+      },
+      queryUserList(departmentId){
+        var that = this;
+        that.userList = [];
+        that.loading = true;
+        API.organization.queryUserList({id:departmentId}, (res) => {
+          that.loading = false;
+          if(res.status){
+            that.userList = res.data;
+          }else{
+            Message({
+              message: res.error.message,
+              type: 'error'
+            });
+          }
+
+      }, (mock) => {
+          that.loading = false;
+          Message({
+            message: '系统繁忙，请稍后再试！',
+            type: 'error'
+          });
+        })
+      },
+      deleteUser(){
+        var that = this;
+        if (that.selectedUserIdList.length <= 0) {
+          Message({
+            message: '请先选择用户',
+            type: 'warning'
+          });
+          return;
+        }
+        this.$confirm('是否确认删除?', '提示', {
+          type: 'warning'
+        }).then(() => {
+          that.loading = true;
+        API.user.userDelete({ids:that.selectedUserIdList.join(',')},function (res) {
+          that.loading = false;
+          if(res.status){
+            Message({
+              message: '删除成功！',
+              type: 'success'
+            });
+            that.$options.methods.init.bind(that)();
+          }else{
+            Message({
+              message: res.error.message,
+              type: 'error'
+            });
+          }
+        },function () {
+          that.loading = false;
+          Message({
+            message: '系统繁忙，请稍后再试！',
+            type: 'error'
+          });
+        });
+      });
       }
     }
   }

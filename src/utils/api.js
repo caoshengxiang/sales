@@ -585,6 +585,17 @@ export default {
       }).catch((errorData) => {
         error && error(errorData)
       })
+    },
+    queryUserList (params, success, error) {
+      $axios({
+        method: 'get',
+        url: 'organization/userInfo',
+        params: params,
+      }).then((res) => {
+        success && success(res.data)
+      }).catch((errorData) => {
+        error && error(errorData)
+      })
     }
   },
   //公共接口
