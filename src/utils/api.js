@@ -3,11 +3,7 @@ export default {
   external: {
     goodsTypeList (success, error) { // 商品分类
       $axios.get('rest/service/product/goodsType/list', {
-        // baseURL: 'http://47.96.26.250:84/',
-        proxy: {
-          host: 'http://47.96.26.250/',
-          port: 84,
-        },
+        baseURL: 'http://47.96.26.250:84/',
       }).then((res) => {
         success && success(res.data)
       }).catch((err) => {
@@ -61,6 +57,17 @@ export default {
         success && success(res.data)
       }).catch((err) => {
         error && error(err)
+      })
+    },
+    queryAreaList (params, success, error) {
+      $axios({
+        method: 'get',
+        url: 'region',
+        params: params,
+      }).then((res) => {
+        success && success(res.data)
+      }).catch((errorData) => {
+        error && error(errorData)
       })
     },
     codeConfig (params, success, error) { // 2 - 客户级别，3 - 客户行业
@@ -668,19 +675,5 @@ export default {
         error && error(errorData)
       })
     }
-  },
-  //公共接口
-  common:{
-    queryAreaList (params, success, error) {
-      $axios({
-        method: 'get',
-        url: 'region',
-        params: params,
-      }).then((res) => {
-        success && success(res.data)
-      }).catch((errorData) => {
-        error && error(errorData)
-      })
-    },
   },
 }

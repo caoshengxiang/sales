@@ -47,7 +47,7 @@
             <td class="td-text">
               <!--<input type="text">-->
               <el-form-item prop="provinceId">
-                <el-cascader
+                <!--<el-cascader
                   placeholder="请选择客户地区"
                   :options="areaOptionsData"
                   v-model="areaSelectedOptions"
@@ -57,7 +57,8 @@
                     value: 'id',
                     label: 'name',
                   }">
-                </el-cascader>
+                </el-cascader>-->
+                <AreaSelect ref="areaSe" :selectLastLevelMode="true"></AreaSelect>
               </el-form-item>
             </td>
           </tr>
@@ -227,6 +228,7 @@
         console.log('value', value)
       },
       saveSubmitForm (formName, addContact) {
+        console.log(this.$refs.areaSe.getSelectedValue(), '区域')
         this.$refs[formName].validate((valid) => {
           if (valid) {
             this.dataLoading = true
