@@ -1,4 +1,78 @@
 export default {
+  // app外部依赖接口,【注意：基本地址改变】
+  external: {
+    goodsTypeList (success, error) { // 商品分类
+      $axios.get('rest/service/product/goodsType/list', {
+        // baseURL: 'http://47.96.26.250:84/',
+        proxy: {
+          host: 'http://47.96.26.250/',
+          port: 84,
+        },
+      }).then((res) => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+    },
+    getGoods (params, success, error) { // 获取单个商品
+      $axios.get('rest/service/product/getGoods/' + params, {
+        baseURL: 'http://47.96.26.250:84/',
+      }).then((res) => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+    },
+    findGoods (success, error) { // 获取商品列表
+      $axios.get('rest/service/product/findGoods', {
+        baseURL: 'http://47.96.26.250:84/',
+      }).then((res) => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+    },
+    getProducts (success, error) { // 获取产品列表
+      $axios.get('rest/service/product/getProducts', {
+        baseURL: 'http://47.96.26.250:84/',
+      }).then((res) => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+    },
+    getBySn (params, success, error) { // 订单详细
+      $axios.get('rest/order/getBySn', {
+        baseURL: 'http://47.96.26.250:84/',
+        params: params
+      }).then((res) => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+    },
+  },
+  // 通用接口,管理配置
+  common: {
+    region (params, success, error) { // 地区
+      $axios.get('region', {
+        params: {pid: params},
+      }).then((res) => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+    },
+    codeConfig (params, success, error) { // 2 - 客户级别，3 - 客户行业
+      $axios.get('codeConfig', {
+        params: {type: params},
+      }).then((res) => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+    },
+  },
   // 客户
   customer: {
     list (params, success, error) { // 客户列表
@@ -47,7 +121,7 @@ export default {
       })
     },
   },
-  // 客户公海
+  // 客户公海,客户池
   customerSea: {
     list (params, success, error) { //
       $axios.get('customerSea', {
@@ -376,6 +450,15 @@ export default {
     },
   },
   user: {
+    userSearch (params, success, error) { // 搜索用户-列表
+      $axios.get('user/search', {
+        params: params
+      }).then((res) => {
+        success && success(res.data)
+      }).catch(err => {
+        error && error(err)
+      })
+    },
     userList (params, success, error) { // 用户列表
       $axios.get('user', {
         params: params,
@@ -442,8 +525,7 @@ export default {
       })
     },
     userDetail (params, success, error) { // 用户列表
-      $axios.get('user/'+params.id, {
-      }).then((res) => {
+      $axios.get('user/' + params.id, {}).then((res) => {
         success && success(res.data)
       }).catch(() => {
         // error && error()
@@ -629,10 +711,10 @@ export default {
       }).catch((errorData) => {
         error && error(errorData)
       })
-  }
+    },
   },
   //组织管理
-  organization:{
+  organization: {
     queryList (params, success, error) {
       $axios({
         method: 'get',
@@ -687,6 +769,6 @@ export default {
       }).catch((errorData) => {
         error && error(errorData)
       })
-    }
-  }
+    },
+  },
 }
