@@ -19,6 +19,13 @@
       <!--:allow-drag="allowDrag">-->
     <!--</el-tree>-->
 
+    <div>
+      <input type="text" v-model="test">
+    </div>
+    <br>
+    <br>
+    <br>
+    <AreaSelect ref="areaSe" :selectLastLevelMode="true"></AreaSelect>
   </div>
 </template>
 
@@ -27,6 +34,7 @@
     name: 'HelloWorld',
     data () {
       return {
+        test: '',
         msg: 'Welcome to sales App',
         data6: [
           {
@@ -101,4 +109,6 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss" rel="stylesheet/scss">
   @import "../styles/sprites.css";
+  @import '../element_ui/element-variables';
+  @import '../element_ui/element';
 </style>

@@ -22,8 +22,7 @@
               <!--<input type="text" v-model="addForm.levelName">-->
               <el-form-item prop="level">
                 <el-select v-model.number="addForm.level" placeholder="请选择客户级别">
-                  <el-option label="客户级别1" :value="1"></el-option>
-                  <el-option label="客户级别2" :value="2"></el-option>
+                  <el-option v-for="item in levelList" :key="item.id" :label="item.codeName" :value="item.id"></el-option>
                 </el-select>
               </el-form-item>
             </td>
@@ -40,8 +39,7 @@
               <!--<input type="text" v-model="addForm.industry">-->
               <el-form-item prop="industry">
                 <el-select v-model.number="addForm.industry" placeholder="请选择客户行业">
-                  <el-option label="客户行业1" :value="1"></el-option>
-                  <el-option label="客户行业2" :value="2"></el-option>
+                  <el-option v-for="item in industryList" :key="item.id" :label="item.codeName" :value="item.id"></el-option>
                 </el-select>
               </el-form-item>
             </td>
@@ -49,12 +47,18 @@
             <td class="td-text">
               <!--<input type="text">-->
               <el-form-item prop="provinceId">
-                <el-cascader
+                <!--<el-cascader
                   placeholder="请选择客户地区"
-                  :options="areaOptions_testData"
+                  :options="areaOptionsData"
                   v-model="areaSelectedOptions"
-                  @change="areaSelectedOptionsHandleChange">
-                </el-cascader>
+                  @active-item-change="handleAreaItemChange"
+                  @change="areaSelectedOptionsHandleChange"
+                  :props="{
+                    value: 'id',
+                    label: 'name',
+                  }">
+                </el-cascader>-->
+                <AreaSelect ref="areaSe" :selectLastLevelMode="true"></AreaSelect>
               </el-form-item>
             </td>
           </tr>
@@ -76,8 +80,7 @@
               <!--<input type="text" v-model="addForm.shortName">-->
               <el-form-item prop="seaId">
                 <el-select v-model.number="addForm.seaId" placeholder="请选择所属公海">
-                  <el-option label="所属公海1" :value="1"></el-option>
-                  <el-option label="所属公海2" :value="2"></el-option>
+                  <el-option v-for="item in seaList" :key="item.id" :label="item.name" :value="item.id"></el-option>
                 </el-select>
               </el-form-item>
             </td>
@@ -140,7 +143,7 @@
           address: '',
           business: '',
         },
-        areaOptions_testData: [
+        areaOptionsData: [
           {
             value: 1,
             label: '四川',
@@ -163,6 +166,9 @@
           },
         ],
         areaSelectedOptions: [],
+        industryList: [], // 行业
+        levelList: [], // 级别
+        seaList: [], // 公海
         rules: {
           name: [
             {required: true, message: '请输入公司名称', trigger: 'blur'},
@@ -219,9 +225,10 @@
     },
     methods: {
       areaSelectedOptionsHandleChange (value) {
-        console.log(value)
+        console.log('value', value)
       },
       saveSubmitForm (formName, addContact) {
+        console.log(this.$refs.areaSe.getSelectedValue(), '区域')
         this.$refs[formName].validate((valid) => {
           if (valid) {
             this.dataLoading = true
@@ -285,8 +292,34 @@
           },
         })
       },
+      getAreaOptionsData (id) {
+        API.common.region(id, (data) => {
+          this.areaOptionsData = data.data
+        })
+      },
+      handleAreaItemChange (val) {
+        console.log('val', val)
+      },
+      getConfigData (type) {
+        API.common.codeConfig(type, (data) => {
+          if (type === 2) {
+            this.levelList = data.data.content
+          } else if (type === 3) {
+            this.industryList = data.data.content
+          }
+        })
+      },
+      getSeaList () {
+        API.customerSea.list({}, (data) => {
+          this.seaList = data.data.content
+        })
+      }
     },
     created () {
+      this.getAreaOptionsData(null)
+      this.getConfigData(2)
+      this.getConfigData(3)
+      this.getSeaList()
       if (this.params.detail) {
         this.addForm = JSON.parse(JSON.stringify(this.params.detail))
         this.dialogType = 'edit'

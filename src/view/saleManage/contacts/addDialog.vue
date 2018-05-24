@@ -235,7 +235,7 @@
         })
       },
       getCustomersList () { // “跟进”的所有客户
-        API.customer.list({page: 0, pageSize: 100000, type: 2}, data => {
+        API.customer.list({page: 0, pageSize: -1, type: 2}, data => {
           if (data.status) {
             this.customersList = data.data.content
           }
