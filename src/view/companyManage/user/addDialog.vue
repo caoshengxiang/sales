@@ -209,7 +209,28 @@
         API.user.userDetail(param, (res) => {
           if(res.status)
           {
-            that.form = res.data
+            that.form = res.data;
+            var tempid = that.form.organizationId;
+
+            var loopDo = function (list,id) {
+              for (var i =0;i<list.length;i++) {
+                var item = list[i];
+                if (item.id == id) {
+                  that.areaSelectedOptions.push(item.id);
+                  if(item.pid > 0)
+                  {
+                    loopDo(that.allorganization,item.pid);
+                  }
+                }else {
+                  loopDo(item.children,id);
+                }
+              }
+            };
+
+            loopDo(that.allorganization,tempid);
+            that.areaSelectedOptions.reverse()
+            that.areaSelectedOptionsHandleChange(that.areaSelectedOptions)
+
             // todo:1、需要初始化组织 2需要初始化部门
             for (var i = 0; i < that.form.roles.length; i++) {
               that.choseroles.push(this.form.roles[i].id)

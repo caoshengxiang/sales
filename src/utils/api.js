@@ -400,7 +400,7 @@ export default {
     },
     userModify (params, success, error) {
       $axios({
-        method: 'post',
+        method: 'put',
         url: `/user/${params.id}`,
         data: params,
       }).then(res => {
@@ -421,7 +421,7 @@ export default {
     },
     userDelete (params, success, error) { // 批量删除用户
       $axios({
-        method: 'post',
+        method: 'delete',
         url: '/user?ids=' + params.ids,
       }).then(res => {
         success && success(res.data)
