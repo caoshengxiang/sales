@@ -688,5 +688,19 @@ export default {
         error && error(errorData)
       })
     }
+  },
+  //公共接口
+  common:{
+    queryAreaList (params, success, error) {
+      $axios({
+        method: 'get',
+        url: 'region',
+        params: params,
+      }).then((res) => {
+        success && success(res.data)
+      }).catch((errorData) => {
+        error && error(errorData)
+      })
+    }
   }
 }

@@ -1,125 +1,109 @@
-<!--行政区域、寺庙四级联动组件
-2018.4.11 姚政伟 构建
-=========函数方式获取参数对象===============
-that.$refs.areaSelect.form;
+<!--行政区域联动组件
+2018.5.24 姚政伟 构建
+=========调用方式===============
+<AreaSelect :selectLastLevelMode="false"></AreaSelect>
+说明：selectLastLevelMode ---- 可选参数(是否限制选择最后一级:true 必须选择最后一级 false 任选)
+=========获取值方式=============
+this.$refs.组件名称.getSelectedValue()
 -->
 <template>
-  <div class="areaSelect">
-    <el-input placeholder=" " class="labelSelect">
-      <template slot="prepend">
-        <slot>州/县/寺庙</slot>
-      </template>
-      <el-select slot="append" placeholder="请选择" v-model="form.provincecode" class="selectItem" @change="provinceChange"
-                 v-show="false">
-        <el-option label="省" value=""></el-option>
-        <el-option v-for="item in provinceData" :key="item.code" :value="item.code" :label="item.codeName"></el-option>
-      </el-select>
-      <el-select slot="append" placeholder="请选择" v-model="form.statecode" class="selectItem" @change="continentChange">
-        <el-option label="州" value=""></el-option>
-        <el-option v-for="item in continentData" :key="item.code" :value="item.code" :label="item.codeName"></el-option>
-      </el-select>
-      <el-select slot="append" placeholder="请选择" v-model="form.countycode" class="selectItem" @change="countyChange">
-        <el-option label="县" value=""></el-option>
-        <el-option v-for="item in countyData" :key="item.code" :value="item.code" :label="item.codeName"></el-option>
-      </el-select>
-      <el-select slot="append" placeholder="请选择" v-model="form.templeid" class="selectItem" @change="templeChange">
-        <el-option label="寺庙" value=""></el-option>
-        <el-option v-for="item in templeData" :key="item.id" :value="item.id" :label="item.templename"></el-option>
-      </el-select>
-    </el-input>
+  <div>
+    <el-cascader
+      :options="list"
+      @change="handleItemChange"
+      @active-item-change="handleItemChange"
+      :props="props"
+      :change-on-select = "true"
+      :value="selectedBindValue"
+      class="selectAreaModule"
+      ref="areaSelectCtl"
+    ></el-cascader>
   </div>
 </template>
 
 <script>
-  import server from '@/common/server.js'
+  import API from '@/utils/api'
+  import { Message } from 'element-ui'
 
   export default {
     name: 'areaSelect',
+    props: {
+      //是否限制选择最后一级:true 必须选择最后一级 false 任选
+      selectLastLevelMode: {
+        type: Boolean,
+        required: false,
+        default: false,
+      },
+    },
     data () {
       return {
-        provinceData: [],
-        continentData: [],
-        countyData: [],
-        templeData: [],
-        lastSelectedValue: '',
-        form: {
-          provincecode: '510000',
-          statecode: '',
-          countycode: '',
-          templeid: '',
+        list: [],
+        props: {
+          value:'id',
+          label: 'name'
         },
+        selectedValue:[],
+        selectedBindValue:[]
       }
     },
     created () {
-      var that = this
-      server.getAdministrativeArea(function (res) {
-        that.provinceData = res.data
-        that.provinceChange(that.form.provincecode)
-      })
+      var that = this;
+      that.$options.methods.queryList.bind(that)(0);
     },
     methods: {
-      provinceChange (selectedVal) {
-        var that = this
-        that.lastSelectedValue = selectedVal
-        that.form.provincecode = selectedVal
-        that.form.statecode = ''
-        that.form.countycode = ''
-        that.form.templeid = ''
-        that.continentData = []
-        that.countyData = []
-        that.templeData = []
-        for (var i = 0; i < that.provinceData.length; i++) {
-          if (that.provinceData[i].code === selectedVal) {
-            that.continentData = that.provinceData[i].subItems
+      queryList(pid){
+        var that = this;
+        API.common.queryAreaList({pid:pid},function (res) {
+          if (res.status == true) {
+            if (res.data && res.data.length > 0) {
+              for (var i=0;i<res.data.length;i++) {
+                res.data[i].children = [];
+              }
+              if (pid != 0) {
+                var loopArea = function (list,pid) {
+                  var item = list.find((n) => n.id == pid);
+                  if (item) {
+                    console.log(item.name);
+                    item.children = res.data;
+                    return;
+                  }else{
+                    for (var j=0;j<list.length;j++) {
+                      var n = list[j];
+                      if (n.children && n.children.length > 0) {
+                        loopArea(n.children,pid);
+                      }
+                    }
+                  }
+                };
+                loopArea(that.list,pid);
+              }else{
+                that.list = res.data;
+              }
+            }else{
+              that.selectedBindValue = that.selectedValue;
+              $(".selectAreaModule").trigger("click");
+            }
           }
+        }, (mock) => {
+          Message({
+            message: mock,
+            type: 'error'
+          });
+        });
+      },
+      handleItemChange(val) {
+        var that = this;
+        if (that.selectLastLevelMode) {
+          that.selectedBindValue = [];
+        }else{
+          that.selectedBindValue = val;
         }
+        that.selectedValue = val;
+        that.$options.methods.queryList.bind(that)(val[val.length-1]);
       },
-      continentChange (selectedVal) {
-        var that = this
-        that.lastSelectedValue = selectedVal
-        that.form.statecode = selectedVal
-        that.form.countycode = ''
-        that.form.templeid = ''
-        that.countyData = []
-        that.templeData = []
-        for (var i = 0; i < that.continentData.length; i++) {
-          if (that.continentData[i].code === selectedVal) {
-            that.countyData = that.continentData[i].subItems
-          }
-        }
-      },
-      countyChange (selectedVal) {
-        var that = this
-        that.lastSelectedValue = selectedVal
-        that.form.countycode = selectedVal
-        that.form.templeid = ''
-        that.templeData = []
-        server.getTempleList({
-          countycode: selectedVal,
-          pageSize: 999,
-        }, function (res) {
-          if (res.status && res.data) {
-            that.templeData = res.data.content
-          }
-        })
-      },
-      templeChange (selectedVal) {
-        var that = this
-        that.form.templeid = selectedVal
-      },
-    },
+      getSelectedValue(){
+        return this.selectedBindValue;
+      }
+    }
   }
 </script>
-
-<style scoped>
-  .areaSelect {
-    margin-right: 10px;
-  }
-
-  .areaSelect .selectItem {
-    width: 33% !important;
-    margin: -10px 0;
-    display: block;
-    float: left;
-  }
-</style>
