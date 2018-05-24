@@ -195,13 +195,12 @@
         that.dataLoading = false
       })
       params = {}
-      API.organizationTreeList(params, (res) => {
+      API.organization.queryList(params, (res) => {
         that.allorganization = res.data
       }, (mock) => {
         that.allorganization = mock.data
         that.dataLoading = false
       })
-      alert(that.params.id )
       if (that.params.id > 0) { // 这里是修改数据
         that.form.id  = that.params.id
         let param = {
@@ -234,7 +233,7 @@
         }
         depparams.pid = this.form.organizationId
         depparams.type = 2 // 查询出部门
-        API.organizationList(depparams, (res) => {
+        API.organization.queryAllList(depparams, (res) => {
           this.alldepartments = res.data
         }, (mock) => {
           this.alldepartments = mock.data
@@ -242,7 +241,6 @@
         })
       },
       saveSubmitForm (formName) {
-        alert(this.choseroles[0])
         this.form.roles = [];
         for (var i = 0; i < this.choseroles.length; i++) {
           var temp = {}
@@ -251,15 +249,29 @@
         }
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            API.user.userAdd(this.form, (res) => {
-              this.$message({
-                type: 'success',
-                message: '添加用户成功!',
+            if(this.form.id <= 0)
+            {
+              API.user.userAdd(this.form, (res) => {
+                this.$message({
+                  type: 'success',
+                  message: '添加用户成功!',
+                })
+                this.$vDialog.close()
+              }, (mock) => {
+                alert('添加数据异常')
               })
-              this.$vDialog.close()
-            }, (mock) => {
-              alert('添加数据异常')
-            })
+            }else {
+              alert("修改")
+              API.user.userModify(this.form, (res) => {
+                this.$message({
+                  type: 'success',
+                  message: '修改用户成功!',
+                })
+                this.$vDialog.close()
+              }, (mock) => {
+              })
+            }
+
            // this.initData()
           } else {
             console.log('error submit!!')

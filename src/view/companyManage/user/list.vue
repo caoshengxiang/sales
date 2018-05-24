@@ -301,7 +301,10 @@
             ids: id,
           }
           API.user.userDelete(param, (res) => {
-            console.log(res)
+            this.$message({
+              type: 'success',
+              message: '删除成功!',
+            })
           }, (mock) => {
             if (mock.status) {
               this.$message({
@@ -329,10 +332,9 @@
             ids: id,
           }
           API.user.userDisable(param, (res) => {
-            console.log(res)
             this.$message({
               type: 'success',
-              message: '禁用成功了!',
+              message: '用户禁用成功!',
             })
           }, (mock) => {
             if (mock.status) {
@@ -361,7 +363,10 @@
             ids: id,
           }
           API.user.userResetPassword(param, (res) => {
-            console.log(res)
+            this.$message({
+              type: 'success',
+              message: '成功重置密码!',
+            })
           }, (mock) => {
             if (mock.status) {
               this.$message({
