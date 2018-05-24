@@ -146,12 +146,6 @@
         :page-size="pagesOptions.pageSize">
       </el-pagination>
     </div>
-    <!-- -->
-    <!-- -->
-    <!--新增弹窗-->
-    <add-dialog :addDialogOpen="addDialogOpen" :type="type" @hasAddDialogOpen="addDialogOpen = false"></add-dialog>
-    <!-- -->
-    <!-- -->
   </div>
 </template>
 
@@ -170,6 +164,7 @@
     name: 'list',
     data () {
       return {
+        loading: false,
         dataLoading: true,
         addDialogOpen: false, // 新增弹窗
         moveDialogOpen: false, // 转移弹窗
@@ -196,14 +191,40 @@
       comButton,
       addDialog,
     },
+    props: ['params'],
+    created () {
+      var that = this
+      that.$store = that.params.store//状态库赋值
+      if (that.params.action == 'update') {
+        that.$options.methods.getRoleDetail.bind(that)(that.params.id)
+      }
+    },
     methods: {
+      closeDialog () {
+        this.$vDialog.close()
+      },
+      add () {
+        var that = this
+        this.$vDialog.modal(addDialog, {
+          title: '新增用户',
+          width: 700,
+          height: 500,
+          params: {
+            store: that.$store, //弹窗组件如果需要用到vuex，必须传值过去赋值
+            action: 'add',
+          },
+          callback: function (data) {
+            that.searchHandle()
+          },
+        })
+      },
       selsChange (sels) {
         this.sels = sels
-        alert(this.sels)
+        //alert(this.sels)
       },
       delGroup () {
         var ids = this.sels.map(item => item.id).join() // 获取所有选中行的id组成的字符串，以逗号分隔
-        alert(ids)
+        //alert(ids)
       },
       ...mapActions('user', [
         'ac_userList',
@@ -212,7 +233,7 @@
         let param = {
           page: page,
           pageSize: pageSize,
-          type: 2, // 查询代理商
+          type: 1,  // 查询员工
         }
         this.dataLoading = true
         API.user.userList(param, (res) => {
@@ -247,10 +268,20 @@
         this.type = 'add'
       },
       modifyHandle () {
-        var id = this.multipleSelection.map(item => item.id).join() // 当前选中的所有ID
-        console.info(id) // todo 暂时处理'id' is assigned a value but never used
-        this.addDialogOpen = true
-        this.type = 'edit'
+        var that = this;
+        this.$vDialog.modal(addDialog,{
+          title:'修改用户',
+          width: 700,
+          height: 500,
+          params: {
+            id: that.multipleSelection.map(item => item.id).join(),
+            store:that.$store, //弹窗组件如果需要用到vuex，必须传值过去赋值
+            action:"update"
+          },
+          callback: function(data){
+            that.searchHandle()
+          }
+        });
       },
       deleteHandle () {
         this.$confirm('确定删除当前选中所有用户, 是否继续?', '提示', {
@@ -262,8 +293,11 @@
           let param = {
             ids: id,
           }
-          API.userDelete(param, (res) => {
-            console.log(res)
+          API.user.userDelete(param, (res) => {
+            this.$message({
+              type: 'success',
+              message: '删除成功!',
+            })
           }, (mock) => {
             if (mock.status) {
               this.$message({
@@ -290,8 +324,11 @@
           let param = {
             ids: id,
           }
-          API.userDelete(param, (res) => {
-            console.log(res)
+          API.user.userDisable(param, (res) => {
+            this.$message({
+              type: 'success',
+              message: '用户禁用成功!',
+            })
           }, (mock) => {
             if (mock.status) {
               this.$message({
@@ -318,8 +355,11 @@
           let param = {
             ids: id,
           }
-          API.userResetPassword(param, (res) => {
-            console.log(res)
+          API.user.userResetPassword(param, (res) => {
+            this.$message({
+              type: 'success',
+              message: '成功重置密码!',
+            })
           }, (mock) => {
             if (mock.status) {
               this.$message({
