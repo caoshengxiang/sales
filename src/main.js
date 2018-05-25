@@ -11,9 +11,7 @@ import './utils/axiosConfig' // axios配置文件
 
 Vue.config.productionTip = false // 关闭生产模式下给出的提示
 
-//引入行政区域下拉框联动组件
-import AreaSelect from './components/areaSelect'
-Vue.use(AreaSelect);
+
 
 /* eslint-disable no-new */
 new Vue({

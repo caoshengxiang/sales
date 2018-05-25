@@ -13,9 +13,10 @@
     "lint": "eslint --ext .js,.vue src test/unit test/e2e/specs",
     "build": "node build/build.js",
     "compress": "rm -rf dist && npm run build",
-    "release": "rm -rf dist && npm run build && npm run compress && ./bash/release.sh",
-    "releaseTest": "rm -rf dist && npm run build && ./bash/test.sh",
-    "rel": "./bash/test.sh"
+    "release": "npm run compress && bash ./bash/release.sh",
+    "releaseTest": "npm run compress && bash ./bash/test.sh",
+    "release_linux": "npm run compress && ./bash/release.sh",
+    "releaseTest_linux": "npm run compress && ./bash/test.sh"
   },
   "dependencies": {
     "axios": "^0.18.0",

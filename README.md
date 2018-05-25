@@ -61,9 +61,14 @@ npm test
 
 控制台输入bash 就可运行bash 命令
 
+1. window10 下部署
 * npm run releaseTest 测试服
 * npm run release 正式服
+2. linux 下部署
+* npm run releaseTest_linux 测试服
+* npm run release_linux 正式服
 
+> 【目前会提示输入两次密码】
 
 ## 目录说明
 ```

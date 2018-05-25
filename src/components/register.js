@@ -17,7 +17,10 @@ import Vue from 'vue'
 import echarts from 'echarts'
 //引入弹窗组件
 import vDialogs from 'v-dialogs'
+//引入行政区域下拉框联动组件
+import AreaSelect from '../components/areaSelect'
 
+Vue.use(AreaSelect)
 Vue.use(vDialogs)
 
 // Vue.use(vueXlsxTable, {rABS: false})
