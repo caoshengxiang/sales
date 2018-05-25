@@ -252,7 +252,7 @@
         }
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            if(this.form.id <= 0)
+            if(this.form.id == undefined || this.form.id <= 0)
             {
               API.user.userAdd(this.form, (res) => {
                 this.$message({
