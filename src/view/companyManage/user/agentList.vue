@@ -7,7 +7,7 @@
       <el-breadcrumb separator-class="el-icon-arrow-right">
         <el-breadcrumb-item :to="{ name: 'saleHome' }">销售管理系统</el-breadcrumb-item>
         <el-breadcrumb-item>用户管理</el-breadcrumb-item>
-        <el-breadcrumb-item>代理商管理</el-breadcrumb-item>
+        <el-breadcrumb-item>用户管理</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <!--控制栏-->
@@ -30,10 +30,25 @@
         <com-button buttonType="search" @click="searchHandle">搜索</com-button>
       </div>
       <div class="com-bar-right" style="float: right">
-        <el-input v-model="name" placeholder="姓名" style="float: left">
-          <template slot="prepend">姓名</template>
-        </el-input>
+        <el-cascader
+          placeholder="请选择人员组织"
+          :change-on-select="true"
+          :options="allorganization"
+          v-model="selectedOptions"
+          @change="selectedOptionsHandleChange"
+          :props="props"
+        >
+        </el-cascader>
 
+        <el-select v-model.number="form.departmentId" placeholder="请选择人员部门">
+          <el-option
+            v-for="item in alldepartments"
+            :key="item.id"
+            :label="item.name"
+            :value="item.id"
+          >
+          </el-option>
+        </el-select>
       </div>
     </div>
     <!--详细-->
@@ -146,12 +161,6 @@
         :page-size="pagesOptions.pageSize">
       </el-pagination>
     </div>
-    <!-- -->
-    <!-- -->
-    <!--新增弹窗-->
-    <add-dialog :addDialogOpen="addDialogOpen" :type="type" @hasAddDialogOpen="addDialogOpen = false"></add-dialog>
-    <!-- -->
-    <!-- -->
   </div>
 </template>
 
@@ -162,14 +171,10 @@
   import addDialog from './addDialog'
 
   export default {
-    props: {
-      vaules: {
-        default: '1',
-      },
-    },
     name: 'list',
     data () {
       return {
+        loading: false,
         dataLoading: true,
         addDialogOpen: false, // 新增弹窗
         moveDialogOpen: false, // 转移弹窗
@@ -178,6 +183,18 @@
         userType: 0, // 客户选项
         currentPage: 1, // 当前页
         sels: [], // 选中的值显示
+        selectedOptions: [],
+        allorganization: [],
+        alldepartments: [],
+        props:{
+          children:'children',
+          value:'id',
+          label:'name',
+        },
+        form: { // 添加用户表单
+          departmentId: '',
+          organizationId:''
+        },
       }
     },
     computed: {
@@ -196,14 +213,59 @@
       comButton,
       addDialog,
     },
+    props: ['params'],
+    created () {
+      this.getuserList(this.currentPage - 1, this.pagesOptions.pageSize, this.userType)
+      console.log("为什么不执行")
+      let params = {}
+      API.organization.queryList(params, (res) => {
+        this.allorganization = res.data
+      }, (mock) => {
+        this.allorganization = mock.data
+        this.dataLoading = false
+      })
+    },
     methods: {
+      selectedOptionsHandleChange (value) {
+        this.form.organizationId =value[value.length -1] // 取当前选中的组织
+        let depparams = {
+          page: 1,
+          pageSize: 999,
+        }
+        depparams.pid = this.form.organizationId
+        depparams.type = 2 // 查询出部门
+        API.organization.queryAllList(depparams, (res) => {
+          this.alldepartments = res.data
+        }, (mock) => {
+          this.alldepartments = mock.data
+          this.dataLoading = false
+        })
+      },
+      closeDialog () {
+        this.$vDialog.close()
+      },
+      add () {
+        var that = this
+        this.$vDialog.modal(addDialog, {
+          title: '新增用户',
+          width: 700,
+          height: 500,
+          params: {
+            store: that.$store, //弹窗组件如果需要用到vuex，必须传值过去赋值
+            action: 'add',
+          },
+          callback: function (data) {
+            that.searchHandle()
+          },
+        })
+      },
       selsChange (sels) {
         this.sels = sels
-        alert(this.sels)
+        //alert(this.sels)
       },
       delGroup () {
         var ids = this.sels.map(item => item.id).join() // 获取所有选中行的id组成的字符串，以逗号分隔
-        alert(ids)
+        //alert(ids)
       },
       ...mapActions('user', [
         'ac_userList',
@@ -212,7 +274,9 @@
         let param = {
           page: page,
           pageSize: pageSize,
-          type: 2, // 查询代理商
+          type: 2,  // 查询员工
+          departmentId:this.form.departmentId,
+          organizationId:this.form.organizationId
         }
         this.dataLoading = true
         API.user.userList(param, (res) => {
@@ -247,10 +311,20 @@
         this.type = 'add'
       },
       modifyHandle () {
-        var id = this.multipleSelection.map(item => item.id).join() // 当前选中的所有ID
-        console.info(id) // todo 暂时处理'id' is assigned a value but never used
-        this.addDialogOpen = true
-        this.type = 'edit'
+        var that = this;
+        this.$vDialog.modal(addDialog,{
+          title:'修改用户',
+          width: 700,
+          height: 500,
+          params: {
+            id: that.multipleSelection.map(item => item.id).join(),
+            store:that.$store, //弹窗组件如果需要用到vuex，必须传值过去赋值
+            action:"update"
+          },
+          callback: function(data){
+            that.searchHandle()
+          }
+        });
       },
       deleteHandle () {
         this.$confirm('确定删除当前选中所有用户, 是否继续?', '提示', {
@@ -262,8 +336,11 @@
           let param = {
             ids: id,
           }
-          API.userDelete(param, (res) => {
-            console.log(res)
+          API.user.userDelete(param, (res) => {
+            this.$message({
+              type: 'success',
+              message: '删除成功!',
+            })
           }, (mock) => {
             if (mock.status) {
               this.$message({
@@ -290,8 +367,11 @@
           let param = {
             ids: id,
           }
-          API.userDelete(param, (res) => {
-            console.log(res)
+          API.user.userDisable(param, (res) => {
+            this.$message({
+              type: 'success',
+              message: '用户禁用成功!',
+            })
           }, (mock) => {
             if (mock.status) {
               this.$message({
@@ -318,8 +398,11 @@
           let param = {
             ids: id,
           }
-          API.userResetPassword(param, (res) => {
-            console.log(res)
+          API.user.userResetPassword(param, (res) => {
+            this.$message({
+              type: 'success',
+              message: '成功重置密码!',
+            })
           }, (mock) => {
             if (mock.status) {
               this.$message({
@@ -336,9 +419,6 @@
           })
         })
       },
-    },
-    created () {
-      this.getuserList(this.currentPage - 1, this.pagesOptions.pageSize, this.userType)
     },
   }
 </script>

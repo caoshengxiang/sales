@@ -231,10 +231,13 @@
         this.multipleSelection = val
       },
       handleSizeChange (val) {
-        console.log(`每页 ${val} 条`)
+        // console.log(`每页 ${val} 条`)
+        this.getCustomersSeaList(this.currentPage - 1, this.pagesOptions.pageSize)
       },
       handleCurrentChange (val) {
-        console.log(`当前页: ${val}`)
+        // console.log(`当前页: ${val}`)
+        this.currentPage = val
+        this.getCustomersSeaList(this.currentPage - 1, this.pagesOptions.pageSize)
       },
       handleRouter (name, id) {
         this.$router.push({name: 'customersDetail', query: {view: name, customerId: id}, params: {end: 'FE'}})

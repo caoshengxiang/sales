@@ -14,7 +14,8 @@
     "build": "node build/build.js",
     "compress": "rm -rf dist && npm run build",
     "release": "rm -rf dist && npm run build && npm run compress && ./bash/release.sh",
-    "releaseTest": "rm -rf dist && npm run build && ./bash/test.sh"
+    "releaseTest": "rm -rf dist && npm run build && ./bash/test.sh",
+    "rel": "./bash/test.sh"
   },
   "dependencies": {
     "axios": "^0.18.0",

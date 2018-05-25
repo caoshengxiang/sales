@@ -7,9 +7,8 @@
               <td class="td-title">客户名称</td>
               <td class="td-text">
                 <el-form-item prop="customerId">
-                  <el-select v-model.number="addForm.intentProductCate" placeholder="请选择客户名称" style="width: 100%">
-                    <el-option label="客户" :value="1"></el-option>
-                    <el-option label="客户2" :value="2"></el-option>
+                  <el-select v-model.number="addForm.customerId" placeholder="请选择客户" style="width: 100%">
+                    <el-option v-for="item in customersList" :key="item.id" :label="item.name" :value="item.id"></el-option>
                   </el-select>
                 </el-form-item>
               </td>
@@ -48,8 +47,7 @@
               <td class="td-text">
                 <el-form-item prop="intentProductCate">
                   <el-select v-model.number="addForm.intentProductCate" placeholder="请选择意向商品分类" style="width: 100%">
-                    <el-option label="客户行业1" :value="1"></el-option>
-                    <el-option label="客户行业2" :value="2"></el-option>
+                    <el-option v-for="item in intentProductCateList" :key="item.objectId" :label="item.name" :value="item.objectId"></el-option>
                   </el-select>
                 </el-form-item>
               </td>
@@ -57,8 +55,7 @@
               <td class="td-text">
                 <el-form-item prop="intentProductId">
                   <el-select v-model.number="addForm.intentProductId" placeholder="请选择意向商品" style="width: 100%">
-                    <el-option label="客户行业1" :value="1"></el-option>
-                    <el-option label="客户行业2" :value="2"></el-option>
+                    <el-option v-for="item in intentProductList" :key="item.objectId" :label="item.name" :value="item.objectId"></el-option>
                   </el-select>
                 </el-form-item>
               </td>
@@ -82,7 +79,7 @@
 </template>
 
 <script>
-
+  import API from '../../../utils/api'
   export default {
     name: 'addDialog',
     data () {
@@ -96,7 +93,10 @@
           intentProductId: '',
           remark: '', // todo
         },
+        customersList: [],
         salesState: [],
+        intentProductCateList: [],
+        intentProductList: [],
         rules: {
           customerId: [
             {required: true, message: '请输入所属公司', trigger: 'blur'},
@@ -138,8 +138,28 @@
           }
         })
       },
+      getCustomersList () { // “跟进”的所有客户
+        API.customer.list({page: 0, pageSize: -1, type: 2}, data => {
+          if (data.status) {
+            this.customersList = data.data.content
+          }
+        })
+      },
+      getIntentProductCateList () {
+        API.external.goodsTypeList((data) => {
+          this.intentProductCateList = data.content
+        })
+      },
+      getIntentProductList () {
+        API.external.findGoods((data) => {
+          this.intentProductList = data.content
+        })
+      }
     },
     created () {
+      this.getCustomersList()
+      this.getIntentProductCateList()
+      this.getIntentProductList()
       this.salesState = this.params.salesState
       if (this.params.detail) {
         this.addForm = this.params.detail
