@@ -237,7 +237,6 @@
             }
           }
         }, (mock) => {
-          alert("mock")
         })
       }
 
@@ -279,10 +278,8 @@
                 })
                 this.$vDialog.close()
               }, (mock) => {
-                alert('添加数据异常')
               })
             }else {
-              alert("修改")
               API.user.userModify(this.form, (res) => {
                 this.$message({
                   type: 'success',

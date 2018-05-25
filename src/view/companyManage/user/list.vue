@@ -227,11 +227,9 @@
       },
       selsChange (sels) {
         this.sels = sels
-        //alert(this.sels)
       },
       delGroup () {
         var ids = this.sels.map(item => item.id).join() // 获取所有选中行的id组成的字符串，以逗号分隔
-        //alert(ids)
       },
       ...mapActions('user', [
         'ac_userList',
