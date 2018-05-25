@@ -63,8 +63,8 @@
             <tr>
               <td class="td-title">需求描述</td>
               <td class="td-text" colspan="3">
-                <el-form-item prop="remark">
-                  <el-input type="text" v-model="addForm.remark"></el-input>
+                <el-form-item prop="chanceRemark">
+                  <el-input type="text" v-model="addForm.chanceRemark"></el-input>
                 </el-form-item>
               </td>
             </tr>
@@ -91,7 +91,7 @@
           intentBillAmount: '',
           intentProductCate: '',
           intentProductId: '',
-          remark: '', // todo
+          chanceRemark: '',
         },
         customersList: [],
         salesState: [],
@@ -116,7 +116,7 @@
           intentProductId: [
             {required: true, message: '请选择意向商品', trigger: 'change'},
           ],
-          remark: [
+          chanceRemark: [
             {required: true, message: '请输入需求描述', trigger: 'blur'},
           ],
         },
@@ -130,8 +130,19 @@
       saveSubmitForm (formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            alert('submit!')
-            this.$vDialog.close({type: 'save'})
+            API.salesOpportunities.add(this.addForm, (data) => {
+              if (data.status) {
+                this.$message.success('添加成功')
+                setTimeout(() => {
+                  this.dataLoading = false
+                  this.$vDialog.close({type: 'save'})
+                }, 500)
+              } else {
+                setTimeout(() => {
+                  this.dataLoading = false
+                }, 500)
+              }
+            })
           } else {
             console.log('error submit!!')
             return false

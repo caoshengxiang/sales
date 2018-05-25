@@ -8,10 +8,9 @@ import './element_ui' // element
 import './styles/basic.scss' // 基础样式
 import './components/register' // 全局注册组件
 import './utils/axiosConfig' // axios配置文件
+import { version } from './utils/const'
 
 Vue.config.productionTip = false // 关闭生产模式下给出的提示
-
-
 
 /* eslint-disable no-new */
 new Vue({
@@ -23,4 +22,4 @@ new Vue({
   // render: h => h(App)
 })
 
-console.log('version: 1.1.2')
+console.log(`version: ${version}`)

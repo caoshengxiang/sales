@@ -1,50 +1,29 @@
 export default {
   // app外部依赖接口,【注意：基本地址改变】
   external: {
-    goodsTypeList (success, error) { // 商品分类
-      $axios.get('rest/service/product/goodsType/list', {
-        baseURL: 'http://47.96.26.250:84/',
-      }).then((res) => {
-        success && success(res.data)
-      }).catch((err) => {
-        error && error(err)
+    goodsTypeList (success) { // 商品分类
+      $.getJSON('http://47.96.26.250:84/rest/service/product/goodsType/list', (data) => {
+        success && success(data)
       })
     },
-    getGoods (params, success, error) { // 获取单个商品
-      $axios.get('rest/service/product/getGoods/' + params, {
-        baseURL: 'http://47.96.26.250:84/',
-      }).then((res) => {
-        success && success(res.data)
-      }).catch((err) => {
-        error && error(err)
+    getGoods (params, success) { // 获取单个商品
+      $.getJSON('http://47.96.26.250:84/rest/service/product/getGoods/' + params, (data) => {
+        success && success(data)
       })
     },
     findGoods (success, error) { // 获取商品列表
-      $axios.get('rest/service/product/findGoods', {
-        baseURL: 'http://47.96.26.250:84/',
-      }).then((res) => {
-        success && success(res.data)
-      }).catch((err) => {
-        error && error(err)
+      $.getJSON('http://47.96.26.250:84/rest/service/product/findGoods', (data) => {
+        success && success(data)
       })
     },
     getProducts (success, error) { // 获取产品列表
-      $axios.get('rest/service/product/getProducts', {
-        baseURL: 'http://47.96.26.250:84/',
-      }).then((res) => {
-        success && success(res.data)
-      }).catch((err) => {
-        error && error(err)
+      $.getJSON('http://47.96.26.250:84/rest/service/product/getProducts', (data) => {
+        success && success(data)
       })
     },
     getBySn (params, success, error) { // 订单详细
-      $axios.get('rest/order/getBySn', {
-        baseURL: 'http://47.96.26.250:84/',
-        params: params
-      }).then((res) => {
-        success && success(res.data)
-      }).catch((err) => {
-        error && error(err)
+      $.getJSON('http://47.96.26.250:84/rest/order/getBySn', params, (data) => {
+        success && success(data)
       })
     },
   },

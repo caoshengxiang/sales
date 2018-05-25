@@ -43,7 +43,7 @@ $axios.interceptors.response.use((response) => {
   // 对返回的错误进行一些处理
   // loadinginstace.close()
   Message.error({
-    message: '好像发生了一点错误',
+    message: '好像发生了一点错误,需要检查！定位->' + error,
   })
   return Promise.reject(error)
 })

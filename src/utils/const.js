@@ -1,5 +1,5 @@
 export const pageMinWidth = 1100 // 页面最小宽度
-
+export const version = '1.1.4'
 export const serverUrl = 'http://sales.dcstar-inc.com/sales' // server地址
 
 // 表单验证

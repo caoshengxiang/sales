@@ -316,6 +316,7 @@
   // import teamMember from '../../../components/teamMember'
   import moveDialog from './moveDialog'
   import applyDialog from './applyDialog'
+  import { arrToStr } from '../../../utils/utils'
 
   export default {
     name: 'detailInfo',
@@ -369,16 +370,12 @@
             this.$vDialog.modal(moveDialog, {
               title: '编辑销售机会',
               width: 500,
-              height: 200,
+              height: 240,
               params: {
                 salesState: this.salesState,
                 detail: this.customerDetail,
               },
-              callback (data) {
-                if (data.type === 'save') {
-                  alert('弹窗关闭，添加成功刷新列表')
-                }
-              },
+              callback (data) {},
             })
             break
           case 'delete': // 删除
@@ -387,9 +384,14 @@
               cancelButtonText: '取消',
               type: 'warning',
             }).then(() => {
-              this.$message({
-                type: 'success',
-                message: '删除成功!',
+              API.salesOpportunities.delete(arrToStr(this.multipleSelection, 'id'), (data) => {
+                if (data.status) {
+                  if (data.data.fail > 0) {
+                    this.$message.warning(`成功${data.data.success},失败${data.data.fail}`)
+                  } else {
+                    this.$message.success(`成功${data.data.success},失败${data.data.fail}`)
+                  }
+                }
               })
             }).catch(() => {
               this.$message({

@@ -12,9 +12,13 @@
     <!--控制栏-->
     <div class="com-bar">
       <div class="com-bar-left">
-        <com-button buttonType="delete" icon="el-icon-plus" @click="operateOptions('delete')" :disabled="multipleSelection.length <= 0">删除</com-button>
+        <com-button buttonType="delete" icon="el-icon-plus" @click="operateOptions('delete')"
+                    :disabled="multipleSelection.length <= 0">删除
+        </com-button>
         <com-button buttonType="add" icon="el-icon-plus" @click="operateOptions('add')">新增</com-button>
-        <com-button buttonType="orange" icon="el-icon-plus" @click="operateOptions('move')" :disabled="multipleSelection.length <= 0">转移</com-button>
+        <com-button buttonType="orange" icon="el-icon-plus" @click="operateOptions('move')"
+                    :disabled="multipleSelection.length <= 0">转移
+        </com-button>
       </div>
       <div class="com-bar-right">
         <el-select v-model="salesOpportunitiesOptionsType" placeholder="请选择" class="com-el-select">
@@ -99,7 +103,8 @@
           width="80"
           show-overflow-tooltip>
           <template slot-scope="scope">
-            <span v-for="item in salesState" :key="item.type" v-if="item.type === scope.row.stage">{{item.percent}}</span>
+            <span v-for="item in salesState" :key="item.type"
+                  v-if="item.type === scope.row.stage">{{item.percent}}</span>
           </template>
         </el-table-column>
         <el-table-column
@@ -109,7 +114,8 @@
           width="160"
           show-overflow-tooltip>
           <template slot-scope="scope">
-            <span v-for="item in demandSource" :key="item.type" v-if="item.type === scope.row.source">{{item.value}}</span>
+            <span v-for="item in demandSource" :key="item.type"
+                  v-if="item.type === scope.row.source">{{item.value}}</span>
           </template>
         </el-table-column>
         <el-table-column
@@ -180,6 +186,7 @@
   import API from '../../../utils/api'
   import addDialog from './addDialog'
   import moveDialog from './moveDialog'
+  import { arrToStr } from '../../../utils/utils'
 
   export default {
     name: 'list',
@@ -213,6 +220,7 @@
         'ac_salesOpportunitiesList',
       ]),
       operateOptions (op) {
+        let that = this
         switch (op) {
           case 'add':
             this.$vDialog.modal(addDialog, {
@@ -224,7 +232,8 @@
               },
               callback (data) {
                 if (data.type === 'save') {
-                  alert('弹窗关闭，添加成功刷新列表')
+                  that.getSalesOpportunititeisList(that.currentPage - 1, that.pagesOptions.pageSize,
+                    that.salesOpportunitiesOptionsType)
                 }
               },
             })
@@ -233,13 +242,14 @@
             this.$vDialog.modal(moveDialog, {
               title: '转移销售机会',
               width: 500,
-              height: 200,
+              height: 240,
               params: {
-                // id: '123456',
+                multipleSelection: this.multipleSelection,
               },
               callback (data) {
                 if (data.type === 'save') {
-                  alert('弹窗关闭，添加成功刷新列表')
+                  that.getSalesOpportunititeisList(that.currentPage - 1, that.pagesOptions.pageSize,
+                    that.salesOpportunitiesOptionsType)
                 }
               },
             })
@@ -250,9 +260,23 @@
               cancelButtonText: '取消',
               type: 'warning',
             }).then(() => {
-              this.$message({
-                type: 'success',
-                message: '删除成功!',
+              this.dataLoading = true
+              API.salesOpportunities.delete(arrToStr(this.multipleSelection, 'id'), (data) => {
+                if (data.status) {
+                  if (data.data.fail > 0) {
+                    this.$message.warning(`成功${data.data.success},失败${data.data.fail}`)
+                  } else {
+                    this.$message.success(`成功${data.data.success},失败${data.data.fail}`)
+                  }
+                  setTimeout(() => {
+                    this.dataLoading = false
+                    this.getSalesOpportunititeisList(this.currentPage - 1, this.pagesOptions.pageSize, this.salesOpportunitiesOptionsType)
+                  }, 500)
+                } else {
+                  setTimeout(() => {
+                    this.dataLoading = false
+                  }, 500)
+                }
               })
             }).catch(() => {
               this.$message({
@@ -281,22 +305,26 @@
       },
       handleSizeChange (val) {
         console.log(`每页 ${val} 条`)
-        this.getSalesOpportunititeisList(this.currentPage - 1, this.pagesOptions.pageSize, this.salesOpportunitiesOptionsType)
+        this.getSalesOpportunititeisList(this.currentPage - 1, this.pagesOptions.pageSize,
+          this.salesOpportunitiesOptionsType)
       },
       handleCurrentChange (val) {
         // console.log(`当前页: ${val}`)
         this.currentPage = val
-        this.getSalesOpportunititeisList(this.currentPage - 1, this.pagesOptions.pageSize, this.salesOpportunitiesOptionsType)
+        this.getSalesOpportunititeisList(this.currentPage - 1, this.pagesOptions.pageSize,
+          this.salesOpportunitiesOptionsType)
       },
       handleRouter (name, id) {
         this.$router.push({name: 'salesOpportunitiesDetail', query: {view: name, id: id}, params: {end: 'FE'}})
       },
       searchHandle () {
-        this.getSalesOpportunititeisList(this.currentPage - 1, this.pagesOptions.pageSize, this.salesOpportunitiesOptionsType)
-      }
+        this.getSalesOpportunititeisList(this.currentPage - 1, this.pagesOptions.pageSize,
+          this.salesOpportunitiesOptionsType)
+      },
     },
     created () {
-      this.getSalesOpportunititeisList(this.currentPage - 1, this.pagesOptions.pageSize, this.salesOpportunitiesOptionsType)
+      this.getSalesOpportunititeisList(this.currentPage - 1, this.pagesOptions.pageSize,
+        this.salesOpportunitiesOptionsType)
     },
   }
 </script>
