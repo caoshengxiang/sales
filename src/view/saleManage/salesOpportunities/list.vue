@@ -168,15 +168,6 @@
         :page-size="pagesOptions.pageSize">
       </el-pagination>
     </div>
-
-    <!-- -->
-    <!-- -->
-    <!--新增弹窗-->
-    <!--<add-dialog :addDialogOpen="addDialogOpen" @hasAddDialogOpen="addDialogOpen = false"></add-dialog>-->
-    <!-- -->
-    <!-- -->
-    <!--转移弹窗-->
-    <!--<move-dialog :moveDialogOpen="moveDialogOpen" @hasMoveDialogOpen="moveDialogOpen = false"></move-dialog>-->
   </div>
 </template>
 

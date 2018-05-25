@@ -53,7 +53,7 @@
         this.$refs[formName].validate((valid) => {
           if (valid) {
             this.dataLoading = true
-            API.customer.transfer(this.moveCustomerForm, (data) => {
+            API.salesOpportunities.transfer(this.moveCustomerForm, (data) => {
               if (data.status) {
                 if (data.data.fail > 0) {
                   this.$message.warning(`成功${data.data.success},失败${data.data.fail}`)

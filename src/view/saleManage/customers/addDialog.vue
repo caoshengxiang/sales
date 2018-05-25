@@ -303,9 +303,9 @@
       getConfigData (type) {
         API.common.codeConfig(type, (data) => {
           if (type === 2) {
-            this.levelList = data.data.content
+            this.levelList = data.data
           } else if (type === 3) {
-            this.industryList = data.data.content
+            this.industryList = data.data
           }
         })
       },

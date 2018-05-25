@@ -36,7 +36,7 @@
       </div>
       <div class="step-box">
         <div class="step">
-          <el-steps :active="salesOpportunitiesDetail.stage" align-center>
+          <el-steps :active="salesOpportunitiesDetail.stage - 1" align-center>
             <el-step v-for="(item, index) in salesState" :key="index"
                      :title="item.value + '(' + item.percent + ')'"></el-step>
           </el-steps>

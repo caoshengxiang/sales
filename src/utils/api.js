@@ -216,7 +216,7 @@ export default {
         error && error(err)
       })
     },
-    confirm (params, success, error) {
+    confirm (params, success, error) { // 需求确认
       $axios.put('salerChance/confirm/' + params.path,
         params.body).then((res) => {
         success && success(res.data)
@@ -224,7 +224,7 @@ export default {
         error && error(err)
       })
     },
-    discard (params, success, error) {
+    discard (params, success, error) { // 输单
       $axios.post('salerChance/discard/' + params.path,
         params.body).then((res) => {
         success && success(res.data)
@@ -239,6 +239,14 @@ export default {
         error && error(err)
       })
     },
+    transfer (params, success, error) { // 转移
+      $axios.post('salerChance/transfer',
+        params).then((res) => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+  },
   },
   // 销售订单
   salesOrder: {

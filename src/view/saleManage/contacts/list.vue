@@ -215,7 +215,7 @@
         'ac_contactsList',
       ]),
       addHandle () {
-        // this.addDialogOpen = true
+        let that = this
         this.$vDialog.modal(addDialog, {
           title: '新增联系人',
           width: 900,
@@ -225,7 +225,7 @@
           },
           callback (data) {
             if (data.type === 'save') {
-              this.getContactsList(this.currentPage - 1, this.pagesOptions.pageSize, this.contactsTypeOption)
+              that.getContactsList(that.currentPage - 1, that.pagesOptions.pageSize, that.contactsTypeOption)
             }
           },
         })

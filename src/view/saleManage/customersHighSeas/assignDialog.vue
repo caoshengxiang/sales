@@ -5,18 +5,9 @@
                class="demo-ruleForm">
         <el-form-item label="请选择分配销售人员" prop="newSalerId">
           <el-select v-model="moveCustomerForm.newSalerId" placeholder="请选择分配销售人员">
-            <el-option label="销售人员1" :value="1"></el-option>
-            <el-option label="销售人员2" :value="2"></el-option>
+            <el-option v-for="item in salerList" :key="item.id" :label="item.name" :value="item.id"></el-option>
           </el-select>
         </el-form-item>
-        <!--<el-form-item label="请选择转移业务类型" prop="type">-->
-        <!--<el-checkbox v-model="moveCustomerForm.isOnlyCustomer" label="仅转移客户"></el-checkbox>-->
-        <!--<div style="margin-left: 26px">-->
-        <!--<el-checkbox v-model="moveCustomerForm.isReserveTeam">转移后保留团队成员身份</el-checkbox>-->
-        <!--</div>-->
-        <!--<el-checkbox v-model="moveCustomerForm.isTransferChance"-->
-        <!--label="转移客户相关销售需求，保留团队身份（关联客户、联系人、预下单订单跟随转移）"></el-checkbox>-->
-        <!--</el-form-item>-->
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button class="cancel-button" @click="cancelSubmitForm">取 消</el-button>
@@ -28,6 +19,7 @@
 
 <script>
   import API from '../../../utils/api'
+
   export default {
     name: 'moveDialog',
     data () {
@@ -41,6 +33,7 @@
             {required: true, message: '请选择分配销售人员', trigger: 'change'},
           ],
         },
+        salerList: [],
       }
     },
     props: ['params'],
@@ -75,6 +68,15 @@
           }
         })
       },
+      getUserSearch (type, roleId, organizationId) {
+        API.user.userSearch({type: type, roleId: roleId, organizationId: organizationId}, (data) => {
+          this.salerList = data.data
+        })
+      }
+    },
+    created () {
+      this.getUserSearch()
+      this.moveCustomerForm.customerIds = this.params.customerId
     },
   }
 </script>
