@@ -11,7 +11,7 @@
             <el-input v-model="formData.username" placeholder="请输入你的登录账号"></el-input>
           </el-form-item>
           <el-form-item label="" prop="password">
-            <el-input @keydown.native="keydown" v-model="formData.password" placeholder="请输入你的登录密码"></el-input>
+            <el-input @keydown.native="keydown" type="password" v-model="formData.password" placeholder="请输入你的登录密码"></el-input>
           </el-form-item>
           <el-form-item label="" prop="type">
             <el-checkbox-group v-model="isRemember">
@@ -35,6 +35,9 @@
 <script>
   import { chartLengthRule } from '../../utils/const'
   import feElement from '../../components/feElement'
+  import API from '../../utils/api'
+  import sha1 from 'js-sha1'
+  import webStorage from 'webStorage'
 
   export default {
     name: 'signIn',
@@ -64,7 +67,30 @@
       submitForm (formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            this.$router.push({name: 'saleHome', params: {end: 'FE'}})
+            var pwd  = sha1(this.formData.password);
+            API.login.login({account:this.formData.username,pwd:pwd,client:2}, (res) => {
+              this.loading = false;
+              if(res.status){
+                let ss = {
+                  name:"1234"
+                }
+                webStorage.setItem('userInfo', res.data);
+                this.$router.push({name: 'saleHome', params: {end: 'ME'}})
+              }
+              alert(1)
+            }, (mock) => {
+              this.loading = false;
+              Message({
+                message: '系统繁忙，请稍后再试！',
+                type: 'error'
+              });
+            })
+            let ss = {
+              name:"用户姓名",
+              authKey:"eydhbGcnOidIUzI1NicsJ3R5cGUnOidKV1QnfQ%3D%3D.eyJ1c2VyIjoiMDQ2MkYwOEVBQzEwMDE2RTNCMEE1NkJERDExMjdGM0YiLCJ2YWxpZFBlcmlvZCI6MTAzNjgwMDAwMDAsImlhdCI6MTUyNzM0OTg0NDA3NH0%3D.%2BVaOKCw8Abt3mo7%2BB6dDvZOfOcDoPo6Ft4fuDh%2BBvaU%3D"
+            }
+            webStorage.setItem('userInfo', ss);
+            this.$router.push({name: 'saleHome', params: {end: 'ME'}})
           } else {
             console.log('error submit!!')
             return false

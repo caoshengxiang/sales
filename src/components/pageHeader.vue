@@ -3,7 +3,7 @@
     <div class="left">众智联邦销售管理系统</div>
     <div class="right">
       <ul>
-        <li class="item cursor">
+        <li class="item cursor" @click="logout" >
           <i class="el-icon-picture"></i>
           <a>注销</a>
         </li>
@@ -19,7 +19,7 @@
           </el-badge>
           提醒事项<span>(2)</span>
         </li>
-        <li class="item item-hello">下午好，张三 !</li>
+        <li class="item item-hello">下午好，{{userInfo.name}}!</li>
       </ul>
     </div>
   </div>
@@ -27,6 +27,8 @@
 
 <script>
   import { mapState } from 'vuex'
+  import utils from '../utils/utils'
+  import API from '../utils/api'
 
   export default {
     name: 'pageHeader',
@@ -40,7 +42,25 @@
         'themeIndex',
       ]),
     },
+    created() {
+      this.userInfo = utils.loginExamine(this);
+    },
     methods: {
+      logout () {
+        API.login.logout({}, (res) => {
+          this.loading = false;
+          alert(123)
+          if(res.status){
+            this.$router.push({'path': '/'})
+          }
+        }, (mock) => {
+          this.loading = false;
+          Message({
+            message: '系统繁忙，请稍后再试！',
+            type: 'error'
+          });
+        })
+      },
       messageHandle () {
         this.$router.push({name: 'messageList', params: {end: 'FE'}})
       },

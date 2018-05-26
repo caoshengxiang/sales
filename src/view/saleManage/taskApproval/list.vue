@@ -40,13 +40,14 @@
         </el-table-column>
         <el-table-column
           align="center"
-          prop="principalId"
+          prop="principalName"
           label="负责人员"
         >
         </el-table-column>
         <el-table-column
           align="center"
           prop="businessType"
+          :formatter="fmtBoolColumn"
           label="关联销售类型"
           show-overflow-tooltip>
         </el-table-column>
@@ -65,7 +66,7 @@
         </el-table-column>
         <el-table-column
           align="center"
-          prop="publisherId"
+          prop="publisherName"
           label="发布人员"
           >
         </el-table-column>
@@ -144,6 +145,13 @@
       that.$options.methods.getTaskList.bind(that)();
     },
     methods: {
+      fmtBoolColumn(row,column,cellValue){
+        if (cellValue === 1) {
+          return '销售机会';
+        }else {
+          return '未知';
+        }
+      },
       getTaskList () {
         var that = this;
         let param = {

@@ -9,10 +9,7 @@
         <img src="../assets/icon/headDefault.png" alt="">
       </div>
       <div class="u-text">
-        <h4 class="username" :style="{color: theme[themeIndex].leftMenuBarUserTextColor}">用户名</h4>
-        <div class="tags" v-if="themeIndex === 1">
-          <span class="tag">管理员</span>
-        </div>
+        <h4 class="username" :style="{color: theme[themeIndex].leftMenuBarUserTextColor}">{{userInfo.name}}</h4>
       </div>
     </div>
 
@@ -167,6 +164,7 @@
 
 <script>
   import { mapState } from 'vuex'
+  import utils from '../utils/utils'
 
   export default {
     name: 'leftMenuBar',
@@ -178,6 +176,9 @@
         'theme',
         'themeIndex',
       ]),
+    },
+    created() {
+      this.userInfo = utils.loginExamine(this);
     },
     methods: {
       handleOpen (key, keyPath) {

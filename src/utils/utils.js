@@ -1,3 +1,20 @@
+import webStorage from 'webStorage'
+
+const utils = {
+  loginExamine: function (self, callback) {//登录检验  当前组件this
+    if (!webStorage.getItem('userInfo')) {
+      self.$router.push({path: '/'})
+    }
+    return webStorage.getItem('userInfo');
+  },
+  getwebStorage: function (name) {
+    if (!webStorage.getItem('userInfo')) {
+      location.hash = "/";
+    }
+    return webStorage.getItem('userInfo')
+  },
+}
+export default utils
 /*
 * 获取设备平台
 *

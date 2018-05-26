@@ -1,3 +1,4 @@
+import utils from '../utils/utils'
 export default {
   // app外部依赖接口,【注意：基本地址改变】
   external: {
@@ -59,6 +60,30 @@ export default {
       })
     },
   },
+  login: {
+
+    login (params, success, error) { // 客户列表
+      $axios.get('user/login', {
+        params: params,
+      }).then((res) => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+    },
+    logout (params, success, error) {
+      $axios.get('user/logout', {
+        params: params,
+        headers: {
+          'authKey': utils.getwebStorage('userInfo').authKey
+        }
+      }).then((res) => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+    },
+    },
   // 客户
   customer: {
     list (params, success, error) { // 客户列表
