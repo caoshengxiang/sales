@@ -13,24 +13,24 @@
     <div class="com-bar">
       <div class="com-bar-left">
         <template v-if="listType == '1'">
-          <com-button buttonType="delete" icon="el-icon-delete" @click="deleteOrganization">刪除组织
+          <com-button buttonType="delete" icon="el-icon-delete" @click="deleteOrganization" :disabled="selectedOrganizationIdList.length <= 0 && currentTreeNode == null">刪除组织
           </com-button>
           <com-button buttonType="add" icon="el-icon-plus" @click="addOrganization">新增组织</com-button>
-          <com-button buttonType="grey" icon="el-icon-edit" @click="updateOrganization">修改组织
+          <com-button buttonType="grey" icon="el-icon-edit" @click="updateOrganization" :disabled="currentTreeNode == null">修改组织
           </com-button>
         </template>
         <template v-if="listType == '2'">
-          <com-button buttonType="delete" icon="el-icon-delete" @click="deleteOrganization">刪除部门
+          <com-button buttonType="delete" icon="el-icon-delete" @click="deleteOrganization" :disabled="selectedOrganizationIdList.length <= 0 && currentTreeNode == null">刪除部门
           </com-button>
           <com-button buttonType="add" icon="el-icon-plus" @click="addOrganization">新增部门</com-button>
-          <com-button buttonType="grey" icon="el-icon-edit" @click="updateOrganization">修改部门
+          <com-button buttonType="grey" icon="el-icon-edit" @click="updateOrganization" :disabled="currentTreeNode == null">修改部门
           </com-button>
         </template>
         <template v-if="listType == '3'">
-          <com-button buttonType="delete" icon="el-icon-delete" @click="deleteUser">刪除用户
+          <com-button buttonType="delete" icon="el-icon-delete" @click="deleteUser" :disabled="selectedUserIdList.length <= 0">刪除用户
           </com-button>
-          <com-button buttonType="add" icon="el-icon-plus">新增用户</com-button>
-          <com-button buttonType="grey" icon="el-icon-edit">修改用户
+          <com-button buttonType="add" icon="el-icon-plus" @click="addOrganizationUser">新增用户</com-button>
+          <com-button buttonType="grey" icon="el-icon-edit" @click="updateOrganizationUser">修改用户
           </com-button>
         </template>
       </div>
@@ -40,7 +40,11 @@
       <el-row :gutter="2">
         <el-col :span="6">
           <div class="role-head-con">组织机构</div>
-          <el-tree :expand-on-click-node="false" :default-expand-all="true" :data="organizationList" :props="defaultProps" node-key="id" ref="organizationTree" @node-click="handleNodeClick"></el-tree>
+          <el-tree :expand-on-click-node="false" :default-expand-all="true" :data="organizationList" :props="defaultProps" node-key="id" ref="organizationTree" @node-click="handleNodeClick">
+            <span class="custom-tree-node" slot-scope="{ node, data }">
+              <el-tag size="mini" v-if="data.type==1">机构</el-tag><el-tag size="mini" type="warning" v-else>部门</el-tag>{{data.name}}
+            </span>
+          </el-tree>
         </el-col>
         <el-col :span="18">
           <div class="role-view-con">
@@ -55,7 +59,6 @@
                     fixed
                     type="selection"
                     align="center"
-                    prop="id"
                     reserve-selection=""
                     width="40">
                   </el-table-column>
@@ -80,7 +83,34 @@
                     label="管理员"
                   >
                     <template slot-scope="scope">
-                      <span v-for="item in scope.row.admins" :key="item.id">{{item.name}}</span>
+                      <el-popover
+                        ref="popover"
+                        width="200"
+                        trigger="click">
+                        <el-button type="text" slot="reference" @click="getOrganizationUserList(scope.row.id)">
+                          <template v-if="scope.row.admins.length > 0">
+                            <span v-for="item in scope.row.admins" :key="item.id">{{item.name}}</span>
+                          </template>
+                          <template v-else>
+                            无
+                          </template>
+                        </el-button>
+                        <template>
+                          <el-table
+                            border
+                            :data="userForList"
+                            max-height="200">
+                            <el-table-column
+                              prop="name"
+                              label="设置管理员">
+                              <template slot-scope="adminScope">
+                                <el-radio v-if="scope.row.admins.length>0" v-model="scope.row.admins[0].id" :label="adminScope.row.id" @change="handleAdminUserChange(scope.row.id,adminScope.row.id)">{{adminScope.row.name}}</el-radio>
+                                <el-radio v-else :label="adminScope.row.id" @change="handleAdminUserChange(scope.row.id,adminScope.row.id)">{{adminScope.row.name}}</el-radio>
+                              </template>
+                            </el-table-column>
+                          </el-table>
+                        </template>
+                      </el-popover>
                     </template>
                   </el-table-column>
                 </el-table>
@@ -89,12 +119,12 @@
                 <el-table
                   border
                   tooltip-effect="dark"
-                  :data="organizationAllList">
+                  :data="organizationAllList"
+                  @selection-change="handleSelectionChange">
                   <el-table-column
                     fixed
                     type="selection"
                     align="center"
-                    prop="id"
                     reserve-selection=""
                     width="40">
                   </el-table-column>
@@ -125,6 +155,36 @@
                     prop="mobilePhone"
                     label="负责人"
                   >
+                    <template slot-scope="scope">
+                      <el-popover
+                        ref="popover"
+                        width="200"
+                        trigger="click">
+                        <el-button type="text" slot="reference" @click="getOrganizationUserList(scope.row.id)">
+                          <template v-if="scope.row.heads.length > 0">
+                            <span v-for="item in scope.row.heads" :key="item.id">{{item.name}}</span>
+                          </template>
+                          <template v-else>
+                            无
+                          </template>
+                        </el-button>
+                        <template>
+                          <el-table
+                            border
+                            :data="userForList"
+                            max-height="200">
+                            <el-table-column
+                              prop="name"
+                              label="设置负责人">
+                              <template slot-scope="headsScope">
+                                <el-radio v-if="scope.row.heads.length>0" v-model="scope.row.heads[0].id" :label="headsScope.row.id" @change="handleHeadUserChange(scope.row.id,headsScope.row.id)">{{headsScope.row.name}}</el-radio>
+                                <el-radio v-else :label="headsScope.row.id" @change="handleHeadUserChange(scope.row.id,headsScope.row.id)">{{headsScope.row.name}}</el-radio>
+                              </template>
+                            </el-table-column>
+                          </el-table>
+                        </template>
+                      </el-popover>
+                    </template>
                   </el-table-column>
                   <el-table-column
                     show-overflow-tooltip
@@ -132,6 +192,36 @@
                     prop="mobilePhone"
                     label="部门培训师"
                   >
+                    <template slot-scope="scope">
+                      <el-popover
+                        ref="popover"
+                        width="200"
+                        trigger="click">
+                        <el-button type="text" slot="reference" @click="getOrganizationUserList(scope.row.id)">
+                          <template v-if="scope.row.trainers.length > 0">
+                            <span v-for="item in scope.row.trainers" :key="item.id">{{item.name}}</span>
+                          </template>
+                          <template v-else>
+                            无
+                          </template>
+                        </el-button>
+                        <template>
+                          <el-table
+                            border
+                            :data="userForList"
+                            max-height="200">
+                            <el-table-column
+                              prop="name"
+                              label="设置培训师">
+                              <template slot-scope="trainersScope">
+                                <el-radio v-if="scope.row.trainers.length>0" v-model="scope.row.trainers[0].id" :label="trainersScope.row.id" @change="handleTrainerUserChange(scope.row.id,trainersScope.row.id)">{{trainersScope.row.name}}</el-radio>
+                                <el-radio v-else :label="trainersScope.row.id" @change="handleTrainerUserChange(scope.row.id,trainersScope.row.id)">{{trainersScope.row.name}}</el-radio>
+                              </template>
+                            </el-table-column>
+                          </el-table>
+                        </template>
+                      </el-popover>
+                    </template>
                   </el-table-column>
                   <el-table-column
                     show-overflow-tooltip
@@ -139,6 +229,36 @@
                     prop="mobilePhone"
                     label="部门销售助理"
                   >
+                    <template slot-scope="scope">
+                      <el-popover
+                        ref="popover"
+                        width="200"
+                        trigger="click">
+                        <el-button type="text" slot="reference" @click="getOrganizationUserList(scope.row.id)">
+                          <template v-if="scope.row.assistants.length > 0">
+                            <span v-for="item in scope.row.assistants" :key="item.id">{{item.name}}</span>
+                          </template>
+                          <template v-else>
+                            无
+                          </template>
+                        </el-button>
+                        <template>
+                          <el-table
+                            border
+                            :data="userForList"
+                            max-height="200">
+                            <el-table-column
+                              prop="name"
+                              label="设置销售助理">
+                              <template slot-scope="assistantsScope">
+                                <el-radio v-if="scope.row.assistants.length>0" v-model="scope.row.assistants[0].id" :label="assistantsScope.row.id" @change="handleAssistantUserChange(scope.row.id,assistantsScope.row.id)">{{assistantsScope.row.name}}</el-radio>
+                                <el-radio v-else :label="assistantsScope.row.id" @change="handleAssistantUserChange(scope.row.id,assistantsScope.row.id)">{{assistantsScope.row.name}}</el-radio>
+                              </template>
+                            </el-table-column>
+                          </el-table>
+                        </template>
+                      </el-popover>
+                    </template>
                   </el-table-column>
                 </el-table>
               </el-tab-pane>
@@ -147,8 +267,7 @@
                   border
                   :data="userList"
                   tooltip-effect="dark"
-                  style="width: 100%"
-                  @selection-change="handleSelectionChange">
+                  @selection-change="handleUserSelectionChange">
                   <el-table-column
                     fixed
                     type="selection"
@@ -196,7 +315,6 @@
                   <el-table-column
                     show-overflow-tooltip
                     align="center"
-                    prop=""
                     label="角色"
                   >
                     <template slot-scope="scope">
@@ -208,23 +326,35 @@
                   <el-table-column
                     show-overflow-tooltip
                     align="center"
-                    prop="superiorName"
                     label="直接上级"
                   >
+                    <template slot-scope="scope">
+            <span v-for="item in scope.row.heads"
+                  :key="item.id"
+            >{{item.name}}&nbsp;</span>
+                    </template>
                   </el-table-column>
                   <el-table-column
                     show-overflow-tooltip
                     align="center"
-                    prop="trainerName"
                     label="部门培训师"
                     width="160">
+                    <template slot-scope="scope">
+            <span v-for="item in scope.row.trainers"
+                  :key="item.id"
+            >{{item.name}}&nbsp;</span>
+                    </template>
                   </el-table-column>
                   <el-table-column
                     show-overflow-tooltip
                     align="center"
-                    prop="assistantName"
                     label="部门销售助理"
                   >
+                    <template slot-scope="scope">
+            <span v-for="item in scope.row.assistants"
+                  :key="item.id"
+            >{{item.name}}&nbsp;</span>
+                    </template>
                   </el-table-column>
                   <el-table-column
                     show-overflow-tooltip
@@ -264,7 +394,9 @@
         selectedOrganizationIdList:[],
         organizationAllList:[],
         userList:[],
-        selectedUserIdList:[]
+        selectedUserIdList:[],
+        userForList:[],
+        adminUserBindId:""
       }
     },
     components: {
@@ -303,7 +435,7 @@
             message: '系统繁忙，请稍后再试！',
             type: 'error'
           });
-        })
+        });
       },
       addOrganization(){
         var that = this;
@@ -358,7 +490,7 @@
       },
       deleteOrganization(){
         var that = this;
-        if (that.selectedOrganizationIdList.length <= 0) {
+        if (that.selectedOrganizationIdList.length <= 0 && that.currentTreeNode == null) {
           Message({
             message: '请先选择一个机构或部门',
             type: 'warning'
@@ -368,8 +500,14 @@
         this.$confirm('是否确认删除?', '提示', {
           type: 'warning'
         }).then(() => {
+          var ids = "";
+          if (that.selectedOrganizationIdList.length > 0) {
+            ids = that.selectedOrganizationIdList.join(',');
+          }else{
+            ids = that.currentTreeNode.id;
+          }
           that.loading = true;
-          API.organization.delete({ids:that.selectedOrganizationIdList.join(',')},function (res) {
+          API.organization.delete({ids:ids},function (res) {
           that.loading = false;
           if(res.status){
             Message({
@@ -396,7 +534,6 @@
         var that = this;
         that.currentTreeNode = that.$refs.organizationTree.getCurrentNode();
         that.selectedOrganizationIdList = [];
-        that.selectedOrganizationIdList.push(that.currentTreeNode.id);
         that.listType = that.currentTreeNode.type.toString();
         that.$options.methods.queryOrganizationList.bind(that)(that.currentTreeNode.id,that.currentTreeNode.type);
       },
@@ -431,14 +568,23 @@
             message: '系统繁忙，请稍后再试！',
             type: 'error'
           });
-        })
+        });
       },
-      handleSelectionChange(val) {
+      handleUserSelectionChange(val) {
         var that = this;
         if (val.length > 0) {
           that.selectedUserIdList.push(Array.from(val,(n) => n.id));
         }else{
           that.selectedUserIdList = [];
+        }
+      },
+      handleSelectionChange(val) {
+        var that = this;
+        that.currentTreeNode = null;
+        if (val.length > 0) {
+          that.selectedOrganizationIdList.push(Array.from(val,(n) => n.id));
+        }else{
+          that.selectedOrganizationIdList = [];
         }
       },
       queryUserList(departmentId){
@@ -477,14 +623,54 @@
           type: 'warning'
         }).then(() => {
           that.loading = true;
-        API.user.userDelete({ids:that.selectedUserIdList.join(',')},function (res) {
+          API.user.userDelete({ids:that.selectedUserIdList.join(',')},function (res) {
+            that.loading = false;
+            if(res.status){
+              Message({
+                message: '删除成功！',
+                type: 'success'
+              });
+              that.$options.methods.init.bind(that)();
+            }else{
+              Message({
+                message: res.error.message,
+                type: 'error'
+              });
+            }
+          },function () {
+            that.loading = false;
+            Message({
+              message: '系统繁忙，请稍后再试！',
+              type: 'error'
+            });
+          });
+        });
+      },
+      getOrganizationUserList(id){
+        var that = this;
+        //查询管理员列表
+        API.organization.queryUserForList({id:id}, (res) => {
+          if(res.status){
+            that.userForList = res.data;
+          }else{
+            Message({
+              message: res.error.message,
+              type: 'error'
+            });
+          }
+        });
+      },
+      handleAdminUserChange(organizationId,adminUserId){
+        var that = this;
+        that.loading = true;
+        API.organization.setAdmin({id:organizationId,userIds:adminUserId},function (res) {
           that.loading = false;
           if(res.status){
             Message({
-              message: '删除成功！',
+              message: '设置成功！',
               type: 'success'
             });
-            that.$options.methods.init.bind(that)();
+            that.$options.methods.queryOrganizationList.bind(that)(that.currentTreeNode?that.currentTreeNode.id:0,that.listType);
           }else{
             Message({
               message: res.error.message,
@@ -498,7 +684,87 @@
             type: 'error'
           });
         });
-      });
+      },
+      handleHeadUserChange(organizationId,userId){
+        var that = this;
+        that.loading = true;
+        API.organization.setHead({id:organizationId,userIds:userId},function (res) {
+          that.loading = false;
+          if(res.status){
+            Message({
+              message: '设置成功！',
+              type: 'success'
+            });
+            that.$options.methods.queryOrganizationList.bind(that)(that.currentTreeNode?that.currentTreeNode.id:0,that.listType);
+          }else{
+            Message({
+              message: res.error.message,
+              type: 'error'
+            });
+          }
+        },function () {
+          that.loading = false;
+          Message({
+            message: '系统繁忙，请稍后再试！',
+            type: 'error'
+          });
+        });
+      },
+      handleTrainerUserChange(organizationId,userId){
+        var that = this;
+        that.loading = true;
+        API.organization.setTrainer({id:organizationId,userIds:userId},function (res) {
+          that.loading = false;
+          if(res.status){
+            Message({
+              message: '设置成功！',
+              type: 'success'
+            });
+            that.$options.methods.queryOrganizationList.bind(that)(that.currentTreeNode?that.currentTreeNode.id:0,that.listType);
+          }else{
+            Message({
+              message: res.error.message,
+              type: 'error'
+            });
+          }
+        },function () {
+          that.loading = false;
+          Message({
+            message: '系统繁忙，请稍后再试！',
+            type: 'error'
+          });
+        });
+      },
+      handleAssistantUserChange(organizationId,userId){
+        var that = this;
+        that.loading = true;
+        API.organization.setAssistant({id:organizationId,userIds:userId},function (res) {
+          that.loading = false;
+          if(res.status){
+            Message({
+              message: '设置成功！',
+              type: 'success'
+            });
+            that.$options.methods.queryOrganizationList.bind(that)(that.currentTreeNode?that.currentTreeNode.id:0,that.listType);
+          }else{
+            Message({
+              message: res.error.message,
+              type: 'error'
+            });
+          }
+        },function () {
+          that.loading = false;
+          Message({
+            message: '系统繁忙，请稍后再试！',
+            type: 'error'
+          });
+        });
+      },
+      addOrganizationUser(){
+
+      },
+      updateOrganizationUser(){
+
       }
     }
   }
