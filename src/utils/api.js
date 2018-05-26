@@ -597,13 +597,24 @@ export default {
     getBusinessSystemList (success, error) {
       $axios({
         method: 'get',
-        url: '/bility',
+        url: '/businessSystem',
       }).then((res) => {
         success && success(res.data)
       }).catch((errorData) => {
         error && error(errorData)
       })
     },
+    getBilityList (params, success, error) {
+      $axios({
+        method: 'get',
+        url: '/bility',
+        params: params,
+      }).then((res) => {
+        success && success(res.data)
+      }).catch((errorData) => {
+        error && error(errorData)
+      })
+    }
   },
   //组织管理
   organization: {
@@ -666,6 +677,61 @@ export default {
       $axios({
         method: 'get',
         url: 'organization/userInfo',
+        params: params,
+      }).then((res) => {
+        success && success(res.data)
+      }).catch((errorData) => {
+        error && error(errorData)
+      })
+    },
+    queryUserForList (params, success, error) {
+      $axios({
+        method: 'get',
+        url: 'organization/user',
+        params: params,
+      }).then((res) => {
+        success && success(res.data)
+      }).catch((errorData) => {
+        error && error(errorData)
+      })
+    },
+    setAdmin (params, success, error) {
+      $axios({
+        method: 'put',
+        url: '/organization/admin',
+        params: params,
+      }).then((res) => {
+        success && success(res.data)
+      }).catch((errorData) => {
+        error && error(errorData)
+      })
+    },
+    setHead (params, success, error) {
+      $axios({
+        method: 'put',
+        url: '/organization/head',
+        params: params,
+      }).then((res) => {
+        success && success(res.data)
+      }).catch((errorData) => {
+        error && error(errorData)
+      })
+    },
+    setTrainer (params, success, error) {
+      $axios({
+        method: 'put',
+        url: '/organization/trainer',
+        params: params,
+      }).then((res) => {
+        success && success(res.data)
+      }).catch((errorData) => {
+        error && error(errorData)
+      })
+    },
+    setAssistant (params, success, error) {
+      $axios({
+        method: 'put',
+        url: '/organization/assistant',
         params: params,
       }).then((res) => {
         success && success(res.data)

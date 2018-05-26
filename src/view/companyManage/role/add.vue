@@ -194,6 +194,7 @@
           that.loading = false;
           if(res.status){
             that.form = res.data;
+            that.form.businessSystems = [];
             that.businessSystemsOptions = Array.from(that.form.businessSystems,(x) =>x.id);
           }else{
             Message({
