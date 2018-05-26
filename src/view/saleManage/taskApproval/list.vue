@@ -34,47 +34,46 @@
         >
         <el-table-column
           align="center"
+          prop="name"
           label="任务名称"
         >
-          <template slot-scope="scope">
-            {{ scope.row.customerName }}
-          </template>
         </el-table-column>
         <el-table-column
           align="center"
-          prop="name"
+          prop="principalId"
           label="负责人员"
         >
         </el-table-column>
         <el-table-column
           align="center"
-          prop="address"
+          prop="businessType"
           label="关联销售类型"
           show-overflow-tooltip>
         </el-table-column>
         <el-table-column
           align="center"
-          prop="address"
+          prop="businessDesc"
           label="关联业务描述"
           show-overflow-tooltip>
         </el-table-column>
         <el-table-column
+          prop="deadline"
           align="center"
           label="任务截止时间"
+          show-overflow-tooltip>
           >
-          <template slot-scope="scope">{{ scope.row.date }}</template>
         </el-table-column>
         <el-table-column
           align="center"
-          prop="name"
+          prop="publisherId"
           label="发布人员"
           >
         </el-table-column>
         <el-table-column
           align="center"
+          prop="publishTime"
           label="任务发布时间"
       >
-          <template slot-scope="scope">{{ scope.row.date }}</template>
         </el-table-column>
         <el-table-column
           align="center"
@@ -82,9 +81,9 @@
           label="任务状态"
           show-overflow-tooltip>
           <template slot-scope="scope">
-            <a v-if="scope.row.status === 1" class="link" @click="handleRouter('detail')">已通过</a>
-            <a v-if="scope.row.status === 2" class="link" @click="handleRouter('detail')">已拒绝</a>
-            <a v-if="scope.row.status === 3" class="button" @click="handleRouter('detail')">办理</a>
+            <a v-if="scope.row.state === 1" class="link" @click="handleRouter('detail')">办理</a>
+            <a v-if="scope.row.state === 2" class="link" @click="handleRouter('detail')">已通过</a>
+            <a v-if="scope.row.state === 3" class="button" @click="handleRouter('detail')">已拒绝</a>
           </template>
         </el-table-column>
       </el-table>
@@ -93,7 +92,7 @@
     <div class="com-pages-box">
       <el-pagination
         background
-        :total="1000"
+        :total="totle"
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
         :current-page="currentPage"
@@ -107,12 +106,14 @@
 
 <script>
   import { mapState } from 'vuex'
+  import API from '../../../utils/api'
   import comButton from '../../../components/button/comButton'
 
   export default {
     name: 'list',
     data () {
       return {
+        totle:0,
         options: [
           {
             value: 1,
@@ -125,29 +126,7 @@
             label: '我发布的工作任务',
           }],
         value: 3,
-        tableData: [
-          {
-            customerName: '成都凡特塞科技有限公司',
-            businessLicense: '',
-            date: '2016-05-03',
-            name: '王小虎',
-            address: '上海市普陀区金沙江路 1518 弄',
-            status: 1
-          }, {
-            customerName: '成都凡特塞科技有限公司',
-            businessLicense: '',
-            date: '2016-05-03',
-            name: '王小虎',
-            address: '上海市普陀区金沙江路 1518 弄',
-            status: 2
-          }, {
-            customerName: '成都凡特塞科技有限公司',
-            businessLicense: '',
-            date: '2016-05-03',
-            name: '王小虎',
-            address: '上海市普陀区金沙江路 1518 弄',
-            status: 3
-          }],
+        tableData: [],
         multipleSelection: [],
         currentPage: 1,
       }
@@ -160,7 +139,38 @@
     components: {
       comButton,
     },
+    created () {
+      var that = this;
+      that.$options.methods.getTaskList.bind(that)();
+    },
     methods: {
+      getTaskList () {
+        var that = this;
+        let param = {
+          page: this.currentPage - 1,
+          pageSize: this.pagesOptions.pageSize,
+        }
+        this.loading = true
+        API.task.queryList(param, (res) => {
+          that.loading = false;
+          if(res.status){
+            that.tableData = res.data.content;
+            that.totle = res.data.totalElements
+          }else{
+            Message({
+              message: res.error.message,
+              type: 'error'
+            });
+          }
+
+        }, (mock) => {
+          that.loading = false;
+          Message({
+            message: '系统繁忙，请稍后再试！',
+            type: 'error'
+          });
+        })
+      },
       addHandle () {
         alert('add btn')
       },

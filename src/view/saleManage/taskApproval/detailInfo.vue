@@ -178,6 +178,8 @@
     components: {
       comButton,
     },
+    created () {
+    },
     methods: {
       handleTabsClick (tab, event) {
         // console.log(tab.name)

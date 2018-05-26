@@ -674,4 +674,83 @@ export default {
       })
     }
   },
+
+  //任务审批管理
+  task: {
+    queryList (params, success, error) { // 用户列表
+      $axios.get('approval', {
+        params: params,
+      }).then((res) => {
+        success && success(res.data)
+      }).catch(() => {
+        setTimeout(() => {
+          error && error(mockdata)
+        }, 1000)
+      })
+    },
+    queryList1 (params, success, error) {
+      $axios({
+        method: 'get',
+        url: 'approval',
+        params: params,
+      }).then((res) => {
+        success && success(res.data)
+      }).catch((errorData) => {
+        error && error(errorData)
+      })
+    },
+    add (params, success, error) {
+      $axios({
+        method: 'post',
+        url: 'role',
+        data: params,
+      }).then((res) => {
+        success && success(res.data)
+      }).catch((errorData) => {
+        error && error(errorData)
+      })
+    },
+    update (params, success, error) {
+      $axios({
+        method: 'put',
+        url: `/role/${params.id}`,
+        data: params,
+      }).then((res) => {
+        success && success(res.data)
+      }).catch((errorData) => {
+        error && error(errorData)
+      })
+    },
+    delete (params, success, error) {
+      $axios({
+        method: 'delete',
+        url: `/role/${params.id}`,
+        data: params,
+      }).then((res) => {
+        success && success(res.data)
+      }).catch((errorData) => {
+        error && error(errorData)
+      })
+    },
+    getDetail (params, success, error) {
+      $axios({
+        method: 'get',
+        url: `/role/${params.id}`,
+      }).then((res) => {
+        success && success(res.data)
+      }).catch((errorData) => {
+        error && error(errorData)
+      })
+    },
+    getBusinessSystemList (success, error) {
+      $axios({
+        method: 'get',
+        url: '/bility',
+      }).then((res) => {
+        success && success(res.data)
+      }).catch((errorData) => {
+        error && error(errorData)
+      })
+    },
+  },
 }
