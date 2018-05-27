@@ -1,5 +1,5 @@
 <template>
-  <div class="com-dialog-container">
+  <div class="com-dialog-container" v-loading="dataLoading">
       <div class="com-dialog">
         <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="180px"
                  class="demo-ruleForm">
@@ -29,6 +29,7 @@
     name: 'applyDialog',
     data () {
       return {
+        dataLoading: false,
         ruleForm: {
           consultantType: '',
           consultant: '',

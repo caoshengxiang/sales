@@ -106,10 +106,12 @@ const settlementList = resolve => require.ensure([],
 const spendingList = resolve => require.ensure([],
   () => resolve(require('../view/companyManage/financial/spendingList')), 'financial')
 
-//组织管理
+// 组织管理
 const organizationList = resolve => require.ensure([],
   () => resolve(require('../view/companyManage/organization/list')), 'organization')
-
+// 客户池管理
+const customerPool = resolve => require.ensure([],
+() => resolve(require('../view/companyManage/organization/customerPool')), 'organization')
 // 企业管理 end
 
 Vue.use(Router)
@@ -237,13 +239,13 @@ export default new Router({
           name: 'agentList',
           component: agentList,
         },
-        //企业管理 -- 角色管理
+        // 企业管理 -- 角色管理
         {
           path: 'roleList',
           name: 'roleList',
           component: roleList
         },
-        //企业管理 -- 财务管理
+        // 企业管理 -- 财务管理
         {
           path: 'settlementList',
           name: 'settlementList',
@@ -254,12 +256,18 @@ export default new Router({
           name: 'spendingList',
           component: spendingList
         },
-        //企业管理 -- 组织管理
+        // 企业管理 -- 组织管理
         {
           path: 'organizationList',
           name: 'organizationList',
           component: organizationList
-        }
+        },
+        // 企业管理 -- 客户池管理
+        {
+          path: 'customerPool',
+          name: 'customerPool',
+          component: customerPool
+        },
       ],
     },
 

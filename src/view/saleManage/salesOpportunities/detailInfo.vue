@@ -41,7 +41,7 @@
                      :title="item.value + '(' + item.percent + ')'"></el-step>
           </el-steps>
         </div>
-        <a class="lose-bill">输单</a>
+        <a class="lose-bill" @click="operateOptions('discard')">输单</a>
       </div>
 
     </div>
@@ -316,7 +316,8 @@
   // import teamMember from '../../../components/teamMember'
   import moveDialog from './moveDialog'
   import applyDialog from './applyDialog'
-  import { arrToStr } from '../../../utils/utils'
+  // import { arrToStr } from '../../../utils/utils'
+  import discard from './discard'
 
   export default {
     name: 'detailInfo',
@@ -368,12 +369,12 @@
           case 'move': // 转移
             // this.moveDialogOpen = true
             this.$vDialog.modal(moveDialog, {
-              title: '编辑销售机会',
+              title: '转移销售机会',
               width: 500,
               height: 240,
               params: {
                 salesState: this.salesState,
-                detail: this.customerDetail,
+                multipleSelection: [{id: this.salesOpportunitiesDetail.id}]
               },
               callback (data) {},
             })
@@ -384,13 +385,9 @@
               cancelButtonText: '取消',
               type: 'warning',
             }).then(() => {
-              API.salesOpportunities.delete(arrToStr(this.multipleSelection, 'id'), (data) => {
+              API.salesOpportunities.delete(this.salesOpportunitiesDetail.id, (data) => {
                 if (data.status) {
-                  if (data.data.fail > 0) {
-                    this.$message.warning(`成功${data.data.success},失败${data.data.fail}`)
-                  } else {
-                    this.$message.success(`成功${data.data.success},失败${data.data.fail}`)
-                  }
+                  this.$message.success('删除成功')
                 }
               })
             }).catch(() => {
@@ -400,11 +397,24 @@
               })
             })
             break
+          case 'discard': // 输单
+            this.$vDialog.modal(discard, {
+              title: '销售输单',
+              width: 520,
+              height: 340,
+              params: {
+                detail: this.salesOpportunitiesDetail,
+              },
+              callback (data) {
+                if (data.type === 'save') {}
+              },
+            })
+            break
           case 'apply': // 申请咨询师
             this.$vDialog.modal(applyDialog, {
               title: '申请咨询师协同',
               width: 520,
-              height: 240,
+              height: 280,
               params: {
                 consultantType: 'apply',
               },
@@ -421,9 +431,10 @@
               cancelButtonText: '取消',
               type: 'warning',
             }).then(() => {
-              this.$message({
-                type: 'success',
-                message: '操作成功!',
+              API.salesOpportunities.delete(this.salesOpportunitiesDetail.id, (data) => {
+                if (data.status) {
+                  this.$message.success('操作成功')
+                }
               })
             }).catch(() => {
               this.$message({

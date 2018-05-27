@@ -143,7 +143,7 @@
         <el-menu-item-group>
           <!--<template slot="title">分组一</template>-->
           <el-menu-item index="organizationList">组织管理</el-menu-item>
-          <el-menu-item index="roleList">客户池管理</el-menu-item>
+          <el-menu-item index="customerPool">客户池管理</el-menu-item>
           <el-menu-item index="agentList">组织商品配置</el-menu-item>
         </el-menu-item-group>
       </el-submenu>

@@ -11,13 +11,15 @@
             <el-input class="phone" v-model.number="formData.phone" placeholder="请输入你的手机号"></el-input>
           </el-form-item>
           <el-form-item label="" prop="password">
-            <el-input v-model="formData.oldpassword" type="password" auto-complete="off" placeholder="请输初始密码"></el-input>
+            <el-input v-model="formData.oldpassword" type="password" auto-complete="off"
+                      placeholder="请输初始密码"></el-input>
           </el-form-item>
           <el-form-item label="" prop="password">
             <el-input v-model="formData.password" type="password" auto-complete="off" placeholder="请输入新的密码"></el-input>
           </el-form-item>
           <el-form-item label="" prop="password2">
-            <el-input v-model="formData.password2" type="password" auto-complete="off" placeholder="请再次输入新的密码"></el-input>
+            <el-input v-model="formData.password2" type="password" auto-complete="off"
+                      placeholder="请再次输入新的密码"></el-input>
           </el-form-item>
 
 
@@ -57,14 +59,14 @@
         timer: '',
         formData: {
           phone: '',
-          oldpassword:'',
+          oldpassword: '',
           password: '',
           password2: '',
         },
         isRemember: false,
         rules: {
           phone: [
-             {required: true, message: '请输入手机号', trigger: 'blur'},
+            {required: true, message: '请输入手机号', trigger: 'blur'},
           ],
           oldpassword: [
             {required: true, message: '请输初始密码', trigger: 'blur'},
@@ -89,28 +91,27 @@
         this.$refs[formName].validate((valid) => {
           if (valid) {
             var params = {
-              account:this.formData.phone,
+              account: this.formData.phone,
               pwd: sha1(this.formData.oldpassword),
               newPwd: sha1(this.formData.password),
             }
             API.login.resetPwd(params, (res) => {
-              this.loading = false;
-              if(res.status){
+              this.loading = false
+              if (res.status) {
                 this.signIn()
               }
-              else
-              {
+              else {
                 Message({
                   message: '系统繁忙，请稍后再试！',
                   type: 'error'
-                });
+                })
               }
             }, (mock) => {
-              this.loading = false;
+              this.loading = false
               Message({
                 message: '系统繁忙，请稍后再试！',
                 type: 'error'
-              });
+              })
             })
           } else {
             return false
@@ -194,7 +195,7 @@
   }
 
   .footer {
-    height: 200px;
+    height: 20%;
     background-color: #D7DDE4;
     position: absolute;
     bottom: 0;

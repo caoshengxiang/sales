@@ -208,7 +208,7 @@ export default {
       pageSizes: [10, 20, 30, 40],
       pageSize: 20,
     },
-    //角色职能
+    // 角色职能
     roleBilitys: [
       {
         value: 100,
@@ -266,7 +266,7 @@ export default {
         name: '客满系统',
       }
     ],
-    //组织类型
+    // 组织类型
     organizationType: [
       {
         value: 1,

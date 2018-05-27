@@ -175,14 +175,6 @@
         :page-size="pagesOptions.pageSize">
       </el-pagination>
     </div>
-    <!-- -->
-    <!-- -->
-    <!--新增弹窗-->
-    <!--<add-dialog :addDialogOpen="addDialogOpen" @hasAddDialogOpen="addDialogOpen = false"></add-dialog>-->
-    <!-- -->
-    <!-- -->
-    <!--转移客户弹窗-->
-    <!--<move-dialog :moveDialogOpen="moveDialogOpen" @hasMoveDialogOpen="moveDialogOpen = false"></move-dialog>-->
   </div>
 </template>
 
@@ -235,9 +227,9 @@
         this.dataLoading = true
         API.customer.list(param, (res) => {
           this.ac_customerList(res.data)
-          setTimeout(() => {
+          // setTimeout(() => {
             this.dataLoading = false
-          }, 300)
+          // }, 300)
         })
       },
       searchHandle () {
