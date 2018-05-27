@@ -49,7 +49,6 @@
       logout () {
         API.login.logout({}, (res) => {
           this.loading = false;
-          alert(123)
           if(res.status){
             this.$router.push({'path': '/'})
           }

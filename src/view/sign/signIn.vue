@@ -71,13 +71,13 @@
             API.login.login({account:this.formData.username,pwd:pwd,client:2}, (res) => {
               this.loading = false;
               if(res.status){
-                let ss = {
-                  name:"1234"
-                }
                 webStorage.setItem('userInfo', res.data);
                 this.$router.push({name: 'saleHome', params: {end: 'ME'}})
               }
-              alert(1)
+              else
+              {
+                this.$router.push({name: 'resetPassword', params: {end: 'ME'}})
+              }
             }, (mock) => {
               this.loading = false;
               Message({

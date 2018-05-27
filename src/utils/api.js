@@ -83,6 +83,17 @@ export default {
         error && error(err)
       })
     },
+    resetPwd (params, success, error) {
+      $axios({
+        method: 'post',
+        url: 'user/password/edit',
+        params: params,
+      }).then((res) => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+    },
     },
   // 客户
   customer: {
