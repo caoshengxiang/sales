@@ -231,7 +231,6 @@
     props: ['params'],
     created () {
       this.getuserList(this.currentPage - 1, this.pagesOptions.pageSize, this.userType)
-      console.log("为什么不执行")
       let params = {}
       API.organization.queryList(params, (res) => {
         this.allorganization = res.data

@@ -815,69 +815,58 @@ export default {
         }, 1000)
       })
     },
-    queryList1 (params, success, error) {
-      $axios({
-        method: 'get',
-        url: 'approval',
+  },
+  baseSetting: {
+    getCodeConfig (params, success, error) { // 用户列表
+      $axios.get('codeConfig', {
         params: params,
       }).then((res) => {
         success && success(res.data)
-      }).catch((errorData) => {
-        error && error(errorData)
+      }).catch(() => {
+        setTimeout(() => {
+          error && error(mockdata)
+        }, 1000)
       })
     },
-    add (params, success, error) {
-      $axios({
-        method: 'post',
-        url: 'role',
-        data: params,
-      }).then((res) => {
-        success && success(res.data)
-      }).catch((errorData) => {
-        error && error(errorData)
-      })
-    },
-    update (params, success, error) {
-      $axios({
-        method: 'put',
-        url: `/role/${params.id}`,
-        data: params,
-      }).then((res) => {
-        success && success(res.data)
-      }).catch((errorData) => {
-        error && error(errorData)
-      })
-    },
-    delete (params, success, error) {
+    delete (params, success, error) { // 用户列表
       $axios({
         method: 'delete',
-        url: `/role/${params.id}`,
-        data: params,
+        url: 'codeConfig',
+        params: params
       }).then((res) => {
         success && success(res.data)
-      }).catch((errorData) => {
-        error && error(errorData)
+      }).catch(() => {
+        setTimeout(() => {
+          error && error(mockdata)
+        }, 1000)
       })
     },
-    getDetail (params, success, error) {
+    add (params, success, error) { // 用户列表
       $axios({
-        method: 'get',
-        url: `/role/${params.id}`,
+        method: 'post',
+        url: 'codeConfig',
+        data: params
       }).then((res) => {
         success && success(res.data)
-      }).catch((errorData) => {
-        error && error(errorData)
+      }).catch(() => {
+        setTimeout(() => {
+          error && error(mockdata)
+        }, 1000)
       })
     },
-    getBusinessSystemList (success, error) {
+    edit (params, success, error) { // 用户列表
       $axios({
-        method: 'get',
-        url: '/bility',
+        method: 'put',
+        url: `/codeConfig/${params.id}`,
+        data:{codeName: params.codeName}
       }).then((res) => {
         success && success(res.data)
-      }).catch((errorData) => {
-        error && error(errorData)
+      }).catch(() => {
+        setTimeout(() => {
+          error && error(mockdata)
+        }, 1000)
       })
     },
   },
+
 }

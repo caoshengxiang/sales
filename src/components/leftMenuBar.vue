@@ -147,6 +147,16 @@
           <el-menu-item index="agentList">组织商品配置</el-menu-item>
         </el-menu-item-group>
       </el-submenu>
+      <el-submenu index="baseSetting">
+        <template slot="title">
+          <i class="el-icon-share"></i>
+          <span>参数管理</span>
+        </template>
+        <el-menu-item-group>
+          <!--<template slot="title">分组一</template>-->
+          <el-menu-item index="baseSettingList">参数设置</el-menu-item>
+        </el-menu-item-group>
+      </el-submenu>
       <el-submenu index="financial">
         <template slot="title">
           <i class="el-icon-location"></i>

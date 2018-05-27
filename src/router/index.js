@@ -110,6 +110,9 @@ const spendingList = resolve => require.ensure([],
 const organizationList = resolve => require.ensure([],
   () => resolve(require('../view/companyManage/organization/list')), 'organization')
 
+const baseSettingList = resolve => require.ensure([],
+  () => resolve(require('../view/companyManage/baseSetting/list')), 'baseSetting')
+
 // 企业管理 end
 
 Vue.use(Router)
@@ -259,6 +262,12 @@ export default new Router({
           path: 'organizationList',
           name: 'organizationList',
           component: organizationList
+        },
+        //配置管理 -- 参数设置
+        {
+          path: 'baseSettingList',
+          name: 'baseSettingList',
+          component: baseSettingList
         }
       ],
     },
