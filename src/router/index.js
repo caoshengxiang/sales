@@ -113,6 +113,10 @@ const organizationList = resolve => require.ensure([],
 const baseSettingList = resolve => require.ensure([],
   () => resolve(require('../view/companyManage/baseSetting/list')), 'baseSetting')
 
+//客户地区管理
+const customerAreaSetting = resolve => require.ensure([],
+  () => resolve(require('../view/companyManage/customerAareaSetting/index')), 'customerAreaSetting')
+
 // 企业管理 end
 
 Vue.use(Router)
@@ -268,6 +272,12 @@ export default new Router({
           path: 'baseSettingList',
           name: 'baseSettingList',
           component: baseSettingList
+        },
+        //配置管理 -- 客户地区管理
+        {
+          path: 'customerAreaSetting',
+          name: 'customerAreaSetting',
+          component: customerAreaSetting
         }
       ],
     },

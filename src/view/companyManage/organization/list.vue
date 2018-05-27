@@ -30,7 +30,7 @@
           <com-button buttonType="delete" icon="el-icon-delete" @click="deleteUser" :disabled="selectedUserIdList.length <= 0">刪除用户
           </com-button>
           <com-button buttonType="add" icon="el-icon-plus" @click="addOrganizationUser">新增用户</com-button>
-          <com-button buttonType="grey" icon="el-icon-edit" @click="updateOrganizationUser">修改用户
+          <com-button buttonType="grey" icon="el-icon-edit" @click="updateOrganizationUser" :disabled="selectedUserIdList.length <= 0">修改用户
           </com-button>
         </template>
       </div>
@@ -40,7 +40,7 @@
       <el-row :gutter="2">
         <el-col :span="6">
           <div class="role-head-con">组织机构</div>
-          <el-tree :expand-on-click-node="false" :default-expand-all="true" :data="organizationList" :props="defaultProps" node-key="id" ref="organizationTree" @node-click="handleNodeClick">
+          <el-tree :highlight-current="true" :expand-on-click-node="false" :default-expand-all="true" :data="organizationList" :props="defaultProps" node-key="id" ref="organizationTree" @node-click="handleNodeClick">
             <span class="custom-tree-node" slot-scope="{ node, data }">
               <el-tag size="mini" v-if="data.type==1">机构</el-tag><el-tag size="mini" type="warning" v-else>部门</el-tag>{{data.name}}
             </span>
@@ -378,6 +378,7 @@
   import API from '../../../utils/api'
   import add from './add'
   import { Message } from 'element-ui'
+  import addUserDialog from '../user/addDialog'
 
   export default {
     name: 'roleList',
@@ -528,7 +529,7 @@
             type: 'error'
           });
         });
-        });
+        }).catch(() => {});
       },
       handleNodeClick(){
         var that = this;
@@ -573,7 +574,7 @@
       handleUserSelectionChange(val) {
         var that = this;
         if (val.length > 0) {
-          that.selectedUserIdList.push(Array.from(val,(n) => n.id));
+          that.selectedUserIdList = Array.from(val,(n) => n.id);
         }else{
           that.selectedUserIdList = [];
         }
@@ -582,7 +583,7 @@
         var that = this;
         that.currentTreeNode = null;
         if (val.length > 0) {
-          that.selectedOrganizationIdList.push(Array.from(val,(n) => n.id));
+          that.selectedOrganizationIdList = Array.from(val,(n) => n.id);
         }else{
           that.selectedOrganizationIdList = [];
         }
@@ -644,7 +645,7 @@
               type: 'error'
             });
           });
-        });
+        }).catch(() => {});
       },
       getOrganizationUserList(id){
         var that = this;
@@ -761,10 +762,42 @@
         });
       },
       addOrganizationUser(){
-
+        var that = this;
+        that.$vDialog.modal(addUserDialog, {
+          title: '新增用户',
+          width: 700,
+          height: 500,
+          params: {
+            store: that.$store, //弹窗组件如果需要用到vuex，必须传值过去赋值
+            action: 'add',
+          },
+          callback: function (data) {
+            that.$options.methods.queryUserList.bind(that)(that.currentTreeNode?that.currentTreeNode.id:0);
+          },
+        })
       },
       updateOrganizationUser(){
-
+        var that = this;
+        if (that.selectedUserIdList.length > 1) {
+          Message({
+            message: '请选择单个修改，不支持批量！',
+            type: 'warning'
+          });
+          return;
+        }
+        this.$vDialog.modal(addUserDialog,{
+          title:'修改用户',
+          width: 700,
+          height: 500,
+          params: {
+            store:that.$store, //弹窗组件如果需要用到vuex，必须传值过去赋值
+            id: that.selectedUserIdList.join(","),
+            action:"update"
+          },
+          callback: function(data){
+            that.$options.methods.queryUserList.bind(that)(that.currentTreeNode?that.currentTreeNode.id:0);
+          }
+        });
       }
     }
   }

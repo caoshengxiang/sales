@@ -168,6 +168,16 @@
           <el-menu-item index="spendingList">佣金支出管理</el-menu-item>
         </el-menu-item-group>
       </el-submenu>
+      <el-submenu index="customerAreaSetting">
+        <template slot="title">
+          <i class="el-icon-share"></i>
+          <span>配置管理</span>
+        </template>
+        <el-menu-item-group>
+          <!--<template slot="title">分组一</template>-->
+          <el-menu-item index="customerAreaSetting">客户地区</el-menu-item>
+        </el-menu-item-group>
+      </el-submenu>
     </el-menu>
   </div>
 </template>
