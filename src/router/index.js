@@ -112,6 +112,14 @@ const organizationList = resolve => require.ensure([],
 // 客户池管理
 const customerPool = resolve => require.ensure([],
 () => resolve(require('../view/companyManage/organization/customerPool')), 'organization')
+
+const baseSettingList = resolve => require.ensure([],
+  () => resolve(require('../view/companyManage/baseSetting/list')), 'baseSetting')
+
+//客户地区管理
+const customerAreaSetting = resolve => require.ensure([],
+  () => resolve(require('../view/companyManage/customerAareaSetting/index')), 'customerAreaSetting')
+
 // 企业管理 end
 
 Vue.use(Router)
@@ -261,6 +269,18 @@ export default new Router({
           path: 'organizationList',
           name: 'organizationList',
           component: organizationList
+        },
+        // 配置管理 -- 参数设置
+        {
+          path: 'baseSettingList',
+          name: 'baseSettingList',
+          component: baseSettingList
+        },
+        // 配置管理 -- 客户地区管理
+        {
+          path: 'customerAreaSetting',
+          name: 'customerAreaSetting',
+          component: customerAreaSetting
         },
         // 企业管理 -- 客户池管理
         {

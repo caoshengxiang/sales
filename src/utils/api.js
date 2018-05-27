@@ -811,10 +811,89 @@ export default {
         }, 1000)
       })
     },
-    queryList1 (params, success, error) {
+    getTaskDetail (params, success, error) { // 用户列表
       $axios({
         method: 'get',
-        url: 'approval',
+        url: `/approval/${params.id}`,
+      }).then((res) => {
+        success && success(res.data)
+      }).catch(() => {
+        setTimeout(() => {
+          error && error(mockdata)
+        }, 1000)
+      })
+    },
+    auditTask (params, success, error) { // 用户列表
+      $axios({
+        method: 'put',
+        url: `/approval/${params.id}`,
+        params:{state: params.state}
+      }).then((res) => {
+        success && success(res.data)
+      }).catch(() => {
+        setTimeout(() => {
+          error && error(mockdata)
+        }, 1000)
+      })
+    },
+  },
+  baseSetting: {
+    getCodeConfig (params, success, error) { // 用户列表
+      $axios.get('codeConfig', {
+        params: params,
+      }).then((res) => {
+        success && success(res.data)
+      }).catch(() => {
+        setTimeout(() => {
+          error && error(mockdata)
+        }, 1000)
+      })
+    },
+    delete (params, success, error) { // 用户列表
+      $axios({
+        method: 'delete',
+        url: 'codeConfig',
+        params: params
+      }).then((res) => {
+        success && success(res.data)
+      }).catch(() => {
+        setTimeout(() => {
+          error && error(mockdata)
+        }, 1000)
+      })
+    },
+    add (params, success, error) { // 用户列表
+      $axios({
+        method: 'post',
+        url: 'codeConfig',
+        data: params
+      }).then((res) => {
+        success && success(res.data)
+      }).catch(() => {
+        setTimeout(() => {
+          error && error(mockdata)
+        }, 1000)
+      })
+    },
+    edit (params, success, error) { // 用户列表
+      $axios({
+        method: 'put',
+        url: `/codeConfig/${params.id}`,
+        data:{codeName: params.codeName}
+      }).then((res) => {
+        success && success(res.data)
+      }).catch(() => {
+        setTimeout(() => {
+          error && error(mockdata)
+        }, 1000)
+      })
+    },
+  },
+  customerAreaSetting:{
+    queryList (params, success, error) {
+      $axios({
+        method: 'get',
+        url: 'region',
         params: params,
       }).then((res) => {
         success && success(res.data)
@@ -825,7 +904,7 @@ export default {
     add (params, success, error) {
       $axios({
         method: 'post',
-        url: 'role',
+        url: 'region',
         data: params,
       }).then((res) => {
         success && success(res.data)
@@ -836,7 +915,7 @@ export default {
     update (params, success, error) {
       $axios({
         method: 'put',
-        url: `/role/${params.id}`,
+        url: 'region',
         data: params,
       }).then((res) => {
         success && success(res.data)
@@ -847,33 +926,13 @@ export default {
     delete (params, success, error) {
       $axios({
         method: 'delete',
-        url: `/role/${params.id}`,
-        data: params,
+        url: '/region',
+        params: params,
       }).then((res) => {
         success && success(res.data)
       }).catch((errorData) => {
         error && error(errorData)
       })
-    },
-    getDetail (params, success, error) {
-      $axios({
-        method: 'get',
-        url: `/role/${params.id}`,
-      }).then((res) => {
-        success && success(res.data)
-      }).catch((errorData) => {
-        error && error(errorData)
-      })
-    },
-    getBusinessSystemList (success, error) {
-      $axios({
-        method: 'get',
-        url: '/bility',
-      }).then((res) => {
-        success && success(res.data)
-      }).catch((errorData) => {
-        error && error(errorData)
-      })
-    },
-  },
+    }
+  }
 }

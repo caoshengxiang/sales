@@ -13,28 +13,28 @@
       <table class="detail-table">
         <tr>
           <td class="td-title">任务名称</td>
-          <td>咨询人员派单</td>
+          <td>{{detailInfo.name}}</td>
           <td class="td-title">负责人员</td>
-          <td>张三</td>
+          <td>{{detailInfo.principalName}}</td>
           <td class="td-title">任务发布人员</td>
-          <td>李四</td>
+          <td>{{detailInfo.publisherName}}</td>
           <td class="td-title">任务发布时间</td>
-          <td>2018.05.20 12:14</td>
+          <td>{{detailInfo.publishTime}}</td>
         </tr>
         <tr>
           <td class="td-title">任务截止时间</td>
-          <td>2018.05.20 12:14</td>
+          <td>{{detailInfo.deadline}}</td>
           <td class="td-title">任务业务类型</td>
-          <td>销售机会</td>
+          <td>{{detailInfo.businessType ==1?"销售机会":"未知"}}</td>
           <td class="td-title">任务业务描述</td>
-          <td colspan="3">财税金融全托管</td>
+          <td colspan="3">{{detailInfo.businessDesc}}</td>
         </tr>
         <tr>
           <td class="td-title">公司名称</td>
           <td colspan="7">
-            <com-button buttonType="backHighSeas" @click="addHandle">审核通过
+            <com-button buttonType="backHighSeas" @click="auditTaskYes"  v-if="detailInfo.state === 1">审核通过
             </com-button>
-            <com-button buttonType="grey">审核拒绝
+            <com-button buttonType="grey" @click="auditTaskNo"  v-if="detailInfo.state === 1">审核拒绝
             </com-button>
           </td>
         </tr>
@@ -47,87 +47,107 @@
         <table class="detail-table">
           <tr>
             <td class="td-title">公司名称</td>
-            <td>成都凡特塞科技有限公司</td>
+            <td>{{customerDetail.name}}</td>
             <td class="td-title">营业执照</td>
-            <td>455655213213123</td>
+            <td>{{customerDetail.businessLicense}}</td>
             <td class="td-title">客户级别</td>
-            <td>重要客户</td>
+            <td>{{customerDetail.levelName}}</td>
           </tr>
           <tr>
             <td class="td-title">客户简称</td>
-            <td>凡特塞科技</td>
+            <td>{{customerDetail.shortName}}</td>
             <td class="td-title">客户行业</td>
-            <td>互联网</td>
+            <td>{{customerDetail.industryName}}</td>
             <td class="td-title">客户来源</td>
-            <td>自拓</td>
+            <td>
+                  <span v-for="item in customerSourceType" :key="item.type"
+                        v-if="item.type === customerDetail.source">{{item.value}}</span>
+            </td>
           </tr>
           <tr>
             <td class="td-title">所在地区</td>
-            <td>四川省 成都市 高新区</td>
+            <td>{{ customerDetail.provinceName }}
+              {{ customerDetail.cityName }}
+              {{ customerDetail.areaName }}
+            </td>
             <td class="td-title">公司网站</td>
-            <td>www.djksdj.com</td>
+            <td>{{customerDetail.website}}</td>
             <td class="td-title">联系电话</td>
-            <td>12135678912</td>
+            <td>{{customerDetail.phone}}</td>
           </tr>
           <tr>
             <td class="td-title">联系地址</td>
-            <td colspan="5">京东卡积分等级ask京东卡时间</td>
+            <td colspan="5">{{customerDetail.address}}</td>
           </tr>
           <tr>
             <td class="td-title">主营业务</td>
-            <td colspan="5">暂未填写主营业务</td>
+            <!--<td colspan="5">暂未填写主营业务{{customerDetail.business}}</td>-->
+            <td colspan="5">{{customerDetail.business || '暂未填写主营业务'}}</td>
           </tr>
         </table>
 
-        <p class="table-title">客户其他信息</p>
+        <p class="table-title">销售机会基本信息</p>
         <table class="detail-table">
           <tr>
-            <td class="td-title">所在公海</td>
-            <td>成都公海</td>
-            <td class="td-title">客户来源</td>
-            <td>公司资源</td>
-            <td class="td-title">客户状态</td>
-            <td>自建</td>
+            <td class="td-title">客户名称</td>
+            <td>{{salesOpportunitiesDetail.customerName}}</td>
+            <td class="td-title">需求进度</td>
+            <td>
+                  <span v-for="item in salesState"
+                        :key="item.type"
+                        v-if="item.type === salesOpportunitiesDetail.stage">{{item.value}}&nbsp;{{item.percent}}</span>
+            </td>
+            <td class="td-title">预计签单金额</td>
+            <td>{{salesOpportunitiesDetail.intentBillAmount}}</td>
           </tr>
           <tr>
-            <td class="td-title">客户创建时间</td>
-            <td colspan="3">2018.11.12 12:12:12</td>
-            <td class="td-title">创建人</td>
-            <td>test</td>
+            <td class="td-title">预计签单时间</td>
+            <td>{{salesOpportunitiesDetail.billDate}}</td>
+            <td class="td-title">意向商品</td>
+            <td>{{salesOpportunitiesDetail.intentProductName}}</td>
+            <td class="td-title">实际签单金额</td>
+            <td>{{salesOpportunitiesDetail.billAmount}}</td>
           </tr>
           <tr>
-            <td class="td-title">最新修改时间</td>
-            <td colspan="3">2018.11.12 12:12:12</td>
-            <td class="td-title">跟进人</td>
-            <td>test</td>
+            <td class="td-title">签单订单号</td>
+            <td>{{salesOpportunitiesDetail.billOrderId}}</td>
+            <td class="td-title">签单商品</td>
+            <td>{{salesOpportunitiesDetail.billProductName}}</td>
+            <td class="td-title"></td>
+            <td></td>
           </tr>
           <tr>
-            <td class="td-title">最新活动时间</td>
-            <td colspan="5">2018.11.12 12:12:12</td>
+            <td class="td-title">销售机会备注</td>
+            <td colspan="5">{{salesOpportunitiesDetail.chanceRemark || '暂无备注信息'}}</td>
           </tr>
           <tr>
-            <td class="td-title">主营业务</td>
-            <td colspan="5">暂未填写主营业务</td>
+            <td class="td-title">销售合同网址</td>
+            <td colspan="5">{{salesOpportunitiesDetail.contractUrl}}</td>
+          </tr>
+          <tr>
+            <td class="td-title">机会输单备注</td>
+            <td colspan="5">{{salesOpportunitiesDetail.discardRemark || '暂无备注信息'}}</td>
           </tr>
         </table>
       </div>
       <!--团队成员-->
       <div class="detail-right com-box-padding">
-        <!--<div class="team-title">-->
-          <!--<span class="title-text">团队成员</span>-->
-        <!--</div>-->
+        <!--<team-member :detail="salesOpportunitiesDetail"></team-member>-->
+
+        <div class="team-title">
+          <span class="title-text">团队成员</span>
+        </div>
         <ul class="team-member">
           <li class="team-member-item">
             <div class="head">
               <img src="../../../assets/icon/headDefault.png" alt="">
             </div>
             <div class="text">
-              <h4>张珊珊</h4>
-              <p>123456748912</p>
+              <h4>{{salesOpportunitiesDetail.team && salesOpportunitiesDetail.team.creatorName}}</h4>
+              <p>{{salesOpportunitiesDetail.team && salesOpportunitiesDetail.team.creatorMobilePhone}}</p>
             </div>
             <div class="post">
               <span class="post-tag-1">创建人</span>
-              <!--<span class="post-tag-2">销售员</span>-->
             </div>
           </li>
           <li class="team-member-item">
@@ -135,12 +155,11 @@
               <img src="../../../assets/icon/headDefault.png" alt="">
             </div>
             <div class="text">
-              <h4>张珊珊</h4>
-              <p>123456748912</p>
+              <h4>{{salesOpportunitiesDetail.team && salesOpportunitiesDetail.team.salerName}}</h4>
+              <p>{{salesOpportunitiesDetail.team && salesOpportunitiesDetail.team.salerMobilePhone}}</p>
             </div>
             <div class="post">
-              <span class="post-tag-1">创建人</span>
-              <!--<span class="post-tag-2">销售员</span>-->
+              <span class="post-tag-2">销售员</span>
             </div>
           </li>
           <li class="team-member-item">
@@ -148,12 +167,11 @@
               <img src="../../../assets/icon/headDefault.png" alt="">
             </div>
             <div class="text">
-              <h4>张珊珊</h4>
-              <p>123456748912</p>
+              <h4>{{salesOpportunitiesDetail.team && salesOpportunitiesDetail.team.counselorName}}</h4>
+              <p>{{salesOpportunitiesDetail.team && salesOpportunitiesDetail.team.counselorMobilePhone}}</p>
             </div>
             <div class="post">
-              <span class="post-tag-1">创建人</span>
-              <!--<span class="post-tag-2">销售员</span>-->
+              <span class="post-tag-2">咨询师</span>
             </div>
           </li>
         </ul>
@@ -164,11 +182,17 @@
 
 <script>
   import comButton from '../../../components/button/comButton'
+  import API from '../../../utils/api'
+  import moment from 'moment'
 
   export default {
     name: 'detailInfo',
     data () {
-      return {}
+      return {
+        detailInfo:'',
+        salesOpportunitiesDetail:'',
+        customerDetail:''
+      }
     },
     watch: {
       '$route.query.view' (view) {
@@ -178,15 +202,80 @@
     components: {
       comButton,
     },
-    created () {
-    },
     methods: {
+      getTaskDetail () {
+        var that = this;
+        this.loading = true
+        let param = {
+          id: that.$route.query.id,
+        }
+        API.task.getTaskDetail(param, (res) => {
+          that.loading = false;
+          if(res.status){
+            that.detailInfo = res.data;
+            that.detailInfo.publishTime =  moment(that.detailInfo.publishTime).format("YYYY-MM-DD HH:mm:ss");
+            that.detailInfo.deadline =  moment(that.detailInfo.deadline).format("YYYY-MM-DD HH:mm:ss");
+
+            API.salesOpportunities.detail(that.detailInfo.chanceId, (data) => {
+              that.salesOpportunitiesDetail = data.data
+              API.customer.detail({id: that.salesOpportunitiesDetail.customerId}, (data) => {
+                that.customerDetail = data.data
+                setTimeout(() => {
+                  this.dataLoading = false
+                }, 500)
+              })
+              setTimeout(() => {
+                this.dataLoading = false
+              }, 500)
+            })
+          }else{
+            Message({
+              message: res.error.message,
+              type: 'error'
+            });
+          }
+
+        }, (mock) => {
+          that.loading = false;
+          Message({
+            message: '系统繁忙，请稍后再试！',
+            type: 'error'
+          });
+        })
+
+      },
       handleTabsClick (tab, event) {
         // console.log(tab.name)
         this.$router.push({name: 'customersDetail', params: {end: 'FE'}, query: {view: tab.name}})
       },
+      auditTaskYes() {
+        this.auditTask(2)
+      },
+      auditTaskNo() {
+        this.auditTask(3)
+      },
+      auditTask(state) {
+        let param = {
+          state: state,
+          id: this.$route.query.id,
+        }
+        API.task.auditTask(param, (res) => {
+          this.loading = false;
+          if(res.status){
+            this.getTaskDetail()
+            this.$message.success('审核成功')
+          }else{
+            this.$message.success(res.error.message)
+          }
+
+        }, (mock) => {
+          that.loading = false;
+          this.$message.success('系统繁忙')
+        })
+      },
     },
     created () {
+      this.$options.methods.getTaskDetail.bind(this)();
       this.activeViewName = this.$route.query.view
     },
   }
