@@ -220,7 +220,7 @@
               },
               callback (data) {
                 if (data.type === 'save') {
-                  this.getCustomersSeaList(this.currentPage - 1, this.pagesOptions.pageSize)
+                  that.getCustomersSeaList(that.currentPage - 1, that.pagesOptions.pageSize)
                 }
               },
             })
