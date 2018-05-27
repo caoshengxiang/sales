@@ -13,28 +13,28 @@
       <table class="detail-table">
         <tr>
           <td class="td-title">任务名称</td>
-          <td>咨询人员派单</td>
+          <td>{{detailInfo.name}}</td>
           <td class="td-title">负责人员</td>
-          <td>张三</td>
+          <td>{{detailInfo.principalName}}</td>
           <td class="td-title">任务发布人员</td>
-          <td>李四</td>
+          <td>{{detailInfo.publisherName}}</td>
           <td class="td-title">任务发布时间</td>
-          <td>2018.05.20 12:14</td>
+          <td>{{detailInfo.publishTime}}</td>
         </tr>
         <tr>
           <td class="td-title">任务截止时间</td>
-          <td>2018.05.20 12:14</td>
+          <td>{{detailInfo.deadline}}</td>
           <td class="td-title">任务业务类型</td>
-          <td>销售机会</td>
+          <td>{{detailInfo.businessType ==1?"销售机会":"未知"}}</td>
           <td class="td-title">任务业务描述</td>
-          <td colspan="3">财税金融全托管</td>
+          <td colspan="3">{{detailInfo.businessDesc}}</td>
         </tr>
         <tr>
           <td class="td-title">公司名称</td>
           <td colspan="7">
-            <com-button buttonType="backHighSeas" @click="addHandle">审核通过
+            <com-button buttonType="backHighSeas" @click="auditTaskYes"  v-if="detailInfo.state === 1">审核通过
             </com-button>
-            <com-button buttonType="grey">审核拒绝
+            <com-button buttonType="grey" @click="auditTaskNo"  v-if="detailInfo.state === 1">审核拒绝
             </com-button>
           </td>
         </tr>
@@ -164,11 +164,15 @@
 
 <script>
   import comButton from '../../../components/button/comButton'
+  import API from '../../../utils/api'
+  import moment from 'moment'
 
   export default {
     name: 'detailInfo',
     data () {
-      return {}
+      return {
+        detailInfo:''
+      }
     },
     watch: {
       '$route.query.view' (view) {
@@ -178,15 +182,66 @@
     components: {
       comButton,
     },
-    created () {
-    },
     methods: {
+      getTaskDetail () {
+        var that = this;
+        this.loading = true
+        let param = {
+          id: that.$route.query.id,
+        }
+        API.task.getTaskDetail(param, (res) => {
+          that.loading = false;
+          if(res.status){
+            that.detailInfo = res.data;
+            that.detailInfo.publishTime =  moment(that.detailInfo.publishTime).format("YYYY-MM-DD HH:mm:ss");
+            that.detailInfo.deadline =  moment(that.detailInfo.deadline).format("YYYY-MM-DD HH:mm:ss");
+          }else{
+            Message({
+              message: res.error.message,
+              type: 'error'
+            });
+          }
+
+        }, (mock) => {
+          that.loading = false;
+          Message({
+            message: '系统繁忙，请稍后再试！',
+            type: 'error'
+          });
+        })
+      },
       handleTabsClick (tab, event) {
         // console.log(tab.name)
         this.$router.push({name: 'customersDetail', params: {end: 'FE'}, query: {view: tab.name}})
       },
+      auditTaskYes() {
+        this.auditTask(2)
+      },
+      auditTaskNo() {
+        this.auditTask(3)
+      },
+      auditTask(state) {
+        let param = {
+          state: state,
+          id: this.$route.query.id,
+        }
+        API.task.auditTask(param, (res) => {
+          this.loading = false;
+          if(res.status){
+            this.getTaskDetail()
+            this.$message.success('审核成功')
+          }else{
+            this.$message.success(res.error.message)
+          }
+
+        }, (mock) => {
+          that.loading = false;
+          this.$message.success('系统繁忙')
+        })
+      },
     },
     created () {
+      this.$options.methods.getTaskDetail.bind(this)();
       this.activeViewName = this.$route.query.view
     },
   }

@@ -790,6 +790,31 @@ export default {
         }, 1000)
       })
     },
+    getTaskDetail (params, success, error) { // 用户列表
+      $axios({
+        method: 'get',
+        url: `/approval/${params.id}`,
+      }).then((res) => {
+        success && success(res.data)
+      }).catch(() => {
+        setTimeout(() => {
+          error && error(mockdata)
+        }, 1000)
+      })
+    },
+    auditTask (params, success, error) { // 用户列表
+      $axios({
+        method: 'put',
+        url: `/approval/${params.id}`,
+        params:{state: params.state}
+      }).then((res) => {
+        success && success(res.data)
+      }).catch(() => {
+        setTimeout(() => {
+          error && error(mockdata)
+        }, 1000)
+      })
+    },
     queryList1 (params, success, error) {
       $axios({
         method: 'get',

@@ -147,6 +147,14 @@
           label="性别"
         >
         </el-table-column>
+        <el-table-column
+          show-overflow-tooltip
+          align="center"
+          prop="status"
+          :formatter="fmtNumColumn"
+          label="状态"
+        >
+        </el-table-column>
       </el-table>
     </div>
     <!--分页-->
@@ -233,6 +241,16 @@
       })
     },
     methods: {
+      fmtNumColumn(row,column,cellValue){
+        if (cellValue === 1) {
+          return '有效';
+        }else if(cellValue === -1) {
+          return '无效';
+        }
+        else if(cellValue === 2) {
+          return '禁用';
+        }
+      },
       selectedOptionsHandleChange (value) {
         this.form.organizationId =value[value.length -1] // 取当前选中的组织
         let depparams = {

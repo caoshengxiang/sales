@@ -61,6 +61,7 @@
           prop="deadline"
           align="center"
           label="任务截止时间"
+          :formatter="dateFormat"
           show-overflow-tooltip>
           >
         </el-table-column>
@@ -74,6 +75,7 @@
           align="center"
           prop="publishTime"
           label="任务发布时间"
+          :formatter="dateFormat"
       >
         </el-table-column>
         <el-table-column
@@ -82,9 +84,9 @@
           label="任务状态"
           show-overflow-tooltip>
           <template slot-scope="scope">
-            <a v-if="scope.row.state === 1" class="link" @click="handleRouter('detail')">办理</a>
-            <a v-if="scope.row.state === 2" class="link" @click="handleRouter('detail')">已通过</a>
-            <a v-if="scope.row.state === 3" class="button" @click="handleRouter('detail')">已拒绝</a>
+            <a v-if="scope.row.state === 1" class="link" @click="handleRouter('detail', scope.row.id)">办理</a>
+            <a v-if="scope.row.state === 2" class="link" @click="handleRouter('detail', scope.row.id)">已通过</a>
+            <a v-if="scope.row.state === 3" class="button" @click="handleRouter('detail', scope.row.id)">已拒绝</a>
           </template>
         </el-table-column>
       </el-table>
@@ -108,7 +110,9 @@
 <script>
   import { mapState } from 'vuex'
   import API from '../../../utils/api'
+  import util from '../../../utils/utils'
   import comButton from '../../../components/button/comButton'
+  import moment from 'moment'
 
   export default {
     name: 'list',
@@ -145,6 +149,13 @@
       that.$options.methods.getTaskList.bind(that)();
     },
     methods: {
+      dateFormat:function(row, column) {
+        var date = row[column.property];
+        if (date == undefined) {
+          return "";
+        }
+        return moment(date).format("YYYY-MM-DD HH:mm:ss");
+      },
       fmtBoolColumn(row,column,cellValue){
         if (cellValue === 1) {
           return '销售机会';
@@ -194,8 +205,8 @@
       handleCurrentChange (val) {
         console.log(`当前页: ${val}`)
       },
-      handleRouter (name) {
-        this.$router.push({name: 'taskApprovalDetail', params: {end: 'FE'}, query: {view: name}})
+      handleRouter (name,id) {
+        this.$router.push({name: 'taskApprovalDetail', params: {end: 'FE'}, query: {view: name, id: id}})
       },
     },
   }
