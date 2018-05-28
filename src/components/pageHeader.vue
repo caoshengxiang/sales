@@ -3,19 +3,19 @@
     <div class="left">众智联邦销售管理系统</div>
     <div class="right">
       <ul>
-        <li class="item cursor" @click="logout" >
-          <i class="el-icon-picture"></i>
+        <li class="item cursor" @click="logout">
+          <i class="iconfont icon-zhuxiao"></i>
           <a>注销</a>
         </li>
         <li class="item cursor" @click="messageHandle" v-if="themeIndex === 0">
           <el-badge :is-dot="false" class="badge">
-            <i class="el-icon-picture"></i>
+            <i class="iconfont icon-iconfontunie62c"></i>
           </el-badge>
           消息通知<span></span>
         </li>
         <li class="item cursor" @click="taskHandle" v-if="themeIndex === 0">
           <el-badge is-dot class="badge">
-            <i class="el-icon-picture"></i>
+            <i class="iconfont icon-tixing"></i>
           </el-badge>
           提醒事项<span>(2)</span>
         </li>
@@ -33,8 +33,7 @@
   export default {
     name: 'pageHeader',
     data () {
-      return {
-      }
+      return {}
     },
     computed: {
       ...mapState('constData', [
@@ -42,22 +41,22 @@
         'themeIndex',
       ]),
     },
-    created() {
-      this.userInfo = utils.loginExamine(this);
+    created () {
+      this.userInfo = utils.loginExamine(this)
     },
     methods: {
       logout () {
         API.login.logout({}, (res) => {
-          this.loading = false;
-          if(res.status){
+          this.loading = false
+          if (res.status) {
             this.$router.push({'path': '/'})
           }
         }, (mock) => {
-          this.loading = false;
+          this.loading = false
           Message({
             message: '系统繁忙，请稍后再试！',
-            type: 'error'
-          });
+            type: 'error',
+          })
         })
       },
       messageHandle () {
@@ -71,6 +70,7 @@
 </script>
 
 <style scoped lang="scss" rel="stylesheet/scss">
+  @import "../../static/iconFont/iconfont.css";
   @import "../styles/var";
 
   .page-header {
