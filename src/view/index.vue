@@ -50,7 +50,7 @@
       ]),
       asideStyle () {
         return {
-          width: '240px',
+          width: '220px',
           borderTop: '6px solid #F0F3F6',
           overflowY: 'auto',
           backgroundColor: this.theme[this.themeIndex].leftMenuBarBg, // 主题

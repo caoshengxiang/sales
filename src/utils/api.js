@@ -162,7 +162,7 @@ export default {
       })
     },
     edit (params, success, error) { //
-      $axios.put('customerSea', JSON.stringify(params)).then((res) => {
+      $axios.put('customerSea/' +  params.path, params.body).then((res) => {
         success && success(res.data)
       }).catch((err) => {
         error && error(err)
@@ -191,6 +191,13 @@ export default {
     },
     regroup (params, success, error) { // 分组
       $axios.post('customerSea/regroup', params).then((res) => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+    },
+    deleteSea (params, success, error) { // 分组
+      $axios.delete('customerSea/' + params).then((res) => {
         success && success(res.data)
       }).catch((err) => {
         error && error(err)

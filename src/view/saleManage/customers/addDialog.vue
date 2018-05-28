@@ -218,13 +218,6 @@
       }
     },
     props: ['params'],
-    // watch: {
-    //   areaSelectedOptions (d) {
-    //     this.addForm.provinceId = d[0]
-    //     this.addForm.cityId = d[1]
-    //     this.addForm.areaId = d[2]
-    //   },
-    // },
     methods: {
       areaSelectedOptionsHandleChange (value) {
         this.addForm.provinceId = value[0] || ''
@@ -232,7 +225,7 @@
         this.addForm.areaId = value[2] || ''
       },
       saveSubmitForm (formName, addContact) {
-        console.log(this.$refs.areaSe.getSelectedValue(), '区域')
+        // console.log(this.$refs.areaSe.getSelectedValue(), '区域')
         this.$refs[formName].validate((valid) => {
           if (valid) {
             this.dataLoading = true

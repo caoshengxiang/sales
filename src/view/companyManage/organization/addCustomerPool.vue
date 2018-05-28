@@ -70,7 +70,7 @@
                 break
               case 'edit':
                 that.loading = true
-                API.customerSea.edit(Object.assign({}, that.form, {id: that.params.id}), function (resData) {
+                API.customerSea.edit({body: that.form, path: that.params.id}, function (resData) {
                   that.loading = false
                   if (resData.status) {
                     Message({

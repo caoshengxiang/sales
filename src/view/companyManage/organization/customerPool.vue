@@ -39,7 +39,7 @@
       <el-row :gutter="2">
         <el-col :span="6">
           <el-menu
-            :default-active="organizationId.toString()"
+            :default-active="activeIndex.toString()"
             @select="selectHandle">
             <el-menu-item
               v-for="item in pollList"
@@ -62,20 +62,20 @@
                      class="demo-ruleForm">
               <el-form-item label="请设置该客户池管理员" prop="adminList">
                 <el-select v-model="ruleForm.adminList" multiple placeholder="请设置该客户池管理员">
-                  <el-option label="区域一" :value="1"></el-option>
-                  <el-option label="区域二" :value="2"></el-option>
+                  <el-option label="人员一" :value="1"></el-option>
+                  <el-option label="人员二" :value="2"></el-option>
                 </el-select>
               </el-form-item>
               <el-form-item label="请设置该客户池需求录入员" prop="keyboarderList">
                 <el-select v-model="ruleForm.keyboarderList" multiple placeholder="请设置该客户池需求录入员">
-                  <el-option label="区域一" :value="1"></el-option>
-                  <el-option label="区域二" :value="2"></el-option>
+                  <el-option label="人员一" :value="1"></el-option>
+                  <el-option label="人员二" :value="2"></el-option>
                 </el-select>
               </el-form-item>
               <el-form-item label="请设置该客户池销售跟进员" prop="followerList">
                 <el-select v-model="ruleForm.followerList" multiple placeholder="请设置该客户池销售跟进员">
-                  <el-option label="区域一" :value="1"></el-option>
-                  <el-option label="区域二" :value="2"></el-option>
+                  <el-option label="人员一" :value="1"></el-option>
+                  <el-option label="人员二" :value="2"></el-option>
                 </el-select>
               </el-form-item>
               <el-form-item label="客户池回收规则设置" prop="dayOfNo">
@@ -140,7 +140,6 @@
             return callback(new Error('请设置客户池回收规则'))
           }
         }
-
       }
       return {
         loading: false,
@@ -175,7 +174,8 @@
           followerList: [
             {required: true, message: '请设置该客户池销售跟进员', trigger: 'change'},
           ],
-        }
+        },
+        activeIndex: 0,
       }
     },
     components: {
@@ -186,15 +186,14 @@
         let that = this
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            API.customerSea.edit(that.ruleForm, function (resData) {
-              that.loading = false
+            API.customerSea.edit({body: that.ruleForm, path: that.ruleForm.id}, function (resData) {
+              that.loading = true
               if (resData.status) {
-                this.$message({
+                that.$message({
                   message: '保存成功！',
                   type: 'success'
                 })
                 setTimeout(() => {
-                  that.$vDialog.close() // 关闭弹窗
                   that.loading = false
                 }, 300)
               }
@@ -202,7 +201,6 @@
               setTimeout(() => {
                 that.loading = false
               }, 300)
-
             })
           } else {
             console.log('error submit!!')
@@ -247,14 +245,23 @@
         this.getPoolDetail(id)
       },
       getPoolDetail (id) {
+        this.activeIndex = id
         API.customerSea.detail(id, (resD) => {
           this.ruleForm = JSON.parse(JSON.stringify(resD.data))
         })
       },
       deletePool () {
+        API.customerSea.deleteSea(this.activeIndex, (da) => {
+          if (da.status) {
+            this.$message.success('操作成功')
+            API.customerSea.list(this.organizationId, (da) => {
+              this.pollList = da.data.content
+              this.getPoolDetail(this.pollList[0].id)
+            })
+          }
+        })
       },
       update () {
-        var that = this
         this.$vDialog.modal(add, {
           title: '编辑客户池',
           width: 420,
@@ -265,8 +272,12 @@
             id: this.ruleForm.id,
             name: this.ruleForm.name
           },
-          callback: function () {
-            that.getPollList(this.organizationId)
+          callback: () => {
+            this.getPollList(this.organizationId)
+            API.customerSea.list(this.organizationId, (da) => {
+              this.pollList = da.data.content
+              this.getPoolDetail(this.activeIndex)
+            })
           }
         })
       }
