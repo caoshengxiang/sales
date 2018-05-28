@@ -33,6 +33,7 @@
         type: 1,
         typedes: '',
         id: 0,
+        name:'',
         form: {
           pid:0
         },
@@ -68,11 +69,10 @@
         that.title = "管家类型"
       }
       that.$store = that.params.store;//状态库赋值
-      if (that.params.currentNode) {
         if (that.params.action === 'add') {
         }else{
+          that.form.name = that.params.name
         }
-      }
     },
     methods: {
       closeDialog(){
