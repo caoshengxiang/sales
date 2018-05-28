@@ -84,7 +84,9 @@
           label="预计签单日期"
           width="160"
           show-overflow-tooltip>
-          <!--todo 需要处理时间 年月日-->
+          <template slot-scope="scope">
+            {{$moment(scope.row.billDate).format('YYYY-MM-DD')}}
+          </template>
         </el-table-column>
         <el-table-column
           align="center"
@@ -145,6 +147,9 @@
           label="创建日期"
           width="160"
           show-overflow-tooltip>
+          <template slot-scope="scope">
+            {{$moment(scope.row.created).format('YYYY-MM-DD HH:mm')}}
+          </template>
         </el-table-column>
         <el-table-column
           align="center"
@@ -152,6 +157,9 @@
           label="最近跟单记录"
           width="160"
           show-overflow-tooltip>
+          <template slot-scope="scope">
+            {{$moment(scope.row.followDate).format('YYYY-MM-DD HH:mm')}}
+          </template>
         </el-table-column>
       </el-table>
     </div>

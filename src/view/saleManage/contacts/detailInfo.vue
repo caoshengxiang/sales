@@ -59,7 +59,7 @@
                 <td class="td-title">QQ</td>
                 <td>{{contactsDetail.qq}}</td>
                 <td class="td-title">出生日期</td>
-                <td>{{contactsDetail.birthday}}</td>
+                <td>{{$moment(contactsDetail.birthday).format('YYYY-MM-DD')}}</td>
                 <td class="td-title">性别</td>
                 <td>{{contactsDetail.sex}}</td>
               </tr>
@@ -81,19 +81,19 @@
             <table class="detail-table">
               <tr>
                 <td class="td-title">联系人创建时间</td>
-                <td colspan="3">{{contactsDetail.created}}</td>
+                <td colspan="3">{{$moment(contactsDetail.created).format('YYYY-MM-DD HH:mm:ss')}}</td>
                 <td class="td-title">所有人</td>
                 <td>{{contactsDetail.creatorName}}</td>
               </tr>
               <tr>
                 <td class="td-title">联系人修改时间</td>
-                <td colspan="3">{{contactsDetail.modified}}</td>
+                <td colspan="3">{{$moment(contactsDetail.modified).format('YYYY-MM-DD HH:mm:ss')}}</td>
                 <td class="td-title">修改人</td>
                 <td>{{contactsDetail.modifierName}}</td>
               </tr>
               <tr>
                 <td class="td-title">联系人活动时间</td>
-                <td colspan="3">{{contactsDetail.activeTime}}</td>
+                <td colspan="3">{{$moment(contactsDetail.activeTime).format('YYYY-MM-DD HH:mm:ss')}}</td>
                 <td class="td-title">跟进人</td>
                 <td>{{contactsDetail.followerName}}</td>
               </tr>

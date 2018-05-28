@@ -82,19 +82,20 @@
           label="最新动态日期"
           width="160"
           show-overflow-tooltip>
+          <template slot-scope="scope">
+            {{$moment(scope.row.modified).format('YYYY-MM-DD')}}
+          </template>
         </el-table-column>
         <el-table-column
           align="center"
           prop=""
           label="最近跟进人"
-          width="160"
           show-overflow-tooltip>
         </el-table-column>
         <el-table-column
           align="center"
           prop="creatorName"
           label="创建人"
-          width="160"
           show-overflow-tooltip>
         </el-table-column>
       </el-table>

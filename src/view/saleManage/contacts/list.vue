@@ -58,7 +58,7 @@
           align="center"
           label="所属公司名称"
           prop="customerName"
-          width="120">
+          width="180">
         </el-table-column>
         <el-table-column
           show-overflow-tooltip
@@ -85,8 +85,11 @@
           align="center"
           prop="birthday"
           label="出生日期"
-          width="160"
+          width="140"
           show-overflow-tooltip>
+          <template slot-scope="scope">
+            {{ $moment(scope.row.birthday).format('YYYY-MM-DD') }}
+          </template>
         </el-table-column>
         <el-table-column
           align="center"
@@ -155,6 +158,9 @@
           label="创建日期"
           width="160"
           show-overflow-tooltip>
+          <template slot-scope="scope">
+            {{ $moment(scope.row.birthday).format('YYYY-MM-DD HH:mm') }}
+          </template>
         </el-table-column>
       </el-table>
     </div>

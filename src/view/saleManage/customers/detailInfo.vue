@@ -102,19 +102,19 @@
               </tr>
               <tr>
                 <td class="td-title">客户创建时间</td>
-                <td colspan="3">{{customerDetail.created}}</td>
+                <td colspan="3">{{$moment(customerDetail.created).format('YYYY-MM-DD HH:mm:ss')}}</td>
                 <td class="td-title">创建人</td>
                 <td>{{customerDetail.creatorName}}</td>
               </tr>
               <tr>
                 <td class="td-title">最新修改时间</td>
-                <td colspan="3">{{customerDetail.modified}}</td>
+                <td colspan="3">{{$moment(customerDetail.modified).format('YYYY-MM-DD HH:mm:ss')}}</td>
                 <td class="td-title">修改人</td>
                 <td>{{customerDetail.modifierName}}</td>
               </tr>
               <tr>
                 <td class="td-title">最新活动时间</td>
-                <td colspan="3">{{customerDetail.activeTime}}</td>
+                <td colspan="3">{{$moment(customerDetail.activeTime).format('YYYY-MM-DD HH:mm:ss')}}</td>
                 <td class="td-title">跟进人</td>
                 <td>{{customerDetail.followerName}}</td>
               </tr>

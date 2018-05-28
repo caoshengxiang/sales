@@ -147,6 +147,9 @@
           prop="created"
           label="创建日期"
           width="160">
+          <template slot-scope="scope">
+            {{$moment(scope.row.created).format('YYYY-MM-DD HH:mm')}}
+          </template>
         </el-table-column>
         <el-table-column
           show-overflow-tooltip
@@ -185,6 +188,7 @@
   import addDialog from './addDialog'
   import moveDialog from './moveDialog'
   import { arrToStr } from '../../../utils/utils'
+  // import moment from 'moment'
 
   export default {
     name: 'list',
@@ -218,6 +222,9 @@
       ...mapActions('customer', [
         'ac_customerList',
       ]),
+      // moment (Timestamps, str) {
+      //   return moment(Timestamps).format(str)
+      // },
       getCustomerList (page, pageSize, type) { // 获取列表数据
         let param = {
           page: page,
@@ -227,9 +234,9 @@
         this.dataLoading = true
         API.customer.list(param, (res) => {
           this.ac_customerList(res.data)
-          // setTimeout(() => {
+          setTimeout(() => {
             this.dataLoading = false
-          // }, 300)
+          }, 300)
         })
       },
       searchHandle () {

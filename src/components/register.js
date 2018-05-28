@@ -19,6 +19,8 @@ import echarts from 'echarts'
 import vDialogs from 'v-dialogs'
 //引入行政区域下拉框联动组件
 import AreaSelect from '../components/areaSelect'
+// meonment 作为全局方法
+import moment from 'moment'
 
 Vue.use(AreaSelect)
 Vue.use(vDialogs)
@@ -30,6 +32,7 @@ Vue.use(vDialogs)
 // Vue.use(PermissionButton)
 // Vue.use(GlobalConfig)
 Vue.prototype.$echarts = echarts
+Vue.prototype.$moment = moment
 
 // todo main.js 中引入
 // todo cnpm install --save vue-xlsx-table echarts

@@ -66,7 +66,7 @@
               </tr>
               <tr>
                 <td class="td-title">预计签单时间</td>
-                <td>{{salesOpportunitiesDetail.billDate}}</td>
+                <td>{{$moment(salesOpportunitiesDetail.billDate).format('YYYY-MM-DD')}}</td>
                 <td class="td-title">意向商品</td>
                 <td>{{salesOpportunitiesDetail.intentProductName}}</td>
                 <td class="td-title">实际签单金额</td>
@@ -98,19 +98,19 @@
             <table class="detail-table">
               <tr>
                 <td class="td-title">销售机会创建时间</td>
-                <td colspan="3">{{salesOpportunitiesDetail.created}}</td>
+                <td colspan="3">{{$moment(salesOpportunitiesDetail.created).format('YYYY-MM-DD HH:mm:ss')}}</td>
                 <td class="td-title">所有人</td>
                 <td>{{salesOpportunitiesDetail.creatorName}}</td>
               </tr>
               <tr>
                 <td class="td-title">销售机会修改时间</td>
-                <td colspan="3">{{salesOpportunitiesDetail.modified}}</td>
+                <td colspan="3">{{$moment(salesOpportunitiesDetail.modified).format('YYYY-MM-DD HH:mm:ss')}}</td>
                 <td class="td-title">修改人</td>
                 <td>{{salesOpportunitiesDetail.modifierName}}</td>
               </tr>
               <tr>
                 <td class="td-title">销售机会活动时间</td>
-                <td colspan="3">{{salesOpportunitiesDetail.followDate}}</td>
+                <td colspan="3">{{$moment(salesOpportunitiesDetail.followDate).format('YYYY-MM-DD HH:mm:ss')}}</td>
                 <td class="td-title">跟进人</td>
                 <td>{{salesOpportunitiesDetail.salerName}}</td>
               </tr>
