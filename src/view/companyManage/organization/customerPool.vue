@@ -27,7 +27,7 @@
           placeholder="请选择" class="com-el-select" style="width: 150px">
           <el-option
             v-for="item in organizationOptions"
-            :key="item.id"
+            :key="item.name"
             :label="item.name"
             :value="item.id">
           </el-option>
@@ -42,8 +42,8 @@
             :default-active="activeIndex.toString()"
             @select="selectHandle">
             <el-menu-item
-              v-for="item in pollList"
-              :key="item.id"
+              v-for="(item, index) in pollList"
+              :key="index"
               :index="item.id.toString()">
               <span slot="title">{{item.name}}</span>
             </el-menu-item>
@@ -62,20 +62,17 @@
                      class="demo-ruleForm">
               <el-form-item label="请设置该客户池管理员" prop="adminList">
                 <el-select v-model="ruleForm.adminList" multiple placeholder="请设置该客户池管理员">
-                  <el-option label="人员一" :value="1"></el-option>
-                  <el-option label="人员二" :value="2"></el-option>
+                  <el-option v-for="item in adminList" :key="item.id" :label="item.name" :value="item.id"></el-option>
                 </el-select>
               </el-form-item>
               <el-form-item label="请设置该客户池需求录入员" prop="keyboarderList">
                 <el-select v-model="ruleForm.keyboarderList" multiple placeholder="请设置该客户池需求录入员">
-                  <el-option label="人员一" :value="1"></el-option>
-                  <el-option label="人员二" :value="2"></el-option>
+                  <el-option v-for="item in keyboarderList" :key="item.id" :label="item.name" :value="item.id"></el-option>
                 </el-select>
               </el-form-item>
               <el-form-item label="请设置该客户池销售跟进员" prop="followerList">
                 <el-select v-model="ruleForm.followerList" multiple placeholder="请设置该客户池销售跟进员">
-                  <el-option label="人员一" :value="1"></el-option>
-                  <el-option label="人员二" :value="2"></el-option>
+                  <el-option v-for="item in followerList" :key="item.id" :label="item.name" :value="item.id"></el-option>
                 </el-select>
               </el-form-item>
               <el-form-item label="客户池回收规则设置" prop="dayOfNo">
@@ -175,7 +172,28 @@
             {required: true, message: '请设置该客户池销售跟进员', trigger: 'change'},
           ],
         },
-        activeIndex: 0,
+        activeIndex: '',
+        adminList: [{ // todo 需要获取
+          id: 1,
+          name: '人员1',
+        }, {
+          id: 2,
+          name: '人员2',
+        }],
+        followerList: [{
+          id: 1,
+          name: '人员1',
+        }, {
+          id: 2,
+          name: '人员2',
+        }],
+        keyboarderList: [{
+          id: 1,
+          name: '人员1',
+        }, {
+          id: 2,
+          name: '人员2',
+        }],
       }
     },
     components: {
@@ -186,6 +204,44 @@
         let that = this
         this.$refs[formName].validate((valid) => {
           if (valid) {
+            // 构建后端接口数据
+            let adminListId = JSON.parse(JSON.stringify(that.ruleForm)).adminList
+            let followerListId = JSON.parse(JSON.stringify(that.ruleForm)).followerList
+            let keyboarderListId = JSON.parse(JSON.stringify(that.ruleForm)).keyboarderList
+            this.ruleForm.adminList = []
+            this.ruleForm.followerList = []
+            this.ruleForm.keyboarderList = []
+            adminListId.forEach(id => {
+              this.adminList.forEach(item => {
+                if (item.id === id) {
+                  this.ruleForm.adminList.push({
+                    salerId: id,
+                    salerName: item.name
+                  })
+                }
+              })
+            })
+            followerListId.forEach(id => {
+              this.followerList.forEach(item => {
+                if (item.id === id) {
+                  this.ruleForm.followerList.push({
+                    salerId: id,
+                    salerName: item.name
+                  })
+                }
+              })
+            })
+            keyboarderListId.forEach(id => {
+              this.keyboarderList.forEach(item => {
+                if (item.id === id) {
+                  this.ruleForm.keyboarderList.push({
+                    salerId: id,
+                    salerName: item.name
+                  })
+                }
+              })
+            })
+            // 构建后端接口数据 end
             API.customerSea.edit({body: that.ruleForm, path: that.ruleForm.id}, function (resData) {
               that.loading = true
               if (resData.status) {
@@ -193,6 +249,10 @@
                   message: '保存成功！',
                   type: 'success'
                 })
+                setTimeout(() => {
+                  that.loading = false
+                }, 300)
+              } else {
                 setTimeout(() => {
                   that.loading = false
                 }, 300)
@@ -208,7 +268,7 @@
           }
         })
       },
-      searchHandle (id) {
+      searchHandle (id) { // 组织下拉
         this.getPollList(id)
       },
       getOrganization (pa) {
@@ -224,6 +284,7 @@
       getPollList (id) {
         API.customerSea.list(id, (da) => {
           this.pollList = da.data.content
+          this.getPoolDetail(this.pollList[0].id)
         })
       },
       add () {
@@ -245,9 +306,24 @@
         this.getPoolDetail(id)
       },
       getPoolDetail (id) {
-        this.activeIndex = id
+        this.activeIndex = id.toString()
         API.customerSea.detail(id, (resD) => {
+          let copy = JSON.parse(JSON.stringify(resD.data))
           this.ruleForm = JSON.parse(JSON.stringify(resD.data))
+
+          // 构建前端需要得数据
+          this.ruleForm.adminList = []
+          this.ruleForm.followerList = []
+          this.ruleForm.keyboarderList = []
+          copy.adminList.forEach(ad => {
+            this.ruleForm.adminList.push(ad.salerId)
+          })
+          copy.followerList.forEach(ad => {
+            this.ruleForm.followerList.push(ad.salerId)
+          })
+          copy.keyboarderList.forEach(ad => {
+            this.ruleForm.keyboarderList.push(ad.salerId)
+          })
         })
       },
       deletePool () {
