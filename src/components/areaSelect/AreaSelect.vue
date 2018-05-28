@@ -199,6 +199,7 @@ this.$refs.组件名称.getSelectedValue()
       handleItemChange(val) {
         var that = this;
         console.log("区域控件选择完成："+val.join(","));
+        this.$emit('change', val)
         if (that.selectLastLevelMode) {
           that.selectedBindValue = [];
         }else{

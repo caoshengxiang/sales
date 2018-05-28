@@ -106,9 +106,12 @@ const settlementList = resolve => require.ensure([],
 const spendingList = resolve => require.ensure([],
   () => resolve(require('../view/companyManage/financial/spendingList')), 'financial')
 
-//组织管理
+// 组织管理
 const organizationList = resolve => require.ensure([],
   () => resolve(require('../view/companyManage/organization/list')), 'organization')
+// 客户池管理
+const customerPool = resolve => require.ensure([],
+() => resolve(require('../view/companyManage/organization/customerPool')), 'organization')
 
 const baseSettingList = resolve => require.ensure([],
   () => resolve(require('../view/companyManage/baseSetting/list')), 'baseSetting')
@@ -244,13 +247,13 @@ export default new Router({
           name: 'agentList',
           component: agentList,
         },
-        //企业管理 -- 角色管理
+        // 企业管理 -- 角色管理
         {
           path: 'roleList',
           name: 'roleList',
           component: roleList
         },
-        //企业管理 -- 财务管理
+        // 企业管理 -- 财务管理
         {
           path: 'settlementList',
           name: 'settlementList',
@@ -261,24 +264,30 @@ export default new Router({
           name: 'spendingList',
           component: spendingList
         },
-        //企业管理 -- 组织管理
+        // 企业管理 -- 组织管理
         {
           path: 'organizationList',
           name: 'organizationList',
           component: organizationList
         },
-        //配置管理 -- 参数设置
+        // 配置管理 -- 参数设置
         {
           path: 'baseSettingList',
           name: 'baseSettingList',
           component: baseSettingList
         },
-        //配置管理 -- 客户地区管理
+        // 配置管理 -- 客户地区管理
         {
           path: 'customerAreaSetting',
           name: 'customerAreaSetting',
           component: customerAreaSetting
-        }
+        },
+        // 企业管理 -- 客户池管理
+        {
+          path: 'customerPool',
+          name: 'customerPool',
+          component: customerPool
+        },
       ],
     },
 

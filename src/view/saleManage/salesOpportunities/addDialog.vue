@@ -1,5 +1,5 @@
 <template>
-  <div class="com-dialog-container">
+  <div class="com-dialog-container" v-loading="dataLoading">
       <div class="com-dialog">
         <el-form :model="addForm" ref="addForm" label-width="0px" :rules="rules">
           <table class="com-dialog-table">
@@ -46,7 +46,7 @@
               <td class="td-title">意向商品分类</td>
               <td class="td-text">
                 <el-form-item prop="intentProductCate">
-                  <el-select v-model.number="addForm.intentProductCate" placeholder="请选择意向商品分类" style="width: 100%">
+                  <el-select v-model.number="addForm.intentProductCate" @change="intentProductCateChangeHandle" placeholder="请选择意向商品分类" style="width: 100%">
                     <el-option v-for="item in intentProductCateList" :key="item.objectId" :label="item.name" :value="item.objectId"></el-option>
                   </el-select>
                 </el-form-item>
@@ -54,7 +54,7 @@
               <td class="td-title">意向商品</td>
               <td class="td-text">
                 <el-form-item prop="intentProductId">
-                  <el-select v-model.number="addForm.intentProductId" placeholder="请选择意向商品" style="width: 100%">
+                  <el-select v-model.number="addForm.intentProductId" @change="intentProductIdChangeHandle" placeholder="请选择意向商品" style="width: 100%">
                     <el-option v-for="item in intentProductList" :key="item.objectId" :label="item.name" :value="item.objectId"></el-option>
                   </el-select>
                 </el-form-item>
@@ -84,13 +84,16 @@
     name: 'addDialog',
     data () {
       return {
+        dataLoading: false,
         addForm: { // 添加表单
           customerId: '',
           state: '',
           billDate: '',
           intentBillAmount: '',
           intentProductCate: '',
+          intentProductCateName: '',
           intentProductId: '',
+          intentProductName: '',
           chanceRemark: '',
         },
         customersList: [],
@@ -130,6 +133,7 @@
       saveSubmitForm (formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
+            this.dataLoading = true
             API.salesOpportunities.add(this.addForm, (data) => {
               if (data.status) {
                 this.$message.success('添加成功')
@@ -164,6 +168,20 @@
       getIntentProductList () {
         API.external.findGoods((data) => {
           this.intentProductList = data.content
+        })
+      },
+      intentProductIdChangeHandle (id) {
+        this.intentProductList.forEach(item => {
+          if (item.objectId === id) {
+            this.addForm.intentProductName = item.name
+          }
+        })
+      },
+      intentProductCateChangeHandle (id) {
+        this.intentProductCateList.forEach(item => {
+          if (item.objectId === id) {
+            this.addForm.intentProductCateName = item.name
+          }
         })
       }
     },

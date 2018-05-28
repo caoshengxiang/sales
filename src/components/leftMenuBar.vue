@@ -24,12 +24,12 @@
       :background-color="theme[themeIndex].leftMenuBarBg"
       :active-text-color="theme[themeIndex].leftMenuBarActiveColor">
       <el-menu-item index="saleHome">
-        <i class="el-icon-location"></i>
+        <i class="iconfont icon-home"></i>
         <span slot="title">管理中心</span>
       </el-menu-item>
       <el-menu-item index="customersList">
         <template slot="title">
-          <i class="el-icon-menu"></i>
+          <i class="iconfont icon-user"></i>
           <span slot="title">客户</span>
           <!--<div class="child-menu">
             <i class="el-icon-arrow-right"></i>
@@ -44,7 +44,7 @@
       </el-menu-item>
       <el-menu-item index="contactsList">
         <template slot="title">
-          <i class="el-icon-document"></i>
+          <i class="iconfont icon-users"></i>
           <span slot="title">联系人</span>
           <!--<div class="child-menu">-->
           <!--<i class="el-icon-arrow-right"></i>-->
@@ -59,7 +59,7 @@
       </el-menu-item>
       <el-menu-item index="salesOpportunitiesList">
         <template slot="title">
-          <i class="el-icon-setting"></i>
+          <i class="iconfont icon-jihui"></i>
           <span slot="title">销售机会</span>
           <!--<div class="child-menu">-->
           <!--<i class="el-icon-arrow-right"></i>-->
@@ -74,7 +74,7 @@
       </el-menu-item>
       <el-menu-item index="salesOrdersList">
         <template slot="title">
-          <i class="el-icon-setting"></i>
+          <i class="iconfont icon-icon-test"></i>
           <span slot="title">销售订单</span>
           <!--<div class="child-menu">-->
           <!--<i class="el-icon-arrow-right"></i>-->
@@ -88,23 +88,23 @@
         </template>
       </el-menu-item>
       <el-menu-item index="orderRecordsList">
-        <i class="el-icon-setting"></i>
+        <i class="iconfont icon-jilu"></i>
         <span slot="title">跟单记录</span>
       </el-menu-item>
       <el-menu-item index="remittanceRecords">
-        <i class="el-icon-location"></i>
+        <i class="iconfont icon-shijian-tianchong"></i>
         <span slot="title">回款记录</span>
       </el-menu-item>
       <el-menu-item index="rebateRecordsList">
-        <i class="el-icon-location"></i>
+        <i class="iconfont icon-qiahao"></i>
         <span slot="title">返佣记录</span>
       </el-menu-item>
       <el-menu-item index="customersHighSeasList">
-        <i class="el-icon-location"></i>
+        <i class="iconfont icon-iconset0132"></i>
         <span slot="title">客户公海</span>
       </el-menu-item>
       <el-menu-item index="taskApprovalList">
-        <i class="el-icon-location"></i>
+        <i class="iconfont icon-shenpi"></i>
         <span slot="title">任务审批</span>
       </el-menu-item>
       <!--<el-menu-item index="userList">
@@ -123,9 +123,13 @@
           </div>
         </template>
       </el-menu-item>-->
+      <el-menu-item index="todo">
+        <i class="iconfont icon-home"></i>
+        <span slot="title">首页</span>
+      </el-menu-item>
       <el-submenu index="user">
         <template slot="title">
-          <i class="el-icon-location"></i>
+          <i class="iconfont icon-user"></i>
           <span>用戶管理</span>
         </template>
         <el-menu-item-group>
@@ -137,29 +141,19 @@
       </el-submenu>
       <el-submenu index="organization">
         <template slot="title">
-          <i class="el-icon-share"></i>
+          <i class="iconfont icon-users"></i>
           <span>组织管理</span>
         </template>
         <el-menu-item-group>
           <!--<template slot="title">分组一</template>-->
           <el-menu-item index="organizationList">组织管理</el-menu-item>
-          <el-menu-item index="roleList">客户池管理</el-menu-item>
+          <el-menu-item index="customerPool">客户池管理</el-menu-item>
           <el-menu-item index="agentList">组织商品配置</el-menu-item>
-        </el-menu-item-group>
-      </el-submenu>
-      <el-submenu index="baseSetting">
-        <template slot="title">
-          <i class="el-icon-share"></i>
-          <span>参数管理</span>
-        </template>
-        <el-menu-item-group>
-          <!--<template slot="title">分组一</template>-->
-          <el-menu-item index="baseSettingList">参数设置</el-menu-item>
         </el-menu-item-group>
       </el-submenu>
       <el-submenu index="financial">
         <template slot="title">
-          <i class="el-icon-location"></i>
+          <i class="iconfont icon-caiwurenminbizhifu2"></i>
           <span>财务管理</span>
         </template>
         <el-menu-item-group>
@@ -170,12 +164,13 @@
       </el-submenu>
       <el-submenu index="customerAreaSetting">
         <template slot="title">
-          <i class="el-icon-share"></i>
+          <i class="iconfont icon-peizhiconfiguration15"></i>
           <span>配置管理</span>
         </template>
         <el-menu-item-group>
           <!--<template slot="title">分组一</template>-->
           <el-menu-item index="customerAreaSetting">客户地区</el-menu-item>
+          <el-menu-item index="baseSettingList">参数设置</el-menu-item>
         </el-menu-item-group>
       </el-submenu>
     </el-menu>
@@ -220,6 +215,7 @@
 </script>
 
 <style scoped lang="scss" rel="stylesheet/scss">
+  @import "../../static/iconFont/iconfont.css";
   .left-menu-bar {
   }
 
@@ -293,5 +289,12 @@
 
   .el-menu-item {
     padding: 0;
+  }
+  .iconfont {
+    width: 24px;
+    display: inline-block;
+  }
+  .el-submenu .el-menu-item {
+    padding-left: 55px !important;
   }
 </style>

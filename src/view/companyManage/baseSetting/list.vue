@@ -51,7 +51,6 @@
                 fixed
                 type="selection"
                 align="center"
-                prop="id"
                 reserve-selection=""
                 width="40">
               </el-table-column>
@@ -88,7 +87,7 @@
     data () {
       return {
         loading: false,
-        roleList:[{id:2,name:'客户级别'},{id:3,name:'客户行业'},{id:4,name:'管家类型'}],
+        roleList:[{id:2,name:'客户级别'},{id:3,name:'客户行业'}],
         roleDefaultIndex:"1",
         roleDetail:{},
         initBusinessSystemsIndex:"2",
@@ -168,7 +167,7 @@
           height:400,
           params: {
             id: that.multipleSelection.map(item => item.id).join(),
-            name: that.roleDefaultIndex,
+            name: that.multipleSelection.map(item => item.codeName).join(),
             type: that.roleDefaultIndex,
             store:that.$store, //弹窗组件如果需要用到vuex，必须传值过去赋值
             action:"update"

@@ -58,7 +58,9 @@
                     label: 'name',
                   }">
                 </el-cascader>-->
-                <AreaSelect ref="areaSe" :selectLastLevelMode="true"></AreaSelect>
+                <AreaSelect ref="areaSe"
+                            @change="areaSelectedOptionsHandleChange"
+                            :selectLastLevelMode="true"></AreaSelect>
               </el-form-item>
             </td>
           </tr>
@@ -165,7 +167,7 @@
             ],
           },
         ],
-        areaSelectedOptions: [],
+        // areaSelectedOptions: [],
         industryList: [], // 行业
         levelList: [], // 级别
         seaList: [], // 公海
@@ -216,19 +218,14 @@
       }
     },
     props: ['params'],
-    watch: {
-      areaSelectedOptions (d) {
-        this.addForm.provinceId = d[0]
-        this.addForm.cityId = d[1]
-        this.addForm.areaId = d[2]
-      },
-    },
     methods: {
       areaSelectedOptionsHandleChange (value) {
-        console.log('value', value)
+        this.addForm.provinceId = value[0] || ''
+        this.addForm.cityId = value[1] || ''
+        this.addForm.areaId = value[2] || ''
       },
       saveSubmitForm (formName, addContact) {
-        console.log(this.$refs.areaSe.getSelectedValue(), '区域')
+        // console.log(this.$refs.areaSe.getSelectedValue(), '区域')
         this.$refs[formName].validate((valid) => {
           if (valid) {
             this.dataLoading = true
@@ -310,7 +307,7 @@
         })
       },
       getSeaList () {
-        API.customerSea.list({}, (data) => {
+        API.customerSea.list(null, (data) => {
           this.seaList = data.data.content
         })
       }

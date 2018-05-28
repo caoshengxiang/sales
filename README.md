@@ -345,6 +345,11 @@ axios 在webpack定义全局变量 `$axios`
  如：<i class="sprites sprites-btn-1"></i>
 > 将雪碧图换成了base64
 
+## 菜单部分使用iconFont
+
+> 目录中得html文件中有demo
+
+
 ## 接口全局配置 axios
 > axiosConfig.js 中配置服务器基本地址，统一的请求头不（包括authKey，Content-Type），后台返回的错误日志(error.message)
 

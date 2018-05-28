@@ -145,10 +145,31 @@ export default {
   },
   // 客户公海,客户池
   customerSea: {
-    list (params, success, error) { //
+    list (params, success, error) { // 列表
       $axios.get('customerSea', {
-        params: params,
+        params: {organizationId: params},
       }).then((res) => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+    },
+    add (params, success, error) { // add
+      $axios.post('customerSea', params).then((res) => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+    },
+    edit (params, success, error) { //
+      $axios.put('customerSea/' +  params.path, params.body).then((res) => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+    },
+    detail (params, success, error) { //
+      $axios.get('customerSea/' + params).then((res) => {
         success && success(res.data)
       }).catch((err) => {
         error && error(err)
@@ -170,6 +191,13 @@ export default {
     },
     regroup (params, success, error) { // 分组
       $axios.post('customerSea/regroup', params).then((res) => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+    },
+    deleteSea (params, success, error) { // 分组
+      $axios.delete('customerSea/' + params).then((res) => {
         success && success(res.data)
       }).catch((err) => {
         error && error(err)
@@ -275,7 +303,7 @@ export default {
         error && error(err)
       })
     },
-    transfer (params, success, error) { // 转移
+    transfer (params, success, error) { // 转移 newSalerId: '',chanceIds: ''
       $axios.post('salerChance/transfer',
         params).then((res) => {
         success && success(res.data)
