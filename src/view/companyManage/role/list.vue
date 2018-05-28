@@ -64,11 +64,9 @@
                     width="600"
                   >
                     <template slot-scope="scope">
-                      <el-radio v-model="scope.row.dataAuthority" :label="1">本人</el-radio>
-                      <el-radio v-model="scope.row.dataAuthority" :label="2">本人及下属</el-radio>
-                      <el-radio v-model="scope.row.dataAuthority" :label="3">本部门</el-radio>
-                      <el-radio v-model="scope.row.dataAuthority" :label="4">本部门及下属部门</el-radio>
-                      <el-radio v-model="scope.row.dataAuthority" :label="5">全部</el-radio>
+                      <el-radio v-model="scope.row.dataAuthority" :label="1">个人</el-radio>
+                      <el-radio v-model="scope.row.dataAuthority" :label="2">部门</el-radio>
+                      <el-radio v-model="scope.row.dataAuthority" :label="3">全部</el-radio>
                     </template>
                   </el-table-column>
                   <el-table-column
