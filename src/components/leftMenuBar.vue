@@ -290,4 +290,11 @@
   .el-menu-item {
     padding: 0;
   }
+  .iconfont {
+    width: 24px;
+    display: inline-block;
+  }
+  .el-submenu .el-menu-item {
+    padding-left: 55px !important;
+  }
 </style>
