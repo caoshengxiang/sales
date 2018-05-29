@@ -24,6 +24,7 @@
   import { mapState, mapMutations } from 'vuex'
   import feElement from '../components/feElement'
   import meElement from '../components/meElement'
+  import '../utils/axiosConfig' // axios配置文件
 
   export default {
     name: 'index',

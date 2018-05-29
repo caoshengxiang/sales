@@ -1,4 +1,5 @@
 import utils from '../utils/utils'
+import '../utils/axiosConfig' // axios配置文件
 export default {
   // app外部依赖接口,【注意：基本地址改变】
   external: {
@@ -114,7 +115,7 @@ export default {
       })
     },
     add (params, success, error) {
-      let p = Object.assign({}, params.body, params.query)
+      let p = Object.assign({}, params.body, params.query) // body参数需要加一个source来源属性
       $axios.post('customer', p).then((res) => {
         success && success(res.data)
       }).catch((err) => {

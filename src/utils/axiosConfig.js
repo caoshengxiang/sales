@@ -3,12 +3,16 @@ import { serverUrl } from './const'
 import { Message } from 'element-ui'
 import webStorage from 'webStorage'
 
-// console.log(webStorage.getItem('userInfo').authKey)
 $axios.defaults.baseURL = serverUrl
 $axios.defaults.timeout = 100000
 // $axios.defaults.headers['Content-Type'] = 'application/json; charset=UTF-8'
-$axios.defaults.headers.common['authKey'] = webStorage.getItem('userInfo').authKey
 $axios.defaults.headers.post['Content-Type'] = 'application/json;charset=UTF-8'
+let timer = setInterval(() => {
+  if (webStorage.getItem('userInfo')) {
+    clearInterval(timer)
+    $axios.defaults.headers.common['authKey'] = webStorage.getItem('userInfo').authKey
+  }
+}, 10)
 
 // 添加一个请求拦截器
 // let loadinginstace
