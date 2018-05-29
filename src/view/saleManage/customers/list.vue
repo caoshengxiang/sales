@@ -137,8 +137,8 @@
           label="销售人"
           width="160">
           <template slot-scope="scope">
-            <span v-for="item in scope.row.salerList"
-                  :key="item.salerId">{{item.salerName}}&nbsp;</span>
+            <span v-for="(item, index) in scope.row.salerList"
+                  :key="item.salerId"><span v-if="index > 0">、</span>{{item.salerName}}</span>
           </template>
         </el-table-column>
         <el-table-column
@@ -298,7 +298,7 @@
           API.customer.return({customerIds: arrToStr(this.multipleSelection, 'id')}, (data) => {
             if (data.status) {
               if (data.data.fail > 0) {
-                this.$message.warning(`成功${data.data.success},失败${data.data.fail}`)
+                this.$message.warning(`成功${data.data.success},失败${data.data.fail},失败原因：${data.data.errorMessage}`)
               } else {
                 this.$message.success(`成功${data.data.success},失败${data.data.fail}`)
               }

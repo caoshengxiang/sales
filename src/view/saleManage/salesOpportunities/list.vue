@@ -54,7 +54,7 @@
           show-overflow-tooltip
         >
           <template slot-scope="scope">
-            <a class="col-link" @click="handleRouter('detail', scope.row.id)">{{ scope.row.intentProductName }}</a>
+            <a class="col-link" @click="handleRouter('detail', scope.row.id)">{{ scope.row.intentProductName || '无名'}}</a>
           </template>
         </el-table-column>
         <el-table-column
@@ -263,7 +263,7 @@
               API.salesOpportunities.delete(arrToStr(this.multipleSelection, 'id'), (data) => {
                 if (data.status) {
                   if (data.data.fail > 0) {
-                    this.$message.warning(`成功${data.data.success},失败${data.data.fail}`)
+                    this.$message.warning(`成功${data.data.success},失败${data.data.fail},失败原因：${data.data.errorMessage}`)
                   } else {
                     this.$message.success(`成功${data.data.success},失败${data.data.fail}`)
                   }
