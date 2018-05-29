@@ -5,16 +5,18 @@
         <img src="../../assets/icon/logo.png" alt="">
         <span>众智联邦销售管理系统</span>
       </div>
+      <div class="sign-bc-title">
+      </div>
       <div class="sign-form-box">
         <el-form label-width="0px" :model="formData" :rules="rules" ref="ruleForm">
-          <el-form-item label="" prop="username">
-            <el-input v-model="formData.username" placeholder="请输入你的登录账号"></el-input>
+          <el-form-item label="账号" prop="username" class="el-item"  label-width="80px">
+            <el-input  v-model="formData.username" placeholder="请输入登录手机号"></el-input>
           </el-form-item>
-          <el-form-item label="" prop="password">
-            <el-input @keydown.native="keydown" type="password" v-model="formData.password" placeholder="请输入你的登录密码"></el-input>
+          <el-form-item label="密码" class="el-item"  prop="password" label-width="80px">
+            <el-input @keydown.native="keydown" type="password" v-model="formData.password" placeholder="请输入登录密码"></el-input>
           </el-form-item>
           <el-form-item label="" prop="type">
-            <el-checkbox-group v-model="isRemember">
+            <el-checkbox-group v-model="isRemember" class="rember">
               <el-checkbox label="记住密码" name="type"></el-checkbox>
             </el-checkbox-group>
             <a class="forget" @click="recoverPassword">忘记密码</a>
@@ -171,17 +173,40 @@
         margin-left: 20px;
       }
     }
+    .sign-bc-title{
+      margin: 80px auto 0 -150px;
+      width:820px;
+      height:6px;
+      background:rgba(11,195,196,1);
+    }
     .sign-form-box {
       margin: 80px auto 0 auto;
-      width: 340px;
+      width:400px;
+      height:400px;
+      background:rgba(255,255,255,1);
       .forget {
         float: right;
         margin-top: -38px;
         cursor: pointer;
       }
-      .el-submit {
+      .el-item{
+      }
+      .el-label{
+        width:33px;
+        height:14px;
+        font-size:16px;
+        font-family:MicrosoftYaHei;
+        color:rgba(114,131,149,1);
+        line-height:0px;
+      }
+      .rember{
+        margin: 0 auto 0 auto;
         width: 50%;
-        margin-left: 90px;
+      }
+      .el-submit {
+        width: 320px;
+        height:48px;
+        margin-left: 80px;
         background-color: #4BCF99;
         color: #fff;
         &:active {
