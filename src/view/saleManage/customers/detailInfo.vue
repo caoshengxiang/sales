@@ -124,128 +124,84 @@
           <el-tab-pane label="客户相关信息" name="related">
 
             <div class="related-btn-group">
-              <com-button buttonType="theme">联系人(2)</com-button>
-              <com-button buttonType="grey">销售需求(2)</com-button>
-              <com-button buttonType="grey">销售订单(2)</com-button>
+              <com-button buttonType="theme">联系人({{contactTotal}})</com-button>
+              <com-button buttonType="grey">销售机会({{chanceTotal}})</com-button>
+              <com-button buttonType="grey">销售订单({{orderTotal}})</com-button>
             </div>
 
             <p class="table-title">
-              联系人(2)
-              <a class="more">更多》</a>
+              联系人({{contactTotal}})
+              <a class="more" v-if="contactTotal > 5">更多》</a>
               <a class="table-add"><i class="el-icon-plus"></i>新增联系人</a>
             </p>
             <table class="detail-table related-table">
               <tr>
-                <th class="td-title">所在公海</th>
-                <th class="td-title">所在公海</th>
-                <th class="td-title">所在公海</th>
-                <th class="td-title">所在公海</th>
-                <th class="td-title">所在公海</th>
-                <th class="td-title">所在公海</th>
+                <th class="td-title">姓名</th>
+                <th class="td-title">联系电话</th>
+                <th class="td-title">公司职务</th>
+                <th class="td-title">微信</th>
+                <th class="td-title">QQ</th>
+                <th class="td-title">创建时间</th>
               </tr>
-              <tr>
-                <td>客户创建时间</td>
-                <td>2018.11.12 12:12:12</td>
-                <td>创建人</td>
-                <td>创建人</td>
-                <td>创建人</td>
-                <td>test</td>
-              </tr>
-              <tr>
-                <td>客户创建时间</td>
-                <td>2018.11.12 12:12:12</td>
-                <td>创建人</td>
-                <td>创建人</td>
-                <td>创建人</td>
-                <td>test</td>
-              </tr>
-              <tr>
-                <td>客户创建时间</td>
-                <td>2018.11.12 12:12:12</td>
-                <td>创建人</td>
-                <td>创建人</td>
-                <td>创建人</td>
-                <td>test</td>
+              <tr v-for="item in contactList" :key="item.id">
+                <td>{{item.contacterName}}</td>
+                <td>{{item.phone}}</td>
+                <td>{{item.position}}</td>
+                <td>{{item.wx}}</td>
+                <td>{{item.qq}}</td>
+                <td>{{$moment(item.created).format('YYYY-MM-DD HH:mm:ss')}}</td>
               </tr>
             </table>
 
             <p class="table-title">
-              销售机会(2)
-              <a class="more">更多》</a>
+              销售机会({{chanceTotal}})
+              <a class="more" v-if="chanceTotal > 5">更多》</a>
               <a class="table-add"><i class="el-icon-plus"></i>新增销售需求</a>
             </p>
             <table class="detail-table related-table">
               <tr>
-                <th class="td-title">所在公海</th>
-                <th class="td-title">所在公海</th>
-                <th class="td-title">所在公海</th>
-                <th class="td-title">所在公海</th>
-                <th class="td-title">所在公海</th>
-                <th class="td-title">所在公海</th>
+                <th class="td-title">联系人</th>
+                <th class="td-title">需求阶段</th>
+                <th class="td-title">需求商品</th>
+                <th class="td-title">关联订单</th>
+                <th class="td-title">创建时间</th>
+                <th class="td-title">快捷操作</th>
               </tr>
-              <tr>
-                <td>客户创建时间</td>
-                <td>2018.11.12 12:12:12</td>
-                <td>创建人</td>
-                <td>创建人</td>
-                <td>创建人</td>
-                <td>test</td>
-              </tr>
-              <tr>
-                <td>客户创建时间</td>
-                <td>2018.11.12 12:12:12</td>
-                <td>创建人</td>
-                <td>创建人</td>
-                <td>创建人</td>
-                <td>test</td>
-              </tr>
-              <tr>
-                <td>客户创建时间</td>
-                <td>2018.11.12 12:12:12</td>
-                <td>创建人</td>
-                <td>创建人</td>
-                <td>创建人</td>
-                <td>test</td>
+              <tr v-for="item in chanceList" :key="item.id">
+                <td>{{item.contacterName}}</td>
+                <td><span v-for="st in salesState" :key="st.type"
+                          v-if="st.type === item.stage">{{item.value}}&nbsp;&nbsp;{{item.percent}}</span></td>
+                <td>{{item.intentProductName}}</td>
+                <td></td>
+                <td></td>
+                <td><a class="table-op">删除</a></td>
               </tr>
             </table>
 
             <p class="table-title">
-              销售订单(2)
-              <a class="more">更多》</a>
+              销售订单({{orderTotal}})
+              <a class="more" v-if="orderTotal > 5">更多》</a>
               <a class="table-add"><i class="el-icon-plus"></i>新增销售订单</a>
             </p>
             <table class="detail-table related-table">
               <tr>
-                <th class="td-title">所在公海</th>
-                <th class="td-title">所在公海</th>
-                <th class="td-title">所在公海</th>
-                <th class="td-title">所在公海</th>
-                <th class="td-title">所在公海</th>
-                <th class="td-title">所在公海</th>
+                <th class="td-title">订单编号</th>
+                <th class="td-title">销售商品</th>
+                <th class="td-title">签单金额</th>
+                <th class="td-title">回款金额</th>
+                <th class="td-title">订单状态</th>
+                <th class="td-title">创建时间</th>
+                <th class="td-title">快捷操作</th>
               </tr>
-              <tr>
-                <td>客户创建时间</td>
-                <td>2018.11.12 12:12:12</td>
-                <td>创建人</td>
-                <td>创建人</td>
-                <td>创建人</td>
-                <td>test</td>
-              </tr>
-              <tr>
-                <td>客户创建时间</td>
-                <td>2018.11.12 12:12:12</td>
-                <td>创建人</td>
-                <td>创建人</td>
-                <td>创建人</td>
-                <td>test</td>
-              </tr>
-              <tr>
-                <td>客户创建时间</td>
-                <td>2018.11.12 12:12:12</td>
-                <td>创建人</td>
-                <td>创建人</td>
-                <td>创建人</td>
-                <td>test</td>
+              <tr v-for="item in orderList" :key="item.id">
+                <td>{{item.id}}</td>
+                <td>{{item.productName}}</td>
+                <td>{{item.billAmount}}</td>
+                <td>{{item.refund_amount}}</td>
+                <td><span v-for="os in orderState" :key="os.type"
+                          v-if="item.orderState === os.type">{{os.value}}</span></td>
+                <td>{{$moment(item.created).format('YYYY-MM-DD HH:mm:ss')}}</td>
+                <td><a class="table-op">删除</a></td>
               </tr>
             </table>
           </el-tab-pane>
@@ -287,14 +243,6 @@
         </ul>
       </div>
     </div>
-    <!-- -->
-    <!-- -->
-    <!--编辑弹窗-->
-    <!--<add-dialog type="edit" :customerDetail="customerDetail" :addDialogOpen="addDialogOpen" @hasAddDialogOpen="addDialogOpen = false"></add-dialog>-->
-    <!-- -->
-    <!-- -->
-    <!--转移客户弹窗-->
-    <!--<move-dialog :moveDialogOpen="moveDialogOpen" @hasMoveDialogOpen="moveDialogOpen = false"></move-dialog>-->
   </div>
 </template>
 
@@ -311,10 +259,14 @@
     data () {
       return {
         dataLoading: false,
-        // addDialogOpen: false, // 新增弹窗
-        // moveDialogOpen: false, // 转移弹窗
         tapOption: '',
         activeViewName: '',
+        contactList: [],
+        contactTotal: 0,
+        chanceList: [],
+        chanceTotal: 0,
+        orderList: [],
+        orderTotal: 0,
       }
     },
     computed: {
@@ -322,6 +274,8 @@
         'customerSourceType',
         'customerState',
         'customerAddSource',
+        'salesState',
+        'orderState',
       ]),
       ...mapState('customer', [
         'customerDetail',
@@ -347,15 +301,6 @@
           name: 'customersDetail',
           params: {end: 'FE'},
           query: {view: tab.name, customerId: this.$route.query.customerId},
-        })
-      },
-      getCustomerDetail () {
-        this.dataLoading = true
-        API.customer.detail({id: this.$route.query.customerId}, (data) => {
-          this.ac_customerDetail(data.data)
-          setTimeout(() => {
-            this.dataLoading = false
-          }, 500)
         })
       },
       operateOptions (option) {
@@ -387,7 +332,7 @@
               API.customer.return({customerIds: arrToStr([{id: this.$route.query.customerId}], 'id')}, (data) => {
                 if (data.status) {
                   if (data.data.fail > 0) {
-                    this.$message.warning(`成功${data.data.success},失败${data.data.fail}`)
+                    this.$message.warning(`成功${data.data.success}, 失败${data.data.fail}, 失败原因：${data.data.errorMessage}`)
                   } else {
                     this.$message.success(`成功${data.data.success},失败${data.data.fail}`)
                   }
@@ -415,10 +360,40 @@
             break
         }
       },
+      getCustomerDetail () {
+        this.dataLoading = true
+        API.customer.detail({id: this.$route.query.customerId}, (data) => {
+          this.ac_customerDetail(data.data)
+          setTimeout(() => {
+            this.dataLoading = false
+          }, 500)
+        })
+      },
+      getContactList () {
+        API.contacts.list({customerId: this.$route.query.customerId, pageSize: 5}, (da) => {
+          this.contactList = da.data.content
+          this.contactTotal = da.data.totalElements
+        })
+      },
+      getChanceList () {
+        API.contacts.list({customerId: this.$route.query.customerId, pageSize: 5}, (da) => {
+          this.chanceList = da.data.content
+          this.chanceTotal = da.data.totalElements
+        })
+      },
+      getOrderList () { // todo
+        API.salesOrder.list({customerId: this.$route.query.customerId, pageSize: 5}, (da) => {
+          this.orderList = da.data.content
+          this.orderTotal = da.data.totalElements
+        })
+      }
     },
     created () {
       this.activeViewName = this.$route.query.view
       this.getCustomerDetail()
+      this.getContactList()
+      this.getChanceList()
+      this.getOrderList()
     },
   }
 </script>

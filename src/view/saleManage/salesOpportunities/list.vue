@@ -263,7 +263,7 @@
               API.salesOpportunities.delete(arrToStr(this.multipleSelection, 'id'), (data) => {
                 if (data.status) {
                   if (data.data.fail > 0) {
-                    this.$message.warning(`成功${data.data.success},失败${data.data.fail},失败原因：${data.data.errorMessage}`)
+                    this.$message.warning(`成功${data.data.success}, 失败${data.data.fail}, 失败原因：${data.data.errorMessage}`)
                   } else {
                     this.$message.success(`成功${data.data.success},失败${data.data.fail}`)
                   }

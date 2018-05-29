@@ -71,7 +71,7 @@
         </el-table-column>
         <el-table-column
           align="center"
-          prop="levelName"
+          prop="level"
           label="客户级别"
           width="160"
           show-overflow-tooltip>
@@ -88,7 +88,7 @@
         </el-table-column>
         <el-table-column
           align="center"
-          prop=""
+          prop="followerName"
           label="最近跟进人"
           show-overflow-tooltip>
         </el-table-column>
@@ -191,7 +191,7 @@
               API.customerSea.fish({customerIds: arrToStr(this.multipleSelection, 'id')}, (data) => {
                 if (data.status) {
                   if (data.data.fail > 0) {
-                    this.$message.warning(`成功${data.data.success},失败${data.data.fail},失败原因：${data.data.errorMessage}`)
+                    this.$message.warning(`成功${data.data.success}, 失败${data.data.fail}, 失败原因：${data.data.errorMessage}`)
                   } else {
                     this.$message.success(`成功${data.data.success},失败${data.data.fail}`)
                   }

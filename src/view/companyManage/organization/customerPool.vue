@@ -359,7 +359,7 @@
       }
     },
     created () {
-      this.getOrganization({pid: 0})
+      this.getOrganization({pid: 1})
     }
   }
 </script>

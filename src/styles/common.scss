@@ -299,6 +299,11 @@
     &.related-table { // 相关信息
       th, td {
         text-align: center;
+        .table-op {
+          cursor: pointer;
+          color: blue;
+          text-decoration: underline;
+        }
       }
     }
 
