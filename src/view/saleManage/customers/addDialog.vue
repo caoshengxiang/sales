@@ -244,7 +244,7 @@
             this.dataLoading = true
             if (this.dialogType === 'add') {
               API.customer.add({
-                query: {source: this.params.customerAddSource[this.params.customerAddSourceIndex].type},
+                query: {pageSource: this.params.pageSource},
                 body: this.addForm,
               }, (data) => {
                 if (data.status) {

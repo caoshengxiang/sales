@@ -12,7 +12,7 @@ let timer = setInterval(() => {
     clearInterval(timer)
     $axios.defaults.headers.common['authKey'] = webStorage.getItem('userInfo').authKey
   }
-}, 10)
+}, 100)
 
 // 添加一个请求拦截器
 // let loadinginstace
@@ -39,6 +39,11 @@ $axios.interceptors.response.use((response) => {
   if (!response.data.status) { // 后台返回错误
     setTimeout(() => {
       Message.error(response.data.error.message)
+    }, 0)
+    setTimeout(() => {
+      if (response.data.error.statusCode === '10004') {
+        location.href = '/'
+      }
     }, 1000)
   }
   // setTimeout(() => {

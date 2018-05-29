@@ -264,7 +264,7 @@
           height: 410,
           params: {
             customerAddSource: this.customerAddSource,
-            customerAddSourceIndex: 1,
+            pageSource: 1, // 1:客户管理模块 2:客户公海模块
           },
           callback (data) {
             if (data.type === 'save') {
