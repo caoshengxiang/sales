@@ -1,11 +1,13 @@
 import { serverUrl } from './const'
 // import { Message, Loading } from 'element-ui'
 import { Message } from 'element-ui'
+import webStorage from 'webStorage'
 
+// console.log(webStorage.getItem('userInfo').authKey)
 $axios.defaults.baseURL = serverUrl
 $axios.defaults.timeout = 100000
 // $axios.defaults.headers['Content-Type'] = 'application/json; charset=UTF-8'
-$axios.defaults.headers.common['authKey'] = '1234567890' // todo 改为实际authKey
+$axios.defaults.headers.common['authKey'] = webStorage.getItem('userInfo').authKey
 $axios.defaults.headers.post['Content-Type'] = 'application/json;charset=UTF-8'
 
 // 添加一个请求拦截器
