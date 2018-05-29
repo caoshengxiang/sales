@@ -22,7 +22,6 @@
                       placeholder="请再次输入新的密码"></el-input>
           </el-form-item>
 
-
           <el-form-item>
             <el-button class="el-submit" @click="submitForm('ruleForm')">确定</el-button>
           </el-form-item>
@@ -66,7 +65,8 @@
         isRemember: false,
         rules: {
           phone: [
-            {required: true, message: '请输入手机号', trigger: 'blur'},
+            // {required: true, message: '请输入手机号', trigger: 'blur'},
+            chartLengthRule.validatePhone,
           ],
           oldpassword: [
             {required: true, message: '请输初始密码', trigger: 'blur'},

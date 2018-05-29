@@ -4,15 +4,14 @@
         <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="180px"
                  class="demo-ruleForm">
           <el-form-item label="请选择协同咨询师类型" prop="consultantType">
-            <el-radio-group v-model="ruleForm.consultantType">
+            <el-radio-group v-model="ruleForm.principalType">
               <el-radio label="专业咨询师"></el-radio>
               <el-radio label="同部门其他销售人员"></el-radio>
             </el-radio-group>
           </el-form-item>
-          <el-form-item label="请选择协同咨询师人员" prop="consultant">
-            <el-select v-model="ruleForm.consultant" placeholder="请选择新的销售人员">
-              <el-option label="人员1" value="1"></el-option>
-              <el-option label="人员2" value="2"></el-option>
+          <el-form-item label="请选择协同咨询师人员" prop="principalId">
+            <el-select v-model.number="ruleForm.principalId" placeholder="请选择协同咨询师人员">
+              <el-option v-for="item in userList" :key="item.id" :label="item.name" :value="item.id"></el-option>
             </el-select>
           </el-form-item>
         </el-form>
@@ -25,25 +24,30 @@
 </template>
 
 <script>
+  import API from '../../../utils/api'
   export default {
     name: 'applyDialog',
     data () {
       return {
         dataLoading: false,
         ruleForm: {
-          consultantType: '',
-          consultant: '',
+          businessType: 1, // 关联业务类型 1:销售机会
+          principalType: '',
+          principalId: '',
+          chanceId: '',
         },
         rules: {
           consultantType: [
-            {required: true, message: '请选择协同咨询师类型', trigger: 'change'},
+            // {required: true, message: '请选择协同咨询师类型', trigger: 'change'},
           ],
-          consultant: [
+          principalId: [
             {required: true, message: '请选择协同咨询师人员', trigger: 'change'},
           ],
         },
+        userList: []
       }
     },
+    props: ['params'],
     methods: {
       cancelSubmitForm () {
         this.$vDialog.close({type: 'cancel'})
@@ -51,15 +55,39 @@
       saveSubmitForm (formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            alert('submit!')
-            this.$vDialog.close({type: 'save'})
+            this.dataLoading = true
+            API.task.approvalCounselor(this.ruleForm, (data) => {
+              if (data.data) {
+                setTimeout(() => {
+                  this.dataLoading = false
+                  this.$message.success('操作成功')
+                  this.$vDialog.close({type: 'save'})
+                }, 500)
+              } else {
+                setTimeout(() => {
+                  this.dataLoading = false
+                }, 500)
+              }
+            })
           } else {
             console.log('error submit!!')
             return false
           }
         })
       },
+      getUserList (page, pageSize) {
+        API.user.userList({
+          page: page,
+          pageSize: pageSize
+        }, (da) => {
+          this.userList = da.data.content
+        })
+      }
     },
+    created () {
+      this.getUserList(0, null)
+      this.ruleForm.chanceId = this.params.chanceId
+    }
   }
 </script>
 

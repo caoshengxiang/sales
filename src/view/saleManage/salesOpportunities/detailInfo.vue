@@ -374,7 +374,7 @@
               height: 240,
               params: {
                 salesState: this.salesState,
-                multipleSelection: [{id: this.salesOpportunitiesDetail.id}]
+                multipleSelection: [{id: this.salesOpportunitiesDetail.id}],
               },
               callback (data) {},
             })
@@ -417,10 +417,11 @@
               height: 280,
               params: {
                 consultantType: 'apply',
+                chanceId: this.salesOpportunitiesDetail.id,
               },
-              callback (data) {
+              callback: (data) => {
                 if (data.type === 'save') {
-                  alert('弹窗关闭，添加成功刷新列表')
+                  this.getSalesOpportunitiesDetail()
                 }
               },
             })
@@ -431,7 +432,7 @@
               cancelButtonText: '取消',
               type: 'warning',
             }).then(() => {
-              API.salesOpportunities.delete(this.salesOpportunitiesDetail.id, (data) => {
+              API.salesOpportunities.counselorExit(this.salesOpportunitiesDetail.id, (data) => {
                 if (data.status) {
                   this.$message.success('操作成功')
                 }
@@ -447,13 +448,14 @@
             this.$vDialog.modal(applyDialog, {
               title: '申请替换咨询师',
               width: 520,
-              height: 240,
+              height: 280,
               params: {
                 consultantType: 'replace',
+                chanceId: this.salesOpportunitiesDetail.id,
               },
-              callback (data) {
+              callback: (data) => {
                 if (data.type === 'save') {
-                  alert('弹窗关闭，添加成功刷新列表')
+                  this.getSalesOpportunitiesDetail()
                 }
               },
             })

@@ -1,10 +1,10 @@
 export const pageMinWidth = 1100 // 页面最小宽度
-export const version = '1.1.4'
+export const versionLogs = 'version: 1.1.5, 发布时间：2018.5.29'
 export const serverUrl = 'http://sales.dcstar-inc.com/sales' // server地址
 
 // 表单验证
 const validatePhone = (rule, value, callback) => { // 自定义规则验证手机号
-  let regPhone = /^1[3,4,5,7,8][0-9]\d{9}$/
+  let regPhone = /^1[3,4,5,7,8][0-9]{9}$/
   if (value === '') {
     callback(new Error('请输入手机号'))
   } else if (!regPhone.test(value)) {

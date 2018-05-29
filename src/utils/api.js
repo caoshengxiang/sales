@@ -310,7 +310,14 @@ export default {
       }).catch((err) => {
         error && error(err)
       })
-  },
+     },
+    counselorExit (params, success, error) { // 咨询师主动退出
+      $axios.post('salerChance/counselorExit/' + params).then((res) => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+    },
   },
   // 销售订单
   salesOrder: {
@@ -841,6 +848,17 @@ export default {
         setTimeout(() => {
           error && error(mockdata)
         }, 1000)
+      })
+    },
+    approvalCounselor (params, success, error) { // 申请咨询师协同（替换）
+      $axios({
+        method: 'post',
+        url: 'approval/counselor',
+        data: params
+      }).then((res) => {
+        success && success(res.data)
+      }).catch((err) => {
+          error && error(err)
       })
     },
   },
