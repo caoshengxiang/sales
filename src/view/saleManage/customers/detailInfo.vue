@@ -49,13 +49,13 @@
                 <td class="td-title">营业执照</td>
                 <td>{{customerDetail.businessLicense}}</td>
                 <td class="td-title">客户级别</td>
-                <td>{{customerDetail.levelName}}</td>
+                <td>{{customerDetail.level}}</td>
               </tr>
               <tr>
                 <td class="td-title">客户简称</td>
                 <td>{{customerDetail.shortName}}</td>
                 <td class="td-title">客户行业</td>
-                <td>{{customerDetail.industryName}}</td>
+                <td>{{customerDetail.industry}}</td>
                 <td class="td-title">客户来源</td>
                 <td>
                   <span v-for="item in customerSourceType" :key="item.type"
@@ -264,43 +264,27 @@
               <img src="../../../assets/icon/headDefault.png" alt="">
             </div>
             <div class="text">
-              <h4>{{salesOpportunitiesDetail.team && salesOpportunitiesDetail.team.creatorName}}</h4>
-              <p>{{salesOpportunitiesDetail.team && salesOpportunitiesDetail.team.creatorMobilePhone}}</p>
+              <h4>{{customerDetail.team.creatorName}}</h4>
+              <p>{{customerDetail.team.mobilePhone}}</p>
             </div>
             <div class="post">
               <span class="post-tag-1">创建人</span>
             </div>
           </li>
-          <li class="team-member-item">
+          <li class="team-member-item" :key="item.salerId" v-for="item in customerDetail.team.salerList">
             <div class="head">
               <img src="../../../assets/icon/headDefault.png" alt="">
             </div>
             <div class="text">
-              <h4>{{salesOpportunitiesDetail.team && salesOpportunitiesDetail.team.salerName}}</h4>
-              <p>{{salesOpportunitiesDetail.team && salesOpportunitiesDetail.team.salerMobilePhone}}</p>
+              <h4>{{item.salerName}}</h4>
+              <p>{{item.mobilePhone}}</p>
             </div>
             <div class="post">
+              <!--<span class="post-tag-1">创建人</span>-->
               <span class="post-tag-2">销售员</span>
             </div>
           </li>
-          <li class="team-member-item">
-            <div class="head">
-              <img src="../../../assets/icon/headDefault.png" alt="">
-            </div>
-            <div class="text">
-              <h4>{{salesOpportunitiesDetail.team && salesOpportunitiesDetail.team.counselorName}}</h4>
-              <p>{{salesOpportunitiesDetail.team && salesOpportunitiesDetail.team.counselorMobilePhone}}</p>
-            </div>
-            <div class="post">
-              <span class="post-tag-2">咨询师</span>
-            </div>
-          </li>
         </ul>
-        <div class="team-btn-group">
-          <div class="btn-item-1" @click="operateOptions('apply')">申请咨询师协同</div>
-          <div class="btn-item-2" @click="operateOptions('exit')">咨询师主动退出</div>
-          <div class="btn-item-3" @click="operateOptions('replace')">申请替换咨询师</div>
-        </div>
       </div>
     </div>
     <!-- -->
@@ -331,7 +315,6 @@
         // moveDialogOpen: false, // 转移弹窗
         tapOption: '',
         activeViewName: '',
-        salesOpportunitiesDetail:''
       }
     },
     computed: {

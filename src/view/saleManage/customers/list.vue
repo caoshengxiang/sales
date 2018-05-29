@@ -67,14 +67,14 @@
         <el-table-column
           show-overflow-tooltip
           align="center"
-          prop="levelName"
+          prop="level"
           label="客户级别"
           width="160">
         </el-table-column>
         <el-table-column
           show-overflow-tooltip
           align="center"
-          prop="industryName"
+          prop="industry"
           label="客户行业"
           width="160">
         </el-table-column>

@@ -22,7 +22,7 @@
               <!--<input type="text" v-model="addForm.levelName">-->
               <el-form-item prop="level">
                 <el-select v-model.number="addForm.level" @change="selectLevel" placeholder="请选择客户级别">
-                  <el-option v-for="item in levelList" :key="item.id" :label="item.codeName" :value="item.id"></el-option>
+                  <el-option v-for="item in levelList" :key="item.codeName" :label="item.codeName" :value="item.codeName"></el-option>
                 </el-select>
               </el-form-item>
             </td>
@@ -39,7 +39,7 @@
               <!--<input type="text" v-model="addForm.industry">-->
               <el-form-item prop="industry">
                 <el-select v-model.number="addForm.industry" @change="selectIndustry" placeholder="请选择客户行业">
-                  <el-option v-for="item in industryList" :key="item.id" :label="item.codeName" :value="item.id"></el-option>
+                  <el-option v-for="item in industryList" :key="item.codeName" :label="item.codeName" :value="item.codeName"></el-option>
                 </el-select>
               </el-form-item>
             </td>
@@ -224,18 +224,18 @@
         this.addForm.areaId = value[2] || ''
       },
       selectLevel (val) {
-        this.levelList.forEach(item => {
-          if (item.id === val) {
-            this.addForm.levelName = item.codeName
-          }
-        })
+        // this.levelList.forEach(item => {
+        //   if (item.id === val) {
+        //     this.addForm.levelName = item.codeName
+        //   }
+        // })
       },
       selectIndustry (val) {
-        this.industryList.forEach(item => {
-          if (item.id === val) {
-            this.addForm.industryName = item.codeName
-          }
-        })
+        // this.industryList.forEach(item => {
+        //   if (item.id === val) {
+        //     this.addForm.industryName = item.codeName
+        //   }
+        // })
       },
       saveSubmitForm (formName, addContact) {
         // console.log(this.$refs.areaSe.getSelectedValue(), '区域')
