@@ -43,7 +43,7 @@ $axios.interceptors.response.use((response) => {
     setTimeout(() => {
       if (response.data.error.statusCode === '10004') {
         // location.href = '/'
-        console.log(response)
+        webStorage.removeItem('userInfo') // 未登录，删除用户storage
       }
     }, 1000)
   }
@@ -59,3 +59,9 @@ $axios.interceptors.response.use((response) => {
   })
   return Promise.reject(error)
 })
+
+export function getUserAuth () { // 只获取一次uathKey问题？ --》临时解决方案，需要在api.js 定义接口方法时调用该方法获取一次
+  if (webStorage.getItem('userInfo')) {
+    $axios.defaults.headers.common['authKey'] = webStorage.getItem('userInfo').authKey
+  }
+}
