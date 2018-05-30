@@ -234,7 +234,7 @@
     }
 
     .footer {
-      height: 20%;
+      height: 10%;
       background-color: #D7DDE4;
       position: absolute;
       bottom: 0;
@@ -271,7 +271,7 @@
       .sign-form-box {
         margin: 80px auto 0 auto;
         width: 100%;
-        padding: 50px;
+        padding: 50px 0;
         box-shadow: 0px 5px 5px #999999;
         border-top: 6px solid #0BC3C4;
         .el-form-w {
@@ -296,7 +296,7 @@
       }
     }
     .footer {
-      height: 20%;
+      height: 10%;
       background-color: #D7DDE4;
       position: absolute;
       bottom: 0;
@@ -315,7 +315,7 @@
   .change-client {
     position: absolute;
     right: 100px;
-    bottom: 21%;
+    bottom: 11%;
     text-align: right;
     a{
       color: blue;
