@@ -241,9 +241,8 @@
             var loopDo = function (list,id) {
               for (var i =0;i<list.length;i++) {
                 var item = list[i];
-                if (item.id == id) {       alert("成功")
+                if (item.id == id) {      
                   that.selectedOptions.push(item.id);
-                  alert("成功1")
                   if(item.pid > 0)
                   {
                     loopDo(that.alldepartments,item.pid);
