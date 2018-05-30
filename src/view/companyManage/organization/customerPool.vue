@@ -272,7 +272,7 @@
         this.getPollList(id)
       },
       getOrganization (pa) {
-        API.organization.queryList(pa, (data) => {
+        API.organization.queryAllList(pa, (data) => {
           this.organizationOptions = data.data
           this.organizationId = data.data[0].id // 默认显示第一个id
           API.customerSea.list(this.organizationId, (da) => {

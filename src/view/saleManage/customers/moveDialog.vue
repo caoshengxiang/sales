@@ -5,7 +5,7 @@
                class="demo-ruleForm">
         <el-form-item label="请选择待转移的销售" prop="oldSalerId">
           <el-select v-model="moveCustomerForm.oldSalerId" placeholder="请选择待转移的销售">
-            <el-option v-for="item in salerList" :key="item.id" :label="item.name" :value="item.id"></el-option>
+            <el-option v-for="item in oldSalerList" :key="item.id" :label="item.name" :value="item.id"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="请选择新的销售人员" prop="newSalerId">
@@ -51,6 +51,7 @@
           newSalerId: '',
         },
         salerList: [],
+        oldSalerList: [],
         rules: {
           oldSalerId: [
             {required: true, message: '请选择待转移的销售', trigger: 'change'},
@@ -100,10 +101,16 @@
         API.user.userSearch({type: type, roleId: roleId, organizationId: organizationId}, (data) => {
           this.salerList = data.data
         })
+      },
+      getOldSalerList (type, roleId, organizationId) {
+        API.user.userSearch({type: type, roleId: roleId, organizationId: organizationId}, (data) => {
+          this.oldSalerList = data.data
+        })
       }
     },
     created () {
       this.getUserSearch()
+      this.getOldSalerList()
       this.moveCustomerForm.customerIds = arrToStr(this.params.customerIds, 'id')
     },
   }
