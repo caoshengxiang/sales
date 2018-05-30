@@ -204,7 +204,7 @@
             value: 4,
             label: '我参与的客户',
           }],
-        orderTypeOption: 0,
+        orderTypeOption: null,
         tableData: [],
         tableDataTotal: 0,
         multipleSelection: [],

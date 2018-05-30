@@ -252,7 +252,8 @@
   import { mapState, mapActions } from 'vuex'
   import addDialog from './addDialog'
   import moveDialog from './moveDialog'
-  import { arrToStr } from '../../../utils/utils'
+  // import { arrToStr } from '../../../utils/utils'
+  import returnPoll from './returnPoll'
 
   export default {
     name: 'detailInfo',
@@ -311,7 +312,7 @@
             this.$vDialog.modal(addDialog, {
               title: '编辑客户',
               width: 900,
-              height: 410,
+              height: 460,
               params: {
                 customerAddSource: this.customerAddSource,
                 detail: this.customerDetail,
@@ -324,26 +325,40 @@
             })
             break
           case 'back':
-            this.$confirm('确定退回公海池, 是否继续?', '提示', {
-              confirmButtonText: '确定',
-              cancelButtonText: '取消',
-              type: 'warning',
-            }).then(() => {
-              API.customer.return({customerIds: arrToStr([{id: this.$route.query.customerId}], 'id')}, (data) => {
-                if (data.status) {
-                  if (data.data.fail > 0) {
-                    this.$message.warning(`成功${data.data.success}, 失败${data.data.fail}, 失败原因：${data.data.errorMessage}`)
-                  } else {
-                    this.$message.success(`成功${data.data.success},失败${data.data.fail}`)
-                  }
+            let that = this
+            this.$vDialog.modal(returnPoll, {
+              title: '转移客户',
+              width: 600,
+              height: 220,
+              params: {
+                customerIds: [{id: this.$route.query.customerId}],
+              },
+              callback (data) {
+                if (data.type === 'save') {
+                  that.getCustomerList(that.currentPage - 1, that.pagesOptions.pageSize, that.customerType)
                 }
-              })
-            }).catch(() => {
-              this.$message({
-                type: 'info',
-                message: '已取消',
-              })
+              },
             })
+            // this.$confirm('确定退回公海池, 是否继续?', '提示', {
+            //   confirmButtonText: '确定',
+            //   cancelButtonText: '取消',
+            //   type: 'warning',
+            // }).then(() => {
+            //   API.customer.return({customerIds: arrToStr([{id: this.$route.query.customerId}], 'id')}, (data) => {
+            //     if (data.status) {
+            //       if (data.data.fail > 0) {
+            //         this.$message.warning(`成功${data.data.success}, 失败${data.data.fail}, 失败原因：${data.data.errorMessage}`)
+            //       } else {
+            //         this.$message.success(`成功${data.data.success},失败${data.data.fail}`)
+            //       }
+            //     }
+            //   })
+            // }).catch(() => {
+            //   this.$message({
+            //     type: 'info',
+            //     message: '已取消',
+            //   })
+            // })
             break
           case 'move':
             this.$vDialog.modal(moveDialog, {

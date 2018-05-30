@@ -8,24 +8,24 @@
             <el-option v-for="item in salerList" :key="item.id" :label="item.name" :value="item.id"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="请选择新的销售人员" prop="newSalerId">
-          <el-select v-model="moveCustomerForm.newSalerId" placeholder="请选择新的销售人员">
-            <el-option v-for="item in salerList" :key="item.id" :label="item.name" :value="item.id"></el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="请选择转移业务类型" prop="transferType">
-          <el-radio-group v-model="moveCustomerForm.transferType">
-            <div class="radio-group-item">
-              <el-radio :label="1">转移客户，转移销售机会，不保留团队成员身份</el-radio>
-            </div>
-            <div class="radio-group-item">
-              <el-radio :label="2">转移客户，转移销售机会，保留团队成员身份</el-radio>
-            </div>
-            <div class="radio-group-item">
-              <el-radio :label="3">转移客户，不转移销售机会，保留团队成员身份</el-radio>
-            </div>
-          </el-radio-group>
-        </el-form-item>
+        <!--<el-form-item label="请选择新的销售人员" prop="newSalerId">-->
+          <!--<el-select v-model="moveCustomerForm.newSalerId" placeholder="请选择新的销售人员">-->
+            <!--<el-option v-for="item in salerList" :key="item.id" :label="item.name" :value="item.id"></el-option>-->
+          <!--</el-select>-->
+        <!--</el-form-item>-->
+        <!--<el-form-item label="请选择转移业务类型" prop="transferType">-->
+          <!--<el-radio-group v-model="moveCustomerForm.transferType">-->
+            <!--<div class="radio-group-item">-->
+              <!--<el-radio :label="1">转移客户，转移销售机会，不保留团队成员身份</el-radio>-->
+            <!--</div>-->
+            <!--<div class="radio-group-item">-->
+              <!--<el-radio :label="2">转移客户，转移销售机会，保留团队成员身份</el-radio>-->
+            <!--</div>-->
+            <!--<div class="radio-group-item">-->
+              <!--<el-radio :label="3">转移客户，不转移销售机会，保留团队成员身份</el-radio>-->
+            <!--</div>-->
+          <!--</el-radio-group>-->
+        <!--</el-form-item>-->
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button class="cancel-button" @click="cancelSubmitForm">取 消</el-button>
@@ -47,8 +47,8 @@
         moveCustomerForm: {
           oldSalerId: '',
           customerIds: '',
-          transferType: '',
-          newSalerId: '',
+          // transferType: '',
+          // newSalerId: '',
         },
         salerList: [],
         rules: {
@@ -73,7 +73,7 @@
         this.$refs[formName].validate((valid) => {
           if (valid) {
             this.dataLoading = true
-            API.customer.transfer(this.moveCustomerForm, (data) => {
+            API.customer.return({customerIds: arrToStr(this.multipleSelection, 'id')}, (data) => {
               if (data.status) {
                 if (data.data.fail > 0) {
                   this.$message.warning(`成功${data.data.success}, 失败${data.data.fail}, 失败原因：${data.data.errorMessage}`)
