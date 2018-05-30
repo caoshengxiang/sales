@@ -323,7 +323,7 @@ export default {
     },
     confirm (params, success, error) { // 需求确认
       setUserAuth()
-      $axios.put('salerChance/confirm/' + params.path,
+      $axios.post('salerChance/confirm/' + params.path,
         params.body).then((res) => {
         success && success(res.data)
       }).catch((err) => {

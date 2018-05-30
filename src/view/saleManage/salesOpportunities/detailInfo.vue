@@ -37,8 +37,8 @@
       </div>
       <div class="step-box">
         <div class="step">
-          <el-steps :active="salesOpportunitiesDetail.stage - 1" align-center>
-            <el-step v-for="(item, index) in salesState" :key="index"
+          <el-steps :active="salesOpportunitiesDetail.stage" align-center>
+            <el-step @click.native="stepClickHandle(item)" v-for="(item, index) in salesState" :key="index"
                      :title="item.value + '(' + item.percent + ')'"></el-step>
             <el-step title="输单"></el-step>
           </el-steps>
@@ -261,6 +261,7 @@
   import applyDialog from './applyDialog'
   // import { arrToStr } from '../../../utils/utils'
   import discard from './discard'
+  import addDialog from './addDialog'
 
   export default {
     name: 'detailInfo',
@@ -345,8 +346,10 @@
               params: {
                 detail: this.salesOpportunitiesDetail,
               },
-              callback (data) {
-                if (data.type === 'save') {}
+              callback: (data) => {
+                if (data.type === 'save') {
+                  this.getSalesOpportunitiesDetail()
+                }
               },
             })
             break
@@ -428,6 +431,32 @@
           this.orderRecordsList = da.data.content
           this.orderRecordsList = da.data.totalElements
         })
+      },
+      stepClickHandle (step) {
+        // alert(step.type)
+        // console.log(step)
+        switch (step.type) {
+          case 3:
+            this.$vDialog.modal(addDialog, {
+              title: '确定销售需求',
+              width: 900,
+              height: 400,
+              params: {
+                salesState: this.salesState,
+                detail: JSON.parse(JSON.stringify(this.salesOpportunitiesDetail))
+              },
+              callback: (data) => {
+                if (data.type === 'save') {
+                  this.getSalesOpportunitiesDetail()
+                }
+              },
+            })
+            break
+          case 4:
+            break
+          case 5:
+            break
+        }
       }
     },
     created () {
