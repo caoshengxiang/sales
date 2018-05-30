@@ -1,5 +1,5 @@
 import utils from '../utils/utils'
-import { setUserAuth } from '../utils/axiosConfig' // axios配置文件
+import '../utils/axiosConfig' // axios配置文件
 export default {
   // app外部依赖接口,【注意：基本地址改变】
   external: {
@@ -36,7 +36,6 @@ export default {
   // 通用接口,管理配置
   common: {
     region (params, success, error) { // 地区
-      setUserAuth()
       $axios.get('region', {
         params: {pid: params},
       }).then((res) => {
@@ -46,7 +45,6 @@ export default {
       })
     },
     queryAreaList (params, success, error) {
-      setUserAuth()
       $axios({
         method: 'get',
         url: 'region',
@@ -58,7 +56,6 @@ export default {
       })
     },
     codeConfig (params, success, error) { // 2 - 客户级别，3 - 客户行业
-      setUserAuth()
       $axios.get('codeConfig', {
         params: {type: params},
       }).then((res) => {
@@ -71,17 +68,16 @@ export default {
   login: {
 
     login (params, success, error) { // 客户列表
-      setUserAuth()
       $axios.get('user/login', {
         params: params,
       }).then((res) => {
         success && success(res.data)
+        $axios.defaults.headers.common['authKey'] = res.data.data.authKey // 登录成功后，设置默认请求头
       }).catch((err) => {
         error && error(err)
       })
     },
     logout (params, success, error) {
-      setUserAuth()
       $axios.get('user/logout', {
         params: params,
         headers: {
@@ -94,7 +90,6 @@ export default {
       })
     },
     resetPwd (params, success, error) {
-      setUserAuth()
       $axios({
         method: 'post',
         url: 'user/password/edit',
@@ -109,7 +104,6 @@ export default {
   // 客户
   customer: {
     list (params, success, error) { // 客户列表
-      setUserAuth()
       $axios.get('customer', {
         params: params,
       }).then((res) => {
@@ -119,7 +113,6 @@ export default {
       })
     },
     detail (params, success, error) { // 客户详细
-      setUserAuth()
       $axios.get('customer/' + params.id).then((res) => {
         success && success(res.data)
       }).catch((err) => {
@@ -127,7 +120,6 @@ export default {
       })
     },
     add (params, success, error) {
-      setUserAuth()
       let p = Object.assign({}, params.body, params.query) // body参数需要加一个source来源属性
       $axios.post('customer', p).then((res) => {
         success && success(res.data)
@@ -136,7 +128,6 @@ export default {
       })
     },
     edit (params, success, error) {
-      setUserAuth()
       $axios.put('customer/' + params.path, params.body).then(res => {
         success && success(res.data)
       }).catch((err) => {
@@ -144,7 +135,6 @@ export default {
       })
     },
     transfer (params, success, error) {
-      setUserAuth()
       $axios.post('customer/transfer', params).then((res) => {
         success && success(res.data)
       }).catch((err) => {
@@ -152,7 +142,6 @@ export default {
       })
     },
     return (params, success, error) {
-      setUserAuth()
       $axios.post('customer/return', params).then((res) => {
         success && success(res.data)
       }).catch((err) => {
@@ -163,7 +152,6 @@ export default {
   // 客户公海,客户池
   customerSea: {
     list (params, success, error) { // 列表
-      setUserAuth()
       $axios.get('customerSea', {
         params: {organizationId: params},
       }).then((res) => {
@@ -173,7 +161,6 @@ export default {
       })
     },
     add (params, success, error) { // add
-      setUserAuth()
       $axios.post('customerSea', params).then((res) => {
         success && success(res.data)
       }).catch((err) => {
@@ -181,7 +168,6 @@ export default {
       })
     },
     edit (params, success, error) { //
-      setUserAuth()
       $axios.put('customerSea/' + params.path, params.body).then((res) => {
         success && success(res.data)
       }).catch((err) => {
@@ -189,7 +175,6 @@ export default {
       })
     },
     detail (params, success, error) { //
-      setUserAuth()
       $axios.get('customerSea/' + params).then((res) => {
         success && success(res.data)
       }).catch((err) => {
@@ -197,7 +182,6 @@ export default {
       })
     },
     allocate (params, success, error) { // 分配
-      setUserAuth()
       $axios.post('customerSea/allocate', params).then((res) => {
         success && success(res.data)
       }).catch((err) => {
@@ -205,7 +189,6 @@ export default {
       })
     },
     fish (params, success, error) { // 捞取
-      setUserAuth()
       $axios.post('customerSea/fish', params).then((res) => {
         success && success(res.data)
       }).catch((err) => {
@@ -213,7 +196,6 @@ export default {
       })
     },
     regroup (params, success, error) { // 分组
-      setUserAuth()
       $axios.post('customerSea/regroup', params).then((res) => {
         success && success(res.data)
       }).catch((err) => {
@@ -221,7 +203,6 @@ export default {
       })
     },
     deleteSea (params, success, error) { // 分组
-      setUserAuth()
       $axios.delete('customerSea/' + params).then((res) => {
         success && success(res.data)
       }).catch((err) => {
@@ -232,7 +213,6 @@ export default {
   // 联系人
   contacts: { // 联系人
     list (params, success, error) { // 联系人列表
-      setUserAuth()
       $axios({
         method: 'get',
         url: '/customerContacter',
@@ -244,7 +224,6 @@ export default {
       })
     },
     detail (params, success, error) { // 联系人详细
-      setUserAuth()
       $axios({
         method: 'get',
         url: '/customerContacter/' + params,
@@ -255,7 +234,6 @@ export default {
       })
     },
     add (params, success, error) {
-      setUserAuth()
       $axios({
         method: 'post',
         url: '/customerContacter',
@@ -267,7 +245,6 @@ export default {
       })
     },
     edit (params, success, error) {
-      setUserAuth()
       $axios({
         method: 'put',
         url: '/customerContacter/' + params.path,
@@ -282,7 +259,6 @@ export default {
   // 销售机会
   salesOpportunities: {
     list (params, success, error) { // 销售机会列表
-      setUserAuth()
       $axios({
         method: 'get',
         url: '/salerChance',
@@ -294,7 +270,6 @@ export default {
       })
     },
     detail (params, success, error) { // 销售机会详细
-      setUserAuth()
       $axios({
         method: 'get',
         url: '/salerChance/' + params,
@@ -305,7 +280,6 @@ export default {
       })
     },
     add (params, success, error) {
-      setUserAuth()
       $axios.post('salerChance', params).then((res) => {
         success && success(res.data)
       }).catch((err) => {
@@ -313,7 +287,6 @@ export default {
       })
     },
     confirm (params, success, error) { // 需求确认
-      setUserAuth()
       $axios.put('salerChance/confirm/' + params.path,
         params.body).then((res) => {
         success && success(res.data)
@@ -322,7 +295,6 @@ export default {
       })
     },
     discard (params, success, error) { // 输单
-      setUserAuth()
       $axios.post('salerChance/discard/' + params.path,
         params.body).then((res) => {
         success && success(res.data)
@@ -331,7 +303,6 @@ export default {
       })
     },
     delete (params, success, error) {
-      setUserAuth()
       $axios.delete('salerChance/' + params).then((res) => {
         success && success(res.data)
       }).catch((err) => {
@@ -339,7 +310,6 @@ export default {
       })
     },
     transfer (params, success, error) { // 转移 newSalerId: '',chanceIds: ''
-      setUserAuth()
       $axios.post('salerChance/transfer',
         params).then((res) => {
         success && success(res.data)
@@ -348,7 +318,6 @@ export default {
       })
     },
     counselorExit (params, success, error) { // 咨询师主动退出
-      setUserAuth()
       $axios.post('salerChance/counselorExit/' + params).then((res) => {
         success && success(res.data)
       }).catch((err) => {
@@ -359,7 +328,6 @@ export default {
   // 销售订单
   salesOrder: {
     list (params, success, error) { // 列表
-      setUserAuth()
       $axios({
         method: 'get',
         url: '/salerChance/',
@@ -424,7 +392,6 @@ export default {
       })
     },
     detail (params, success, error) { // 详细
-      setUserAuth()
       $axios({
         method: 'get',
         url: '/customerContacter/' + params.id,
@@ -483,7 +450,6 @@ export default {
   // 跟单记录
   orderRecords: {
     list (params, success, error) { // 跟单记录列表
-      setUserAuth()
       $axios({
         method: 'get',
         url: '/followOrderRecord/',
@@ -556,7 +522,6 @@ export default {
   },
   user: {
     userSearch (params, success, error) { // 搜索用户-列表
-      setUserAuth()
       $axios.get('user/search', {
         params: params,
       }).then((res) => {
@@ -566,7 +531,6 @@ export default {
       })
     },
     userList (params, success, error) { // 用户列表
-      setUserAuth()
       $axios.get('user', {
         params: params,
       }).then((res) => {
@@ -578,7 +542,6 @@ export default {
       })
     },
     userAdd (params, success, error) {
-      setUserAuth()
       $axios({
         method: 'post',
         url: '/user',
@@ -590,7 +553,6 @@ export default {
       })
     },
     userModify (params, success, error) {
-      setUserAuth()
       $axios({
         method: 'put',
         url: `/user/${params.id}`,
@@ -602,7 +564,6 @@ export default {
       })
     },
     userDetail (params, success, error) { // 用户列表
-      setUserAuth()
       $axios.get('user/' + params.id, {}).then((res) => {
         success && success(res.data)
       }).catch(() => {
@@ -612,7 +573,6 @@ export default {
       })
     },
     userDelete (params, success, error) { // 批量删除用户
-      setUserAuth()
       $axios({
         method: 'delete',
         url: '/user?ids=' + params.ids,
@@ -623,7 +583,6 @@ export default {
       })
     },
     userDisable (params, success, error) { // 批量禁用用户
-      setUserAuth()
       $axios({
         method: 'post',
         url: '/user/disable?ids=' + params.ids,
@@ -634,7 +593,6 @@ export default {
       })
     },
     userResetPassword (params, success, error) { // 批量禁用用户
-      setUserAuth()
       $axios({
         method: 'post',
         url: '/user/resetPwd?ids=' + params.ids,
@@ -646,7 +604,6 @@ export default {
       })
     },
     roleList (params, success, error) { // 角色列表
-      setUserAuth()
       $axios.get('role', {
         params: params,
       }).then((res) => {
@@ -661,7 +618,6 @@ export default {
   //角色管理
   role: {
     queryList (params, success, error) {
-      setUserAuth()
       $axios({
         method: 'get',
         url: 'role',
@@ -673,7 +629,6 @@ export default {
       })
     },
     add (params, success, error) {
-      setUserAuth()
       $axios({
         method: 'post',
         url: 'role',
@@ -685,7 +640,6 @@ export default {
       })
     },
     update (params, success, error) {
-      setUserAuth()
       $axios({
         method: 'put',
         url: `/role/${params.id}`,
@@ -697,7 +651,6 @@ export default {
       })
     },
     delete (params, success, error) {
-      setUserAuth()
       $axios({
         method: 'delete',
         url: `/role/${params.id}`,
@@ -709,7 +662,6 @@ export default {
       })
     },
     getDetail (params, success, error) {
-      setUserAuth()
       $axios({
         method: 'get',
         url: `/role/${params.id}`,
@@ -720,7 +672,6 @@ export default {
       })
     },
     getBusinessSystemList (success, error) {
-      setUserAuth()
       $axios({
         method: 'get',
         url: '/businessSystem',
@@ -731,7 +682,6 @@ export default {
       })
     },
     getBilityList (params, success, error) {
-      setUserAuth()
       $axios({
         method: 'get',
         url: '/bility',
@@ -746,7 +696,6 @@ export default {
   //组织管理
   organization: {
     queryList (params, success, error) {
-      setUserAuth()
       $axios({
         method: 'get',
         url: 'organization/tree',
@@ -758,7 +707,6 @@ export default {
       })
     },
     add (params, success, error) {
-      setUserAuth()
       $axios({
         method: 'post',
         url: 'organization',
@@ -770,7 +718,6 @@ export default {
       })
     },
     update (params, success, error) {
-      setUserAuth()
       $axios({
         method: 'put',
         url: 'organization',
@@ -782,7 +729,6 @@ export default {
       })
     },
     delete (params, success, error) {
-      setUserAuth()
       $axios({
         method: 'delete',
         url: '/organization/',
@@ -794,7 +740,6 @@ export default {
       })
     },
     queryAllList (params, success, error) {
-      setUserAuth()
       $axios({
         method: 'get',
         url: 'organization',
@@ -806,7 +751,6 @@ export default {
       })
     },
     queryUserList (params, success, error) {
-      setUserAuth()
       $axios({
         method: 'get',
         url: 'organization/userInfo',
@@ -818,7 +762,6 @@ export default {
       })
     },
     queryUserForList (params, success, error) {
-      setUserAuth()
       $axios({
         method: 'get',
         url: 'organization/user',
@@ -830,7 +773,6 @@ export default {
       })
     },
     setAdmin (params, success, error) {
-      setUserAuth()
       $axios({
         method: 'put',
         url: '/organization/admin',
@@ -842,7 +784,6 @@ export default {
       })
     },
     setHead (params, success, error) {
-      setUserAuth()
       $axios({
         method: 'put',
         url: '/organization/head',
@@ -854,7 +795,6 @@ export default {
       })
     },
     setTrainer (params, success, error) {
-      setUserAuth()
       $axios({
         method: 'put',
         url: '/organization/trainer',
@@ -866,7 +806,6 @@ export default {
       })
     },
     setAssistant (params, success, error) {
-      setUserAuth()
       $axios({
         method: 'put',
         url: '/organization/assistant',
@@ -882,7 +821,6 @@ export default {
   //任务审批管理
   task: {
     queryList (params, success, error) { // 用户列表
-      setUserAuth()
       $axios.get('approval', {
         params: params,
       }).then((res) => {
@@ -894,7 +832,6 @@ export default {
       })
     },
     getTaskDetail (params, success, error) { // 用户列表
-      setUserAuth()
       $axios({
         method: 'get',
         url: `/approval/${params.id}`,
@@ -907,7 +844,6 @@ export default {
       })
     },
     auditTask (params, success, error) { // 用户列表
-      setUserAuth()
       $axios({
         method: 'put',
         url: `/approval/${params.id}`,
@@ -921,7 +857,6 @@ export default {
       })
     },
     approvalCounselor (params, success, error) { // 申请咨询师协同（替换）
-      setUserAuth()
       $axios({
         method: 'post',
         url: 'approval/counselor',
@@ -935,7 +870,6 @@ export default {
   },
   baseSetting: {
     getCodeConfig (params, success, error) { // 用户列表
-      setUserAuth()
       $axios.get('codeConfig', {
         params: params,
       }).then((res) => {
@@ -947,7 +881,6 @@ export default {
       })
     },
     delete (params, success, error) { // 用户列表
-      setUserAuth()
       $axios({
         method: 'delete',
         url: 'codeConfig',
@@ -961,7 +894,6 @@ export default {
       })
     },
     add (params, success, error) { // 用户列表
-      setUserAuth()
       $axios({
         method: 'post',
         url: 'codeConfig',
@@ -975,7 +907,6 @@ export default {
       })
     },
     edit (params, success, error) { // 用户列表
-      setUserAuth()
       $axios({
         method: 'put',
         url: `/codeConfig/${params.id}`,
@@ -991,7 +922,6 @@ export default {
   },
   customerAreaSetting: {
     queryList (params, success, error) {
-      setUserAuth()
       $axios({
         method: 'get',
         url: 'region',
@@ -1003,7 +933,6 @@ export default {
       })
     },
     add (params, success, error) {
-      setUserAuth()
       $axios({
         method: 'post',
         url: 'region',
@@ -1015,7 +944,6 @@ export default {
       })
     },
     update (params, success, error) {
-      setUserAuth()
       $axios({
         method: 'put',
         url: 'region',
@@ -1027,7 +955,6 @@ export default {
       })
     },
     delete (params, success, error) {
-      setUserAuth()
       $axios({
         method: 'delete',
         url: '/region',

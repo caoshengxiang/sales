@@ -64,9 +64,6 @@
     components: {
       feElement,
     },
-    beforeCreate () {
-      webStorage.removeItem('userInfo') // 删除用户storage
-    },
     mounted () {
       this.getCookie()
     },
@@ -87,12 +84,11 @@
           for (var i = 0; i < arr.length; i++) {
             var arr2 = arr[i].split('=') //再次切割
             //判断查找相对应的值
-            if (arr2[0] == 'userName') {
+            if (arr2[0] === 'userName') {
               this.formData.username = arr2[1] //保存到保存数据的地方
-            } else if (arr2[0] == 'userPwd') {
+            } else if (arr2[0] === 'userPwd') {
               this.formData.password = arr2[1]
-            }
-            else if (arr2[0] == 'checked') {
+            } else if (arr2[0] === 'checked') {
               this.isRemember = arr2[1]
             }
           }
@@ -107,8 +103,7 @@
           if (valid) {
             if (this.isRemember) {
               this.setCookie(this.formData.username, this.formData.password, this.isRemember, 7)
-            }
-            else {
+            } else {
               this.clearCookie()
             }
 
@@ -118,8 +113,7 @@
               if (res.status) {
                 webStorage.setItem('userInfo', res.data)
                 this.$router.push({name: 'saleHome', params: {end: 'ME'}})
-              }
-              else {
+              } else {
                 if (res.error.statusCode === '10011') {
                   this.$router.push({name: 'resetPassword', params: {end: 'ME'}})
                 }

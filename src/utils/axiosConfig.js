@@ -6,6 +6,7 @@ import webStorage from 'webStorage'
 $axios.defaults.baseURL = serverUrl
 $axios.defaults.timeout = 100000
 // $axios.defaults.headers['Content-Type'] = 'application/json; charset=UTF-8'
+//   $axios.defaults.headers.common['authKey'] = webStorage.getItem('userInfo').authKey // 统一设置auth移驾至登录接口
 $axios.defaults.headers.post['Content-Type'] = 'application/json;charset=UTF-8'
 
 // 添加一个请求拦截器
@@ -36,8 +37,7 @@ $axios.interceptors.response.use((response) => {
     }, 0)
     setTimeout(() => {
       if (response.data.error.statusCode === '10004') {
-        // location.href = '/'
-        webStorage.removeItem('userInfo') // 未登录，删除用户storage
+        location.href = '/'
       }
     }, 1000)
   }
@@ -53,9 +53,3 @@ $axios.interceptors.response.use((response) => {
   })
   return Promise.reject(error)
 })
-
-export function setUserAuth () { // 只获取一次uathKey问题？ --》临时解决方案，需要在api.js 定义接口方法时调用该方法获取一次
-  if (webStorage.getItem('userInfo')) {
-    $axios.defaults.headers.common['authKey'] = webStorage.getItem('userInfo').authKey
-  }
-}
