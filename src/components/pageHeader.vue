@@ -19,7 +19,7 @@
           </el-badge>
           提醒事项<span>(2)</span>
         </li>
-        <li class="item item-hello">下午好，{{userInfo.name}}!</li>
+        <li class="item item-hello">您好，{{userInfo.name}}!</li>
       </ul>
     </div>
   </div>
