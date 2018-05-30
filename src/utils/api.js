@@ -119,6 +119,14 @@ export default {
         error && error(err)
       })
     },
+    teamAboutCustomerlist (success, error) { // 团队成员相关客户列表
+      setUserAuth()
+      $axios.get('customer/list').then((res) => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+    },
     detail (params, success, error) { // 客户详细
       setUserAuth()
       $axios.get('customer/' + params.id).then((res) => {
