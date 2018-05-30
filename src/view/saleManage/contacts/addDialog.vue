@@ -153,31 +153,31 @@
             {required: true, message: '请输入联系电话', trigger: 'blur'},
           ],
           department: [
-            {required: true, message: '请输入任职部门', trigger: 'blur'},
+            // {required: true, message: '请输入任职部门', trigger: 'blur'},
           ],
           position: [
-            {required: true, message: '请输入公司职务', trigger: 'blur'},
+            // {required: true, message: '请输入公司职务', trigger: 'blur'},
           ],
           qq: [
-            {required: true, message: '请输入联系QQ', trigger: 'blur'},
+            // {required: true, message: '请输入联系QQ', trigger: 'blur'},
           ],
           birthday: [
-            {required: true, message: '请选择出生日期', trigger: 'blur'},
+            // {required: true, message: '请选择出生日期', trigger: 'blur'},
           ],
           sex: [
-            {required: true, message: '请选择性别', trigger: 'change'},
+            // {required: true, message: '请选择性别', trigger: 'change'},
           ],
           wx: [
-            {required: true, message: '请输入联系微信', trigger: 'blur'},
+            // {required: true, message: '请输入联系微信', trigger: 'blur'},
           ],
           bakPhone: [
-            {required: true, message: '请输入备用电话', trigger: 'blur'},
+            // {required: true, message: '请输入备用电话', trigger: 'blur'},
           ],
           mail: [
-            {required: true, message: '请请输入电子邮箱', trigger: 'blur'},
+            // {required: true, message: '请请输入电子邮箱', trigger: 'blur'},
           ],
           address: [
-            {required: true, message: '请输入联系地址', trigger: 'blur'},
+            // {required: true, message: '请输入联系地址', trigger: 'blur'},
           ],
           remark: [
             // {required: true, message: '请输入备注', trigger: 'blur'},
@@ -235,9 +235,9 @@
         })
       },
       getCustomersList () { // “跟进”的所有客户
-        API.customer.list({page: 0, pageSize: -1, type: 2}, data => {
+        API.customer.teamAboutCustomerlist(data => {
           if (data.status) {
-            this.customersList = data.data.content
+            this.customersList = data.data
           }
         })
       },

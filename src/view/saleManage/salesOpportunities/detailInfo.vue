@@ -15,12 +15,13 @@
       <div class="com-info-left">
         <img class="com-info-img" src="../../../assets/placeholder.jpg" alt="">
         <div class="com-info-text">
-          <h3>{{salesOpportunitiesDetail.intentProductName}}</h3>
+          <h3>{{salesOpportunitiesDetail.intentProductName || '无名'}}</h3>
           <p>
             <span class="com-d-item">客户名称: <span>{{salesOpportunitiesDetail.customerName}}</span></span>
             <span class="com-d-item">预计签单金额: <span>{{salesOpportunitiesDetail.intentBillAmount}}</span></span>
-            <span class="com-d-item">预计签单日期: <span>{{salesOpportunitiesDetail.billDate}}</span></span>
-            <span class="com-d-item">销售机会所有人: <span></span></span>
+            <span class="com-d-item">预计签单日期: <span>{{$moment(salesOpportunitiesDetail.billDate).format('YYYY-MM-DD')}}</span></span>
+            <br>
+            <span class="com-d-item">销售机会所有人: <span>{{salesOpportunitiesDetail.ownerName}}</span></span>
           </p>
         </div>
       </div>
@@ -36,9 +37,10 @@
       </div>
       <div class="step-box">
         <div class="step">
-          <el-steps :active="salesOpportunitiesDetail.stage - 1" align-center>
-            <el-step v-for="(item, index) in salesState" :key="index"
+          <el-steps :active="salesOpportunitiesDetail.stage" align-center>
+            <el-step @click.native="stepClickHandle(item)" v-for="(item, index) in salesState" :key="index"
                      :title="item.value + '(' + item.percent + ')'"></el-step>
+            <el-step title="输单"></el-step>
           </el-steps>
         </div>
         <a class="lose-bill" @click="operateOptions('discard')">输单</a>
@@ -120,128 +122,76 @@
           <el-tab-pane label="销售机会相关信息" name="related">
 
             <div class="related-btn-group">
-              <com-button buttonType="theme">联系人(2)</com-button>
-              <com-button buttonType="grey">销售需求(2)</com-button>
-              <com-button buttonType="grey">销售订单(2)</com-button>
+              <com-button buttonType="theme">联系人({{contactTotal}})</com-button>
+              <com-button buttonType="grey">跟单记录({{orderRecordsTotal}})</com-button>
+              <com-button buttonType="grey">APP订单({{appOrderTotal}})</com-button>
             </div>
 
             <p class="table-title">
-              联系人(2)
-              <a class="more">更多》</a>
+              联系人({{contactTotal}})
+              <a class="more" v-if="contactTotal > 5">更多》</a>
               <a class="table-add"><i class="el-icon-plus"></i>新增联系人</a>
             </p>
             <table class="detail-table related-table">
               <tr>
-                <th class="td-title">所在公海</th>
-                <th class="td-title">所在公海</th>
-                <th class="td-title">所在公海</th>
-                <th class="td-title">所在公海</th>
-                <th class="td-title">所在公海</th>
-                <th class="td-title">所在公海</th>
+                <th class="td-title">姓名</th>
+                <th class="td-title">联系电话</th>
+                <th class="td-title">公司职务</th>
+                <th class="td-title">微信</th>
+                <th class="td-title">QQ</th>
+                <th class="td-title">创建时间</th>
               </tr>
-              <tr>
-                <td>客户创建时间</td>
-                <td>2018.11.12 12:12:12</td>
-                <td>创建人</td>
-                <td>创建人</td>
-                <td>创建人</td>
-                <td>test</td>
-              </tr>
-              <tr>
-                <td>客户创建时间</td>
-                <td>2018.11.12 12:12:12</td>
-                <td>创建人</td>
-                <td>创建人</td>
-                <td>创建人</td>
-                <td>test</td>
-              </tr>
-              <tr>
-                <td>客户创建时间</td>
-                <td>2018.11.12 12:12:12</td>
-                <td>创建人</td>
-                <td>创建人</td>
-                <td>创建人</td>
-                <td>test</td>
+              <tr v-for="item in contactList" :key="item.id">
+                <td>{{item.contacterName}}</td>
+                <td>{{item.phone}}</td>
+                <td>{{item.position}}</td>
+                <td>{{item.wx}}</td>
+                <td>{{item.qq}}</td>
+                <td>{{$moment(item.created).format('YYYY-MM-DD HH:mm:ss')}}</td>
               </tr>
             </table>
 
             <p class="table-title">
-              跟单记录(2)
-              <a class="more">更多》</a>
+              跟单记录({{orderRecordsTotal}})
+              <a class="more" v-if="orderRecordsTotal > 0">更多》</a>
               <a class="table-add"><i class="el-icon-plus"></i>新增跟单记录</a>
             </p>
             <table class="detail-table related-table">
               <tr>
-                <th class="td-title">所在公海</th>
-                <th class="td-title">所在公海</th>
-                <th class="td-title">所在公海</th>
-                <th class="td-title">所在公海</th>
-                <th class="td-title">所在公海</th>
-                <th class="td-title">所在公海</th>
+                <th class="td-title" colspan="4">跟单描述</th>
+                <th class="td-title" colspan="2">所在公海</th>
               </tr>
               <tr>
-                <td>客户创建时间</td>
-                <td>2018.11.12 12:12:12</td>
-                <td>创建人</td>
-                <td>创建人</td>
-                <td>创建人</td>
-                <td>test</td>
-              </tr>
-              <tr>
-                <td>客户创建时间</td>
-                <td>2018.11.12 12:12:12</td>
-                <td>创建人</td>
-                <td>创建人</td>
-                <td>创建人</td>
-                <td>test</td>
-              </tr>
-              <tr>
-                <td>客户创建时间</td>
-                <td>2018.11.12 12:12:12</td>
-                <td>创建人</td>
-                <td>创建人</td>
-                <td>创建人</td>
-                <td>test</td>
+                <td colspan="4">客户创建时间</td>
+                <td colspan="2">test</td>
               </tr>
             </table>
 
             <p class="table-title">
-              APP订单(2)
-              <a class="more">更多》</a>
+              APP订单({{appOrderTotal}})
+              <a class="more" v-if="appOrderTotal > 5">更多》</a>
               <a class="table-add"><i class="el-icon-plus"></i>新增关联订单</a>
             </p>
             <table class="detail-table related-table">
               <tr>
-                <th class="td-title">所在公海</th>
-                <th class="td-title">所在公海</th>
-                <th class="td-title">所在公海</th>
-                <th class="td-title">所在公海</th>
-                <th class="td-title">所在公海</th>
-                <th class="td-title">所在公海</th>
+                <th class="td-title">订单编号</th>
+                <th class="td-title">是否续费</th>
+                <th class="td-title">订单状态</th>
+                <th class="td-title">购买商品</th>
+                <th class="td-title">订单金额</th>
+                <th class="td-title">回款金额</th>
+                <th class="td-title">创建时间</th>
+                <th class="td-title">关联状态</th>
               </tr>
               <tr>
-                <td>客户创建时间</td>
-                <td>2018.11.12 12:12:12</td>
-                <td>创建人</td>
-                <td>创建人</td>
-                <td>创建人</td>
-                <td>test</td>
-              </tr>
-              <tr>
-                <td>客户创建时间</td>
-                <td>2018.11.12 12:12:12</td>
-                <td>创建人</td>
-                <td>创建人</td>
-                <td>创建人</td>
-                <td>test</td>
-              </tr>
-              <tr>
-                <td>客户创建时间</td>
-                <td>2018.11.12 12:12:12</td>
-                <td>创建人</td>
-                <td>创建人</td>
-                <td>创建人</td>
-                <td>test</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
               </tr>
             </table>
           </el-tab-pane>
@@ -299,13 +249,6 @@
         </div>
       </div>
     </div>
-    <!-- -->
-    <!-- -->
-    <!--转移弹窗-->
-    <!--<move-dialog :moveDialogOpen="moveDialogOpen" @hasMoveDialogOpen="moveDialogOpen = false"></move-dialog>&lt;!&ndash; &ndash;&gt;-->
-    <!-- -->
-    <!--咨询师 申请替换-->
-    <!--<apply-dialog :type="consultantType" :dialogOpen="applyDialogOpen" @hasDialogOpen="applyDialogOpen = false"></apply-dialog>-->
   </div>
 </template>
 
@@ -318,6 +261,7 @@
   import applyDialog from './applyDialog'
   // import { arrToStr } from '../../../utils/utils'
   import discard from './discard'
+  import addDialog from './addDialog'
 
   export default {
     name: 'detailInfo',
@@ -325,6 +269,12 @@
       return {
         dataLoading: false,
         activeViewName: '',
+        contactList: [],
+        contactTotal: 0,
+        orderRecordsList: [],
+        orderRecordsTotal: 0,
+        appOrderList: [],
+        appOrderTotal: 0,
       }
     },
     computed: {
@@ -354,15 +304,6 @@
         // console.log(tab.name)
         this.$router.push(
           {name: 'salesOpportunitiesDetail', params: {end: 'FE'}, query: {view: tab.name, id: this.$route.query.id}})
-      },
-      getSalesOpportunitiesDetail () {
-        this.dataLoading = true
-        API.salesOpportunities.detail(this.$route.query.id, (data) => {
-          this.ac_salesOpportunitiesDetail(data.data)
-          setTimeout(() => {
-            this.dataLoading = false
-          }, 500)
-        })
       },
       operateOptions (op) {
         switch (op) {
@@ -405,8 +346,10 @@
               params: {
                 detail: this.salesOpportunitiesDetail,
               },
-              callback (data) {
-                if (data.type === 'save') {}
+              callback: (data) => {
+                if (data.type === 'save') {
+                  this.getSalesOpportunitiesDetail()
+                }
               },
             })
             break
@@ -462,10 +405,66 @@
             break
         }
       },
+      getSalesOpportunitiesDetail () {
+        this.dataLoading = true
+        API.salesOpportunities.detail(this.$route.query.id, (data) => {
+          this.ac_salesOpportunitiesDetail(data.data)
+          setTimeout(() => {
+            this.dataLoading = false
+          }, 500)
+        })
+      },
+      getContactList () {
+        API.contacts.list({customerId: this.$route.query.customerId, pageSize: 5}, (da) => {
+          this.contactList = da.data.content
+          this.contactTotal = da.data.totalElements
+        })
+      },
+      getOrderRecordsList () {
+        API.orderRecords.list({chanceId: this.$route.query.id}, (da) => {
+          this.orderRecordsList = da.data.content
+          this.orderRecordsList = da.data.totalElements
+        })
+      },
+      getAppOrderList () {
+        API.salesOrder.list({chanceId: this.$route.query.id}, (da) => {
+          this.orderRecordsList = da.data.content
+          this.orderRecordsList = da.data.totalElements
+        })
+      },
+      stepClickHandle (step) {
+        // alert(step.type)
+        // console.log(step)
+        switch (step.type) {
+          case 3:
+            this.$vDialog.modal(addDialog, {
+              title: '确定销售需求',
+              width: 900,
+              height: 400,
+              params: {
+                salesState: this.salesState,
+                detail: JSON.parse(JSON.stringify(this.salesOpportunitiesDetail))
+              },
+              callback: (data) => {
+                if (data.type === 'save') {
+                  this.getSalesOpportunitiesDetail()
+                }
+              },
+            })
+            break
+          case 4:
+            break
+          case 5:
+            break
+        }
+      }
     },
     created () {
       this.activeViewName = this.$route.query.view
       this.getSalesOpportunitiesDetail()
+      this.getContactList()
+      this.getOrderRecordsList()
+      this.getAppOrderList()
     },
   }
 </script>

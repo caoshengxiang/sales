@@ -14,7 +14,7 @@
       <div class="com-bar-left">
         <com-button buttonType="add" icon="el-icon-plus" @click="addHandle">新增</com-button>
         <com-button buttonType="orange" icon="el-icon-plus" @click="moveHandle"
-                    :disabled="multipleSelection.length <= 0">转移
+                    :disabled="multipleSelection.length !== 1">转移
         </com-button>
         <com-button buttonType="backHighSeas" icon="el-icon-plus" @click="returnHighSeaHandle"
                     :disabled="multipleSelection.length <= 0">退回公海池
@@ -137,8 +137,8 @@
           label="销售人"
           width="160">
           <template slot-scope="scope">
-            <span v-for="item in scope.row.salerList"
-                  :key="item.salerId">{{item.salerName}}&nbsp;</span>
+            <span v-for="(item, index) in scope.row.salerList"
+                  :key="item.salerId"><span v-if="index > 0">、</span>{{item.salerName}}</span>
           </template>
         </el-table-column>
         <el-table-column
@@ -187,7 +187,8 @@
   import { mapState, mapActions } from 'vuex'
   import addDialog from './addDialog'
   import moveDialog from './moveDialog'
-  import { arrToStr } from '../../../utils/utils'
+  import returnPoll from './returnPoll'
+  // import { arrToStr } from '../../../utils/utils'
   // import moment from 'moment'
 
   export default {
@@ -278,7 +279,7 @@
         this.$vDialog.modal(moveDialog, {
           title: '转移客户',
           width: 600,
-          height: 320,
+          height: 380,
           params: {
             customerIds: this.multipleSelection,
           },
@@ -290,27 +291,41 @@
         })
       },
       returnHighSeaHandle () {
-        this.$confirm('确定退回公海池, 是否继续?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning',
-        }).then(() => {
-          API.customer.return({customerIds: arrToStr(this.multipleSelection, 'id')}, (data) => {
-            if (data.status) {
-              if (data.data.fail > 0) {
-                this.$message.warning(`成功${data.data.success},失败${data.data.fail}`)
-              } else {
-                this.$message.success(`成功${data.data.success},失败${data.data.fail}`)
-              }
-              this.getCustomerList(this.currentPage - 1, this.pagesOptions.pageSize, this.customerType)
+        let that = this
+        this.$vDialog.modal(returnPoll, {
+          title: '退回公海池',
+          width: 600,
+          height: 220,
+          params: {
+            customerIds: this.multipleSelection,
+          },
+          callback (data) {
+            if (data.type === 'save') {
+              that.getCustomerList(that.currentPage - 1, that.pagesOptions.pageSize, that.customerType)
             }
-          })
-        }).catch(() => {
-          this.$message({
-            type: 'info',
-            message: '已取消',
-          })
+          },
         })
+        // this.$confirm('确定退回公海池, 是否继续?', '提示', {
+        //   confirmButtonText: '确定',
+        //   cancelButtonText: '取消',
+        //   type: 'warning',
+        // }).then(() => {
+        //   API.customer.return({customerIds: arrToStr(this.multipleSelection, 'id')}, (data) => {
+        //     if (data.status) {
+        //       if (data.data.fail > 0) {
+        //         this.$message.warning(`成功${data.data.success}, 失败${data.data.fail}, 失败原因：${data.data.errorMessage}`)
+        //       } else {
+        //         this.$message.success(`成功${data.data.success},失败${data.data.fail}`)
+        //       }
+        //       this.getCustomerList(this.currentPage - 1, this.pagesOptions.pageSize, this.customerType)
+        //     }
+        //   })
+        // }).catch(() => {
+        //   this.$message({
+        //     type: 'info',
+        //     message: '已取消',
+        //   })
+        // })
       },
     },
     created () {

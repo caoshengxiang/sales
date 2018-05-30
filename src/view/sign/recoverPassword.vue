@@ -8,18 +8,18 @@
       <div class="sign-form-box">
         <el-form label-width="0px" :model="formData" :rules="rules" ref="ruleForm">
           <el-form-item label="" prop="phone">
-            <el-input class="phone" v-model.number="formData.phone" placeholder="请输入你的手机号"></el-input>
+            <el-input class="phone" v-model.number="formData.phone" placeholder="请输入您的手机号"></el-input>
             <span class="code" v-if="time === 0" @click="getCode">获取验证码</span>
             <span class="code time" v-else>重新发送({{time}})</span>
           </el-form-item>
           <el-form-item label="" prop="password">
-            <el-input v-model="formData.password" type="password" auto-complete="off" placeholder="请输入新的密码"></el-input>
+            <el-input v-model="formData.password" type="password" auto-complete="off" placeholder="请输入8-12新密码"></el-input>
           </el-form-item>
           <el-form-item label="" prop="password2">
-            <el-input v-model="formData.password2" type="password" auto-complete="off" placeholder="请再次输入新的密码"></el-input>
+            <el-input v-model="formData.password2" type="password" auto-complete="off" placeholder="请再次输入新密码"></el-input>
           </el-form-item>
           <el-form-item label="" prop="verificationCode">
-            <el-input v-model="formData.verificationCode" placeholder="请输入短信验证码"></el-input>
+            <el-input v-model="formData.verificationCode" placeholder="请输入您收到的验证码"></el-input>
           </el-form-item>
 
           <el-form-item>
@@ -51,9 +51,9 @@
     data () {
       let validatePass2 = (rule, value, callback) => {
         if (value === '') {
-          callback(new Error('请再次输入密码'))
+          callback(new Error('请再次输入新密码'))
         } else if (value !== this.formData.password) {
-          callback(new Error('两次输入密码不一致!'))
+          callback(new Error('两次密码输入不一致!'))
         } else {
           callback()
         }
@@ -76,18 +76,18 @@
           password: [
             {required: true, message: '请输入新密码', trigger: 'blur'},
             ...chartLengthRule.defaultRule,
+            {min: 8, max: 12, message: '长度为 8-12 个字符', trigger: 'blur'},
           ],
           password2: [
             // {required: true, message: '请再次输入新密码', trigger: 'blur'},
             {validator: validatePass2, trigger: 'blur'},
             ...chartLengthRule.defaultRule,
+            {min: 8, max: 12, message: '长度为 8-12 个字符', trigger: 'blur'},
           ],
           verificationCode: [
             {required: true, message: '请输入短信验证码', trigger: 'blur'},
             ...chartLengthRule.defaultRule,
-            {
-              min: 6, max: 6, message: '长度为 6 个字符', trigger: 'blur',
-            },
+            {min: 6, max: 6, message: '长度为 6 个字符', trigger: 'blur'},
           ],
         },
       }

@@ -54,7 +54,7 @@
           show-overflow-tooltip
         >
           <template slot-scope="scope">
-            <a class="col-link" @click="handleRouter('detail', scope.row.id)">{{ scope.row.intentProductName }}</a>
+            <a class="col-link" @click="handleRouter('detail', scope.row.id)">{{ scope.row.intentProductName || '无名'}}</a>
           </template>
         </el-table-column>
         <el-table-column
@@ -63,7 +63,11 @@
           prop="customerName"
           show-overflow-tooltip
           width="160">
+          <template slot-scope="scope">
+            <a class="col-link" @click="handleRouter2('detail', scope.row.customerId)">{{ scope.row.customerName }}</a>
+          </template>
         </el-table-column>
+        <!--要求去掉了列表的联系人-->
         <!--<el-table-column
           align="center"
           prop="contacterName"
@@ -263,7 +267,7 @@
               API.salesOpportunities.delete(arrToStr(this.multipleSelection, 'id'), (data) => {
                 if (data.status) {
                   if (data.data.fail > 0) {
-                    this.$message.warning(`成功${data.data.success},失败${data.data.fail}`)
+                    this.$message.warning(`成功${data.data.success}, 失败${data.data.fail}, 失败原因：${data.data.errorMessage}`)
                   } else {
                     this.$message.success(`成功${data.data.success},失败${data.data.fail}`)
                   }
@@ -315,6 +319,9 @@
       },
       handleRouter (name, id) {
         this.$router.push({name: 'salesOpportunitiesDetail', query: {view: name, id: id}, params: {end: 'FE'}})
+      },
+      handleRouter2 (name, id) {
+        this.$router.push({name: 'customersDetail', query: {view: name, customerId: id}, params: {end: 'FE'}})
       },
       searchHandle () {
         this.getSalesOpportunititeisList(this.currentPage - 1, this.pagesOptions.pageSize,

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+<script>
+  let menus = [
+    {
+      id: 1,
+      name: 1,
+      c: [
+        {
+          id: 2,
+          name: 2
+        },
+        {
+          id: 3,
+          name: 3
+        }
+      ]
+    },
+    {
+      id: 4,
+      name: 4,
+      c: [
+        {
+          id: 5,
+          name: 5
+        },
+        {
+          id: 6,
+          name: 6
+        }
+      ]
+    },{
+      id: 7,
+      name: 7,
+      c: []
+    },
+  ]
+  function f (m, id) {
+    let me = m || [ ]
+    console.log(me)
+    return me.some(item => {
+      return item.id === id || f(item.c, id)
+    })
+  }
+  console.log(f(menus, 5), 'ok')
+</script>
+</html>

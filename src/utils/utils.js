@@ -1,20 +1,21 @@
 import webStorage from 'webStorage'
 
 const utils = {
-  loginExamine: function (self, callback) {//登录检验  当前组件this
+  loginExamine: function (self, callback) { //登录检验  当前组件this
     if (!webStorage.getItem('userInfo')) {
       self.$router.push({path: '/'})
     }
-    return webStorage.getItem('userInfo');
+    return webStorage.getItem('userInfo')
   },
   getwebStorage: function (name) {
     if (!webStorage.getItem('userInfo')) {
-      location.hash = "/";
+      location.hash = '/'
     }
     return webStorage.getItem('userInfo')
   },
 }
 export default utils
+
 /*
 * 获取设备平台
 *
@@ -27,7 +28,8 @@ export default utils
 export function platform () {
   let userAgentInfo = navigator.userAgent
 
-  let Agents = ['Android', 'iPhone',
+  let Agents = [
+    'Android', 'iPhone',
     'SymbianOS', 'Windows Phone',
     'iPad', 'iPod']
   let pc = 'Pc'
@@ -134,7 +136,8 @@ export function formatDateTime (Timestamp) {
 * @return {String} xxx...xxx 或 xxx
 * */
 export function interceptString (str, len, m, n) {
-  if ((typeof str === 'string') && (typeof len === 'number') && (typeof m === 'number') && (typeof n === 'number')) {
+  if ((typeof str === 'string') && (typeof len === 'number') &&
+    (typeof m === 'number') && (typeof n === 'number')) {
     if (len <= m + n) {
       throw new Error('长度参数有误，开始截取长度必须大于前后保留长度的和')
     }
@@ -184,7 +187,9 @@ export function deepCopy (source) {
   let result = {}
 
   for (let key in source) {
-    result[key] = typeof source[key] === 'object' ? deepCopy(source[key]) : source[key]
+    result[key] = typeof source[key] === 'object'
+      ? deepCopy(source[key])
+      : source[key]
   }
   return result
 }

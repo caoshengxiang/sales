@@ -16,7 +16,7 @@
               <td class="td-title">需求阶段</td>
               <td class="td-text">
                 <el-form-item prop="state">
-                  <el-select v-model.number="addForm.state" placeholder="请选择需求阶段" style="width: 100%">
+                  <el-select :disabled="true" v-model.number="addForm.state" placeholder="" style="width: 100%">
                     <el-option v-for="item in salesState" :key="item.type" :label="item.value + item.percent" :value="item.type"></el-option>
                   </el-select>
                 </el-form-item>
@@ -87,7 +87,7 @@
         dataLoading: false,
         addForm: { // 添加表单
           customerId: '',
-          state: '',
+          state: 2,
           billDate: '',
           intentBillAmount: '',
           intentProductCate: '',
@@ -105,22 +105,22 @@
             {required: true, message: '请输入所属公司', trigger: 'blur'},
           ],
           state: [
-            {required: true, message: '请选择需求阶段', trigger: 'change'},
+            // {required: true, message: '请选择需求阶段', trigger: 'change'},
           ],
           billDate: [
-            {required: true, message: '请选择预计签单时间', trigger: 'change'},
+            // {required: true, message: '请选择预计签单时间', trigger: 'change'},
           ],
           intentBillAmount: [
-            {required: true, message: '请输入预计签单金额', trigger: 'blur'},
+            // {required: true, message: '请输入预计签单金额', trigger: 'blur'},
           ],
           intentProductCate: [
             {required: true, message: '请选择意向商品分类', trigger: 'change'},
           ],
           intentProductId: [
-            {required: true, message: '请选择意向商品', trigger: 'change'},
+            // {required: true, message: '请选择意向商品', trigger: 'change'},
           ],
           chanceRemark: [
-            {required: true, message: '请输入需求描述', trigger: 'blur'},
+            // {required: true, message: '请输入需求描述', trigger: 'blur'},
           ],
         },
       }
@@ -134,19 +134,35 @@
         this.$refs[formName].validate((valid) => {
           if (valid) {
             this.dataLoading = true
-            API.salesOpportunities.add(this.addForm, (data) => {
-              if (data.status) {
-                this.$message.success('添加成功')
-                setTimeout(() => {
-                  this.dataLoading = false
-                  this.$vDialog.close({type: 'save'})
-                }, 500)
-              } else {
-                setTimeout(() => {
-                  this.dataLoading = false
-                }, 500)
-              }
-            })
+            if (this.params.detail) { // 编辑
+              API.salesOpportunities.confirm({path: this.addForm.id, body: this.addForm}, (data) => {
+                if (data.status) {
+                  this.$message.success('添加成功')
+                  setTimeout(() => {
+                    this.dataLoading = false
+                    this.$vDialog.close({type: 'save'})
+                  }, 500)
+                } else {
+                  setTimeout(() => {
+                    this.dataLoading = false
+                  }, 500)
+                }
+              })
+            } else {
+              API.salesOpportunities.add(this.addForm, (data) => {
+                if (data.status) {
+                  this.$message.success('添加成功')
+                  setTimeout(() => {
+                    this.dataLoading = false
+                    this.$vDialog.close({type: 'save'})
+                  }, 500)
+                } else {
+                  setTimeout(() => {
+                    this.dataLoading = false
+                  }, 500)
+                }
+              })
+            }
           } else {
             console.log('error submit!!')
             return false

@@ -22,7 +22,8 @@
               <!--<input type="text" v-model="addForm.levelName">-->
               <el-form-item prop="level">
                 <el-select v-model.number="addForm.level" @change="selectLevel" placeholder="请选择客户级别">
-                  <el-option v-for="item in levelList" :key="item.codeName" :label="item.codeName" :value="item.codeName"></el-option>
+                  <el-option v-for="item in levelList" :key="item.codeName" :label="item.codeName"
+                             :value="item.codeName"></el-option>
                 </el-select>
               </el-form-item>
             </td>
@@ -39,7 +40,8 @@
               <!--<input type="text" v-model="addForm.industry">-->
               <el-form-item prop="industry">
                 <el-select v-model.number="addForm.industry" @change="selectIndustry" placeholder="请选择客户行业">
-                  <el-option v-for="item in industryList" :key="item.codeName" :label="item.codeName" :value="item.codeName"></el-option>
+                  <el-option v-for="item in industryList" :key="item.codeName" :label="item.codeName"
+                             :value="item.codeName"></el-option>
                 </el-select>
               </el-form-item>
             </td>
@@ -116,6 +118,7 @@
 <script>
   import addContact from '../contacts/addDialog'
   import API from '../../../utils/api'
+  import { chartLengthRule } from '../../../utils/const'
 
   export default {
     name: 'addDialog',
@@ -126,46 +129,19 @@
         addForm: { // 添加客户表单
           name: '',
           businessLicense: '',
-          // levelName: '',
           level: '',
           shortName: '',
           industry: '',
-          // industryName: '',
           provinceId: '',
-          // provinceName: '',
-          // cityName: '',
           cityId: '',
-          // areaName: '',
           areaId: '',
           website: '',
           phone: '',
-          // seaName: '',
           seaId: '',
           address: '',
           business: '',
         },
-        areaOptionsData: [
-          {
-            value: 1,
-            label: '四川',
-            children: [
-              {
-                value: 2,
-                label: '成都',
-                children: [
-                  {
-                    value: 3,
-                    label: '高新区',
-                  },
-                  {
-                    value: 4,
-                    label: '天府新区',
-                  },
-                ],
-              },
-            ],
-          },
-        ],
+        areaOptionsData: [],
         // areaSelectedOptions: [],
         industryList: [], // 行业
         levelList: [], // 级别
@@ -173,44 +149,46 @@
         rules: {
           name: [
             {required: true, message: '请输入公司名称', trigger: 'blur'},
+            {min: 1, max: 50, message: '长度为 50 个字符以内', trigger: 'blur'},
           ],
           businessLicense: [
-            {required: true, message: '请输入营业执照', trigger: 'blur'},
+            // {required: true, message: '请输入营业执照', trigger: 'blur'},
+            {max: 30, message: '长度为 30 个字符以内', trigger: 'blur'},
           ],
-          // levelName: '',
           level: [
-            {required: true, message: '请选择客户等级', trigger: 'change'},
+            // {required: true, message: '请选择客户等级', trigger: 'change'},
           ],
           shortName: [
-            {required: true, message: '请输入客户简称', trigger: 'blur'},
+            // {required: true, message: '请输入客户简称', trigger: 'blur'},
+            {max: 30, message: '长度为 30 个字符以内', trigger: 'blur'},
           ],
           industry: [
             {required: true, message: '请选择客户行业', trigger: 'change'},
+            {max: 30, message: '长度为 30 个字符以内', trigger: 'blur'},
           ],
-          // industryName: '',
           provinceId: [
             {required: true, message: '请选择客户地区', trigger: 'change'},
           ],
-          // provinceName: '',
-          // cityName: '',
           cityId: [],
-          // areaName: '',
           areaId: [],
           website: [
-            {required: true, message: '请输入公司网站', trigger: 'blur'},
+            // {required: true, message: '请输入公司网站', trigger: 'blur'},
+            {max: 100, message: '长度为 100 个字符以内', trigger: 'blur'},
           ],
           phone: [
-            {required: true, message: '请输入联系电话', trigger: 'blur'},
+            // {required: true, message: '请输入联系电话', trigger: 'blur'},
+            chartLengthRule.validatePhone
           ],
           // seaName: '',
           seaId: [
-            {required: true, message: '请选择客户公海', trigger: 'blur'},
+            {required: true, message: '请选择客户公海', trigger: 'change'},
           ],
           address: [
             {required: true, message: '请输入联系地址', trigger: 'blur'},
           ],
           business: [
-            // {required: true, message: '请输入主营业务', trigger: 'blur'},
+            {required: true, message: '请输入主营业务', trigger: 'blur'},
+            {max: 100, message: '长度为 100 个字符以内', trigger: 'blur'},
           ],
         },
         dialogType: 'add',
@@ -323,7 +301,7 @@
         API.customerSea.list(null, (data) => {
           this.seaList = data.data.content
         })
-      }
+      },
     },
     created () {
       this.getAreaOptionsData(null)

@@ -3,6 +3,11 @@
     <div class="com-dialog">
       <el-form :model="moveCustomerForm" :rules="rules" ref="moveCustomerForm" label-width="160px"
                class="demo-ruleForm">
+        <el-form-item label="请选择待转移的销售" prop="oldSalerId">
+          <el-select v-model="moveCustomerForm.oldSalerId" placeholder="请选择待转移的销售">
+            <el-option v-for="item in oldSalerList" :key="item.id" :label="item.name" :value="item.id"></el-option>
+          </el-select>
+        </el-form-item>
         <el-form-item label="请选择新的销售人员" prop="newSalerId">
           <el-select v-model="moveCustomerForm.newSalerId" placeholder="请选择新的销售人员">
             <el-option v-for="item in salerList" :key="item.id" :label="item.name" :value="item.id"></el-option>
@@ -40,12 +45,17 @@
       return {
         dataLoading: false,
         moveCustomerForm: {
+          oldSalerId: '',
           customerIds: '',
           transferType: '',
           newSalerId: '',
         },
         salerList: [],
+        oldSalerList: [],
         rules: {
+          oldSalerId: [
+            {required: true, message: '请选择待转移的销售', trigger: 'change'},
+          ],
           newSalerId: [
             {required: true, message: '请选择新的销售人员', trigger: 'change'},
           ],
@@ -67,7 +77,7 @@
             API.customer.transfer(this.moveCustomerForm, (data) => {
               if (data.status) {
                 if (data.data.fail > 0) {
-                  this.$message.warning(`成功${data.data.success},失败${data.data.fail}`)
+                  this.$message.warning(`成功${data.data.success}, 失败${data.data.fail}, 失败原因：${data.data.errorMessage}`)
                 } else {
                   this.$message.success(`成功${data.data.success},失败${data.data.fail}`)
                 }
@@ -87,14 +97,20 @@
           }
         })
       },
-      getUserSearch (type, roleId, organizationId) {
+      getUserSearch (type, roleId, organizationId) { // todo 走流程
         API.user.userSearch({type: type, roleId: roleId, organizationId: organizationId}, (data) => {
           this.salerList = data.data
+        })
+      },
+      getOldSalerList (type, roleId, organizationId) { // todo 走流程
+        API.user.userSearch({type: type, roleId: roleId, organizationId: organizationId}, (data) => {
+          this.oldSalerList = data.data
         })
       }
     },
     created () {
       this.getUserSearch()
+      this.getOldSalerList()
       this.moveCustomerForm.customerIds = arrToStr(this.params.customerIds, 'id')
     },
   }

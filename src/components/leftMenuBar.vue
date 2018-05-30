@@ -23,87 +23,51 @@
       :text-color="theme[themeIndex].leftMenuBarColor"
       :background-color="theme[themeIndex].leftMenuBarBg"
       :active-text-color="theme[themeIndex].leftMenuBarActiveColor">
-      <el-menu-item index="saleHome">
+      <el-menu-item index="saleHome" v-if="listPermissions(menus, 'salerHome')">
         <i class="iconfont icon-home"></i>
         <span slot="title">管理中心</span>
       </el-menu-item>
-      <el-menu-item index="customersList">
+      <el-menu-item index="customersList" v-if="listPermissions(menus, 'customer')">
         <template slot="title">
           <i class="iconfont icon-user"></i>
           <span slot="title">客户</span>
-          <!--<div class="child-menu">
-            <i class="el-icon-arrow-right"></i>
-            <div class="child-fixed">
-              <ul class="child-menu-box">
-                <li @click="handleRouter('detail')">客户相关信息</li>
-                <li @click="handleRouter('related')">客户资料信息</li>
-              </ul>
-            </div>
-          </div>-->
         </template>
       </el-menu-item>
-      <el-menu-item index="contactsList">
+      <el-menu-item index="contactsList" v-if="listPermissions(menus, 'contacts')">
         <template slot="title">
           <i class="iconfont icon-users"></i>
           <span slot="title">联系人</span>
-          <!--<div class="child-menu">-->
-          <!--<i class="el-icon-arrow-right"></i>-->
-          <!--<div class="child-fixed">-->
-          <!--<ul class="child-menu-box">-->
-          <!--<li>联系人相关信息</li>-->
-          <!--<li>联系人资料信息</li>-->
-          <!--</ul>-->
-          <!--</div>-->
-          <!--</div>-->
         </template>
       </el-menu-item>
-      <el-menu-item index="salesOpportunitiesList">
+      <el-menu-item index="salesOpportunitiesList" v-if="listPermissions(menus, 'salerChance')">
         <template slot="title">
           <i class="iconfont icon-jihui"></i>
           <span slot="title">销售机会</span>
-          <!--<div class="child-menu">-->
-          <!--<i class="el-icon-arrow-right"></i>-->
-          <!--<div class="child-fixed">-->
-          <!--<ul class="child-menu-box">-->
-          <!--<li>销售机会相关信息</li>-->
-          <!--<li>销售机会资料信息</li>-->
-          <!--</ul>-->
-          <!--</div>-->
-          <!--</div>-->
         </template>
       </el-menu-item>
-      <el-menu-item index="salesOrdersList">
+      <el-menu-item index="salesOrdersList" v-if="listPermissions(menus, 'salerOrder')">
         <template slot="title">
           <i class="iconfont icon-icon-test"></i>
           <span slot="title">销售订单</span>
-          <!--<div class="child-menu">-->
-          <!--<i class="el-icon-arrow-right"></i>-->
-          <!--<div class="child-fixed">-->
-          <!--<ul class="child-menu-box">-->
-          <!--<li>销售订单相关信息</li>-->
-          <!--<li>销售订单资料信息</li>-->
-          <!--</ul>-->
-          <!--</div>-->
-          <!--</div>-->
         </template>
       </el-menu-item>
-      <el-menu-item index="orderRecordsList">
+      <el-menu-item index="orderRecordsList" v-if="listPermissions(menus, 'followOrder')">
         <i class="iconfont icon-jilu"></i>
         <span slot="title">跟单记录</span>
       </el-menu-item>
-      <el-menu-item index="remittanceRecords">
+      <el-menu-item index="remittanceRecords" v-if="listPermissions(menus, 'refund')">
         <i class="iconfont icon-shijian-tianchong"></i>
         <span slot="title">回款记录</span>
       </el-menu-item>
-      <el-menu-item index="rebateRecordsList">
+      <el-menu-item index="rebateRecordsList" v-if="listPermissions(menus, 'commission')">
         <i class="iconfont icon-qiahao"></i>
         <span slot="title">返佣记录</span>
       </el-menu-item>
-      <el-menu-item index="customersHighSeasList">
+      <el-menu-item index="customersHighSeasList" v-if="listPermissions(menus, 'customerSea')">
         <i class="iconfont icon-iconset0132"></i>
         <span slot="title">客户公海</span>
       </el-menu-item>
-      <el-menu-item index="taskApprovalList">
+      <el-menu-item index="taskApprovalList" v-if="listPermissions(menus, 'approval')">
         <i class="iconfont icon-shenpi"></i>
         <span slot="title">任务审批</span>
       </el-menu-item>
@@ -123,11 +87,11 @@
           </div>
         </template>
       </el-menu-item>-->
-      <el-menu-item index="todo">
+      <el-menu-item index="todo" v-if="listPermissions(menus, 'adminHome')">
         <i class="iconfont icon-home"></i>
         <span slot="title">首页</span>
       </el-menu-item>
-      <el-submenu index="user">
+      <el-submenu index="user" v-if="listPermissions(menus, 'userManagement')">
         <template slot="title">
           <i class="iconfont icon-user"></i>
           <span>用戶管理</span>
@@ -139,7 +103,7 @@
           <el-menu-item index="agentList">代理商管理</el-menu-item>
         </el-menu-item-group>
       </el-submenu>
-      <el-submenu index="organization">
+      <el-submenu index="organization" v-if="listPermissions(menus, 'orgManagement')">
         <template slot="title">
           <i class="iconfont icon-users"></i>
           <span>组织管理</span>
@@ -151,7 +115,7 @@
           <el-menu-item index="agentList">组织商品配置</el-menu-item>
         </el-menu-item-group>
       </el-submenu>
-      <el-submenu index="financial">
+      <el-submenu index="financial" v-if="listPermissions(menus, 'financialManagement')">
         <template slot="title">
           <i class="iconfont icon-caiwurenminbizhifu2"></i>
           <span>财务管理</span>
@@ -162,7 +126,17 @@
           <el-menu-item index="spendingList">佣金支出管理</el-menu-item>
         </el-menu-item-group>
       </el-submenu>
-      <el-submenu index="customerAreaSetting">
+      <el-submenu index="todo-400" v-if="listPermissions(menus, 'message')">
+        <template slot="title">
+          <i class="iconfont icon-xiaoxitongzhi"></i>
+          <span>消息通知</span>
+        </template>
+        <el-menu-item-group>
+          <!--<template slot="title">分组一</template>-->
+          <el-menu-item index="todo-1">消息通知</el-menu-item>
+        </el-menu-item-group>
+      </el-submenu>
+      <el-submenu index="customerAreaSetting" v-if="listPermissions(menus, 'configManagement')">
         <template slot="title">
           <i class="iconfont icon-peizhiconfiguration15"></i>
           <span>配置管理</span>
@@ -173,6 +147,40 @@
           <el-menu-item index="baseSettingList">参数设置</el-menu-item>
         </el-menu-item-group>
       </el-submenu>
+      <el-submenu index="todo-300" v-if="listPermissions(menus, 'statistics')">
+        <template slot="title">
+          <i class="iconfont icon-iconset0132"></i>
+          <span>统计分析</span>
+        </template>
+        <el-menu-item-group>
+          <!--<template slot="title">分组一</template>-->
+          <el-menu-item index="todo-1">统计分析</el-menu-item>
+        </el-menu-item-group>
+      </el-submenu>
+      <el-submenu index="todo-200" v-if="listPermissions(menus, 'statistics')">
+        <template slot="title">
+          <i class="iconfont icon-xitongrizhi"></i>
+          <span>日志管理</span>
+        </template>
+        <el-menu-item-group>
+          <!--<template slot="title">分组一</template>-->
+          <el-menu-item index="todo-1">日志管理</el-menu-item>
+        </el-menu-item-group>
+      </el-submenu>
+      <el-submenu index="todo-100" v-if="listPermissions(menus, 'crmManagement')">
+        <template slot="title">
+          <i class="iconfont icon-icon-test1"></i>
+          <span>CRM管理</span>
+        </template>
+        <el-menu-item-group>
+          <!--<template slot="title">分组一</template>-->
+          <el-menu-item index="todo-1">客户管理</el-menu-item>
+          <el-menu-item index="todo-1">联系人管理</el-menu-item>
+          <el-menu-item index="todo-1">销售机会管理</el-menu-item>
+          <el-menu-item index="todo-1">销售订单管理</el-menu-item>
+          <el-menu-item index="todo-1">客户公海管理</el-menu-item>
+        </el-menu-item-group>
+      </el-submenu>
     </el-menu>
   </div>
 </template>
@@ -180,11 +188,15 @@
 <script>
   import { mapState } from 'vuex'
   import utils from '../utils/utils'
+  // import webStorage from 'webStorage'
 
   export default {
     name: 'leftMenuBar',
     data () {
-      return {}
+      return {
+        userInfo: {},
+        menus: [],
+      }
     },
     computed: {
       ...mapState('constData', [
@@ -192,8 +204,10 @@
         'themeIndex',
       ]),
     },
-    created() {
-      this.userInfo = utils.loginExamine(this);
+    created () {
+      this.userInfo = utils.loginExamine(this)
+      this.menus = this.userInfo.menus
+      // console.log('tetssss', this.listPermissions(this.menus, 'salerHome'))
     },
     methods: {
       handleOpen (key, keyPath) {
@@ -210,12 +224,19 @@
       routePersonal () {
         this.$router.push({name: 'personal', query: {view: 'base'}, params: {end: 'FE'}})
       },
+      listPermissions (m, id) { // menus权限判断，return true和false
+        let menus = m || []
+        return  menus.some(item => {
+          return item.id === id || this.listPermissions(menus.children, id)
+        })
+      }
     },
   }
 </script>
 
 <style scoped lang="scss" rel="stylesheet/scss">
   @import "../../static/iconFont/iconfont.css";
+
   .left-menu-bar {
   }
 
@@ -252,7 +273,7 @@
     }
   }
 
-  .child-menu {
+/*  .child-menu {
     float: right;
     display: inline-block;
     line-height: 56px;
@@ -285,15 +306,17 @@
         display: block;
       }
     }
-  }
+  }*/
 
   .el-menu-item {
     padding: 0;
   }
+
   .iconfont {
     width: 24px;
     display: inline-block;
   }
+
   .el-submenu .el-menu-item {
     padding-left: 55px !important;
   }

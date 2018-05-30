@@ -5,8 +5,7 @@
                class="demo-ruleForm">
         <el-form-item label="移动客户至" prop="newSeaId">
           <el-select v-model="moveCustomerForm.newSeaId" placeholder="请选择分组">
-            <el-option label="分组1" value="1"></el-option>
-            <el-option label="分组2" value="2"></el-option>
+            <el-option v-for="item in poolList" :key="item.id" :label="item.name" :value="item.id"></el-option>
           </el-select>
         </el-form-item>
       </el-form>
@@ -32,6 +31,7 @@
             {required: true, message: '请选择分组', trigger: 'change'},
           ],
         },
+        poolList: [],
       }
     },
     props: ['params'],
@@ -46,7 +46,7 @@
             API.customerSea.regroup({customerIds: this.params.customerIds, newSeaId: this.moveCustomerForm.newSeaId}, (data) => {
               if (data.status) {
                 if (data.data.fail > 0) {
-                  this.$message.warning(`成功${data.data.success},失败${data.data.fail}`)
+                  this.$message.warning(`成功${data.data.success}, 失败${data.data.fail}, 失败原因：${data.data.errorMessage}`)
                 } else {
                   this.$message.success(`成功${data.data.success},失败${data.data.fail}`)
                 }
@@ -66,7 +66,15 @@
           }
         })
       },
+      getPoolList () {
+        API.customerSea.list(null, (data) => {
+          this.poolList = data.data.content
+        })
+      }
     },
+    created () {
+      this.getPoolList()
+    }
   }
 </script>
 
