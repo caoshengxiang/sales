@@ -6,9 +6,9 @@ export const serverUrl = 'http://sales.dcstar-inc.com/sales' // server地址
 const validatePhone = (rule, value, callback) => { // 自定义规则验证手机号
   let regPhone = /^1[3,4,5,7,8][0-9]{9}$/
   if (value === '') {
-    callback(new Error('请输入手机号'))
+    callback(new Error('请输入您的手机号'))
   } else if (!regPhone.test(value)) {
-    callback(new Error('手机号格式错误!'))
+    callback(new Error('请输入有效手机号!'))
   } else {
     callback()
   }

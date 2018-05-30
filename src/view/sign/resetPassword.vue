@@ -8,11 +8,11 @@
       <div class="sign-form-box">
         <el-form label-width="0px" :model="formData" :rules="rules" ref="ruleForm">
           <el-form-item label="" prop="phone">
-            <el-input class="phone" v-model.number="formData.phone" placeholder="请输入你的手机号"></el-input>
+            <el-input class="phone" v-model.number="formData.phone" placeholder="请输入您的手机号"></el-input>
           </el-form-item>
           <el-form-item label="" prop="password">
             <el-input v-model="formData.oldpassword" type="password" auto-complete="off"
-                      placeholder="请输初始密码"></el-input>
+                      placeholder="请输入初始密码"></el-input>
           </el-form-item>
           <el-form-item label="" prop="password">
             <el-input v-model="formData.password" type="password" auto-complete="off" placeholder="请输入新的密码"></el-input>

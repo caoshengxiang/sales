@@ -108,19 +108,19 @@
             {required: true, message: '请选择需求阶段', trigger: 'change'},
           ],
           billDate: [
-            {required: true, message: '请选择预计签单时间', trigger: 'change'},
+            // {required: true, message: '请选择预计签单时间', trigger: 'change'},
           ],
           intentBillAmount: [
-            {required: true, message: '请输入预计签单金额', trigger: 'blur'},
+            // {required: true, message: '请输入预计签单金额', trigger: 'blur'},
           ],
           intentProductCate: [
             {required: true, message: '请选择意向商品分类', trigger: 'change'},
           ],
           intentProductId: [
-            {required: true, message: '请选择意向商品', trigger: 'change'},
+            // {required: true, message: '请选择意向商品', trigger: 'change'},
           ],
           chanceRemark: [
-            {required: true, message: '请输入需求描述', trigger: 'blur'},
+            // {required: true, message: '请输入需求描述', trigger: 'blur'},
           ],
         },
       }
