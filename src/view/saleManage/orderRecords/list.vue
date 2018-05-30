@@ -88,6 +88,9 @@
           label="发布日期"
           width="160"
           show-overflow-tooltip>
+          <template slot-scope="scope">
+            {{scope.row.created && $moment(scope.row.created).format('YYYY-MM-DD HH:mm')}}
+          </template>
         </el-table-column>
       </el-table>
     </div>
@@ -144,17 +147,17 @@
       },
       handleSizeChange (val) {
         console.log(`每页 ${val} 条`)
-        this.getContactsList(this.currentPage - 1, this.pagesOptions.pageSize)
+        this.getRecordsList(this.currentPage - 1, this.pagesOptions.pageSize)
       },
       handleCurrentChange (val) {
         console.log(`当前页: ${val}`)
         this.currentPage = val
-        this.getContactsList(this.currentPage - 1, this.pagesOptions.pageSize)
+        this.getRecordsList(this.currentPage - 1, this.pagesOptions.pageSize)
       },
       handleRouter (name) {
         this.$router.push({name: 'salesOpportunitiesDetail', query: {view: name, id: 1}, params: {end: 'FE'}})
       },
-      getContactsList (page, pageSize, type) {
+      getRecordsList (page, pageSize, type) {
         this.dataLoading = true
         API.orderRecords.list({
           page: page,
@@ -174,7 +177,7 @@
       },
     },
     created () {
-      this.getContactsList(this.currentPage - 1, this.pagesOptions.pageSize)
+      this.getRecordsList(this.currentPage - 1, this.pagesOptions.pageSize)
     },
   }
 </script>

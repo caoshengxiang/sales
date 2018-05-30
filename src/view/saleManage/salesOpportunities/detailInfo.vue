@@ -15,12 +15,13 @@
       <div class="com-info-left">
         <img class="com-info-img" src="../../../assets/placeholder.jpg" alt="">
         <div class="com-info-text">
-          <h3>{{salesOpportunitiesDetail.intentProductName}}</h3>
+          <h3>{{salesOpportunitiesDetail.intentProductName || '无名'}}</h3>
           <p>
             <span class="com-d-item">客户名称: <span>{{salesOpportunitiesDetail.customerName}}</span></span>
             <span class="com-d-item">预计签单金额: <span>{{salesOpportunitiesDetail.intentBillAmount}}</span></span>
-            <span class="com-d-item">预计签单日期: <span>{{salesOpportunitiesDetail.billDate}}</span></span>
-            <span class="com-d-item">销售机会所有人: <span></span></span>
+            <span class="com-d-item">预计签单日期: <span>{{$moment(salesOpportunitiesDetail.billDate).format('YYYY-MM-DD')}}</span></span>
+            <br>
+            <span class="com-d-item">销售机会所有人: <span>{{salesOpportunitiesDetail.ownerName}}</span></span>
           </p>
         </div>
       </div>
@@ -39,6 +40,7 @@
           <el-steps :active="salesOpportunitiesDetail.stage - 1" align-center>
             <el-step v-for="(item, index) in salesState" :key="index"
                      :title="item.value + '(' + item.percent + ')'"></el-step>
+            <el-step title="输单"></el-step>
           </el-steps>
         </div>
         <a class="lose-bill" @click="operateOptions('discard')">输单</a>
