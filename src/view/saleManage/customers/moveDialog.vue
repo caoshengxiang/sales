@@ -97,12 +97,12 @@
           }
         })
       },
-      getUserSearch (type, roleId, organizationId) {
+      getUserSearch (type, roleId, organizationId) { // todo 走流程
         API.user.userSearch({type: type, roleId: roleId, organizationId: organizationId}, (data) => {
           this.salerList = data.data
         })
       },
-      getOldSalerList (type, roleId, organizationId) {
+      getOldSalerList (type, roleId, organizationId) { // todo 走流程
         API.user.userSearch({type: type, roleId: roleId, organizationId: organizationId}, (data) => {
           this.oldSalerList = data.data
         })

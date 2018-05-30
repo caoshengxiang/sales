@@ -1,5 +1,5 @@
 export const pageMinWidth = 1100 // 页面最小宽度
-export const versionLogs = 'version: 1.1.5, 发布时间：2018.5.29 18:55'
+export const versionLogs = 'version: 1.1.6, 发布时间：2018.5.30 12:45'
 export const serverUrl = 'http://sales.dcstar-inc.com/sales' // server地址
 
 // 表单验证

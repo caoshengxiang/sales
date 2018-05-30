@@ -63,7 +63,11 @@
           prop="customerName"
           show-overflow-tooltip
           width="160">
+          <template slot-scope="scope">
+            <a class="col-link" @click="handleRouter2('detail', scope.row.customerId)">{{ scope.row.customerName }}</a>
+          </template>
         </el-table-column>
+        <!--要求去掉了列表的联系人-->
         <!--<el-table-column
           align="center"
           prop="contacterName"
@@ -315,6 +319,9 @@
       },
       handleRouter (name, id) {
         this.$router.push({name: 'salesOpportunitiesDetail', query: {view: name, id: id}, params: {end: 'FE'}})
+      },
+      handleRouter2 (name, id) {
+        this.$router.push({name: 'customersDetail', query: {view: name, customerId: id}, params: {end: 'FE'}})
       },
       searchHandle () {
         this.getSalesOpportunititeisList(this.currentPage - 1, this.pagesOptions.pageSize,

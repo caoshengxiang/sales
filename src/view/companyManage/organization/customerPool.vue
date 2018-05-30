@@ -173,94 +173,98 @@
           ],
         },
         activeIndex: '',
-        adminList: [{ // todo 需要获取
-          id: 1,
-          name: '人员1',
-        }, {
-          id: 2,
-          name: '人员2',
-        }],
-        followerList: [{
-          id: 1,
-          name: '人员1',
-        }, {
-          id: 2,
-          name: '人员2',
-        }],
-        keyboarderList: [{
-          id: 1,
-          name: '人员1',
-        }, {
-          id: 2,
-          name: '人员2',
-        }],
+        adminList: [],
+        followerList: [],
+        keyboarderList: [],
       }
     },
     components: {
       comButton
     },
     methods: {
+      handleResData (copy) {
+        // 构建前端需要得数据
+        this.ruleForm.adminList = []
+        this.ruleForm.followerList = []
+        this.ruleForm.keyboarderList = []
+        console.log(this.ruleForm, 1111111)
+        copy.adminList.forEach(ad => {
+          this.ruleForm.adminList.push(ad.salerId)
+        })
+        copy.followerList.forEach(ad => {
+          this.ruleForm.followerList.push(ad.salerId)
+        })
+        copy.keyboarderList.forEach(ad => {
+          this.ruleForm.keyboarderList.push(ad.salerId)
+        })
+      },
+      handleReqData () {
+        // 构建后端接口数据
+        let adminListId = JSON.parse(JSON.stringify(this.ruleForm)).adminList
+        let followerListId = JSON.parse(JSON.stringify(this.ruleForm)).followerList
+        let keyboarderListId = JSON.parse(JSON.stringify(this.ruleForm)).keyboarderList
+        this.ruleForm.adminList = []
+        this.ruleForm.followerList = []
+        this.ruleForm.keyboarderList = []
+        adminListId.forEach(id => {
+          this.adminList.forEach(item => {
+            if (item.id === id) {
+              this.ruleForm.adminList.push({
+                salerId: id,
+                salerName: item.name
+              })
+            }
+          })
+        })
+        followerListId.forEach(id => {
+          this.followerList.forEach(item => {
+            if (item.id === id) {
+              this.ruleForm.followerList.push({
+                salerId: id,
+                salerName: item.name
+              })
+            }
+          })
+        })
+        keyboarderListId.forEach(id => {
+          this.keyboarderList.forEach(item => {
+            if (item.id === id) {
+              this.ruleForm.keyboarderList.push({
+                salerId: id,
+                salerName: item.name
+              })
+            }
+          })
+        })
+        // 构建后端接口数据 end
+      },
       submitForm (formName) {
         let that = this
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            // 构建后端接口数据
-            let adminListId = JSON.parse(JSON.stringify(that.ruleForm)).adminList
-            let followerListId = JSON.parse(JSON.stringify(that.ruleForm)).followerList
-            let keyboarderListId = JSON.parse(JSON.stringify(that.ruleForm)).keyboarderList
-            this.ruleForm.adminList = []
-            this.ruleForm.followerList = []
-            this.ruleForm.keyboarderList = []
-            adminListId.forEach(id => {
-              this.adminList.forEach(item => {
-                if (item.id === id) {
-                  this.ruleForm.adminList.push({
-                    salerId: id,
-                    salerName: item.name
+            this.loading = true
+            this.$nextTick(() => {
+              this.handleReqData()
+              API.customerSea.edit({body: that.ruleForm, path: that.ruleForm.id}, function (resData) {
+                that.getPoolDetail(that.activeIndex)
+                if (resData.status) {
+                  that.$message({
+                    message: '保存成功！',
+                    type: 'success'
                   })
+                  setTimeout(() => {
+                    that.loading = false
+                  }, 1000)
+                } else {
+                  setTimeout(() => {
+                    that.loading = false
+                  }, 1000)
                 }
-              })
-            })
-            followerListId.forEach(id => {
-              this.followerList.forEach(item => {
-                if (item.id === id) {
-                  this.ruleForm.followerList.push({
-                    salerId: id,
-                    salerName: item.name
-                  })
-                }
-              })
-            })
-            keyboarderListId.forEach(id => {
-              this.keyboarderList.forEach(item => {
-                if (item.id === id) {
-                  this.ruleForm.keyboarderList.push({
-                    salerId: id,
-                    salerName: item.name
-                  })
-                }
-              })
-            })
-            // 构建后端接口数据 end
-            API.customerSea.edit({body: that.ruleForm, path: that.ruleForm.id}, function (resData) {
-              that.loading = true
-              if (resData.status) {
-                that.$message({
-                  message: '保存成功！',
-                  type: 'success'
-                })
+              }, function () {
                 setTimeout(() => {
                   that.loading = false
-                }, 300)
-              } else {
-                setTimeout(() => {
-                  that.loading = false
-                }, 300)
-              }
-            }, function () {
-              setTimeout(() => {
-                that.loading = false
-              }, 300)
+                }, 1000)
+              })
             })
           } else {
             console.log('error submit!!')
@@ -308,22 +312,9 @@
       getPoolDetail (id) {
         this.activeIndex = id.toString()
         API.customerSea.detail(id, (resD) => {
-          let copy = JSON.parse(JSON.stringify(resD.data))
           this.ruleForm = JSON.parse(JSON.stringify(resD.data))
 
-          // 构建前端需要得数据
-          this.ruleForm.adminList = []
-          this.ruleForm.followerList = []
-          this.ruleForm.keyboarderList = []
-          copy.adminList.forEach(ad => {
-            this.ruleForm.adminList.push(ad.salerId)
-          })
-          copy.followerList.forEach(ad => {
-            this.ruleForm.followerList.push(ad.salerId)
-          })
-          copy.keyboarderList.forEach(ad => {
-            this.ruleForm.keyboarderList.push(ad.salerId)
-          })
+          this.handleResData(JSON.parse(JSON.stringify(resD.data)))
         })
       },
       deletePool () {
@@ -356,10 +347,28 @@
             })
           }
         })
-      }
+      },
+      getAdminList (type, roleId, organizationId) { // todo 走流程
+        API.user.userSearch({type: type, roleId: roleId, organizationId: organizationId}, (data) => {
+          this.adminList = data.data
+        })
+      },
+      getFollowerList (type, roleId, organizationId) { // todo 走流程
+        API.user.userSearch({type: type, roleId: roleId, organizationId: organizationId}, (data) => {
+          this.followerList = data.data
+        })
+      },
+      getKeyboarderList (type, roleId, organizationId) { // todo 走流程
+        API.user.userSearch({type: type, roleId: roleId, organizationId: organizationId}, (data) => {
+          this.keyboarderList = data.data
+        })
+      },
     },
     created () {
       this.getOrganization({pid: 1})
+      this.getAdminList()
+      this.getFollowerList()
+      this.getKeyboarderList()
     }
   }
 </script>
