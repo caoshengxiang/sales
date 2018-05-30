@@ -7,12 +7,6 @@ $axios.defaults.baseURL = serverUrl
 $axios.defaults.timeout = 100000
 // $axios.defaults.headers['Content-Type'] = 'application/json; charset=UTF-8'
 $axios.defaults.headers.post['Content-Type'] = 'application/json;charset=UTF-8'
-let timer = setInterval(() => {
-  if (webStorage.getItem('userInfo')) {
-    clearInterval(timer)
-    $axios.defaults.headers.common['authKey'] = webStorage.getItem('userInfo').authKey
-  }
-}, 50)
 
 // 添加一个请求拦截器
 // let loadinginstace
@@ -60,7 +54,7 @@ $axios.interceptors.response.use((response) => {
   return Promise.reject(error)
 })
 
-export function getUserAuth () { // 只获取一次uathKey问题？ --》临时解决方案，需要在api.js 定义接口方法时调用该方法获取一次
+export function setUserAuth () { // 只获取一次uathKey问题？ --》临时解决方案，需要在api.js 定义接口方法时调用该方法获取一次
   if (webStorage.getItem('userInfo')) {
     $axios.defaults.headers.common['authKey'] = webStorage.getItem('userInfo').authKey
   }
