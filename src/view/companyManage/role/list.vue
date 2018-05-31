@@ -64,14 +64,13 @@
                     label="功能模块"
                     show-overflow-tooltip
                     prop="name"
-                    width="300"
+                    width="200"
                   >
                   </el-table-column>
                   <el-table-column
                     show-overflow-tooltip
                     align="center"
                     label="浏览权限"
-                    width="600"
                   >
                     <template slot-scope="scope">
                       <el-radio v-model="scope.row.dataAuthority" :label="1">个人</el-radio>
@@ -83,7 +82,6 @@
                     show-overflow-tooltip
                     align="center"
                     label="操作权限"
-                    width="300"
                   >
                     <template slot-scope="scope">
                       <el-radio v-model="scope.row.operateAuthority" :label="1">无权限</el-radio>
