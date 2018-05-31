@@ -51,6 +51,7 @@
             <el-tabs :value="listType" @tab-click="handleTabClick">
               <el-tab-pane label="分子机构" name="1">
                 <el-table
+                  ref="dataTable"
                   border
                   tooltip-effect="dark"
                   :data="organizationAllList"
@@ -117,6 +118,7 @@
               </el-tab-pane>
               <el-tab-pane label="部门" name="2">
                 <el-table
+                  ref="dataTable"
                   border
                   tooltip-effect="dark"
                   :data="organizationAllList"
@@ -264,6 +266,7 @@
               </el-tab-pane>
               <el-tab-pane label="用户" name="3">
                 <el-table
+                  ref="dataTable"
                   border
                   :data="userList"
                   tooltip-effect="dark"
@@ -412,6 +415,9 @@
         var that = this;
         that.$options.methods.getList.bind(that)();
         that.$options.methods.queryOrganizationList.bind(that)(0,1);
+        if (that.$refs.dataTable) {
+          that.$refs.dataTable.clearSelection();
+        }
       },
       getList () {
         var that = this;
@@ -609,7 +615,13 @@
             message: '系统繁忙，请稍后再试！',
             type: 'error'
           });
-        })
+        });
+
+        //清楚表格所有选择
+        if (that.$refs.dataTable) {
+          that.$refs.dataTable.clearSelection();
+        }
+
       },
       deleteUser(){
         var that = this;

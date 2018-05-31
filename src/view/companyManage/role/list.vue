@@ -20,6 +20,16 @@
         <com-button buttonType="grey" icon="el-icon-remove-outline" @click="save">保存
         </com-button>
       </div>
+      <div class="com-bar-right">
+        <el-form :model="searchForm" inline>
+          <el-form-item>
+            <el-input type="text" v-model="searchForm.name" placeholder="请输入角色名称" :maxlength="30"></el-input>
+          </el-form-item>
+          <el-form-item>
+            <com-button buttonType="search" @click="getRoleList">搜索</com-button>
+          </el-form-item>
+        </el-form>
+      </div>
     </div>
     <!--详细-->
     <div class="com-box com-box-padding com-list-box">
@@ -106,7 +116,8 @@
         roleDefaultIndex:"1",
         roleDetail:{},
         initBusinessSystemsIndex:"",
-        businessSystemList:[]
+        businessSystemList:[],
+        searchForm:{}
       }
     },
     components: {
@@ -120,7 +131,7 @@
       getRoleList () {
         var that = this;
         this.loading = true
-        API.role.queryList({name:""}, (res) => {
+        API.role.queryList(that.searchForm, (res) => {
           that.loading = false;
           if(res.status){
             that.roleList = res.data;
