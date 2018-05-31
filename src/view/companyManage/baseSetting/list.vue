@@ -61,13 +61,13 @@
                 prop="codeName"
               >
               </el-table-column>
-              <el-table-column
+           <!--   <el-table-column
                 align="left"
                 show-overflow-tooltip
                 label="描述"
                 prop="codeDesc"
               >
-              </el-table-column>
+              </el-table-column>-->
             </el-table>
           </div>
         </el-col>
@@ -107,7 +107,10 @@
     },
     methods: {
       handleSelectionChange (val) {
+        alert(val.length);
         this.multipleSelection = val
+        console.log("x选中的")
+        console.log(val)
       },
       add(){
         var that = this;
@@ -121,7 +124,7 @@
             action:"add"
           },
           callback: function(data){
-            that.getCodeConfig(that.roleDefaultIndex)
+            that.getCodeConfig(that.roleDefaultIndex);
           }
         });
       },
@@ -173,7 +176,8 @@
             action:"update"
           },
           callback: function(data){
-            that.getCodeConfig(that.roleDefaultIndex)
+            that.getCodeConfig(that.roleDefaultIndex);
+            that.$refs.multipleTable.clearSelection();
           }
         });
       },
