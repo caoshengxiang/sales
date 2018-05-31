@@ -40,7 +40,7 @@
               </tr>
               <tr>
                 <td class="td-title">出生日期</td>
-                <td>{{userDetail.birthday}}</td>
+                <td>{{$moment(userDetail.birthday).format('YYYY-MM-DD')}}</td>
               <td class="td-title">邮箱</td>
               <td>{{userDetail.mail}}</td>
               <td class="td-title">QQ</td>
