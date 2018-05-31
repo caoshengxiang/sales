@@ -298,8 +298,8 @@
         })
       },
       getSeaList () {
-        API.customerSea.list(null, (data) => {
-          this.seaList = data.data.content
+        API.customerSea.listAboutCustomer((data) => {
+          this.seaList = data.data
         })
       },
     },

@@ -1,6 +1,7 @@
 export const pageMinWidth = 1100 // 页面最小宽度
-export const versionLogs = 'version: 1.1.6, 发布时间：2018.5.30 15:31'
+export const versionLogs = 'version: 1.1.7, 发布时间：2018.5.31 11:00'
 export const serverUrl = 'http://sales.dcstar-inc.com/sales' // server地址
+// export const serverUrl = 'http://erp.zzcfo.cn/sales' // server地址
 
 // 表单验证
 const validatePhone = (rule, value, callback) => { // 自定义规则验证手机号

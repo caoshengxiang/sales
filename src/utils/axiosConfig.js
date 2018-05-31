@@ -6,7 +6,7 @@ import webStorage from 'webStorage'
 $axios.defaults.baseURL = serverUrl
 $axios.defaults.timeout = 100000
 // $axios.defaults.headers['Content-Type'] = 'application/json; charset=UTF-8'
-// $axios.defaults.headers.common['authKey'] = webStorage.getItem('userInfo').authKey // 统一设置auth移驾至登录接口
+$axios.defaults.headers.common['authKey'] = webStorage.getItem('userInfo').authKey // 刷新时默认获取一次，统一设置auth移驾至登录接口
 $axios.defaults.headers.post['Content-Type'] = 'application/json;charset=UTF-8'
 
 // 添加一个请求拦截器
@@ -36,7 +36,7 @@ $axios.interceptors.response.use((response) => {
       Message.error(response.data.error.message)
     }, 0)
     setTimeout(() => {
-      if (response.data.error.statusCode === '10004') {
+      if (response.data.error.statusCode === '10004' || response.data.error.statusCode === '10007') { // 10004未登录，10007登录过期
         location.href = '/'
       }
     }, 1000)
@@ -54,25 +54,8 @@ $axios.interceptors.response.use((response) => {
   return Promise.reject(error)
 })
 
-// window.addEventListener('beforeunload', function (event) {
-//   alert()
-//   $axios.defaults.headers.common['authKey'] = webStorage.getItem('userInfo').authKey
-//   event.returnValue = '我在这写点东西...'
-// })
-
-// window.onbeforeunload = function (e) {
-//   e = e || window.event
-//
-//   // 兼容IE8和Firefox 4之前的版本
-//   if (e) {
-//     e.returnValue = '$axios.defaults.headers.common["authKey"] = webStorage.getItem("userInfo").authKey'
-//   }
-//
-//   // Chrome, Safari, Firefox 4+, Opera 12+ , IE 9+
-//   return '$axios.defaults.headers.common["authKey"] = webStorage.getItem("userInfo").authKey'
-// }
 export function setUserAuth () { // 只获取一次uathKey问题？ --》临时解决方案，需要在api.js 定义接口方法时调用该方法获取一次
-  if (webStorage.getItem('userInfo')) {
-    $axios.defaults.headers.common['authKey'] = webStorage.getItem('userInfo').authKey
-  }
+  // if (webStorage.getItem('userInfo')) {
+  //   $axios.defaults.headers.common['authKey'] = webStorage.getItem('userInfo').authKey
+  // }
 }

@@ -181,6 +181,14 @@ export default {
         error && error(err)
       })
     },
+    listAboutCustomer (success, error) { // 人员相关公海列表
+      setUserAuth()
+      $axios.get('customerSea/list').then((res) => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+    },
     add (params, success, error) { // add
       setUserAuth()
       $axios.post('customerSea', params).then((res) => {
@@ -566,7 +574,7 @@ export default {
   user: {
     userSearch (params, success, error) { // 搜索用户-列表
       setUserAuth()
-      $axios.get('user/search', {
+      $axios.get('user/list', {
         params: params,
       }).then((res) => {
         success && success(res.data)
