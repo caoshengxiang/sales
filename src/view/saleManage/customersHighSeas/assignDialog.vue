@@ -68,15 +68,15 @@
           }
         })
       },
-      getUserSearch (type, roleId, organizationId) {
-        API.user.userSearch({type: type, roleId: roleId, organizationId: organizationId}, (data) => {
+      getUserSearch (customerId) {
+        API.user.seaFollowersList({customerId: customerId}, (data) => {
           this.salerList = data.data
         })
       }
     },
     created () {
-      this.getUserSearch()
-      this.moveCustomerForm.customerIds = this.params.customerId
+      this.getUserSearch(this.params.customerIds)
+      this.moveCustomerForm.customerIds = this.params.customerIds
     },
   }
 </script>
