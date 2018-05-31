@@ -14,7 +14,7 @@
       <div class="com-bar-left">
         <com-button buttonType="add" icon="el-icon-plus" @click="operateOptions('add')">新增</com-button>
         <com-button buttonType="orange" icon="el-icon-plus" @click="operateOptions('assign')"
-                    :disabled="multipleSelection.length <= 0">分配
+                    :disabled="multipleSelection.length !== 1">分配
         </com-button>
         <com-button buttonType="backHighSeas" icon="el-icon-plus" @click="operateOptions('gain')"
                     :disabled="multipleSelection.length <= 0">捞取

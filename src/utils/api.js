@@ -574,6 +574,17 @@ export default {
         error && error(err)
       })
     },
+    seaFollowersList (params, success, error) { // 客户池销售跟进员列表
+      console.log(params)
+      setUserAuth()
+      $axios.get('user/sea/followers', {
+        params: params,
+      }).then((res) => {
+        success && success(res.data)
+      }).catch(err => {
+        error && error(err)
+      })
+    },
     userList (params, success, error) { // 用户列表
       setUserAuth()
       $axios.get('user', {
