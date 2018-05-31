@@ -241,7 +241,7 @@
             var loopDo = function (list,id) {
               for (var i =0;i<list.length;i++) {
                 var item = list[i];
-                if (item.id == id) {      
+                if (item.id == id) {
                   that.selectedOptions.push(item.id);
                   if(item.pid > 0)
                   {
@@ -255,9 +255,6 @@
 
             loopDo(that.alldepartments,tempid);
             that.selectedOptions.reverse()
-            console.log(12312312)
-
-            console.log(that.selectedOptions)
           }
         }, (mock) => {
           that.alldepartments = mock.data
