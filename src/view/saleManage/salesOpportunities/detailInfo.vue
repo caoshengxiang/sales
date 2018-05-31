@@ -243,7 +243,7 @@
           </li>
         </ul>
         <div class="team-btn-group">
-          <div class="btn-item-1" @click="operateOptions('apply')">申请咨询师协同</div>
+          <div v-if="salesOpportunitiesDetail.team && !salesOpportunitiesDetail.team.counselorId" class="btn-item-1" @click="operateOptions('apply')">申请咨询师协同</div>
           <div class="btn-item-2" @click="operateOptions('exit')">咨询师主动退出</div>
           <div class="btn-item-3" @click="operateOptions('replace')">申请替换咨询师</div>
         </div>
@@ -330,6 +330,7 @@
               API.salesOpportunities.delete(this.salesOpportunitiesDetail.id, (data) => {
                 if (data.status) {
                   this.$message.success('删除成功')
+                  this.$router.push({name: 'salesOpportunitiesList', params: 'FE'})
                 }
               })
             }).catch(() => {
