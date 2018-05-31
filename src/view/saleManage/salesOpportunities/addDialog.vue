@@ -169,10 +169,10 @@
           }
         })
       },
-      getCustomersList () { // “跟进”的所有客户
-        API.customer.teamAboutCustomerlist({page: 0, pageSize: -1, type: 2}, data => {
+      getCustomersList () { // 当前登陆用户所有的拥有团队成员权限的客户信息
+        API.customer.teamAboutCustomerlist(data => {
           if (data.status) {
-            this.customersList = data.data.content
+            this.customersList = data.data
           }
         })
       },
@@ -181,8 +181,8 @@
           this.intentProductCateList = data.content
         })
       },
-      getIntentProductList () {
-        API.external.findGoods((data) => {
+      getIntentProductList (id) {
+        API.external.findGoods({goodsType: id}, (data) => {
           this.intentProductList = data.content
         })
       },
@@ -194,6 +194,7 @@
         })
       },
       intentProductCateChangeHandle (id) {
+        this.getIntentProductList(id) // 分类id获取商品
         this.intentProductCateList.forEach(item => {
           if (item.objectId === id) {
             this.addForm.intentProductCateName = item.name
@@ -204,7 +205,6 @@
     created () {
       this.getCustomersList()
       this.getIntentProductCateList()
-      this.getIntentProductList()
       this.salesState = this.params.salesState
       if (this.params.detail) {
         this.addForm = this.params.detail

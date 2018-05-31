@@ -234,7 +234,7 @@
           }
         })
       },
-      getCustomersList () { // “跟进”的所有客户
+      getCustomersList () { // 当前登陆用户所有的拥有团队成员权限的客户信息
         API.customer.teamAboutCustomerlist(data => {
           if (data.status) {
             this.customersList = data.data

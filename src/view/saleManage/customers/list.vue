@@ -17,7 +17,7 @@
                     :disabled="multipleSelection.length !== 1">转移
         </com-button>
         <com-button buttonType="backHighSeas" icon="el-icon-plus" @click="returnHighSeaHandle"
-                    :disabled="multipleSelection.length <= 0">退回公海池
+                    :disabled="multipleSelection.length !== 1">退回公海池
         </com-button>
       </div>
       <div class="com-bar-right">

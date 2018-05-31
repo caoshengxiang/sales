@@ -28,6 +28,7 @@
 <script>
   import { arrToStr } from '../../../utils/utils'
   import API from '../../../utils/api'
+  import webStorage from 'webStorage'
   export default {
     name: 'moveDialog',
     data () {
@@ -43,6 +44,7 @@
             {required: true, message: '请选择新的销售人员', trigger: 'change'},
           ],
         },
+        currentUserId: '',
       }
     },
     props: ['params'],
@@ -77,14 +79,15 @@
           }
         })
       },
-      getUserSearch (type, roleId, organizationId) {
-        API.user.userSearch({type: type, roleId: roleId, organizationId: organizationId, bilityIds: ''}, (data) => {
+      getUserSearch (departmentId) { // todo 展示传得部门
+        API.user.userSearch({departmentId: departmentId}, (data) => {
           this.salerList = data.data
         })
-      }
+      },
     },
     created () {
-      this.getUserSearch()
+      this.getUserSearch(webStorage.getItem('userInfo').departmentId)
+      this.currentUserId = webStorage.getItem('userInfo').id // todo 需不需要过滤自己，【客户转移一样得代码】
       this.moveCustomerForm.chanceIds = arrToStr(this.params.multipleSelection, 'id')
     }
   }

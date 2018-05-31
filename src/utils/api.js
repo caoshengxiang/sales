@@ -15,8 +15,9 @@ export default {
         success && success(data)
       })
     },
-    findGoods (success, error) { // 获取商品列表
+    findGoods (params, success, error) { // 获取商品列表
       $.getJSON('http://47.96.26.250:84/rest/service/product/findGoods',
+        params,
         (data) => {
           success && success(data)
         })
@@ -572,9 +573,19 @@ export default {
     },
   },
   user: {
-    userSearch (params, success, error) { // 搜索用户-列表
+    userSearch (params, success, error) { // 下拉用户列表
       setUserAuth()
       $axios.get('user/list', {
+        params: params,
+      }).then((res) => {
+        success && success(res.data)
+      }).catch(err => {
+        error && error(err)
+      })
+    },
+    toTransferUserList (params, success, error) { // 待转移销售列表
+      setUserAuth()
+      $axios.get('user/toTransfer/list', {
         params: params,
       }).then((res) => {
         success && success(res.data)

@@ -43,7 +43,7 @@
             <el-step title="输单"></el-step>
           </el-steps>
         </div>
-        <a class="lose-bill" @click="operateOptions('discard')">输单</a>
+        <a v-if="salesOpportunitiesDetail.stage !== -1" class="lose-bill" @click="operateOptions('discard')">输单</a>
       </div>
 
     </div>

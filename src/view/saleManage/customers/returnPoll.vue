@@ -1,10 +1,10 @@
 <template>
   <div class="com-dialog-container" v-loading="dataLoading">
     <div class="com-dialog">
-      <el-form :model="moveCustomerForm" :rules="rules" ref="moveCustomerForm" label-width="160px"
+      <el-form :model="moveCustomerForm" :rules="rules" ref="moveCustomerForm" label-width="220px"
                class="demo-ruleForm">
-        <el-form-item label="请选择待转移的销售" prop="oldSalerId">
-          <el-select v-model="moveCustomerForm.oldSalerId" placeholder="请选择待转移的销售">
+        <el-form-item label="请选择待解除跟进关系的销售" prop="oldSalerId">
+          <el-select v-model="moveCustomerForm.oldSalerId" placeholder="请选择待解除跟进关系的销售">
             <el-option v-for="item in oldSalerList" :key="item.id" :label="item.name" :value="item.id"></el-option>
           </el-select>
         </el-form-item>
@@ -33,14 +33,14 @@
         oldSalerList: [],
         rules: {
           oldSalerId: [
-            {required: true, message: '请选择待转移的销售', trigger: 'change'},
+            {required: true, message: '请选择待解除跟进关系的销售', trigger: 'change'},
           ],
-          newSalerId: [
-            {required: true, message: '请选择新的销售人员', trigger: 'change'},
-          ],
-          transferType: [
-            {required: true, message: '请选择转移业务类型', trigger: 'change'},
-          ],
+          // newSalerId: [
+          //   {required: true, message: '请选择新的销售人员', trigger: 'change'},
+          // ],
+          // transferType: [
+          //   {required: true, message: '请选择转移业务类型', trigger: 'change'},
+          // ],
         },
       }
     },
@@ -76,14 +76,14 @@
           }
         })
       },
-      getOldSalerList (type, roleId, organizationId) { // todo 走流程
-        API.user.userSearch({type: type, roleId: roleId, organizationId: organizationId, bilityIds: ''}, (data) => {
+      getOldSalerList (customerId) { // todo 走流程
+        API.user.toTransferUserList({customerId: customerId}, (data) => {
           this.oldSalerList = data.data
         })
       }
     },
     created () {
-      this.getOldSalerList()
+      this.getOldSalerList(arrToStr(this.params.customerIds, 'id'))
       this.moveCustomerForm.customerIds = arrToStr(this.params.customerIds, 'id')
     },
   }

@@ -10,7 +10,7 @@
         </el-form-item>
         <el-form-item label="请选择新的销售人员" prop="newSalerId">
           <el-select v-model="moveCustomerForm.newSalerId" placeholder="请选择新的销售人员">
-            <el-option v-for="item in salerList" :key="item.id" :label="item.name" :value="item.id"></el-option>
+            <el-option :disabled="currentUserId === item.id" v-for="item in salerList" :key="item.id" :label="item.name" :value="item.id"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="请选择转移业务类型" prop="transferType">
@@ -38,6 +38,7 @@
 <script>
   import API from '../../../utils/api'
   import { arrToStr } from '../../../utils/utils'
+  import webStorage from 'webStorage'
 
   export default {
     name: 'moveDialog',
@@ -52,6 +53,7 @@
         },
         salerList: [],
         oldSalerList: [],
+        currentUserId: '', // 当前登录用户id
         rules: {
           oldSalerId: [
             {required: true, message: '请选择待转移的销售', trigger: 'change'},
@@ -97,20 +99,21 @@
           }
         })
       },
-      getUserSearch (type, roleId, organizationId) { // todo 走流程
-        API.user.userSearch({type: type, roleId: roleId, organizationId: organizationId, bilityIds: ''}, (data) => {
+      getUserSearch (departmentId) { // todo 展示传得部门
+        API.user.userSearch({departmentId: departmentId}, (data) => {
           this.salerList = data.data
         })
       },
-      getOldSalerList (type, roleId, organizationId) { // todo 走流程
-        API.user.userSearch({type: type, roleId: roleId, organizationId: organizationId, bilityIds: ''}, (data) => {
+      getOldSalerList (customerId) { // 待转移销售列表
+        API.user.toTransferUserList({customerId: customerId}, (data) => {
           this.oldSalerList = data.data
         })
       }
     },
     created () {
-      this.getUserSearch()
-      this.getOldSalerList()
+      this.getUserSearch(webStorage.getItem('userInfo').departmentId)
+      this.currentUserId = webStorage.getItem('userInfo').id
+      this.getOldSalerList(arrToStr(this.params.customerIds, 'id'))
       this.moveCustomerForm.customerIds = arrToStr(this.params.customerIds, 'id')
     },
   }
