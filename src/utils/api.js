@@ -303,7 +303,7 @@ export default {
       $axios({
         method: 'get',
         url: '/salerChance',
-        // params: params,
+        params: params,
       }).then(res => {
         success && success(res.data)
       }).catch((err) => {
