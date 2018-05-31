@@ -69,7 +69,7 @@
         })
       },
       getUserSearch (type, roleId, organizationId) {
-        API.user.userSearch({type: type, roleId: roleId, organizationId: organizationId}, (data) => {
+        API.user.userSearch({type: type, roleId: roleId, organizationId: organizationId, bilityIds: ''}, (data) => {
           this.salerList = data.data
         })
       }

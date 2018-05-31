@@ -70,6 +70,10 @@ npm test
 
 > 【目前会提示输入两次密码】
 
+[自动输入密码](https://blog.csdn.net/zhangjikuan/article/details/51105166)
+
+[linux expect 使用](https://blog.csdn.net/houmou/article/details/53102051)
+
 ## 目录说明
 ```
 * sales

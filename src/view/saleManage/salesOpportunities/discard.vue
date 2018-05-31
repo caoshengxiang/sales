@@ -32,7 +32,6 @@
         moveCustomerForm: {
           discardRemark: '',
         },
-        salerList: [],
         rules: {
           discardRemark: [
             {required: true, message: '请输入输单备注信息', trigger: 'blur'},
@@ -68,14 +67,8 @@
           }
         })
       },
-      getUserSearch (type, roleId, organizationId) {
-        API.user.userSearch({type: type, roleId: roleId, organizationId: organizationId}, (data) => {
-          this.salerList = data.data
-        })
-      }
     },
     created () {
-      this.getUserSearch()
     }
   }
 </script>

@@ -77,7 +77,7 @@
         })
       },
       getOldSalerList (type, roleId, organizationId) { // todo 走流程
-        API.user.userSearch({type: type, roleId: roleId, organizationId: organizationId}, (data) => {
+        API.user.userSearch({type: type, roleId: roleId, organizationId: organizationId, bilityIds: ''}, (data) => {
           this.oldSalerList = data.data
         })
       }

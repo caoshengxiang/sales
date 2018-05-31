@@ -409,25 +409,28 @@
         this.dataLoading = true
         API.salesOpportunities.detail(this.$route.query.id, (data) => {
           this.ac_salesOpportunitiesDetail(data.data)
+          this.getContactList(data.data.customerId)
+          this.getOrderRecordsList(data.data.id)
+          this.getAppOrderList(data.data.id)
           setTimeout(() => {
             this.dataLoading = false
           }, 500)
         })
       },
-      getContactList () {
-        API.contacts.list({customerId: this.$route.query.customerId, pageSize: 5}, (da) => {
+      getContactList (customerId) {
+        API.contacts.list({customerId: customerId, pageSize: 5}, (da) => {
           this.contactList = da.data.content
           this.contactTotal = da.data.totalElements
         })
       },
-      getOrderRecordsList () {
-        API.orderRecords.list({chanceId: this.$route.query.id}, (da) => {
+      getOrderRecordsList (id) {
+        API.orderRecords.list({chanceId: id, pageSize: 5}, (da) => {
           this.orderRecordsList = da.data.content
           this.orderRecordsList = da.data.totalElements
         })
       },
-      getAppOrderList () {
-        API.salesOrder.list({chanceId: this.$route.query.id}, (da) => {
+      getAppOrderList (id) {
+        API.salesOrder.list({chanceId: id, pageSize: 5}, (da) => {
           this.orderRecordsList = da.data.content
           this.orderRecordsList = da.data.totalElements
         })
@@ -462,9 +465,6 @@
     created () {
       this.activeViewName = this.$route.query.view
       this.getSalesOpportunitiesDetail()
-      this.getContactList()
-      this.getOrderRecordsList()
-      this.getAppOrderList()
     },
   }
 </script>
