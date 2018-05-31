@@ -1,30 +1,32 @@
 <template>
   <div class="com-dialog-container" v-loading="dataLoading">
-      <div class="com-dialog">
-        <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="180px"
-                 class="demo-ruleForm">
-          <el-form-item label="请选择协同咨询师类型" prop="consultantType">
-            <el-radio-group v-model="ruleForm.principalType">
-              <el-radio label="专业咨询师"></el-radio>
-              <el-radio label="同部门其他销售人员"></el-radio>
-            </el-radio-group>
-          </el-form-item>
-          <el-form-item label="请选择协同咨询师人员" prop="principalId">
-            <el-select v-model.number="ruleForm.principalId" placeholder="请选择协同咨询师人员">
-              <el-option v-for="item in userList" :key="item.id" :label="item.name" :value="item.id"></el-option>
-            </el-select>
-          </el-form-item>
-        </el-form>
-        <div slot="footer" class="dialog-footer">
-          <el-button class="cancel-button" @click="cancelSubmitForm">取 消</el-button>
-          <el-button class="save-button" @click="saveSubmitForm('ruleForm')">确 定</el-button>
-        </div>
+    <div class="com-dialog">
+      <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="180px"
+               class="demo-ruleForm">
+        <el-form-item label="请选择协同咨询师类型" prop="consultantType">
+          <el-radio-group v-model="ruleForm.principalType">
+            <el-radio label="专业咨询师"></el-radio>
+            <el-radio label="同部门其他销售人员"></el-radio>
+          </el-radio-group>
+        </el-form-item>
+        <el-form-item label="请选择协同咨询师人员" prop="principalId">
+          <el-select v-model.number="ruleForm.principalId" placeholder="请选择协同咨询师人员">
+            <el-option :disabled="exceptUserIds.some((id) => {return id === item.id})" v-for="item in userList"
+                       :key="item.id" :label="item.name" :value="item.id"></el-option>
+          </el-select>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button class="cancel-button" @click="cancelSubmitForm">取 消</el-button>
+        <el-button class="save-button" @click="saveSubmitForm('ruleForm')">确 定</el-button>
       </div>
+    </div>
   </div>
 </template>
 
 <script>
   import API from '../../../utils/api'
+
   export default {
     name: 'applyDialog',
     data () {
@@ -44,7 +46,8 @@
             {required: true, message: '请选择协同咨询师人员', trigger: 'change'},
           ],
         },
-        userList: []
+        userList: [],
+        exceptUserIds: [],
       }
     },
     props: ['params'],
@@ -78,16 +81,17 @@
       getUserList (page, pageSize) {
         API.user.userList({
           page: page,
-          pageSize: pageSize
+          pageSize: pageSize,
         }, (da) => {
           this.userList = da.data.content
         })
-      }
+      },
     },
     created () {
       this.getUserList(0, null)
       this.ruleForm.chanceId = this.params.chanceId
-    }
+      this.exceptUserIds = this.params.exceptUserIds
+    },
   }
 </script>
 

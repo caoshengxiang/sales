@@ -143,15 +143,15 @@
           width="160"
           show-overflow-tooltip>
         </el-table-column>
-        <el-table-column
+        <!--<el-table-column
           align="center"
           label="销售员"
           width="160"
           show-overflow-tooltip>
           <template slot-scope="scope">
-            <!--<span>{{}}</span>--><!--todo 缺销售人员-->
+            &lt;!&ndash;<span>{{}}</span>&ndash;&gt;&lt;!&ndash; &ndash;&gt;
           </template>
-        </el-table-column>
+        </el-table-column>-->
         <el-table-column
           align="center"
           prop="created"

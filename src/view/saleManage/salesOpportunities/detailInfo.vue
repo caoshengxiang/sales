@@ -262,6 +262,7 @@
   // import { arrToStr } from '../../../utils/utils'
   import discard from './discard'
   import addDialog from './addDialog'
+  import webStorage from 'webStorage'
 
   export default {
     name: 'detailInfo',
@@ -361,6 +362,7 @@
               params: {
                 consultantType: 'apply',
                 chanceId: this.salesOpportunitiesDetail.id,
+                exceptUserIds: this.getTeamAndOwn()
               },
               callback: (data) => {
                 if (data.type === 'save') {
@@ -395,6 +397,7 @@
               params: {
                 consultantType: 'replace',
                 chanceId: this.salesOpportunitiesDetail.id,
+                exceptUserIds: this.getTeamAndOwn()
               },
               callback: (data) => {
                 if (data.type === 'save') {
@@ -404,6 +407,22 @@
             })
             break
         }
+      },
+      getTeamAndOwn () {
+        let arrIds = []
+        arrIds.push(webStorage.getItem('userInfo').id) // 自己
+        if (this.salesOpportunitiesDetail.team) {
+          if (this.salesOpportunitiesDetail.team.creator) { // 创建人
+            arrIds.push(this.salesOpportunitiesDetail.team.creator)
+          }
+          if (this.salesOpportunitiesDetail.team.counselorId) { // 咨询师
+            arrIds.push(this.salesOpportunitiesDetail.team.counselorId)
+          }
+          if (this.salesOpportunitiesDetail.team.salerId) { // 销售
+            arrIds.push(this.salesOpportunitiesDetail.team.salerId)
+          }
+        }
+        return [...new Set(arrIds)] // 去重
       },
       getSalesOpportunitiesDetail () {
         this.dataLoading = true
