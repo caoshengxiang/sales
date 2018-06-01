@@ -1,8 +1,9 @@
 'use strict'
 const merge = require('webpack-merge')
 const prodEnv = require('./prod.env')
+const serverUrl = require('./serverUrl')
 
 module.exports = merge(prodEnv, {
   NODE_ENV: '"development"',
-  API_ROOT: '"http://localhost:8080/sales"'
+  API_ROOT: serverUrl.dev_url
 })

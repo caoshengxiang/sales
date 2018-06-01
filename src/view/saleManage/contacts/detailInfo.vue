@@ -103,14 +103,14 @@
           <el-tab-pane label="联系人相关信息" name="related">
 
             <div class="related-btn-group">
-              <com-button buttonType="grey">销售机会({{chanceTotal}})</com-button>
-              <com-button buttonType="grey">销售订单({{orderTotal}})</com-button>
+              <com-button buttonType="grey" @click="handleRoute('chance')">销售机会({{chanceTotal}})</com-button>
+              <com-button buttonType="grey" @click="handleRoute('order')">销售订单({{orderTotal}})</com-button>
             </div>
 
             <p class="table-title">
               销售机会({{chanceTotal}})
-              <a class="more" v-if="chanceTotal > 5">更多》</a>
-              <a class="table-add"><i class="el-icon-plus"></i>新增销售机会</a>
+              <a class="more" v-if="chanceTotal > 5" @click="handleRoute('chance')">更多》</a>
+              <a class="table-add" @click="quickOperation('addChance')"><i class="el-icon-plus"></i>新增销售机会</a>
             </p>
             <table class="detail-table related-table">
               <tr>
@@ -128,14 +128,14 @@
                 <td>{{item.intentProductName}}</td>
                 <td></td>
                 <td></td>
-                <td><a class="table-op">删除</a></td>
+                <td><a class="table-op" @click="quickOperation('deleteChance', item.id)">删除</a></td>
               </tr>
             </table>
 
             <p class="table-title">
               销售订单({{orderTotal}})
-              <a class="more" v-if="orderTotal > 5">更多》</a>
-              <a class="table-add"><i class="el-icon-plus"></i>新增销售订单</a>
+              <a class="more" v-if="orderTotal > 5" @click="handleRoute('order')">更多》</a>
+              <a class="table-add" @click="quickOperation('addOrder')"><i class="el-icon-plus"></i>新增销售订单</a>
             </p>
             <table class="detail-table related-table">
               <tr>
@@ -155,7 +155,7 @@
                 <td><span v-for="os in orderState" :key="os.type"
                           v-if="item.orderState === os.type">{{os.value}}</span></td>
                 <td>{{$moment(item.created).format('YYYY-MM-DD HH:mm:ss')}}</td>
-                <td><a class="table-op">删除</a></td>
+                <td><a class="table-op" @click="quickOperation('deleteOrder', item.id)">删除</a></td>
               </tr>
             </table>
           </el-tab-pane>
@@ -195,11 +195,6 @@
         </ul>
       </div>
     </div>
-    <!-- -->
-    <!-- -->
-    <!--编辑弹窗-->
-    <!--<add-dialog type="edit" :addDialogOpen="addDialogOpen"-->
-    <!--@hasAddDialogOpen="addDialogOpen = false"></add-dialog>-->
   </div>
 </template>
 
@@ -208,6 +203,8 @@
   import API from '../../../utils/api'
   import { mapState, mapActions } from 'vuex'
   import addDialog from './addDialog'
+  import addChanceDialog from '../salesOpportunities/addDialog'
+  import addOrderDialog from '../salesOrders/addDialog'
 
   export default {
     name: 'detailInfo',
@@ -236,7 +233,6 @@
     },
     components: {
       comButton,
-      addDialog,
     },
     methods: {
       ...mapActions('contacts', [
@@ -276,28 +272,102 @@
         API.contacts.detail(this.$route.query.contactsId, (data) => {
           setTimeout(() => {
             this.ac_contactsDetail(data.data)
+            this.getChanceList(data.data.customerId)
+            this.getOrderList(data.data.customerId)
             this.dataLoading = false
           }, 500)
         })
       },
-      getChanceList () {
-        API.contacts.list({customerId: this.$route.query.customerId, pageSize: 5}, (da) => {
+      getChanceList (customerId) {
+        API.contacts.list({customerId: customerId, pageSize: 5}, (da) => {
           this.chanceList = da.data.content
           this.chanceTotal = da.data.totalElements
         })
       },
-      getOrderList () { // todo
-        API.salesOrder.list({customerId: this.$route.query.customerId, pageSize: 5}, (da) => {
+      getOrderList (customerId) { // todo
+        API.salesOrder.list({customerId: customerId, pageSize: 5}, (da) => {
           this.orderList = da.data.content
           this.orderTotal = da.data.totalElements
         })
+      },
+      handleRoute (list) {
+        switch (list) {
+          // case 'contact':
+          //   this.$router.push({name: 'contactsList', query: {customerId: this.contactsDetail.customerId}})
+          //   break
+          case 'chance':
+            this.$router.push({name: 'salesOpportunitiesList', query: {customerId: this.contactsDetail.customerId}})
+            break
+          case 'order':
+            this.$router.push({name: 'salesOrdersList', query: {customerId: this.contactsDetail.customerId}})
+            break
+        }
+      },
+      quickOperation (op, id) {
+        // eslint-disable-next-line
+        let that = this
+        let deleteId = id || ''
+        switch (op) {
+          // case 'addContact':
+          //   break
+          case 'addChance':
+            this.$vDialog.modal(addChanceDialog, {
+              title: '新增销售机会',
+              width: 900,
+              height: 400,
+              params: {
+                salesState: this.salesState,
+              },
+              callback (data) {
+                if (data.type === 'save') {
+                  this.getChanceList(that.contactsDetail.customerId)
+                }
+              },
+            })
+            break
+          case 'deleteChance':
+            this.$confirm('确定删除销售机会, 是否继续?', '提示', {
+              confirmButtonText: '确定',
+              cancelButtonText: '取消',
+              type: 'warning',
+            }).then(() => {
+              API.salesOpportunities.delete(deleteId, (data) => {
+                if (data.status) {
+                  this.$message.success('删除成功')
+                  this.getChanceList(that.contactsDetail.customerId)
+                }
+              })
+            }).catch(() => {
+              this.$message({
+                type: 'info',
+                message: '已取消删除',
+              })
+            })
+            break
+          case 'addOrder':
+            this.$vDialog.modal(addOrderDialog, {
+              title: '添加订单',
+              width: 900,
+              height: 340,
+              params: {
+                // id: '123456',
+              },
+              callback (data) {
+                if (data.type === 'save') {
+                  this.getOrderList(that.contactsDetail.customerId)
+                }
+              },
+            })
+            break
+          case 'deleteOrder':
+            alert(deleteId)
+            break
+        }
       }
     },
     created () {
       this.activeViewName = this.$route.query.view
       this.getContactsDetail()
-      this.getChanceList()
-      this.getOrderList()
     },
   }
 </script>

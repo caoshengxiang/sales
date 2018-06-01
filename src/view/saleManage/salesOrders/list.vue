@@ -49,7 +49,7 @@
           width="200"
         >
           <template slot-scope="scope">
-            <a class="col-link" @click="handleRouter('detail', scope.row.id)">{{ scope.row.billOrderId }} todo 缺字段</a>
+            <a class="col-link" @click="handleRouter('detail', scope.row.id)">{{ scope.row.billOrderId }}</a>
           </template>
         </el-table-column>
         <el-table-column

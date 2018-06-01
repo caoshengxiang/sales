@@ -8,7 +8,8 @@
             <td class="td-text">
               <el-form-item prop="customerId">
                 <el-select v-model.number="addForm.customerId" placeholder="请选择客户">
-                  <el-option v-for="item in customersList" :key="item.id" :label="item.name" :value="item.id"></el-option>
+                  <el-option v-for="item in customersList" :key="item.id" :label="item.name"
+                             :value="item.id"></el-option>
                 </el-select>
               </el-form-item>
             </td>
@@ -121,6 +122,7 @@
 
 <script>
   import API from '../../../utils/api'
+  import { chartLengthRule } from '../../../utils/const'
 
   export default {
     name: 'addDialog',
@@ -150,7 +152,8 @@
             {required: true, message: '请输入联系人姓名', trigger: 'blur'},
           ],
           phone: [
-            {required: true, message: '请输入联系电话', trigger: 'blur'},
+            // {required: true, message: '请输入联系电话', trigger: 'blur'},
+            chartLengthRule.validatePhone,
           ],
           department: [
             // {required: true, message: '请输入任职部门', trigger: 'blur'},

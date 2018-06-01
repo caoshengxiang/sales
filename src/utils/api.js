@@ -380,7 +380,7 @@ export default {
       setUserAuth()
       $axios({
         method: 'get',
-        url: '/salerChance/',
+        url: '/salerOrder',
         params: params,
       }).then(res => {
         success && success(res.data)
@@ -445,7 +445,7 @@ export default {
       setUserAuth()
       $axios({
         method: 'get',
-        url: '/customerContacter/' + params.id,
+        url: '/salerOrder/' + params.id,
         // params: params,
       }).then(res => {
         success && success(res.data)

@@ -122,15 +122,15 @@
           <el-tab-pane label="销售机会相关信息" name="related">
 
             <div class="related-btn-group">
-              <com-button buttonType="theme">联系人({{contactTotal}})</com-button>
-              <com-button buttonType="grey">跟单记录({{orderRecordsTotal}})</com-button>
-              <com-button buttonType="grey">APP订单({{appOrderTotal}})</com-button>
+              <com-button buttonType="theme" @click="handleRoute('contact')">联系人({{contactTotal}})</com-button>
+              <com-button buttonType="grey" @click="handleRoute('orderRecords')">跟单记录({{orderRecordsTotal}})</com-button>
+              <com-button buttonType="grey" @click="handleRoute('order')">APP订单({{appOrderTotal}})</com-button>
             </div>
 
             <p class="table-title">
               联系人({{contactTotal}})
-              <a class="more" v-if="contactTotal > 5">更多》</a>
-              <a class="table-add"><i class="el-icon-plus"></i>新增联系人</a>
+              <a class="more" v-if="contactTotal > 5" @click="handleRoute('contact')">更多》</a>
+              <a class="table-add" @click="quickOperation('addContact')"><i class="el-icon-plus"></i>新增联系人</a>
             </p>
             <table class="detail-table related-table">
               <tr>
@@ -153,8 +153,8 @@
 
             <p class="table-title">
               跟单记录({{orderRecordsTotal}})
-              <a class="more" v-if="orderRecordsTotal > 0">更多》</a>
-              <a class="table-add"><i class="el-icon-plus"></i>新增跟单记录</a>
+              <a class="more" v-if="orderRecordsTotal > 0" @click="handleRoute('orderRecords')">更多》</a>
+              <a class="table-add" @click="quickOperation('addRecord')"><i class="el-icon-plus"></i>新增跟单记录</a>
             </p>
             <table class="detail-table related-table">
               <tr>
@@ -169,8 +169,8 @@
 
             <p class="table-title">
               APP订单({{appOrderTotal}})
-              <a class="more" v-if="appOrderTotal > 5">更多》</a>
-              <a class="table-add"><i class="el-icon-plus"></i>新增关联订单</a>
+              <a class="more" v-if="appOrderTotal > 5" @click="handleRoute('order')">更多》</a>
+              <a class="table-add" @click="quickOperation('addOrder')"><i class="el-icon-plus"></i>新增关联订单</a>
             </p>
             <table class="detail-table related-table">
               <tr>
@@ -263,6 +263,9 @@
   import discard from './discard'
   import addDialog from './addDialog'
   import webStorage from 'webStorage'
+  import addContactDialog from '../contacts/addDialog'
+  import addChanceDialog from '../salesOpportunities/addDialog'
+  import addOrderDialog from '../salesOrders/addDialog'
 
   export default {
     name: 'detailInfo',
@@ -480,7 +483,59 @@
           case 5:
             break
         }
-      }
+      },
+      handleRoute (list) {
+        switch (list) {
+          case 'contact':
+            this.$router.push({name: 'contactsList', query: {customerId: this.salesOpportunitiesDetail.customerId}})
+            break
+          case 'orderRecords':
+            this.$router.push({name: 'orderRecordsList', query: {customerId: this.salesOpportunitiesDetail.id}})
+            break
+          case 'order':
+            this.$router.push({name: 'salesOrdersList', query: {customerId: this.salesOpportunitiesDetail.id}})
+            break
+        }
+      },
+      quickOperation (op) {
+        let that = this
+        switch (op) {
+          case 'addContact':
+            this.$vDialog.modal(addContactDialog, {
+              title: '新增联系人',
+              width: 900,
+              height: 460,
+              params: {
+                // id: '123456',
+              },
+              callback (data) {
+                if (data.type === 'save') {
+                  that.getContactList(that.salesOpportunitiesDetail.customerId)
+                }
+              },
+            })
+            break
+          case 'addRecord':
+            // that.$router.push({name: 'salesOpportunitiesDetail', query: {view: 'detail', id: that.salesOpportunitiesDetail.id}, params: {end: 'FE'}})
+            break
+          case 'addOrder':
+            this.$vDialog.modal(addOrderDialog, {
+              title: '添加订单',
+              width: 900,
+              height: 340,
+              params: {
+                // id: '123456',
+              },
+              callback (data) {
+                if (data.type === 'save') {
+                  // this.getOrderRecordsList(that.salesOpportunitiesDetail.id)
+                  that.getAppOrderList(that.salesOpportunitiesDetail.id)
+                }
+              },
+            })
+            break
+        }
+      },
     },
     created () {
       this.activeViewName = this.$route.query.view
