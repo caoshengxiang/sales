@@ -98,6 +98,11 @@ export default {
       },
     ],
     salesState: [ // 销售阶段
+      // {
+      //   type: -1,
+      //   value: '输单',
+      //   percent: '0%',
+      // },
       {
         type: 1,
         value: '初步接洽',
