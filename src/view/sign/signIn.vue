@@ -133,7 +133,8 @@
             } else if (arr2[0] === 'userPwd') {
               this.formData.password = arr2[1]
             } else if (arr2[0] === 'checked') {
-              this.isRemember = arr2[1]
+              // eslint-disable-next-line
+              this.isRemember = arr2[1] === 'true' ? true : false
             }
           }
         }
@@ -194,6 +195,10 @@
     },
     created () {
       this.getClient()
+      console.log(sha1('12345678'))
+      console.log(sha1('12345678'))
+      console.log(sha1('12345678'))
+      console.log(sha1('12345678'))
     },
     mounted () {
       this.getCookie()
