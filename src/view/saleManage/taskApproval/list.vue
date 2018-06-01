@@ -150,9 +150,9 @@
     },
     created () {
       var that = this;
-      alert(1)
+      // alert(1)
       that.userInfo = utils.loginExamine(that)
-      alert(that.userInfo.id)
+      // alert(that.userInfo.id)
       that.$options.methods.getTaskList.bind(that)();
     },
     methods: {

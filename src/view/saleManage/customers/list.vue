@@ -239,9 +239,9 @@
             this.dataLoading = false
           }, 300)
         }, () => {
-          setTimeout(() => {
-            this.dataLoading = false
-          }, 300)
+          // setTimeout(() => {
+          //   this.dataLoading = false
+          // }, 300)
         })
       },
       searchHandle () {

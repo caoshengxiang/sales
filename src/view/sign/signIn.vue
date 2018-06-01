@@ -102,12 +102,14 @@
         },
       }
     },
+    watch: {
+      client (d) {
+        webStorage.setItem('client', d)
+      }
+    },
     components: {
       feElement,
       meElement,
-    },
-    mounted () {
-      this.getCookie()
     },
     methods: {
       //设置cookie
@@ -162,7 +164,7 @@
               }
             }, (mock) => {
               this.loading = false
-              Message({
+              this.$message({
                 message: '系统繁忙，请稍后再试！',
                 type: 'error',
               })
@@ -181,6 +183,20 @@
       recoverPassword () {
         this.$router.push({name: 'recoverPassword', params: {end: this.clientPathParam}})
       },
+      getClient () {
+        if (webStorage.getItem('client')) {
+          this.client = webStorage.getItem('client')
+          this.clientPathParam = this.client === 1 ? 'FE' : 'ME'
+        } else {
+          webStorage.setItem('client', this.client)
+        }
+      }
+    },
+    created () {
+      this.getClient()
+    },
+    mounted () {
+      this.getCookie()
     },
   }
 </script>
@@ -195,6 +211,7 @@
     bottom: 0;
     left: 0;
   }
+
   .client-1 {
     .sign-box {
       width: 440px;
@@ -312,12 +329,13 @@
       }
     }
   }
+
   .change-client {
     position: absolute;
     right: 100px;
     bottom: 11%;
     text-align: right;
-    a{
+    a {
       color: blue;
       cursor: pointer;
     }

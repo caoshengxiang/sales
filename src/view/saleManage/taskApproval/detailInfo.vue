@@ -25,16 +25,16 @@
           <td class="td-title">任务截止时间</td>
           <td>{{detailInfo.deadline}}</td>
           <td class="td-title">任务业务类型</td>
-          <td>{{detailInfo.businessType ==1?"销售机会":"未知"}}</td>
+          <td>{{detailInfo.businessType ==1?'销售机会':'未知'}}</td>
           <td class="td-title">任务业务描述</td>
           <td colspan="3">{{detailInfo.businessDesc}}</td>
         </tr>
         <tr>
           <td class="td-title">公司名称</td>
           <td colspan="7">
-            <com-button buttonType="backHighSeas" @click="auditTaskYes"  v-if="detailInfo.state === 1">审核通过
+            <com-button buttonType="backHighSeas" @click="auditTaskYes" v-if="detailInfo.state === 1">审核通过
             </com-button>
-            <com-button buttonType="grey" @click="auditTaskNo"  v-if="detailInfo.state === 1">审核拒绝
+            <com-button buttonType="grey" @click="auditTaskNo" v-if="detailInfo.state === 1">审核拒绝
             </com-button>
           </td>
         </tr>
@@ -184,15 +184,22 @@
   import comButton from '../../../components/button/comButton'
   import API from '../../../utils/api'
   import moment from 'moment'
+  import { mapState } from 'vuex'
 
   export default {
     name: 'detailInfo',
     data () {
       return {
-        detailInfo:'',
-        salesOpportunitiesDetail:'',
-        customerDetail:''
+        detailInfo: '',
+        salesOpportunitiesDetail: '',
+        customerDetail: '',
       }
+    },
+    computed: {
+      ...mapState('constData', [
+        'customerSourceType',
+        'salesState',
+      ]),
     },
     watch: {
       '$route.query.view' (view) {
@@ -204,17 +211,17 @@
     },
     methods: {
       getTaskDetail () {
-        var that = this;
+        var that = this
         this.loading = true
         let param = {
           id: that.$route.query.id,
         }
         API.task.getTaskDetail(param, (res) => {
-          that.loading = false;
-          if(res.status){
-            that.detailInfo = res.data;
-            that.detailInfo.publishTime =  moment(that.detailInfo.publishTime).format("YYYY-MM-DD HH:mm:ss");
-            that.detailInfo.deadline =  moment(that.detailInfo.deadline).format("YYYY-MM-DD HH:mm:ss");
+          that.loading = false
+          if (res.status) {
+            that.detailInfo = res.data
+            that.detailInfo.publishTime = moment(that.detailInfo.publishTime).format('YYYY-MM-DD HH:mm:ss')
+            that.detailInfo.deadline = moment(that.detailInfo.deadline).format('YYYY-MM-DD HH:mm:ss')
 
             API.salesOpportunities.detail(that.detailInfo.chanceId, (data) => {
               that.salesOpportunitiesDetail = data.data
@@ -228,19 +235,19 @@
                 this.dataLoading = false
               }, 500)
             })
-          }else{
+          } else {
             Message({
               message: res.error.message,
-              type: 'error'
-            });
+              type: 'error',
+            })
           }
 
         }, (mock) => {
-          that.loading = false;
+          that.loading = false
           Message({
             message: '系统繁忙，请稍后再试！',
-            type: 'error'
-          });
+            type: 'error',
+          })
         })
 
       },
@@ -248,34 +255,34 @@
         // console.log(tab.name)
         this.$router.push({name: 'customersDetail', params: {end: 'FE'}, query: {view: tab.name}})
       },
-      auditTaskYes() {
+      auditTaskYes () {
         this.auditTask(2)
       },
-      auditTaskNo() {
+      auditTaskNo () {
         this.auditTask(3)
       },
-      auditTask(state) {
+      auditTask (state) {
         let param = {
           state: state,
           id: this.$route.query.id,
         }
         API.task.auditTask(param, (res) => {
-          this.loading = false;
-          if(res.status){
+          this.loading = false
+          if (res.status) {
             this.getTaskDetail()
             this.$message.success('审核成功')
-          }else{
+          } else {
             this.$message.success(res.error.message)
           }
 
         }, (mock) => {
-          that.loading = false;
+          that.loading = false
           this.$message.success('系统繁忙')
         })
       },
     },
     created () {
-      this.$options.methods.getTaskDetail.bind(this)();
+      this.$options.methods.getTaskDetail.bind(this)()
       this.activeViewName = this.$route.query.view
     },
   }
@@ -283,6 +290,7 @@
 
 <style scoped lang="scss" rel="stylesheet/scss">
   @import "../../../styles/common";
+
   .detail-table {
     width: 100%;
   }

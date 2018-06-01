@@ -100,6 +100,7 @@
           show-overflow-tooltip>
           <template slot-scope="scope">
             <span v-for="item in salesState" :key="item.type" v-if="item.type === scope.row.stage">{{item.value}}</span>
+            <span v-if="scope.row.stage === -1">输单</span>
           </template>
         </el-table-column>
         <el-table-column
@@ -111,6 +112,7 @@
           <template slot-scope="scope">
             <span v-for="item in salesState" :key="item.type"
                   v-if="item.type === scope.row.stage">{{item.percent}}</span>
+            <span v-if="scope.row.stage === -1">0%</span>
           </template>
         </el-table-column>
         <el-table-column
