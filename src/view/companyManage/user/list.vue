@@ -247,6 +247,9 @@
           return '无效';
         }
         else if(cellValue === 2) {
+          return '内置';
+        }
+        else if(cellValue === 3) {
           return '禁用';
         }
       },
@@ -345,6 +348,7 @@
           },
           callback: function(data){
             that.searchHandle()
+            that.$refs.multipleTable.clearSelection();
           }
         });
       },

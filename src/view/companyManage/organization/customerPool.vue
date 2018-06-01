@@ -283,6 +283,9 @@
             this.pollList = da.data.content
             this.getPoolDetail(this.pollList[0].id)
           })
+          this.getAdminList(data.data[0].id)
+          this.getFollowerList(data.data[0].id)
+          this.getKeyboarderList(data.data[0].id)
         })
       },
       getPollList (id) {
@@ -348,27 +351,24 @@
           }
         })
       },
-      getAdminList (type, roleId, organizationId) { // todo 走流程
-        API.user.userSearch({type: type, roleId: roleId, organizationId: organizationId}, (data) => {
+      getAdminList (organizationId) { // 客户池管理员
+        API.user.userSearch({bilityIds: 5, organizationId: organizationId}, (data) => {
           this.adminList = data.data
         })
       },
-      getFollowerList (type, roleId, organizationId) { // todo 走流程
-        API.user.userSearch({type: type, roleId: roleId, organizationId: organizationId}, (data) => {
+      getFollowerList (organizationId) { // 销售跟进员
+        API.user.userSearch({bilityIds: 2, organizationId: organizationId}, (data) => {
           this.followerList = data.data
         })
       },
-      getKeyboarderList (type, roleId, organizationId) { // todo 走流程
-        API.user.userSearch({type: type, roleId: roleId, organizationId: organizationId}, (data) => {
+      getKeyboarderList (organizationId) { // 需求录入员
+        API.user.userSearch({bilityIds: 1, organizationId: organizationId}, (data) => {
           this.keyboarderList = data.data
         })
       },
     },
     created () {
       this.getOrganization({pid: 1})
-      this.getAdminList()
-      this.getFollowerList()
-      this.getKeyboarderList()
     }
   }
 </script>

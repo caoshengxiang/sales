@@ -12,7 +12,7 @@
       <div class="com-bar-left">
       </div>
       <div class="com-bar-right">
-        <el-select v-model="value" placeholder="请选择" class="com-el-select" style="width:180px">
+        <el-select v-model="value" placeholder="请选择"   @change="selectedOptionsHandleChange"  class="com-el-select" style="width:180px">
           <el-option
             v-for="item in options"
             :key="item.value"
@@ -110,7 +110,7 @@
 <script>
   import { mapState } from 'vuex'
   import API from '../../../utils/api'
-  import util from '../../../utils/utils'
+  import utils from '../../../utils/utils'
   import comButton from '../../../components/button/comButton'
   import moment from 'moment'
 
@@ -134,6 +134,10 @@
         tableData: [],
         multipleSelection: [],
         currentPage: 1,
+        publisherId: '',
+        auditorId: '',
+        state: 1,
+        changeValue:1
       }
     },
     computed: {
@@ -146,9 +150,16 @@
     },
     created () {
       var that = this;
+      alert(1)
+      that.userInfo = utils.loginExamine(that)
+      alert(that.userInfo.id)
       that.$options.methods.getTaskList.bind(that)();
     },
     methods: {
+      selectedOptionsHandleChange (value) {
+        this.changeValue = value
+        this.getTaskList()
+      },
       dateFormat:function(row, column) {
         var date = row[column.property];
         if (date == undefined) {
@@ -168,6 +179,14 @@
         let param = {
           page: this.currentPage - 1,
           pageSize: this.pagesOptions.pageSize,
+        }
+
+        if(that.changeValue === 2) {
+          param.publisherId = that.userInfo.id
+        }
+        else if(that.changeValue === 3){
+          param.auditorId = that.userInfo.id
+          param.state = that.state
         }
         this.loading = true
         API.task.queryList(param, (res) => {

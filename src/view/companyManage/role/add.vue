@@ -89,9 +89,6 @@
           businessSystems: [
             {required: true, message: '请选择角色系统', trigger: 'blur'},
           ],
-          bilities: [
-            {required: true, message: '请选择角色职能', trigger: 'blur'},
-          ],
           maxSeaFollower: [
             {required: true, message: '请设置角色跟进公池客户最大数量', trigger: 'blur'}
           ],

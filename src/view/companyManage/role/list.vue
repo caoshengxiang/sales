@@ -20,6 +20,16 @@
         <com-button buttonType="grey" icon="el-icon-remove-outline" @click="save">保存
         </com-button>
       </div>
+      <div class="com-bar-right">
+        <el-form :model="searchForm" inline>
+          <el-form-item>
+            <el-input type="text" v-model="searchForm.name" placeholder="请输入角色名称" :maxlength="30"></el-input>
+          </el-form-item>
+          <el-form-item>
+            <com-button buttonType="search" @click="getRoleList">搜索</com-button>
+          </el-form-item>
+        </el-form>
+      </div>
     </div>
     <!--详细-->
     <div class="com-box com-box-padding com-list-box">
@@ -54,14 +64,13 @@
                     label="功能模块"
                     show-overflow-tooltip
                     prop="name"
-                    width="300"
+                    width="200"
                   >
                   </el-table-column>
                   <el-table-column
                     show-overflow-tooltip
                     align="center"
                     label="浏览权限"
-                    width="600"
                   >
                     <template slot-scope="scope">
                       <el-radio v-model="scope.row.dataAuthority" :label="1">个人</el-radio>
@@ -73,7 +82,6 @@
                     show-overflow-tooltip
                     align="center"
                     label="操作权限"
-                    width="300"
                   >
                     <template slot-scope="scope">
                       <el-radio v-model="scope.row.operateAuthority" :label="1">无权限</el-radio>
@@ -106,7 +114,8 @@
         roleDefaultIndex:"1",
         roleDetail:{},
         initBusinessSystemsIndex:"",
-        businessSystemList:[]
+        businessSystemList:[],
+        searchForm:{}
       }
     },
     components: {
@@ -120,7 +129,7 @@
       getRoleList () {
         var that = this;
         this.loading = true
-        API.role.queryList({name:""}, (res) => {
+        API.role.queryList(that.searchForm, (res) => {
           that.loading = false;
           if(res.status){
             that.roleList = res.data;
