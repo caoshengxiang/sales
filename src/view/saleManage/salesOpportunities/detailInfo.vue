@@ -361,7 +361,7 @@
               width: 520,
               height: 280,
               params: {
-                consultantType: 'apply',
+                type: 'apply',
                 chanceId: this.salesOpportunitiesDetail.id,
                 exceptUserIds: this.getTeamAndOwn()
               },
@@ -396,7 +396,7 @@
               width: 520,
               height: 280,
               params: {
-                consultantType: 'replace',
+                type: 'replace',
                 chanceId: this.salesOpportunitiesDetail.id,
                 exceptUserIds: this.getTeamAndOwn()
               },

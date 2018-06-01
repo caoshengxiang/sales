@@ -34,7 +34,7 @@
         dataLoading: false,
         ruleForm: {
           businessType: 1, // 关联业务类型 1:销售机会
-          principalType: '',
+          type: 0,
           principalId: '',
           chanceId: '',
         },
@@ -89,6 +89,11 @@
     },
     created () {
       this.getUserList(0, null)
+      if (this.params.type === 'apply') {
+        this.ruleForm.type = 1
+      } else if (this.params.type === 'replace') {
+        this.ruleForm.type = 2
+      }
       this.ruleForm.chanceId = this.params.chanceId
       this.exceptUserIds = this.params.exceptUserIds
     },
