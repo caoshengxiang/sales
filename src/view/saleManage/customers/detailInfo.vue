@@ -170,10 +170,11 @@
               <tr v-for="item in chanceList" :key="item.id">
                 <td>{{item.contacterName}}</td>
                 <td><span v-for="st in salesState" :key="st.type"
-                          v-if="st.type === item.stage">{{item.value}}&nbsp;&nbsp;{{item.percent}}</span></td>
+                          v-if="st.type === item.stage">{{st.value}}&nbsp;&nbsp;{{st.percent}}</span>
+                </td>
                 <td>{{item.intentProductName}}</td>
-                <td></td>
-                <td></td>
+                <td>todo 占位</td>
+                <td>{{$moment(item.created).format('YYYY-MM-DD HH:mm:ss')}}</td>
                 <td><a class="table-op" @click="quickOperation('deleteChance', item.id)">删除</a></td>
               </tr>
             </table>
@@ -393,7 +394,7 @@
         })
       },
       getChanceList () {
-        API.contacts.list({customerId: this.$route.query.customerId, pageSize: 5}, (da) => {
+        API.salesOpportunities.list({customerId: this.$route.query.customerId, pageSize: 5}, (da) => {
           this.chanceList = da.data.content
           this.chanceTotal = da.data.totalElements
         })
