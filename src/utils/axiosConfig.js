@@ -6,7 +6,10 @@ import webStorage from 'webStorage'
 $axios.defaults.baseURL = serverUrl
 $axios.defaults.timeout = 100000
 // $axios.defaults.headers['Content-Type'] = 'application/json; charset=UTF-8'
-$axios.defaults.headers.common['authKey'] = webStorage.getItem('userInfo').authKey // 刷新时默认获取一次，统一设置auth移驾至登录接口
+// $axios.defaults.headers.common['authKey'] = webStorage.getItem('userInfo').authKey // 刷新时默认获取一次，统一设置auth移驾至登录接口
+if (webStorage.getItem('userInfo')) {
+  $axios.defaults.headers.common['authKey'] = webStorage.getItem('userInfo').authKey
+}
 $axios.defaults.headers.post['Content-Type'] = 'application/json;charset=UTF-8'
 
 // 添加一个请求拦截器

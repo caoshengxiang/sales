@@ -167,18 +167,18 @@
           <el-menu-item index="todo-1">日志管理</el-menu-item>
         </el-menu-item-group>
       </el-submenu>
-      <el-submenu index="todo-100" v-if="listPermissions(menus, 'crmManagement')">
+      <el-submenu index="crm" v-if="listPermissions(menus, 'crmManagement')">
         <template slot="title">
           <i class="iconfont icon-icon-test1"></i>
           <span>CRM管理</span>
         </template>
         <el-menu-item-group>
           <!--<template slot="title">分组一</template>-->
-          <el-menu-item index="todo-1">客户管理</el-menu-item>
-          <el-menu-item index="todo-1">联系人管理</el-menu-item>
-          <el-menu-item index="todo-1">销售机会管理</el-menu-item>
-          <el-menu-item index="todo-1">销售订单管理</el-menu-item>
-          <el-menu-item index="todo-1">客户公海管理</el-menu-item>
+          <el-menu-item index="customersList">客户管理</el-menu-item>
+          <el-menu-item index="contactsList">联系人管理</el-menu-item>
+          <el-menu-item index="salesOpportunitiesList">销售机会管理</el-menu-item>
+          <el-menu-item index="salesOrdersList">销售订单管理</el-menu-item>
+          <el-menu-item index="customersHighSeasList">客户公海管理</el-menu-item>
         </el-menu-item-group>
       </el-submenu>
     </el-menu>

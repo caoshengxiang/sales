@@ -11,8 +11,8 @@ const resetPassword = resolve => require.ensure([],
   () => resolve(require('../view/sign/resetPassword')), 'sign')
 
 // 管理后台登录
-const signIn2 = resolve => require.ensure([],
-  () => resolve(require('../view/sign/signIn2')), 'sign')
+// const signIn2 = resolve => require.ensure([],
+//   () => resolve(require('../view/sign/signIn2')), 'sign')
 
 // home
 const indexPage = resolve => require.ensure([],
@@ -150,11 +150,13 @@ export default new Router({
       path: '/FE/resetPassword',
       name: 'resetPassword',
       component: resetPassword,
-    }, {
-      path: '/FE/signIn2',
-      name: 'signIn2',
-      component: signIn2,
-    }, {
+    },
+    // {
+    //   path: '/FE/signIn2',
+    //   name: 'signIn2',
+    //   component: signIn2,
+    // },
+    {
       path: '/sales/:end',
       name: 'indexPage',
       component: indexPage,
