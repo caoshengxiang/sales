@@ -195,10 +195,6 @@
     },
     created () {
       this.getClient()
-      console.log(sha1('12345678'))
-      console.log(sha1('12345678'))
-      console.log(sha1('12345678'))
-      console.log(sha1('12345678'))
     },
     mounted () {
       this.getCookie()
@@ -209,8 +205,9 @@
 <style scoped lang="scss" rel="stylesheet/scss">
   .sign-in {
     height: 100%;
+    min-height: 800px;
     width: 100%;
-    position: fixed;
+    position: absolute;
     top: 0;
     right: 0;
     bottom: 0;
