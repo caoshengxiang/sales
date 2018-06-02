@@ -1,5 +1,5 @@
 'use strict'
-console.log(process.env.server_url, 1111111111111111111111)
+console.log( '接口基本地址：', process.env.server_url)
 module.exports = {
   NODE_ENV: '"production"',
   API_ROOT: '"'+ process.env.server_url + '"'
