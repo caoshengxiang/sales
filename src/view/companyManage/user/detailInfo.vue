@@ -107,15 +107,6 @@
         </el-tabs>
       </div>
       <!--团队成员-->
-      <div class="detail-right com-box-padding">
-        <ul class="team-member">
-          <li class="team-member-item">
-            <div class="head">
-              <img src="../../../assets/icon/headDefault.png" alt="">
-            </div>
-          </li>
-        </ul>
-      </div>
     </div>
   </div>
 </template>

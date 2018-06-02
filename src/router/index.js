@@ -124,6 +124,10 @@ const baseSettingList = resolve => require.ensure([],
 const customerAreaSetting = resolve => require.ensure([],
   () => resolve(require('../view/companyManage/customerAareaSetting/index')), 'customerAreaSetting')
 
+//站点开关设置
+const siteList = resolve => require.ensure([],
+  () => resolve(require('../view/companyManage/baseSetting/site/list')), 'siteList')
+
 // 企业管理 end
 
 Vue.use(Router)
@@ -291,6 +295,12 @@ export default new Router({
           path: 'customerAreaSetting',
           name: 'customerAreaSetting',
           component: customerAreaSetting
+        },
+        // 配置管理 -- 站点开关设置
+        {
+          path: 'siteList',
+          name: 'siteList',
+          component: siteList
         },
         // 企业管理 -- 客户池管理
         {

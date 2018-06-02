@@ -31,25 +31,24 @@
         <com-button buttonType="search" @click="searchHandle">搜索</com-button>
       </div>
       <div class="com-bar-right" style="float: right">
-        <el-cascader
-          placeholder="请选择人员组织"
-          :change-on-select="true"
-          :options="allorganization"
-          v-model="selectedOptions"
-          @change="selectedOptionsHandleChange"
-          :props="props"
-        >
-        </el-cascader>
-
-        <el-select v-model.number="form.departmentId" placeholder="请选择人员部门">
+        <el-select v-model.number="form.organizationId"   @change="selectedOptionsHandleChange" placeholder="请选择人员组织">
           <el-option
-            v-for="item in alldepartments"
+            v-for="item in allorganization"
             :key="item.id"
             :label="item.name"
             :value="item.id"
           >
           </el-option>
         </el-select>
+        <el-cascader
+          placeholder="请选择人员部门"
+          :change-on-select="true"
+          :options="alldepartments"
+          v-model="selectedOptions"
+          :props="props"
+          @change="selecteddptHandleChange"
+        >
+        </el-cascader>
       </div>
     </div>
     <!--详细-->
@@ -231,15 +230,24 @@
     props: ['params'],
     created () {
       this.getuserList(this.currentPage - 1, this.pagesOptions.pageSize, this.userType)
-      let params = {}
-      API.organization.queryList(params, (res) => {
+      let params ={
+        page: 1,
+        pageSize: 999,
+        pid : 1,
+        type : 1
+      }
+      API.organization.queryAllList(params, (res) => {
         this.allorganization = res.data
       }, (mock) => {
-        this.allorganization = mock.data
+        this.alldepartments = mock.data
         this.dataLoading = false
       })
+
     },
     methods: {
+      selecteddptHandleChange(value) {
+        this.form.departmentId =value[value.length -1] // 取当前选中的部门
+      },
       fmtNumColumn(row,column,cellValue){
         if (cellValue === 1) {
           return '有效';
@@ -254,18 +262,38 @@
         }
       },
       selectedOptionsHandleChange (value) {
-        this.form.organizationId =value[value.length -1] // 取当前选中的组织
+        var that = this;
+        // this.form.organizationId =value[value.length -1] // 取当前选中的组织
         let depparams = {
           page: 1,
           pageSize: 999,
         }
-        depparams.pid = this.form.organizationId
+        depparams.pid = value
         depparams.type = 2 // 查询出部门
-        API.organization.queryAllList(depparams, (res) => {
-          this.alldepartments = res.data
-        }, (mock) => {
-          this.alldepartments = mock.data
-          this.dataLoading = false
+        API.organization.queryList(depparams, (res) => {
+        that.alldepartments = res.data
+        if(that.params.id > 0)
+        {
+          var tempid = that.form.departmentId
+          var loopDo = function (list,id) {
+            for (var i =0;i<list.length;i++) {
+              var item = list[i];
+              if (item.id == id) {
+                that.selectedOptions.push(item.id);
+                if(item.pid > 0)
+                {
+                  loopDo(that.alldepartments,item.pid);
+                }
+              }else {
+                loopDo(item.children,id);
+              }
+            }
+          };
+
+          loopDo(that.alldepartments,tempid);
+          that.selectedOptions.reverse()
+        }
+      }, (mock) => {
         })
       },
       closeDialog () {

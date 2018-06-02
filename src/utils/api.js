@@ -1027,6 +1027,31 @@ export default {
         }, 1000)
       })
     },
+    getSiteList(params, success, error) {
+      setUserAuth()
+      $axios.get('codeConfig/site', {
+      }).then((res) => {
+        success && success(res.data)
+      }).catch(() => {
+        setTimeout(() => {
+          error && error(mockdata)
+        }, 1000)
+      })
+    },
+    saveSite(params, success, error) {
+      setUserAuth()
+      $axios({
+        method: 'post',
+        url: 'codeConfig/site',
+        data: params,
+      }).then((res) => {
+        success && success(res.data)
+      }).catch(() => {
+        setTimeout(() => {
+          error && error(mockdata)
+        }, 1000)
+      })
+    }
   },
   customerAreaSetting: {
     queryList (params, success, error) {

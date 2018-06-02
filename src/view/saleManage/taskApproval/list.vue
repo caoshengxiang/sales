@@ -130,7 +130,7 @@
             value: 3,
             label: '我发布的工作任务',
           }],
-        value: 3,
+        value: 1,
         tableData: [],
         multipleSelection: [],
         currentPage: 1,
@@ -182,11 +182,11 @@
         }
 
         if(that.changeValue === 2) {
-          param.publisherId = that.userInfo.id
+          param.principalId  = that.userInfo.id
+          param.state = that.state
         }
         else if(that.changeValue === 3){
-          param.auditorId = that.userInfo.id
-          param.state = that.state
+          param.publisherId  = that.userInfo.id
         }
         this.loading = true
         API.task.queryList(param, (res) => {

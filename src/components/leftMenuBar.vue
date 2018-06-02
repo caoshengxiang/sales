@@ -143,6 +143,7 @@
         </template>
         <el-menu-item-group>
           <!--<template slot="title">分组一</template>-->
+          <el-menu-item index="siteList">站点开关</el-menu-item>
           <el-menu-item index="customerAreaSetting">客户地区</el-menu-item>
           <el-menu-item index="baseSettingList">参数设置</el-menu-item>
         </el-menu-item-group>
