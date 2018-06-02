@@ -5,7 +5,7 @@
   "author": "caoshengxiang <1104729815@qq.com>",
   "private": true,
   "scripts": {
-    "dev": "set server_url=http&& webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
+    "dev": "set server_url=http://sales.dcstar-inc.com/sales&& webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
     "start": "npm run dev",
     "unit": "jest --config test/unit/jest.conf.js --coverage",
     "e2e": "node test/e2e/runner.js",
