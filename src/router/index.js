@@ -128,6 +128,14 @@ const customerAreaSetting = resolve => require.ensure([],
 const siteList = resolve => require.ensure([],
   () => resolve(require('../view/companyManage/baseSetting/site/list')), 'siteList')
 
+//消息通知管理
+const organizationProductSetting = resolve => require.ensure([],
+  () => resolve(require('../view/companyManage/organizationProductSetting/list')), 'organizationProductSetting')
+
+//消息通知管理(ME)
+const meMessageList = resolve => require.ensure([],
+  () => resolve(require('../view/companyManage/message/list')), 'meMessage')
+
 // 企业管理 end
 
 Vue.use(Router)
@@ -307,6 +315,18 @@ export default new Router({
           path: 'customerPool',
           name: 'customerPool',
           component: customerPool
+        },
+        // 组织商品配置管理
+        {
+          path: 'organizationProductSetting',
+          name: 'organizationProductSetting',
+          component: organizationProductSetting
+        },
+        // 消息通知管理
+        {
+          path: 'meMessageList',
+          name: 'meMessageList',
+          component: meMessageList
         },
       ],
     },

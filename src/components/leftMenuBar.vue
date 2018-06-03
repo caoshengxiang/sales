@@ -112,7 +112,7 @@
           <!--<template slot="title">分组一</template>-->
           <el-menu-item index="organizationList">组织管理</el-menu-item>
           <el-menu-item index="customerPool">客户池管理</el-menu-item>
-          <el-menu-item index="agentList">组织商品配置</el-menu-item>
+          <el-menu-item index="organizationProductSetting">组织商品配置</el-menu-item>
         </el-menu-item-group>
       </el-submenu>
       <el-submenu index="financial" v-if="listPermissions(menus, 'financialManagement')">
@@ -126,14 +126,14 @@
           <el-menu-item index="spendingList">佣金支出管理</el-menu-item>
         </el-menu-item-group>
       </el-submenu>
-      <el-submenu index="todo-400" v-if="listPermissions(menus, 'message')">
+      <el-submenu index="meMessageList" v-if="listPermissions(menus, 'message')">
         <template slot="title">
           <i class="iconfont icon-xiaoxitongzhi"></i>
           <span>消息通知</span>
         </template>
         <el-menu-item-group>
           <!--<template slot="title">分组一</template>-->
-          <el-menu-item index="todo-1">消息通知</el-menu-item>
+          <el-menu-item index="meMessageList">消息通知</el-menu-item>
         </el-menu-item-group>
       </el-submenu>
       <el-submenu index="customerAreaSetting" v-if="listPermissions(menus, 'configManagement')">
