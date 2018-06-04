@@ -20,7 +20,7 @@
                     :disabled="multipleSelection.length !== 1">退回公海池
         </com-button>
       </div>
-      <div class="com-bar-right">
+      <div class="com-bar-right" v-if="themeIndex === 0">
         <el-select v-model="customerType" placeholder="请选择" class="com-el-select">
           <el-option
             v-for="item in customerTypeOptions"
@@ -30,6 +30,18 @@
           </el-option>
         </el-select>
         <com-button buttonType="search" @click="searchHandle">搜索</com-button>
+      </div>
+      <div class="com-bar-right" v-if="themeIndex === 1">
+        <el-select v-model="customerType" placeholder="请选择组织" class="com-el-select">
+          <el-option label="全部组织" :value="null"></el-option>
+          <!--<el-option-->
+            <!--v-for="item in customerTypeOptions"-->
+            <!--:key="item.type"-->
+            <!--:label="item.value"-->
+            <!--:value="item.type">-->
+          </el-option>
+        </el-select>
+        <!--<com-button buttonType="search" @click="searchHandle">搜索</com-button>-->
       </div>
     </div>
     <!--详细-->
@@ -199,6 +211,15 @@
         multipleSelection: [],
         customerType: null, // 客户选项
         currentPage: 1, // 当前页
+        customerId: null, // 路由参数中得客户id
+        organizationId: null, // 路由参数中得组织id
+        contactsListParams: { // 默认顾客列表请求参数
+          page: null,
+          pageSize: null,
+          type: null,
+          customerId: null,
+          organizationId: null,
+        }
       }
     },
     computed: {
@@ -208,6 +229,7 @@
         'customerState',
         'pagesOptions',
         'customerAddSource',
+        'themeIndex',
       ]),
       ...mapState('customer', [
         'customerList',
@@ -226,14 +248,10 @@
       // moment (Timestamps, str) {
       //   return moment(Timestamps).format(str)
       // },
-      getCustomerList (page, pageSize, type) { // 获取列表数据
-        let param = {
-          page: page,
-          pageSize: pageSize,
-          type: type,
-        }
+      getCustomerList () { // 获取列表数据
+        this.getQueryParams()
         this.dataLoading = true
-        API.customer.list(param, (res) => {
+        API.customer.list(this.contactsListParams, (res) => {
           this.ac_customerList(res.data)
           setTimeout(() => {
             this.dataLoading = false
@@ -246,7 +264,7 @@
       },
       searchHandle () {
         this.currentPage = 1
-        this.getCustomerList(this.currentPage - 1, this.pagesOptions.pageSize, this.customerType)
+        this.getCustomerList()
       },
       handleSelectionChange (val) {
         this.multipleSelection = val
@@ -256,7 +274,7 @@
       },
       handleCurrentChange (val) {
         this.currentPage = val
-        this.getCustomerList(this.currentPage - 1, this.pagesOptions.pageSize, this.customerType)
+        this.getCustomerList()
       },
       handleRouter (name, id) {
         this.$router.push({name: 'customersDetail', query: {view: name, customerId: id}, params: {end: 'FE'}})
@@ -273,7 +291,7 @@
           },
           callback (data) {
             if (data.type === 'save') {
-              that.getCustomerList(that.currentPage - 1, that.pagesOptions.pageSize, that.customerType)
+              that.getCustomerList()
             }
           },
         })
@@ -289,7 +307,7 @@
           },
           callback (data) {
             if (data.type === 'save') {
-              that.getCustomerList(that.currentPage - 1, that.pagesOptions.pageSize, that.customerType)
+              that.getCustomerList()
             }
           },
         })
@@ -305,35 +323,29 @@
           },
           callback (data) {
             if (data.type === 'save') {
-              that.getCustomerList(that.currentPage - 1, that.pagesOptions.pageSize, that.customerType)
+              that.getCustomerList()
             }
           },
         })
-        // this.$confirm('确定退回公海池, 是否继续?', '提示', {
-        //   confirmButtonText: '确定',
-        //   cancelButtonText: '取消',
-        //   type: 'warning',
-        // }).then(() => {
-        //   API.customer.return({customerIds: arrToStr(this.multipleSelection, 'id')}, (data) => {
-        //     if (data.status) {
-        //       if (data.data.fail > 0) {
-        //         this.$message.warning(`成功${data.data.success}, 失败${data.data.fail}, 失败原因：${data.data.errorMessage}`)
-        //       } else {
-        //         this.$message.success(`成功${data.data.success},失败${data.data.fail}`)
-        //       }
-        //       this.getCustomerList(this.currentPage - 1, this.pagesOptions.pageSize, this.customerType)
-        //     }
-        //   })
-        // }).catch(() => {
-        //   this.$message({
-        //     type: 'info',
-        //     message: '已取消',
-        //   })
-        // })
       },
+      getQueryParams () { // 请求参数配置
+        this.customerId = this.$route.query.customerId
+        this.organizationId = this.$route.query.organizationId
+        this.contactsListParams = {
+          page: this.currentPage - 1,
+          pageSize: this.pagesOptions.pageSize,
+          type: this.contactsTypeOption,
+        }
+        if (this.customerId) { // 更多
+          this.contactsListParams.customerId = this.customerId
+        }
+        if (this.organizationId) { // 后台组织
+          this.contactsListParams.organizationId = this.organizationId
+        }
+      }
     },
     created () {
-      this.getCustomerList(this.currentPage - 1, this.pagesOptions.pageSize, this.customerType)
+      this.getCustomerList()
     },
   }
 </script>

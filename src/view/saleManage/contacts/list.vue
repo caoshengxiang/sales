@@ -16,7 +16,7 @@
         <!--<com-button buttonType="orange" icon="el-icon-plus" @click="moveHandle">转移</com-button>-->
         <!--<com-button buttonType="backHighSeas" icon="el-icon-plus">退回公海池</com-button>-->
       </div>
-      <div class="com-bar-right">
+      <div class="com-bar-right" v-if="themeIndex === 0">
         <el-select v-model="contactsTypeOption" placeholder="请选择" class="com-el-select" style="width: 150px">
           <el-option
             v-for="item in contactsTypeOptions"
@@ -26,6 +26,18 @@
           </el-option>
         </el-select>
         <com-button buttonType="search" @click="searchHandle">搜索</com-button>
+      </div>
+      <div class="com-bar-right" v-if="themeIndex === 1">
+        <el-select v-model="contactsTypeOption" placeholder="请选择组织" class="com-el-select" style="width: 150px">
+          <el-option label="全部组织" :value="null"></el-option>
+          <!--<el-option-->
+            <!--v-for="item in contactsTypeOptions"-->
+            <!--:key="item.type"-->
+            <!--:label="item.value"-->
+            <!--:value="item.type">-->
+          </el-option>
+        </el-select>
+        <!--<com-button buttonType="search" @click="searchHandle">搜索</com-button>-->
       </div>
     </div>
     <!--详细-->
@@ -199,13 +211,23 @@
         contactsTypeOption: null,
         multipleSelection: [],
         currentPage: 1,
+        customerId: null, // 路由参数中得客户id
+        organizationId: null, // 路由参数中得组织id
+        contactsListParams: { // 默认顾客列表请求参数
+          page: null,
+          pageSize: null,
+          type: null,
+          customerId: null,
+          organizationId: null,
+        }
       }
     },
     computed: {
       ...mapState('constData', [
         'contactsTypeOptions',
         'contactsStatus',
-        'pagesOptions'
+        'pagesOptions',
+        'themeIndex',
       ]),
       ...mapState('contacts', [
         'contactsList',
@@ -221,7 +243,6 @@
         'ac_contactsList',
       ]),
       addHandle () {
-        let that = this
         this.$vDialog.modal(addDialog, {
           title: '新增联系人',
           width: 900,
@@ -229,9 +250,9 @@
           params: {
             // id: '123456',
           },
-          callback (data) {
+          callback: (data) => {
             if (data.type === 'save') {
-              that.getContactsList(that.currentPage - 1, that.pagesOptions.pageSize, that.contactsTypeOption)
+              this.getContactsList()
             }
           },
         })
@@ -244,23 +265,20 @@
       },
       handleSizeChange (val) {
         // console.log(`每页 ${val} 条`)
-        this.getContactsList(this.currentPage - 1, this.pagesOptions.pageSize, this.contactsTypeOption)
+        this.getContactsList()
       },
       handleCurrentChange (val) {
         // console.log(`当前页: ${val}`)
         this.currentPage = val
-        this.getContactsList(this.currentPage - 1, this.pagesOptions.pageSize, this.contactsTypeOption)
+        this.getContactsList()
       },
       handleRouter (name, id) {
         this.$router.push({name: 'contactsDetail', query: {view: name, contactsId: id}, params: {end: 'FE'}})
       },
-      getContactsList (page, pageSize, type) {
+      getContactsList () {
         this.dataLoading = true
-        API.contacts.list({
-          page: page,
-          pageSize: pageSize,
-          type: type,
-        }, (data) => {
+        this.getQueryParams()
+        API.contacts.list(this.contactsListParams, (data) => {
           this.ac_contactsList(data.data)
           setTimeout(() => {
             this.dataLoading = false
@@ -270,11 +288,28 @@
         })
       },
       searchHandle () {
-        this.getContactsList(this.currentPage - 1, this.pagesOptions.pageSize, this.contactsTypeOption)
+        this.getContactsList()
+      },
+      getQueryParams () { // 请求参数配置
+        this.customerId = this.$route.query.customerId
+        this.organizationId = this.$route.query.organizationId
+        this.contactsListParams = {
+          page: this.currentPage - 1,
+          pageSize: this.pagesOptions.pageSize,
+          type: this.contactsTypeOption,
+        }
+        if (this.customerId) { // 更多
+          this.contactsListParams.customerId = this.customerId
+        }
+        if (this.organizationId) { // 后台组织
+          this.contactsListParams.organizationId = this.organizationId
+        }
       }
     },
+    beforeCreate () {
+    },
     created () {
-      this.getContactsList(this.currentPage - 1, this.pagesOptions.pageSize, this.contactsTypeOption)
+      this.getContactsList()
     },
   }
 </script>

@@ -20,7 +20,7 @@
                     :disabled="multipleSelection.length <= 0">转移
         </com-button>
       </div>
-      <div class="com-bar-right">
+      <div class="com-bar-right" v-if="themeIndex === 0">
         <el-select v-model="salesOpportunitiesOptionsType" placeholder="请选择" class="com-el-select">
           <el-option
             v-for="item in salesOpportunitiesOptions"
@@ -30,6 +30,18 @@
           </el-option>
         </el-select>
         <com-button buttonType="search" @click="searchHandle">搜索</com-button>
+      </div>
+      <div class="com-bar-right" v-if="themeIndex === 1">
+        <el-select v-model="salesOpportunitiesOptionsType" placeholder="请选择组织" class="com-el-select">
+          <el-option label="全部组织" :value="null"></el-option>
+          <!--<el-option-->
+            <!--v-for="item in salesOpportunitiesOptions"-->
+            <!--:key="item.type"-->
+            <!--:label="item.value"-->
+            <!--:value="item.type">-->
+          </el-option>
+        </el-select>
+        <!--<com-button buttonType="search" @click="searchHandle">搜索</com-button>-->
       </div>
     </div>
     <!--详细-->
@@ -201,6 +213,15 @@
         salesOpportunitiesOptionsType: null,
         multipleSelection: [],
         currentPage: 1,
+        customerId: null, // 路由参数中得客户id
+        organizationId: null, // 路由参数中得组织id
+        contactsListParams: { // 默认顾客列表请求参数
+          page: null,
+          pageSize: null,
+          type: null,
+          customerId: null,
+          organizationId: null,
+        }
       }
     },
     computed: {
@@ -209,6 +230,7 @@
         'salesState',
         'demandSource',
         'salesOpportunitiesOptions',
+        'themeIndex',
       ]),
       ...mapState('salesOpportunities', [
         'salesOpportunitiesList',
@@ -237,8 +259,7 @@
               },
               callback (data) {
                 if (data.type === 'save') {
-                  that.getSalesOpportunititeisList(that.currentPage - 1, that.pagesOptions.pageSize,
-                    that.salesOpportunitiesOptionsType)
+                  that.getSalesOpportunititeisList()
                 }
               },
             })
@@ -253,8 +274,7 @@
               },
               callback (data) {
                 if (data.type === 'save') {
-                  that.getSalesOpportunititeisList(that.currentPage - 1, that.pagesOptions.pageSize,
-                    that.salesOpportunitiesOptionsType)
+                  that.getSalesOpportunititeisList()
                 }
               },
             })
@@ -275,7 +295,7 @@
                   }
                   setTimeout(() => {
                     this.dataLoading = false
-                    this.getSalesOpportunititeisList(this.currentPage - 1, this.pagesOptions.pageSize, this.salesOpportunitiesOptionsType)
+                    this.getSalesOpportunititeisList()
                   }, 500)
                 } else {
                   setTimeout(() => {
@@ -295,13 +315,10 @@
       handleSelectionChange (val) {
         this.multipleSelection = val
       },
-      getSalesOpportunititeisList (page, pageSize, type) { // 获取列表
+      getSalesOpportunititeisList () { // 获取列表
         this.dataLoading = true
-        API.salesOpportunities.list({
-          page: page,
-          pageSize: pageSize,
-          type: type,
-        }, (data) => {
+        this.getQueryParams()
+        API.salesOpportunities.list(this.contactsListParams, (data) => {
           this.ac_salesOpportunitiesList(data.data)
           setTimeout(() => {
             this.dataLoading = false
@@ -310,14 +327,12 @@
       },
       handleSizeChange (val) {
         console.log(`每页 ${val} 条`)
-        this.getSalesOpportunititeisList(this.currentPage - 1, this.pagesOptions.pageSize,
-          this.salesOpportunitiesOptionsType)
+        this.getSalesOpportunititeisList()
       },
       handleCurrentChange (val) {
         // console.log(`当前页: ${val}`)
         this.currentPage = val
-        this.getSalesOpportunititeisList(this.currentPage - 1, this.pagesOptions.pageSize,
-          this.salesOpportunitiesOptionsType)
+        this.getSalesOpportunititeisList()
       },
       handleRouter (name, id) {
         this.$router.push({name: 'salesOpportunitiesDetail', query: {view: name, id: id}, params: {end: 'FE'}})
@@ -326,13 +341,26 @@
         this.$router.push({name: 'customersDetail', query: {view: name, customerId: id}, params: {end: 'FE'}})
       },
       searchHandle () {
-        this.getSalesOpportunititeisList(this.currentPage - 1, this.pagesOptions.pageSize,
-          this.salesOpportunitiesOptionsType)
+        this.getSalesOpportunititeisList()
       },
+      getQueryParams () { // 请求参数配置
+        this.customerId = this.$route.query.customerId
+        this.organizationId = this.$route.query.organizationId
+        this.contactsListParams = {
+          page: this.currentPage - 1,
+          pageSize: this.pagesOptions.pageSize,
+          type: this.contactsTypeOption,
+        }
+        if (this.customerId) { // 更多
+          this.contactsListParams.customerId = this.customerId
+        }
+        if (this.organizationId) { // 后台组织
+          this.contactsListParams.organizationId = this.organizationId
+        }
+      }
     },
     created () {
-      this.getSalesOpportunititeisList(this.currentPage - 1, this.pagesOptions.pageSize,
-        this.salesOpportunitiesOptionsType)
+      this.getSalesOpportunititeisList()
     },
   }
 </script>
