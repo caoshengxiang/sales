@@ -146,7 +146,7 @@
           <el-menu-item index="siteList" v-if="listPermissions(menus, 'siteOnOff')">站点开关</el-menu-item>
           <el-menu-item index="customerAreaSetting">客户地区</el-menu-item>
           <el-menu-item index="baseSettingList" v-if="listPermissions(menus, 'paramConfig')">参数配置</el-menu-item>
-          <el-menu-item index="todo" v-if="listPermissions(menus, 'commissionConfig')">返佣配置</el-menu-item>
+          <el-menu-item index="settlementRulesList" v-if="listPermissions(menus, 'commissionConfig')">返佣规则</el-menu-item>
         </el-menu-item-group>
       </el-submenu>
       <el-submenu index="todo-300" v-if="listPermissions(menus, 'statistics')">
