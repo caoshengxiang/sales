@@ -267,7 +267,7 @@
   import addDialog from './addDialog'
   import webStorage from 'webStorage'
   import addContactDialog from '../contacts/addDialog'
-  import addChanceDialog from '../salesOpportunities/addDialog'
+  // import addChanceDialog from '../salesOpportunities/addDialog'
   import addOrderDialog from '../salesOrders/addDialog'
 
   export default {
@@ -466,24 +466,36 @@
         // console.log(step)
         switch (step.type) {
           case 3:
-            this.$vDialog.modal(addDialog, {
-              title: '确定销售需求',
-              width: 900,
-              height: 400,
-              params: {
-                salesState: this.salesState,
-                detail: JSON.parse(JSON.stringify(this.salesOpportunitiesDetail))
-              },
-              callback: (data) => {
-                if (data.type === 'save') {
-                  this.getSalesOpportunitiesDetail()
-                }
-              },
-            })
+            if (this.salesOpportunitiesDetail.stage === -1) {
+              this.$message.warning('销售机会已经输单，不能操作！')
+            } else {
+              this.$vDialog.modal(addDialog, {
+                title: '确定销售需求',
+                width: 900,
+                height: 400,
+                params: {
+                  salesState: this.salesState,
+                  detail: JSON.parse(JSON.stringify(this.salesOpportunitiesDetail))
+                },
+                callback: (data) => {
+                  if (data.type === 'save') {
+                    this.getSalesOpportunitiesDetail()
+                  }
+                },
+              })
+            }
             break
           case 4:
+            if (this.salesOpportunitiesDetail.stage === -1) {
+              this.$message.warning('销售机会已经输单，不能操作！')
+            } else {
+            }
             break
           case 5:
+            if (this.salesOpportunitiesDetail.stage === -1) {
+              this.$message.warning('销售机会已经输单，不能操作！')
+            } else {
+            }
             break
         }
       },
