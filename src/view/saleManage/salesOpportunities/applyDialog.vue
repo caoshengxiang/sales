@@ -9,8 +9,8 @@
             <el-radio label="同部门其他销售人员"></el-radio>
           </el-radio-group>
         </el-form-item>
-        <el-form-item label="请选择协同咨询师人员" prop="principalId">
-          <el-select v-model.number="ruleForm.principalId" placeholder="请选择协同咨询师人员">
+        <el-form-item label="请选择协同咨询师人员" prop="counselorId">
+          <el-select v-model.number="ruleForm.counselorId" placeholder="请选择协同咨询师人员">
             <el-option :disabled="exceptUserIds.some((id) => {return id === item.id})" v-for="item in userList"
                        :key="item.id" :label="item.name" :value="item.id"></el-option>
           </el-select>
@@ -35,14 +35,14 @@
         ruleForm: {
           businessType: 1, // 关联业务类型 1:销售机会
           type: 0,
-          principalId: '',
+          counselorId: '',
           chanceId: '',
         },
         rules: {
           consultantType: [
             // {required: true, message: '请选择协同咨询师类型', trigger: 'change'},
           ],
-          principalId: [
+          counselorId: [
             {required: true, message: '请选择协同咨询师人员', trigger: 'change'},
           ],
         },
