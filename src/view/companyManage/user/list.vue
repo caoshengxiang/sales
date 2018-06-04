@@ -121,23 +121,37 @@
         <el-table-column
           show-overflow-tooltip
           align="center"
-          prop="superiorName"
+          prop=""
           label="直接上级"
         >
+          <template slot-scope="scope">
+            <span v-for="item in scope.row.heads"
+                  :key="item.id"
+            >{{item.name}}&nbsp;</span>
+        </template>
         </el-table-column>
         <el-table-column
           show-overflow-tooltip
           align="center"
-          prop="trainerName"
+          prop=""
           label="部门培训师"
           width="160">
+          <template slot-scope="scope">
+            <span v-for="item in scope.row.trainers"
+                  :key="item.id"
+            >{{item.name}}&nbsp;</span>
+        </template>
         </el-table-column>
         <el-table-column
           show-overflow-tooltip
           align="center"
-          prop="assistantName"
+          prop=""
           label="部门销售助理"
-        >
+        >    <template slot-scope="scope">
+            <span v-for="item in scope.row.assistants"
+                  :key="item.id"
+            >{{item.name}}&nbsp;</span>
+        </template>
         </el-table-column>
         <el-table-column
           show-overflow-tooltip
