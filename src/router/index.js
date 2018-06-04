@@ -136,6 +136,10 @@ const organizationProductSetting = resolve => require.ensure([],
 const meMessageList = resolve => require.ensure([],
   () => resolve(require('../view/companyManage/message/list')), 'meMessage')
 
+
+//消息通知管理(ME)
+const loglist = resolve => require.ensure([],
+  () => resolve(require('../view/companyManage/log/list')), 'loglist')
 // 企业管理 end
 
 Vue.use(Router)
@@ -327,6 +331,12 @@ export default new Router({
           path: 'meMessageList',
           name: 'meMessageList',
           component: meMessageList
+        },
+        // 日志管理通知管理
+        {
+          path: 'loglist',
+          name: 'loglist',
+          component: loglist
         },
       ],
     },

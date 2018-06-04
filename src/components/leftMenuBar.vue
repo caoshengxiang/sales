@@ -159,14 +159,14 @@
           <el-menu-item index="todo-1" v-if="listPermissions(menus, 'statistics')">统计分析</el-menu-item>
         </el-menu-item-group>
       </el-submenu>
-      <el-submenu index="todo-200" v-if="listPermissions(menus, 'logManagement')">
+      <el-submenu index="log" v-if="listPermissions(menus, 'logManagement')">
         <template slot="title">
           <i class="iconfont icon-xitongrizhi"></i>
           <span>日志管理</span>
         </template>
         <el-menu-item-group>
           <!--<template slot="title">分组一</template>-->
-          <el-menu-item index="todo-1" v-if="listPermissions(menus, 'logManagement')">日志管理</el-menu-item>
+          <el-menu-item index="loglist" v-if="listPermissions(menus, 'logManagement')">日志管理</el-menu-item>
         </el-menu-item-group>
       </el-submenu>
       <el-submenu index="crm" v-if="listPermissions(menus, 'crmManagement')">
