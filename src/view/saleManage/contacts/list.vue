@@ -27,14 +27,17 @@
         </el-select>
         <com-button buttonType="search" @click="searchHandle">搜索</com-button>
       </div>
-      <div class="com-bar-right" v-if="themeIndex === 1">
-        <el-select v-model="contactsTypeOption" placeholder="请选择组织" class="com-el-select" style="width: 150px">
-          <el-option label="全部组织" :value="null"></el-option>
-          <!--<el-option-->
-            <!--v-for="item in contactsTypeOptions"-->
-            <!--:key="item.type"-->
-            <!--:label="item.value"-->
-            <!--:value="item.type">-->
+      <div class="com-bar-right" v-if="themeIndex === 1"><!--后端-->
+        <el-select
+          v-model="organizationId"
+          @change="searchHandle"
+          placeholder="请选择组织" class="com-el-select" style="width: 200px">
+          <el-option label="全部组织的联系人" :value="null"></el-option>
+          <el-option
+            v-for="item in organizationOptions"
+            :key="item.name"
+            :label="item.name"
+            :value="item.id">
           </el-option>
         </el-select>
         <!--<com-button buttonType="search" @click="searchHandle">搜索</com-button>-->
@@ -174,6 +177,14 @@
             {{ scope.row.birthday && $moment(scope.row.birthday).format('YYYY-MM-DD HH:mm') }}
           </template>
         </el-table-column>
+        <el-table-column
+          v-if="themeIndex === 1"
+          show-overflow-tooltip
+          align="center"
+          prop="organizationName"
+          label="所属组织"
+          width="160">
+        </el-table-column>
       </el-table>
     </div>
     <!--分页-->
@@ -212,14 +223,15 @@
         multipleSelection: [],
         currentPage: 1,
         customerId: null, // 路由参数中得客户id
-        organizationId: null, // 路由参数中得组织id
-        contactsListParams: { // 默认顾客列表请求参数
+        defaultListParams: { // 默认顾客列表请求参数
           page: null,
           pageSize: null,
           type: null,
           customerId: null,
           organizationId: null,
-        }
+        },
+        organizationOptions: [], // 组织列表
+        organizationId: null, // 选择的组织
       }
     },
     computed: {
@@ -278,7 +290,7 @@
       getContactsList () {
         this.dataLoading = true
         this.getQueryParams()
-        API.contacts.list(this.contactsListParams, (data) => {
+        API.contacts.list(this.defaultListParams, (data) => {
           this.ac_contactsList(data.data)
           setTimeout(() => {
             this.dataLoading = false
@@ -292,24 +304,29 @@
       },
       getQueryParams () { // 请求参数配置
         this.customerId = this.$route.query.customerId
-        this.organizationId = this.$route.query.organizationId
-        this.contactsListParams = {
+        this.defaultListParams = {
           page: this.currentPage - 1,
           pageSize: this.pagesOptions.pageSize,
-          type: this.contactsTypeOption,
+          type: this.contactsTypeOption, // 前端
+          organizationId: this.organizationId // 后端
         }
         if (this.customerId) { // 更多
-          this.contactsListParams.customerId = this.customerId
+          this.defaultListParams.customerId = this.customerId
         }
-        if (this.organizationId) { // 后台组织
-          this.contactsListParams.organizationId = this.organizationId
-        }
-      }
+      },
+      getOrganization (pa) {
+        API.organization.queryAllList(pa, (data) => {
+          this.organizationOptions = data.data
+        })
+      },
     },
     beforeCreate () {
     },
     created () {
       this.getContactsList()
+      if (this.themeIndex === 1) { // 后端， 拉取组织列表
+        this.getOrganization({pid: 1})
+      }
     },
   }
 </script>

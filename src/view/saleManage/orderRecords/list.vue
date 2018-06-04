@@ -124,6 +124,12 @@
         tableDataTotal: 0,
         multipleSelection: [],
         currentPage: 1,
+        defaultListParams: { // 默认列表请求参数
+          page: null,
+          pageSize: null,
+          customerId: null,
+        },
+        customerId: null, // 路由参数
       }
     },
     computed: {
@@ -147,23 +153,20 @@
       },
       handleSizeChange (val) {
         console.log(`每页 ${val} 条`)
-        this.getRecordsList(this.currentPage - 1, this.pagesOptions.pageSize)
+        this.getRecordsList()
       },
       handleCurrentChange (val) {
         console.log(`当前页: ${val}`)
         this.currentPage = val
-        this.getRecordsList(this.currentPage - 1, this.pagesOptions.pageSize)
+        this.getRecordsList()
       },
       handleRouter (name) {
         this.$router.push({name: 'salesOpportunitiesDetail', query: {view: name, id: 1}, params: {end: 'FE'}})
       },
-      getRecordsList (page, pageSize, type) {
+      getRecordsList () {
         this.dataLoading = true
-        API.orderRecords.list({
-          page: page,
-          pageSize: pageSize,
-          type: type,
-        }, (data) => {
+        this.getQueryParams()
+        API.orderRecords.list(this.defaultListParams, (data) => {
           // this.ac_contactsList(data.data)
           this.tableData = data.data.content
           this.tableDataTotal = data.data.totalElements
@@ -175,9 +178,19 @@
           this.dataLoading = false
         })
       },
+      getQueryParams () { // 请求参数配置
+        this.customerId = this.$route.query.customerId
+        this.defaultListParams = {
+          page: this.currentPage - 1,
+          pageSize: this.pagesOptions.pageSize,
+        }
+        if (this.customerId) { // 更多
+          this.defaultListParams.customerId = this.customerId
+        }
+      },
     },
     created () {
-      this.getRecordsList(this.currentPage - 1, this.pagesOptions.pageSize)
+      this.getRecordsList()
     },
   }
 </script>

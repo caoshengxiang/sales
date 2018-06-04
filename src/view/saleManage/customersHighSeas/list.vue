@@ -24,7 +24,25 @@
         </com-button>
       </div>
       <div class="com-bar-float-right">
-        <com-button buttonType="import">导入</com-button>
+        <div class="com-bar-right">
+          <!--后端-->
+          <el-select
+            v-if="themeIndex === 1"
+            v-model="organizationId"
+            @change="searchHandle"
+            placeholder="请选择组织" class="com-el-select" style="width: 200px">
+            <el-option label="全部组织的公海" :value="null"></el-option>
+            <el-option
+              v-for="item in organizationOptions"
+              :key="item.name"
+              :label="item.name"
+              :value="item.id">
+            </el-option>
+          </el-select>
+          <!--<com-button buttonType="search" @click="searchHandle">搜索</com-button>-->
+&nbsp;&nbsp;&nbsp;&nbsp;
+          <com-button buttonType="import">导入</com-button>
+        </div>
       </div>
     </div>
     <!--详细-->
@@ -56,7 +74,7 @@
           align="center"
           prop="source"
           label="客户来源"
-          width="160">
+          width="120">
           <template slot-scope="scope">
             <span v-for="item in customerSourceType"
                   :key="item.type"
@@ -67,13 +85,13 @@
           align="center"
           prop="seaName"
           label="所属公海"
-          width="160">
+          width="120">
         </el-table-column>
         <el-table-column
           align="center"
           prop="level"
           label="客户级别"
-          width="160"
+          width="130"
           show-overflow-tooltip>
         </el-table-column>
         <el-table-column
@@ -97,6 +115,13 @@
           prop="creatorName"
           label="创建人"
           show-overflow-tooltip>
+        </el-table-column>
+        <el-table-column
+          v-if="themeIndex === 1"
+          show-overflow-tooltip
+          align="center"
+          prop="organizationName"
+          label="所属组织">
         </el-table-column>
       </el-table>
     </div>
@@ -134,6 +159,16 @@
         tableData: [],
         multipleSelection: [],
         currentPage: 1,
+        defaultListParams: { // 默认顾客列表请求参数
+          page: null,
+          pageSize: null,
+          type: null,
+          chanceId: null,
+          organizationId: null,
+        },
+        chanceId: null, // 路由参数
+        organizationOptions: [], // 组织列表
+        organizationId: null, // 选择的组织
       }
     },
     computed: {
@@ -141,6 +176,7 @@
         'pagesOptions',
         'customerAddSource',
         'customerSourceType',
+        'themeIndex',
       ]),
     },
     components: {
@@ -161,7 +197,7 @@
               },
               callback (data) {
                 if (data.type === 'save') {
-                  that.getCustomersSeaList(that.currentPage - 1, that.pagesOptions.pageSize)
+                  that.getCustomersSeaList()
                 }
               },
             })
@@ -176,7 +212,7 @@
               },
               callback (data) {
                 if (data.type === 'save') {
-                  that.getCustomersSeaList(that.currentPage - 1, that.pagesOptions.pageSize)
+                  that.getCustomersSeaList()
                 }
               },
             })
@@ -221,7 +257,7 @@
               },
               callback (data) {
                 if (data.type === 'save') {
-                  that.getCustomersSeaList(that.currentPage - 1, that.pagesOptions.pageSize)
+                  that.getCustomersSeaList()
                 }
               },
             })
@@ -233,19 +269,23 @@
       },
       handleSizeChange (val) {
         // console.log(`每页 ${val} 条`)
-        this.getCustomersSeaList(this.currentPage - 1, this.pagesOptions.pageSize)
+        this.getCustomersSeaList()
       },
       handleCurrentChange (val) {
         // console.log(`当前页: ${val}`)
         this.currentPage = val
-        this.getCustomersSeaList(this.currentPage - 1, this.pagesOptions.pageSize)
+        this.getCustomersSeaList()
+      },
+      searchHandle () {
+        this.getCustomersSeaList()
       },
       handleRouter (name, id) {
         this.$router.push({name: 'customersDetail', query: {view: name, customerId: id}, params: {end: 'FE'}})
       },
-      getCustomersSeaList (page, pageSize) {
+      getCustomersSeaList () {
         this.dataLoading = true
-        API.customer.list({page: page, pageSize: pageSize}, (data) => {
+        this.getQueryParams()
+        API.customer.list(this.defaultListParams, (data) => {
           if (data.status) {
             this.tableData = data.data.content
             this.total = data.data.totalElements
@@ -255,9 +295,29 @@
           }, 500)
         })
       },
+      getQueryParams () { // 请求参数配置
+        this.chanceId = this.$route.query.chanceId
+        this.defaultListParams = {
+          page: this.currentPage - 1,
+          pageSize: this.pagesOptions.pageSize,
+          type: this.contactsTypeOption, // 前端
+          organizationId: this.organizationId // 后端
+        }
+        if (this.chanceId) { // 更多
+          this.defaultListParams.chanceId = this.chanceId
+        }
+      },
+      getOrganization (pa) {
+        API.organization.queryAllList(pa, (data) => {
+          this.organizationOptions = data.data
+        })
+      },
     },
     created () {
-      this.getCustomersSeaList(this.currentPage - 1, this.pagesOptions.pageSize)
+      this.getCustomersSeaList()
+      if (this.themeIndex === 1) { // 后端， 拉取组织列表
+        this.getOrganization({pid: 1})
+      }
     },
   }
 </script>
