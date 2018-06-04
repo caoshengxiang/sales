@@ -15,8 +15,8 @@
     "build:prod": "set server_url=http://erp.zzcfo.cn/sales&& node build/build.js",
     "compress": "rm -rf dist && npm run build",
     "release": "npm run build && bash ./bash/release.sh",
-    "releaseTest": "npm run build && bash ./bash/test.sh",
-    "release_linux": "npm run build && ./bash/release.sh",
+    "releaseTest": "npm run build:test && bash ./bash/test.sh",
+    "release_linux": "npm run build:test && ./bash/release.sh",
     "releaseTest_linux": "npm run build && ./bash/test.sh"
   },
   "dependencies": {
