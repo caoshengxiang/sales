@@ -10,7 +10,7 @@
           <el-form-item label="" prop="phone">
             <el-input class="phone" v-model.number="formData.phone" placeholder="请输入您的手机号"></el-input>
           </el-form-item>
-          <el-form-item label="" prop="password">
+          <el-form-item label="" prop="oldpassword">
             <el-input v-model="formData.oldpassword" type="password" auto-complete="off"
                       placeholder="请输入初始密码"></el-input>
           </el-form-item>
