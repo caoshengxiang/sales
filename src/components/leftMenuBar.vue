@@ -87,7 +87,7 @@
           </div>
         </template>
       </el-menu-item>-->
-      <el-menu-item index="todo" v-if="listPermissions(menus, 'adminHome')">
+      <el-menu-item index="companyManageHome" v-if="listPermissions(menus, 'adminHome')">
         <i class="iconfont icon-home"></i>
         <span slot="title">首页</span>
       </el-menu-item>
