@@ -6,6 +6,9 @@
       initValue ---- 初始绑定值
 =========获取值方式=============
 this.$refs.组件名称.getSelectedValue()
+
+prop:
+area,预显示地址
 -->
 <template>
   <div>
@@ -17,6 +20,7 @@ this.$refs.组件名称.getSelectedValue()
       :change-on-select = "selectLastLevelMode"
       :value="selectedBindValue"
       class="selectAreaModule"
+      :placeholder="area"
       ref="areaSelectCtl"
     ></el-cascader>
   </div>
@@ -40,6 +44,10 @@ this.$refs.组件名称.getSelectedValue()
         type: Number,
         required: false,
         default: 0,
+      },
+      area: {
+        type: String,
+        default: ''
       }
     },
     data () {

@@ -61,6 +61,7 @@
                   }">
                 </el-cascader>-->
                 <AreaSelect ref="areaSe"
+                            :area="addForm.provinceName + ' ' + addForm.cityName + ' ' + addForm.areaName"
                             @change="areaSelectedOptionsHandleChange"
                             :selectLastLevelMode="true"></AreaSelect>
               </el-form-item>

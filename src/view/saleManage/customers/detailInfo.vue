@@ -308,8 +308,6 @@
         })
       },
       operateOptions (option) {
-        // eslint-disable-next-line
-        let that = this
         switch (option) {
           case 'edit':
             this.$vDialog.modal(addDialog, {
@@ -320,15 +318,14 @@
                 customerAddSource: this.customerAddSource,
                 detail: this.customerDetail,
               },
-              callback (data) {
+              callback: (data) => {
                 if (data.type === 'save') {
-                  that.getCustomerDetail()
+                  this.getCustomerDetail()
                 }
               },
             })
             break
           case 'back':
-            let that = this
             this.$vDialog.modal(returnPoll, {
               title: '转移客户',
               width: 600,
@@ -336,32 +333,12 @@
               params: {
                 customerIds: [{id: this.$route.query.customerId}],
               },
-              callback (data) {
+              callback: (data) => {
                 if (data.type === 'save') {
-                  that.getCustomerList(that.currentPage - 1, that.pagesOptions.pageSize, that.customerType)
+                  this.getCustomerList(this.currentPage - 1, this.pagesOptions.pageSize, this.customerType)
                 }
               },
             })
-            // this.$confirm('确定退回公海池, 是否继续?', '提示', {
-            //   confirmButtonText: '确定',
-            //   cancelButtonText: '取消',
-            //   type: 'warning',
-            // }).then(() => {
-            //   API.customer.return({customerIds: arrToStr([{id: this.$route.query.customerId}], 'id')}, (data) => {
-            //     if (data.status) {
-            //       if (data.data.fail > 0) {
-            //         this.$message.warning(`成功${data.data.success}, 失败${data.data.fail}, 失败原因：${data.data.errorMessage}`)
-            //       } else {
-            //         this.$message.success(`成功${data.data.success},失败${data.data.fail}`)
-            //       }
-            //     }
-            //   })
-            // }).catch(() => {
-            //   this.$message({
-            //     type: 'info',
-            //     message: '已取消',
-            //   })
-            // })
             break
           case 'move':
             this.$vDialog.modal(moveDialog, {
@@ -371,7 +348,7 @@
               params: {
                 customerIds: [{id: this.$route.query.customerId}],
               },
-              callback (data) {
+              callback: (data) => {
                 if (data.type === 'save') {}
               },
             })
