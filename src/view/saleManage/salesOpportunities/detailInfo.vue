@@ -19,7 +19,7 @@
           <p>
             <span class="com-d-item">客户名称: <span>{{salesOpportunitiesDetail.customerName}}</span></span>
             <span class="com-d-item">预计签单金额: <span>{{salesOpportunitiesDetail.intentBillAmount}}</span></span>
-            <span class="com-d-item">预计签单日期: <span>{{$moment(salesOpportunitiesDetail.billDate).format('YYYY-MM-DD')}}</span></span>
+            <span class="com-d-item">预计签单日期: <span>{{salesOpportunitiesDetail.billDate && $moment(salesOpportunitiesDetail.billDate).format('YYYY-MM-DD')}}</span></span>
             <br>
             <span class="com-d-item">销售机会所有人: <span>{{salesOpportunitiesDetail.ownerName}}</span></span>
           </p>
@@ -31,7 +31,8 @@
         <!--<el-radio-button class="btn-width" label="move">删除</el-radio-button>-->
         <!--</el-radio-group>-->
         <ul class="com-info-op-group">
-          <li class="op-active" @click="operateOptions('move')">转移</li>
+          <!--输单后隐藏删除以外得按钮-->
+          <li class="op-active" v-if="salesOpportunitiesDetail.stage !== -1" @click="operateOptions('move')">转移</li>
           <li @click="operateOptions('delete')">删除</li>
         </ul>
       </div>
@@ -43,6 +44,7 @@
             <el-step title="输单"></el-step>
           </el-steps>
         </div>
+        <!--输单后隐藏删除以外得按钮-->
         <a v-if="salesOpportunitiesDetail.stage !== -1" class="lose-bill" @click="operateOptions('discard')">输单</a>
       </div>
 
@@ -68,7 +70,7 @@
               </tr>
               <tr>
                 <td class="td-title">预计签单时间</td>
-                <td>{{$moment(salesOpportunitiesDetail.billDate).format('YYYY-MM-DD')}}</td>
+                <td>{{salesOpportunitiesDetail.billDate && $moment(salesOpportunitiesDetail.billDate).format('YYYY-MM-DD')}}</td>
                 <td class="td-title">意向商品</td>
                 <td>{{salesOpportunitiesDetail.intentProductName}}</td>
                 <td class="td-title">实际签单金额</td>
@@ -100,19 +102,19 @@
             <table class="detail-table">
               <tr>
                 <td class="td-title">销售机会创建时间</td>
-                <td colspan="3">{{$moment(salesOpportunitiesDetail.created).format('YYYY-MM-DD HH:mm:ss')}}</td>
+                <td colspan="3">{{salesOpportunitiesDetail.created && $moment(salesOpportunitiesDetail.created).format('YYYY-MM-DD HH:mm:ss')}}</td>
                 <td class="td-title">所有人</td>
                 <td>{{salesOpportunitiesDetail.creatorName}}</td>
               </tr>
               <tr>
                 <td class="td-title">销售机会修改时间</td>
-                <td colspan="3">{{$moment(salesOpportunitiesDetail.modified).format('YYYY-MM-DD HH:mm:ss')}}</td>
+                <td colspan="3">{{salesOpportunitiesDetail.modified && $moment(salesOpportunitiesDetail.modified).format('YYYY-MM-DD HH:mm:ss')}}</td>
                 <td class="td-title">修改人</td>
                 <td>{{salesOpportunitiesDetail.modifierName}}</td>
               </tr>
               <tr>
                 <td class="td-title">销售机会活动时间</td>
-                <td colspan="3">{{$moment(salesOpportunitiesDetail.followDate).format('YYYY-MM-DD HH:mm:ss')}}</td>
+                <td colspan="3">{{ salesOpportunitiesDetail.followDate && $moment(salesOpportunitiesDetail.followDate).format('YYYY-MM-DD HH:mm:ss')}}</td>
                 <td class="td-title">跟进人</td>
                 <td>{{salesOpportunitiesDetail.salerName}}</td>
               </tr>
@@ -147,7 +149,7 @@
                 <td>{{item.position}}</td>
                 <td>{{item.wx}}</td>
                 <td>{{item.qq}}</td>
-                <td>{{$moment(item.created).format('YYYY-MM-DD HH:mm:ss')}}</td>
+                <td>{{item.created && $moment(item.created).format('YYYY-MM-DD HH:mm:ss')}}</td>
               </tr>
             </table>
 
@@ -242,7 +244,8 @@
             </div>
           </li>
         </ul>
-        <div class="team-btn-group">
+        <!--输单后隐藏删除以外得按钮-->
+        <div class="team-btn-group" v-if="salesOpportunitiesDetail.stage !== -1">
           <div v-if="salesOpportunitiesDetail.team && !salesOpportunitiesDetail.team.counselorId" class="btn-item-1" @click="operateOptions('apply')">申请咨询师协同</div>
           <div class="btn-item-2" @click="operateOptions('exit')">咨询师主动退出</div>
           <div class="btn-item-3" @click="operateOptions('replace')">申请替换咨询师</div>

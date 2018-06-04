@@ -19,7 +19,7 @@
           <p>
             <span class="com-d-item">客户公司: <span>{{contactsDetail.customerName}}</span></span>
             <span class="com-d-item">联系电话: <span>{{contactsDetail.phone}}</span></span>
-            <span class="com-d-item">创建时间: <span>{{contactsDetail.created}}</span></span>
+            <span class="com-d-item">创建时间: <span>{{contactsDetail.created && $moment(contactsDetail.created).format('YYYY-MM-DD HH:mm:ss')}}</span></span>
           </p>
         </div>
       </div>
@@ -59,7 +59,7 @@
                 <td class="td-title">QQ</td>
                 <td>{{contactsDetail.qq}}</td>
                 <td class="td-title">出生日期</td>
-                <td>{{$moment(contactsDetail.birthday).format('YYYY-MM-DD')}}</td>
+                <td>{{contactsDetail.birthday && $moment(contactsDetail.birthday).format('YYYY-MM-DD')}}</td>
                 <td class="td-title">性别</td>
                 <td>{{contactsDetail.sex}}</td>
               </tr>
@@ -81,19 +81,19 @@
             <table class="detail-table">
               <tr>
                 <td class="td-title">联系人创建时间</td>
-                <td colspan="3">{{$moment(contactsDetail.created).format('YYYY-MM-DD HH:mm:ss')}}</td>
+                <td colspan="3">{{contactsDetail.created && $moment(contactsDetail.created).format('YYYY-MM-DD HH:mm:ss')}}</td>
                 <td class="td-title">所有人</td>
                 <td>{{contactsDetail.creatorName}}</td>
               </tr>
               <tr>
                 <td class="td-title">联系人修改时间</td>
-                <td colspan="3">{{$moment(contactsDetail.modified).format('YYYY-MM-DD HH:mm:ss')}}</td>
+                <td colspan="3">{{contactsDetail.modified && $moment(contactsDetail.modified).format('YYYY-MM-DD HH:mm:ss')}}</td>
                 <td class="td-title">修改人</td>
                 <td>{{contactsDetail.modifierName}}</td>
               </tr>
               <tr>
                 <td class="td-title">联系人活动时间</td>
-                <td colspan="3">{{$moment(contactsDetail.activeTime).format('YYYY-MM-DD HH:mm:ss')}}</td>
+                <td colspan="3">{{contactsDetail.activeTime && $moment(contactsDetail.activeTime).format('YYYY-MM-DD HH:mm:ss')}}</td>
                 <td class="td-title">跟进人</td>
                 <td>{{contactsDetail.followerName}}</td>
               </tr>
@@ -130,7 +130,7 @@
                 </td>
                 <td>{{item.intentProductName}}</td>
                 <td>todo 占位</td>
-                <td>{{$moment(item.created).format('YYYY-MM-DD HH:mm:ss')}}</td>
+                <td>{{item.created && $moment(item.created).format('YYYY-MM-DD HH:mm:ss')}}</td>
                 <td><a class="table-op" @click="quickOperation('deleteChance', item.id)">删除</a></td>
               </tr>
             </table>
@@ -158,7 +158,7 @@
                 <td><span v-for="os in orderState" :key="os.type"
                           v-if="item.orderState === os.type">{{os.value}}</span>
                 </td>
-                <td>{{$moment(item.created).format('YYYY-MM-DD HH:mm:ss')}}</td>
+                <td>{{item.created && $moment(item.created).format('YYYY-MM-DD HH:mm:ss')}}</td>
                 <td><a class="table-op" @click="quickOperation('deleteOrder', item.id)">删除</a></td>
               </tr>
             </table>

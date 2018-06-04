@@ -14,10 +14,10 @@
     "build:test": "set server_url=http://sales.dcstar-inc.com/sales&& node build/build.js",
     "build:prod": "set server_url=http://erp.zzcfo.cn/sales&& node build/build.js",
     "compress": "rm -rf dist && npm run build",
-    "release": "npm run build && bash ./bash/release.sh",
+    "release": "npm run build:prod && bash ./bash/release.sh",
     "releaseTest": "npm run build:test && bash ./bash/test.sh",
-    "release_linux": "npm run build:test && ./bash/release.sh",
-    "releaseTest_linux": "npm run build && ./bash/test.sh"
+    "release_linux": "npm run build:prod && ./bash/release.sh",
+    "releaseTest_linux": "npm run build:test && ./bash/test.sh"
   },
   "dependencies": {
     "axios": "^0.18.0",

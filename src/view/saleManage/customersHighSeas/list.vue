@@ -83,7 +83,7 @@
           width="160"
           show-overflow-tooltip>
           <template slot-scope="scope">
-            {{$moment(scope.row.modified).format('YYYY-MM-DD')}}
+            {{scope.row.modified && $moment(scope.row.modified).format('YYYY-MM-DD')}}
           </template>
         </el-table-column>
         <el-table-column

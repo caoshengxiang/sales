@@ -19,7 +19,7 @@
           <p>
             <span class="com-d-item">客户所有人: <span>{{customerDetail.ownerName}}</span></span>
             <span class="com-d-item">所属公海: <span>{{customerDetail.seaName}}</span></span>
-            <span class="com-d-item">创建时间: <span>{{$moment(customerDetail.created).format('YYYY-MM-DD HH:mm:ss')}}</span></span>
+            <span class="com-d-item">创建时间: <span>{{customerDetail.created && $moment(customerDetail.created).format('YYYY-MM-DD HH:mm:ss')}}</span></span>
           </p>
         </div>
       </div>
@@ -102,19 +102,19 @@
               </tr>
               <tr>
                 <td class="td-title">客户创建时间</td>
-                <td colspan="3">{{$moment(customerDetail.created).format('YYYY-MM-DD HH:mm:ss')}}</td>
+                <td colspan="3">{{customerDetail.created && $moment(customerDetail.created).format('YYYY-MM-DD HH:mm:ss')}}</td>
                 <td class="td-title">创建人</td>
                 <td>{{customerDetail.creatorName}}</td>
               </tr>
               <tr>
                 <td class="td-title">最新修改时间</td>
-                <td colspan="3">{{$moment(customerDetail.modified).format('YYYY-MM-DD HH:mm:ss')}}</td>
+                <td colspan="3">{{customerDetail.modified && $moment(customerDetail.modified).format('YYYY-MM-DD HH:mm:ss')}}</td>
                 <td class="td-title">修改人</td>
                 <td>{{customerDetail.modifierName}}</td>
               </tr>
               <tr>
                 <td class="td-title">最新活动时间</td>
-                <td colspan="3">{{$moment(customerDetail.activeTime).format('YYYY-MM-DD HH:mm:ss')}}</td>
+                <td colspan="3">{{customerDetail.activeTime && $moment(customerDetail.activeTime).format('YYYY-MM-DD HH:mm:ss')}}</td>
                 <td class="td-title">跟进人</td>
                 <td>{{customerDetail.followerName}}</td>
               </tr>
@@ -149,7 +149,7 @@
                 <td>{{item.position}}</td>
                 <td>{{item.wx}}</td>
                 <td>{{item.qq}}</td>
-                <td>{{$moment(item.created).format('YYYY-MM-DD HH:mm:ss')}}</td>
+                <td>{{item.created && $moment(item.created).format('YYYY-MM-DD HH:mm:ss')}}</td>
               </tr>
             </table>
 
@@ -174,7 +174,7 @@
                 </td>
                 <td>{{item.intentProductName}}</td>
                 <td>todo 占位</td>
-                <td>{{$moment(item.created).format('YYYY-MM-DD HH:mm:ss')}}</td>
+                <td>{{item.created && $moment(item.created).format('YYYY-MM-DD HH:mm:ss')}}</td>
                 <td><a class="table-op" @click="quickOperation('deleteChance', item.id)">删除</a></td>
               </tr>
             </table>
@@ -201,7 +201,7 @@
                 <td>{{item.refund_amount}}</td>
                 <td><span v-for="os in orderState" :key="os.type"
                           v-if="item.orderState === os.type">{{os.value}}</span></td>
-                <td>{{$moment(item.created).format('YYYY-MM-DD HH:mm:ss')}}</td>
+                <td>{{item.created && $moment(item.created).format('YYYY-MM-DD HH:mm:ss')}}</td>
                 <td><a class="table-op" @click="quickOperation('deleteOrder', item.id)">删除</a></td>
               </tr>
             </table>

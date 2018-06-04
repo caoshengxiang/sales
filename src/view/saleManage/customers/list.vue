@@ -148,7 +148,7 @@
           label="创建日期"
           width="160">
           <template slot-scope="scope">
-            {{$moment(scope.row.created).format('YYYY-MM-DD HH:mm')}}
+            {{scope.row.created && $moment(scope.row.created).format('YYYY-MM-DD HH:mm')}}
           </template>
         </el-table-column>
         <el-table-column

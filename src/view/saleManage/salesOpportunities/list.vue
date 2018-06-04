@@ -89,7 +89,7 @@
           width="160"
           show-overflow-tooltip>
           <template slot-scope="scope">
-            {{$moment(scope.row.billDate).format('YYYY-MM-DD')}}
+            {{scope.row.billDate && $moment(scope.row.billDate).format('YYYY-MM-DD')}}
           </template>
         </el-table-column>
         <el-table-column
@@ -100,7 +100,7 @@
           show-overflow-tooltip>
           <template slot-scope="scope">
             <span v-for="item in salesState" :key="item.type" v-if="item.type === scope.row.stage">{{item.value}}</span>
-            <span v-if="scope.row.stage === -1">输单</span>
+            <!--<span v-if="scope.row.stage === -1">输单</span>-->
           </template>
         </el-table-column>
         <el-table-column
@@ -112,7 +112,7 @@
           <template slot-scope="scope">
             <span v-for="item in salesState" :key="item.type"
                   v-if="item.type === scope.row.stage">{{item.percent}}</span>
-            <span v-if="scope.row.stage === -1">0%</span>
+            <!--<span v-if="scope.row.stage === -1">0%</span>-->
           </template>
         </el-table-column>
         <el-table-column
@@ -154,7 +154,7 @@
           width="160"
           show-overflow-tooltip>
           <template slot-scope="scope">
-            {{$moment(scope.row.created).format('YYYY-MM-DD HH:mm')}}
+            {{scope.row.created && $moment(scope.row.created).format('YYYY-MM-DD HH:mm')}}
           </template>
         </el-table-column>
         <el-table-column
@@ -164,7 +164,7 @@
           width="160"
           show-overflow-tooltip>
           <template slot-scope="scope">
-            {{$moment(scope.row.followDate).format('YYYY-MM-DD HH:mm')}}
+            {{scope.row.followDate && $moment(scope.row.followDate).format('YYYY-MM-DD HH:mm')}}
           </template>
         </el-table-column>
       </el-table>

@@ -88,7 +88,7 @@
           width="140"
           show-overflow-tooltip>
           <template slot-scope="scope">
-            {{ $moment(scope.row.birthday).format('YYYY-MM-DD') }}
+            {{ scope.row.birthday && $moment(scope.row.birthday).format('YYYY-MM-DD') }}
           </template>
         </el-table-column>
         <el-table-column
@@ -159,7 +159,7 @@
           width="160"
           show-overflow-tooltip>
           <template slot-scope="scope">
-            {{ $moment(scope.row.birthday).format('YYYY-MM-DD HH:mm') }}
+            {{ scope.row.birthday && $moment(scope.row.birthday).format('YYYY-MM-DD HH:mm') }}
           </template>
         </el-table-column>
       </el-table>
