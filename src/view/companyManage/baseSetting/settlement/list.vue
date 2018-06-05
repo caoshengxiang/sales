@@ -22,7 +22,7 @@
     <div class="com-box com-box-padding com-list-box">
 
       <div class="config-view-con">
-        <el-form :model="form" ref="form" :rules="rules" :disabled="isFormDisabled">
+        <el-form :model="form" ref="form">
           <div>
             <h3 class="item-title">佣金结算规则设置</h3>
             <table class="com-dialog-table">
@@ -74,25 +74,25 @@
                 <td class="td-title" rowspan="6">代理商下单</td>
                 <td rowspan="2">A类产品 <br>（记账或托管）</td>
                 <td>新签</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td><el-input-number style="width: 102px" size="mini" v-model="form.num9" :precision="2" :step="0.1" :max="100"></el-input-number></td>
+                <td><el-input-number style="width: 102px" size="mini" v-model="form.num9" :precision="2" :step="0.1" :max="100"></el-input-number></td>
+                <td><el-input-number style="width: 102px" size="mini" v-model="form.num9" :precision="2" :step="0.1" :max="100"></el-input-number></td>
+                <td><el-input-number style="width: 102px" size="mini" v-model="form.num9" :precision="2" :step="0.1" :max="100"></el-input-number></td>
+                <td><el-input-number style="width: 102px" size="mini" v-model="form.num9" :precision="2" :step="0.1" :max="100"></el-input-number></td>
+                <td><el-input-number style="width: 102px" size="mini" v-model="form.num9" :precision="2" :step="0.1" :max="100"></el-input-number></td>
+                <td><el-input-number style="width: 102px" size="mini" v-model="form.num9" :precision="2" :step="0.1" :max="100"></el-input-number></td>
+                <td><el-input-number style="width: 102px" size="mini" v-model="form.num9" :precision="2" :step="0.1" :max="100"></el-input-number></td>
               </tr>
               <tr>
                 <td>续签</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td><el-input style="width: 102px" type="number" v-model.number="form.num9" auto-complete="off"></el-input></td>
+                <td><el-input style="width: 102px" type="number" v-model.number="form.num9" auto-complete="off"></el-input></td>
+                <td><el-input style="width: 102px" type="number" v-model.number="form.num9" auto-complete="off"></el-input></td>
+                <td><el-input style="width: 102px" type="number" v-model.number="form.num9" auto-complete="off"></el-input></td>
+                <td><el-input style="width: 102px" type="number" v-model.number="form.num9" auto-complete="off"></el-input></td>
+                <td><el-input style="width: 102px" type="number" v-model.number="form.num9" auto-complete="off"></el-input></td>
+                <td><el-input style="width: 102px" type="number" v-model.number="form.num9" auto-complete="off"></el-input></td>
+                <td><el-input style="width: 102px" type="number" v-model.number="form.num9" auto-complete="off"></el-input></td>
               </tr>
               <tr>
                 <td rowspan="2">A类产品<br>（税务顾问/财税金融咨询）</td>
@@ -275,7 +275,7 @@
         form: {
           dayOfGenerateRebate: 1,
           dayOfTransferRebate: 1,
-
+          num9: 0
         },
       }
     },
@@ -353,6 +353,9 @@
         color: #333E48;
         .td-title {
           color: #426585;
+        }
+        .el-input--mini {
+         width: 102px !important;
         }
       }
     }
