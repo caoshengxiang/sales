@@ -95,6 +95,6 @@
     right: 0;
     bottom: 0;
     left: 0;
-    overflow: hidden;
+    overflow: auto;
   }
 </style>

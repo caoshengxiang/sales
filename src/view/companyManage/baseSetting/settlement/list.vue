@@ -351,6 +351,8 @@
       table {
         text-align: center;
         color: #333E48;
+        min-width: 1100px;
+        overflow: scroll;
         .td-title {
           color: #426585;
         }
