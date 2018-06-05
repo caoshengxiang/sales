@@ -172,7 +172,7 @@
       </el-submenu>
       <el-submenu index="crm" v-if="listPermissions(menus, 'crmManagement')">
         <template slot="title">
-          <i class="iconfont icon-icon-crm"></i>
+          <i class="iconfont icon-webicon319"></i>
           <span>CRM管理</span>
         </template>
         <el-menu-item-group>
