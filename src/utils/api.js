@@ -1,35 +1,38 @@
 import utils from '../utils/utils'
 import { setUserAuth } from '../utils/axiosConfig' // axios配置文件
+const externalAPI = 'http://47.96.26.250:84'
+// const externalAPI = 'http://app.zzcfo.cn'
+
 export default {
   // app外部依赖接口,【注意：基本地址改变】
   external: {
     goodsTypeList (success) { // 商品分类
-      $.getJSON('http://47.96.26.250:84/rest/service/product/goodsType/list',
+      $.getJSON(externalAPI + '/rest/service/product/goodsType/list',
         (data) => {
           success && success(data)
         })
     },
     getGoods (params, success) { // 获取单个商品
-      $.getJSON('http://47.96.26.250:84/rest/service/product/getGoods/' +
+      $.getJSON(externalAPI + '/rest/service/product/getGoods/' +
         params, (data) => {
         success && success(data)
       })
     },
     findGoods (params, success, error) { // 获取商品列表
-      $.getJSON('http://47.96.26.250:84/rest/service/product/findGoods',
+      $.getJSON(externalAPI + '/rest/service/product/findGoods',
         params,
         (data) => {
           success && success(data)
         })
     },
     getProducts (success, error) { // 获取产品列表
-      $.getJSON('http://47.96.26.250:84/rest/service/product/getProducts',
+      $.getJSON(externalAPI + '/rest/service/product/getProducts',
         (data) => {
           success && success(data)
         })
     },
     getBySn (params, success, error) { // 订单详细
-      $.getJSON('http://47.96.26.250:84/rest/order/getBySn', params, (data) => {
+      $.getJSON(externalAPI + '/rest/order/getBySn', params, (data) => {
         success && success(data)
       })
     },
