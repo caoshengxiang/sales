@@ -976,6 +976,31 @@ export default {
     },
   },
   baseSetting: {
+    getsettlement(params, success, error){ // 佣金规则列表
+      setUserAuth()
+      $axios.get('codeConfig/settlement', {
+      }).then((res) => {
+        success && success(res.data)
+      }).catch(() => {
+        setTimeout(() => {
+          error && error(mockdata)
+        }, 1000)
+      })
+    },
+    savesettlement(params, success, error){ // 佣金规则列表
+      setUserAuth()
+      $axios({
+        method: 'post',
+        url: 'codeConfig/settlement',
+        data: params,
+      }).then((res) => {
+        success && success(res.data)
+      }).catch(() => {
+        setTimeout(() => {
+          error && error(mockdata)
+        }, 1000)
+      })
+    },
     getCodeConfig (params, success, error) { // 用户列表
       setUserAuth()
       $axios.get('codeConfig', {

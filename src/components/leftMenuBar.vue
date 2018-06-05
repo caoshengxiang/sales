@@ -87,7 +87,7 @@
           </div>
         </template>
       </el-menu-item>-->
-      <el-menu-item index="todo" v-if="listPermissions(menus, 'adminHome')">
+      <el-menu-item index="companyManageHome" v-if="listPermissions(menus, 'adminHome')">
         <i class="iconfont icon-home"></i>
         <span slot="title">首页</span>
       </el-menu-item>
@@ -146,7 +146,7 @@
           <el-menu-item index="siteList" v-if="listPermissions(menus, 'siteOnOff')">站点开关</el-menu-item>
           <el-menu-item index="customerAreaSetting">客户地区</el-menu-item>
           <el-menu-item index="baseSettingList" v-if="listPermissions(menus, 'paramConfig')">参数配置</el-menu-item>
-          <el-menu-item index="todo" v-if="listPermissions(menus, 'commissionConfig')">返佣配置</el-menu-item>
+          <el-menu-item index="settlementRulesList" v-if="listPermissions(menus, 'commissionConfig')">返佣规则</el-menu-item>
         </el-menu-item-group>
       </el-submenu>
       <el-submenu index="todo-300" v-if="listPermissions(menus, 'statistics')">
@@ -159,14 +159,14 @@
           <el-menu-item index="todo-1" v-if="listPermissions(menus, 'statistics')">统计分析</el-menu-item>
         </el-menu-item-group>
       </el-submenu>
-      <el-submenu index="todo-200" v-if="listPermissions(menus, 'logManagement')">
+      <el-submenu index="log" v-if="listPermissions(menus, 'logManagement')">
         <template slot="title">
           <i class="iconfont icon-xitongrizhi"></i>
           <span>日志管理</span>
         </template>
         <el-menu-item-group>
           <!--<template slot="title">分组一</template>-->
-          <el-menu-item index="todo-1" v-if="listPermissions(menus, 'logManagement')">日志管理</el-menu-item>
+          <el-menu-item index="loglist" v-if="listPermissions(menus, 'logManagement')">日志管理</el-menu-item>
         </el-menu-item-group>
       </el-submenu>
       <el-submenu index="crm" v-if="listPermissions(menus, 'crmManagement')">

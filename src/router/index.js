@@ -136,6 +136,15 @@ const organizationProductSetting = resolve => require.ensure([],
 const meMessageList = resolve => require.ensure([],
   () => resolve(require('../view/companyManage/message/list')), 'meMessage')
 
+
+//消息通知管理(ME)
+const loglist = resolve => require.ensure([],
+  () => resolve(require('../view/companyManage/log/list')), 'loglist')
+
+//返佣规则设置
+const settlementRulesList = resolve => require.ensure([],
+  () => resolve(require('../view/companyManage/baseSetting/settlement/list')), 'settlementRulesList')
+
 // 企业管理 end
 
 Vue.use(Router)
@@ -328,6 +337,19 @@ export default new Router({
           name: 'meMessageList',
           component: meMessageList
         },
+        // 日志管理通知管理
+        {
+          path: 'loglist',
+          name: 'loglist',
+          component: loglist
+        },
+        // 返佣规则设置
+        {
+          path: 'settlementRulesList',
+          name: 'settlementRulesList',
+          component: settlementRulesList
+        },
+
       ],
     },
 
