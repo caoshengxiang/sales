@@ -136,7 +136,7 @@ const organizationProductSetting = resolve => require.ensure([],
 const meMessageList = resolve => require.ensure([],
   () => resolve(require('../view/companyManage/message/list')), 'meMessage')
 
-// 消息通知管理(ME)
+// 日志管理(ME)
 const loglist = resolve => require.ensure([],
   () => resolve(require('../view/companyManage/log/list')), 'loglist')
 
