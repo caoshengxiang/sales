@@ -3,21 +3,21 @@
     <!--头部-->
     <div class="com-head">
       <el-breadcrumb separator-class="el-icon-arrow-right">
-        <el-breadcrumb-item :to="{ name: 'saleHome' }">销售管理系统</el-breadcrumb-item>
+        <el-breadcrumb-item :to="{ name: 'companyManageHome' }">管理系统</el-breadcrumb-item>
         <el-breadcrumb-item>配置管理</el-breadcrumb-item>
-        <el-breadcrumb-item>站点开关设置</el-breadcrumb-item>
+        <el-breadcrumb-item>返佣配置</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <!--控制栏-->
-    <div class="com-bar">
-      <div class="com-bar-left">
-        <com-button buttonType="grey" icon="el-icon-remove-outline" @click="save">保存
-        </com-button>
-      </div>
-      <div class="com-bar-right">
-        <!--<com-button buttonType="search">搜索</com-button>-->
-      </div>
-    </div>
+    <!--<div class="com-bar">-->
+      <!--<div class="com-bar-left">-->
+        <!--<com-button buttonType="grey" icon="el-icon-remove-outline" @click="save">保存-->
+        <!--</com-button>-->
+      <!--</div>-->
+      <!--<div class="com-bar-right">-->
+        <!--&lt;!&ndash;<com-button buttonType="search">搜索</com-button>&ndash;&gt;-->
+      <!--</div>-->
+    <!--</div>-->
     <!--详细-->
     <div class="com-box com-box-padding com-list-box">
 

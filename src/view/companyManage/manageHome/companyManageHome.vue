@@ -1,64 +1,96 @@
 <template>
   <div class="sale-home">
-    <div class="welcome">欢迎进入销售管理系统！</div>
-    <div class="home-row">
-      <el-row>
-        <el-col :span="8">
-          <div class="col-boxtop">
-            <p class="com-title" style="font-size:20px;">跟进客户总量</p>
-            <ul class="list">
-              <li style="font-size:40px;">300</li>
-              <li style="height: 47px"> <label style="float: right;font-size:20px;padding-top: 10px">本月新增35</label></li>
-            </ul>
-          </div>
-        </el-col>
-        <el-col :span="8" class="lr-part">
-          <div class="col-boxtop">
-            <p class="com-title" style="font-size:20px;">意向客户量</p>
-            <ul class="list">
-              <li style="font-size:40px;">250</li>
-              <li style="height: 47px"> <label style="float: right;font-size:20px;padding-top: 10px">本月新增30</label></li>
-            </ul>
-          </div>
-        </el-col>
-        <el-col :span="8">
-          <div class="col-boxtop">
-            <p class="com-title" style="font-size:20px;">服务客户总量</p>
-            <ul class="list">
-              <li style="font-size:40px;">200</li>
-              <li style="height: 47px"> <label style="float: right;font-size:20px;padding-top: 10px">本月新增25</label></li>
-            </ul>
-          </div>
-        </el-col>
-      </el-row>
+    <div class="welcome">欢迎进入销售管理系统 — 系统设置！</div>
+    <div class="latest-announcement">
+      <!--<p class="com-title"></p>-->
+      <p></p>
     </div>
     <div class="home-row">
       <el-row>
+        <el-col :span="8" class="top-part">
+          <div class="col-box">
+            <div class="title">
+              <span class="text">客户总量</span>
+              <span class="tag">当前</span>
+            </div>
+            <div class="show">
+              <span class="num">300</span>
+              <span class="change">
+                本月新增：<span class="change-up"><i class="el-icon-back" style="transform: rotate(90deg)"></i> 15</span>
+              </span>
+            </div>
+          </div>
+        </el-col>
+        <el-col :span="8" class="lr-part top-part">
+          <div class="col-box">
+            <div class="title">
+              <span class="text">意向客户</span>
+              <span class="tag">当前</span>
+            </div>
+            <div class="show">
+              <span class="num">300</span>
+              <span class="change">
+                本月下降：<span class="change-down"><i class="el-icon-back" style="transform: rotate(-90deg)"></i> 15</span>
+              </span>
+            </div>
+          </div>
+        </el-col>
+        <el-col :span="8" class="top-part">
+          <div class="col-box">
+            <div class="title">
+              <span class="text">联系人总量</span>
+              <span class="tag">当前</span>
+            </div>
+            <div class="show">
+              <span class="num">300</span>
+              <span class="change">
+                本月新增：<span class="change-up"><i class="el-icon-back" style="transform: rotate(90deg)"></i> 15</span>
+              </span>
+            </div>
+          </div>
+        </el-col>
+      </el-row>
+      <el-row>
         <el-col :span="8">
-          <div class="col-boxtop">
-            <p class="com-title" style="font-size:20px;">销售机会总量</p>
-            <ul class="list">
-              <li style="font-size:40px;">150</li>
-              <li style="height: 47px"> <label style="float: right;font-size:20px;padding-top: 10px">本月新增20</label></li>
-            </ul>
+          <div class="col-box">
+            <div class="title">
+              <span class="text">销售机会总量</span>
+              <span class="tag">当前</span>
+            </div>
+            <div class="show">
+              <span class="num">300</span>
+              <span class="change">
+                本月新增：<span class="change-up"><i class="el-icon-back" style="transform: rotate(90deg)"></i> 15</span>
+              </span>
+            </div>
           </div>
         </el-col>
         <el-col :span="8" class="lr-part">
-          <div class="col-boxtop">
-            <p class="com-title" style="font-size:20px;">销售订单</p>
-            <ul class="list">
-              <li style="font-size:40px;">100</li>
-              <li style="height: 47px"> <label style="float: right;font-size:20px;padding-top: 10px">本月新增15</label></li>
-            </ul>
+          <div class="col-box">
+            <div class="title">
+              <span class="text">意向客户量</span>
+              <span class="tag">当前</span>
+            </div>
+            <div class="show">
+              <span class="num">300</span>
+              <span class="change">
+                本月新增：<span class="change-up"><i class="el-icon-back" style="transform: rotate(90deg)"></i> 15</span>
+              </span>
+            </div>
           </div>
         </el-col>
         <el-col :span="8">
-          <div class="col-boxtop">
-            <p class="com-title" style="font-size:20px;">服务订单</p>
-            <ul class="list">
-              <li style="font-size:40px;">50</li>
-              <li style="height: 47px"> <label style="float: right;font-size:20px;padding-top: 10px">本月新增10</label></li>
-            </ul>
+          <div class="col-box">
+            <div class="title">
+              <span class="text">销售订单</span>
+              <span class="tag">当前</span>
+            </div>
+            <div class="show">
+              <span class="num">300</span>
+              <span class="change">
+                本月新增：<span class="change-up"><i class="el-icon-back" style="transform: rotate(90deg)"></i> 15</span>
+              </span>
+            </div>
           </div>
         </el-col>
       </el-row>
@@ -67,30 +99,33 @@
       <el-row>
         <el-col :span="18">
           <div class="col-box">
-            <p class="com-title com-title-no">新增订单数</p>
-            <div id="orderNumChart" style="width: 100%;height: 300px"></div>
+            <p class="title com-title-no">
+              <el-radio v-model="chartRadio" :label="1">新增订单数</el-radio>
+              <el-radio v-model="chartRadio" :label="2">销售额</el-radio>
+            </p>
+            <div id="orderNumChart" style="width: 100%;height: 310px;margin-top: 10px;"></div>
           </div>
         </el-col>
         <el-col :span="6">
           <div class="col-box col-box-report">
             <div class="report-bar">
-              <el-button>本周</el-button>
-              <el-button>本月</el-button>
-              <el-button>本年</el-button>
+              <el-button>周报</el-button>
+              <el-button>月报</el-button>
+              <el-button>年报</el-button>
             </div>
             <ul class="report-ul">
               <li>
-                <p class="data">3025</p>
+                <p class="data">3025 <span class="money">销售额：￥20000</span></p>
                 <p class="detail"><span class="tip">本年累计新增订单</span><span class="percent percent-plus"><i class="el-icon-back" style="transform: rotate(90deg)"></i>27%</span>
                 </p>
               </li>
               <li>
-                <p class="data">3025</p>
+                <p class="data">3025 <span class="money">销售额：￥20000</span></p>
                 <p class="detail"><span class="tip">本月累计新增订单</span><span class="percent percent-minus"><i class="el-icon-back" style="transform: rotate(-90deg)"></i>27%</span>
                 </p>
               </li>
               <li>
-                <p class="data">3025</p>
+                <p class="data">3025 <span class="money">销售额：￥20000</span></p>
                 <p class="detail"><span class="tip">本日累计新增订单</span><span class="percent percent-flat"><i class="el-icon-minus"></i>持平</span>
                 </p>
               </li>
@@ -99,7 +134,6 @@
         </el-col>
       </el-row>
     </div>
-
   </div>
 </template>
 
@@ -110,6 +144,7 @@
     name: 'saleHome',
     data () {
       return {
+        chartRadio: 1,
         option: { // 订单数
           title: {
             // text: '堆叠区域图',
@@ -162,141 +197,6 @@
           ],
         },
         orderNumChart: '',
-        data: [],
-        data2: [],
-        funnelOption: { // 漏斗图
-          title: {
-            // text: '漏斗图',
-            // subtext: '纯属虚构',
-          },
-          tooltip: {
-            trigger: 'item',
-            formatter: '{a} <br/>{b} : {c}%',
-          },
-          toolbox: {
-            // feature: {
-            //   dataView: {readOnly: false},
-            //   restore: {},
-            //   saveAsImage: {},
-            // },
-          },
-          legend: {
-            // data: ['展现', '点击', '访问', '咨询', '订单'],
-          },
-          calculable: true,
-          series: [
-            {
-              name: '漏斗图',
-              type: 'funnel',
-              left: '5%',
-              top: 60,
-              // x2: 80,
-              bottom: 60,
-              width: '90%',
-              // height: {totalHeight} - y - y2,
-              min: 0,
-              max: 100,
-              minSize: '30%',
-              maxSize: '100%',
-              sort: 'descending',
-              gap: 2,
-              label: {
-                normal: {
-                  show: true,
-                  position: 'inside',
-                },
-                emphasis: {
-                  textStyle: {
-                    fontSize: 20,
-                  },
-                },
-              },
-              labelLine: {
-                normal: {
-                  length: 10,
-                  lineStyle: {
-                    width: 1,
-                    type: 'solid',
-                  },
-                },
-              },
-              itemStyle: {
-                normal: {
-                  borderColor: '#fff',
-                  borderWidth: 1,
-                },
-              },
-              data: [
-                {value: 60, name: '访问'},
-                {value: 40, name: '咨询'},
-                {value: 20, name: '订单'},
-                {value: 80, name: '点击'},
-                {value: 100, name: '展现'},
-              ],
-            },
-          ],
-        },
-        funnelChart: '',
-        barOption: {
-          title: {
-            // text: '世界人口总量',
-            // subtext: '数据来自网络',
-          },
-          tooltip: {
-            trigger: 'axis',
-            axisPointer: {
-              type: 'shadow',
-            },
-          },
-          legend: {
-            data: ['2011年', '2012年'],
-          },
-          grid: {
-            left: '0%',
-            right: '3%',
-            bottom: '3%',
-            containLabel: true,
-          },
-          xAxis: {
-            type: 'value',
-            boundaryGap: [0, 0.01],
-          },
-          yAxis: {
-            type: 'category',
-            data: ['巴西', '印尼', '美国', '印度', '中国', '世界人口(万)'],
-          },
-          series: [
-            {
-              name: '2011年',
-              type: 'bar',
-              data: [18203, 23489, 29034, 104970, 131744, 50000],
-            },
-          ],
-        },
-        barChart: '',
-        scatterOption: {
-          xAxis: {},
-          yAxis: {},
-          series: [
-            {
-              symbolSize: 20,
-              data: [
-                [10.0, 8.04],
-                [8.0, 6.95],
-                [13.0, 7.58],
-                [9.0, 8.81],
-                [11.0, 8.33],
-                [14.0, 9.96],
-                [6.0, 7.24],
-                [4.0, 4.26],
-                [12.0, 10.84],
-                [7.0, 4.82],
-                [5.0, 5.68],
-              ],
-              type: 'scatter',
-            }],
-        },
-        scatterChart: '',
       }
     },
     methods: {
@@ -306,46 +206,8 @@
         }
         this.orderNumChart.setOption(this.option)
       },
-      drawFunnelChart () {
-        if (!this.funnelChart) {
-          this.funnelChart = this.$echarts.init(document.getElementById('funnelChart'))
-        }
-        this.funnelChart.setOption(this.funnelOption)
-      },
-      drawBarChart () {
-        if (!this.barChart) {
-          this.barChart = this.$echarts.init(document.getElementById('barChart'))
-        }
-        this.barChart.setOption(this.barOption)
-      },
-      drawScatterChart () {
-        if (!this.scatterChart) {
-          this.scatterChart = this.$echarts.init(document.getElementById('scatterChart'))
-        }
-        this.scatterChart.setOption(this.scatterOption)
-      },
-      mockData () { // todo
-        var base = +new Date(2016, 9, 3)
-        var oneDay = 24 * 3600 * 1000
-        var valueBase = Math.random() * 300
-        var valueBase2 = Math.random() * 50
-
-        for (var i = 1; i < 10; i++) {
-          var now = new Date(base += oneDay)
-          var dayStr = [now.getFullYear(), now.getMonth() + 1, now.getDate()].join('-')
-
-          valueBase = Math.round((Math.random() - 0.5) * 20 + valueBase)
-          valueBase <= 0 && (valueBase = Math.random() * 300)
-          this.data.push([dayStr, valueBase])
-
-          valueBase2 = Math.round((Math.random() - 0.5) * 20 + valueBase2)
-          valueBase2 <= 0 && (valueBase2 = Math.random() * 50)
-          this.data2.push([dayStr, valueBase2])
-        }
-      },
     },
     created () {
-      this.mockData()
       // console.log(moment(new Date()).format('YYYY-MM-DD hh:mm:ss'))
     },
     mounted () {
@@ -385,19 +247,51 @@
   .home-row {
     &.home-row-2 {
       border-top: 6px solid $part-color;
-      border-bottom: 6px solid $part-color;
+      /*border-bottom: 6px solid $part-color;*/
     }
     .lr-part {
       border-left: 6px solid $part-color;
       border-right: 6px solid $part-color;
     }
+    .top-part {
+      border-bottom: 6px solid $part-color;
+    }
     .col-box {
       padding: $page-base-padding;
-      height: 372px;
-    }
-    .col-boxtop {
-      padding: $page-base-padding;
-      height: 200px;
+      /*height: 372px;*/
+      .title {
+        padding-bottom: 10px;
+        border-bottom: 1px solid $part-color;
+        .text {
+          color: #333E48;
+          font-size: 16px;
+        }
+        .tag {
+          color: #FF7700;
+          border: 1px solid #FF7700;
+          padding: 0px 3px;
+          float: right;
+        }
+      }
+      .show {
+        height: 50px;
+        padding-top: 10px;
+        .num {
+          font-size: 48px;
+          color: #00A7FE;
+        }
+        .change {
+          color: #728395;
+          float: right;
+          margin-top: 30px;
+          .change-up {
+            color: #39C189;
+          }
+          .change-down {
+            color: #FE5455;
+          }
+        }
+      }
     }
   }
 
@@ -417,6 +311,10 @@
     .data {
       font-size: 24px;
       color: #1E88E5;
+      .money {
+        font-size: 14px;
+        color: #9CA2A8;
+      }
     }
     .detail {
       .tip {
@@ -439,10 +337,8 @@
   }
   .list {
     li {
-      width: 50%;
-      float: left;
-      display: block;
       color: #333333;
+      padding: 20px;
       border-bottom: 1px dashed #ccc;
       &:hover {
         text-decoration: underline;

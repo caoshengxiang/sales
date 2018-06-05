@@ -95,11 +95,11 @@ const userList = resolve => require.ensure([],
 const userDetail = resolve => require.ensure([],
   () => resolve(require('../view/companyManage/user/detailInfo')), 'user')
 
-//代理商管理
+// 代理商管理
 const agentList = resolve => require.ensure([],
   () => resolve(require('../view/companyManage/user/agentList')), 'user')
 
-//角色管理
+// 角色管理
 const roleList = resolve => require.ensure([],
   () => resolve(require('../view/companyManage/role/list')), 'role')
 
@@ -120,28 +120,27 @@ const customerPool = resolve => require.ensure([],
 const baseSettingList = resolve => require.ensure([],
   () => resolve(require('../view/companyManage/baseSetting/list')), 'baseSetting')
 
-//客户地区管理
+// 客户地区管理
 const customerAreaSetting = resolve => require.ensure([],
   () => resolve(require('../view/companyManage/customerAareaSetting/index')), 'customerAreaSetting')
 
-//站点开关设置
+// 站点开关设置
 const siteList = resolve => require.ensure([],
   () => resolve(require('../view/companyManage/baseSetting/site/list')), 'siteList')
 
-//消息通知管理
+// 商品管理
 const organizationProductSetting = resolve => require.ensure([],
   () => resolve(require('../view/companyManage/organizationProductSetting/list')), 'organizationProductSetting')
 
-//消息通知管理(ME)
+// 消息通知管理(ME)
 const meMessageList = resolve => require.ensure([],
   () => resolve(require('../view/companyManage/message/list')), 'meMessage')
 
-
-//消息通知管理(ME)
+// 消息通知管理(ME)
 const loglist = resolve => require.ensure([],
   () => resolve(require('../view/companyManage/log/list')), 'loglist')
 
-//返佣规则设置
+// 返佣规则设置
 const settlementRulesList = resolve => require.ensure([],
   () => resolve(require('../view/companyManage/baseSetting/settlement/list')), 'settlementRulesList')
 

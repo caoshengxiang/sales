@@ -357,7 +357,7 @@ axios 在webpack定义全局变量 `$axios`
 
 ## 菜单部分使用iconFont
 
-> 目录中得html文件中有demo
+> 目录中得html文件中有demo，图标在淘宝图表中建立的sales项目管理
 
 
 ## 接口全局配置 axios

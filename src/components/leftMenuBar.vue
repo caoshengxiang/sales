@@ -20,6 +20,7 @@
       @close="handleClose"
       :unique-opened="true"
       :router="true"
+      :default-active="defaultActiveIndex"
       :text-color="theme[themeIndex].leftMenuBarColor"
       :background-color="theme[themeIndex].leftMenuBarBg"
       :active-text-color="theme[themeIndex].leftMenuBarActiveColor">
@@ -171,7 +172,7 @@
       </el-submenu>
       <el-submenu index="crm" v-if="listPermissions(menus, 'crmManagement')">
         <template slot="title">
-          <i class="iconfont icon-icon-test1"></i>
+          <i class="iconfont icon-icon-crm"></i>
           <span>CRM管理</span>
         </template>
         <el-menu-item-group>
@@ -198,6 +199,7 @@
       return {
         userInfo: {},
         menus: [],
+        defaultActiveIndex: 'saleHome'
       }
     },
     computed: {
@@ -209,7 +211,12 @@
     created () {
       this.userInfo = utils.loginExamine(this)
       this.menus = this.userInfo.menus
-      // console.log('tetssss', this.listPermissions(this.menus, 'salerHome'))
+      // console.log('tetssss', this.listPermissions(this.menus, 'salerHome')) // 测试权限方法
+      if (this.themeIndex === 0) {
+        this.defaultActiveIndex = 'saleHome'
+      } else if (this.themeIndex === 1) {
+        this.defaultActiveIndex = 'companyManageHome'
+      }
     },
     methods: {
       handleOpen (key, keyPath) {
@@ -228,7 +235,7 @@
       },
       listPermissions (m, id) { // menus权限判断，return true和false
         let menus = m || []
-        return  menus.some(item => {
+        return menus.some(item => {
           return item.id === id || this.listPermissions(item.children, id)
         })
       }
