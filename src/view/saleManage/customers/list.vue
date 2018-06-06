@@ -57,6 +57,7 @@
         :data="customerList"
         tooltip-effect="dark"
         style="width: 100%"
+        @sort-change="sortChangeHandle"
         @selection-change="handleSelectionChange">
         <el-table-column
           fixed
@@ -66,7 +67,7 @@
         </el-table-column>
         <el-table-column
           align="center"
-          sortable
+          sortable="custom"
           label="客户名称"
           prop="name"
           width="200"
@@ -79,7 +80,7 @@
         <el-table-column
           show-overflow-tooltip
           align="center"
-          sortable
+          sortable="custom"
           label="营业执照"
           prop="businessLicense"
           width="160">
@@ -296,6 +297,9 @@
       },
       advancedSearchHandle () {
         alert('advancedSearchHandle')
+      },
+      sortChangeHandle (column, prop, order) {
+        console.log(column)
       },
       handleSelectionChange (val) {
         this.multipleSelection = val
