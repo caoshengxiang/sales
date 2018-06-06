@@ -12,7 +12,7 @@
     <!--控制栏-->
     <div class="com-bar">
       <div class="com-bar-left">
-        <com-button buttonType="export" icon="el-icon-plus" :disabled="multipleSelection.length <= 0">导出</com-button>
+        <com-button buttonType="export" icon="el-icon-download" :disabled="multipleSelection.length <= 0">导出</com-button>
       </div>
       <div class="com-bar-right">
         <!--<el-select v-model="value" placeholder="请选择" class="com-el-select">-->
@@ -24,6 +24,7 @@
         <!--</el-option>-->
         <!--</el-select>-->
         <!--<com-button buttonType="search">搜索</com-button>-->
+        <com-button buttonType="search" @click="advancedSearchHandle" style="">高级搜索</com-button>
       </div>
     </div>
     <!--详细-->
@@ -31,6 +32,7 @@
       <el-table
         ref="multipleTable"
         border
+        sortable
         :data="tableData"
         tooltip-effect="dark"
         style="width: 100%"
@@ -43,6 +45,8 @@
         </el-table-column>
         <el-table-column
           align="center"
+          sortable
+          prop="chanceName"
           label="来自销售机会"
           show-overflow-tooltip
           width="200"
@@ -53,6 +57,7 @@
         </el-table-column>
         <el-table-column
           align="center"
+          sortable
           label="来自客户"
           prop="customerName"
           show-overflow-tooltip
@@ -61,12 +66,14 @@
         </el-table-column>
         <el-table-column
           align="center"
+          sortable
           prop="followDesc"
           show-overflow-tooltip
           label="发布内容">
         </el-table-column>
         <el-table-column
           align="center"
+          sortable
           prop="creatorName"
           label="发布人"
           width="160"
@@ -74,6 +81,7 @@
         </el-table-column>
         <el-table-column
           align="center"
+          sortable
           prop="address"
           label="销售阶段"
           width="160"
@@ -84,6 +92,7 @@
         </el-table-column>
         <el-table-column
           align="center"
+          sortable
           prop="created"
           label="发布日期"
           width="160"
@@ -162,6 +171,9 @@
       },
       handleRouter (name) {
         this.$router.push({name: 'salesOpportunitiesDetail', query: {view: name, id: 1}, params: {end: 'FE'}})
+      },
+      advancedSearchHandle () {
+        alert('advancedSearchHandle')
       },
       getRecordsList () {
         this.dataLoading = true

@@ -26,6 +26,7 @@
           </el-option>
         </el-select>
         <com-button buttonType="search" @click="searchHandle">搜索</com-button>
+        <com-button buttonType="search" @click="advancedSearchHandle" style="">高级搜索</com-button>
       </div>
       <div class="com-bar-right" v-if="themeIndex === 1"><!--后端-->
         <el-select
@@ -48,6 +49,7 @@
       <el-table
         ref="multipleTable"
         border
+        stripe
         :data="contactsList"
         tooltip-effect="dark"
         style="width: 100%"
@@ -61,6 +63,8 @@
         <el-table-column
           show-overflow-tooltip
           align="center"
+          sortable
+          prop="contacterName"
           label="客户联系人"
           width="200"
         >
@@ -71,6 +75,7 @@
         <el-table-column
           show-overflow-tooltip
           align="center"
+          sortable
           label="所属公司名称"
           prop="customerName"
           width="180">
@@ -78,12 +83,14 @@
         <el-table-column
           show-overflow-tooltip
           align="center"
+          sortable
           prop="phone"
           label="联系电话"
           width="160">
         </el-table-column>
         <el-table-column
           align="center"
+          sortable
           prop="department"
           label="所在部门"
           width="160"
@@ -91,6 +98,7 @@
         </el-table-column>
         <el-table-column
           align="center"
+          sortable
           prop="position"
           label="公司职位"
           width="160"
@@ -98,6 +106,7 @@
         </el-table-column>
         <el-table-column
           align="center"
+          sortable
           prop="birthday"
           label="出生日期"
           width="140"
@@ -108,6 +117,7 @@
         </el-table-column>
         <el-table-column
           align="center"
+          sortable
           prop="sex"
           label="性别"
           width="160"
@@ -115,6 +125,7 @@
         </el-table-column>
         <el-table-column
           align="center"
+          sortable
           prop="bakPhone"
           label="备用电话"
           width="160"
@@ -122,6 +133,7 @@
         </el-table-column>
         <el-table-column
           align="center"
+          sortable
           prop="wx"
           label="微信"
           width="160"
@@ -129,6 +141,7 @@
         </el-table-column>
         <el-table-column
           align="center"
+          sortable
           prop="qq"
           label="QQ"
           width="160"
@@ -136,6 +149,7 @@
         </el-table-column>
         <el-table-column
           align="center"
+          sortable
           prop="mail"
           label="电子邮件"
           width="160"
@@ -143,6 +157,8 @@
         </el-table-column>
         <el-table-column
           align="center"
+          sortable
+          prop="status"
           label="联系人状态"
           width="160"
           show-overflow-tooltip>
@@ -153,6 +169,7 @@
         </el-table-column>
         <el-table-column
           align="center"
+          sortable
           prop="creatorName"
           label="创建人"
           width="160"
@@ -169,6 +186,7 @@
         </el-table-column>-->
         <el-table-column
           align="center"
+          sortable
           prop="created"
           label="创建日期"
           width="160"
@@ -181,6 +199,7 @@
           v-if="themeIndex === 1"
           show-overflow-tooltip
           align="center"
+          sortable
           prop="organizationName"
           label="所属组织"
           width="160">
@@ -301,6 +320,9 @@
       },
       searchHandle () {
         this.getContactsList()
+      },
+      advancedSearchHandle () {
+        alert('advancedSearchHandle')
       },
       getQueryParams () { // 请求参数配置
         this.customerId = this.$route.query.customerId

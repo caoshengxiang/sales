@@ -18,7 +18,8 @@
             :value="item.value">
           </el-option>
         </el-select>
-        <!--<com-button buttonType="search">搜索</com-button>-->
+        <com-button buttonType="search">搜索</com-button>
+        <com-button buttonType="search" @click="advancedSearchHandle" style="">高级搜索</com-button>
       </div>
       <div class="com-bar-right">
       </div>
@@ -28,6 +29,7 @@
       <el-table
         ref="multipleTable"
         border
+        stripe
         :data="tableData"
         tooltip-effect="dark"
         style="width: 100%"
@@ -40,6 +42,8 @@
         </el-table-column>
         <el-table-column
           align="center"
+          sortable
+          prop="customerName"
           label="订单编号"
           width="200"
         >
@@ -49,18 +53,22 @@
         </el-table-column>
         <el-table-column
           align="center"
+          sortable
+          prop="date"
           label="日期"
           width="120">
           <template slot-scope="scope">{{ scope.row.date }}</template>
         </el-table-column>
         <el-table-column
           align="center"
+          sortable
           prop="name"
           label="姓名"
           width="160">
         </el-table-column>
         <el-table-column
           align="center"
+          sortable
           prop="address"
           label="地址"
           width="160"
@@ -68,6 +76,7 @@
         </el-table-column>
         <el-table-column
           align="center"
+          sortable
           prop="address"
           label="地址"
           width="160"
@@ -75,6 +84,7 @@
         </el-table-column>
         <el-table-column
           align="center"
+          sortable
           prop="address"
           label="地址"
           width="160"
@@ -82,6 +92,7 @@
         </el-table-column>
         <el-table-column
           align="center"
+          sortable
           prop="address"
           label="地址"
           width="160"
@@ -89,6 +100,7 @@
         </el-table-column>
         <el-table-column
           align="center"
+          sortable
           prop="address"
           label="地址"
           width="160"
@@ -212,6 +224,9 @@
       },
       moveHandle () {
         alert('move')
+      },
+      advancedSearchHandle () {
+        alert('advancedSearchHandle')
       },
       handleSelectionChange (val) {
         this.multipleSelection = val

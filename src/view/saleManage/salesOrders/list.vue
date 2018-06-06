@@ -12,7 +12,7 @@
     <!--控制栏-->
     <div class="com-bar">
       <div class="com-bar-left">
-        <com-button buttonType="delete" icon="el-icon-plus" @click="operateOptions('delete')" :disabled="multipleSelection.length <= 0">删除</com-button>
+        <com-button buttonType="delete" icon="el-icon-delete" @click="operateOptions('delete')" :disabled="multipleSelection.length <= 0">删除</com-button>
         <com-button buttonType="add" icon="el-icon-plus" @click="operateOptions('add')">新增</com-button>
       </div>
       <div class="com-bar-right" v-if="themeIndex === 0"><!--前端-->
@@ -25,6 +25,7 @@
           </el-option>
         </el-select>
         <com-button buttonType="search" @click="searchHandle">搜索</com-button>
+        <com-button buttonType="search" @click="advancedSearchHandle" style="">高级搜索</com-button>
       </div>
       <div class="com-bar-right" v-if="themeIndex === 1"><!--后端-->
         <el-select
@@ -47,6 +48,7 @@
       <el-table
         ref="multipleTable"
         border
+        stripe
         :data="tableData"
         tooltip-effect="dark"
         style="width: 100%"
@@ -59,6 +61,8 @@
         </el-table-column>
         <el-table-column
           align="center"
+          sortable
+          prop="billOrderId"
           label="订单编号"
           show-overflow-tooltip
           width="200"
@@ -69,6 +73,8 @@
         </el-table-column>
         <el-table-column
           align="center"
+          sortable
+          prop="changeName"
           label="关联销售机会"
           show-overflow-tooltip
           width="120">
@@ -77,6 +83,8 @@
         </el-table-column>
         <el-table-column
           align="center"
+          sortable
+          prop="customerName"
           label="关联客户名称"
           show-overflow-tooltip
           width="160">
@@ -85,6 +93,8 @@
         </el-table-column>
         <el-table-column
           align="center"
+          sortable
+          prop="contracterName"
           label="联系人"
           width="160"
           show-overflow-tooltip>
@@ -92,6 +102,7 @@
         </el-table-column>
         <el-table-column
           align="center"
+          sortable
           prop="productName"
           label="购买商品"
           width="160"
@@ -99,6 +110,7 @@
         </el-table-column>
         <el-table-column
           align="center"
+          sortable
           prop="billAmount"
           label="签单金额"
           width="160"
@@ -106,6 +118,7 @@
         </el-table-column>
         <el-table-column
           align="center"
+          sortable
           prop="refund_amount"
           label="回款金额"
           width="160"
@@ -113,6 +126,7 @@
         </el-table-column>
         <el-table-column
           align="center"
+          sortable
           prop="not_refund_amount"
           label="待回款金额"
           width="160"
@@ -121,6 +135,7 @@
         <el-table-column
           align="center"
           prop="isRenew"
+          sortable
           label="是否续费"
           width="160"
           show-overflow-tooltip>
@@ -129,6 +144,7 @@
         <el-table-column
           align="center"
           prop="address"
+          sortable
           label="订单状态"
           width="160"
           show-overflow-tooltip>
@@ -139,6 +155,7 @@
         </el-table-column>
         <el-table-column
           align="center"
+          sortable
           prop="source"
           label="订单来源"
           width="160"
@@ -150,6 +167,7 @@
         </el-table-column>
         <el-table-column
           align="center"
+          sortable
           prop="creatorName"
           label="创建人"
           width="160"
@@ -157,6 +175,7 @@
         </el-table-column>
         <el-table-column
           align="center"
+          sortable
           prop="salerName"
           label="销售员"
           width="160"
@@ -164,6 +183,7 @@
         </el-table-column>
         <el-table-column
           align="center"
+          sortable
           prop="counselorName"
           label="咨询师"
           width="160"
@@ -171,6 +191,7 @@
         </el-table-column>
         <el-table-column
           align="center"
+          sortable
           prop="created"
           label="创建日期"
           width="160"
@@ -180,6 +201,7 @@
           v-if="themeIndex === 1"
           show-overflow-tooltip
           align="center"
+          sortable
           prop="organizationName"
           label="所属组织"
           width="160">
@@ -295,6 +317,9 @@
       },
       searchHandle () {
         this.getSalesOrderList()
+      },
+      advancedSearchHandle () {
+        alert('advancedSearchHandle')
       },
       handleSelectionChange (val) {
         this.multipleSelection = val

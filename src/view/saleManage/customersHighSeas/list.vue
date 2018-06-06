@@ -13,13 +13,13 @@
     <div class="com-bar">
       <div class="com-bar-left">
         <com-button buttonType="add" icon="el-icon-plus" @click="operateOptions('add')">新增</com-button>
-        <com-button buttonType="orange" icon="el-icon-plus" @click="operateOptions('assign')"
-                    :disabled="multipleSelection.length !== 1">分配
+        <com-button buttonType="orange" @click="operateOptions('assign')"
+                    :disabled="multipleSelection.length !== 1"><i class="el-icon-sort" style="transform: rotate(90deg)"></i> 分配
         </com-button>
-        <com-button buttonType="backHighSeas" icon="el-icon-plus" @click="operateOptions('gain')"
+        <com-button buttonType="backHighSeas" icon="el-icon-upload2" @click="operateOptions('gain')"
                     :disabled="multipleSelection.length <= 0">捞取
         </com-button>
-        <com-button buttonType="theme" icon="el-icon-plus" @click="operateOptions('group')"
+        <com-button buttonType="theme" icon="el-icon-refresh" @click="operateOptions('group')"
                     :disabled="multipleSelection.length <= 0">改变分组
         </com-button>
       </div>
@@ -50,6 +50,7 @@
       <el-table
         ref="multipleTable"
         border
+        stripe
         :data="tableData"
         tooltip-effect="dark"
         style="width: 100%"
@@ -62,6 +63,8 @@
         </el-table-column>
         <el-table-column
           align="center"
+          sortable
+          prop="name"
           label="客户名称"
           width="200"
         >
@@ -72,6 +75,7 @@
         <el-table-column
           show-overflow-tooltip
           align="center"
+          sortable
           prop="source"
           label="客户来源"
           width="120">
@@ -83,12 +87,14 @@
         </el-table-column>
         <el-table-column
           align="center"
+          sortable
           prop="seaName"
           label="所属公海"
           width="120">
         </el-table-column>
         <el-table-column
           align="center"
+          sortable
           prop="level"
           label="客户级别"
           width="130"
@@ -96,6 +102,7 @@
         </el-table-column>
         <el-table-column
           align="center"
+          sortable
           prop="modified"
           label="最新动态日期"
           width="160"
@@ -106,12 +113,14 @@
         </el-table-column>
         <el-table-column
           align="center"
+          sortable
           prop="followerName"
           label="最近跟进人"
           show-overflow-tooltip>
         </el-table-column>
         <el-table-column
           align="center"
+          sortable
           prop="creatorName"
           label="创建人"
           show-overflow-tooltip>
@@ -120,6 +129,7 @@
           v-if="themeIndex === 1"
           show-overflow-tooltip
           align="center"
+          sortable
           prop="organizationName"
           label="所属组织">
         </el-table-column>

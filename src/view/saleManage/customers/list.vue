@@ -13,10 +13,10 @@
     <div class="com-bar">
       <div class="com-bar-left">
         <com-button buttonType="add" icon="el-icon-plus" @click="addHandle">新增</com-button>
-        <com-button buttonType="orange" icon="el-icon-plus" @click="moveHandle"
-                    :disabled="multipleSelection.length !== 1">转移
+        <com-button buttonType="orange" @click="moveHandle"
+                    :disabled="multipleSelection.length !== 1"><i class="el-icon-sort" style="transform: rotate(90deg)"></i> 转移
         </com-button>
-        <com-button buttonType="backHighSeas" icon="el-icon-plus" @click="returnHighSeaHandle"
+        <com-button buttonType="backHighSeas" icon="el-icon-back" @click="returnHighSeaHandle"
                     :disabled="multipleSelection.length !== 1">退回公海池
         </com-button>
       </div>
@@ -30,6 +30,7 @@
           </el-option>
         </el-select>
         <com-button buttonType="search" @click="searchHandle">搜索</com-button>
+        <com-button buttonType="search" @click="advancedSearchHandle" style="">高级搜索</com-button>
       </div>
       <div class="com-bar-right" v-if="themeIndex === 1"><!--后端-->
         <el-select
@@ -52,6 +53,7 @@
       <el-table
         ref="multipleTable"
         border
+        stripe
         :data="customerList"
         tooltip-effect="dark"
         style="width: 100%"
@@ -64,7 +66,9 @@
         </el-table-column>
         <el-table-column
           align="center"
+          sortable
           label="客户名称"
+          prop="name"
           width="200"
           show-overflow-tooltip
         >
@@ -75,6 +79,7 @@
         <el-table-column
           show-overflow-tooltip
           align="center"
+          sortable
           label="营业执照"
           prop="businessLicense"
           width="160">
@@ -82,6 +87,7 @@
         <el-table-column
           show-overflow-tooltip
           align="center"
+          sortable
           prop="level"
           label="客户级别"
           width="160">
@@ -89,6 +95,7 @@
         <el-table-column
           show-overflow-tooltip
           align="center"
+          sortable
           prop="industry"
           label="客户行业"
           width="160">
@@ -96,7 +103,8 @@
         <el-table-column
           show-overflow-tooltip
           align="center"
-          prop=""
+          sortable
+          prop="provinceName"
           label="客户地区"
           width="160">
           <template slot-scope="scope">
@@ -108,6 +116,7 @@
         <el-table-column
           show-overflow-tooltip
           align="center"
+          sortable
           prop="website"
           label="客户网站"
           width="160">
@@ -115,6 +124,7 @@
         <el-table-column
           show-overflow-tooltip
           align="center"
+          sortable
           prop="phone"
           label="联系电话"
           width="160">
@@ -122,6 +132,7 @@
         <el-table-column
           show-overflow-tooltip
           align="center"
+          sortable
           prop="seaName"
           label="所属公海"
           width="160">
@@ -130,6 +141,7 @@
           show-overflow-tooltip
           align="center"
           prop="source"
+          sortable
           label="客户来源"
           width="160">
           <template slot-scope="scope">
@@ -141,6 +153,7 @@
         <el-table-column
           show-overflow-tooltip
           align="center"
+          sortable
           prop="creatorName"
           label="创建人"
           width="160">
@@ -159,6 +172,7 @@
         <el-table-column
           show-overflow-tooltip
           align="center"
+          sortable
           prop="created"
           label="创建日期"
           width="160">
@@ -169,6 +183,7 @@
         <el-table-column
           show-overflow-tooltip
           align="center"
+          sortable
           prop="state"
           label="状态"
           width="160">
@@ -182,6 +197,7 @@
           v-if="themeIndex === 1"
           show-overflow-tooltip
           align="center"
+          sortable
           prop="organizationName"
           label="所属组织"
           width="160">
@@ -277,6 +293,9 @@
       searchHandle () {
         this.currentPage = 1
         this.getCustomerList()
+      },
+      advancedSearchHandle () {
+        alert('advancedSearchHandle')
       },
       handleSelectionChange (val) {
         this.multipleSelection = val

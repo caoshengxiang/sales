@@ -28,6 +28,7 @@
       <el-table
         ref="multipleTable"
         border
+        stripe
         :data="tableData"
         tooltip-effect="dark"
         style="width: 100%"
