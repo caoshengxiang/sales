@@ -38,7 +38,8 @@
               <td class="td-text">
                 <!--<input type="text" v-model="addForm.industry">-->
                 <el-form-item prop="intentBillAmount">
-                  <el-input type="number" v-model.number="addForm.intentBillAmount"></el-input>
+                  <!--<el-input type="number" minlength="0" v-model.number="addForm.intentBillAmount"></el-input>-->
+                  <el-input-number style="width: 100%" v-model="addForm.intentBillAmount" :precision="2" :step="1" :min="0"></el-input-number>
                 </el-form-item>
               </td>
             </tr>
