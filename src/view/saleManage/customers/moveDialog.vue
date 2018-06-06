@@ -4,7 +4,7 @@
       <el-form :model="moveCustomerForm" :rules="rules" ref="moveCustomerForm" label-width="180px"
                class="demo-ruleForm">
         <el-form-item label-width="14px">
-            <span style="color: #ccc;">备注：只能是部门负责人有权限转移本部门的客户</span>
+            <span style="color: #ccc;">备注：仅部门负责人有权限转移本部门的客户</span>
         </el-form-item>
         <el-form-item label="请选择待转移的销售" prop="oldSalerId">
           <el-select v-model="moveCustomerForm.oldSalerId" placeholder="请选择待转移的销售">
@@ -105,8 +105,8 @@
           }
         })
       },
-      getUserSearch (departmentId) { // todo 展示传得部门
-        API.user.userSearch({departmentId: departmentId}, (data) => {
+      getUserSearch () { // 查询登录用户下属用户列表
+        API.user.userSubordinates({}, (data) => {
           this.salerList = data.data
         })
       },
@@ -117,7 +117,7 @@
       }
     },
     created () {
-      this.getUserSearch(webStorage.getItem('userInfo').departmentId)
+      this.getUserSearch()
       this.currentUserId = webStorage.getItem('userInfo').id
       this.getOldSalerList(arrToStr(this.params.customerIds, 'id'))
       this.moveCustomerForm.customerIds = arrToStr(this.params.customerIds, 'id')

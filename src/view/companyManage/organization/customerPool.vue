@@ -279,13 +279,14 @@
         API.organization.queryAllList(pa, (data) => {
           this.organizationOptions = data.data
           this.organizationId = data.data[0].id // 默认显示第一个id
-          API.customerSea.list(this.organizationId, (da) => {
-            this.pollList = da.data.content
-            this.getPoolDetail(this.pollList[0].id)
-          })
-          this.getAdminList(data.data[0].id)
-          this.getFollowerList(data.data[0].id)
-          this.getKeyboarderList(data.data[0].id)
+          // API.customerSea.list(this.organizationId, (da) => {
+          //   this.pollList = da.data.content
+          //   this.getPoolDetail(this.pollList[0].id)
+          // })
+          // this.getAdminList(data.data[0].id)
+          // this.getFollowerList(data.data[0].id)
+          // this.getKeyboarderList(data.data[0].id)
+          this.getPollList(data.data[0].id)
         })
       },
       getPollList (id) {
@@ -293,6 +294,9 @@
           this.pollList = da.data.content
           this.getPoolDetail(this.pollList[0].id)
         })
+        this.getAdminList(id)
+        this.getFollowerList(id)
+        this.getKeyboarderList(id)
       },
       add () {
         var that = this

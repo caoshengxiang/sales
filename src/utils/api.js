@@ -596,6 +596,16 @@ export default {
         error && error(err)
       })
     },
+    userSubordinates (params, success, error) { // 查询登录用户下属用户列表
+      setUserAuth()
+      $axios.get('user/subordinates', {
+        params: params,
+      }).then((res) => {
+        success && success(res.data)
+      }).catch(err => {
+        error && error(err)
+      })
+    },
     seaFollowersList (params, success, error) { // 客户池销售跟进员列表
       console.log(params)
       setUserAuth()

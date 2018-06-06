@@ -5,7 +5,7 @@
                class="demo-ruleForm">
         <el-form-item label="请选择新的销售人员" prop="newSalerId">
           <el-select v-model="moveCustomerForm.newSalerId" placeholder="请选择新的销售人员">
-            <el-option v-for="item in salerList" :key="item.id" :label="item.name" :value="item.id"></el-option>
+            <el-option :disabled="currentUserId === item.id" v-for="item in salerList" :key="item.id" :label="item.name" :value="item.id"></el-option>
           </el-select>
         </el-form-item>
         <!--<el-form-item label="请选择转移业务类型" prop="type">-->
@@ -80,13 +80,13 @@
         })
       },
       getUserSearch (departmentId) { // todo 展示传得部门
-        API.user.userSearch({departmentId: departmentId}, (data) => {
+        API.user.userSubordinates({}, (data) => {
           this.salerList = data.data
         })
       },
     },
     created () {
-      this.getUserSearch(webStorage.getItem('userInfo').departmentId)
+      this.getUserSearch()
       this.currentUserId = webStorage.getItem('userInfo').id // todo 需不需要过滤自己，【客户转移一样得代码】
       this.moveCustomerForm.chanceIds = arrToStr(this.params.multipleSelection, 'id')
     }
