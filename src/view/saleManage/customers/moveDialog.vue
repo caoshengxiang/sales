@@ -1,15 +1,20 @@
 <template>
   <div class="com-dialog-container" v-loading="dataLoading">
     <div class="com-dialog">
-      <el-form :model="moveCustomerForm" :rules="rules" ref="moveCustomerForm" label-width="160px"
+      <el-form :model="moveCustomerForm" :rules="rules" ref="moveCustomerForm" label-width="180px"
                class="demo-ruleForm">
+        <el-form-item label-width="14px">
+            <span style="color: #ccc;">备注：只能是部门负责人有权限转移本部门的客户</span>
+        </el-form-item>
         <el-form-item label="请选择待转移的销售" prop="oldSalerId">
           <el-select v-model="moveCustomerForm.oldSalerId" placeholder="请选择待转移的销售">
             <el-option v-for="item in oldSalerList" :key="item.id" :label="item.name" :value="item.id"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="请选择新的销售人员" prop="newSalerId">
-          <el-select v-model="moveCustomerForm.newSalerId" placeholder="请选择新的销售人员">
+        <el-form-item label="请选择新的下属销售人员" prop="newSalerId">
+          <el-select v-model="moveCustomerForm.newSalerId"
+                     no-data-text="没有可选的下属"
+                     placeholder="请选择新的下属销售人员">
             <!--去除自己和待转移的销售-->
             <el-option :disabled="currentUserId === item.id || item.id === moveCustomerForm.oldSalerId" v-for="item in salerList" :key="item.id" :label="item.name" :value="item.id"></el-option>
           </el-select>

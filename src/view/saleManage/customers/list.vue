@@ -65,9 +65,10 @@
           align="center"
           width="40">
         </el-table-column>
+        <!--sortable="custom"-->
         <el-table-column
           align="center"
-          sortable="custom"
+          sortable
           label="客户名称"
           prop="name"
           width="200"
@@ -80,7 +81,7 @@
         <el-table-column
           show-overflow-tooltip
           align="center"
-          sortable="custom"
+          sortable
           label="营业执照"
           prop="businessLicense"
           width="160">
@@ -336,7 +337,7 @@
         this.$vDialog.modal(moveDialog, {
           title: '转移客户',
           width: 600,
-          height: 380,
+          height: 420,
           params: {
             customerIds: this.multipleSelection,
           },

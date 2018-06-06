@@ -327,7 +327,7 @@
             break
           case 'back':
             this.$vDialog.modal(returnPoll, {
-              title: '转移客户',
+              title: '退回公海',
               width: 600,
               height: 220,
               params: {
@@ -344,7 +344,7 @@
             this.$vDialog.modal(moveDialog, {
               title: '转移客户',
               width: 600,
-              height: 320,
+              height: 420,
               params: {
                 customerIds: [{id: this.$route.query.customerId}],
               },
