@@ -143,7 +143,7 @@
         </el-table-column>
         <el-table-column
           align="center"
-          prop="address"
+          prop="orderState"
           sortable
           label="订单状态"
           width="160"
@@ -229,6 +229,7 @@
   import comButton from '../../../components/button/comButton'
   import API from '../../../utils/api'
   import addDialog from './addDialog'
+  import advancedSearch from './advancedSearch'
 
   export default {
     name: 'list',
@@ -285,7 +286,7 @@
             this.$vDialog.modal(addDialog, {
               title: '添加订单',
               width: 900,
-              height: 340,
+              height: 380,
               params: {
                 // id: '123456',
               },
@@ -319,7 +320,21 @@
         this.getSalesOrderList()
       },
       advancedSearchHandle () {
-        alert('advancedSearchHandle')
+        this.$vDialog.modal(advancedSearch, {
+          title: '高级搜索',
+          width: 900,
+          height: 500,
+          params: {
+            orderState: this.orderState,
+            orderSource: this.orderSource,
+          },
+          callback: (data) => {
+            if (data.type === 'search') {
+              console.log('高级搜索数据：', data.params)
+              this.getSalesOrderList()
+            }
+          },
+        })
       },
       handleSelectionChange (val) {
         this.multipleSelection = val

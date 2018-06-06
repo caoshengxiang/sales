@@ -14,7 +14,8 @@
       <div class="com-bar-left">
         <com-button buttonType="add" icon="el-icon-plus" @click="addHandle">新增</com-button>
         <com-button buttonType="orange" @click="moveHandle"
-                    :disabled="multipleSelection.length !== 1"><i class="el-icon-sort" style="transform: rotate(90deg)"></i> 转移
+                    :disabled="multipleSelection.length !== 1"><i class="el-icon-sort"
+                                                                  style="transform: rotate(90deg)"></i> 转移
         </com-button>
         <com-button buttonType="backHighSeas" icon="el-icon-back" @click="returnHighSeaHandle"
                     :disabled="multipleSelection.length !== 1">退回公海池
@@ -229,6 +230,7 @@
   import addDialog from './addDialog'
   import moveDialog from './moveDialog'
   import returnPoll from './returnPoll'
+  import advancedSearch from './advancedSearch'
   // import { arrToStr } from '../../../utils/utils'
   // import moment from 'moment'
 
@@ -297,7 +299,21 @@
         this.getCustomerList()
       },
       advancedSearchHandle () {
-        alert('advancedSearchHandle')
+        this.$vDialog.modal(advancedSearch, {
+          title: '高级搜索',
+          width: 900,
+          height: 460,
+          params: {
+            customerSourceType: this.customerSourceType,
+            customerState: this.customerState,
+          },
+          callback: (data) => {
+            if (data.type === 'search') {
+              console.log('高级搜索数据：', data.params)
+              this.getCustomerList()
+            }
+          },
+        })
       },
       sortChangeHandle (column, prop, order) {
         console.log(column)
@@ -370,7 +386,7 @@
           page: this.currentPage - 1,
           pageSize: this.pagesOptions.pageSize,
           type: this.contactsTypeOption, // 前端
-          organizationId: this.organizationId // 后端
+          organizationId: this.organizationId, // 后端
         }
         if (this.customerId) { // 更多
           this.defaultListParams.customerId = this.customerId

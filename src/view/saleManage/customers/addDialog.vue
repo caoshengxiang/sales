@@ -21,7 +21,7 @@
             <td class="td-text">
               <!--<input type="text" v-model="addForm.levelName">-->
               <el-form-item prop="level">
-                <el-select v-model.number="addForm.level" @change="selectLevel" placeholder="请选择客户级别">
+                <el-select v-model="addForm.level" @change="selectLevel" placeholder="请选择客户级别">
                   <el-option v-for="item in levelList" :key="item.codeName" :label="item.codeName"
                              :value="item.codeName"></el-option>
                 </el-select>
@@ -39,7 +39,7 @@
             <td class="td-text">
               <!--<input type="text" v-model="addForm.industry">-->
               <el-form-item prop="industry">
-                <el-select v-model.number="addForm.industry" @change="selectIndustry" placeholder="请选择客户行业">
+                <el-select v-model="addForm.industry" @change="selectIndustry" placeholder="请选择客户行业">
                   <el-option v-for="item in industryList" :key="item.codeName" :label="item.codeName"
                              :value="item.codeName"></el-option>
                 </el-select>

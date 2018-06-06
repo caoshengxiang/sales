@@ -232,6 +232,7 @@
   import addDialog from './addDialog'
   import moveDialog from './moveDialog'
   import { arrToStr } from '../../../utils/utils'
+  import advancedSearch from './advancedSearch'
 
   export default {
     name: 'list',
@@ -373,7 +374,21 @@
         this.getSalesOpportunititeisList()
       },
       advancedSearchHandle () {
-        alert('advancedSearchHandle')
+        this.$vDialog.modal(advancedSearch, {
+          title: '高级搜索',
+          width: 900,
+          height: 460,
+          params: {
+            salesState: this.salesState,
+            demandSource: this.demandSource,
+          },
+          callback: (data) => {
+            if (data.type === 'search') {
+              console.log('高级搜索数据：', data.params)
+              this.getSalesOpportunititeisList()
+            }
+          },
+        })
       },
       getQueryParams () { // 请求参数配置
         this.customerId = this.$route.query.customerId

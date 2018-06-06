@@ -76,7 +76,7 @@
           show-overflow-tooltip
           align="center"
           sortable
-          label="所属公司名称"
+          label="所属客户名称"
           prop="customerName"
           width="180">
         </el-table-column>
@@ -231,6 +231,7 @@
   import { mapState, mapActions } from 'vuex'
   import API from '../../../utils/api'
   import addDialog from './addDialog'
+  import advancedSearch from './advancedSearch'
 
   export default {
     name: 'list',
@@ -322,7 +323,20 @@
         this.getContactsList()
       },
       advancedSearchHandle () {
-        alert('advancedSearchHandle')
+        this.$vDialog.modal(advancedSearch, {
+          title: '高级搜索',
+          width: 900,
+          height: 340,
+          params: {
+            contactsStatus: this.contactsStatus,
+          },
+          callback: (data) => {
+            if (data.type === 'search') {
+              console.log('高级搜索数据：', data.params)
+              this.getContactsList()
+            }
+          },
+        })
       },
       getQueryParams () { // 请求参数配置
         this.customerId = this.$route.query.customerId

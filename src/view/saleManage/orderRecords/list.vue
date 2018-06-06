@@ -82,7 +82,7 @@
         <el-table-column
           align="center"
           sortable
-          prop="address"
+          prop="stage"
           label="销售阶段"
           width="160"
           show-overflow-tooltip>
@@ -123,6 +123,7 @@
   import { mapState } from 'vuex'
   import comButton from '../../../components/button/comButton'
   import API from '../../../utils/api'
+  import advancedSearch from './advancedSearch'
 
   export default {
     name: 'list',
@@ -173,7 +174,20 @@
         this.$router.push({name: 'salesOpportunitiesDetail', query: {view: name, id: 1}, params: {end: 'FE'}})
       },
       advancedSearchHandle () {
-        alert('advancedSearchHandle')
+        this.$vDialog.modal(advancedSearch, {
+          title: '高级搜索',
+          width: 900,
+          height: 360,
+          params: {
+            salesState: this.salesState,
+          },
+          callback: (data) => {
+            if (data.type === 'search') {
+              console.log('高级搜索数据：', data.params)
+              this.getRecordsList()
+            }
+          },
+        })
       },
       getRecordsList () {
         this.dataLoading = true
@@ -182,12 +196,16 @@
           // this.ac_contactsList(data.data)
           this.tableData = data.data.content
           this.tableDataTotal = data.data.totalElements
-          this.dataLoading = false
+          setTimeout(() => {
+            this.dataLoading = false
+          }, 500)
         }, (data) => {
           // this.ac_contactsList(data.data)
           this.tableData = data.data.content
           this.tableDataTotal = data.data.totalElements
-          this.dataLoading = false
+          setTimeout(() => {
+            this.dataLoading = false
+          }, 500)
         })
       },
       getQueryParams () { // 请求参数配置
