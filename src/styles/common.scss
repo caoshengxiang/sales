@@ -39,6 +39,8 @@
   font-size: 16px;
   position: relative;
   padding-bottom: $page-base-padding;
+  display: inline-block;
+  width: 100%;
   &:before {
     content: '';
     display: inline-block;
