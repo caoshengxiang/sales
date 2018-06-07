@@ -52,6 +52,7 @@
         :data="tableData"
         tooltip-effect="dark"
         style="width: 100%"
+        @sort-change="sortChangeHandle"
         @selection-change="handleSelectionChange">
         <el-table-column
           fixed
@@ -61,7 +62,7 @@
         </el-table-column>
         <el-table-column
           align="center"
-          sortable
+          sortable="custom"
           prop="billOrderId"
           label="订单编号"
           show-overflow-tooltip
@@ -73,7 +74,7 @@
         </el-table-column>
         <el-table-column
           align="center"
-          sortable
+          sortable="custom"
           prop="changeName"
           label="关联销售机会"
           show-overflow-tooltip
@@ -83,7 +84,7 @@
         </el-table-column>
         <el-table-column
           align="center"
-          sortable
+          sortable="custom"
           prop="customerName"
           label="关联客户名称"
           show-overflow-tooltip
@@ -93,7 +94,7 @@
         </el-table-column>
         <el-table-column
           align="center"
-          sortable
+          sortable="custom"
           prop="contracterName"
           label="联系人"
           width="160"
@@ -102,7 +103,7 @@
         </el-table-column>
         <el-table-column
           align="center"
-          sortable
+          sortable="custom"
           prop="productName"
           label="购买商品"
           width="160"
@@ -110,7 +111,7 @@
         </el-table-column>
         <el-table-column
           align="center"
-          sortable
+          sortable="custom"
           prop="billAmount"
           label="签单金额"
           width="160"
@@ -118,7 +119,7 @@
         </el-table-column>
         <el-table-column
           align="center"
-          sortable
+          sortable="custom"
           prop="refund_amount"
           label="回款金额"
           width="160"
@@ -126,7 +127,7 @@
         </el-table-column>
         <el-table-column
           align="center"
-          sortable
+          sortable="custom"
           prop="not_refund_amount"
           label="待回款金额"
           width="160"
@@ -135,7 +136,7 @@
         <el-table-column
           align="center"
           prop="isRenew"
-          sortable
+          sortable="custom"
           label="是否续费"
           width="160"
           show-overflow-tooltip>
@@ -144,7 +145,7 @@
         <el-table-column
           align="center"
           prop="orderState"
-          sortable
+          sortable="custom"
           label="订单状态"
           width="160"
           show-overflow-tooltip>
@@ -155,7 +156,7 @@
         </el-table-column>
         <el-table-column
           align="center"
-          sortable
+          sortable="custom"
           prop="source"
           label="订单来源"
           width="160"
@@ -167,7 +168,7 @@
         </el-table-column>
         <el-table-column
           align="center"
-          sortable
+          sortable="custom"
           prop="creatorName"
           label="创建人"
           width="160"
@@ -175,7 +176,7 @@
         </el-table-column>
         <el-table-column
           align="center"
-          sortable
+          sortable="custom"
           prop="salerName"
           label="销售员"
           width="160"
@@ -183,7 +184,7 @@
         </el-table-column>
         <el-table-column
           align="center"
-          sortable
+          sortable="custom"
           prop="counselorName"
           label="咨询师"
           width="160"
@@ -191,7 +192,7 @@
         </el-table-column>
         <el-table-column
           align="center"
-          sortable
+          sortable="custom"
           prop="created"
           label="创建日期"
           width="160"
@@ -201,7 +202,7 @@
           v-if="themeIndex === 1"
           show-overflow-tooltip
           align="center"
-          sortable
+          sortable="custom"
           prop="organizationName"
           label="所属组织"
           width="160">
@@ -265,6 +266,8 @@
         customerId: null, // 路由参数
         organizationOptions: [], // 组织列表
         organizationId: null, // 选择的组织
+        sortObj: null, // 排序
+        advancedSearch: null, // 高级搜索
       }
     },
     computed: {
@@ -319,6 +322,17 @@
       searchHandle () {
         this.getSalesOrderList()
       },
+      sortChangeHandle (sortObj) {
+        // console.log(sortObj)
+        let order = null
+        if (sortObj.order === 'ascending') {
+          order = 'asce'
+        } else if (sortObj.order === 'descending') {
+          order = 'desc'
+        }
+        this.sortObj = {sort: sortObj.prop + ',' + order}
+        this.getSalesOrderList()
+      },
       advancedSearchHandle () {
         this.$vDialog.modal(advancedSearch, {
           title: '高级搜索',
@@ -331,6 +345,7 @@
           callback: (data) => {
             if (data.type === 'search') {
               console.log('高级搜索数据：', data.params)
+              this.advancedSearch = data.params
               this.getSalesOrderList()
             }
           },
@@ -354,7 +369,7 @@
       getSalesOrderList () {
         this.dataLoading = true
         this.getQueryParams()
-        API.salesOrder.list(this.defaultListParams, (data) => {
+        API.salesOrder.list(Object.assign({}, this.defaultListParams, this.sortObj, this.advancedSearch), (data) => {
           this.tableData = data.data.content
           this.tableDataTotal = data.data.totalElements
           this.dataLoading = false

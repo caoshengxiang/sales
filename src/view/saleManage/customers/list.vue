@@ -66,10 +66,10 @@
           align="center"
           width="40">
         </el-table-column>
-        <!--sortable="custom"-->
+        <!--sortable="custom"="custom"-->
         <el-table-column
           align="center"
-          sortable
+          sortable="custom"
           label="客户名称"
           prop="name"
           width="200"
@@ -82,7 +82,7 @@
         <el-table-column
           show-overflow-tooltip
           align="center"
-          sortable
+          sortable="custom"
           label="营业执照"
           prop="businessLicense"
           width="160">
@@ -90,7 +90,7 @@
         <el-table-column
           show-overflow-tooltip
           align="center"
-          sortable
+          sortable="custom"
           prop="level"
           label="客户级别"
           width="160">
@@ -98,7 +98,7 @@
         <el-table-column
           show-overflow-tooltip
           align="center"
-          sortable
+          sortable="custom"
           prop="industry"
           label="客户行业"
           width="160">
@@ -106,7 +106,7 @@
         <el-table-column
           show-overflow-tooltip
           align="center"
-          sortable
+          sortable="custom"
           prop="provinceName"
           label="客户地区"
           width="160">
@@ -119,7 +119,7 @@
         <el-table-column
           show-overflow-tooltip
           align="center"
-          sortable
+          sortable="custom"
           prop="website"
           label="客户网站"
           width="160">
@@ -127,7 +127,7 @@
         <el-table-column
           show-overflow-tooltip
           align="center"
-          sortable
+          sortable="custom"
           prop="phone"
           label="联系电话"
           width="160">
@@ -135,7 +135,7 @@
         <el-table-column
           show-overflow-tooltip
           align="center"
-          sortable
+          sortable="custom"
           prop="seaName"
           label="所属公海"
           width="160">
@@ -144,7 +144,7 @@
           show-overflow-tooltip
           align="center"
           prop="source"
-          sortable
+          sortable="custom"
           label="客户来源"
           width="160">
           <template slot-scope="scope">
@@ -156,7 +156,7 @@
         <el-table-column
           show-overflow-tooltip
           align="center"
-          sortable
+          sortable="custom"
           prop="creatorName"
           label="创建人"
           width="160">
@@ -175,7 +175,7 @@
         <el-table-column
           show-overflow-tooltip
           align="center"
-          sortable
+          sortable="custom"
           prop="created"
           label="创建日期"
           width="160">
@@ -186,7 +186,7 @@
         <el-table-column
           show-overflow-tooltip
           align="center"
-          sortable
+          sortable="custom"
           prop="state"
           label="状态"
           width="160">
@@ -200,7 +200,7 @@
           v-if="themeIndex === 1"
           show-overflow-tooltip
           align="center"
-          sortable
+          sortable="custom"
           prop="organizationName"
           label="所属组织"
           width="160">
@@ -252,6 +252,8 @@
         },
         organizationOptions: [], // 组织列表
         organizationId: null, // 选择的组织
+        sortObj: null, // 排序
+        advancedSearch: null, // 高级搜索
       }
     },
     computed: {
@@ -283,7 +285,7 @@
       getCustomerList () { // 获取列表数据
         this.getQueryParams()
         this.dataLoading = true
-        API.customer.list(this.defaultListParams, (res) => {
+        API.customer.list(Object.assign({}, this.defaultListParams, this.sortObj, this.advancedSearch), (res) => {
           this.ac_customerList(res.data)
           setTimeout(() => {
             this.dataLoading = false
@@ -298,6 +300,17 @@
         this.currentPage = 1
         this.getCustomerList()
       },
+      sortChangeHandle (sortObj) {
+        // console.log(sortObj)
+        let order = null
+        if (sortObj.order === 'ascending') {
+          order = 'asce'
+        } else if (sortObj.order === 'descending') {
+          order = 'desc'
+        }
+        this.sortObj = {sort: sortObj.prop + ',' + order}
+        this.getCustomerList()
+      },
       advancedSearchHandle () {
         this.$vDialog.modal(advancedSearch, {
           title: '高级搜索',
@@ -310,13 +323,11 @@
           callback: (data) => {
             if (data.type === 'search') {
               console.log('高级搜索数据：', data.params)
+              this.advancedSearch = data.params
               this.getCustomerList()
             }
           },
         })
-      },
-      sortChangeHandle (column, prop, order) {
-        console.log(column)
       },
       handleSelectionChange (val) {
         this.multipleSelection = val

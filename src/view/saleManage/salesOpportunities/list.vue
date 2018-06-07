@@ -57,6 +57,7 @@
         :data="salesOpportunitiesList"
         tooltip-effect="dark"
         style="width: 100%"
+        @sort-change="sortChangeHandle"
         @selection-change="handleSelectionChange">
         <el-table-column
           fixed
@@ -66,20 +67,19 @@
         </el-table-column>
         <el-table-column
           align="center"
-          sortable
+          sortable="custom"
           prop="intentProductName"
           label="意向商品"
           width="160"
           show-overflow-tooltip
         >
           <template slot-scope="scope">
-            <a class="col-link" @click="handleRouter('detail', scope.row.id)">{{ scope.row.intentProductName ||
-              '无名'}}</a>
+            <a class="col-link" @click="handleRouter('detail', scope.row.id)">{{ scope.row.intentProductName || '无名'}}</a>
           </template>
         </el-table-column>
         <el-table-column
           align="center"
-          sortable
+          sortable="custom"
           label="客户名称"
           prop="customerName"
           show-overflow-tooltip
@@ -98,7 +98,7 @@
           </el-table-column>-->
         <el-table-column
           align="center"
-          sortable
+          sortable="custom"
           prop="intentBillAmount"
           label="预计签单金额"
           width="160"
@@ -106,7 +106,7 @@
         </el-table-column>
         <el-table-column
           align="center"
-          sortable
+          sortable="custom"
           prop="billDate"
           label="预计签单日期"
           width="160"
@@ -117,7 +117,7 @@
         </el-table-column>
         <el-table-column
           align="center"
-          sortable
+          sortable="custom"
           prop="stage"
           label="销售阶段"
           width="160"
@@ -129,7 +129,7 @@
         </el-table-column>
         <el-table-column
           align="center"
-          sortable
+          sortable="custom"
           prop="stage"
           label="赢率"
           width="80"
@@ -142,7 +142,7 @@
         </el-table-column>
         <el-table-column
           align="center"
-          sortable
+          sortable="custom"
           prop="source"
           label="需求来源"
           width="160"
@@ -154,7 +154,7 @@
         </el-table-column>
         <el-table-column
           align="center"
-          sortable
+          sortable="custom"
           prop="creatorName"
           label="需求创建人"
           width="160"
@@ -162,7 +162,7 @@
         </el-table-column>
         <el-table-column
           align="center"
-          sortable
+          sortable="custom"
           prop="salerName"
           label="需求销售员"
           width="160"
@@ -170,7 +170,7 @@
         </el-table-column>
         <el-table-column
           align="center"
-          sortable
+          sortable="custom"
           prop="counselorName"
           label="需求咨询师"
           width="160"
@@ -178,7 +178,7 @@
         </el-table-column>
         <el-table-column
           align="center"
-          sortable
+          sortable="custom"
           prop="created"
           label="创建日期"
           width="160"
@@ -189,7 +189,7 @@
         </el-table-column>
         <el-table-column
           align="center"
-          sortable
+          sortable="custom"
           prop="followDate"
           label="最近跟单记录"
           width="160"
@@ -202,7 +202,7 @@
           v-if="themeIndex === 1"
           show-overflow-tooltip
           align="center"
-          sortable
+          sortable="custom"
           prop="organizationName"
           label="所属组织"
           width="160">
@@ -252,6 +252,8 @@
         },
         organizationOptions: [], // 组织列表
         organizationId: null, // 选择的组织
+        sortObj: null, // 排序
+        advancedSearch: null, // 高级搜索
       }
     },
     computed: {
@@ -348,7 +350,7 @@
       getSalesOpportunititeisList () { // 获取列表
         this.dataLoading = true
         this.getQueryParams()
-        API.salesOpportunities.list(this.defaultListParams, (data) => {
+        API.salesOpportunities.list(Object.assign({}, this.defaultListParams, this.sortObj, this.advancedSearch), (data) => {
           this.ac_salesOpportunitiesList(data.data)
           setTimeout(() => {
             this.dataLoading = false
@@ -373,6 +375,17 @@
       searchHandle () {
         this.getSalesOpportunititeisList()
       },
+      sortChangeHandle (sortObj) {
+        // console.log(sortObj)
+        let order = null
+        if (sortObj.order === 'ascending') {
+          order = 'asce'
+        } else if (sortObj.order === 'descending') {
+          order = 'desc'
+        }
+        this.sortObj = {sort: sortObj.prop + ',' + order}
+        this.getSalesOpportunititeisList()
+      },
       advancedSearchHandle () {
         this.$vDialog.modal(advancedSearch, {
           title: '高级搜索',
@@ -385,6 +398,7 @@
           callback: (data) => {
             if (data.type === 'search') {
               console.log('高级搜索数据：', data.params)
+              this.advancedSearch = data.params
               this.getSalesOpportunititeisList()
             }
           },

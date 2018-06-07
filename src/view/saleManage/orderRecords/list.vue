@@ -32,10 +32,11 @@
       <el-table
         ref="multipleTable"
         border
-        sortable
+        sortable="custom"
         :data="tableData"
         tooltip-effect="dark"
         style="width: 100%"
+        @sort-change="sortChangeHandle"
         @selection-change="handleSelectionChange">
         <el-table-column
           fixed
@@ -45,7 +46,7 @@
         </el-table-column>
         <el-table-column
           align="center"
-          sortable
+          sortable="custom"
           prop="chanceName"
           label="来自销售机会"
           show-overflow-tooltip
@@ -57,7 +58,7 @@
         </el-table-column>
         <el-table-column
           align="center"
-          sortable
+          sortable="custom"
           label="来自客户"
           prop="customerName"
           show-overflow-tooltip
@@ -66,14 +67,14 @@
         </el-table-column>
         <el-table-column
           align="center"
-          sortable
+          sortable="custom"
           prop="followDesc"
           show-overflow-tooltip
           label="发布内容">
         </el-table-column>
         <el-table-column
           align="center"
-          sortable
+          sortable="custom"
           prop="creatorName"
           label="发布人"
           width="160"
@@ -81,7 +82,7 @@
         </el-table-column>
         <el-table-column
           align="center"
-          sortable
+          sortable="custom"
           prop="stage"
           label="销售阶段"
           width="160"
@@ -92,7 +93,7 @@
         </el-table-column>
         <el-table-column
           align="center"
-          sortable
+          sortable="custom"
           prop="created"
           label="发布日期"
           width="160"
@@ -140,6 +141,8 @@
           customerId: null,
         },
         customerId: null, // 路由参数
+        sortObj: null, // 排序
+        advancedSearch: null, // 高级搜索
       }
     },
     computed: {
@@ -173,6 +176,17 @@
       handleRouter (name) {
         this.$router.push({name: 'salesOpportunitiesDetail', query: {view: name, id: 1}, params: {end: 'FE'}})
       },
+      sortChangeHandle (sortObj) {
+        // console.log(sortObj)
+        let order = null
+        if (sortObj.order === 'ascending') {
+          order = 'asce'
+        } else if (sortObj.order === 'descending') {
+          order = 'desc'
+        }
+        this.sortObj = {sort: sortObj.prop + ',' + order}
+        this.getRecordsList()
+      },
       advancedSearchHandle () {
         this.$vDialog.modal(advancedSearch, {
           title: '高级搜索',
@@ -184,6 +198,7 @@
           callback: (data) => {
             if (data.type === 'search') {
               console.log('高级搜索数据：', data.params)
+              this.advancedSearch = data.params
               this.getRecordsList()
             }
           },
@@ -192,7 +207,7 @@
       getRecordsList () {
         this.dataLoading = true
         this.getQueryParams()
-        API.orderRecords.list(this.defaultListParams, (data) => {
+        API.orderRecords.list(Object.assign({}, this.defaultListParams, this.sortObj, this.advancedSearch), (data) => {
           // this.ac_contactsList(data.data)
           this.tableData = data.data.content
           this.tableDataTotal = data.data.totalElements

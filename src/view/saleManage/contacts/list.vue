@@ -13,8 +13,6 @@
     <div class="com-bar">
       <div class="com-bar-left">
         <com-button buttonType="add" icon="el-icon-plus" @click="addHandle">新增</com-button>
-        <!--<com-button buttonType="orange" icon="el-icon-plus" @click="moveHandle">转移</com-button>-->
-        <!--<com-button buttonType="backHighSeas" icon="el-icon-plus">退回公海池</com-button>-->
       </div>
       <div class="com-bar-right" v-if="themeIndex === 0">
         <el-select v-model="contactsTypeOption" placeholder="请选择" class="com-el-select" style="width: 150px">
@@ -53,6 +51,7 @@
         :data="contactsList"
         tooltip-effect="dark"
         style="width: 100%"
+        @sort-change="sortChangeHandle"
         @selection-change="handleSelectionChange">
         <el-table-column
           fixed
@@ -63,7 +62,7 @@
         <el-table-column
           show-overflow-tooltip
           align="center"
-          sortable
+          sortable="custom"
           prop="contacterName"
           label="客户联系人"
           width="200"
@@ -75,7 +74,7 @@
         <el-table-column
           show-overflow-tooltip
           align="center"
-          sortable
+          sortable="custom"
           label="所属客户名称"
           prop="customerName"
           width="180">
@@ -83,14 +82,14 @@
         <el-table-column
           show-overflow-tooltip
           align="center"
-          sortable
+          sortable="custom"
           prop="phone"
           label="联系电话"
           width="160">
         </el-table-column>
         <el-table-column
           align="center"
-          sortable
+          sortable="custom"
           prop="department"
           label="所在部门"
           width="160"
@@ -98,7 +97,7 @@
         </el-table-column>
         <el-table-column
           align="center"
-          sortable
+          sortable="custom"
           prop="position"
           label="公司职位"
           width="160"
@@ -106,7 +105,7 @@
         </el-table-column>
         <el-table-column
           align="center"
-          sortable
+          sortable="custom"
           prop="birthday"
           label="出生日期"
           width="140"
@@ -117,7 +116,7 @@
         </el-table-column>
         <el-table-column
           align="center"
-          sortable
+          sortable="custom"
           prop="sex"
           label="性别"
           width="160"
@@ -125,7 +124,7 @@
         </el-table-column>
         <el-table-column
           align="center"
-          sortable
+          sortable="custom"
           prop="bakPhone"
           label="备用电话"
           width="160"
@@ -133,7 +132,7 @@
         </el-table-column>
         <el-table-column
           align="center"
-          sortable
+          sortable="custom"
           prop="wx"
           label="微信"
           width="160"
@@ -141,7 +140,7 @@
         </el-table-column>
         <el-table-column
           align="center"
-          sortable
+          sortable="custom"
           prop="qq"
           label="QQ"
           width="160"
@@ -149,7 +148,7 @@
         </el-table-column>
         <el-table-column
           align="center"
-          sortable
+          sortable="custom"
           prop="mail"
           label="电子邮件"
           width="160"
@@ -157,7 +156,7 @@
         </el-table-column>
         <el-table-column
           align="center"
-          sortable
+          sortable="custom"
           prop="status"
           label="联系人状态"
           width="160"
@@ -169,7 +168,7 @@
         </el-table-column>
         <el-table-column
           align="center"
-          sortable
+          sortable="custom"
           prop="creatorName"
           label="创建人"
           width="160"
@@ -186,7 +185,7 @@
         </el-table-column>-->
         <el-table-column
           align="center"
-          sortable
+          sortable="custom"
           prop="created"
           label="创建日期"
           width="160"
@@ -199,7 +198,7 @@
           v-if="themeIndex === 1"
           show-overflow-tooltip
           align="center"
-          sortable
+          sortable="custom"
           prop="organizationName"
           label="所属组织"
           width="160">
@@ -252,6 +251,8 @@
         },
         organizationOptions: [], // 组织列表
         organizationId: null, // 选择的组织
+        sortObj: null, // 排序
+        advancedSearch: null, // 高级搜索
       }
     },
     computed: {
@@ -279,9 +280,7 @@
           title: '新增联系人',
           width: 900,
           height: 460,
-          params: {
-            // id: '123456',
-          },
+          params: {},
           callback: (data) => {
             if (data.type === 'save') {
               this.getContactsList()
@@ -310,7 +309,7 @@
       getContactsList () {
         this.dataLoading = true
         this.getQueryParams()
-        API.contacts.list(this.defaultListParams, (data) => {
+        API.contacts.list(Object.assign({}, this.defaultListParams, this.sortObj, this.advancedSearch), (data) => {
           this.ac_contactsList(data.data)
           setTimeout(() => {
             this.dataLoading = false
@@ -320,6 +319,17 @@
         })
       },
       searchHandle () {
+        this.getContactsList()
+      },
+      sortChangeHandle (sortObj) {
+        // console.log(sortObj)
+        let order = null
+        if (sortObj.order === 'ascending') {
+          order = 'asce'
+        } else if (sortObj.order === 'descending') {
+          order = 'desc'
+        }
+        this.sortObj = {sort: sortObj.prop + ',' + order}
         this.getContactsList()
       },
       advancedSearchHandle () {
@@ -333,6 +343,7 @@
           callback: (data) => {
             if (data.type === 'search') {
               console.log('高级搜索数据：', data.params)
+              this.advancedSearch = data.params
               this.getContactsList()
             }
           },
