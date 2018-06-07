@@ -25,6 +25,7 @@
           },
           tooltip: {
             trigger: 'axis',
+            formatter: '{a} <br/>{b} : {c} 元',
             axisPointer: {
               type: 'shadow',
             },

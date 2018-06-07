@@ -12,22 +12,58 @@
       return {
         scatterChart: '',
         scatterOption: {
+          tooltip: {
+            trigger: 'item',
+            // formatter: '{a} <br/>{b} : {c}',
+            formatter: function (obj) {
+              // console.log(obj)
+              let value = obj.value
+              return '<div style="border-bottom: 1px solid rgba(255,255,255,.3); font-size: 18px;padding-bottom: 7px;margin-bottom: 7px">' +
+               ' 预算金额：</div>' +
+                ' ' + value[1] + ' 元'
+            },
+          },
           xAxis: {
             type: 'category',
             boundaryGap: false,
             data: ['6.1', '6.2', '6.3', '6.4', '6.5', '6.6', '6.7', '6.8', '6.9', '6.10', '6.11', '6.12', '6.13', '6.14', '6.15'],
           },
           yAxis: {},
+          dataZoom: [
+            {
+              type: 'slider',
+              show: true,
+              xAxisIndex: [0],
+              start: 0,
+              end: 100
+            },
+            {
+              type: 'slider',
+              show: true,
+              yAxisIndex: [0],
+              left: '93%',
+              start: 1,
+              end: 100
+            },
+            {
+              type: 'inside',
+              xAxisIndex: [0],
+              start: 1,
+              end: 100
+            },
+            {
+              type: 'inside',
+              yAxisIndex: [0],
+              start: 0,
+              end: 100
+            }
+          ],
           series: [
             {
               symbolSize: 6,
               data: [
-                [0.1, 8.04],
-                [0.2, 6.95],
-                [0.4, 7.58],
-                [0.8, 8.81],
-                [0.3, 8.33],
-                [1.0, 8.04], [1.2, 6.95], [1.4, 7.58], [1.8, 8.81], [1.3, 8.33],
+                [0.1, 8.04], [0.2, 6.95], [0.4, 7.58], [0.8, 8.81], [0.9, 8.33],
+                [1.0, 8.04], [1.2, 6.95], [1.4, 7.58], [1.8, 8.81], [1.9, 8.33],
                 [2.0, 9.96], [2.1, 7.24], [2.4, 4.26], [2.5, 10.84], [2.7, 4.82],
                 [3.0, 5.68], [3.2, 7.68], [3.3, 15.68], [3.4, 9.68], [3.6, 5.68],
                 [4.1, 8.44], [4.2, 6.95], [4.4, 7.58], [4.8, 8.81], [4.3, 8.33],

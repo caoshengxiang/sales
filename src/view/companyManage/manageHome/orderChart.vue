@@ -1,42 +1,38 @@
 <template>
     <div>
-      <div class="com-title com-title-no">
-        <span>新增订单数</span>
-        <el-select v-model="paramsForm.value" placeholder="请选择" style="margin-left: 20px">
-          <el-option label="部门全部" :value="null">
-          </el-option>
-          <el-option
-            v-for="item in selectOptions"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value">
-          </el-option>
-        </el-select>
-        <div class="report-bar">
-          <el-button>周报</el-button>
-          <el-button>月报</el-button>
-          <el-button>年报</el-button>
+      <el-col :span="24">
+        <div class="title com-title-no">
+          <el-radio v-model="chartRadio" :label="1">新增订单数</el-radio>
+          <el-radio v-model="chartRadio" :label="2">销售额</el-radio>
+          <div class="report-bar">
+            <el-button>周报</el-button>
+            <el-button>月报</el-button>
+            <el-button>年报</el-button>
+          </div>
         </div>
-      </div>
+      </el-col>
       <el-col :span="18">
-        <div id="orderNumChart" style="width: 100%;height: 300px"></div>
+        <div id="orderNumChart" style="width: 100%;height: 310px;margin-top: 10px;"></div>
       </el-col>
       <el-col :span="6">
         <div class="col-box col-box-report">
           <ul class="report-ul">
             <li>
-              <p class="data">3025</p>
-              <p class="detail"><span class="tip">本年累计新增订单</span><span class="percent percent-plus"><i class="el-icon-back" style="transform: rotate(90deg)"></i>27%</span>
+              <p class="data">3025 <span class="money">销售额：￥20000</span></p>
+              <p class="detail"><span class="tip">本年累计新增订单</span><span class="percent percent-plus"><i
+                class="el-icon-back" style="transform: rotate(90deg)"></i>27%</span>
               </p>
             </li>
             <li>
-              <p class="data">3025</p>
-              <p class="detail"><span class="tip">本月累计新增订单</span><span class="percent percent-minus"><i class="el-icon-back" style="transform: rotate(-90deg)"></i>27%</span>
+              <p class="data">3025 <span class="money">销售额：￥20000</span></p>
+              <p class="detail"><span class="tip">本月累计新增订单</span><span class="percent percent-minus"><i
+                class="el-icon-back" style="transform: rotate(-90deg)"></i>27%</span>
               </p>
             </li>
             <li>
-              <p class="data">3025</p>
-              <p class="detail"><span class="tip">本周累计新增订单</span><span class="percent percent-flat"><i class="el-icon-minus"></i>持平</span>
+              <p class="data">3025 <span class="money">销售额：￥20000</span></p>
+              <p class="detail"><span class="tip">本周累计新增订单</span><span class="percent percent-flat"><i
+                class="el-icon-minus"></i>持平</span>
               </p>
             </li>
           </ul>
@@ -50,6 +46,8 @@
     name: 'orderChart',
     data () {
       return {
+        orderNumChart: '',
+        chartRadio: 1,
         option: { // 订单数
           title: {
             // text: '堆叠区域图',
@@ -101,22 +99,6 @@
             },
           ],
         },
-        orderNumChart: '',
-        selectOptions: [
-          {
-            label: '部门人员A',
-            value: 1
-          }, {
-            label: '部门人员B',
-            value: 2
-          }, {
-            label: '部门人员C',
-            value: 3
-          },
-        ],
-        paramsForm: {
-          value: null
-        }
       }
     },
     methods: {
@@ -135,43 +117,85 @@
 
 <style scoped lang="scss" rel="stylesheet/scss">
   @import "../../../styles/common";
-  /*.com-title-no {*/
-    /*&:after {*/
-      /*display: none;*/
-    /*}*/
-  /*}*/
+  .com-title-no {
+    &:after {
+      display: none;
+    }
+  }
   .home-row {
     &.home-row-2 {
       border-top: 6px solid $part-color;
-      border-bottom: 6px solid $part-color;
-      .col-box {
-        height: 300px;
-      }
+      /*border-bottom: 6px solid $part-color;*/
     }
     .lr-part {
       border-left: 6px solid $part-color;
       border-right: 6px solid $part-color;
     }
+    .top-part {
+      border-bottom: 6px solid $part-color;
+    }
     .col-box {
       padding: $page-base-padding;
-      height: 362px;
+      /*height: 372px;*/
+      .title {
+        padding-bottom: 30px;
+        border-bottom: 1px solid $part-color;
+        .text {
+          color: #333E48;
+          font-size: 16px;
+        }
+        .tag {
+          color: #FF7700;
+          border: 1px solid #FF7700;
+          padding: 0px 3px;
+          float: right;
+        }
+      }
+      .show {
+        height: 50px;
+        padding-top: 10px;
+        .num {
+          font-size: 48px;
+          color: #00A7FE;
+        }
+        .change {
+          color: #728395;
+          float: right;
+          margin-top: 30px;
+          .change-up {
+            color: #39C189;
+          }
+          .change-down {
+            color: #FE5455;
+          }
+        }
+      }
     }
   }
+
+  .col-box-report {
+    /*padding-top: 100px;*/
+    border-left: 1px solid $part-color;
+  }
+
   .report-bar {
     text-align: center;
     float: right;
   }
-  .col-box-report {
-    /*margin-top: 57px;*/
-    border-left: 1px solid $part-color;
-  }
+
   .report-ul {
+    padding-top: 30px;
+    padding-bottom: 30px;
     li {
       margin-top: 20px;
     }
     .data {
       font-size: 24px;
       color: #1E88E5;
+      .money {
+        font-size: 14px;
+        color: #9CA2A8;
+      }
     }
     .detail {
       .tip {

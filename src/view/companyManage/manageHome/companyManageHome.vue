@@ -97,41 +97,9 @@
     </div>
     <div class="home-row home-row-2">
       <el-row>
-        <el-col :span="18">
-          <div class="col-box">
-            <p class="title com-title-no">
-              <el-radio v-model="chartRadio" :label="1">新增订单数</el-radio>
-              <el-radio v-model="chartRadio" :label="2">销售额</el-radio>
-            </p>
-            <div id="orderNumChart" style="width: 100%;height: 310px;margin-top: 10px;"></div>
-          </div>
-        </el-col>
-        <el-col :span="6">
-          <div class="col-box col-box-report">
-            <div class="report-bar">
-              <el-button>周报</el-button>
-              <el-button>月报</el-button>
-              <el-button>年报</el-button>
-            </div>
-            <ul class="report-ul">
-              <li>
-                <p class="data">3025 <span class="money">销售额：￥20000</span></p>
-                <p class="detail"><span class="tip">本年累计新增订单</span><span class="percent percent-plus"><i class="el-icon-back" style="transform: rotate(90deg)"></i>27%</span>
-                </p>
-              </li>
-              <li>
-                <p class="data">3025 <span class="money">销售额：￥20000</span></p>
-                <p class="detail"><span class="tip">本月累计新增订单</span><span class="percent percent-minus"><i class="el-icon-back" style="transform: rotate(-90deg)"></i>27%</span>
-                </p>
-              </li>
-              <li>
-                <p class="data">3025 <span class="money">销售额：￥20000</span></p>
-                <p class="detail"><span class="tip">本日累计新增订单</span><span class="percent percent-flat"><i class="el-icon-minus"></i>持平</span>
-                </p>
-              </li>
-            </ul>
-          </div>
-        </el-col>
+        <div class="col-box">
+          <order-chart></order-chart>
+        </div>
       </el-row>
     </div>
   </div>
@@ -139,82 +107,19 @@
 
 <script>
   // import moment from 'moment'
+  import orderChart from './orderChart'
 
   export default {
     name: 'saleHome',
     data () {
       return {
-        chartRadio: 1,
-        option: { // 订单数
-          title: {
-            // text: '堆叠区域图',
-          },
-          tooltip: {
-            trigger: 'axis',
-            axisPointer: {
-              type: 'cross',
-              label: {
-                backgroundColor: '#39C189',
-              },
-            },
-          },
-          legend: {
-            // data: ['邮件营销', '联盟广告', '视频广告', '直接访问', '搜索引擎'],
-          },
-          toolbox: {
-            // feature: {
-            //   saveAsImage: {},
-            // },
-          },
-          grid: {
-            left: '0%',
-            right: '3%',
-            bottom: '0%',
-            top: '3%',
-            containLabel: true,
-          },
-          xAxis: [
-            {
-              type: 'category',
-              boundaryGap: false,
-              data: ['01月', '02月', '03月', '04月', '05月', '06月', '07月', '08月', '09月', '10月', '11月', '12月'],
-            },
-          ],
-          yAxis: [
-            {
-              type: 'value',
-            },
-          ],
-          color: ['#39C189'],
-          series: [
-            {
-              name: '',
-              type: 'line',
-              stack: '总量',
-              areaStyle: {normal: {}},
-              data: [120, 132, 141, 154, 170, 190, 210, 200, 180, 160, 150, 110],
-            },
-          ],
-        },
-        orderNumChart: '',
       }
     },
-    methods: {
-      drawOrderNumChart () {
-        if (!this.orderNumChart) {
-          this.orderNumChart = this.$echarts.init(document.getElementById('orderNumChart'))
-        }
-        this.orderNumChart.setOption(this.option)
-      },
+    components: {
+      orderChart,
     },
     created () {
       // console.log(moment(new Date()).format('YYYY-MM-DD hh:mm:ss'))
-    },
-    mounted () {
-      this.drawOrderNumChart()
-      this.drawFunnelChart()
-      this.drawBarChart()
-      this.drawScatterChart()
     },
   }
 </script>
@@ -222,13 +127,6 @@
 <style scoped lang="scss" rel="stylesheet/scss">
   @import "../../../styles/common";
   @import "../../../styles/sprites.css";
-
-  .com-title-no {
-    &:after {
-      display: none;
-    }
-  }
-
   .sale-home {
   }
 
@@ -296,15 +194,18 @@
   }
 
   .col-box-report {
-    margin-top: 57px;
+    /*padding-top: 100px;*/
     border-left: 1px solid $part-color;
   }
 
   .report-bar {
     text-align: center;
+    float: right;
   }
 
   .report-ul {
+    padding-top: 30px;
+    padding-bottom: 30px;
     li {
       margin-top: 20px;
     }
@@ -332,28 +233,6 @@
       }
       .percent-plat {
         color: #666666;
-      }
-    }
-  }
-  .list {
-    li {
-      color: #333333;
-      padding: 20px;
-      border-bottom: 1px dashed #ccc;
-      &:hover {
-        text-decoration: underline;
-        cursor: pointer;
-      }
-    }
-  }
-  .link {
-    padding: 20px;
-    text-align: center;
-    .link-all {
-      color: $color-1-active;
-      &:hover {
-        cursor: pointer;
-        text-decoration: underline;
       }
     }
   }
