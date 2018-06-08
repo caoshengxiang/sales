@@ -1,5 +1,5 @@
 import utils from '../utils/utils'
-import { setUserAuth } from '../utils/axiosConfig' // axios配置文件
+import '../utils/axiosConfig' // axios配置文件
 // const externalAPI = 'http://47.96.26.250:84'
 const externalAPI = 'http://app.zzcfo.cn'
 

@@ -22,6 +22,9 @@ export default {
       }, {
         type: 3,
         value: '我参与的客户',
+      }, {
+        type: 4,
+        value: '我下属跟进的客户',
       }],
     customerSourceType: [ // 客户来源
       {
@@ -88,6 +91,9 @@ export default {
       }, {
         type: 2,
         value: '我跟进的联系人',
+      }, {
+        type: 3,
+        value: '我下属跟进的联系人',
       },
     ],
     contactsStatus: [ // 联系人状态
