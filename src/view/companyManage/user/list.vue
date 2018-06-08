@@ -31,7 +31,7 @@
         <com-button buttonType="search" @click="searchHandle">搜索</com-button>
       </div>
       <div class="com-bar-right" style="float: right">
-        <el-select v-model.number="form.organizationId"   @change="selectedOptionsHandleChange" placeholder="请选择人员组织">
+        <el-select v-model.number="form.organizationId"   @change="selectedOptionsHandleChange" placeholder="请选择人员组织" style="width: 140px">
           <el-option
             v-for="item in allorganization"
             :key="item.id"
@@ -47,6 +47,7 @@
           v-model="selectedOptions"
           :props="props"
           @change="selecteddptHandleChange"
+          style="width: 140px"
         >
         </el-cascader>
       </div>
