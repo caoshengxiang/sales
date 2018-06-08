@@ -191,7 +191,7 @@
           width="160"
           show-overflow-tooltip>
           <template slot-scope="scope">
-            {{ scope.row.birthday && $moment(scope.row.birthday).format('YYYY-MM-DD HH:mm') }}
+            {{ scope.row.created && $moment(scope.row.created).format('YYYY-MM-DD HH:mm') }}
           </template>
         </el-table-column>
         <el-table-column
@@ -231,6 +231,7 @@
   import API from '../../../utils/api'
   import addDialog from './addDialog'
   import advancedSearch from './advancedSearch'
+  import { underscoreName } from '../../../utils/utils'
 
   export default {
     name: 'list',
@@ -325,11 +326,11 @@
         // console.log(sortObj)
         let order = null
         if (sortObj.order === 'ascending') {
-          order = 'asce'
+          order = 'asc'
         } else if (sortObj.order === 'descending') {
           order = 'desc'
         }
-        this.sortObj = {sort: sortObj.prop + ',' + order}
+        this.sortObj = {sort: underscoreName(sortObj.prop) + ',' + order}
         this.getContactsList()
       },
       advancedSearchHandle () {

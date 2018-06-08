@@ -123,6 +123,16 @@ export default {
         error && error(err)
       })
     },
+    seaList (params, success, error) { // 客户公海列表
+      setUserAuth()
+      $axios.get('customer/sea/list', {
+        params: params,
+      }).then((res) => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+    },
     teamAboutCustomerlist (success, error) { // 团队成员相关客户列表
       setUserAuth()
       $axios.get('customer/list').then((res) => {

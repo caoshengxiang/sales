@@ -125,6 +125,7 @@
   import comButton from '../../../components/button/comButton'
   import API from '../../../utils/api'
   import advancedSearch from './advancedSearch'
+  import { underscoreName } from '../../../utils/utils'
 
   export default {
     name: 'list',
@@ -180,11 +181,11 @@
         // console.log(sortObj)
         let order = null
         if (sortObj.order === 'ascending') {
-          order = 'asce'
+          order = 'asc'
         } else if (sortObj.order === 'descending') {
           order = 'desc'
         }
-        this.sortObj = {sort: sortObj.prop + ',' + order}
+        this.sortObj = {sort: underscoreName(sortObj.prop) + ',' + order}
         this.getRecordsList()
       },
       advancedSearchHandle () {

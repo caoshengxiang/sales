@@ -158,7 +158,7 @@
   import assignDialog from './assignDialog'
   import groupDialog from './groupDialog'
   import API from '../../../utils/api'
-  import { arrToStr } from '../../../utils/utils'
+  import { arrToStr, underscoreName } from '../../../utils/utils'
 
   export default {
     name: 'list',
@@ -295,7 +295,7 @@
       getCustomersSeaList () {
         this.dataLoading = true
         this.getQueryParams()
-        API.customer.list(this.defaultListParams, (data) => {
+        API.customer.seaList(this.defaultListParams, (data) => {
           if (data.status) {
             this.tableData = data.data.content
             this.total = data.data.totalElements
