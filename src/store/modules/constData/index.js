@@ -61,6 +61,9 @@ export default {
       {
         type: 3,
         value: '我参与的销售机会'
+      }, {
+        type: 4,
+        value: '我下属跟进的销售机会'
       }
     ],
     customerState: [ // 状态

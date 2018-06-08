@@ -409,7 +409,7 @@
         this.defaultListParams = {
           page: this.currentPage - 1,
           pageSize: this.pagesOptions.pageSize,
-          type: this.contactsTypeOption, // 前端
+          type: this.salesOpportunitiesOptionsType, // 前端
           organizationId: this.organizationId // 后端
         }
         if (this.customerId) { // 更多
