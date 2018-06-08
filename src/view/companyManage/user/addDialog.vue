@@ -174,7 +174,6 @@
         that.allroles = res.data
       }, (mock) => {
         that.allroles = mock.data
-        // this.ac_userList(mock.data) // todo ac_userList 未定义
         that.dataLoading = false
       })
       params = {
