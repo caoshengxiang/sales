@@ -53,8 +53,8 @@
             职能：<span>{{splitName(roleDetail.bilities)}}</span>
           </div>
           <div class="role-view-con">
-            <el-tabs :value="initBusinessSystemsIndex">
-              <el-tab-pane :label="item.name" :name="item.id" v-for="item in businessSystemList" :key="item.id">
+            <el-tabs :value="initBusinessSystemsIndex" @tab-click="tabClickHandle">
+              <el-tab-pane :label="item.name" :name="item.id.toString()" v-for="item in businessSystemList" :key="item.id">
                 <el-table
                   border
                   tooltip-effect="dark"
@@ -73,9 +73,18 @@
                     label="浏览权限"
                   >
                     <template slot-scope="scope">
-                      <el-radio v-model="scope.row.dataAuthority" :label="1">个人</el-radio>
-                      <el-radio v-model="scope.row.dataAuthority" :label="2">部门</el-radio>
-                      <el-radio v-model="scope.row.dataAuthority" :label="3">全部</el-radio>
+                      <div v-show="initBusinessSystemsIndex != '1'">
+                        <el-radio v-model="scope.row.dataAuthority" :label="1">个人</el-radio>
+                        <el-radio v-model="scope.row.dataAuthority" :label="2">部门</el-radio>
+                        <el-radio v-model="scope.row.dataAuthority" :label="3">公司</el-radio>
+                      </div>
+                      <div v-show="initBusinessSystemsIndex == '1' && (scope.row.id != 1 && scope.row.id != 7 && scope.row.id != 8 && scope.row.id != 9)">
+                        <el-radio v-model="scope.row.dataAuthority" :label="3">公司</el-radio>
+                        <el-radio v-model="scope.row.dataAuthority" :label="4">平台</el-radio>
+                      </div>
+                      <div v-show="initBusinessSystemsIndex == '1' && !(scope.row.id != 1 && scope.row.id != 7 && scope.row.id != 8 && scope.row.id != 9)">
+                        <el-radio v-model="scope.row.dataAuthority" :label="4">平台</el-radio>
+                      </div>
                     </template>
                   </el-table-column>
                   <el-table-column
@@ -181,7 +190,7 @@
             that.roleDetail = res.data;
             if (res.data.businessSystems && res.data.businessSystems.length > 0) {
               that.businessSystemList = res.data.businessSystems;
-              that.initBusinessSystemsIndex = res.data.businessSystems[0].id;
+              that.initBusinessSystemsIndex = res.data.businessSystems[0].id.toString();
             }
           }else{
             Message({
@@ -267,6 +276,9 @@
             type: 'error'
           });
         })
+      },
+      tabClickHandle(tab){
+        this.initBusinessSystemsIndex = tab.name;
       }
     }
   }
