@@ -61,7 +61,7 @@
               <el-date-picker
                 v-model="timeInterval"
                 type="datetimerange"
-                value-format="timestamp"
+                value-format="yyyy-MM-dd HH:mm:ss"
                 @change="timeIntervalHandle"
                 range-separator="至"
                 start-placeholder="开始日期"
@@ -144,8 +144,8 @@
           orderState: null,
           source: null,
           isRenew: null,
-          start: null,
-          end: null,
+          startDate: null,
+          endDate: null,
           billAmountStart: null, // 签单金额，todo 未知
           billAmountEnd: null,
           refund_amountStart: null, // todo
@@ -184,8 +184,8 @@
         this.$vDialog.close({type: 'search', params: this.searchForm})
       },
       timeIntervalHandle (value) { // todo 未知属性名称
-        this.searchForm.start = value[0] || ''
-        this.searchForm.end = value[1] || ''
+        this.searchForm.startDate = value[0] || ''
+        this.searchForm.endDate = value[1] || ''
       },
     },
     created () {

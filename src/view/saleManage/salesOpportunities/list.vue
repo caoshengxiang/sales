@@ -231,7 +231,7 @@
   import API from '../../../utils/api'
   import addDialog from './addDialog'
   import moveDialog from './moveDialog'
-  import { arrToStr } from '../../../utils/utils'
+  import { arrToStr, underscoreName } from '../../../utils/utils'
   import advancedSearch from './advancedSearch'
 
   export default {
@@ -379,11 +379,11 @@
         // console.log(sortObj)
         let order = null
         if (sortObj.order === 'ascending') {
-          order = 'asce'
+          order = 'asc'
         } else if (sortObj.order === 'descending') {
           order = 'desc'
         }
-        this.sortObj = {sort: sortObj.prop + ',' + order}
+        this.sortObj = {sort: underscoreName(sortObj.prop) + ',' + order}
         this.getSalesOpportunititeisList()
       },
       advancedSearchHandle () {

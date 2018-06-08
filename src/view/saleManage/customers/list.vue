@@ -231,7 +231,7 @@
   import moveDialog from './moveDialog'
   import returnPoll from './returnPoll'
   import advancedSearch from './advancedSearch'
-  // import { arrToStr } from '../../../utils/utils'
+  import { underscoreName } from '../../../utils/utils'
   // import moment from 'moment'
 
   export default {
@@ -304,11 +304,11 @@
         // console.log(sortObj)
         let order = null
         if (sortObj.order === 'ascending') {
-          order = 'asce'
+          order = 'asc'
         } else if (sortObj.order === 'descending') {
           order = 'desc'
         }
-        this.sortObj = {sort: sortObj.prop + ',' + order}
+        this.sortObj = {sort: underscoreName(sortObj.prop) + ',' + order}
         this.getCustomerList()
       },
       advancedSearchHandle () {

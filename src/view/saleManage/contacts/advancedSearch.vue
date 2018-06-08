@@ -40,7 +40,7 @@
               <el-date-picker
                 v-model="timeInterval"
                 type="datetimerange"
-                value-format="timestamp"
+                value-format="yyyy-MM-dd HH:mm:ss"
                 @change="timeIntervalHandle"
                 range-separator="至"
                 start-placeholder="开始日期"
@@ -72,8 +72,8 @@
           phone: null,
           position: null,
           status: null,
-          start: null,
-          end: null,
+          startDate: null,
+          endDate: null,
         },
         timeInterval: '',
       }
@@ -83,9 +83,9 @@
       saveSubmitForm () {
         this.$vDialog.close({type: 'search', params: this.searchForm})
       },
-      timeIntervalHandle (value) { // todo 未知属性名称
-        this.searchForm.start = value[0] || ''
-        this.searchForm.end = value[1] || ''
+      timeIntervalHandle (value) {
+        this.searchForm.startDate = value[0] || ''
+        this.searchForm.endDate = value[1] || ''
       },
     },
     created () {
