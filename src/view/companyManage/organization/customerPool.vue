@@ -67,12 +67,14 @@
               </el-form-item>
               <el-form-item label="请设置该客户池需求录入员" prop="keyboarderList">
                 <el-select v-model="ruleForm.keyboarderList" multiple placeholder="请设置该客户池需求录入员">
-                  <el-option v-for="item in keyboarderList" :key="item.id" :label="item.name" :value="item.id"></el-option>
+                  <el-option v-for="item in keyboarderList" :key="item.id" :label="item.name"
+                             :value="item.id"></el-option>
                 </el-select>
               </el-form-item>
               <el-form-item label="请设置该客户池销售跟进员" prop="followerList">
                 <el-select v-model="ruleForm.followerList" multiple placeholder="请设置该客户池销售跟进员">
-                  <el-option v-for="item in followerList" :key="item.id" :label="item.name" :value="item.id"></el-option>
+                  <el-option v-for="item in followerList" :key="item.id" :label="item.name"
+                             :value="item.id"></el-option>
                 </el-select>
               </el-form-item>
               <el-form-item label="客户池回收规则设置" prop="dayOfNo">
@@ -123,7 +125,8 @@
     name: 'customerPool',
     data () {
       let validate = (rule, value, callback) => {
-        console.log(this.ruleForm.dayOfNoChance, this.ruleForm.dayOfNoFinishOrder, this.ruleForm.dayOfNoFollow, this.ruleForm.dayOfNoFollowAgain)
+        console.log(this.ruleForm.dayOfNoChance, this.ruleForm.dayOfNoFinishOrder, this.ruleForm.dayOfNoFollow,
+          this.ruleForm.dayOfNoFollowAgain)
         if (!Number.isInteger(this.ruleForm.dayOfNoChance) || !Number.isInteger(this.ruleForm.dayOfNoFinishOrder) ||
           !Number.isInteger(this.ruleForm.dayOfNoFollow) || !Number.isInteger(this.ruleForm.dayOfNoFollowAgain)) {
           callback(new Error('请输入数字值'))
@@ -156,8 +159,9 @@
           keyboarderList: [ // 需求录入人员id列表
           ],
           followerList: [ // 销售跟进人员id列表
-          ]
+          ],
         },
+        ruleFormEdit: {}, // 保存后台返回的原始数据
         rules: {
           dayOfNo: [
             {required: true, validator: validate, trigger: 'blur'},
@@ -179,7 +183,7 @@
       }
     },
     components: {
-      comButton
+      comButton,
     },
     methods: {
       handleResData (copy) {
@@ -187,7 +191,6 @@
         this.ruleForm.adminList = []
         this.ruleForm.followerList = []
         this.ruleForm.keyboarderList = []
-        console.log(this.ruleForm, 1111111)
         copy.adminList.forEach(ad => {
           this.ruleForm.adminList.push(ad.salerId)
         })
@@ -211,7 +214,7 @@
             if (item.id === id) {
               this.ruleForm.adminList.push({
                 salerId: id,
-                salerName: item.name
+                salerName: item.name,
               })
             }
           })
@@ -221,7 +224,7 @@
             if (item.id === id) {
               this.ruleForm.followerList.push({
                 salerId: id,
-                salerName: item.name
+                salerName: item.name,
               })
             }
           })
@@ -231,7 +234,7 @@
             if (item.id === id) {
               this.ruleForm.keyboarderList.push({
                 salerId: id,
-                salerName: item.name
+                salerName: item.name,
               })
             }
           })
@@ -250,7 +253,7 @@
                 if (resData.status) {
                   that.$message({
                     message: '保存成功！',
-                    type: 'success'
+                    type: 'success',
                   })
                   setTimeout(() => {
                     that.loading = false
@@ -306,11 +309,11 @@
           height: 250,
           params: {
             organizationId: this.organizationId,
-            type: 'add'
+            type: 'add',
           },
           callback: function () {
             that.getPollList(that.organizationId)
-          }
+          },
         })
       },
       selectHandle (id) {
@@ -320,6 +323,7 @@
         this.activeIndex = id.toString()
         API.customerSea.detail(id, (resD) => {
           this.ruleForm = JSON.parse(JSON.stringify(resD.data))
+          this.ruleFormEdit = JSON.parse(JSON.stringify(resD.data))
 
           this.handleResData(JSON.parse(JSON.stringify(resD.data)))
         })
@@ -344,7 +348,8 @@
             organizationId: this.organizationId,
             type: 'edit',
             id: this.ruleForm.id,
-            name: this.ruleForm.name
+            name: this.ruleForm.name,
+            ruleForm: this.ruleFormEdit, // 使用后端原始数据
           },
           callback: () => {
             this.getPollList(this.organizationId)
@@ -352,7 +357,7 @@
               this.pollList = da.data.content
               this.getPoolDetail(this.activeIndex)
             })
-          }
+          },
         })
       },
       getAdminList (organizationId) { // 客户池管理员
@@ -373,7 +378,7 @@
     },
     created () {
       this.getOrganization({pid: 1})
-    }
+    },
   }
 </script>
 
