@@ -18,7 +18,7 @@
                                                                   style="transform: rotate(90deg)"></i> 转移
         </com-button>
         <com-button buttonType="backHighSeas" icon="el-icon-back" @click="returnHighSeaHandle"
-                    :disabled="multipleSelection.length !== 1 || isNotBackSeasOp">退回公海池
+                    :disabled="multipleSelection.length !== 1">退回公海池
         </com-button>
       </div>
       <div class="com-bar-right" v-if="themeIndex === 0"><!--前端-->
@@ -241,7 +241,6 @@
       return {
         dataLoading: true,
         multipleSelection: [],
-        isNotBackSeasOp: false, // 只有销售跟进人才拥有退回公海的权限
         customerType: null, // 客户选项
         currentPage: 1, // 当前页
         customerId: null, // 路由参数中得客户id
@@ -333,9 +332,6 @@
       },
       handleSelectionChange (val) {
         this.multipleSelection = val
-        this.isNotBackSeasOp = val.some(item => {
-          return item.followerId !== webStorage.getItem('userInfo').id
-        })
       },
       handleSizeChange (val) {
         console.log(`每页 ${val} 条`)
