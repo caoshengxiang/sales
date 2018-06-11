@@ -212,6 +212,9 @@
       if (this.params.detail) {
         this.addForm = this.params.detail
       }
+      if (this.params.stateValue) { // 设置默认2，销售阶段；[公海1]
+        this.addForm.state = this.params.stateValue
+      }
     }
   }
 </script>

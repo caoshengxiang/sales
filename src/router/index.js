@@ -62,6 +62,11 @@ const rebateRecordsList = resolve => require.ensure([],
 const customersHighSeasList = resolve => require.ensure([],
   () => resolve(require('../view/saleManage/customersHighSeas/list')),
   'customersHighSeas')
+// 客户公海详细
+const customersHighSeasDetail = resolve => require.ensure([],
+  () => resolve(require('../view/saleManage/customersHighSeas/detailInfo')),
+  'customersHighSeas')
+
 // 消息
 const messageList = resolve => require.ensure([],
   () => resolve(require('../view/saleManage/message/list')),
@@ -233,6 +238,10 @@ export default new Router({
           path: 'customersHighSeasList',
           name: 'customersHighSeasList',
           component: customersHighSeasList,
+        }, {
+          path: 'customersHighSeasDetail',
+          name: 'customersHighSeasDetail',
+          component: customersHighSeasDetail,
         }, {
           path: 'messageList',
           name: 'messageList',

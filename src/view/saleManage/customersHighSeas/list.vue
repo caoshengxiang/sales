@@ -290,7 +290,7 @@
         this.getCustomersSeaList()
       },
       handleRouter (name, id) {
-        this.$router.push({name: 'customersDetail', query: {view: name, customerId: id}, params: {end: 'FE'}})
+        this.$router.push({name: 'customersHighSeasDetail', query: {view: name, customerId: id}, params: {end: 'FE'}})
       },
       getCustomersSeaList () {
         this.dataLoading = true
