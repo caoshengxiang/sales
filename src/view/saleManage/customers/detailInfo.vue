@@ -160,22 +160,23 @@
             </p>
             <table class="detail-table related-table">
               <tr>
-                <th class="td-title">联系人</th>
-                <th class="td-title">需求阶段</th>
                 <th class="td-title">需求商品</th>
-                <th class="td-title">关联订单</th>
-                <th class="td-title">创建时间</th>
-                <th class="td-title">快捷操作</th>
+                <th class="td-title">需求阶段</th>
+                <th class="td-title">预计签单金额</th>
+                <th class="td-title">预计签单时间</th>
+                <th class="td-title">销售人</th>
+                <th class="td-title">销售机会创建时间</th>
               </tr>
               <tr v-for="item in chanceList" :key="item.id">
-                <td>{{item.contacterName}}</td>
-                <td><span v-for="st in salesState" :key="st.type"
-                          v-if="st.type === item.stage">{{st.value}}&nbsp;&nbsp;{{st.percent}}</span>
-                </td>
                 <td>{{item.intentProductName}}</td>
-                <td>todo 占位</td>
+                <td>
+                  <span v-for="st in salesState" :key="st.type"
+                        v-if="st.type === item.stage">{{st.value}}&nbsp;&nbsp;{{st.percent}}</span>
+                </td>
+                <td>{{item.intentBillAmount}}</td>
+                <td>{{item.billDate && $moment(item.billDate).format('YYYY-MM-DD')}}</td>
+                <td>{{item.salerName}}</td>
                 <td>{{item.created && $moment(item.created).format('YYYY-MM-DD HH:mm:ss')}}</td>
-                <td><a class="table-op" @click="quickOperation('deleteChance', item.id)">删除</a></td>
               </tr>
             </table>
 
