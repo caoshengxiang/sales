@@ -25,7 +25,7 @@
       :background-color="theme[themeIndex].leftMenuBarBg"
       :active-text-color="theme[themeIndex].leftMenuBarActiveColor">
       <!--<el-menu-item index="saleHome" v-if="listPermissions(menus, 'salerHome')">--><!--去掉两个首页的权限控制-->
-      <el-menu-item index="saleHome">
+      <el-menu-item index="saleHome" v-if="themeIndex === 0">
         <i class="iconfont icon-home"></i>
         <span slot="title">管理中心</span>
       </el-menu-item>
@@ -76,7 +76,7 @@
      <!--后端菜单-->
      <!--后端菜单-->
       <!--<el-menu-item index="companyManageHome" v-if="listPermissions(menus, 'adminHome')">--><!--去掉两个首页的权限控制-->
-      <el-menu-item index="companyManageHome">
+      <el-menu-item index="companyManageHome" v-if="themeIndex === 1">
         <i class="iconfont icon-home"></i>
         <span slot="title">首页</span>
       </el-menu-item>
