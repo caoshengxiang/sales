@@ -58,6 +58,7 @@
                 <el-table
                   border
                   tooltip-effect="dark"
+                  style="width: 100%"
                   :data="item.functionModules">
                   <el-table-column
                     align="center"
