@@ -99,16 +99,15 @@
               this.loading = false
               if (res.status) {
                 this.signIn()
-              }
-              else {
-                Message({
+              } else {
+                this.$message({
                   message: '系统繁忙，请稍后再试！',
                   type: 'error'
                 })
               }
             }, (mock) => {
               this.loading = false
-              Message({
+              this.$message({
                 message: '系统繁忙，请稍后再试！',
                 type: 'error'
               })

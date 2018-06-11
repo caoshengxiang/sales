@@ -66,12 +66,14 @@
                     show-overflow-tooltip
                     prop="name"
                     width="200"
+                    style="width: 100%"
                   >
                   </el-table-column>
                   <el-table-column
                     show-overflow-tooltip
                     align="center"
                     label="浏览权限"
+                    style="width: 100%"
                   >
                     <template slot-scope="scope">
                       <div v-show="initBusinessSystemsIndex != '1'">
@@ -92,6 +94,7 @@
                     show-overflow-tooltip
                     align="center"
                     label="操作权限"
+                    style="width: 100%"
                   >
                     <template slot-scope="scope">
                       <el-radio v-model="scope.row.operateAuthority" :label="1">无权限</el-radio>
