@@ -16,7 +16,7 @@
           <!--去除了联系人-->
           <el-col :span="8">
             <el-form-item label="销售相关人员：">
-              <el-input type="text" v-model="searchForm.team"></el-input>
+              <el-input type="text" v-model="searchForm.salerRelName"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -65,13 +65,13 @@
             <el-form-item label="预计签单金额：">
               <el-row>
                 <el-col :span="10">
-                  <el-input @change="intentBillAmountStartHandle" type="number" v-model.number="searchForm.intentBillAmountStart"></el-input>
+                  <el-input @change="intentBillAmountStartHandle" type="number" v-model.number="searchForm.startIntentBillAmount"></el-input>
                 </el-col>
                 <el-col :span="2">
                   <div style="text-align: center">-</div>
                 </el-col>
                 <el-col :span="10">
-                  <el-input @change="intentBillAmountEndHandle" type="number" v-model.number="searchForm.intentBillAmountEnd"></el-input>
+                  <el-input @change="intentBillAmountEndHandle" type="number" v-model.number="searchForm.endIntentBillAmount"></el-input>
                 </el-col>
               </el-row>
             </el-form-item>
@@ -98,13 +98,13 @@
         searchForm: { // 表单
           intentProductName: null,
           customerName: null,
-          team: null, // todo 未知
+          salerRelName: null, // todo 未知
           stage: null,
           source: null,
-          startDate: null,
-          endDate: null,
-          intentBillAmountStart: null, // 签单金额，todo 未知
-          intentBillAmountEnd: null,
+          startCreateDate: null,
+          endCreateDate: null,
+          startIntentBillAmount: null, // 签单金额，todo 未知
+          endIntentBillAmount: null,
         },
         timeInterval: '',
       }
@@ -112,21 +112,21 @@
     props: ['params'],
     methods: {
       intentBillAmountStartHandle () {
-        if (this.searchForm.intentBillAmountStart > this.searchForm.intentBillAmountEnd) {
-          this.searchForm.intentBillAmountEnd = null
+        if (this.searchForm.startIntentBillAmount > this.searchForm.endIntentBillAmount) {
+          this.searchForm.endIntentBillAmount = null
         }
-      }, // todo
+      },
       intentBillAmountEndHandle () {
-        if (this.searchForm.intentBillAmountStart && this.searchForm.intentBillAmountStart > this.searchForm.intentBillAmountEnd) {
-          this.searchForm.intentBillAmountEnd = this.searchForm.intentBillAmountStart
+        if (this.searchForm.startIntentBillAmount && this.searchForm.startIntentBillAmount > this.searchForm.endIntentBillAmount) {
+          this.searchForm.endIntentBillAmount = this.searchForm.startIntentBillAmount
         }
       },
       saveSubmitForm () {
         this.$vDialog.close({type: 'search', params: this.searchForm})
       },
       timeIntervalHandle (value) {
-        this.searchForm.startDate = value[0] || ''
-        this.searchForm.endDate = value[1] || ''
+        this.searchForm.startCreateDate = value[0] || ''
+        this.searchForm.endCreateDate = value[1] || ''
       },
     },
     created () {
