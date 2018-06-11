@@ -132,7 +132,8 @@
             <p class="table-title">
               联系人({{contactTotal}})
               <a class="more" v-if="contactTotal > 5" @click="handleRoute('contact')">更多》</a>
-              <a class="table-add" @click="quickOperation('addContact')"><i class="el-icon-plus"></i>新增联系人</a>
+              <!--（-1 输单）-->
+              <a v-if="salesOpportunitiesDetail.stage !== -1" class="table-add" @click="quickOperation('addContact')"><i class="el-icon-plus"></i>新增联系人</a>
             </p>
             <table class="detail-table related-table">
               <tr>
@@ -156,7 +157,8 @@
             <p class="table-title">
               跟单记录({{orderRecordsTotal}})
               <a class="more" v-if="orderRecordsTotal > 0" @click="handleRoute('orderRecords')">更多》</a>
-              <a class="table-add" @click="quickOperation('addRecord')"><i class="el-icon-plus"></i>新增跟单记录</a>
+              <!--（-1输单）-->
+              <a v-if="salesOpportunitiesDetail.stage !== -1" class="table-add" @click="quickOperation('addRecord')"><i class="el-icon-plus"></i>新增跟单记录</a>
             </p>
             <table class="detail-table related-table">
               <tr>
@@ -172,7 +174,8 @@
             <p class="table-title">
               APP订单({{appOrderTotal}})
               <a class="more" v-if="appOrderTotal > 5" @click="handleRoute('order')">更多》</a>
-              <a class="table-add" @click="quickOperation('addOrder')"><i class="el-icon-plus"></i>新增关联订单</a>
+              <!--（-1 输单）-->
+              <a v-if="salesOpportunitiesDetail.stage !== -1" class="table-add" @click="quickOperation('addOrder')"><i class="el-icon-plus"></i>新增关联订单</a>
             </p>
             <table class="detail-table related-table">
               <tr>
