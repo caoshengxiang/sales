@@ -24,7 +24,8 @@
       :text-color="theme[themeIndex].leftMenuBarColor"
       :background-color="theme[themeIndex].leftMenuBarBg"
       :active-text-color="theme[themeIndex].leftMenuBarActiveColor">
-      <el-menu-item index="saleHome" v-if="listPermissions(menus, 'salerHome')">
+      <!--<el-menu-item index="saleHome" v-if="listPermissions(menus, 'salerHome')">--><!--去掉两个首页的权限控制-->
+      <el-menu-item index="saleHome">
         <i class="iconfont icon-home"></i>
         <span slot="title">管理中心</span>
       </el-menu-item>
@@ -72,23 +73,10 @@
         <i class="iconfont icon-shenpi"></i>
         <span slot="title">任务审批</span>
       </el-menu-item>
-      <!--<el-menu-item index="userList">
-        <template slot="title">
-          <i class="el-icon-menu"></i>
-          <span slot="title">用戶管理</span>
-          <div class="child-menu">&lt;!&ndash;todo 有兼容问题&ndash;&gt;
-            <i class="el-icon-arrow-right"></i>
-            <div class="child-fixed">
-              <ul class="child-menu-box">
-                <li @click="handleRouter('userList')">用戶管理</li>
-                <li @click="handleRouter('roleList')">角色管理</li>
-                <li @click="handleRouter('agentList')">代理商管理</li>
-              </ul>
-            </div>
-          </div>
-        </template>
-      </el-menu-item>-->
-      <el-menu-item index="companyManageHome" v-if="listPermissions(menus, 'adminHome')">
+     <!--后端菜单-->
+     <!--后端菜单-->
+      <!--<el-menu-item index="companyManageHome" v-if="listPermissions(menus, 'adminHome')">--><!--去掉两个首页的权限控制-->
+      <el-menu-item index="companyManageHome">
         <i class="iconfont icon-home"></i>
         <span slot="title">首页</span>
       </el-menu-item>
