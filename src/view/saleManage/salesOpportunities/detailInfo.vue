@@ -40,7 +40,7 @@
         <div class="step">
           <el-steps :active="salesOpportunitiesDetail.stage" align-center>
             <el-step @click.native="stepClickHandle(item)" v-for="(item, index) in salesState" :key="index"
-                     :title="item.value + '(' + item.percent + ')'"></el-step>
+                     :title="item.value + '(' + item.percent + ')'" v-if="index !== 0"></el-step>
             <el-step title="输单"></el-step>
           </el-steps>
         </div>
