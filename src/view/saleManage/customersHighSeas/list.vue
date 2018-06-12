@@ -154,7 +154,7 @@
 <script>
   import comButton from '../../../components/button/comButton'
   import { mapState } from 'vuex'
-  import addDialog from '../customers/addDialog'
+  import addDialog from './addDialog'
   import assignDialog from './assignDialog'
   import groupDialog from './groupDialog'
   import API from '../../../utils/api'

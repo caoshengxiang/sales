@@ -180,8 +180,23 @@ export default {
         error && error(err)
       })
     },
-    listAboutCustomer (success, error) { // 人员相关公海列表
+    listAboutCustomer (success, error) { // 人员相关公海列表,客户
       $axios.get('customerSea/list').then((res) => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+    },
+    seaslist (params, success, error) { // 人员权限相关公海列表，客户公海
+      $axios.get('customerSea/authRel/list').then((res) => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+    },
+    addCustomer (params, success, error) { // 客户池新增客户。公海
+      let p = Object.assign({}, params.body, params.query) // body参数需要加一个source来源属性
+      $axios.post('customerSea/addCustomer', p).then((res) => {
         success && success(res.data)
       }).catch((err) => {
         error && error(err)
