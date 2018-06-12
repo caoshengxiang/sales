@@ -209,8 +209,9 @@
       this.getCustomersList()
       this.getIntentProductCateList()
       this.salesState = this.params.salesState
-      if (this.params.detail) {
-        this.addForm = this.params.detail
+      if (this.params.detail) { // 编辑
+        this.addForm = this.params.detail // 需要根据分类id获取商品列表进行展示
+        this.getIntentProductList(this.addForm.intentProductCate)
       }
       if (this.params.stateValue) { // 设置默认2，销售阶段；[公海1]
         this.addForm.state = this.params.stateValue
