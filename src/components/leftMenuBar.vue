@@ -14,13 +14,12 @@
     </div>
 
     <el-menu
-      default-active="1"
+      :default-active="defaultActiveIndex"
       class="el-menu-vertical-demo"
       @open="handleOpen"
       @close="handleClose"
       :unique-opened="true"
       :router="true"
-      :default-active="defaultActiveIndex"
       :text-color="theme[themeIndex].leftMenuBarColor"
       :background-color="theme[themeIndex].leftMenuBarBg"
       :active-text-color="theme[themeIndex].leftMenuBarActiveColor">
@@ -164,7 +163,6 @@
           <span>CRM管理</span>
         </template>
         <el-menu-item-group>
-          <!--<template slot="title">分组一</template>-->
           <el-menu-item index="customersList" v-if="listPermissions(menus, 'customerManagement')">客户管理</el-menu-item>
           <el-menu-item index="contactsList" v-if="listPermissions(menus, 'contactManagement')">联系人管理</el-menu-item>
           <el-menu-item index="salesOpportunitiesList" v-if="listPermissions(menus, 'salerChanceManagement')">销售机会管理</el-menu-item>
@@ -222,8 +220,8 @@
         this.$router.push({name: 'personal', query: {view: 'base'}, params: {end: 'FE'}})
       },
       listPermissions (m, id) { // menus权限判断，return true和false
-        let menus = m || []
-        return menus.some(item => {
+        let mus = m || []
+        return mus.some(item => {
           return item.id === id || this.listPermissions(item.children, id)
         })
       }

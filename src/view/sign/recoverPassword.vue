@@ -132,6 +132,7 @@
     right: 0;
     bottom: 0;
     left: 0;
+    min-height: 600px;
   }
 
   .sign-box {
@@ -183,7 +184,7 @@
   }
 
   .footer {
-    height: 200px;
+    height: 10%;
     background-color: #D7DDE4;
     position: absolute;
     bottom: 0;
