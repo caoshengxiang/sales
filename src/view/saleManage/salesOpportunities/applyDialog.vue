@@ -33,7 +33,7 @@
     data () {
       return {
         dataLoading: false,
-        principalType: null, // 咨询师类型，3 专业 ，2 同机构其他销售
+        principalType: 3, // 咨询师类型，3 专业 ，2 同机构其他销售
         ruleForm: {
           businessType: 1, // 关联业务类型 1:销售机会
           type: 0,
@@ -101,6 +101,11 @@
       }
       this.ruleForm.chanceId = this.params.chanceId
       this.exceptUserIds = this.params.exceptUserIds
+      this.getUserList({ // 默认拉取专业咨询师列表
+        bilityIds: this.principalType,
+        organizationId: webStorage.getItem('userInfo').organizationId,
+        exceptUserIds: this.exceptUserIds.join(',')
+      })
     },
   }
 </script>
