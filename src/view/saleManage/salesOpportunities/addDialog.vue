@@ -17,7 +17,8 @@
               <td class="td-text">
                 <el-form-item prop="state">
                   <el-select :disabled="true" v-model.number="addForm.state" placeholder="" style="width: 100%">
-                    <el-option v-for="item in salesState" :key="item.type" :label="item.value + item.percent" :value="item.type"></el-option>
+                    <el-option v-for="item in salesState" :key="item.type" :label="item.value + item.percent"
+                               :value="item.type" v-if="item.type !== -1"></el-option>
                   </el-select>
                 </el-form-item>
               </td>

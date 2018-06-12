@@ -471,6 +471,8 @@
           case 3:
             if (this.salesOpportunitiesDetail.stage === -1) {
               this.$message.warning('销售机会已经输单，不能操作！')
+            } else if (this.salesOpportunitiesDetail.stage >= 3) {
+              this.$message.warning('销售机会已确认！')
             } else {
               this.$vDialog.modal(addDialog, {
                 title: '确定销售需求',
