@@ -97,6 +97,7 @@
           intentProductId: '',
           intentProductName: '',
           chanceRemark: '',
+          pageSource: 1, // 公海添加机会，传2. 其他传1
         },
         customersList: [],
         salesState: [],
@@ -216,6 +217,7 @@
       }
       if (this.params.stateValue) { // 设置默认2，销售阶段；[公海1]
         this.addForm.state = this.params.stateValue
+        this.addForm.pageSource = 2 // 公海添加机会，传2. 其他传1
       }
     }
   }
