@@ -187,7 +187,7 @@ export default {
         error && error(err)
       })
     },
-    seaslist (params, success, error) { // 人员权限相关公海列表，客户公海
+    seaslist (success, error) { // 人员权限相关公海列表，客户公海
       $axios.get('customerSea/authRel/list').then((res) => {
         success && success(res.data)
       }).catch((err) => {
