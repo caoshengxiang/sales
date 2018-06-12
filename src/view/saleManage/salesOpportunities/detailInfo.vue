@@ -116,7 +116,7 @@
                 <td class="td-title">销售机会活动时间</td>
                 <td colspan="3">{{ salesOpportunitiesDetail.followDate && $moment(salesOpportunitiesDetail.followDate).format('YYYY-MM-DD HH:mm:ss')}}</td>
                 <td class="td-title">跟进人</td>
-                <td>{{salesOpportunitiesDetail.salerName}}</td>
+                <td>{{salesOpportunitiesDetail.team.salerName}}</td>
               </tr>
             </table>
           </el-tab-pane>
