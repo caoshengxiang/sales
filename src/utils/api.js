@@ -336,6 +336,13 @@ export default {
         error && error(err)
       })
     },
+    batchDelete (params, success, error) {
+      $axios.post('salerChance/batch/delete', params).then((res) => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+    },
     transfer (params, success, error) { // 转移 newSalerId: '',chanceIds: ''
       $axios.post('salerChance/transfer',
         params).then((res) => {
