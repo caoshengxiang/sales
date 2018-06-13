@@ -274,7 +274,7 @@
           width: 900,
           height: 460,
           params: {
-            // id: '123456',
+            addCustomersAndAddContact_customerName: this.addForm.name,
           },
           callback (data) {
             if (data.type === 'save') {}

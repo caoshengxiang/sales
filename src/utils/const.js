@@ -1,5 +1,5 @@
 export const pageMinWidth = 1100 // 页面最小宽度
-export const versionLogs = 'version: 1.0.10, 发布：2018.6.11, bug'
+export const versionLogs = 'version: 1.0.10, 发布：2018.6.13'
 // export const serverUrl = 'http://sales.dcstar-inc.com/sales' // server地址
 // export const serverUrl = 'http://erp.zzcfo.cn/sales' // server地址
 export const serverUrl = process.env.API_ROOT // server地址
