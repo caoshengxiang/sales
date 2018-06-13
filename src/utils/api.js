@@ -25,8 +25,8 @@ export default {
           success && success(data)
         })
     },
-    getProducts (success, error) { // 获取产品列表
-      $.getJSON(externalAPI + '/rest/service/product/getProducts',
+    getProducts (params, success, error) { // 获取产品列表【规格】
+      $.getJSON(externalAPI + '/rest/service/product/getProducts', params,
         (data) => {
           success && success(data)
         })
@@ -377,15 +377,68 @@ export default {
   // 销售订单
   salesOrder: {
     list (params, success, error) { // 列表
-      // $axios({
-      //   method: 'get',
-      //   url: '/salerOrder',
-      //   params: params,
-      // }).then(res => {
-      //   success && success(res.data)
-      // }).catch((err) => {
-      //   error && error(err)
-      // })
+      $axios({
+        method: 'get',
+        url: '/salerOrder',
+        params: params,
+      }).then(res => {
+        success && success(res.data)
+      }).catch(() => {
+// error && error()
+        let mockdata = {
+          'data': {
+            'content': [
+              {
+                'billOrderId': 'CRM232345',
+                'billAmount': 3000,
+                'refund_amount': 3000,
+                'not_refund_amount': 0,
+                'changeId': 1,
+                'changeName': '财税金融托管',
+                'contractId': 1,
+                'contractUrl': 'http://www.zzcfo.cn/124214124124.html',
+                'customerId': 1,
+                'customerName': '凡特赛科技',
+                'contracterId': 1,
+                'contracterName': '张三',
+                'created': '2018-05-09 19:34:22',
+                'id': 1,
+                'isRenew': false,
+                'modified': '2018-05-09 19:34:43',
+                'orderId': 1,
+                'productId': '1',
+                'productName': '财税金融托管',
+                'quantity': 2,
+                'remark': '',
+                'specification': '成长版',
+                'orderState': 1,
+                'source': 1,
+                'creator': 1,
+                'creatorName': '测试人员',
+                'salerId': 1,
+                'salerName': '测试人员',
+                'counselorId': 1,
+                'counselorName': '测试人员',
+                'status': 1,
+                'relState': 1,
+              },
+            ],
+            'first': true,
+            'last': true,
+            'number': 0,
+            'numberOfElements': 1,
+            'size': 5,
+            'sort': null,
+            'totalElements': 1,
+            'totalPages': 1,
+          },
+          'error': null,
+          'status': true,
+        }
+        setTimeout(() => {
+          error && error(mockdata)
+        }, 1000)
+      })
     },
     detail (params, success, error) { // 详细
       $axios({

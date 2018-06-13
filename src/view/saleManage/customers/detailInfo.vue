@@ -407,7 +407,7 @@
               width: 900,
               height: 460,
               params: {
-                // id: '123456',
+                detailCustomersId: this.customerDetail.id,
               },
               callback (data) {
                 if (data.type === 'save') {
@@ -427,6 +427,7 @@
               height: 400,
               params: {
                 salesState: this.salesState,
+                detailCustomersId: this.customerDetail.id,
               },
               callback (data) {
                 if (data.type === 'save') {
@@ -435,32 +436,13 @@
               },
             })
             break
-          case 'deleteChance':
-            this.$confirm('确定删除销售机会, 是否继续?', '提示', {
-              confirmButtonText: '确定',
-              cancelButtonText: '取消',
-              type: 'warning',
-            }).then(() => {
-              API.salesOpportunities.delete(deleteId, (data) => {
-                if (data.status) {
-                  this.$message.success('删除成功')
-                  this.getChanceList()
-                }
-              })
-            }).catch(() => {
-              this.$message({
-                type: 'info',
-                message: '已取消删除',
-              })
-            })
-            break
           case 'addOrder':
             this.$vDialog.modal(addOrderDialog, {
               title: '添加订单',
               width: 900,
-              height: 340,
+              height: 380,
               params: {
-                // id: '123456',
+                detailCustomersId: this.customerDetail.id,
               },
               callback (data) {
                 if (data.type === 'save') {

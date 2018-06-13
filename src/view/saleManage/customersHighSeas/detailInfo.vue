@@ -258,6 +258,7 @@
   import assignDialog from './assignDialog'
   import groupDialog from './groupDialog'
   // import { arrToStr } from '../../../utils/utils'
+  import webStorage from 'webStorage'
 
   export default {
     name: 'detailInfo',
@@ -411,64 +412,66 @@
             break
         }
       },
+      currentUserIsTeamNum () { // 判断当前用户是否为团对成员
+        let currentUserId = webStorage.getItem('userInfo').id
+        let team = this.customerDetail.team // creator 创建人id; salerList[] salerId 销售员id
+        if (currentUserId === team.creator) {
+          return true
+        } else {
+          let isSaler = team.salerList.some(item => {
+            return item.salerId === currentUserId
+          })
+          if (isSaler) {
+            return true
+          } else {
+            return false
+          }
+        }
+      },
       quickOperation (op, id) {
         // eslint-disable-next-line
         let that = this
         let deleteId = id || ''
         switch (op) {
           case 'addContact':
-            this.$vDialog.modal(addContactDialog, {
-              title: '新增联系人',
-              width: 900,
-              height: 460,
-              params: {
-                // id: '123456',
-              },
-              callback (data) {
-                if (data.type === 'save') {
-                  // that.dataLoading = true
-                  that.getContactList()
-                  // setTimeout(() => {
-                  //   that.dataLoading = false
-                  // }, 500)
-                }
-              },
-            })
+            if (this.currentUserIsTeamNum()) {
+              this.$vDialog.modal(addContactDialog, {
+                title: '新增联系人',
+                width: 900,
+                height: 460,
+                params: {
+                  detailCustomersId: this.customerDetail.id,
+                },
+                callback (data) {
+                  if (data.type === 'save') {
+                    that.getContactList()
+                  }
+                },
+              })
+            } else {
+              this.$message.warning('非团队成员！不能添加。')
+            }
             break
           case 'addChance':
-            this.$vDialog.modal(addChanceDialog, {
-              title: '新增销售机会',
-              width: 900,
-              height: 400,
-              params: {
-                salesState: this.salesState,
-                stateValue: 1, // 设置默认，销售阶段
-              },
-              callback (data) {
-                if (data.type === 'save') {
-                  that.getChanceList()
-                }
-              },
-            })
-            break
-          case 'deleteChance':
-            this.$confirm('确定删除销售机会, 是否继续?', '提示', {
-              confirmButtonText: '确定',
-              cancelButtonText: '取消',
-              type: 'warning',
-            }).then(() => {
-              API.salesOpportunities.delete(deleteId, (data) => {
-                if (data.status) {
-                  this.$message.success('删除成功')
-                  this.getChanceList()
-                }
+            if (this.currentUserIsTeamNum()) {
+              this.$vDialog.modal(addChanceDialog, {
+                title: '新增销售机会',
+                width: 900,
+                height: 400,
+                params: {
+                  salesState: this.salesState,
+                  stateValue: 1, // 设置默认，销售阶段
+                  detailCustomersId: this.customerDetail.id,
+                },
+                callback (data) {
+                  if (data.type === 'save') {
+                    that.getChanceList()
+                  }
+                },
               })
-            }).catch(() => {
-              this.$message({
-                type: 'info',
-                message: '已取消删除',
-              })
-            })
+            } else {
+              this.$message.warning('非团队成员！不能添加。')
+            }
             break
           case 'addOrder':
             this.$vDialog.modal(addOrderDialog, {

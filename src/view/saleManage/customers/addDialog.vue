@@ -309,7 +309,7 @@
       this.getConfigData(2)
       this.getConfigData(3)
       this.getSeaList()
-      if (this.params.detail) {
+      if (this.params.detail) { // 编辑
         this.addForm = JSON.parse(JSON.stringify(this.params.detail))
         this.dialogType = 'edit'
       }

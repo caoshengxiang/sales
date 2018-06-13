@@ -386,3 +386,6 @@ module.exports = merge(prodEnv, {
 console.log(process.env.API_ROOT, 'test----环境地址') // http://sales.dcstar-inc.com/sales
 console.log(process.env.server_url, 'test-环境地址') // undefined
 ```
+
+## webStorm 过去
+【6.13】 https://idea.qmanga.com/

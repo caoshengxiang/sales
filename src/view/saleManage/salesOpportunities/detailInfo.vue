@@ -526,7 +526,7 @@
               width: 900,
               height: 460,
               params: {
-                // id: '123456',
+                detailCustomersId: this.salesOpportunitiesDetail.customerId,
               },
               callback (data) {
                 if (data.type === 'save') {

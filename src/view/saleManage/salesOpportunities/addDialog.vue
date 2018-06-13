@@ -7,7 +7,7 @@
               <td class="td-title">客户名称</td>
               <td class="td-text">
                 <el-form-item prop="customerId">
-                  <el-select v-model.number="addForm.customerId" placeholder="请选择客户" style="width: 100%">
+                  <el-select :disabled="params.detailCustomersId?true:false" v-model.number="addForm.customerId" placeholder="请选择客户" style="width: 100%">
                     <el-option v-for="item in customersList" :key="item.id" :label="item.name" :value="item.id"></el-option>
                   </el-select>
                 </el-form-item>
@@ -218,6 +218,9 @@
       if (this.params.stateValue) { // 设置默认2，销售阶段；[公海1]
         this.addForm.state = this.params.stateValue
         this.addForm.pageSource = 2 // 公海添加机会，传2. 其他传1
+      }
+      if (this.params.detailCustomersId) { // 详细页面的添加, 并禁用下拉列表
+        this.addForm.customerId = this.params.detailCustomersId
       }
     }
   }
