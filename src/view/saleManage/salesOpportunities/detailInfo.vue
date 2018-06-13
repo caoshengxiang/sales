@@ -542,13 +542,12 @@
             this.$vDialog.modal(addOrderDialog, {
               title: '添加订单',
               width: 900,
-              height: 340,
+              height: 380,
               params: {
-                // id: '123456',
+                detailCustomersId: this.salesOpportunitiesDetail.customerId,
               },
               callback (data) {
                 if (data.type === 'save') {
-                  // this.getOrderRecordsList(that.salesOpportunitiesDetail.id)
                   that.getAppOrderList(that.salesOpportunitiesDetail.id)
                 }
               },

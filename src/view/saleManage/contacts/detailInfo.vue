@@ -337,7 +337,7 @@
               width: 900,
               height: 380,
               params: {
-                detailCustomersId: this.customerDetail.id, // todo 显示当前详细客户
+                detailCustomersId: this.contactsDetail.customerId,
               },
               callback (data) {
                 if (data.type === 'save') {
