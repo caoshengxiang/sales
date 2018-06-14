@@ -33,7 +33,7 @@
         <!--<el-radio-button class="btn-width" label="move">删除</el-radio-button>-->
         <!--</el-radio-group>-->
         <ul class="btn-group">
-          <li class="btn-order" @click="operateOptions('order')">APP下单</li>
+          <li class="btn-order" @click="operateOptions('appOrder')">APP下单</li>
           <li class="btn-edit" @click="operateOptions('edit')">修改</li>
           <li class="btn-delete" @click="operateOptions('delete')">删除</li>
         </ul>
@@ -281,13 +281,13 @@
             this.$vDialog.modal(addDialog, {
               title: '修改订单',
               width: 900,
-              height: 340,
+              height: 380,
               params: {
                 orderDetail: this.orderDetail,
               },
-              callback (data) {
+              callback: (data) => {
                 if (data.type === 'save') {
-                  alert('弹窗关闭，添加成功刷新列表')
+                  this.getSalesOrderDetail()
                 }
               },
             })
@@ -298,9 +298,14 @@
               cancelButtonText: '取消',
               type: 'warning',
             }).then(() => {
-              this.$message({
-                type: 'success',
-                message: '删除成功!',
+              API.salesOrder.deleteOrder(this.orderDetail.id, (da) => {
+                if (da.status) {
+                  this.$message({
+                    type: 'success',
+                    message: '删除成功!',
+                  })
+                  this.$router.go(-1)
+                }
               })
             }).catch(() => {
               this.$message({
@@ -311,30 +316,30 @@
             break
           case 'orderInfo':
             this.$vDialog.modal(orderInfo, {
-              title: '修改订单',
+              title: 'APP订单信息浏览',
               width: 900,
               height: 740,
               params: {
                 orderDetail: this.orderDetail,
               },
-              callback (data) {
+              callback: (data) => {
                 if (data.type === 'save') {
-                  alert('弹窗关闭，添加成功刷新列表')
+                  // alert('弹窗关闭，添加成功刷新列表')
                 }
               },
             })
             break
-          case 'order':
+          case 'appOrder':
             this.$vDialog.modal(order, {
-              title: '修改订单',
-              width: 514,
-              height: 260,
+              title: 'APP下单',
+              width: 534,
+              height: 300,
               params: {
                 orderDetail: this.orderDetail,
               },
-              callback (data) {
+              callback: (data) => {
                 if (data.type === 'save') {
-                  alert('弹窗关闭，添加成功刷新列表')
+                  // alert('弹窗关闭，添加成功刷新列表')
                 }
               },
             })
@@ -343,9 +348,13 @@
       },
       getSalesOrderDetail () {
         this.dataLoading = true
-        API.salesOrder.detail(this.$route.query.id, (data) => {
-          this.orderDetail = data.data
-          this.dataLoading = false
+        API.salesOrder.detail(this.$route.query.id + '/todo', (data) => {
+          setTimeout(() => {
+            this.dataLoading = false
+            if (data.status) {
+              this.orderDetail = data.data
+            }
+          }, 500)
         }, (data) => {
           this.orderDetail = data.data
           this.dataLoading = false

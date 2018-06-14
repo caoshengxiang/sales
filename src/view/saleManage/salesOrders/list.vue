@@ -231,7 +231,7 @@
   import API from '../../../utils/api'
   import addDialog from './addDialog'
   import advancedSearch from './advancedSearch'
-  import { underscoreName } from '../../../utils/utils'
+  import { underscoreName, arrToStr } from '../../../utils/utils'
 
   export default {
     name: 'list',
@@ -307,9 +307,14 @@
               cancelButtonText: '取消',
               type: 'warning',
             }).then(() => {
-              this.$message({
-                type: 'success',
-                message: '删除成功!',
+              API.salesOrder.deleteOrder(arrToStr(this.multipleSelection, 'id'), (da) => {
+                if (da.status) {
+                  this.$message({
+                    type: 'success',
+                    message: '删除成功!',
+                  })
+                  this.getSalesOrderList()
+                }
               })
             }).catch(() => {
               this.$message({
@@ -385,7 +390,7 @@
         this.defaultListParams = {
           page: this.currentPage - 1,
           pageSize: this.pagesOptions.pageSize,
-          type: this.contactsTypeOption, // 前端
+          type: this.orderTypeOption, // 前端
           organizationId: this.organizationId // 后端
         }
         if (this.customerId) { // 更多

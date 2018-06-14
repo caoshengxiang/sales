@@ -1,5 +1,5 @@
 <template>
-  <div class="com-dialog-container">
+  <div class="com-dialog-container" v-loading="dataLoading">
     <div class="com-dialog">
       <el-form :model="addForm" ref="addForm" label-width="0px" :rules="rules">
         <table class="com-dialog-table">
@@ -29,7 +29,7 @@
             <td class="td-title">关联销售机会</td>
             <td class="td-text">
               <el-form-item prop="changeId">
-                <el-select style="width: 100%" @change="intentProductChange" v-model.number="addForm.changeId"
+                <el-select  :disabled="params.detailChangeId?true:false" style="width: 100%" @change="intentProductChange" v-model.number="addForm.changeId"
                            placeholder="请选择关联销售机会">
                   <el-option v-for="item in chanceList" :key="item.id" :label="item.intentProductName"
                              :value="item.id"></el-option>
@@ -92,7 +92,7 @@
     name: 'addDialog',
     data () {
       return {
-        addDialogVisible: false, // 新增弹窗
+        dataLoading: false, // loading
         customersList: [], // 客户列表
         chanceList: [], // 客户对应的机会列表
         contactList: [], // 客户对应的联系人列表
@@ -138,7 +138,16 @@
       saveSubmitForm (formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            this.$vDialog.close({type: 'save'})
+            this.dataLoading = true
+            API.salesOrder.add(this.addForm, (da) => {
+              setTimeout(() => {
+                this.dataLoading = false
+                if (da.status) {
+                  this.$message.success('添加成功')
+                  this.$vDialog.close({type: 'save'})
+                }
+              }, 500)
+            })
           } else {
             console.log('error submit!!')
             return false
@@ -159,6 +168,10 @@
           this.chanceList = this.chanceList.filter(item => {
             return item.salerId === userId
           })
+          if (this.params.detailChangeId) { // 销售机会详细页面，添加订单
+            this.addForm.changeId = this.params.detailChangeId
+            this.intentProductChange() // 对应购买商品
+          }
         })
       },
       getContactList (customerId) {
@@ -212,7 +225,7 @@
     },
     created () {
       this.getCustomersList()
-      if (this.params.orderDetail) {
+      if (this.params.orderDetail) { // 编辑
         this.addForm = this.params.orderDetail
       }
       if (this.params.detailCustomersId) { // 详细页面的添加, 并禁用下拉列表

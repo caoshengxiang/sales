@@ -493,12 +493,30 @@
           case 4:
             if (this.salesOpportunitiesDetail.stage === -1) {
               this.$message.warning('销售机会已经输单，不能操作！')
+            } else if (this.salesOpportunitiesDetail.stage !== 3) {
+              this.$message.warning('需求确定阶段的订单才能预下订单！')
             } else {
+              this.$vDialog.modal(addOrderDialog, {
+                title: '预下订单',
+                width: 900,
+                height: 380,
+                params: {
+                  detailCustomersId: this.salesOpportunitiesDetail.customerId,
+                  detailChangeId: this.salesOpportunitiesDetail.id
+                },
+                callback (data) {
+                  if (data.type === 'save') {
+                    that.getAppOrderList(that.salesOpportunitiesDetail.id)
+                  }
+                },
+              })
             }
             break
           case 5:
             if (this.salesOpportunitiesDetail.stage === -1) {
               this.$message.warning('销售机会已经输单，不能操作！')
+            } else if (this.salesOpportunitiesDetail.stage !== 3) {
+              this.$message.warning('预下订单阶段才能签单！')
             } else {
             }
             break
@@ -540,11 +558,12 @@
             break
           case 'addOrder':
             this.$vDialog.modal(addOrderDialog, {
-              title: '添加订单',
+              title: '新增关联订单',
               width: 900,
               height: 380,
               params: {
                 detailCustomersId: this.salesOpportunitiesDetail.customerId,
+                detailChangeId: this.salesOpportunitiesDetail.id
               },
               callback (data) {
                 if (data.type === 'save') {
