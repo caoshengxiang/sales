@@ -185,6 +185,16 @@
       return {
         userInfo: {},
         menus: [],
+        // routeerIndexName: [
+        //   'saleHome', 'customersList', 'contactsList', 'salesOpportunitiesList', 'salesOrdersList',
+        //   'orderRecordsList', 'remittanceRecords', 'rebateRecordsList', 'customersHighSeasList', 'taskApprovalList',
+        //   'companyManageHome',
+        //   'userList', 'roleList', 'agentList',
+        //   'organizationList', 'customerPool', 'organizationProductSetting',
+        //   'settlementList', 'spendingList',
+        //   'meMessageList',
+        //   'siteList', 'customerAreaSetting', 'baseSettingList', 'settlementRulesList'
+        // ],
         defaultActiveIndex: 'saleHome'
       }
     },
@@ -198,11 +208,7 @@
       this.userInfo = utils.loginExamine(this)
       this.menus = this.userInfo.menus
       // console.log('tetssss', this.listPermissions(this.menus, 'salerHome')) // 测试权限方法
-      if (this.themeIndex === 0) {
-        this.defaultActiveIndex = 'saleHome'
-      } else if (this.themeIndex === 1) {
-        this.defaultActiveIndex = 'companyManageHome'
-      }
+      this.defaultActiveIndex = this.$route.name // 首次进入，或刷新菜单获取active【注意：defaultActiveIndex是path不是name,所以定义路由的时候path名和name名写成一样的】
     },
     methods: {
       handleOpen (key, keyPath) {
