@@ -53,7 +53,7 @@
           width="200"
         >
           <template slot-scope="scope">
-            <a class="col-link" @click="handleRouter('detail')">{{ scope.row.chanceName }}</a>
+            <a class="col-link" @click="handleRouter('detail', scope.row.chanceId)">{{ scope.row.chanceName }}</a>
           </template>
         </el-table-column>
         <el-table-column
@@ -174,8 +174,8 @@
         this.currentPage = val
         this.getRecordsList()
       },
-      handleRouter (name) {
-        this.$router.push({name: 'salesOpportunitiesDetail', query: {view: name, id: 1}, params: {end: 'FE'}})
+      handleRouter (name, id) {
+        this.$router.push({name: 'salesOpportunitiesDetail', query: {view: name, id: id}, params: {end: 'FE'}})
       },
       sortChangeHandle (sortObj) {
         // console.log(sortObj)

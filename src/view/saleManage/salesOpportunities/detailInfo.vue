@@ -156,7 +156,7 @@
 
             <p class="table-title">
               跟单记录({{orderRecordsTotal}})
-              <a class="more" v-if="orderRecordsTotal > 0" @click="handleRoute('orderRecords')">更多》</a>
+              <a class="more" v-if="orderRecordsTotal > 5" @click="handleRoute('orderRecords')">更多》</a>
               <!--（-1输单）-->
               <a v-if="salesOpportunitiesDetail.stage !== -1" class="table-add" @click="quickOperation('addRecord')"><i class="el-icon-plus"></i>新增跟单记录</a>
             </p>
@@ -165,9 +165,9 @@
                 <th class="td-title" colspan="4">跟单描述</th>
                 <th class="td-title" colspan="2">所在公海</th>
               </tr>
-              <tr>
-                <td colspan="4">客户创建时间</td>
-                <td colspan="2">test</td>
+              <tr v-for="item in orderRecordsList" :key="item.id">
+                <td colspan="4">{{item.followDesc}}</td>
+                <td colspan="2">{{$moment(item.created).format('YYYY-MM-DD HH:mm:ss')}}</td>
               </tr>
             </table>
 
@@ -272,6 +272,7 @@
   import addContactDialog from '../contacts/addDialog'
   // import addChanceDialog from '../salesOpportunities/addDialog'
   import addOrderDialog from '../salesOrders/addDialog'
+  import addOrderRecord from '../orderRecords/addDialog'
 
   export default {
     name: 'detailInfo',
@@ -455,13 +456,13 @@
       getOrderRecordsList (id) {
         API.orderRecords.list({chanceId: id, pageSize: 5}, (da) => {
           this.orderRecordsList = da.data.content
-          this.orderRecordsList = da.data.totalElements
+          this.orderRecordsTotal = da.data.totalElements
         })
       },
       getAppOrderList (id) {
         API.salesOrder.list({chanceId: id, pageSize: 5}, (da) => {
-          this.orderRecordsList = da.data.content
-          this.orderRecordsList = da.data.totalElements
+          this.appOrderList = da.data.content
+          this.appOrderTotal = da.data.totalElements
         })
       },
       stepClickHandle (step) {
@@ -554,7 +555,20 @@
             })
             break
           case 'addRecord':
-            // that.$router.push({name: 'salesOpportunitiesDetail', query: {view: 'detail', id: that.salesOpportunitiesDetail.id}, params: {end: 'FE'}})
+            this.$vDialog.modal(addOrderRecord, {
+              title: '新建跟单记录',
+              width: 700,
+              height: 320,
+              params: {
+                detailCustomersId: this.salesOpportunitiesDetail.customerId,
+                detailChangeId: this.salesOpportunitiesDetail.id
+              },
+              callback (data) {
+                if (data.type === 'save') {
+                  that.getOrderRecordsList(that.salesOpportunitiesDetail.id)
+                }
+              },
+            })
             break
           case 'addOrder':
             this.$vDialog.modal(addOrderDialog, {
