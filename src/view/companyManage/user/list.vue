@@ -184,12 +184,6 @@
         :page-size="pagesOptions.pageSize">
       </el-pagination>
     </div>
-    <!-- -->
-    <!-- -->
-    <!--新增弹窗-->
-    <!--<add-dialog :addDialogOpen="addDialogOpen" :type="type" @hasAddDialogOpen="addDialogOpen = false"></add-dialog>-->
-    <!-- -->
-    <!-- -->
   </div>
 </template>
 
@@ -321,7 +315,7 @@
           width: 700,
           height: 500,
           params: {
-            store: that.$store, //弹窗组件如果需要用到vuex，必须传值过去赋值
+            store: that.$store, // 弹窗组件如果需要用到vuex，必须传值过去赋值
             action: 'add',
           },
           callback: function (data) {

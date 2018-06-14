@@ -30,6 +30,7 @@
           <tr>
             <td class="td-title">人员组织</td>
             <td class="td-text">
+              <el-form-item prop="organizationId">
               <el-select v-model.number="form.organizationId"   @change="selectedOptionsHandleChange" placeholder="请选择人员组织">
                 <el-option
                   v-for="item in allorganization"
@@ -39,14 +40,14 @@
                 >
                 </el-option>
               </el-select>
+              </el-form-item>
             </td>
           </tr>
           <tr>
             <td class="td-title">人员部门</td>
             <td class="td-text">
               <!--<input type="text" v-model="form.levelName">-->
-              <el-form-item prop="level">
-                <el-form-item prop="selectedOptions">
+                <el-form-item prop="departmentId">
                   <el-cascader
                     placeholder="请选择人员部门"
                     :change-on-select="true"
@@ -57,15 +58,13 @@
                   >
                   </el-cascader>
                 </el-form-item>
-              </el-form-item>
-
             </td>
           </tr>
           <tr>
             <td class="td-title">人员角色</td>
             <td class="td-text">
               <!--<input type="text">-->
-              <el-form-item prop="industry">
+              <el-form-item prop="roles">
                 <el-select v-model="choseroles" multiple placeholder="请选择人员角色">
                   <el-option
                     v-for="item in allroles"
@@ -155,12 +154,16 @@
           departmentId: [
             {required: true, message: '请选择用户所属部门', trigger: 'blur'},
           ],
+          roles: [
+            {required: true, message: '请选择人员角色', trigger: 'blur'},
+          ],
         },
         allroles: [],
         selectedOptions: [],
         allorganization: [],
         alldepartments: [],
-        choseroles: []
+        choseroles: [],
+        type: ''
       }
     },
     props: ['params'],
