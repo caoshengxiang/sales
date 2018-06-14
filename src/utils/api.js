@@ -598,7 +598,7 @@ export default {
       })
     },
     seaFollowersList (params, success, error) { // 客户池销售跟进员列表
-      console.log(params)
+      // console.log(params)
       $axios.get('user/sea/followers', {
         params: params,
       }).then((res) => {

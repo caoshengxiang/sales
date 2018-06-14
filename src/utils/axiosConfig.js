@@ -7,7 +7,7 @@ $axios.defaults.baseURL = serverUrl
 $axios.defaults.timeout = 100000
 // $axios.defaults.headers['Content-Type'] = 'application/json; charset=UTF-8'
 // $axios.defaults.headers.common['authKey'] = webStorage.getItem('userInfo').authKey // 刷新时默认获取一次，统一设置auth移驾至登录接口
-if (webStorage.getItem('userInfo')) {
+if (webStorage.getItem('userInfo')) { // 处理刷新时authKey丢失
   $axios.defaults.headers.common['authKey'] = webStorage.getItem('userInfo').authKey
 }
 $axios.defaults.headers.post['Content-Type'] = 'application/json;charset=UTF-8'
