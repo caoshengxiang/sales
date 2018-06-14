@@ -131,7 +131,7 @@
 
             <p class="table-title">
               联系人({{contactTotal}})
-              <a class="more" v-if="contactTotal > 5" @click="handleRoute('contact')">更多》</a>
+              <!--<a class="more" v-if="contactTotal > 5" @click="handleRoute('contact')">更多》</a>-->
               <a class="table-add" @click="quickOperation('addContact')"><i class="el-icon-plus"></i>新增联系人</a>
             </p>
             <table class="detail-table related-table">
@@ -155,7 +155,7 @@
 
             <p class="table-title">
               销售机会({{chanceTotal}})
-              <a class="more" v-if="chanceTotal > 5" @click="handleRoute('chance')">更多》</a>
+              <!--<a class="more" v-if="chanceTotal > 5" @click="handleRoute('chance')">更多》</a>-->
               <a class="table-add" @click="quickOperation('addChance')"><i class="el-icon-plus"></i>新增销售需求</a>
             </p>
             <table class="detail-table related-table">
@@ -182,7 +182,7 @@
 
             <p class="table-title">
               销售订单({{orderTotal}})
-              <a class="more" v-if="orderTotal > 5" @click="handleRoute('order')">更多》</a>
+              <!--<a class="more" v-if="orderTotal > 5" @click="handleRoute('order')">更多》</a>-->
               <!--<a class="table-add" @click="quickOperation('addOrder')"><i class="el-icon-plus"></i>新增销售订单</a>-->
             </p>
             <table class="detail-table related-table">
@@ -252,9 +252,9 @@
   import comButton from '../../../components/button/comButton'
   import API from '../../../utils/api'
   import { mapState, mapActions } from 'vuex'
-  import addContactDialog from '../contacts/addDialog'
-  import addChanceDialog from '../salesOpportunities/addDialog'
-  import addOrderDialog from '../salesOrders/addDialog'
+  import addContactDialog from './addContactDialog'
+  import addChanceDialog from './addChanceDialog'
+  // import addOrderDialog from '../salesOrders/addDialog'
   import assignDialog from './assignDialog'
   import groupDialog from './groupDialog'
   // import { arrToStr } from '../../../utils/utils'
@@ -374,7 +374,7 @@
       },
       getCustomerDetail () {
         this.dataLoading = true
-        API.customer.detail({id: this.$route.query.customerId}, (data) => {
+        API.customerSea.customerDetail(this.$route.query.customerId, (data) => {
           this.ac_customerDetail(data.data)
           setTimeout(() => {
             this.dataLoading = false
@@ -382,35 +382,35 @@
         })
       },
       getContactList () {
-        API.contacts.list({customerId: this.$route.query.customerId, pageSize: 5}, (da) => {
+        API.customerSea.contactList({customerId: this.$route.query.customerId, pageSize: 1000}, (da) => {
           this.contactList = da.data.content
           this.contactTotal = da.data.totalElements
         })
       },
       getChanceList () {
-        API.salesOpportunities.list({customerId: this.$route.query.customerId, pageSize: 5}, (da) => {
+        API.customerSea.chanceList({customerId: this.$route.query.customerId, pageSize: 1000}, (da) => {
           this.chanceList = da.data.content
           this.chanceTotal = da.data.totalElements
         })
       },
       getOrderList () { // todo
-        API.salesOrder.list({customerId: this.$route.query.customerId, pageSize: 5}, (da) => {
+        API.customerSea.orderList({customerId: this.$route.query.customerId, pageSize: 1000}, (da) => {
           this.orderList = da.data.content
           this.orderTotal = da.data.totalElements
         })
       },
       handleRoute (list) {
-        switch (list) {
-          case 'contact':
-            this.$router.push({name: 'contactsList', query: {customerId: this.$route.query.customerId}})
-            break
-          case 'chance':
-            this.$router.push({name: 'salesOpportunitiesList', query: {customerId: this.$route.query.customerId}})
-            break
-          case 'order':
-            this.$router.push({name: 'salesOrdersList', query: {customerId: this.$route.query.customerId}})
-            break
-        }
+        // switch (list) {
+        //   case 'contact':
+        //     this.$router.push({name: 'contactsList', query: {customerId: this.$route.query.customerId}})
+        //     break
+        //   case 'chance':
+        //     this.$router.push({name: 'salesOpportunitiesList', query: {customerId: this.$route.query.customerId}})
+        //     break
+        //   case 'order':
+        //     this.$router.push({name: 'salesOrdersList', query: {customerId: this.$route.query.customerId}})
+        //     break
+        // }
       },
       currentUserIsTeamNum () { // 判断当前用户是否为团对成员
         let currentUserId = webStorage.getItem('userInfo').id
@@ -473,21 +473,21 @@
               this.$message.warning('非团队成员！不能添加。')
             }
             break
-          case 'addOrder':
-            this.$vDialog.modal(addOrderDialog, {
-              title: '添加订单',
-              width: 900,
-              height: 340,
-              params: {
-                // id: '123456',
-              },
-              callback (data) {
-                if (data.type === 'save') {
-                  that.getOrderList()
-                }
-              },
-            })
-            break
+          // case 'addOrder':
+          //   this.$vDialog.modal(addOrderDialog, {
+          //     title: '添加订单',
+          //     width: 900,
+          //     height: 340,
+          //     params: {
+          //       // id: '123456',
+          //     },
+          //     callback (data) {
+          //       if (data.type === 'save') {
+          //         that.getOrderList()
+          //       }
+          //     },
+          //   })
+          //   break
           case 'deleteOrder':
             alert(deleteId)
             break

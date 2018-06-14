@@ -251,6 +251,60 @@ export default {
         error && error(err)
       })
     },
+    customerDetail (params, success, error) { // 客户池获取客户详情
+      $axios.get('customerSea/customer/' + params).then((res) => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+    },
+    contactList (params, success, error) { // 客户池获取联系人列表
+      $axios.get('customerSea/contacter', {
+        params: params
+      }).then((res) => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+    },
+    chanceList (params, success, error) { // 客户池获取机会列表
+      $axios.get('customerSea/salerChance', {
+        params: params
+      }).then((res) => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+    },
+    orderList (params, success, error) { // 列表
+      // $axios({ // todo 需要修改
+      //   method: 'get',
+      //   url: '/salerOrder',
+      //   params: params,
+      // }).then(res => {
+      //   success && success(res.data)
+      // }).catch((err) => {
+      //   error && error(err)
+      // })
+    },
+    addContacter (params, success, error) { // 客户池新增联系人
+      $axios({
+        method: 'post',
+        url: 'customerSea/addContacter',
+        data: params,
+      }).then(res => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+    },
+    addChance (params, success, error) {
+      $axios.post('customerSea/addChance', params).then((res) => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+    },
   },
   // 联系人
   contacts: { // 联系人
