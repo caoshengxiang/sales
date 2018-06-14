@@ -139,9 +139,9 @@
         defaultListParams: { // 默认列表请求参数
           page: null,
           pageSize: null,
-          customerId: null,
+          chanceId: null,
         },
-        customerId: null, // 路由参数
+        chanceId: null, // 路由参数
         sortObj: null, // 排序
         advancedSearch: null, // 高级搜索
       }
@@ -225,13 +225,13 @@
         })
       },
       getQueryParams () { // 请求参数配置
-        this.customerId = this.$route.query.customerId
+        this.chanceId = this.$route.query.chanceId
         this.defaultListParams = {
           page: this.currentPage - 1,
           pageSize: this.pagesOptions.pageSize,
         }
-        if (this.customerId) { // 更多
-          this.defaultListParams.customerId = this.customerId
+        if (this.chanceId) { // 更多
+          this.defaultListParams.chanceId = this.chanceId
         }
       },
     },

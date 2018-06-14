@@ -189,14 +189,16 @@
                 <th class="td-title">关联状态</th>
               </tr>
               <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
+              <tr v-for="item in orderList" :key="item.id">
+                <td>{{item.id}}</td>
+                <td>{{item.productName}}</td>
+                <td>{{item.billAmount}}</td>
+                <td>{{item.refund_amount}}</td>
+                <td><span v-for="os in orderState" :key="os.type"
+                          v-if="item.orderState === os.type">{{os.value}}</span></td>
+                <td>{{item.created && $moment(item.created).format('YYYY-MM-DD HH:mm:ss')}}</td>
+                <td><a class="table-op" @click="quickOperation('deleteOrder', item.id)">删除</a></td>
+              </tr>
               </tr>
             </table>
           </el-tab-pane>
@@ -286,6 +288,8 @@
         orderRecordsTotal: 0,
         appOrderList: [],
         appOrderTotal: 0,
+        orderList: [],
+        orderTotal: 0,
       }
     },
     computed: {
@@ -441,7 +445,7 @@
           this.ac_salesOpportunitiesDetail(data.data)
           this.getContactList(data.data.customerId)
           this.getOrderRecordsList(data.data.id)
-          this.getAppOrderList(data.data.id)
+          this.getAppOrderList(data.data.customerId)
           setTimeout(() => {
             this.dataLoading = false
           }, 500)
@@ -459,8 +463,8 @@
           this.orderRecordsTotal = da.data.totalElements
         })
       },
-      getAppOrderList (id) {
-        API.salesOrder.list({chanceId: id, pageSize: 5}, (da) => {
+      getAppOrderList (customerId) {
+        API.salesOrder.list({customerId: customerId, pageSize: 5}, (da) => {
           this.appOrderList = da.data.content
           this.appOrderTotal = da.data.totalElements
         })
@@ -507,7 +511,7 @@
                 },
                 callback (data) {
                   if (data.type === 'save') {
-                    that.getAppOrderList(that.salesOpportunitiesDetail.id)
+                    that.getAppOrderList(that.salesOpportunitiesDetail.customerId)
                   }
                 },
               })
@@ -528,11 +532,11 @@
           case 'contact':
             this.$router.push({name: 'contactsList', query: {customerId: this.salesOpportunitiesDetail.customerId}})
             break
-          case 'orderRecords':
-            this.$router.push({name: 'orderRecordsList', query: {customerId: this.salesOpportunitiesDetail.id}})
+          case 'orderRecords': // 机会
+            this.$router.push({name: 'orderRecordsList', query: {chanceId: this.salesOpportunitiesDetail.id}})
             break
           case 'order':
-            this.$router.push({name: 'salesOrdersList', query: {customerId: this.salesOpportunitiesDetail.id}})
+            this.$router.push({name: 'salesOrdersList', query: {customerId: this.salesOpportunitiesDetail.customerId}})
             break
         }
       },
@@ -581,7 +585,7 @@
               },
               callback (data) {
                 if (data.type === 'save') {
-                  that.getAppOrderList(that.salesOpportunitiesDetail.id)
+                  that.getAppOrderList(that.salesOpportunitiesDetail.customerId)
                 }
               },
             })
