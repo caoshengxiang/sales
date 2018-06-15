@@ -32,8 +32,8 @@
         <!--</el-radio-group>-->
         <ul class="com-info-op-group">
           <!--输单后隐藏删除以外得按钮-->
-          <li class="op-active" v-if="salesOpportunitiesDetail.stage !== -1" @click="operateOptions('move')">转移</li>
-          <li @click="operateOptions('delete')">删除</li>
+          <li class="op-active" v-if="salesOpportunitiesDetail.stage !== -1 && isChangeFollower" @click="operateOptions('move')">转移</li>
+          <li v-if="isChangeFollower" @click="operateOptions('delete')">删除</li>
         </ul>
       </div>
       <div class="step-box">
@@ -45,7 +45,7 @@
           </el-steps>
         </div>
         <!--输单后隐藏删除以外得按钮-->
-        <a v-if="salesOpportunitiesDetail.stage !== -1" class="lose-bill" @click="operateOptions('discard')">输单</a>
+        <a v-if="salesOpportunitiesDetail.stage !== -1 && isChangeFollower" class="lose-bill" @click="operateOptions('discard')">输单</a>
       </div>
 
     </div>
@@ -133,7 +133,7 @@
               联系人({{contactTotal}})
               <a class="more" v-if="contactTotal > 5" @click="handleRoute('contact')">更多》</a>
               <!--（-1 输单）-->
-              <a v-if="salesOpportunitiesDetail.stage !== -1" class="table-add" @click="quickOperation('addContact')"><i class="el-icon-plus"></i>新增联系人</a>
+              <a v-if="salesOpportunitiesDetail.stage !== -1 && isChangeFollower" class="table-add" @click="quickOperation('addContact')"><i class="el-icon-plus"></i>新增联系人</a>
             </p>
             <table class="detail-table related-table">
               <tr>
@@ -158,7 +158,7 @@
               跟单记录({{orderRecordsTotal}})
               <a class="more" v-if="orderRecordsTotal > 5" @click="handleRoute('orderRecords')">更多》</a>
               <!--（-1输单）-->
-              <a v-if="salesOpportunitiesDetail.stage !== -1" class="table-add" @click="quickOperation('addRecord')"><i class="el-icon-plus"></i>新增跟单记录</a>
+              <a v-if="salesOpportunitiesDetail.stage !== -1 && isChangeFollower" class="table-add" @click="quickOperation('addRecord')"><i class="el-icon-plus"></i>新增跟单记录</a>
             </p>
             <table class="detail-table related-table">
               <tr>
@@ -175,7 +175,7 @@
               APP订单({{appOrderTotal}})
               <a class="more" v-if="appOrderTotal > 5" @click="handleRoute('order')">更多》</a>
               <!--（-1 输单）-->
-              <a v-if="salesOpportunitiesDetail.stage !== -1" class="table-add" @click="quickOperation('addOrder')"><i class="el-icon-plus"></i>新增关联订单</a>
+              <a v-if="salesOpportunitiesDetail.stage !== -1 && isChangeFollower" class="table-add" @click="quickOperation('addOrder')"><i class="el-icon-plus"></i>新增关联订单</a>
             </p>
             <table class="detail-table related-table">
               <tr>
@@ -198,7 +198,6 @@
                           v-if="item.orderState === os.type">{{os.value}}</span></td>
                 <td>{{item.created && $moment(item.created).format('YYYY-MM-DD HH:mm:ss')}}</td>
                 <td><a class="table-op" @click="quickOperation('deleteOrder', item.id)">删除</a></td>
-              </tr>
               </tr>
             </table>
           </el-tab-pane>
@@ -251,9 +250,9 @@
         </ul>
         <!--输单后隐藏删除以外得按钮-->
         <div class="team-btn-group" v-if="salesOpportunitiesDetail.stage !== -1">
-          <div v-if="salesOpportunitiesDetail.team && !salesOpportunitiesDetail.team.counselorId" class="btn-item-1" @click="operateOptions('apply')">申请咨询师协同</div>
+          <div v-if="salesOpportunitiesDetail.team && !salesOpportunitiesDetail.team.counselorId && isChangeFollower" class="btn-item-1" @click="operateOptions('apply')">申请咨询师协同</div>
           <div class="btn-item-2" @click="operateOptions('exit')">咨询师主动退出</div>
-          <div class="btn-item-3" @click="operateOptions('replace')">申请替换咨询师</div>
+          <div v-if="isChangeFollower" class="btn-item-3" @click="operateOptions('replace')">申请替换咨询师</div>
         </div>
       </div>
     </div>
@@ -290,6 +289,8 @@
         appOrderTotal: 0,
         orderList: [],
         orderTotal: 0,
+        userInfo: '',
+        isChangeFollower: true, // 当前用户是机会的更进人
       }
     },
     computed: {
@@ -449,6 +450,9 @@
           setTimeout(() => {
             this.dataLoading = false
           }, 500)
+          if (this.userInfo.id !== this.salesOpportunitiesDetail.team.salerId) { // 判断机会的更进人
+            this.isChangeFollower = false
+          }
         })
       },
       getContactList (customerId) {
@@ -476,6 +480,8 @@
           case 3:
             if (this.salesOpportunitiesDetail.stage === -1) {
               this.$message.warning('销售机会已经输单，不能操作！')
+            } else if (!this.isChangeFollower) {
+              this.$message.warning('不是销售跟进人员，不能操作！')
             } else if (this.salesOpportunitiesDetail.stage >= 3) {
               this.$message.warning('销售机会已确认！')
             } else {
@@ -498,6 +504,8 @@
           case 4:
             if (this.salesOpportunitiesDetail.stage === -1) {
               this.$message.warning('销售机会已经输单，不能操作！')
+            } else if (!this.isChangeFollower) {
+              this.$message.warning('不是销售跟进人员，不能操作！')
             } else if (this.salesOpportunitiesDetail.stage !== 3) {
               this.$message.warning('需求确定阶段的订单才能预下订单！')
             } else {
@@ -520,6 +528,8 @@
           case 5:
             if (this.salesOpportunitiesDetail.stage === -1) {
               this.$message.warning('销售机会已经输单，不能操作！')
+            } else if (!this.isChangeFollower) {
+              this.$message.warning('不是销售跟进人员，不能操作！')
             } else if (this.salesOpportunitiesDetail.stage !== 3) {
               this.$message.warning('预下订单阶段才能签单！')
             } else {
@@ -596,6 +606,7 @@
     created () {
       this.activeViewName = this.$route.query.view
       this.getSalesOpportunitiesDetail()
+      this.userInfo = webStorage.getItem('userInfo')
     },
   }
 </script>
