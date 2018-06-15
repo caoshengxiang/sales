@@ -1,3 +1,8 @@
+<!-- 客户回复的：
+按钮设置逻辑，跟进人可以操作销售机会所有按钮，创建人员，只能操作“添加联系人”，
+公海池的销售机会详情页面，非团队成员无权限查看，所以，不存在，没有跟进这个销售机会的去操作这个销售机会，
+也就不用控制那些按钮的显示了
+-->
 <template>
   <div class="com-container com-detail-container"
        v-loading="dataLoading"
@@ -133,7 +138,7 @@
               联系人({{contactTotal}})
               <a class="more" v-if="contactTotal > 5" @click="handleRoute('contact')">更多》</a>
               <!--（-1 输单）-->
-              <a v-if="salesOpportunitiesDetail.stage !== -1 && isChangeFollower" class="table-add" @click="quickOperation('addContact')"><i class="el-icon-plus"></i>新增联系人</a>
+              <a v-if="salesOpportunitiesDetail.stage !== -1 && (isChangeFollower || isChanceCreater)" class="table-add" @click="quickOperation('addContact')"><i class="el-icon-plus"></i>新增联系人</a>
             </p>
             <table class="detail-table related-table">
               <tr>
@@ -291,6 +296,7 @@
         orderTotal: 0,
         userInfo: '',
         isChangeFollower: true, // 当前用户是机会的更进人
+        isChanceCreater: true, // 当前用户是机会的创建人
       }
     },
     computed: {
@@ -452,6 +458,9 @@
           }, 500)
           if (this.userInfo.id !== this.salesOpportunitiesDetail.team.salerId) { // 判断机会的更进人
             this.isChangeFollower = false
+          }
+          if (this.userInfo.id !== this.salesOpportunitiesDetail.team.creator) { // 判断机会的创建人
+            this.isChanceCreater = false
           }
         })
       },
