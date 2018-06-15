@@ -22,7 +22,7 @@
     <div class="com-box com-box-padding com-list-box">
 
       <div class="config-view-con">
-        <el-form :model="form" ref="form">
+        <el-form :model="settlementForm" ref="settlementForm">
           <div>
             <h3 class="item-title">佣金结算规则设置</h3>
             <table class="com-dialog-table">
@@ -30,7 +30,7 @@
                 <td class="td-title">
                   每月
                   <el-form-item prop="maxSeaFollower" style="display: inline-block">
-                    <el-input-number v-model="form.dayOfGenerateRebate" :min="1" :max="28"
+                    <el-input-number v-model="settlementForm.dayOfGenerateRebate" :min="1" :max="28"
                                      placeholder="每月系统对已审核未结算的销售及服务佣金进行结算生成返佣记录日"></el-input-number>
                   </el-form-item>
                   日系统对已审核未结算的销售及服务佣金进行结算生成返佣记录；
@@ -40,7 +40,7 @@
                 <td class="td-title">
                   每月
                   <el-form-item prop="maxSeaFollowerPerMonth" style="display: inline-block">
-                    <el-input-number v-model="form.dayOfTransferRebate" :min="1" :max="28"
+                    <el-input-number v-model="settlementForm.dayOfTransferRebate" :min="1" :max="28"
                                      placeholder="每月系统对用户已确认的返佣记录自动批量转款日"></el-input-number>
                   </el-form-item>
                   日系统对用户已确认的返佣记录进行自动批量转款；
@@ -49,7 +49,11 @@
                 </td>
               </tr>
             </table>
+            <div class="btn-group">
+              <el-button @click="saveSettlement" type="primary" style="width: 100px">保存</el-button>
+            </div>
           </div>
+          <!---->
           <div class="com-dialog">
             <h3 class="item-title">请设置销售佣金比例设置</h3>
             <table class="com-dialog-table">
@@ -74,150 +78,101 @@
                 <td class="td-title" rowspan="6">代理商下单</td>
                 <td rowspan="2">A类产品 <br>（记账或托管）</td>
                 <td>新签</td>
-                <td><el-input-number style="width: 102px" size="mini" v-model="form.num9" :precision="2" :step="0.1" :max="100"></el-input-number></td>
-                <td><el-input-number style="width: 102px" size="mini" v-model="form.num9" :precision="2" :step="0.1" :max="100"></el-input-number></td>
-                <td><el-input-number style="width: 102px" size="mini" v-model="form.num9" :precision="2" :step="0.1" :max="100"></el-input-number></td>
-                <td><el-input-number style="width: 102px" size="mini" v-model="form.num9" :precision="2" :step="0.1" :max="100"></el-input-number></td>
-                <td><el-input-number style="width: 102px" size="mini" v-model="form.num9" :precision="2" :step="0.1" :max="100"></el-input-number></td>
-                <td><el-input-number style="width: 102px" size="mini" v-model="form.num9" :precision="2" :step="0.1" :max="100"></el-input-number></td>
-                <td><el-input-number style="width: 102px" size="mini" v-model="form.num9" :precision="2" :step="0.1" :max="100"></el-input-number></td>
-                <td><el-input-number style="width: 102px" size="mini" v-model="form.num9" :precision="2" :step="0.1" :max="100"></el-input-number></td>
+                <!--<td><el-input style="width: 102px" type="number" v-model.number="getSaleCommissionConfig[0][0].commissionPercent" auto-complete="off"></el-input></td>-->
+                <!--<td><el-input style="width: 102px" type="number" v-model.number="form.num9" auto-complete="off"></el-input></td>-->
+                <!--<td><el-input style="width: 102px" type="number" v-model.number="form.num9" auto-complete="off"></el-input></td>-->
+                <!--<td><el-input style="width: 102px" type="number" v-model.number="form.num9" auto-complete="off"></el-input></td>-->
+                <!--<td><el-input style="width: 102px" type="number" v-model.number="form.num9" auto-complete="off"></el-input></td>-->
+                <!--<td><el-input style="width: 102px" type="number" v-model.number="form.num9" auto-complete="off"></el-input></td>-->
+                <!--<td><el-input style="width: 102px" type="number" v-model.number="form.num9" auto-complete="off"></el-input></td>-->
+                <td v-for="col in cptSaleCommissionConfig[0]" :key="col.id">
+                  <el-input style="width: 102px" type="number" v-model.number="col.commissionPercent" auto-complete="off"></el-input>
+                </td>
               </tr>
               <tr>
                 <td>续签</td>
-                <td><el-input style="width: 102px" type="number" v-model.number="form.num9" auto-complete="off"></el-input></td>
-                <td><el-input style="width: 102px" type="number" v-model.number="form.num9" auto-complete="off"></el-input></td>
-                <td><el-input style="width: 102px" type="number" v-model.number="form.num9" auto-complete="off"></el-input></td>
-                <td><el-input style="width: 102px" type="number" v-model.number="form.num9" auto-complete="off"></el-input></td>
-                <td><el-input style="width: 102px" type="number" v-model.number="form.num9" auto-complete="off"></el-input></td>
-                <td><el-input style="width: 102px" type="number" v-model.number="form.num9" auto-complete="off"></el-input></td>
-                <td><el-input style="width: 102px" type="number" v-model.number="form.num9" auto-complete="off"></el-input></td>
-                <td><el-input style="width: 102px" type="number" v-model.number="form.num9" auto-complete="off"></el-input></td>
+                <td v-for="col in cptSaleCommissionConfig[1]" :key="col.id">
+                  <el-input style="width: 102px" type="number" v-model.number="col.commissionPercent" auto-complete="off"></el-input>
+                </td>
               </tr>
               <tr>
                 <td rowspan="2">A类产品<br>（税务顾问/财税金融咨询）</td>
                 <td>新签</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td v-for="col in cptSaleCommissionConfig[2]" :key="col.id">
+                  <el-input style="width: 102px" type="number" v-model.number="col.commissionPercent" auto-complete="off"></el-input>
+                </td>
               </tr>
               <tr>
                 <td>续签</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td v-for="col in cptSaleCommissionConfig[3]" :key="col.id">
+                  <el-input style="width: 102px" type="number" v-model.number="col.commissionPercent" auto-complete="off"></el-input>
+                </td>
               </tr>
               <tr>
                 <td rowspan="2">B类产品</td>
                 <td>新签</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td v-for="col in cptSaleCommissionConfig[4]" :key="col.id">
+                  <el-input style="width: 102px" type="number" v-model.number="col.commissionPercent" auto-complete="off"></el-input>
+                </td>
               </tr>
               <tr>
                 <td>续签</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td v-for="col in cptSaleCommissionConfig[5]" :key="col.id">
+                  <el-input style="width: 102px" type="number" v-model.number="col.commissionPercent" auto-complete="off"></el-input>
+                </td>
               </tr><!--代理商下单 end-->
               <tr><!--非代理商下单 start-->
                 <td class="td-title" rowspan="6">非代理商下单</td>
                 <td rowspan="2">A类产品<br>（记账或托管）</td>
                 <td>新签</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td v-for="col in cptSaleCommissionConfig[6]" :key="col.id">
+                  <el-input style="width: 102px" type="number" v-model.number="col.commissionPercent" auto-complete="off"></el-input>
+                </td>
               </tr>
               <tr>
                 <td>续签</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td v-for="col in cptSaleCommissionConfig[7]" :key="col.id">
+                  <el-input style="width: 102px" type="number" v-model.number="col.commissionPercent" auto-complete="off"></el-input>
+                </td>
               </tr>
               <tr>
                 <td rowspan="2">A类产品<br>（税务顾问/财税金融咨询）</td>
                 <td>新签</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td v-for="col in cptSaleCommissionConfig[8]" :key="col.id">
+                  <el-input style="width: 102px" type="number" v-model.number="col.commissionPercent" auto-complete="off"></el-input>
+                </td>
               </tr>
               <tr>
                 <td>续签</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td v-for="col in cptSaleCommissionConfig[9]" :key="col.id">
+                  <el-input style="width: 102px" type="number" v-model.number="col.commissionPercent" auto-complete="off"></el-input>
+                </td>
               </tr>
               <tr>
                 <td rowspan="2">B类产品</td>
                 <td>新签</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td v-for="col in cptSaleCommissionConfig[10]" :key="col.id">
+                  <el-input style="width: 102px" type="number" v-model.number="col.commissionPercent" auto-complete="off"></el-input>
+                </td>
               </tr>
               <tr>
                 <td>续签</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td v-for="col in cptSaleCommissionConfig[11]" :key="col.id">
+                  <el-input style="width: 102px" type="number" v-model.number="col.commissionPercent" auto-complete="off"></el-input>
+                </td>
               </tr><!--非代理商下单 end-->
             </table>
+            <div class="btn-group">
+              <el-button @click="saveSaleCommissionConfig" type="primary" style="width: 100px">保存</el-button>
+            </div>
           </div>
+          <!---->
           <div class="com-dialog">
             <h3 class="item-title">佣金结算规则设置</h3>
             <table class="com-dialog-table">
               <tr>
                 <td rowspan="2" class="td-title">签单产品</td>
-                <td rowspan="2" class="td-title" >服务佣金</td>
+                <td rowspan="2" class="td-title">服务佣金</td>
                 <td colspan="3" class="td-title">服务奖励</td>
                 <td rowspan="2" class="td-title">服务补贴</td>
               </tr>
@@ -233,14 +188,16 @@
                 <td></td>
                 <td></td>
                 <td></td>
-              </tr><tr>
+              </tr>
+              <tr>
                 <td>投融资服务类</td>
                 <td></td>
                 <td></td>
                 <td></td>
                 <td></td>
                 <td></td>
-              </tr><tr>
+              </tr>
+              <tr>
                 <td>人才培训类</td>
                 <td></td>
                 <td></td>
@@ -249,10 +206,9 @@
                 <td></td>
               </tr>
             </table>
-          </div>
-
-          <div>
-            <el-button type="primary" style="width: 100px">确定</el-button>
+            <div class="btn-group">
+              <el-button type="primary" style="width: 100px">保存</el-button>
+            </div>
           </div>
         </el-form>
       </div>
@@ -272,11 +228,12 @@
     data () {
       return {
         tableData: [],
-        form: {
+        settlementForm: {
           dayOfGenerateRebate: 1,
           dayOfTransferRebate: 1,
-          num9: 0
         },
+        saleCommissionConfig: [],
+        cptSaleCommissionConfig: [[], [], [], [], [], [], [], [], [], [], [], []], // 数据构建
       }
     },
     computed: {
@@ -287,54 +244,122 @@
     components: {
       comButton,
     },
-    created () {
-      var that = this
-      that.$options.methods.getSiteList.bind(that)()
-    },
     methods: {
-      getSiteList () {
-        var that = this
+      getSaleCommissionConfig () {
         this.loading = true
-        let param = {}
-        API.baseSetting.getsettlement(param, (res) => {
-          that.loading = false
+        API.common.getSaleCommissionConfig((res) => {
+          this.loading = false
           if (res.status) {
-            that.form = res.data
-          } else {
-            that.$message({
-              message: res.error.message,
-              type: 'error',
-            })
+            this.saleCommissionConfig = res.data
+            if (this.saleCommissionConfig.length) {
+              this.cptSaleCommissionConfig = [[], [], [], [], [], [], [], [], [], [], [], []] // 初始化
+              this.saleCommissionConfig.forEach(item => {
+                if (item.billType === 1) {
+                  if (item.productType === 1) {
+                    if (item.billCate === 1) { // 0
+                      this.cptSaleCommissionConfig[0].push(item)
+                    }
+                    if (item.billCate === 2) { // 1
+                      this.cptSaleCommissionConfig[1].push(item)
+                    }
+                  }
+                  if (item.productType === 2) {
+                    if (item.billCate === 1) { // 2
+                      this.cptSaleCommissionConfig[2].push(item)
+                    }
+                    if (item.billCate === 2) { // 3
+                      this.cptSaleCommissionConfig[3].push(item)
+                    }
+                  }
+                  if (item.productType === 3) {
+                    if (item.billCate === 1) { // 4
+                      this.cptSaleCommissionConfig[4].push(item)
+                    }
+                    if (item.billCate === 2) { // 5
+                      this.cptSaleCommissionConfig[5].push(item)
+                    }
+                  }
+                }
+                if (item.billType === 2) {
+                  if (item.productType === 1) {
+                    if (item.billCate === 1) { // 6
+                      this.cptSaleCommissionConfig[6].push(item)
+                    }
+                    if (item.billCate === 2) { // 7
+                      this.cptSaleCommissionConfig[7].push(item)
+                    }
+                  }
+                  if (item.productType === 2) {
+                    if (item.billCate === 1) { // 8
+                      this.cptSaleCommissionConfig[8].push(item)
+                    }
+                    if (item.billCate === 2) { // 9
+                      this.cptSaleCommissionConfig[9].push(item)
+                    }
+                  }
+                  if (item.productType === 3) {
+                    if (item.billCate === 1) { // 10
+                      this.cptSaleCommissionConfig[10].push(item)
+                    }
+                    if (item.billCate === 2) { // 11
+                      this.cptSaleCommissionConfig[11].push(item)
+                    }
+                  }
+                }
+              })
+            }
           }
-        }, (mock) => {
-          that.loading = false
-          that.$message({
-            message: '系统繁忙，请稍后再试！',
-            type: 'error',
-          })
         })
       },
-      save () {
-        var that = this
-        that.loading = true
-        API.baseSetting.savesettlement(that.form, function (resData) {
-          that.loading = false
+      saveSaleCommissionConfig () {
+        this.loading = true
+        let param = []
+        this.cptSaleCommissionConfig.forEach(arr => {
+          param = param.concat(arr)
+        })
+        // console.log(param)
+        API.common.saveSaleCommissionConfig({commissionConfigs: param}, (resData) => {
+          this.loading = false
           if (resData.status) {
-            that.$message({
+            this.$message({
               message: '保存成功！',
               type: 'success',
             })
-            that.$options.methods.getSiteList.bind(that)()
+            this.getSaleCommissionConfig()
           }
-        }, function () {
-          that.loading = false
-          that.$message({
-            message: '系统繁忙，请稍后再试！',
-            type: 'error',
-          })
         })
       },
-
+      getSettlement () { // 天数
+        this.loading = true
+        API.common.getSettlement((res) => {
+          this.loading = false
+          if (res.status) {
+            this.settlementForm = res.data
+          }
+        })
+      },
+      saveSettlement () {
+        this.loading = true
+        let param = []
+        this.cptSaleCommissionConfig.forEach(arr => {
+          param = param.concat(arr)
+        })
+        // console.log(param)
+        API.common.saveSettlement(this.settlementForm, (resData) => {
+          this.loading = false
+          if (resData.status) {
+            this.$message({
+              message: '保存成功！',
+              type: 'success',
+            })
+            this.getSettlement()
+          }
+        })
+      },
+    },
+    created () {
+      this.getSaleCommissionConfig()
+      this.getSettlement()
     },
   }
 </script>
@@ -357,7 +382,7 @@
           color: #426585;
         }
         .el-input--mini {
-         width: 102px !important;
+          width: 102px !important;
         }
       }
     }

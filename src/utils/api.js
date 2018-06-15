@@ -68,6 +68,34 @@ export default {
         error && error(err)
       })
     },
+    getSaleCommissionConfig (success, error) { // 查询佣金比例设置记录
+      $axios.get('saleCommissionConfig').then((res) => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+    },
+    saveSaleCommissionConfig (params, success, error) { // 保存佣金比例设置记录（批量）
+      $axios.put('saleCommissionConfig', params).then((res) => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+    },
+    getSettlement (success, error) { // 查询佣金结算规则
+      $axios.get('codeConfig/settlement').then((res) => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+    },
+    saveSettlement (params, success, error) { // 保存佣金结算规则
+      $axios.post('codeConfig/settlement', params).then((res) => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+    },
   },
   login: {
 
@@ -260,7 +288,7 @@ export default {
     },
     contactList (params, success, error) { // 客户池获取联系人列表
       $axios.get('customerSea/contacter', {
-        params: params
+        params: params,
       }).then((res) => {
         success && success(res.data)
       }).catch((err) => {
@@ -269,7 +297,7 @@ export default {
     },
     chanceList (params, success, error) { // 客户池获取机会列表
       $axios.get('customerSea/salerChance', {
-        params: params
+        params: params,
       }).then((res) => {
         success && success(res.data)
       }).catch((err) => {
@@ -800,7 +828,7 @@ export default {
       })
     },
   },
-  //组织管理
+  // 组织管理
   organization: {
     queryList (params, success, error) {
       $axios({
@@ -976,9 +1004,8 @@ export default {
     },
   },
   baseSetting: {
-    getsettlement(params, success, error){ // 佣金规则列表
-      $axios.get('codeConfig/settlement', {
-      }).then((res) => {
+    getsettlement (params, success, error) { // 佣金规则列表
+      $axios.get('codeConfig/settlement', {}).then((res) => {
         success && success(res.data)
       }).catch(() => {
         setTimeout(() => {
@@ -986,7 +1013,7 @@ export default {
         }, 1000)
       })
     },
-    savesettlement(params, success, error){ // 佣金规则列表
+    savesettlement (params, success, error) { // 佣金规则列表
       $axios({
         method: 'post',
         url: 'codeConfig/settlement',
@@ -1049,9 +1076,8 @@ export default {
         }, 1000)
       })
     },
-    getSiteList(params, success, error) {
-      $axios.get('codeConfig/site', {
-      }).then((res) => {
+    getSiteList (params, success, error) {
+      $axios.get('codeConfig/site', {}).then((res) => {
         success && success(res.data)
       }).catch(() => {
         setTimeout(() => {
@@ -1059,7 +1085,7 @@ export default {
         }, 1000)
       })
     },
-    saveSite(params, success, error) {
+    saveSite (params, success, error) {
       $axios({
         method: 'post',
         url: 'codeConfig/site',
@@ -1071,7 +1097,7 @@ export default {
           error && error(mockdata)
         }, 1000)
       })
-    }
+    },
   },
   customerAreaSetting: {
     queryList (params, success, error) {
