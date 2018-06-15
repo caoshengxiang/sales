@@ -12,7 +12,8 @@
       <div class="com-bar-left">
       </div>
       <div class="com-bar-right">
-        <el-select v-model="value" placeholder="请选择"   @change="selectedOptionsHandleChange"  class="com-el-select" style="width:180px">
+        <el-select v-model="value" placeholder="请选择" @change="selectedOptionsHandleChange" class="com-el-select"
+                   style="width:180px">
           <el-option
             v-for="item in options"
             :key="item.value"
@@ -32,7 +33,7 @@
         :data="tableData"
         tooltip-effect="dark"
         style="width: 100%"
-        >
+      >
         <el-table-column
           align="center"
           prop="name"
@@ -70,14 +71,14 @@
           align="center"
           prop="publisherName"
           label="发布人员"
-          >
+        >
         </el-table-column>
         <el-table-column
           align="center"
           prop="publishTime"
           label="任务发布时间"
           :formatter="dateFormat"
-      >
+        >
         </el-table-column>
         <el-table-column
           align="center"
@@ -96,7 +97,7 @@
     <div class="com-pages-box">
       <el-pagination
         background
-        :total="totle"
+        :total="total"
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
         :current-page="currentPage"
@@ -119,7 +120,7 @@
     name: 'list',
     data () {
       return {
-        totle:0,
+        total: 0,
         options: [
           {
             value: 1,
@@ -138,7 +139,7 @@
         publisherId: '',
         auditorId: '',
         state: 1,
-        changeValue:1
+        changeValue: 1,
       }
     },
     computed: {
@@ -150,64 +151,62 @@
       comButton,
     },
     created () {
-      var that = this;
+      var that = this
       // alert(1)
       that.userInfo = utils.loginExamine(that)
       // alert(that.userInfo.id)
-      that.$options.methods.getTaskList.bind(that)();
+      that.$options.methods.getTaskList.bind(that)()
     },
     methods: {
       selectedOptionsHandleChange (value) {
         this.changeValue = value
         this.getTaskList()
       },
-      dateFormat:function(row, column) {
-        var date = row[column.property];
-        if (date == undefined) {
-          return "";
+      dateFormat: function (row, column) {
+        var date = row[column.property]
+        if (date === undefined) {
+          return ''
         }
-        return moment(date).format("YYYY-MM-DD HH:mm:ss");
+        return moment(date).format('YYYY-MM-DD HH:mm:ss')
       },
-      fmtBoolColumn(row,column,cellValue){
+      fmtBoolColumn (row, column, cellValue) {
         if (cellValue === 1) {
-          return '销售机会';
-        }else {
-          return '未知';
+          return '销售机会'
+        } else {
+          return '未知'
         }
       },
       getTaskList () {
-        var that = this;
+        var that = this
         let param = {
           page: this.currentPage - 1,
           pageSize: this.pagesOptions.pageSize,
         }
 
-        if(that.changeValue === 2) {
-          param.principalId  = that.userInfo.id
+        if (that.changeValue === 2) {
+          param.principalId = that.userInfo.id
           param.state = that.state
-        }
-        else if(that.changeValue === 3){
-          param.publisherId  = that.userInfo.id
+        } else if (that.changeValue === 3) {
+          param.publisherId = that.userInfo.id
         }
         this.loading = true
         API.task.queryList(param, (res) => {
-          that.loading = false;
-          if(res.status){
-            that.tableData = res.data.content;
-            that.totle = res.data.totalElements
-          }else{
+          that.loading = false
+          if (res.status) {
+            that.tableData = res.data.content
+            that.total = res.data.totalElements
+          } else {
             Message({
               message: res.error.message,
-              type: 'error'
-            });
+              type: 'error',
+            })
           }
-
         }, (mock) => {
-          that.loading = false;
+          that.loading = false
           Message({
             message: '系统繁忙，请稍后再试！',
-            type: 'error'
-          });
+            type: 'error',
+          })
         })
       },
       addHandle () {
@@ -221,11 +220,14 @@
       },
       handleSizeChange (val) {
         console.log(`每页 ${val} 条`)
+        this.getTaskList()
       },
       handleCurrentChange (val) {
         console.log(`当前页: ${val}`)
+        this.currentPage = val
+        this.getTaskList()
       },
-      handleRouter (name,id) {
+      handleRouter (name, id) {
         this.$router.push({name: 'taskApprovalDetail', params: {end: 'FE'}, query: {view: name, id: id}})
       },
     },
@@ -234,11 +236,13 @@
 
 <style scoped lang="scss" rel="stylesheet/scss">
   @import "../../../styles/common";
+
   .link {
     color: #00A7FE;
     text-decoration: underline;
     cursor: pointer;
   }
+
   .button {
     padding: 5px 10px;
     color: #fff;
