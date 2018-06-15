@@ -82,7 +82,7 @@
       },
       getUserList (params) {
         API.user.userSearch(params, (da) => {
-          this.userList = da.data.content
+          this.userList = da.data
         })
       },
       principalTypeChange () {
