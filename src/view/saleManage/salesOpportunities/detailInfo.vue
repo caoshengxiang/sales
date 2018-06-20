@@ -95,7 +95,8 @@
               </tr>
               <tr>
                 <td class="td-title">销售合同网址</td>
-                <td colspan="5">{{salesOpportunitiesDetail.contractUrl}}</td>
+                <!--<td colspan="5">{{salesOpportunitiesDetail.contractUrl}}</td>-->
+                <td colspan="5"><span style="color: blue;cursor: pointer" @click="routeToContract">合同</span></td>
               </tr>
               <tr>
                 <td class="td-title">机会输单备注</td>
@@ -611,6 +612,9 @@
             break
         }
       },
+      routeToContract () {
+        this.$router.push({name: 'onetimeContract', query: {name: '商品名称'}})
+      }
     },
     created () {
       this.activeViewName = this.$route.query.view

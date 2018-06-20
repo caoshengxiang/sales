@@ -168,7 +168,7 @@
           </div>
           <!---->
           <div class="com-dialog">
-            <h3 class="item-title">佣金结算规则设置</h3>
+            <h3 class="item-title">请设置服务佣金比例设置</h3>
             <table class="com-dialog-table">
               <tr>
                 <td rowspan="2" class="td-title">签单产品</td>
