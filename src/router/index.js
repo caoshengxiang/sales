@@ -229,6 +229,7 @@ const router = new Router({
           meta: {
             title: '客户',
             pos: [{name: '销售管理系统', toName: 'saleHome'}, {name: '客户'}],
+            pos2: [{name: '管理系统', toName: 'companyManageHome'}, {name: '客户'}],
           },
         }, {
           path: 'customersDetail',
@@ -237,6 +238,7 @@ const router = new Router({
           meta: {
             title: '客户详情',
             pos: [{name: '销售管理系统', toName: 'saleHome'}, {name: '客户', toName: 'customersList'}, {name: '客户详情'}],
+            pos2: [{name: '管理系统', toName: 'companyManageHome'}, {name: '客户', toName: 'customersList'}, {name: '客户详情'}],
           },
         }, {
           path: 'contactsList',
@@ -245,6 +247,7 @@ const router = new Router({
           meta: {
             title: '联系人',
             pos: [{name: '销售管理系统', toName: 'saleHome'}, {name: '联系人'}],
+            pos2: [{name: '管理系统', toName: 'companyManageHome'}, {name: '联系人'}],
           },
         }, {
           path: 'contactsDetail',
@@ -253,6 +256,7 @@ const router = new Router({
           meta: {
             title: '联系人详情',
             pos: [{name: '销售管理系统', toName: 'saleHome'}, {name: '联系人', toName: 'contactsList'}, {name: '联系人详情'}],
+            pos2: [{name: '管理系统', toName: 'companyManageHome'}, {name: '联系人', toName: 'contactsList'}, {name: '联系人详情'}],
           },
         }, {
           path: 'salesOpportunitiesList',
@@ -261,6 +265,7 @@ const router = new Router({
           meta: {
             title: '销售机会',
             pos: [{name: '销售管理系统', toName: 'saleHome'}, {name: '销售机会'}],
+            pos2: [{name: '管理系统', toName: 'companyManageHome'}, {name: '销售机会'}],
           },
         }, {
           path: 'salesOpportunitiesDetail',
@@ -269,6 +274,7 @@ const router = new Router({
           meta: {
             title: '销售机会详情',
             pos: [{name: '销售管理系统', toName: 'saleHome'}, {name: '销售机会', toName: 'salesOpportunitiesList'}, {name: 'salesOpportunitiesDetail'}],
+            pos2: [{name: '管理系统', toName: 'companyManageHome'}, {name: '销售机会', toName: 'salesOpportunitiesList'}, {name: 'salesOpportunitiesDetail'}],
           },
         }, {
           path: 'salesOrdersList',
@@ -277,6 +283,7 @@ const router = new Router({
           meta: {
             title: '销售订单',
             pos: [{name: '销售管理系统', toName: 'saleHome'}, {name: '销售订单'}],
+            pos2: [{name: '管理系统', toName: 'companyManageHome'}, {name: '销售订单'}],
           },
         }, {
           path: 'salesOrdersDetail',
@@ -285,6 +292,7 @@ const router = new Router({
           meta: {
             title: '销售订单详情',
             pos: [{name: '销售管理系统', toName: 'saleHome'}, {name: '销售订单', toName: 'salesOrdersList'}, {name: '销售订单详情'}],
+            pos2: [{name: '管理系统', toName: 'companyManageHome'}, {name: '销售订单', toName: 'salesOrdersList'}, {name: '销售订单详情'}],
           },
         }, {
           path: 'orderRecordsList',
@@ -317,6 +325,7 @@ const router = new Router({
           meta: {
             title: '客户公海',
             pos: [{name: '销售管理系统', toName: 'saleHome'}, {name: '客户公海'}],
+            pos2: [{name: '管理系统', toName: 'companyManageHome'}, {name: '客户公海'}],
           },
         }, {
           path: 'customersHighSeasDetail',
@@ -325,6 +334,7 @@ const router = new Router({
           meta: {
             title: '客户公海详情',
             pos: [{name: '销售管理系统', toName: 'saleHome'}, {name: '客户公海', toName: 'customersHighSeasList'}, {name: '客户公海详情'}],
+            pos2: [{name: '管理系统', toName: 'companyManageHome'}, {name: '客户公海', toName: 'customersHighSeasList'}, {name: '客户公海详情'}],
           },
         }, {
           path: 'messageList',
@@ -384,7 +394,7 @@ const router = new Router({
           component: userList,
           meta: {
             title: '用户管理',
-            pos: [{name: '管理系统'}, {name: '用户管理'}, {name: '用户管理'}],
+            pos: [{name: '管理系统', toName: 'companyManageHome'}, {name: '用户管理'}, {name: '用户管理'}],
           },
         },
         {
@@ -393,7 +403,7 @@ const router = new Router({
           component: userDetail,
           meta: {
             title: '用户管理',
-            pos: [{name: '管理系统'}, {name: '用户管理'}, {name: '用户详细'}],
+            pos: [{name: '管理系统', toName: 'companyManageHome'}, {name: '用户管理'}, {name: '用户详细'}],
           },
         },
         // 企业管理 -- 代理商管理
@@ -403,7 +413,7 @@ const router = new Router({
           component: agentList,
           meta: {
             title: '代理商管理',
-            pos: [{name: '管理系统'}, {name: '用户管理'}, {name: '代理商管理'}],
+            pos: [{name: '管理系统', toName: 'companyManageHome'}, {name: '用户管理'}, {name: '代理商管理'}],
           },
         },
         // 企业管理 -- 角色管理
@@ -413,7 +423,7 @@ const router = new Router({
           component: roleList,
           meta: {
             title: '角色管理',
-            pos: [{name: '管理系统'}, {name: '用户管理'}, {name: '角色管理'}],
+            pos: [{name: '管理系统', toName: 'companyManageHome'}, {name: '用户管理'}, {name: '角色管理'}],
           },
         },
         // 企业管理 -- 财务管理
@@ -423,7 +433,7 @@ const router = new Router({
           component: settlementList,
           meta: {
             title: '佣金结算管理',
-            pos: [{name: '管理系统'}, {name: '财务管理'}, {name: '佣金结算管理'}],
+            pos: [{name: '管理系统', toName: 'companyManageHome'}, {name: '财务管理'}, {name: '佣金结算管理'}],
           },
         },
         {
@@ -432,7 +442,7 @@ const router = new Router({
           component: spendingList,
           meta: {
             title: '财务支出管理',
-            pos: [{name: '管理系统'}, {name: '财务管理'}, {name: '财务支出管理'}],
+            pos: [{name: '管理系统', toName: 'companyManageHome'}, {name: '财务管理'}, {name: '财务支出管理'}],
           },
         },
         // 企业管理 -- 组织管理
@@ -442,7 +452,7 @@ const router = new Router({
           component: organizationList,
           meta: {
             title: '组织管理',
-            pos: [{name: '管理系统'}, {name: '组织管理'}],
+            pos: [{name: '管理系统', toName: 'companyManageHome'}, {name: '组织管理'}],
           },
         },
         // 企业管理 -- 客户池管理
@@ -452,7 +462,7 @@ const router = new Router({
           component: customerPool,
           meta: {
             title: '客户池管理',
-            pos: [{name: '管理系统'}, {name: '组织管理'}, {name: '客户池管理'}],
+            pos: [{name: '管理系统', toName: 'companyManageHome'}, {name: '组织管理'}, {name: '客户池管理'}],
           },
         },
         // 企业管理 -- 组织商品配置管理
@@ -462,7 +472,7 @@ const router = new Router({
           component: organizationProductSetting,
           meta: {
             title: '组织商品配置',
-            pos: [{name: '管理系统'}, {name: '组织管理'}, {name: '组织商品配置'}],
+            pos: [{name: '管理系统', toName: 'companyManageHome'}, {name: '组织管理'}, {name: '组织商品配置'}],
           },
         },
         // 配置管理 -- 参数设置
@@ -472,7 +482,7 @@ const router = new Router({
           component: baseSettingList,
           meta: {
             title: '参数配置',
-            pos: [{name: '管理系统'}, {name: '配置管理'}, {name: '参数配置'}],
+            pos: [{name: '管理系统', toName: 'companyManageHome'}, {name: '配置管理'}, {name: '参数配置'}],
           },
         },
         // 配置管理 -- 客户地区管理
@@ -482,7 +492,7 @@ const router = new Router({
           component: customerAreaSetting,
           meta: {
             title: '客户地区管理',
-            pos: [{name: '管理系统',}, {name: '配置管理'}, {name: '客户地区管理'}],
+            pos: [{name: '管理系统', toName: 'companyManageHome'}, {name: '配置管理'}, {name: '客户地区管理'}],
           },
         },
         // 配置管理 -- 站点开关设置
@@ -492,7 +502,7 @@ const router = new Router({
           component: siteList,
           meta: {
             title: '站点开关设置',
-            pos: [{name: '管理系统',}, {name: '配置管理'}, {name: '站点开关设置'}],
+            pos: [{name: '管理系统', toName: 'companyManageHome'}, {name: '配置管理'}, {name: '站点开关设置'}],
           },
         },
         // 配置管理 -- 返佣规则设置
@@ -502,7 +512,7 @@ const router = new Router({
           component: settlementRulesList,
           meta: {
             title: '返佣配置',
-            pos: [{name: '管理系统'}, {name: '配置管理'}, {name: '返佣配置'}],
+            pos: [{name: '管理系统', toName: 'companyManageHome'}, {name: '配置管理'}, {name: '返佣配置'}],
           },
         },
         // 消息通知管理
@@ -512,7 +522,7 @@ const router = new Router({
           component: meMessageList,
           meta: {
             title: '消息通知',
-            pos: [{name: '管理系统'}, {name: '消息通知'}],
+            pos: [{name: '管理系统', toName: 'companyManageHome'}, {name: '消息通知'}],
           },
         },
         // 日志管理通知管理
@@ -522,7 +532,7 @@ const router = new Router({
           component: loglist,
           meta: {
             title: '日志管理',
-            pos: [{name: '管理系统'}, {name: '日志管理'}],
+            pos: [{name: '管理系统', toName: 'companyManageHome'}, {name: '日志管理'}],
           },
         },
       ],
