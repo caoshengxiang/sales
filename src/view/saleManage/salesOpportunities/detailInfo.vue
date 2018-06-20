@@ -95,7 +95,10 @@
               <tr>
                 <td class="td-title">销售合同网址</td>
                 <!--<td colspan="5">{{salesOpportunitiesDetail.contractUrl}}</td>-->
-                <td colspan="5"><span style="color: blue;cursor: pointer" @click="routeToContract">合同</span></td>
+                <td colspan="5">
+                  <!--<span style="color: blue;cursor: pointer" @click="routeToContract">合同</span>-->
+                  <router-link :to="routerContract" target="_blank">查看合同</router-link>
+                </td>
               </tr>
               <tr>
                 <td class="td-title">机会输单备注</td>
@@ -297,6 +300,7 @@
         userInfo: '',
         isChangeFollower: true, // 当前用户是机会的更进人
         isChanceCreater: true, // 当前用户是机会的创建人
+        routerContract: {name: 'onetimeContract', query: {name: '商品名称'}} // 合同路由配置 todo 待处理
       }
     },
     computed: {
