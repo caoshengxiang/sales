@@ -134,7 +134,7 @@
             <div class="related-btn-group">
               <com-button buttonType="theme" @click="handleRoute('contact')">联系人({{contactTotal}})</com-button>
               <com-button buttonType="grey" @click="handleRoute('orderRecords')">跟单记录({{orderRecordsTotal}})</com-button>
-              <com-button buttonType="grey" @click="handleRoute('order')">APP订单({{appOrderTotal}})</com-button>
+              <com-button buttonType="grey" @click="handleRoute('order')">APP订单({{orderTotal}})</com-button>
             </div>
 
             <p class="table-title">
@@ -180,8 +180,8 @@
             </table>
 
             <p class="table-title">
-              APP订单({{appOrderTotal}})
-              <a class="more" v-if="appOrderTotal > 5" @click="handleRoute('order')">更多》</a>
+              销售订单({{orderTotal}})
+              <a class="more" v-if="orderTotal > 5" @click="handleRoute('order')">更多》</a>
               <!--（-1 输单）-->
               <a v-if="salesOpportunitiesDetail.stage !== -1 && isChangeFollower" class="table-add" @click="quickOperation('addOrder')"><i class="el-icon-plus"></i>新增关联订单</a>
             </p>
@@ -199,13 +199,15 @@
               <tr>
               <tr v-for="item in orderList" :key="item.id">
                 <td>{{item.id}}</td>
+                <td>{{item.isRenew?'续费订单':'新签订单'}}</td>
+              <td><span v-for="os in orderState" :key="os.type"
+                        v-if="item.orderState === os.type">{{os.value}}</span>
+              </td>
                 <td>{{item.productName}}</td>
                 <td>{{item.billAmount}}</td>
                 <td>{{item.refund_amount}}</td>
-                <td><span v-for="os in orderState" :key="os.type"
-                          v-if="item.orderState === os.type">{{os.value}}</span></td>
                 <td>{{item.created && $moment(item.created).format('YYYY-MM-DD HH:mm:ss')}}</td>
-                <td><a class="table-op" @click="quickOperation('deleteOrder', item.id)">删除</a></td>
+                <td></td>
               </tr>
             </table>
           </el-tab-pane>
@@ -213,8 +215,6 @@
       </div>
       <!--团队成员-->
       <div class="detail-right com-box-padding">
-        <!--<team-member :detail="salesOpportunitiesDetail"></team-member>-->
-
         <div class="team-title">
           <span class="title-text">团队成员</span>
         </div>
@@ -271,7 +271,6 @@
   import comButton from '../../../components/button/comButton'
   import { mapState, mapActions } from 'vuex'
   import API from '../../../utils/api'
-  // import teamMember from '../../../components/teamMember'
   import moveDialog from './moveDialog'
   import applyDialog from './applyDialog'
   // import { arrToStr } from '../../../utils/utils'
@@ -293,8 +292,6 @@
         contactTotal: 0,
         orderRecordsList: [],
         orderRecordsTotal: 0,
-        appOrderList: [],
-        appOrderTotal: 0,
         orderList: [],
         orderTotal: 0,
         userInfo: '',
@@ -306,6 +303,7 @@
     computed: {
       ...mapState('constData', [
         'salesState',
+        'orderState',
         'themeIndex',
       ]),
       ...mapState('salesOpportunities', [
@@ -483,8 +481,8 @@
       },
       getAppOrderList (customerId) {
         API.salesOrder.list({customerId: customerId, pageSize: 5}, (da) => {
-          this.appOrderList = da.data.content
-          this.appOrderTotal = da.data.totalElements
+          this.orderList = da.data.content
+          this.orderTotal = da.data.totalElements
         })
       },
       stepClickHandle (step) {
@@ -529,11 +527,11 @@
                 height: 380,
                 params: {
                   detailCustomersId: this.salesOpportunitiesDetail.customerId,
-                  detailChangeId: this.salesOpportunitiesDetail.id
+                  detailChanceId: this.salesOpportunitiesDetail.id
                 },
-                callback (data) {
+                callback: (data) => {
                   if (data.type === 'save') {
-                    that.getAppOrderList(that.salesOpportunitiesDetail.customerId)
+                    this.getSalesOpportunitiesDetail()
                   }
                 },
               })
@@ -544,7 +542,7 @@
               this.$message.warning('销售机会已经输单，不能操作！')
             } else if (!this.isChangeFollower) {
               this.$message.warning('不是销售跟进人员，不能操作！')
-            } else if (this.salesOpportunitiesDetail.stage !== 3) {
+            } else if (this.salesOpportunitiesDetail.stage !== 4) {
               this.$message.warning('预下订单阶段才能签单！')
             } else {
             }
@@ -589,7 +587,7 @@
               height: 320,
               params: {
                 detailCustomersId: this.salesOpportunitiesDetail.customerId,
-                detailChangeId: this.salesOpportunitiesDetail.id
+                detailChanceId: this.salesOpportunitiesDetail.id
               },
               callback (data) {
                 if (data.type === 'save') {
@@ -605,11 +603,11 @@
               height: 380,
               params: {
                 detailCustomersId: this.salesOpportunitiesDetail.customerId,
-                detailChangeId: this.salesOpportunitiesDetail.id
+                detailChanceId: this.salesOpportunitiesDetail.id
               },
-              callback (data) {
+              callback: (data) => {
                 if (data.type === 'save') {
-                  that.getAppOrderList(that.salesOpportunitiesDetail.customerId)
+                  this.getSalesOpportunitiesDetail()
                 }
               },
             })

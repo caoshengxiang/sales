@@ -17,8 +17,8 @@
 
             <td class="td-title">签单联系人</td>
             <td class="td-text">
-              <el-form-item prop="contracterId">
-                <el-select style="width: 100%" v-model.number="addForm.contracterId" placeholder="请选择签单联系人">
+              <el-form-item prop="contacterId">
+                <el-select style="width: 100%" v-model.number="addForm.contacterId" placeholder="请选择签单联系人">
                   <el-option v-for="item in contactList" :key="item.id" :label="item.contacterName"
                              :value="item.id"></el-option>
                 </el-select>
@@ -28,8 +28,8 @@
           <tr>
             <td class="td-title">关联销售机会</td>
             <td class="td-text">
-              <el-form-item prop="changeId">
-                <el-select  :disabled="params.detailChangeId?true:false" style="width: 100%" @change="intentProductChange" v-model.number="addForm.changeId"
+              <el-form-item prop="chanceId">
+                <el-select  :disabled="params.detailChanceId?true:false" style="width: 100%" @change="intentProductChange" v-model.number="addForm.chanceId"
                            placeholder="请选择关联销售机会">
                   <el-option v-for="item in chanceList" :key="item.id" :label="item.intentProductName"
                              :value="item.id"></el-option>
@@ -99,8 +99,8 @@
         productsList: [], // 产品【规格】列表
         addForm: { // 添加表单
           customerId: '',
-          contracterId: '',
-          changeId: '',
+          contacterId: '',
+          chanceId: '',
           productId: '',
           productName: '',
           specificationId: '',
@@ -112,10 +112,10 @@
           customerId: [
             {required: true, message: '请选择签单客户', trigger: 'change'},
           ],
-          contracterId: [
+          contacterId: [
             {required: true, message: '请选择签单联系人', trigger: 'change'},
           ],
-          changeId: [
+          chanceId: [
             {required: true, message: '请选择关联销售机会', trigger: 'change'},
           ],
           // productId: [
@@ -168,8 +168,8 @@
           this.chanceList = this.chanceList.filter(item => {
             return item.salerId === userId
           })
-          if (this.params.detailChangeId) { // 销售机会详细页面，添加订单
-            this.addForm.changeId = this.params.detailChangeId
+          if (this.params.detailChanceId) { // 销售机会详细页面，添加订单
+            this.addForm.chanceId = this.params.detailChanceId
             this.intentProductChange() // 对应购买商品
           }
         })
@@ -187,7 +187,7 @@
       },
       intentProductChange () { // 机会change
         this.chanceList.forEach(item => {
-          if (item.id === this.addForm.changeId) {
+          if (item.id === this.addForm.chanceId) {
             this.addForm.productId = item.intentProductId
             this.addForm.productName = item.intentProductName
             // 对应的规格列表
@@ -212,8 +212,8 @@
         // 清除其他联动数据
         this.addForm = { // 添加表单
           customerId: this.addForm.customerId,
-          contracterId: '',
-          changeId: '',
+          contacterId: '',
+          chanceId: '',
           productId: '',
           productName: '',
           specificationId: '',
@@ -227,6 +227,8 @@
       this.getCustomersList()
       if (this.params.orderDetail) { // 编辑
         this.addForm = this.params.orderDetail
+        this.getChanceList(this.params.orderDetail.customerId)
+        this.getContactList(this.params.orderDetail.customerId)
       }
       if (this.params.detailCustomersId) { // 详细页面的添加, 并禁用下拉列表
         this.addForm.customerId = this.params.detailCustomersId

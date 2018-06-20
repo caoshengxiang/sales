@@ -380,7 +380,7 @@
           this.chanceTotal = da.data.totalElements
         })
       },
-      getOrderList () { // todo
+      getOrderList () {
         API.salesOrder.list({customerId: this.$route.query.customerId, pageSize: 5}, (da) => {
           this.orderList = da.data.content
           this.orderTotal = da.data.totalElements
@@ -455,7 +455,26 @@
             })
             break
           case 'deleteOrder':
-            alert(deleteId)
+            this.$confirm('确定删除销售订单, 是否继续?', '提示', {
+              confirmButtonText: '确定',
+              cancelButtonText: '取消',
+              type: 'warning',
+            }).then(() => {
+              API.salesOrder.deleteOrder(deleteId, (da) => {
+                if (da.status) {
+                  this.$message({
+                    type: 'success',
+                    message: '删除成功!',
+                  })
+                  this.getOrderList()
+                }
+              })
+            }).catch(() => {
+              this.$message({
+                type: 'info',
+                message: '已取消删除',
+              })
+            })
             break
         }
       }

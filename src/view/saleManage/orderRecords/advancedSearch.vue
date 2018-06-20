@@ -11,7 +11,7 @@
           <!--去除了联系人-->
           <el-col :span="8">
             <el-form-item label="发布人：">
-              <el-input type="text" v-model="searchForm.salerRelName"></el-input>
+              <el-input type="text" v-model="searchForm.creatorName"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -59,10 +59,10 @@
         salesState: [], // 销售阶段
         searchForm: { // 表单
           customerName: null,
-          salerRelName: null,
+          creatorName: null,
           stage: null,
-          startCreateDate: null,
-          endCreateDate: null,
+          startDate: null,
+          endDate: null,
         },
         timeInterval: '',
       }
@@ -73,8 +73,8 @@
         this.$vDialog.close({type: 'search', params: this.searchForm})
       },
       timeIntervalHandle (value) {
-        this.searchForm.startCreateDate = value[0] || ''
-        this.searchForm.endCreateDate = value[1] || ''
+        this.searchForm.startDate = value[0] || ''
+        this.searchForm.endDate = value[1] || ''
       },
     },
     created () {

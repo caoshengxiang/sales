@@ -75,7 +75,7 @@
       },
     },
     created () {
-      this.addForm.chanceId = this.params.detailChangeId
+      this.addForm.chanceId = this.params.detailChanceId
       // if (this.params.detail) {
         // let detail = JSON.parse(JSON.stringify(this.params.detail))
         // this.addForm = { // 添加表单

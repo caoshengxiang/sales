@@ -289,7 +289,7 @@
           this.chanceTotal = da.data.totalElements
         })
       },
-      getOrderList (customerId) { // todo
+      getOrderList (customerId) {
         API.salesOrder.list({customerId: customerId, pageSize: 5}, (da) => {
           this.orderList = da.data.content
           this.orderTotal = da.data.totalElements
@@ -339,7 +339,7 @@
               params: {
                 detailCustomersId: this.contactsDetail.customerId,
               },
-              callback (data) {
+              callback: (data) => {
                 if (data.type === 'save') {
                   this.getOrderList(that.contactsDetail.customerId)
                 }
@@ -347,7 +347,26 @@
             })
             break
           case 'deleteOrder':
-            alert(deleteId)
+            this.$confirm('确定删除销售订单, 是否继续?', '提示', {
+              confirmButtonText: '确定',
+              cancelButtonText: '取消',
+              type: 'warning',
+            }).then(() => {
+              API.salesOrder.deleteOrder(deleteId, (da) => {
+                if (da.status) {
+                  this.$message({
+                    type: 'success',
+                    message: '删除成功!',
+                  })
+                  this.getOrderList(this.contactsDetail.customerId)
+                }
+              })
+            }).catch(() => {
+              this.$message({
+                type: 'info',
+                message: '已取消删除',
+              })
+            })
             break
         }
       }

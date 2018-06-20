@@ -47,11 +47,11 @@
             <table class="detail-table">
               <tr>
                 <td class="td-title">订单机会</td>
-                <td>{{orderDetail.changeName}}</td>
+                <td>{{orderDetail.chanceName}}</td>
                 <td class="td-title">客户名称</td>
                 <td>{{orderDetail.customerName}}</td>
                 <td class="td-title">客户联系人</td>
-                <td>{{orderDetail.contracterName}}[电话]</td>
+                <td>{{orderDetail.contacterName}}[{{orderDetail.contacterPhone}}]</td>
               </tr>
               <tr>
                 <td class="td-title">是否续费</td>
@@ -86,7 +86,7 @@
             <table class="detail-table">
               <tr>
                 <td class="td-title">销售订单创建时间</td>
-                <td colspan="5">{{orderDetail.created}}</td>
+                <td colspan="5">{{orderDetail.created && $moment(orderDetail.created).format('YYYY-MM-DD HH:mm:ss')}}</td>
               </tr>
             </table>
           </el-tab-pane>
@@ -348,7 +348,7 @@
       },
       getSalesOrderDetail () {
         this.dataLoading = true
-        API.salesOrder.detail(this.$route.query.id + '/todo', (data) => {
+        API.salesOrder.detail(this.$route.query.id, (data) => {
           setTimeout(() => {
             this.dataLoading = false
             if (data.status) {

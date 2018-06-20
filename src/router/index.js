@@ -273,8 +273,8 @@ const router = new Router({
           component: salesOpportunitiesDetail,
           meta: {
             title: '销售机会详情',
-            pos: [{name: '销售管理系统', toName: 'saleHome'}, {name: '销售机会', toName: 'salesOpportunitiesList'}, {name: 'salesOpportunitiesDetail'}],
-            pos2: [{name: '管理系统', toName: 'companyManageHome'}, {name: '销售机会', toName: 'salesOpportunitiesList'}, {name: 'salesOpportunitiesDetail'}],
+            pos: [{name: '销售管理系统', toName: 'saleHome'}, {name: '销售机会', toName: 'salesOpportunitiesList'}, {name: '销售机会详情'}],
+            pos2: [{name: '管理系统', toName: 'companyManageHome'}, {name: '销售机会', toName: 'salesOpportunitiesList'}, {name: '销售机会详情'}],
           },
         }, {
           path: 'salesOrdersList',

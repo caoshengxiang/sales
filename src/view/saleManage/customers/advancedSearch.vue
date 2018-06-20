@@ -19,13 +19,13 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <el-row class="el-row-cla">
-          <el-col :span="8">
-            <el-form-item label="销售人：">
-              <el-input type="text" v-model="searchForm.salerName"></el-input>
-            </el-form-item>
-          </el-col>
-        </el-row>
+        <!--<el-row class="el-row-cla">-->
+          <!--<el-col :span="8">-->
+            <!--<el-form-item label="销售人：">-->
+              <!--<el-input type="text" v-model="searchForm.salerName"></el-input>-->
+            <!--</el-form-item>-->
+          <!--</el-col>-->
+        <!--</el-row>-->
         <el-row class="el-row-cla">
           <el-col :span="8">
             <el-form-item label="客户级别：">

@@ -69,7 +69,8 @@
           width="200"
         >
           <template slot-scope="scope">
-            <a class="col-link" @click="handleRouter('detail', scope.row.id)">{{ scope.row.billOrderId }}</a>
+            <!--<a class="col-link" @click="handleRouter('detail', scope.row.id)">{{ scope.row.billOrderId }}</a>-->
+            <a class="col-link" @click="handleRouter('detail', scope.row.id)">{{ scope.row.id }}</a>
           </template>
         </el-table-column>
         <el-table-column
@@ -80,7 +81,7 @@
           show-overflow-tooltip
           width="120">
           <template slot-scope="scope">
-            <a class="col-link">{{ scope.row.changeName }}</a></template>
+            <router-link class="col-link" :to="{name: 'salesOpportunitiesDetail', query: {view: 'detail', id: scope.row.chanceId}, params: {end: 'FE'}}">{{ scope.row.chanceName }}</router-link></template>
         </el-table-column>
         <el-table-column
           align="center"
@@ -90,7 +91,7 @@
           show-overflow-tooltip
           width="160">
           <template slot-scope="scope">
-            <a class="col-link">{{ scope.row.customerName }}</a></template>
+            <router-link class="col-link" :to="{name: 'customersDetail', query: {view: 'detail', customerId: scope.row.customerId}, params: {end: 'FE'}}">{{ scope.row.customerName }}</router-link></template>
         </el-table-column>
         <el-table-column
           align="center"
@@ -99,7 +100,7 @@
           label="联系人"
           width="160"
           show-overflow-tooltip>
-          <template slot-scope="scope">{{ scope.row.contracterName }}</template>
+          <template slot-scope="scope">{{ scope.row.contacterName }}</template>
         </el-table-column>
         <el-table-column
           align="center"
@@ -197,6 +198,9 @@
           label="创建日期"
           width="160"
           show-overflow-tooltip>
+          <template slot-scope="scope">
+            {{scope.row.created && $moment(scope.row.created).format('YYYY-MM-DD')}}
+          </template>
         </el-table-column>
         <el-table-column
           v-if="themeIndex === 1"
@@ -294,9 +298,9 @@
               params: {
                 // id: '123456',
               },
-              callback (data) {
+              callback: (data) => {
                 if (data.type === 'save') {
-                  alert('弹窗关闭，添加成功刷新列表')
+                  this.getSalesOrderList()
                 }
               },
             })

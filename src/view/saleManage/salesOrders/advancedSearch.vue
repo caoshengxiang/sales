@@ -15,7 +15,7 @@
           </el-col>
           <el-col :span="8">
             <el-form-item label="联系人：">
-              <el-input type="text" v-model="searchForm.contracterName"></el-input>
+              <el-input type="text" v-model="searchForm.contacterName"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -27,7 +27,7 @@
           </el-col>
           <el-col :span="8">
             <el-form-item label="销售相关人员：">
-              <el-input type="text" v-model="searchForm.team"></el-input>
+              <el-input type="text" v-model="searchForm.salerRelName"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -138,9 +138,9 @@
         searchForm: { // 表单
           billOrderId: null,
           customerName: null,
-          contracterName: null,
+          contacterName: null,
           productName: null,
-          team: null, // todo 位置
+          salerRelName: null,
           orderState: null,
           source: null,
           isRenew: null,
