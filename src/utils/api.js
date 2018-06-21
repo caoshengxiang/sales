@@ -929,7 +929,7 @@ export default {
     },
   },
   baseSetting: {
-    getOrganizationGoodsConf(params, success, error){
+    getOrganizationGoodsConf (params, success, error) {
       $axios.get('organizationGoodsConf', {}).then((res) => {
         success && success(res.data)
       }).catch(() => {
