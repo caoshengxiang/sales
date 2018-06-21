@@ -907,6 +907,15 @@ export default {
     },
   },
   baseSetting: {
+    getOrganizationGoodsConf(params, success, error){
+      $axios.get('organizationGoodsConf', {}).then((res) => {
+        success && success(res.data)
+      }).catch(() => {
+        setTimeout(() => {
+          error && error(mockdata)
+        }, 1000)
+      })
+    },
     getsettlement (params, success, error) { // 佣金规则列表
       $axios.get('codeConfig/settlement', {}).then((res) => {
         success && success(res.data)

@@ -13,11 +13,6 @@
     <!--控制栏-->
     <div class="com-bar">
       <div class="com-bar-left">
-        <com-button buttonType="delete" icon="el-icon-delete" @click="deleteRole">刪除
-        </com-button>
-        <com-button buttonType="add" icon="el-icon-plus" @click="add">新增</com-button>
-        <com-button buttonType="grey" icon="el-icon-edit" @click="update">修改
-        </com-button>
         <com-button buttonType="grey" icon="el-icon-remove-outline" @click="save">保存
         </com-button>
       </div>
@@ -28,10 +23,10 @@
         <el-col :span="6">
           <div class="role-head-con">组织名称</div>
           <el-menu
-            :default-active="roleDefaultIndex"
+            :default-active="organizationIndex"
             @select="selectRole">
             <el-menu-item
-              v-for="item in roleList"
+              v-for="item in allorganization"
               :key="item.id"
               :index="item.id.toString()">
               <span slot="title">{{item.name}}</span>
@@ -45,7 +40,8 @@
           <div class="role-view-con">
             <el-table
               border
-              tooltip-effect="dark">
+              tooltip-effect="dark"
+              :data="roleDetail">
               <el-table-column
                 align="center"
                 label="商品"
@@ -98,7 +94,9 @@
         roleDetail:{},
         initBusinessSystemsIndex:"",
         businessSystemList:[],
-        searchForm:{}
+        searchForm:{},
+        allorganization:[],
+        organizationIndex:"1"
       }
     },
     components: {
@@ -106,9 +104,54 @@
     },
     created () {
       var that = this;
-      that.$options.methods.getRoleList.bind(that)();
+     // that.$options.methods.getRoleList.bind(that)();
+      that.$options.methods.getOrganizationList.bind(that)();
     },
     methods: {
+      getOrganizationList() {
+        var that = this;
+        let params ={
+          page: 1,
+          pageSize: 999,
+          pid : 1,
+          type : 1
+        }
+        API.organization.queryAllList(params, (res) => {
+          that.allorganization = res.data
+          if (that.allorganization.length > 0) {
+            that.organizationIndex = that.allorganization[0].id.toString();
+          }
+        }, (mock) => {
+          this.alldepartments = mock.data
+          this.dataLoading = false
+        })
+      },
+      getOrgDetail(id){
+        var that = this;
+        that.roleDefaultIndex = id.toString();
+        that.loading = true;
+        API.role.getDetail({id:id},function (res) {
+          that.loading = false;
+          if(res.status){
+            that.roleDetail = res.data;
+            if (res.data.businessSystems && res.data.businessSystems.length > 0) {
+              that.businessSystemList = res.data.businessSystems;
+              that.initBusinessSystemsIndex = res.data.businessSystems[0].id;
+            }
+          }else{
+            Message({
+              message: res.error.message,
+              type: 'error'
+            });
+          }
+        },function () {
+          that.loading = false;
+          Message({
+            message: '系统繁忙，请稍后再试1！',
+            type: 'error'
+          });
+        });
+      },
       getRoleList () {
         var that = this;
         this.loading = true
@@ -158,14 +201,11 @@
         var that = this;
         that.roleDefaultIndex = id.toString();
         that.loading = true;
-        API.role.getDetail({id:id},function (res) {
+        API.baseSetting.getOrganizationGoodsConf({id:id},function (res) {
           that.loading = false;
           if(res.status){
             that.roleDetail = res.data;
-            if (res.data.businessSystems && res.data.businessSystems.length > 0) {
-              that.businessSystemList = res.data.businessSystems;
-              that.initBusinessSystemsIndex = res.data.businessSystems[0].id;
-            }
+
           }else{
             Message({
               message: res.error.message,
