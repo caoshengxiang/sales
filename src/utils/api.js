@@ -1,7 +1,6 @@
 import utils from '../utils/utils'
 import '../utils/axiosConfig' // axios配置文件
-// const externalAPI = 'http://47.96.26.250:84'
-const externalAPI = 'http://app.zzcfo.cn'
+import { externalAPI } from './const'
 
 export default {
   // app外部依赖接口,【注意：基本地址改变】
