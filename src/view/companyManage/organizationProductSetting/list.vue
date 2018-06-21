@@ -41,12 +41,13 @@
             <el-table
               border
               tooltip-effect="dark"
-              :data="roleDetail">
+              :data="roleDetail"
+             >
               <el-table-column
                 align="center"
                 label="商品"
                 show-overflow-tooltip
-                prop="name"
+                prop="goodsName"
                 width="200"
               >
               </el-table-column>
@@ -56,8 +57,8 @@
                 label="是否设为签约主体"
               >
                 <template slot-scope="scope">
-                  <el-radio v-model="scope.row.dataAuthority" :label="0">否</el-radio>
-                  <el-radio v-model="scope.row.dataAuthority" :label="1">是</el-radio>
+                  <el-radio v-model="scope.row.beContractSubject" :label="0">否</el-radio>
+                  <el-radio v-model="scope.row.beContractSubject" :label="1">是</el-radio>
                 </template>
               </el-table-column>
               <el-table-column
@@ -66,8 +67,8 @@
                 label="主体是否可销售"
               >
                 <template slot-scope="scope">
-                  <el-radio v-model="scope.row.operateAuthority" :label="0">否</el-radio>
-                  <el-radio v-model="scope.row.operateAuthority" :label="1">是</el-radio>
+                  <el-radio v-model="scope.row.saleable" :label="0">否</el-radio>
+                  <el-radio v-model="scope.row.saleable" :label="1">是</el-radio>
                 </template>
               </el-table-column>
             </el-table>
@@ -91,7 +92,7 @@
         loading: false,
         roleList:[],
         roleDefaultIndex:"1",
-        roleDetail:{},
+        roleDetail:[],
         initBusinessSystemsIndex:"",
         businessSystemList:[],
         searchForm:{},
@@ -120,6 +121,7 @@
           that.allorganization = res.data
           if (that.allorganization.length > 0) {
             that.organizationIndex = that.allorganization[0].id.toString();
+            that.$options.methods.getRoleDetail.bind(that)(that.organizationIndex);
           }
         }, (mock) => {
           this.alldepartments = mock.data
@@ -158,7 +160,8 @@
         API.role.queryList(that.searchForm, (res) => {
           that.loading = false;
           if(res.status){
-            that.roleList = res.data;
+            that.roleList = res.data.content;
+            alert(that.roleList.length )
             if (that.roleList.length > 0) {
               that.roleDefaultIndex = that.roleList[0].id.toString();
               that.$options.methods.getRoleDetail.bind(that)(that.roleDefaultIndex);
@@ -204,8 +207,7 @@
         API.baseSetting.getOrganizationGoodsConf({id:id},function (res) {
           that.loading = false;
           if(res.status){
-            that.roleDetail = res.data;
-
+            that.roleDetail = res.data.content;
           }else{
             Message({
               message: res.error.message,
@@ -248,7 +250,7 @@
           type: 'warning'
         }).then(() => {
           that.loading = true;
-          API.role.delete({id:that.roleDefaultIndex},function (res) {
+          API.baseSetting.saveOrganizationGoodsConf({id:that.roleDefaultIndex},function (res) {
           that.loading = false;
           if(res.status){
             Message({
@@ -274,7 +276,7 @@
       save() {
         var that = this;
         that.loading = true;
-        API.role.update(that.roleDetail,function (resData) {
+        API.baseSetting.saveOrganizationGoodsConf(that.roleDetail,function (resData) {
           that.loading = false;
           if(resData.status){
             Message({
