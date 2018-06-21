@@ -79,7 +79,7 @@
           prop="changeName"
           label="关联销售机会"
           show-overflow-tooltip
-          width="120">
+          width="160">
           <template slot-scope="scope">
             <router-link class="col-link" :to="{name: 'salesOpportunitiesDetail', query: {view: 'detail', id: scope.row.chanceId}, params: {end: 'FE'}}">{{ scope.row.chanceName }}</router-link></template>
         </el-table-column>
@@ -100,7 +100,7 @@
           label="联系人"
           width="160"
           show-overflow-tooltip>
-          <template slot-scope="scope">{{ scope.row.contacterName }}</template>
+          <template slot-scope="scope"><router-link class="col-link" :to="{name: 'contactsDetail', query: {view: 'detail', contactsId: scope.row.contacterId}, params: {end: 'FE'}}">{{ scope.row.contacterName }}</router-link></template>
         </el-table-column>
         <el-table-column
           align="center"
