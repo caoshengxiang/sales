@@ -75,13 +75,13 @@
             <el-form-item label="签单金额：">
               <el-row>
                 <el-col :span="10">
-                  <el-input @change="intervalStartHandle" type="number" v-model.number="searchForm.billAmountStart"></el-input>
+                  <el-input @change="intervalStartHandle" type="number" v-model.number="searchForm.startBillAmount"></el-input>
                 </el-col>
                 <el-col :span="2">
                   <div style="text-align: center">-</div>
                 </el-col>
                 <el-col :span="10">
-                  <el-input @change="intervalEndHandle" type="number" v-model.number="searchForm.billAmountEnd"></el-input>
+                  <el-input @change="intervalEndHandle" type="number" v-model.number="searchForm.endBillAmount"></el-input>
                 </el-col>
               </el-row>
             </el-form-item>
@@ -90,13 +90,13 @@
             <el-form-item label="回款金额：">
               <el-row>
                 <el-col :span="10">
-                  <el-input @change="intervalStartHandle" type="number" v-model.number="searchForm.refund_amountStart"></el-input>
+                  <el-input @change="intervalStartHandle" type="number" v-model.number="searchForm.startRefundAmount"></el-input>
                 </el-col>
                 <el-col :span="2">
                   <div style="text-align: center">-</div>
                 </el-col>
                 <el-col :span="10">
-                  <el-input @change="intervalEndHandle" type="number" v-model.number="searchForm.refund_amountEnd"></el-input>
+                  <el-input @change="intervalEndHandle" type="number" v-model.number="searchForm.endRefundAmount"></el-input>
                 </el-col>
               </el-row>
             </el-form-item>
@@ -105,13 +105,13 @@
             <el-form-item label="待回款金额：">
               <el-row>
                 <el-col :span="10">
-                  <el-input @change="intervalStartHandle" type="number" v-model.number="searchForm.not_refund_amountStart"></el-input>
+                  <el-input @change="intervalStartHandle" type="number" v-model.number="searchForm.startNotRefundAmount"></el-input>
                 </el-col>
                 <el-col :span="2">
                   <div style="text-align: center">-</div>
                 </el-col>
                 <el-col :span="10">
-                  <el-input @change="intervalEndHandle" type="number" v-model.number="searchForm.not_refund_amountEnd"></el-input>
+                  <el-input @change="intervalEndHandle" type="number" v-model.number="searchForm.endNotRefundAmount"></el-input>
                 </el-col>
               </el-row>
             </el-form-item>
@@ -146,44 +146,44 @@
           isRenew: null,
           startDate: null,
           endDate: null,
-          billAmountStart: null, // 签单金额，todo 未知
-          billAmountEnd: null,
-          refund_amountStart: null, // todo
-          refund_amountEnd: null,
-          not_refund_amountStart: null, // todo
-          not_refund_amountEnd: null
+          startBillAmount: null, // 签单金额
+          endBillAmount: null,
+          startRefundAmount: null,
+          endRefundAmount: null,
+          startNotRefundAmount: null,
+          endNotRefundAmount: null
         },
         timeInterval: '',
       }
     },
     props: ['params'],
     methods: {
-      intervalStartHandle () { // todo
-        if (this.searchForm.billAmountStart > this.searchForm.billAmountEnd) {
-          this.searchForm.billAmountEnd = null
+      intervalStartHandle () {
+        if (this.searchForm.startBillAmount > this.searchForm.endBillAmount) {
+          this.searchForm.endBillAmount = null
         }
-        if (this.searchForm.refund_amountStart > this.searchForm.refund_amountEnd) {
-          this.searchForm.refund_amountEnd = null
+        if (this.searchForm.startRefundAmount > this.searchForm.endRefundAmount) {
+          this.searchForm.endRefundAmount = null
         }
-        if (this.searchForm.not_refund_amountStart > this.searchForm.not_refund_amountEnd) {
-          this.searchForm.not_refund_amountEnd = null
+        if (this.searchForm.startNotRefundAmount > this.searchForm.endNotRefundAmount) {
+          this.searchForm.endNotRefundAmount = null
         }
-      }, // todo
+      },
       intervalEndHandle () {
-        if (this.searchForm.billAmountStart && this.searchForm.billAmountStart > this.searchForm.billAmountEnd) {
-          this.searchForm.billAmountEnd = this.searchForm.billAmountStart
+        if (this.searchForm.startBillAmount && this.searchForm.startBillAmount > this.searchForm.endBillAmount) {
+          this.searchForm.endBillAmount = this.searchForm.startBillAmount
         }
-        if (this.searchForm.refund_amountStart && this.searchForm.refund_amountStart > this.searchForm.refund_amountEnd) {
-          this.searchForm.refund_amountEnd = this.searchForm.refund_amountStart
+        if (this.searchForm.startRefundAmount && this.searchForm.startRefundAmount > this.searchForm.endRefundAmount) {
+          this.searchForm.endRefundAmount = this.searchForm.startRefundAmount
         }
-        if (this.searchForm.not_refund_amountStart && this.searchForm.not_refund_amountStart > this.searchForm.not_refund_amountEnd) {
-          this.searchForm.not_refund_amountEnd = this.searchForm.not_refund_amountStart
+        if (this.searchForm.startNotRefundAmount && this.searchForm.startNotRefundAmount > this.searchForm.endNotRefundAmount) {
+          this.searchForm.endNotRefundAmount = this.searchForm.startNotRefundAmount
         }
       },
       saveSubmitForm () {
         this.$vDialog.close({type: 'search', params: this.searchForm})
       },
-      timeIntervalHandle (value) { // todo 未知属性名称
+      timeIntervalHandle (value) {
         this.searchForm.startDate = value[0] || ''
         this.searchForm.endDate = value[1] || ''
       },

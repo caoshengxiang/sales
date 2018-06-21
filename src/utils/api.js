@@ -487,6 +487,13 @@ export default {
         error && error(err)
       })
     },
+    edit (params, success, error) { // 新增销售订单（预下单）
+      $axios.put('salerOrder/' + params.path, params.body).then((res) => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+    },
     appOrder (params, success, error) { // app下单
       $axios.post('salerOrder/doOrder', params).then((res) => {
         success && success(res.data)
@@ -503,6 +510,13 @@ export default {
     },
     deleteOrder (params, success, error) { // 删除销售订单
       $axios.delete('salerOrder/' + params).then((res) => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+    },
+    batchDeleteOrder (params, success, error) { // 批量删除销售订单
+      $axios.post('salerOrder/batch/delete', params).then((res) => {
         success && success(res.data)
       }).catch((err) => {
         error && error(err)

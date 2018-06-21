@@ -98,12 +98,12 @@
         searchForm: { // 表单
           intentProductName: null,
           customerName: null,
-          salerRelName: null, // todo 未知
+          salerRelName: null,
           stage: null,
           source: null,
           startCreateDate: null,
           endCreateDate: null,
-          startIntentBillAmount: null, // 签单金额，todo 未知
+          startIntentBillAmount: null, // 签单金额
           endIntentBillAmount: null,
         },
         timeInterval: '',

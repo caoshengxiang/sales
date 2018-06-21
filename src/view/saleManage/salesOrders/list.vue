@@ -63,20 +63,20 @@
         <el-table-column
           align="center"
           sortable="custom"
-          prop="billOrderId"
+          prop="id"
           label="订单编号"
           show-overflow-tooltip
           width="200"
         >
           <template slot-scope="scope">
             <!--<a class="col-link" @click="handleRouter('detail', scope.row.id)">{{ scope.row.billOrderId }}</a>-->
-            <a class="col-link" @click="handleRouter('detail', scope.row.id)">{{ scope.row.id }}</a>
+            <a class="col-link" @click="handleRouter('detail', scope.row.id)">{{ scope.row.id + scope.row.orderId}}</a>
           </template>
         </el-table-column>
         <el-table-column
           align="center"
           sortable="custom"
-          prop="changeName"
+          prop="chanceName"
           label="关联销售机会"
           show-overflow-tooltip
           width="160">
@@ -96,7 +96,7 @@
         <el-table-column
           align="center"
           sortable="custom"
-          prop="contracterName"
+          prop="contacterName"
           label="联系人"
           width="160"
           show-overflow-tooltip>
@@ -311,12 +311,13 @@
               cancelButtonText: '取消',
               type: 'warning',
             }).then(() => {
-              API.salesOrder.deleteOrder(arrToStr(this.multipleSelection, 'id'), (da) => {
+              API.salesOrder.batchDeleteOrder({salerOrderIds: arrToStr(this.multipleSelection, 'id')}, (da) => {
                 if (da.status) {
-                  this.$message({
-                    type: 'success',
-                    message: '删除成功!',
-                  })
+                  if (da.data.fail > 0) {
+                    this.$message.warning(`成功${da.data.success}, 失败${da.data.fail}, 失败原因：${da.data.errorMessage}`)
+                  } else {
+                    this.$message.success(`成功${da.data.success},失败${da.data.fail}`)
+                  }
                   this.getSalesOrderList()
                 }
               })

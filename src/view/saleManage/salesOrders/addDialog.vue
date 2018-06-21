@@ -139,15 +139,27 @@
         this.$refs[formName].validate((valid) => {
           if (valid) {
             this.dataLoading = true
-            API.salesOrder.add(this.addForm, (da) => {
-              setTimeout(() => {
-                this.dataLoading = false
-                if (da.status) {
-                  this.$message.success('添加成功')
-                  this.$vDialog.close({type: 'save'})
-                }
-              }, 500)
-            })
+            if (this.params.orderDetail) { // 编辑
+              API.salesOrder.edit({path: this.addForm.id, body: this.addForm}, (da) => {
+                setTimeout(() => {
+                  this.dataLoading = false
+                  if (da.status) {
+                    this.$message.success('添加成功')
+                    this.$vDialog.close({type: 'save'})
+                  }
+                }, 500)
+              })
+            } else {
+              API.salesOrder.add(this.addForm, (da) => {
+                setTimeout(() => {
+                  this.dataLoading = false
+                  if (da.status) {
+                    this.$message.success('添加成功')
+                    this.$vDialog.close({type: 'save'})
+                  }
+                }, 500)
+              })
+            }
           } else {
             console.log('error submit!!')
             return false
@@ -226,8 +238,9 @@
     created () {
       this.getCustomersList()
       if (this.params.orderDetail) { // 编辑
-        this.addForm = this.params.orderDetail
+        this.addForm = JSON.parse(JSON.stringify(this.params.orderDetail))
         this.getChanceList(this.params.orderDetail.customerId)
+        this.getProductsList(this.params.orderDetail.productId)
         this.getContactList(this.params.orderDetail.customerId)
       }
       if (this.params.detailCustomersId) { // 详细页面的添加, 并禁用下拉列表
