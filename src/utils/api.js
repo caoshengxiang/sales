@@ -878,7 +878,7 @@ export default {
     },
   },
 
-  //任务审批管理
+  // 任务审批管理
   task: {
     queryList (params, success, error) { // 用户列表
       $axios.get('approval', {

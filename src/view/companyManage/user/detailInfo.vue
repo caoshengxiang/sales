@@ -13,7 +13,7 @@
     <!--详细-->
     <div class="com-box detail-info-box">
       <div class="detail-left com-box-padding">
-        <el-tabs v-model="activeViewName" type="card" >
+        <el-tabs v-model="activeViewName" type="card">
           <el-tab-pane label="用户资料信息" name="detail">
             <p class="table-title">用户资料信息</p>
             <table class="detail-table">
@@ -24,11 +24,11 @@
                 <td>{{userDetail.jobNo}}</td>
                 <td class="td-title">联系电话</td>
                 <td>{{userDetail.mobilePhone}}</td>
-              <!--  <td rowspan="6">
-                  <div class="head">
-                  <img src="../../../assets/icon/headDefault.png" alt="">
-                </div>
-                </td>-->
+                <!--  <td rowspan="6">
+                    <div class="head">
+                    <img src="../../../assets/icon/headDefault.png" alt="">
+                  </div>
+                  </td>-->
               </tr>
               <tr>
                 <td class="td-title">身份证编号</td>
@@ -41,11 +41,11 @@
               <tr>
                 <td class="td-title">出生日期</td>
                 <td>{{$moment(userDetail.birthday).format('YYYY-MM-DD')}}</td>
-              <td class="td-title">邮箱</td>
-              <td>{{userDetail.mail}}</td>
-              <td class="td-title">QQ</td>
-              <td>{{userDetail.qq}}</td>
-            </tr>
+                <td class="td-title">邮箱</td>
+                <td>{{userDetail.mail}}</td>
+                <td class="td-title">QQ</td>
+                <td>{{userDetail.qq}}</td>
+              </tr>
               <tr>
                 <td class="td-title">微信号</td>
                 <td>{{userDetail.wx}}</td>
@@ -57,16 +57,16 @@
                 </td>
               </tr>
             </table>
-              <p class="table-title">组织信息</p>
-              <table class="detail-table">
-                <tr>
-                  <td class="td-title">组织</td>
-                  <td>{{userDetail.organizationName}}</td>
-                  <td class="td-title">部门</td>
-                  <td>{{userDetail.departmentName}}</td>
-                  <td class="td-title">角色</td>
-                  <td ><label v-for="temp in userDetail.roles">{{temp.name}}\</label></td>
-                </tr>
+            <p class="table-title">组织信息</p>
+            <table class="detail-table">
+              <tr>
+                <td class="td-title">组织</td>
+                <td>{{userDetail.organizationName}}</td>
+                <td class="td-title">部门</td>
+                <td>{{userDetail.departmentName}}</td>
+                <td class="td-title">角色</td>
+                <td><label v-for="temp in userDetail.roles" :key="temp.name">{{temp.name}}</label></td>
+              </tr>
               <tr>
                 <td class="td-title">直接上级</td>
                 <td>{{userDetail.superiorName}}</td>
@@ -99,7 +99,7 @@
                 <td class="td-title">开户名称</td>
                 <td>{{userDetail.bankUsername}}</td>
                 <td class="td-title">开户地点</td>
-                <td  colspan="3">{{userDetail.bankAccount}}</td>
+                <td colspan="3">{{userDetail.bankAccount}}</td>
               </tr>
             </table>
           </el-tab-pane>
@@ -112,10 +112,9 @@
 </template>
 
 <script>
-  import comButton from '../../../components/button/comButton'
+  // import comButton from '../../../components/button/comButton'
   import API from '../../../utils/api'
   import { mapState, mapActions } from 'vuex'
-
 
   export default {
     name: 'detailInfo',
@@ -136,8 +135,7 @@
         this.activeViewName = view
       },
     },
-    components: {
-    },
+    components: {},
     methods: {
       ...mapActions('user', [
         'ac_userDetail',

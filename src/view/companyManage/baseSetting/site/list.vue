@@ -22,28 +22,28 @@
     <div class="com-box com-box-padding com-list-box">
 
       <div class="role-view-con">
-            <el-table
-              border
-              tooltip-effect="dark"
-              :data="tableData">
-              <el-table-column
-                show-overflow-tooltip
-                align="center"
-                prop="siteName"
-                label="站点名称"
-              >
-              </el-table-column>
-              <el-table-column
-                show-overflow-tooltip
-                align="center"
-                label="站点开关"
-              >
-                <template slot-scope="scope">
-                  <el-radio v-model="scope.row.state" :label="1">是</el-radio>
-                  <el-radio v-model="scope.row.state" :label="0">否</el-radio>
-                </template>
-              </el-table-column>
-            </el-table>
+        <el-table
+          border
+          tooltip-effect="dark"
+          :data="tableData">
+          <el-table-column
+            show-overflow-tooltip
+            align="center"
+            prop="siteName"
+            label="站点名称"
+          >
+          </el-table-column>
+          <el-table-column
+            show-overflow-tooltip
+            align="center"
+            label="站点开关"
+          >
+            <template slot-scope="scope">
+              <el-radio v-model="scope.row.state" :label="1">是</el-radio>
+              <el-radio v-model="scope.row.state" :label="0">否</el-radio>
+            </template>
+          </el-table-column>
+        </el-table>
       </div>
     </div>
   </div>
@@ -52,9 +52,9 @@
 <script>
   import { mapState } from 'vuex'
   import API from '../../../../utils/api'
-  import utils from '../../../../utils/utils'
+  // import utils from '../../../../utils/utils'
   import comButton from '../../../../components/button/comButton'
-  import moment from 'moment'
+  // import moment from 'moment'
 
   export default {
     name: 'list',
@@ -72,53 +72,52 @@
       comButton,
     },
     created () {
-      var that = this;
-      that.$options.methods.getSiteList.bind(that)();
+      var that = this
+      that.$options.methods.getSiteList.bind(that)()
     },
     methods: {
       getSiteList () {
-        var that = this;
+        var that = this
         this.loading = true
         let param = {}
         API.baseSetting.getSiteList(param, (res) => {
-          that.loading = false;
-          if(res.status){
-            that.tableData = res.data;
-          }else{
+          that.loading = false
+          if (res.status) {
+            that.tableData = res.data
+          } else {
             that.$message({
               message: res.error.message,
-              type: 'error'
-            });
+              type: 'error',
+            })
           }
-
         }, (mock) => {
-          that.loading = false;
+          that.loading = false
           that.$message({
             message: '系统繁忙，请稍后再试！',
-            type: 'error'
-          });
+            type: 'error',
+          })
         })
       },
-      save() {
-        var that = this;
-        that.loading = true;
-        API.baseSetting.saveSite(that.tableData,function (resData) {
-          that.loading = false;
-          if(resData.status){
+      save () {
+        var that = this
+        that.loading = true
+        API.baseSetting.saveSite(that.tableData, function (resData) {
+          that.loading = false
+          if (resData.status) {
             that.$message({
               message: '保存成功！',
-              type: 'success'
-            });
-            that.$options.methods.getSiteList.bind(that)();
+              type: 'success',
+            })
+            that.$options.methods.getSiteList.bind(that)()
           }
-        },function () {
-          that.loading = false;
+        }, function () {
+          that.loading = false
           that.$message({
             message: '系统繁忙，请稍后再试！',
-            type: 'error'
-          });
+            type: 'error',
+          })
         })
-      }
+      },
 
     },
   }
@@ -126,11 +125,13 @@
 
 <style scoped lang="scss" rel="stylesheet/scss">
   @import "../../../../styles/common";
+
   .link {
     color: #00A7FE;
     text-decoration: underline;
     cursor: pointer;
   }
+
   .button {
     padding: 5px 10px;
     color: #fff;

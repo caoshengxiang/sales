@@ -54,7 +54,8 @@
           label="消息标题"
         >
           <template slot-scope="scope">
-            <a class="col-link" @click="handleRouter('detail')" :class="{'read-message': scope.row.read}">{{ scope.row.messageTitle }}</a>
+            <a class="col-link" @click="handleRouter('detail')" :class="{'read-message': scope.row.read}">{{
+              scope.row.messageTitle }}</a>
           </template>
         </el-table-column>
         <el-table-column
@@ -118,7 +119,7 @@
             messageType: '系统消息',
             messageTitle: '修改密码通知',
             date: '2016-05-03 12:00:00',
-            read: false
+            read: false,
           }],
         ipleSelection: [],
         currentPage: 1,
@@ -134,19 +135,19 @@
     },
     methods: {
       addHandle () {
-        var that = this;
-        this.$vDialog.modal(add,{
-          title:'发送消息通知',
-          width:700,
-          height:400,
+        var that = this
+        this.$vDialog.modal(add, {
+          title: '发送消息通知',
+          width: 700,
+          height: 400,
           params: {
-            store:that.$store, //弹窗组件如果需要用到vuex，必须传值过去赋值
-            action:"add"
+            store: that.$store, // 弹窗组件如果需要用到vuex，必须传值过去赋值
+            action: 'add',
           },
-          callback: function(data){
-            //that.$options.methods.getRoleList.bind(that)();
-          }
-        });
+          callback: function (data) {
+            // that.$options.methods.getRoleList.bind(that)();
+          },
+        })
       },
       deleteHandle () {
         alert('move')
@@ -173,6 +174,7 @@
   .col-link {
     text-decoration: underline;
   }
+
   .read-message {
     color: #DDDDDD !important;
   }

@@ -158,7 +158,7 @@
   import assignDialog from './assignDialog'
   import groupDialog from './groupDialog'
   import API from '../../../utils/api'
-  import { arrToStr, underscoreName } from '../../../utils/utils'
+  import { arrToStr } from '../../../utils/utils'
 
   export default {
     name: 'list',

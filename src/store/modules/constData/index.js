@@ -261,7 +261,7 @@ export default {
         name: '普通职能',
       }
     ],
-    //角色系统
+    // 角色系统
     businessSystems: [
       {
         value: 100,

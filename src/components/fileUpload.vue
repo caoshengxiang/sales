@@ -55,8 +55,8 @@
 </template>
 
 <script>
-  import API from '@/utils/api'
-  import { Message } from 'element-ui'
+  // import API from '@/utils/api'
+  // import { Message } from 'element-ui'
 
   export default {
     data () {

@@ -15,9 +15,9 @@ import Vue from 'vue'
 
 // echart
 import echarts from 'echarts'
-//引入弹窗组件
+// 引入弹窗组件
 import vDialogs from 'v-dialogs'
-//引入行政区域下拉框联动组件
+// 引入行政区域下拉框联动组件
 import AreaSelect from '../components/areaSelect'
 // meonment 作为全局方法
 import moment from 'moment'

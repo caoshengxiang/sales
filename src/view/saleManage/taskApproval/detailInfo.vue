@@ -239,7 +239,6 @@
               type: 'error',
             })
           }
-
         }, (mock) => {
           that.loading = false
           Message({
@@ -247,7 +246,6 @@
             type: 'error',
           })
         })
-
       },
       handleTabsClick (tab, event) {
         // console.log(tab.name)
@@ -272,7 +270,6 @@
           } else {
             this.$message.success(res.error.message)
           }
-
         }, (mock) => {
           that.loading = false
           this.$message.success('系统繁忙')
