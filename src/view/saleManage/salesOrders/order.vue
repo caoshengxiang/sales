@@ -3,7 +3,7 @@
     <div class="com-dialog">
       <el-form :model="addForm" ref="addForm" label-width="250px" :rules="rules">
         <el-form-item prop="" label="请点击该订单联系人获取手机验证码">
-          {{addForm.contracterName}}[12345678912]
+          {{orderDetail.contacterName}}[{{orderDetail.contacterPhone}}]
           <span class="code" v-if="time === 0" @click="getCode">获取验证码</span>
           <span class="code time" v-else>重新发送({{time}})</span>
         </el-form-item>
@@ -28,8 +28,10 @@
     data () {
       return {
         dataLoading: false, // loading
+        orderDetail: null,
         addForm: { // 添加表单
           salerOrderId: '',
+          mobilePhone: '',
           authCode: '',
         },
         time: 0,
@@ -64,19 +66,25 @@
         })
       },
       getCode () {
-        this.time = 60
-        this.timer = setInterval(() => {
-          this.time--
-          if (this.time <= 0) {
-            clearInterval(this.timer)
-            this.time = 0
+        API.user.userAuthcode({mobile: this.addForm.mobilePhone}, (da) => {
+          if (da.data > 0) {
+            this.time = 60
+            this.timer = setInterval(() => {
+              this.time--
+              if (this.time <= 0) {
+                clearInterval(this.timer)
+                this.time = 0
+              }
+            }, 1000)
           }
-        }, 1000)
+        })
       },
     },
     created () {
       if (this.params.orderDetail) {
+        this.orderDetail = this.params.orderDetail
         this.addForm.salerOrderId = this.params.orderDetail.id
+        this.addForm.mobilePhone = this.params.orderDetail.contacterPhone
       }
     },
   }

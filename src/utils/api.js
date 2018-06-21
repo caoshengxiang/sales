@@ -544,6 +544,15 @@ export default {
     },
   },
   user: {
+    userAuthcode (params, success, error) { // 下拉用户列表
+      $axios.get('user/authcode', {
+        params: params,
+      }).then((res) => {
+        success && success(res.data)
+      }).catch(err => {
+        error && error(err)
+      })
+    },
     userSearch (params, success, error) { // 下拉用户列表
       $axios.get('user/list', {
         params: params,

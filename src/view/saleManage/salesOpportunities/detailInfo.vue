@@ -198,7 +198,7 @@
               </tr>
               <tr>
               <tr v-for="item in orderList" :key="item.id">
-                <td>{{item.id}}</td>
+                <td>{{item.id + '-' + item.orderId}}</td>
                 <td>{{item.isRenew?'续费订单':'新签订单'}}</td>
               <td><span v-for="os in orderState" :key="os.type"
                         v-if="item.orderState === os.type">{{os.value}}</span>
@@ -281,6 +281,7 @@
   // import addChanceDialog from '../salesOpportunities/addDialog'
   import addOrderDialog from '../salesOrders/addDialog'
   import addOrderRecord from '../orderRecords/addDialog'
+  import order from './order'
 
   export default {
     name: 'detailInfo',
@@ -454,7 +455,7 @@
           this.ac_salesOpportunitiesDetail(data.data)
           this.getContactList(data.data.customerId)
           this.getOrderRecordsList(data.data.id)
-          this.getAppOrderList(data.data.customerId)
+          this.getAppOrderList(data.data.id)
           setTimeout(() => {
             this.dataLoading = false
           }, 500)
@@ -478,8 +479,8 @@
           this.orderRecordsTotal = da.data.totalElements
         })
       },
-      getAppOrderList (customerId) {
-        API.salesOrder.list({customerId: customerId, pageSize: 5}, (da) => {
+      getAppOrderList (id) {
+        API.salesOrder.list({chanceId: id, pageSize: 5}, (da) => {
           this.orderList = da.data.content
           this.orderTotal = da.data.totalElements
         })
@@ -544,6 +545,20 @@
             } else if (this.salesOpportunitiesDetail.stage !== 4) {
               this.$message.warning('预下订单阶段才能签单！')
             } else {
+              this.$vDialog.modal(order, {
+                title: '客户签单',
+                width: 964,
+                height: 500,
+                params: {
+                  salesOpportunitiesDetail: this.salesOpportunitiesDetail,
+                  orderState: this.orderState,
+                },
+                callback: (data) => {
+                  if (data.type === 'save') {
+                    this.getSalesOpportunitiesDetail()
+                  }
+                },
+              })
             }
             break
         }
@@ -557,7 +572,7 @@
             this.$router.push({name: 'orderRecordsList', query: {chanceId: this.salesOpportunitiesDetail.id}})
             break
           case 'order':
-            this.$router.push({name: 'salesOrdersList', query: {customerId: this.salesOpportunitiesDetail.customerId}})
+            this.$router.push({name: 'salesOrdersList', query: {chanceId: this.salesOpportunitiesDetail.id}})
             break
         }
       },

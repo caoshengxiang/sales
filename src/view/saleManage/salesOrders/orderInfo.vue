@@ -3,7 +3,7 @@
     <div class="percent">
       <div class="order-no">订单编号：</div>
       <div class="step-box">
-        <el-steps :active="active" finish-status="success">
+        <el-steps :active="orderDetail.orderState + 1" finish-status="success">
           <el-step title="预下单"></el-step>
           <el-step title="待支付"></el-step>
           <el-step title="待服务"></el-step>
@@ -17,7 +17,7 @@
         <img src="../../../assets/placeholder.jpg" alt="">
         <div class="text">
           <p>金融托管[创业板]</p>
-          <p>基础服务费：50.00元/年</p>
+          <p>基础服务费：50.00元/年 <span style="margin-left: 50px">x3</span></p>
         </div>
       </div>
       <div class="sum">
@@ -93,7 +93,7 @@
     name: 'orderInfoDialog',
     data () {
       return {
-        active: 1,
+        orderDetail: null,
         rateNum: 3.5,
         tableData: [{
           name: '基础服务费',
@@ -112,6 +112,7 @@
     methods: {
     },
     created () {
+      this.orderDetail = this.params.orderDetail
     },
   }
 </script>
@@ -158,6 +159,7 @@
       float: right;
       .repayment {
         color: #00A7FE;
+        margin-left: 20px;
       }
     }
   }

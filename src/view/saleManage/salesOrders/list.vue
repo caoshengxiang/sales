@@ -70,7 +70,7 @@
         >
           <template slot-scope="scope">
             <!--<a class="col-link" @click="handleRouter('detail', scope.row.id)">{{ scope.row.billOrderId }}</a>-->
-            <a class="col-link" @click="handleRouter('detail', scope.row.id)">{{ scope.row.id + scope.row.orderId}}</a>
+            <a class="col-link" @click="handleRouter('detail', scope.row.id)">{{ scope.row.id + '-' + scope.row.orderId}}</a>
           </template>
         </el-table-column>
         <el-table-column
@@ -269,6 +269,7 @@
           organizationId: null,
         },
         customerId: null, // 路由参数
+        chanceId: null, // 路由参数，机会id
         organizationOptions: [], // 组织列表
         organizationId: null, // 选择的组织
         sortObj: null, // 排序
@@ -383,23 +384,25 @@
         API.salesOrder.list(Object.assign({}, this.defaultListParams, this.sortObj, this.advancedSearch), (data) => {
           this.tableData = data.data.content
           this.tableDataTotal = data.data.totalElements
-          this.dataLoading = false
-        }, (data) => {
-          this.tableData = data.data.content
-          this.tableDataTotal = data.data.totalElements
-          this.dataLoading = false
+          setInterval(() => {
+            this.dataLoading = false
+          }, 500)
         })
       },
       getQueryParams () { // 请求参数配置
         this.customerId = this.$route.query.customerId
+        this.chanceId = this.$route.query.chanceId
         this.defaultListParams = {
           page: this.currentPage - 1,
           pageSize: this.pagesOptions.pageSize,
           type: this.orderTypeOption, // 前端
           organizationId: this.organizationId // 后端
         }
-        if (this.customerId) { // 更多
+        if (this.customerId) { // 更多[来至客户，联系人]
           this.defaultListParams.customerId = this.customerId
+        }
+        if (this.chanceId) { // 更多[来至机会]
+          this.defaultListParams.chanceId = this.chanceId
         }
       },
       getOrganization (pa) {

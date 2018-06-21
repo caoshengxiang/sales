@@ -32,7 +32,8 @@
         <!--<el-radio-button class="btn-width" label="move">删除</el-radio-button>-->
         <!--</el-radio-group>-->
         <ul class="btn-group">
-          <li class="btn-order" @click="operateOptions('appOrder')">APP下单</li>
+          <!--订单为预下单 - 显示APP下单-->
+          <li class="btn-order" v-if="orderDetail.orderState === 0" @click="operateOptions('appOrder')">APP下单</li>
           <li class="btn-edit" @click="operateOptions('edit')">修改</li>
           <li class="btn-delete" @click="operateOptions('delete')">删除</li>
         </ul>
@@ -235,8 +236,8 @@
 <script>
   import comButton from '../../../components/button/comButton'
   import addDialog from './addDialog'
-  import order from './oder'
-  import orderInfo from './oderInfo'
+  import order from './order'
+  import orderInfo from './orderInfo'
   import API from '../../../utils/api'
   import { mapState } from 'vuex'
 
@@ -332,14 +333,14 @@
           case 'appOrder':
             this.$vDialog.modal(order, {
               title: 'APP下单',
-              width: 534,
+              width: 564,
               height: 300,
               params: {
                 orderDetail: this.orderDetail,
               },
               callback: (data) => {
                 if (data.type === 'save') {
-                  // alert('弹窗关闭，添加成功刷新列表')
+                  this.getSalesOrderDetail()
                 }
               },
             })

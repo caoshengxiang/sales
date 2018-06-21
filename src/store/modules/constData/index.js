@@ -178,7 +178,7 @@ export default {
         type: 5,
         value: '已取消'
       }, {
-        type: 6,
+        type: 0, // 注意：修改值得时候注意有页面直接使用了0这个值【订单详细，APP订单预览】
         value: '预下单',
       },
     ],
