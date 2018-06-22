@@ -34,15 +34,17 @@ $axios.interceptors.request.use((config) => {
 $axios.interceptors.response.use((response) => {
   // 对返回的数据进行一些处理
   console.log(response)
-  if (!response.data.status) { // 后台返回错误
-    setTimeout(() => {
-      Message.error(response.data.error.message)
-    }, 0)
-    setTimeout(() => {
-      if (response.data.error.statusCode === '10004' || response.data.error.statusCode === '10007') { // 10004未登录，10007登录过期
-        location.href = '/'
-      }
-    }, 1000)
+  if (response.data.status === false) { // 后台返回错误
+    if (response.data.error) {
+      setTimeout(() => {
+        Message.error(response.data.error.message)
+      }, 0)
+      setTimeout(() => {
+        if (response.data.error.statusCode === '10004' || response.data.error.statusCode === '10007') { // 10004未登录，10007登录过期
+          location.href = '/'
+        }
+      }, 1000)
+    }
   }
   // setTimeout(() => {
   //   loadinginstace.close()
