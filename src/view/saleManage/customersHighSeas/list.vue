@@ -41,7 +41,8 @@
           </el-select>
           <!--<com-button buttonType="search" @click="searchHandle">搜索</com-button>-->
 &nbsp;&nbsp;&nbsp;&nbsp;
-          <com-button buttonType="import">导入</com-button>
+          <!--<com-button buttonType="import">导入</com-button>-->
+          <vue-xlsx-table @on-select-file="handleSelectedFile">导入</vue-xlsx-table>
         </div>
       </div>
     </div>
@@ -159,6 +160,7 @@
   import groupDialog from './groupDialog'
   import API from '../../../utils/api'
   import { arrToStr } from '../../../utils/utils'
+  import previewExcel from './previewExcel'
 
   export default {
     name: 'list',
@@ -323,6 +325,22 @@
           this.organizationOptions = data.data
         })
       },
+      handleSelectedFile (convertedData) { // 导入
+        console.log(convertedData)
+        this.$vDialog.modal(previewExcel, {
+          title: '预览',
+          width: 1100,
+          height: 660,
+          params: {
+            convertedData: convertedData,
+          },
+          callback: (data) => {
+            if (data.type === 'save') {
+              // this.getCustomersSeaList()
+            }
+          },
+        })
+      }
     },
     created () {
       this.getCustomersSeaList()
@@ -335,4 +353,11 @@
 
 <style scoped lang="scss" rel="stylesheet/scss">
   @import "../../../styles/common";
+  .xlsx-button {
+    background-color: #FF7700 !important;
+    width: 72px !important;
+    color: #fff !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
 </style>

@@ -542,15 +542,15 @@ export default {
         error && error(err)
       })
     },
-    exportExcel (params, success, error) { // 跟单记录到处
-      $axios.get('followOrderRecord/export', {
-        params: params
-      }).then((res) => {
-        success && success(res.data)
-      }).catch((err) => {
-        error && error(err)
-      })
-    },
+    // exportExcel (params, success, error) { // 跟单记录导出
+    //   $axios.get('followOrderRecord/export', {
+    //     params: params
+    //   }).then((res) => {
+    //     success && success(res.data)
+    //   }).catch((err) => {
+    //     error && error(err)
+    //   })
+    // },
   },
   user: {
     userAuthcode (params, success, error) { // 下拉用户列表
