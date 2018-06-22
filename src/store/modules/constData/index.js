@@ -54,7 +54,7 @@ export default {
         value: '全部销售机会'
       },
       {
-        type: 1,
+        type: 1, // 注意： 首页有直接使用 1这个值
         value: '我创建的销售机会'
       },
       {
@@ -125,7 +125,7 @@ export default {
         value: '需求确定',
         percent: '60%',
       }, {
-        type: 4,
+        type: 4, // 注意： 首页有直接使用这个值
         value: ' 预下订单',
         percent: '80%',
       }, {

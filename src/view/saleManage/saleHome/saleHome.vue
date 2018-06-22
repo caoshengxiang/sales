@@ -46,18 +46,18 @@
               <li>服务商服务内容提交审核</li>
               <li>服务订单派发（30）</li>
             </ul>
-            <div class="link"><a class="link-all">查看全部 ></a></div>
+            <div class="link"><router-link :to="{name: 'taskApprovalList'}" class="link-all">查看全部 ></router-link></div>
           </div>
         </el-col>
         <el-col :span="8" class="lr-part">
           <div class="col-box">
             <p class="com-title">销售机会列表</p>
             <ul class="list">
-              <li>全部销售机会</li>
-              <li>我开发的销售机会</li>
-              <li>即将签单销售机会</li>
+              <li>全部销售机会 <span>{{chanceTotal}}</span></li>
+              <li>我开发的销售机会 <span>{{chanceMy}}</span></li>
+              <li>即将签单销售机会 <span>{{chanceOrder}}</span></li>
             </ul>
-            <div class="link"><a class="link-all">查看全部 ></a></div>
+            <div class="link"><router-link :to="{name: 'salesOpportunitiesList'}" class="link-all">查看全部 ></router-link></div>
           </div>
         </el-col>
         <el-col :span="8">
@@ -68,7 +68,7 @@
               <li>您的服务内容调整申请已经通过审核</li>
               <li>您的服务内容调整申请已经通过审核</li>
             </ul>
-            <div class="link"><a class="link-all">查看全部 ></a></div>
+            <div class="link"><router-link :to="{name: 'messageList'}" class="link-all">查看全部 ></router-link></div>
           </div>
         </el-col>
       </el-row>
@@ -81,11 +81,15 @@
   import barChart from './barChart'
   import scatterChart from './scatterChart'
   import orderChart from './orderChart'
+  import API from '../../../utils/api'
 
   export default {
     name: 'saleHome',
     data () {
       return {
+        chanceTotal: 0,
+        chanceMy: 0,
+        chanceOrder: 0,
       }
     },
     components: {
@@ -95,8 +99,20 @@
       orderChart,
     },
     methods: {
+      getSalesOpportunititeisList () { // 获取机会
+        API.salesOpportunities.list({page: 0, pageSize: 1}, (da) => {
+         this.chanceTotal = da.data.totalElements
+        })
+        API.salesOpportunities.list({page: 0, pageSize: 1, type: 1}, (da) => {
+         this.chanceMy = da.data.totalElements
+        })
+        API.salesOpportunities.list({page: 0, pageSize: 1, stage: 4}, (da) => {
+         this.chanceOrder = da.data.totalElements
+        })
+      },
     },
     created () {
+      this.getSalesOpportunititeisList()
     }
   }
 </script>
@@ -139,6 +155,9 @@
       color: #333333;
       padding: 20px;
       border-bottom: 1px dashed #ccc;
+      span {
+        float: right;
+      }
       &:hover {
         text-decoration: underline;
         cursor: pointer;

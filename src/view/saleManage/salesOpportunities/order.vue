@@ -96,6 +96,7 @@
           salerOrderId: '',
           mobilePhone: '',
           authCode: '',
+          chanceId: null,
         },
         time: 0,
         timer: '',
@@ -168,6 +169,7 @@
     created () {
       if (this.params.salesOpportunitiesDetail) {
         this.salesOpportunitiesDetail = this.params.salesOpportunitiesDetail
+        this.addForm.chanceId = this.salesOpportunitiesDetail.id
         this.orderState = this.params.orderState
         this.getAppOrderList(this.salesOpportunitiesDetail.id)
       }
