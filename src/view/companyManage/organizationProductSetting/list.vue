@@ -98,6 +98,7 @@
         searchForm: {},
         allorganization: [],
         organizationIndex: '1',
+        goodsConfs:[]
       }
     },
     components: {
@@ -275,14 +276,20 @@
       save () {
         var that = this
         that.loading = true
-        API.baseSetting.saveOrganizationGoodsConf(that.roleDetail, function (resData) {
+        for(let i =0;i<that.roleDetail.length;i++ ) {
+          var obj = {}
+          obj.id=that.roleDetail[i].id
+          obj.beContractSubject=that.roleDetail[i].beContractSubject
+          obj.saleable =that.roleDetail[i].saleable
+          that.goodsConfs.push(obj)
+        }
+        API.baseSetting.saveOrganizationGoodsConf({goodsConfs:this.goodsConfs}, function (resData) {
           that.loading = false
           if (resData.status) {
             Message({
               message: '保存成功！',
               type: 'success',
             })
-            that.$options.methods.getRoleList.bind(that)()
           }
         }, function () {
           that.loading = false
