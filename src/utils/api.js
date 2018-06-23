@@ -938,6 +938,27 @@ export default {
     },
   },
   baseSetting: {
+    getProductType (params, success, error) {
+      $axios.get('goodsType', {
+        params: params,}).then((res) => {
+        success && success(res.data)
+      }).catch(() => {
+        setTimeout(() => {
+          error && error(mockdata)
+        }, 1000)
+      })
+    },
+    updateProductType (params, success, error) {
+      $axios({
+        method: 'put',
+        url: `goodsType`,
+        data: params,
+      }).then((res) => {
+        success && success(res.data)
+      }).catch((errorData) => {
+        error && error(errorData)
+      })
+    },
     getOrganizationGoodsConf (params, success, error) {
       $axios.get('organizationGoodsConf', {}).then((res) => {
         success && success(res.data)

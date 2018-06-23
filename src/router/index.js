@@ -137,6 +137,10 @@ const siteList = resolve => require.ensure([],
 const organizationProductSetting = resolve => require.ensure([],
   () => resolve(require('../view/companyManage/organizationProductSetting/list')), 'organizationProductSetting')
 
+// 商品类型设置
+const productType = resolve => require.ensure([],
+  () => resolve(require('../view/companyManage/organizationProductSetting/productType')), 'productType')
+
 // 消息通知管理(ME)
 const meMessageList = resolve => require.ensure([],
   () => resolve(require('../view/companyManage/message/list')), 'meMessage')
@@ -470,6 +474,16 @@ const router = new Router({
           path: 'organizationProductSetting',
           name: 'organizationProductSetting',
           component: organizationProductSetting,
+          meta: {
+            title: '组织商品配置',
+            pos: [{name: '管理系统', toName: 'companyManageHome'}, {name: '组织管理'}, {name: '组织商品配置'}],
+          },
+        },
+        // 企业管理 -- 商品类型设置
+        {
+          path: 'productType',
+          name: 'productType',
+          component: productType,
           meta: {
             title: '组织商品配置',
             pos: [{name: '管理系统', toName: 'companyManageHome'}, {name: '组织管理'}, {name: '组织商品配置'}],
