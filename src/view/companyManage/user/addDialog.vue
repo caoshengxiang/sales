@@ -1,7 +1,7 @@
 <template>
   <div class="com-dialog-container" v-loading="loading">
     <div class="com-dialog">
-      <el-form :model="form" ref="form" label-width="0px" :rules="rules"  :disabled ="isFormDisabled">
+      <el-form :model="form" ref="form" label-width="0px" :rules="rules" :disabled="isFormDisabled">
         <table class="com-dialog-table">
           <tr v-if="type==='edit'">
             <td class="td-title">员工号</td>
@@ -30,42 +30,42 @@
           <tr>
             <td class="td-title">人员组织</td>
             <td class="td-text">
-              <el-select v-model.number="form.organizationId"   @change="selectedOptionsHandleChange" placeholder="请选择人员组织">
-                <el-option
-                  v-for="item in allorganization"
-                  :key="item.id"
-                  :label="item.name"
-                  :value="item.id"
-                >
-                </el-option>
-              </el-select>
+              <el-form-item prop="organizationId">
+                <el-select v-model.number="form.organizationId" @change="selectedOptionsHandleChange"
+                           placeholder="请选择人员组织">
+                  <el-option
+                    v-for="item in allorganization"
+                    :key="item.id"
+                    :label="item.name"
+                    :value="item.id"
+                  >
+                  </el-option>
+                </el-select>
+              </el-form-item>
             </td>
           </tr>
           <tr>
             <td class="td-title">人员部门</td>
             <td class="td-text">
               <!--<input type="text" v-model="form.levelName">-->
-              <el-form-item prop="level">
-                <el-form-item prop="selectedOptions">
-                  <el-cascader
-                    placeholder="请选择人员部门"
-                    :change-on-select="true"
-                    :options="alldepartments"
-                    v-model="selectedOptions"
-                    :props="props"
-                    @change="selecteddptHandleChange"
-                  >
-                  </el-cascader>
-                </el-form-item>
+              <el-form-item prop="departmentId">
+                <el-cascader
+                  placeholder="请选择人员部门"
+                  :change-on-select="true"
+                  :options="alldepartments"
+                  v-model="selectedOptions"
+                  :props="props"
+                  @change="selecteddptHandleChange"
+                >
+                </el-cascader>
               </el-form-item>
-
             </td>
           </tr>
           <tr>
             <td class="td-title">人员角色</td>
             <td class="td-text">
               <!--<input type="text">-->
-              <el-form-item prop="industry">
+              <el-form-item prop="roles">
                 <el-select v-model="choseroles" multiple placeholder="请选择人员角色">
                   <el-option
                     v-for="item in allroles"
@@ -117,13 +117,13 @@
     name: 'addDialog',
     data () {
       return {
-        loading:false,
-        isFormDisabled:false,
+        loading: false,
+        isFormDisabled: false,
         id: 1,
-        props:{
-          children:'children',
-          value:'id',
-          label:'name',
+        props: {
+          children: 'children',
+          value: 'id',
+          label: 'name',
         },
         addDialogVisible: false, // 新增弹窗
         form: { // 添加用户表单
@@ -155,17 +155,21 @@
           departmentId: [
             {required: true, message: '请选择用户所属部门', trigger: 'blur'},
           ],
+          roles: [
+            {required: true, message: '请选择人员角色', trigger: 'blur'},
+          ],
         },
         allroles: [],
         selectedOptions: [],
         allorganization: [],
         alldepartments: [],
-        choseroles: []
+        choseroles: [],
+        type: '',
       }
     },
     props: ['params'],
     created () {
-      var that = this;
+      var that = this
       let params = {
         page: 1,
         pageSize: 999,
@@ -174,14 +178,13 @@
         that.allroles = res.data
       }, (mock) => {
         that.allroles = mock.data
-        // this.ac_userList(mock.data) // todo ac_userList 未定义
         that.dataLoading = false
       })
       params = {
         page: 1,
         pageSize: 999,
-        pid : 1,
-        type : 1
+        pid: 1,
+        type: 1,
       }
 
       API.organization.queryAllList(params, (res) => {
@@ -192,16 +195,14 @@
       })
 
       if (that.params.id > 0) { // 这里是修改数据
-        that.form.id  = that.params.id
+        that.form.id = that.params.id
         let param = {
-          id: that.params.id ,
+          id: that.params.id,
         }
         API.user.userDetail(param, (res) => {
-          if(res.status)
-          {
-            that.form = res.data;
+          if (res.status) {
+            that.form = res.data
             that.selectedOptionsHandleChange(that.form.organizationId)
-
 
             // todo:1、需要初始化组织 2需要初始化部门
             for (var i = 0; i < that.form.roles.length; i++) {
@@ -211,21 +212,17 @@
         }, (mock) => {
         })
       }
-
-
-
-
     },
     methods: {
       initData () {
         this.$vDialog.close()
       },
-      selecteddptHandleChange(value) {
-        this.form.departmentId =value[value.length -1] // 取当前选中的部门
+      selecteddptHandleChange (value) {
+        this.form.departmentId = value[value.length - 1] // 取当前选中的部门
       },
       selectedOptionsHandleChange (value) {
-        var that = this;
-       // this.form.organizationId =value[value.length -1] // 取当前选中的组织
+        var that = this
+        // this.form.organizationId =value[value.length -1] // 取当前选中的组织
         let depparams = {
           page: 1,
           pageSize: 999,
@@ -235,25 +232,23 @@
         API.organization.queryList(depparams, (res) => {
           that.alldepartments = res.data
 
-          if(that.params.id > 0)
-          {
+          if (that.params.id > 0) {
             var tempid = that.form.departmentId
-            var loopDo = function (list,id) {
-              for (var i =0;i<list.length;i++) {
-                var item = list[i];
-                if (item.id == id) {
-                  that.selectedOptions.push(item.id);
-                  if(item.pid > 0)
-                  {
-                    loopDo(that.alldepartments,item.pid);
+            var loopDo = function (list, id) {
+              for (var i = 0; i < list.length; i++) {
+                var item = list[i]
+                if (item.id === id) {
+                  that.selectedOptions.push(item.id)
+                  if (item.pid > 0) {
+                    loopDo(that.alldepartments, item.pid)
                   }
-                }else {
-                  loopDo(item.children,id);
+                } else {
+                  loopDo(item.children, id)
                 }
               }
-            };
+            }
 
-            loopDo(that.alldepartments,tempid);
+            loopDo(that.alldepartments, tempid)
             that.selectedOptions.reverse()
           }
         }, (mock) => {
@@ -262,16 +257,15 @@
         })
       },
       saveSubmitForm (formName) {
-        this.form.roles = [];
+        this.form.roles = []
         for (var i = 0; i < this.choseroles.length; i++) {
           var temp = {}
-          temp.id = this.choseroles[i];
+          temp.id = this.choseroles[i]
           this.form.roles.push(temp)
         }
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            if(this.form.id == undefined || this.form.id <= 0)
-            {
+            if (this.form.id === undefined || this.form.id <= 0) {
               API.user.userAdd(this.form, (res) => {
                 this.$message({
                   type: 'success',
@@ -280,7 +274,7 @@
                 this.$vDialog.close()
               }, (mock) => {
               })
-            }else {
+            } else {
               API.user.userModify(this.form, (res) => {
                 this.$message({
                   type: 'success',

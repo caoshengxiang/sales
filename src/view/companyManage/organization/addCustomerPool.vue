@@ -39,13 +39,6 @@
       ])
     },
     props: ['params'],
-    created () {
-      if (this.params.type === 'edit') {
-        this.type = 'edit'
-        this.form.name = this.params.name
-      }
-      this.form.organizationId = this.params.organizationId
-    },
     methods: {
       closeDialog () {
         this.$vDialog.close()
@@ -108,7 +101,14 @@
           })
         })
       }
-    }
+    },
+    created () {
+      if (this.params.type === 'edit') {
+        this.type = 'edit'
+        this.form = this.params.ruleForm
+      }
+      this.form.organizationId = this.params.organizationId
+    },
   }
 </script>
 

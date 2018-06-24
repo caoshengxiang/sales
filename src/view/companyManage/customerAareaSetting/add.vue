@@ -1,7 +1,7 @@
 <template>
   <div class="com-dialog-container" v-loading="loading">
     <div class="com-dialog">
-      <el-form :model="form" ref="form" :rules="rules" :disabled ="isFormDisabled">
+      <el-form :model="form" ref="form" :rules="rules" :disabled="isFormDisabled">
         <table class="com-dialog-table">
           <tr>
             <td class="td-title">请输入行政区名称</td>
@@ -36,111 +36,111 @@
   export default {
     data () {
       return {
-        loading:false,
-        isFormDisabled:false,
+        loading: false,
+        isFormDisabled: false,
         form: {
-          pid:0
+          pid: 0,
         },
         rules: {
           name: [
-            {required: true, message: '请输入名称', trigger: 'blur'}
-          ]
+            {required: true, message: '请输入名称', trigger: 'blur'},
+          ],
         },
-        pName:""
+        pName: '',
       }
     },
     computed: {
       ...mapState('constData', [
-        'organizationType'
-      ])
-  },
+        'organizationType',
+      ]),
+    },
     props: ['params'],
-    created() {
-      var that = this;
-      that.$store = that.params.store;//状态库赋值
+    created () {
+      var that = this
+      that.$store = that.params.store // 状态库赋值
       if (that.params.currentNode) {
         if (that.params.action === 'add') {
-          that.pName = that.params.currentNode.name;
-          that.form.pid = that.params.currentNode.id;
-        }else{
-          that.form.name = that.params.currentNode.name;
-          that.form.id = that.params.currentNode.id;
+          that.pName = that.params.currentNode.name
+          that.form.pid = that.params.currentNode.id
+        } else {
+          that.form.name = that.params.currentNode.name
+          that.form.id = that.params.currentNode.id
         }
       }
     },
     methods: {
-      closeDialog(){
-        this.$vDialog.close();
+      closeDialog () {
+        this.$vDialog.close()
       },
-      save(formName) {
-        var that = this;
+      save (formName) {
+        var that = this
         that.$refs[formName].validate((valid) => {
-          if(valid){
+          if (valid) {
             switch (that.params.action) {
               case 'add':
-                that.loading = true;
-                API.customerAreaSetting.add(that.form,function (resData) {
-                  that.loading = false;
-                  if(resData.status){
+                that.loading = true
+                API.customerAreaSetting.add(that.form, function (resData) {
+                  that.loading = false
+                  if (resData.status) {
                     Message({
                       message: '新增成功！',
-                      type: 'success'
-                    });
-                    that.$vDialog.close(); // 关闭弹窗
+                      type: 'success',
+                    })
+                    that.$vDialog.close() // 关闭弹窗
                   }
-                },function () {
-                  that.loading = false;
+                }, function () {
+                  that.loading = false
                   Message({
                     message: '系统繁忙，请稍后再试！',
-                    type: 'error'
-                  });
+                    type: 'error',
+                  })
                 })
-                break;
+                break
               case 'update':
-                that.loading = true;
-                API.customerAreaSetting.update(that.form,function (resData) {
-                  that.loading = false;
-                  if(resData.status){
+                that.loading = true
+                API.customerAreaSetting.update(that.form, function (resData) {
+                  that.loading = false
+                  if (resData.status) {
                     Message({
                       message: '修改成功！',
-                      type: 'success'
-                    });
-                    that.$vDialog.close(); // 关闭弹窗
+                      type: 'success',
+                    })
+                    that.$vDialog.close() // 关闭弹窗
                   }
-                },function () {
-                  that.loading = false;
+                }, function () {
+                  that.loading = false
                   Message({
                     message: '系统繁忙，请稍后再试！',
-                    type: 'error'
-                  });
+                    type: 'error',
+                  })
                 })
-                break;
+                break
             }
           }
         })
       },
-      getRoleDetail(id){
-        var that = this;
-        that.loading = true;
-        API.role.getDetail({id:id},function (res) {
-          that.loading = false;
-          if(res.status){
-            that.form = res.data;
-          }else{
+      getRoleDetail (id) {
+        var that = this
+        that.loading = true
+        API.role.getDetail({id: id}, function (res) {
+          that.loading = false
+          if (res.status) {
+            that.form = res.data
+          } else {
             Message({
               message: res.error.message,
-              type: 'error'
-            });
+              type: 'error',
+            })
           }
-        },function () {
-          that.loading = false;
+        }, function () {
+          that.loading = false
           Message({
             message: '系统繁忙，请稍后再试1！',
-            type: 'error'
-          });
-        });
-      }
-    }
+            type: 'error',
+          })
+        })
+      },
+    },
   }
 </script>
 

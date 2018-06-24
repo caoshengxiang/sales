@@ -1,0 +1,200 @@
+<template>
+  <div class="com-dialog-container">
+    <div class="com-dialog">
+      <el-form :model="searchForm" ref="searchForm" label-width="120px">
+        <el-row class="el-row-cla">
+          <el-col :span="8">
+            <el-form-item label="订单编号：">
+              <el-input type="text" v-model="searchForm.billOrderId"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="客户名称：">
+              <el-input type="text" v-model="searchForm.customerName"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="联系人：">
+              <el-input type="text" v-model="searchForm.contacterName"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row class="el-row-cla">
+          <el-col :span="8">
+            <el-form-item label="购买商品：">
+              <el-input type="text" v-model="searchForm.productName"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="销售相关人员：">
+              <el-input type="text" v-model="searchForm.salerRelName"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row class="el-row-cla">
+          <el-col :span="8">
+            <el-form-item label="订单状态：">
+              <el-select v-model="searchForm.orderState" placeholder="请选择订单状态">
+                <el-option v-for="item in orderState" :key="item.type" :label="item.value" :value="item.type"></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="订单来源：">
+              <el-select v-model="searchForm.source" placeholder="请选择订单来源">
+                <el-option v-for="item in orderSource" :key="item.type" :label="item.value" :value="item.type"></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="是否续费：">
+              <el-select v-model="searchForm.isRenew" placeholder="请选择是否续费">
+                <el-option label="续费订单" :value="true"></el-option>
+                <el-option label="新签订单" :value="false"></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row class="el-row-cla">
+          <el-col :span="14">
+            <el-form-item label="创建日期：">
+              <el-date-picker
+                v-model="timeInterval"
+                type="datetimerange"
+                value-format="yyyy-MM-dd HH:mm:ss"
+                @change="timeIntervalHandle"
+                range-separator="至"
+                start-placeholder="开始日期"
+                end-placeholder="结束日期">
+              </el-date-picker>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row class="el-row-cla">
+          <el-col :span="12">
+            <el-form-item label="签单金额：">
+              <el-row>
+                <el-col :span="10">
+                  <el-input @change="intervalStartHandle" type="number" v-model.number="searchForm.startBillAmount"></el-input>
+                </el-col>
+                <el-col :span="2">
+                  <div style="text-align: center">-</div>
+                </el-col>
+                <el-col :span="10">
+                  <el-input @change="intervalEndHandle" type="number" v-model.number="searchForm.endBillAmount"></el-input>
+                </el-col>
+              </el-row>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="回款金额：">
+              <el-row>
+                <el-col :span="10">
+                  <el-input @change="intervalStartHandle" type="number" v-model.number="searchForm.startRefundAmount"></el-input>
+                </el-col>
+                <el-col :span="2">
+                  <div style="text-align: center">-</div>
+                </el-col>
+                <el-col :span="10">
+                  <el-input @change="intervalEndHandle" type="number" v-model.number="searchForm.endRefundAmount"></el-input>
+                </el-col>
+              </el-row>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="待回款金额：">
+              <el-row>
+                <el-col :span="10">
+                  <el-input @change="intervalStartHandle" type="number" v-model.number="searchForm.startNotRefundAmount"></el-input>
+                </el-col>
+                <el-col :span="2">
+                  <div style="text-align: center">-</div>
+                </el-col>
+                <el-col :span="10">
+                  <el-input @change="intervalEndHandle" type="number" v-model.number="searchForm.endNotRefundAmount"></el-input>
+                </el-col>
+              </el-row>
+            </el-form-item>
+          </el-col>
+        </el-row>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button class="cancel-button" @click="$vDialog.close({type: 'cancel'})">取 消</el-button>
+        <el-button class="save-button" @click="saveSubmitForm">确 定</el-button>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+  // import API from '../../../utils/api'
+
+  export default {
+    name: 'advancedSearch',
+    data () {
+      return {
+        orderState: [], // 订单状态
+        orderSource: [], // 订单来源
+        searchForm: { // 表单
+          billOrderId: null,
+          customerName: null,
+          contacterName: null,
+          productName: null,
+          salerRelName: null,
+          orderState: null,
+          source: null,
+          isRenew: null,
+          startDate: null,
+          endDate: null,
+          startBillAmount: null, // 签单金额
+          endBillAmount: null,
+          startRefundAmount: null,
+          endRefundAmount: null,
+          startNotRefundAmount: null,
+          endNotRefundAmount: null
+        },
+        timeInterval: '',
+      }
+    },
+    props: ['params'],
+    methods: {
+      intervalStartHandle () {
+        if (this.searchForm.startBillAmount > this.searchForm.endBillAmount) {
+          this.searchForm.endBillAmount = null
+        }
+        if (this.searchForm.startRefundAmount > this.searchForm.endRefundAmount) {
+          this.searchForm.endRefundAmount = null
+        }
+        if (this.searchForm.startNotRefundAmount > this.searchForm.endNotRefundAmount) {
+          this.searchForm.endNotRefundAmount = null
+        }
+      },
+      intervalEndHandle () {
+        if (this.searchForm.startBillAmount && this.searchForm.startBillAmount > this.searchForm.endBillAmount) {
+          this.searchForm.endBillAmount = this.searchForm.startBillAmount
+        }
+        if (this.searchForm.startRefundAmount && this.searchForm.startRefundAmount > this.searchForm.endRefundAmount) {
+          this.searchForm.endRefundAmount = this.searchForm.startRefundAmount
+        }
+        if (this.searchForm.startNotRefundAmount && this.searchForm.startNotRefundAmount > this.searchForm.endNotRefundAmount) {
+          this.searchForm.endNotRefundAmount = this.searchForm.startNotRefundAmount
+        }
+      },
+      saveSubmitForm () {
+        this.$vDialog.close({type: 'search', params: this.searchForm})
+      },
+      timeIntervalHandle (value) {
+        this.searchForm.startDate = value[0] || ''
+        this.searchForm.endDate = value[1] || ''
+      },
+    },
+    created () {
+      this.orderState = this.params.orderState
+      this.orderSource = this.params.orderSource
+    },
+  }
+</script>
+
+<style scoped lang="scss" rel="stylesheet/scss">
+  @import "../../../styles/common";
+</style>

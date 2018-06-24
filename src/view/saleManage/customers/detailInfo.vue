@@ -5,9 +5,11 @@
     <!--头部-->
     <div class="com-head">
       <el-breadcrumb separator-class="el-icon-arrow-right">
-        <el-breadcrumb-item :to="{ name: 'saleHome' }">销售管理系统</el-breadcrumb-item>
-        <el-breadcrumb-item>客户</el-breadcrumb-item>
-        <el-breadcrumb-item>客户详情</el-breadcrumb-item>
+        <!--<el-breadcrumb-item :to="{ name: 'saleHome' }">销售管理系统</el-breadcrumb-item>-->
+        <!--<el-breadcrumb-item>客户</el-breadcrumb-item>-->
+        <!--<el-breadcrumb-item>客户详情</el-breadcrumb-item>-->
+        <el-breadcrumb-item v-if="themeIndex === 0" v-for="item in $route.meta.pos" :key="item.toName" :to="{name: item.toName}">{{item.name}}</el-breadcrumb-item>
+        <el-breadcrumb-item v-if="themeIndex === 1" v-for="item in $route.meta.pos2" :key="item.toName" :to="{name: item.toName}">{{item.name}}</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <!--控制栏-->
@@ -19,7 +21,7 @@
           <p>
             <span class="com-d-item">客户所有人: <span>{{customerDetail.ownerName}}</span></span>
             <span class="com-d-item">所属公海: <span>{{customerDetail.seaName}}</span></span>
-            <span class="com-d-item">创建时间: <span>{{$moment(customerDetail.created).format('YYYY-MM-DD HH:mm:ss')}}</span></span>
+            <span class="com-d-item">创建时间: <span>{{customerDetail.created && $moment(customerDetail.created).format('YYYY-MM-DD HH:mm:ss')}}</span></span>
           </p>
         </div>
       </div>
@@ -102,19 +104,19 @@
               </tr>
               <tr>
                 <td class="td-title">客户创建时间</td>
-                <td colspan="3">{{$moment(customerDetail.created).format('YYYY-MM-DD HH:mm:ss')}}</td>
+                <td colspan="3">{{customerDetail.created && $moment(customerDetail.created).format('YYYY-MM-DD HH:mm:ss')}}</td>
                 <td class="td-title">创建人</td>
                 <td>{{customerDetail.creatorName}}</td>
               </tr>
               <tr>
                 <td class="td-title">最新修改时间</td>
-                <td colspan="3">{{$moment(customerDetail.modified).format('YYYY-MM-DD HH:mm:ss')}}</td>
+                <td colspan="3">{{customerDetail.modified && $moment(customerDetail.modified).format('YYYY-MM-DD HH:mm:ss')}}</td>
                 <td class="td-title">修改人</td>
                 <td>{{customerDetail.modifierName}}</td>
               </tr>
               <tr>
                 <td class="td-title">最新活动时间</td>
-                <td colspan="3">{{$moment(customerDetail.activeTime).format('YYYY-MM-DD HH:mm:ss')}}</td>
+                <td colspan="3">{{customerDetail.activeTime && $moment(customerDetail.activeTime).format('YYYY-MM-DD HH:mm:ss')}}</td>
                 <td class="td-title">跟进人</td>
                 <td>{{customerDetail.followerName}}</td>
               </tr>
@@ -149,7 +151,7 @@
                 <td>{{item.position}}</td>
                 <td>{{item.wx}}</td>
                 <td>{{item.qq}}</td>
-                <td>{{$moment(item.created).format('YYYY-MM-DD HH:mm:ss')}}</td>
+                <td>{{item.created && $moment(item.created).format('YYYY-MM-DD HH:mm:ss')}}</td>
               </tr>
             </table>
 
@@ -160,22 +162,23 @@
             </p>
             <table class="detail-table related-table">
               <tr>
-                <th class="td-title">联系人</th>
-                <th class="td-title">需求阶段</th>
                 <th class="td-title">需求商品</th>
-                <th class="td-title">关联订单</th>
-                <th class="td-title">创建时间</th>
-                <th class="td-title">快捷操作</th>
+                <th class="td-title">需求阶段</th>
+                <th class="td-title">预计签单金额</th>
+                <th class="td-title">预计签单时间</th>
+                <th class="td-title">销售人</th>
+                <th class="td-title">销售机会创建时间</th>
               </tr>
               <tr v-for="item in chanceList" :key="item.id">
-                <td>{{item.contacterName}}</td>
-                <td><span v-for="st in salesState" :key="st.type"
-                          v-if="st.type === item.stage">{{st.value}}&nbsp;&nbsp;{{st.percent}}</span>
-                </td>
                 <td>{{item.intentProductName}}</td>
-                <td>todo 占位</td>
-                <td>{{$moment(item.created).format('YYYY-MM-DD HH:mm:ss')}}</td>
-                <td><a class="table-op" @click="quickOperation('deleteChance', item.id)">删除</a></td>
+                <td>
+                  <span v-for="st in salesState" :key="st.type"
+                        v-if="st.type === item.stage">{{st.value}}&nbsp;&nbsp;{{st.percent}}</span>
+                </td>
+                <td>{{item.intentBillAmount}}</td>
+                <td>{{item.billDate && $moment(item.billDate).format('YYYY-MM-DD')}}</td>
+                <td>{{item.salerName}}</td>
+                <td>{{item.created && $moment(item.created).format('YYYY-MM-DD HH:mm:ss')}}</td>
               </tr>
             </table>
 
@@ -201,7 +204,7 @@
                 <td>{{item.refund_amount}}</td>
                 <td><span v-for="os in orderState" :key="os.type"
                           v-if="item.orderState === os.type">{{os.value}}</span></td>
-                <td>{{$moment(item.created).format('YYYY-MM-DD HH:mm:ss')}}</td>
+                <td>{{item.created && $moment(item.created).format('YYYY-MM-DD HH:mm:ss')}}</td>
                 <td><a class="table-op" @click="quickOperation('deleteOrder', item.id)">删除</a></td>
               </tr>
             </table>
@@ -281,6 +284,7 @@
         'customerAddSource',
         'salesState',
         'orderState',
+        'themeIndex',
       ]),
       ...mapState('customer', [
         'customerDetail',
@@ -308,8 +312,6 @@
         })
       },
       operateOptions (option) {
-        // eslint-disable-next-line
-        let that = this
         switch (option) {
           case 'edit':
             this.$vDialog.modal(addDialog, {
@@ -320,58 +322,37 @@
                 customerAddSource: this.customerAddSource,
                 detail: this.customerDetail,
               },
-              callback (data) {
+              callback: (data) => {
                 if (data.type === 'save') {
-                  that.getCustomerDetail()
+                  this.getCustomerDetail()
                 }
               },
             })
             break
           case 'back':
-            let that = this
             this.$vDialog.modal(returnPoll, {
-              title: '转移客户',
+              title: '退回公海',
               width: 600,
               height: 220,
               params: {
                 customerIds: [{id: this.$route.query.customerId}],
               },
-              callback (data) {
+              callback: (data) => {
                 if (data.type === 'save') {
-                  that.getCustomerList(that.currentPage - 1, that.pagesOptions.pageSize, that.customerType)
+                  this.getCustomerList(this.currentPage - 1, this.pagesOptions.pageSize, this.customerType)
                 }
               },
             })
-            // this.$confirm('确定退回公海池, 是否继续?', '提示', {
-            //   confirmButtonText: '确定',
-            //   cancelButtonText: '取消',
-            //   type: 'warning',
-            // }).then(() => {
-            //   API.customer.return({customerIds: arrToStr([{id: this.$route.query.customerId}], 'id')}, (data) => {
-            //     if (data.status) {
-            //       if (data.data.fail > 0) {
-            //         this.$message.warning(`成功${data.data.success}, 失败${data.data.fail}, 失败原因：${data.data.errorMessage}`)
-            //       } else {
-            //         this.$message.success(`成功${data.data.success},失败${data.data.fail}`)
-            //       }
-            //     }
-            //   })
-            // }).catch(() => {
-            //   this.$message({
-            //     type: 'info',
-            //     message: '已取消',
-            //   })
-            // })
             break
           case 'move':
             this.$vDialog.modal(moveDialog, {
               title: '转移客户',
               width: 600,
-              height: 320,
+              height: 420,
               params: {
                 customerIds: [{id: this.$route.query.customerId}],
               },
-              callback (data) {
+              callback: (data) => {
                 if (data.type === 'save') {}
               },
             })
@@ -399,7 +380,7 @@
           this.chanceTotal = da.data.totalElements
         })
       },
-      getOrderList () { // todo
+      getOrderList () {
         API.salesOrder.list({customerId: this.$route.query.customerId, pageSize: 5}, (da) => {
           this.orderList = da.data.content
           this.orderTotal = da.data.totalElements
@@ -429,7 +410,7 @@
               width: 900,
               height: 460,
               params: {
-                // id: '123456',
+                detailCustomersId: this.customerDetail.id,
               },
               callback (data) {
                 if (data.type === 'save') {
@@ -449,6 +430,7 @@
               height: 400,
               params: {
                 salesState: this.salesState,
+                detailCustomersId: this.customerDetail.id,
               },
               callback (data) {
                 if (data.type === 'save') {
@@ -457,32 +439,13 @@
               },
             })
             break
-          case 'deleteChance':
-            this.$confirm('确定删除销售机会, 是否继续?', '提示', {
-              confirmButtonText: '确定',
-              cancelButtonText: '取消',
-              type: 'warning',
-            }).then(() => {
-              API.salesOpportunities.delete(deleteId, (data) => {
-                if (data.status) {
-                  this.$message.success('删除成功')
-                  this.getChanceList()
-                }
-              })
-            }).catch(() => {
-              this.$message({
-                type: 'info',
-                message: '已取消删除',
-              })
-            })
-            break
           case 'addOrder':
             this.$vDialog.modal(addOrderDialog, {
               title: '添加订单',
               width: 900,
-              height: 340,
+              height: 380,
               params: {
-                // id: '123456',
+                detailCustomersId: this.customerDetail.id,
               },
               callback (data) {
                 if (data.type === 'save') {
@@ -492,7 +455,26 @@
             })
             break
           case 'deleteOrder':
-            alert(deleteId)
+            this.$confirm('确定删除销售订单, 是否继续?', '提示', {
+              confirmButtonText: '确定',
+              cancelButtonText: '取消',
+              type: 'warning',
+            }).then(() => {
+              API.salesOrder.deleteOrder(deleteId, (da) => {
+                if (da.status) {
+                  this.$message({
+                    type: 'success',
+                    message: '删除成功!',
+                  })
+                  this.getOrderList()
+                }
+              })
+            }).catch(() => {
+              this.$message({
+                type: 'info',
+                message: '已取消删除',
+              })
+            })
             break
         }
       }

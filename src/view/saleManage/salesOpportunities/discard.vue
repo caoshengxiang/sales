@@ -21,7 +21,7 @@
 </template>
 
 <script>
-  import { arrToStr } from '../../../utils/utils'
+  // import { arrToStr } from '../../../utils/utils'
   import API from '../../../utils/api'
 
   export default {

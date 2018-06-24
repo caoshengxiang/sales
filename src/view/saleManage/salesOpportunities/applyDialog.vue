@@ -4,9 +4,9 @@
       <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="180px"
                class="demo-ruleForm">
         <el-form-item label="请选择协同咨询师类型" prop="consultantType">
-          <el-radio-group v-model="ruleForm.principalType">
-            <el-radio label="专业咨询师"></el-radio>
-            <el-radio label="同部门其他销售人员"></el-radio>
+          <el-radio-group v-model="principalType" @change="principalTypeChange">
+            <el-radio :label="3">专业咨询师</el-radio>
+            <el-radio :label="2">同机构其他销售人员</el-radio>
           </el-radio-group>
         </el-form-item>
         <el-form-item label="请选择协同咨询师人员" prop="counselorId">
@@ -26,12 +26,14 @@
 
 <script>
   import API from '../../../utils/api'
+  import webStorage from 'webStorage'
 
   export default {
     name: 'applyDialog',
     data () {
       return {
         dataLoading: false,
+        principalType: 3, // 咨询师类型，3 专业 ，2 同机构其他销售
         ruleForm: {
           businessType: 1, // 关联业务类型 1:销售机会
           type: 0,
@@ -78,17 +80,20 @@
           }
         })
       },
-      getUserList (page, pageSize) {
-        API.user.userList({
-          page: page,
-          pageSize: pageSize,
-        }, (da) => {
-          this.userList = da.data.content
+      getUserList (params) {
+        API.user.userSearch(params, (da) => {
+          this.userList = da.data
         })
       },
+      principalTypeChange () {
+        this.getUserList({
+          bilityIds: this.principalType,
+          organizationId: webStorage.getItem('userInfo').organizationId,
+          exceptUserIds: this.exceptUserIds.join(',')
+        })
+      }
     },
     created () {
-      this.getUserList(0, null)
       if (this.params.type === 'apply') {
         this.ruleForm.type = 1
       } else if (this.params.type === 'replace') {
@@ -96,6 +101,11 @@
       }
       this.ruleForm.chanceId = this.params.chanceId
       this.exceptUserIds = this.params.exceptUserIds
+      this.getUserList({ // 默认拉取专业咨询师列表
+        bilityIds: this.principalType,
+        organizationId: webStorage.getItem('userInfo').organizationId,
+        exceptUserIds: this.exceptUserIds.join(',')
+      })
     },
   }
 </script>

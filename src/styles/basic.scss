@@ -24,3 +24,11 @@ html，body, #app {
 .vDialogHeaderLabel{
   color: #4F5F6F;
 }
+
+/*去除上下键*/
+input::-webkit-outer-spin-button,input::-webkit-inner-spin-button{
+  -webkit-appearance:textfield;
+}
+input[type="number"]{
+  -moz-appearance:textfield;
+}

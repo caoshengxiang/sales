@@ -5,18 +5,16 @@
     <!--头部-->
     <div class="com-head">
       <el-breadcrumb separator-class="el-icon-arrow-right">
-        <el-breadcrumb-item :to="{ name: 'saleHome' }">销售管理系统</el-breadcrumb-item>
-        <el-breadcrumb-item>联系人</el-breadcrumb-item>
+        <el-breadcrumb-item v-if="themeIndex === 0" v-for="item in $route.meta.pos" :key="item.toName" :to="{name: item.toName}">{{item.name}}</el-breadcrumb-item>
+        <el-breadcrumb-item v-if="themeIndex === 1" v-for="item in $route.meta.pos2" :key="item.toName" :to="{name: item.toName}">{{item.name}}</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <!--控制栏-->
     <div class="com-bar">
       <div class="com-bar-left">
         <com-button buttonType="add" icon="el-icon-plus" @click="addHandle">新增</com-button>
-        <!--<com-button buttonType="orange" icon="el-icon-plus" @click="moveHandle">转移</com-button>-->
-        <!--<com-button buttonType="backHighSeas" icon="el-icon-plus">退回公海池</com-button>-->
       </div>
-      <div class="com-bar-right">
+      <div class="com-bar-right" v-if="themeIndex === 0">
         <el-select v-model="contactsTypeOption" placeholder="请选择" class="com-el-select" style="width: 150px">
           <el-option
             v-for="item in contactsTypeOptions"
@@ -26,6 +24,22 @@
           </el-option>
         </el-select>
         <com-button buttonType="search" @click="searchHandle">搜索</com-button>
+        <com-button buttonType="search" @click="advancedSearchHandle" style="">高级搜索</com-button>
+      </div>
+      <div class="com-bar-right" v-if="themeIndex === 1"><!--后端-->
+        <el-select
+          v-model="organizationId"
+          @change="searchHandle"
+          placeholder="请选择组织" class="com-el-select" style="width: 200px">
+          <el-option label="全部组织的联系人" :value="null"></el-option>
+          <el-option
+            v-for="item in organizationOptions"
+            :key="item.name"
+            :label="item.name"
+            :value="item.id">
+          </el-option>
+        </el-select>
+        <!--<com-button buttonType="search" @click="searchHandle">搜索</com-button>-->
       </div>
     </div>
     <!--详细-->
@@ -33,9 +47,11 @@
       <el-table
         ref="multipleTable"
         border
+        stripe
         :data="contactsList"
         tooltip-effect="dark"
         style="width: 100%"
+        @sort-change="sortChangeHandle"
         @selection-change="handleSelectionChange">
         <el-table-column
           fixed
@@ -46,6 +62,8 @@
         <el-table-column
           show-overflow-tooltip
           align="center"
+          sortable="custom"
+          prop="contacterName"
           label="客户联系人"
           width="200"
         >
@@ -56,19 +74,22 @@
         <el-table-column
           show-overflow-tooltip
           align="center"
-          label="所属公司名称"
+          sortable="custom"
+          label="所属客户名称"
           prop="customerName"
           width="180">
         </el-table-column>
         <el-table-column
           show-overflow-tooltip
           align="center"
+          sortable="custom"
           prop="phone"
           label="联系电话"
           width="160">
         </el-table-column>
         <el-table-column
           align="center"
+          sortable="custom"
           prop="department"
           label="所在部门"
           width="160"
@@ -76,6 +97,7 @@
         </el-table-column>
         <el-table-column
           align="center"
+          sortable="custom"
           prop="position"
           label="公司职位"
           width="160"
@@ -83,16 +105,18 @@
         </el-table-column>
         <el-table-column
           align="center"
+          sortable="custom"
           prop="birthday"
           label="出生日期"
           width="140"
           show-overflow-tooltip>
           <template slot-scope="scope">
-            {{ $moment(scope.row.birthday).format('YYYY-MM-DD') }}
+            {{ scope.row.birthday && $moment(scope.row.birthday).format('YYYY-MM-DD') }}
           </template>
         </el-table-column>
         <el-table-column
           align="center"
+          sortable="custom"
           prop="sex"
           label="性别"
           width="160"
@@ -100,6 +124,7 @@
         </el-table-column>
         <el-table-column
           align="center"
+          sortable="custom"
           prop="bakPhone"
           label="备用电话"
           width="160"
@@ -107,6 +132,7 @@
         </el-table-column>
         <el-table-column
           align="center"
+          sortable="custom"
           prop="wx"
           label="微信"
           width="160"
@@ -114,6 +140,7 @@
         </el-table-column>
         <el-table-column
           align="center"
+          sortable="custom"
           prop="qq"
           label="QQ"
           width="160"
@@ -121,6 +148,7 @@
         </el-table-column>
         <el-table-column
           align="center"
+          sortable="custom"
           prop="mail"
           label="电子邮件"
           width="160"
@@ -128,6 +156,8 @@
         </el-table-column>
         <el-table-column
           align="center"
+          sortable="custom"
+          prop="status"
           label="联系人状态"
           width="160"
           show-overflow-tooltip>
@@ -138,6 +168,7 @@
         </el-table-column>
         <el-table-column
           align="center"
+          sortable="custom"
           prop="creatorName"
           label="创建人"
           width="160"
@@ -154,13 +185,23 @@
         </el-table-column>-->
         <el-table-column
           align="center"
+          sortable="custom"
           prop="created"
           label="创建日期"
           width="160"
           show-overflow-tooltip>
           <template slot-scope="scope">
-            {{ $moment(scope.row.birthday).format('YYYY-MM-DD HH:mm') }}
+            {{ scope.row.created && $moment(scope.row.created).format('YYYY-MM-DD HH:mm') }}
           </template>
+        </el-table-column>
+        <el-table-column
+          v-if="themeIndex === 1"
+          show-overflow-tooltip
+          align="center"
+          sortable="custom"
+          prop="organizationName"
+          label="所属组织"
+          width="160">
         </el-table-column>
       </el-table>
     </div>
@@ -189,6 +230,8 @@
   import { mapState, mapActions } from 'vuex'
   import API from '../../../utils/api'
   import addDialog from './addDialog'
+  import advancedSearch from './advancedSearch'
+  import { underscoreName } from '../../../utils/utils'
 
   export default {
     name: 'list',
@@ -199,13 +242,26 @@
         contactsTypeOption: null,
         multipleSelection: [],
         currentPage: 1,
+        customerId: null, // 路由参数中得客户id
+        defaultListParams: { // 默认顾客列表请求参数
+          page: null,
+          pageSize: null,
+          type: null,
+          customerId: null,
+          organizationId: null,
+        },
+        organizationOptions: [], // 组织列表
+        organizationId: null, // 选择的组织
+        sortObj: null, // 排序
+        advancedSearch: null, // 高级搜索
       }
     },
     computed: {
       ...mapState('constData', [
         'contactsTypeOptions',
         'contactsStatus',
-        'pagesOptions'
+        'pagesOptions',
+        'themeIndex',
       ]),
       ...mapState('contacts', [
         'contactsList',
@@ -221,17 +277,14 @@
         'ac_contactsList',
       ]),
       addHandle () {
-        let that = this
         this.$vDialog.modal(addDialog, {
           title: '新增联系人',
           width: 900,
           height: 460,
-          params: {
-            // id: '123456',
-          },
-          callback (data) {
+          params: {},
+          callback: (data) => {
             if (data.type === 'save') {
-              that.getContactsList(that.currentPage - 1, that.pagesOptions.pageSize, that.contactsTypeOption)
+              this.getContactsList()
             }
           },
         })
@@ -244,23 +297,20 @@
       },
       handleSizeChange (val) {
         // console.log(`每页 ${val} 条`)
-        this.getContactsList(this.currentPage - 1, this.pagesOptions.pageSize, this.contactsTypeOption)
+        this.getContactsList()
       },
       handleCurrentChange (val) {
         // console.log(`当前页: ${val}`)
         this.currentPage = val
-        this.getContactsList(this.currentPage - 1, this.pagesOptions.pageSize, this.contactsTypeOption)
+        this.getContactsList()
       },
       handleRouter (name, id) {
         this.$router.push({name: 'contactsDetail', query: {view: name, contactsId: id}, params: {end: 'FE'}})
       },
-      getContactsList (page, pageSize, type) {
+      getContactsList () {
         this.dataLoading = true
-        API.contacts.list({
-          page: page,
-          pageSize: pageSize,
-          type: type,
-        }, (data) => {
+        this.getQueryParams()
+        API.contacts.list(Object.assign({}, this.defaultListParams, this.sortObj, this.advancedSearch), (data) => {
           this.ac_contactsList(data.data)
           setTimeout(() => {
             this.dataLoading = false
@@ -270,11 +320,61 @@
         })
       },
       searchHandle () {
-        this.getContactsList(this.currentPage - 1, this.pagesOptions.pageSize, this.contactsTypeOption)
-      }
+        this.getContactsList()
+      },
+      sortChangeHandle (sortObj) {
+        // console.log(sortObj)
+        let order = null
+        if (sortObj.order === 'ascending') {
+          order = 'asc'
+        } else if (sortObj.order === 'descending') {
+          order = 'desc'
+        }
+        this.sortObj = {sort: underscoreName(sortObj.prop) + ',' + order}
+        this.getContactsList()
+      },
+      advancedSearchHandle () {
+        this.$vDialog.modal(advancedSearch, {
+          title: '高级搜索',
+          width: 900,
+          height: 340,
+          params: {
+            contactsStatus: this.contactsStatus,
+          },
+          callback: (data) => {
+            if (data.type === 'search') {
+              console.log('高级搜索数据：', data.params)
+              this.advancedSearch = data.params
+              this.getContactsList()
+            }
+          },
+        })
+      },
+      getQueryParams () { // 请求参数配置
+        this.customerId = this.$route.query.customerId
+        this.defaultListParams = {
+          page: this.currentPage - 1,
+          pageSize: this.pagesOptions.pageSize,
+          type: this.contactsTypeOption, // 前端
+          organizationId: this.organizationId // 后端
+        }
+        if (this.customerId) { // 更多
+          this.defaultListParams.customerId = this.customerId
+        }
+      },
+      getOrganization (pa) {
+        API.organization.queryAllList(pa, (data) => {
+          this.organizationOptions = data.data
+        })
+      },
+    },
+    beforeCreate () {
     },
     created () {
-      this.getContactsList(this.currentPage - 1, this.pagesOptions.pageSize, this.contactsTypeOption)
+      this.getContactsList()
+      if (this.themeIndex === 1) { // 后端， 拉取组织列表
+        this.getOrganization({pid: 1})
+      }
     },
   }
 </script>

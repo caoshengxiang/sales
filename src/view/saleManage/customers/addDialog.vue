@@ -21,7 +21,7 @@
             <td class="td-text">
               <!--<input type="text" v-model="addForm.levelName">-->
               <el-form-item prop="level">
-                <el-select v-model.number="addForm.level" @change="selectLevel" placeholder="请选择客户级别">
+                <el-select v-model="addForm.level" @change="selectLevel" placeholder="请选择客户级别">
                   <el-option v-for="item in levelList" :key="item.codeName" :label="item.codeName"
                              :value="item.codeName"></el-option>
                 </el-select>
@@ -39,7 +39,7 @@
             <td class="td-text">
               <!--<input type="text" v-model="addForm.industry">-->
               <el-form-item prop="industry">
-                <el-select v-model.number="addForm.industry" @change="selectIndustry" placeholder="请选择客户行业">
+                <el-select v-model="addForm.industry" @change="selectIndustry" placeholder="请选择客户行业">
                   <el-option v-for="item in industryList" :key="item.codeName" :label="item.codeName"
                              :value="item.codeName"></el-option>
                 </el-select>
@@ -61,6 +61,7 @@
                   }">
                 </el-cascader>-->
                 <AreaSelect ref="areaSe"
+                            :area="(addForm.provinceName?addForm.provinceName:'') + ' ' + (addForm.cityName?addForm.cityName:'')  + ' ' + (addForm.areaName?addForm.areaName:'')"
                             @change="areaSelectedOptionsHandleChange"
                             :selectLastLevelMode="true"></AreaSelect>
               </el-form-item>
@@ -273,7 +274,7 @@
           width: 900,
           height: 460,
           params: {
-            // id: '123456',
+            addCustomersAndAddContact_customerName: this.addForm.name,
           },
           callback (data) {
             if (data.type === 'save') {}
@@ -308,7 +309,7 @@
       this.getConfigData(2)
       this.getConfigData(3)
       this.getSeaList()
-      if (this.params.detail) {
+      if (this.params.detail) { // 编辑
         this.addForm = JSON.parse(JSON.stringify(this.params.detail))
         this.dialogType = 'edit'
       }

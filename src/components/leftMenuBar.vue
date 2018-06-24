@@ -14,7 +14,7 @@
     </div>
 
     <el-menu
-      default-active="1"
+      :default-active="defaultActiveIndex"
       class="el-menu-vertical-demo"
       @open="handleOpen"
       @close="handleClose"
@@ -23,7 +23,8 @@
       :text-color="theme[themeIndex].leftMenuBarColor"
       :background-color="theme[themeIndex].leftMenuBarBg"
       :active-text-color="theme[themeIndex].leftMenuBarActiveColor">
-      <el-menu-item index="saleHome" v-if="listPermissions(menus, 'salerHome')">
+      <!--<el-menu-item index="saleHome" v-if="listPermissions(menus, 'salerHome')">--><!--去掉两个首页的权限控制-->
+      <el-menu-item index="saleHome" v-if="themeIndex === 0">
         <i class="iconfont icon-home"></i>
         <span slot="title">管理中心</span>
       </el-menu-item>
@@ -71,23 +72,10 @@
         <i class="iconfont icon-shenpi"></i>
         <span slot="title">任务审批</span>
       </el-menu-item>
-      <!--<el-menu-item index="userList">
-        <template slot="title">
-          <i class="el-icon-menu"></i>
-          <span slot="title">用戶管理</span>
-          <div class="child-menu">&lt;!&ndash;todo 有兼容问题&ndash;&gt;
-            <i class="el-icon-arrow-right"></i>
-            <div class="child-fixed">
-              <ul class="child-menu-box">
-                <li @click="handleRouter('userList')">用戶管理</li>
-                <li @click="handleRouter('roleList')">角色管理</li>
-                <li @click="handleRouter('agentList')">代理商管理</li>
-              </ul>
-            </div>
-          </div>
-        </template>
-      </el-menu-item>-->
-      <el-menu-item index="todo" v-if="listPermissions(menus, 'adminHome')">
+     <!--后端菜单-->
+     <!--后端菜单-->
+      <!--<el-menu-item index="companyManageHome" v-if="listPermissions(menus, 'adminHome')">--><!--去掉两个首页的权限控制-->
+      <el-menu-item index="companyManageHome" v-if="themeIndex === 1">
         <i class="iconfont icon-home"></i>
         <span slot="title">首页</span>
       </el-menu-item>
@@ -98,9 +86,9 @@
         </template>
         <el-menu-item-group>
           <!--<template slot="title">分组一</template>-->
-          <el-menu-item index="userList">用戶管理</el-menu-item>
-          <el-menu-item index="roleList">角色管理</el-menu-item>
-          <el-menu-item index="agentList">代理商管理</el-menu-item>
+          <el-menu-item index="userList" v-if="listPermissions(menus, 'userManagementSub')">用戶管理</el-menu-item>
+          <el-menu-item index="roleList" v-if="listPermissions(menus, 'roleManagement')">角色管理</el-menu-item>
+          <el-menu-item index="agentList" v-if="listPermissions(menus, 'agentManagement')">代理商管理</el-menu-item>
         </el-menu-item-group>
       </el-submenu>
       <el-submenu index="organization" v-if="listPermissions(menus, 'orgManagement')">
@@ -110,9 +98,9 @@
         </template>
         <el-menu-item-group>
           <!--<template slot="title">分组一</template>-->
-          <el-menu-item index="organizationList">组织管理</el-menu-item>
-          <el-menu-item index="customerPool">客户池管理</el-menu-item>
-          <el-menu-item index="agentList">组织商品配置</el-menu-item>
+          <el-menu-item index="organizationList" v-if="listPermissions(menus, 'orgManagementSub')">组织管理</el-menu-item>
+          <el-menu-item index="customerPool" v-if="listPermissions(menus, 'customerPool')">客户池管理</el-menu-item>
+          <el-menu-item index="organizationProductSetting" v-if="listPermissions(menus, 'orgGoodsConfig')">组织商品配置</el-menu-item>
         </el-menu-item-group>
       </el-submenu>
       <el-submenu index="financial" v-if="listPermissions(menus, 'financialManagement')">
@@ -122,18 +110,18 @@
         </template>
         <el-menu-item-group>
           <!--<template slot="title">分组一</template>-->
-          <el-menu-item index="settlementList">佣金结算管理</el-menu-item>
-          <el-menu-item index="spendingList">佣金支出管理</el-menu-item>
+          <el-menu-item index="settlementList" v-if="listPermissions(menus, 'commissionClear')">佣金结算管理</el-menu-item>
+          <el-menu-item index="spendingList" v-if="listPermissions(menus, 'commissionExpenses')">佣金支出管理</el-menu-item>
         </el-menu-item-group>
       </el-submenu>
-      <el-submenu index="todo-400" v-if="listPermissions(menus, 'message')">
+      <el-submenu index="meMessageList" v-if="listPermissions(menus, 'message')">
         <template slot="title">
           <i class="iconfont icon-xiaoxitongzhi"></i>
           <span>消息通知</span>
         </template>
         <el-menu-item-group>
           <!--<template slot="title">分组一</template>-->
-          <el-menu-item index="todo-1">消息通知</el-menu-item>
+          <el-menu-item index="meMessageList" v-if="listPermissions(menus, 'messageHistory')">消息通知</el-menu-item>
         </el-menu-item-group>
       </el-submenu>
       <el-submenu index="customerAreaSetting" v-if="listPermissions(menus, 'configManagement')">
@@ -143,8 +131,11 @@
         </template>
         <el-menu-item-group>
           <!--<template slot="title">分组一</template>-->
+          <el-menu-item index="siteList" v-if="listPermissions(menus, 'siteOnOff')">站点开关</el-menu-item>
           <el-menu-item index="customerAreaSetting">客户地区</el-menu-item>
-          <el-menu-item index="baseSettingList">参数设置</el-menu-item>
+          <el-menu-item index="baseSettingList" v-if="listPermissions(menus, 'paramConfig')">参数配置</el-menu-item>
+          <el-menu-item index="settlementRulesList" v-if="listPermissions(menus, 'commissionConfig')">返佣规则</el-menu-item>
+          <el-menu-item index="productType" v-if="listPermissions(menus, 'orgGoodsConfig')">商品类型设置</el-menu-item>
         </el-menu-item-group>
       </el-submenu>
       <el-submenu index="todo-300" v-if="listPermissions(menus, 'statistics')">
@@ -154,31 +145,30 @@
         </template>
         <el-menu-item-group>
           <!--<template slot="title">分组一</template>-->
-          <el-menu-item index="todo-1">统计分析</el-menu-item>
+          <el-menu-item index="todo-1" v-if="listPermissions(menus, 'statistics')">统计分析</el-menu-item>
         </el-menu-item-group>
       </el-submenu>
-      <el-submenu index="todo-200" v-if="listPermissions(menus, 'statistics')">
+      <el-submenu index="log" v-if="listPermissions(menus, 'logManagement')">
         <template slot="title">
           <i class="iconfont icon-xitongrizhi"></i>
           <span>日志管理</span>
         </template>
         <el-menu-item-group>
           <!--<template slot="title">分组一</template>-->
-          <el-menu-item index="todo-1">日志管理</el-menu-item>
+          <el-menu-item index="loglist" v-if="listPermissions(menus, 'logManagement')">日志管理</el-menu-item>
         </el-menu-item-group>
       </el-submenu>
       <el-submenu index="crm" v-if="listPermissions(menus, 'crmManagement')">
         <template slot="title">
-          <i class="iconfont icon-icon-test1"></i>
+          <i class="iconfont icon-webicon319"></i>
           <span>CRM管理</span>
         </template>
         <el-menu-item-group>
-          <!--<template slot="title">分组一</template>-->
-          <el-menu-item index="customersList">客户管理</el-menu-item>
-          <el-menu-item index="contactsList">联系人管理</el-menu-item>
-          <el-menu-item index="salesOpportunitiesList">销售机会管理</el-menu-item>
-          <el-menu-item index="salesOrdersList">销售订单管理</el-menu-item>
-          <el-menu-item index="customersHighSeasList">客户公海管理</el-menu-item>
+          <el-menu-item index="customersList" v-if="listPermissions(menus, 'customerManagement')">客户管理</el-menu-item>
+          <el-menu-item index="contactsList" v-if="listPermissions(menus, 'contactManagement')">联系人管理</el-menu-item>
+          <el-menu-item index="salesOpportunitiesList" v-if="listPermissions(menus, 'salerChanceManagement')">销售机会管理</el-menu-item>
+          <el-menu-item index="salesOrdersList" v-if="listPermissions(menus, 'salerOrderManagement')">销售订单管理</el-menu-item>
+          <el-menu-item index="customersHighSeasList" v-if="listPermissions(menus, 'customerSeaManagement')">客户公海管理</el-menu-item>
         </el-menu-item-group>
       </el-submenu>
     </el-menu>
@@ -196,6 +186,17 @@
       return {
         userInfo: {},
         menus: [],
+        // routeerIndexName: [
+        //   'saleHome', 'customersList', 'contactsList', 'salesOpportunitiesList', 'salesOrdersList',
+        //   'orderRecordsList', 'remittanceRecords', 'rebateRecordsList', 'customersHighSeasList', 'taskApprovalList',
+        //   'companyManageHome',
+        //   'userList', 'roleList', 'agentList',
+        //   'organizationList', 'customerPool', 'organizationProductSetting',
+        //   'settlementList', 'spendingList',
+        //   'meMessageList',
+        //   'siteList', 'customerAreaSetting', 'baseSettingList', 'settlementRulesList'
+        // ],
+        defaultActiveIndex: 'saleHome'
       }
     },
     computed: {
@@ -207,7 +208,8 @@
     created () {
       this.userInfo = utils.loginExamine(this)
       this.menus = this.userInfo.menus
-      // console.log('tetssss', this.listPermissions(this.menus, 'salerHome'))
+      // console.log('tetssss', this.listPermissions(this.menus, 'salerHome')) // 测试权限方法
+      this.defaultActiveIndex = this.$route.name // 首次进入，或刷新菜单获取active【注意：defaultActiveIndex是path不是name,所以定义路由的时候path名和name名写成一样的】
     },
     methods: {
       handleOpen (key, keyPath) {
@@ -225,9 +227,9 @@
         this.$router.push({name: 'personal', query: {view: 'base'}, params: {end: 'FE'}})
       },
       listPermissions (m, id) { // menus权限判断，return true和false
-        let menus = m || []
-        return  menus.some(item => {
-          return item.id === id || this.listPermissions(menus.children, id)
+        let mus = m || []
+        return mus.some(item => {
+          return item.id === id || this.listPermissions(item.children, id)
         })
       }
     },

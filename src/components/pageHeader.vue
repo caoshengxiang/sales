@@ -13,7 +13,7 @@
           </el-badge>
           消息通知<span></span>
         </li>
-        <li class="item cursor" @click="taskHandle" v-if="themeIndex === 0">
+        <li class="item cursor" @click="taskHandle" v-if="themeIndex === 0 && listPermissions(menus, 'approval')" >
           <el-badge is-dot class="badge">
             <i class="iconfont icon-tixing"></i>
           </el-badge>
@@ -29,11 +29,15 @@
   import { mapState } from 'vuex'
   import utils from '../utils/utils'
   import API from '../utils/api'
+  // import webStorage from 'webStorage'
 
   export default {
     name: 'pageHeader',
     data () {
-      return {}
+      return {
+        userInfo: '',
+        menus: '',
+      }
     },
     computed: {
       ...mapState('constData', [
@@ -43,6 +47,7 @@
     },
     created () {
       this.userInfo = utils.loginExamine(this)
+      this.menus = this.userInfo.menus
     },
     methods: {
       logout () {
@@ -65,6 +70,12 @@
       taskHandle () {
         this.$router.push({name: 'taskApprovalList', params: {end: 'FE'}})
       },
+      listPermissions (m, id) { // menus权限判断，return true和false
+        let mus = m || []
+        return mus.some(item => {
+          return item.id === id || this.listPermissions(item.children, id)
+        })
+      }
     },
   }
 </script>

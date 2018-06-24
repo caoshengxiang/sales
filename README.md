@@ -74,6 +74,12 @@ npm test
 
 [linux expect 使用](https://blog.csdn.net/houmou/article/details/53102051)
 
+3. 打包
+* npm run build:test
+* npm run build:prod
+> 分别对应两个环境地址
+[设置需要注意](https://segmentfault.com/q/1010000009324489)
+
 ## 目录说明
 ```
 * sales
@@ -351,7 +357,7 @@ axios 在webpack定义全局变量 `$axios`
 
 ## 菜单部分使用iconFont
 
-> 目录中得html文件中有demo
+> 目录中得html文件中有demo，图标在淘宝图表中建立的sales项目管理
 
 
 ## 接口全局配置 axios
@@ -361,4 +367,28 @@ axios 在webpack定义全局变量 `$axios`
 
 ## 设置环境变量
 
-[设置需要注意]（https://segmentfault.com/q/1010000009324489）
+[设置需要注意](https://segmentfault.com/q/1010000009324489)
+
+```json
+"build:test": "set server_url=http://sales.dcstar-inc.com/sales&& node build/build.js",
+```
+
+配置文件中配置：API_ROOT
+```js
+module.exports = merge(prodEnv, {
+  NODE_ENV: '"development"',
+  API_ROOT: '"' + process.env.server_url + '"'
+})
+```
+> 注意引号得写法
+
+```js
+console.log(process.env.API_ROOT, 'test----环境地址') // http://sales.dcstar-inc.com/sales
+console.log(process.env.server_url, 'test-环境地址') // undefined
+```
+
+## webStorm 过去
+【6.13】 https://idea.qmanga.com/
+
+## webpack 打包-webkit-box-orient: vertical;不见了
+[解决](https://www.cnblogs.com/xianhuiwang/p/9044725.html)

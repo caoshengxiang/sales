@@ -78,6 +78,8 @@
     background-color: $bg-color !important;
     width: $width !important;
     color: $font-color !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
     &:hover, &:focus {
       background-color: $bg-color !important;
       color: $font-color !important;

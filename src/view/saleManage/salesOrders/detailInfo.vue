@@ -5,9 +5,8 @@
     <!--头部-->
     <div class="com-head">
       <el-breadcrumb separator-class="el-icon-arrow-right">
-        <el-breadcrumb-item :to="{ name: 'saleHome' }">销售管理系统</el-breadcrumb-item>
-        <el-breadcrumb-item>销售订单</el-breadcrumb-item>
-        <el-breadcrumb-item>销售订单详情</el-breadcrumb-item>
+        <el-breadcrumb-item v-if="themeIndex === 0" v-for="item in $route.meta.pos" :key="item.toName" :to="{name: item.toName}">{{item.name}}</el-breadcrumb-item>
+        <el-breadcrumb-item v-if="themeIndex === 1" v-for="item in $route.meta.pos2" :key="item.toName" :to="{name: item.toName}">{{item.name}}</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <!--控制栏-->
@@ -33,7 +32,8 @@
         <!--<el-radio-button class="btn-width" label="move">删除</el-radio-button>-->
         <!--</el-radio-group>-->
         <ul class="btn-group">
-          <li class="btn-order" @click="operateOptions('order')">APP下单</li>
+          <!--订单为预下单 - 显示APP下单-->
+          <li class="btn-order" v-if="orderDetail.orderState === 0" @click="operateOptions('appOrder')">APP下单</li>
           <li class="btn-edit" @click="operateOptions('edit')">修改</li>
           <li class="btn-delete" @click="operateOptions('delete')">删除</li>
         </ul>
@@ -48,11 +48,11 @@
             <table class="detail-table">
               <tr>
                 <td class="td-title">订单机会</td>
-                <td>{{orderDetail.changeName}}</td>
+                <td>{{orderDetail.chanceName}}</td>
                 <td class="td-title">客户名称</td>
                 <td>{{orderDetail.customerName}}</td>
                 <td class="td-title">客户联系人</td>
-                <td>{{orderDetail.contracterName}}[电话]</td>
+                <td>{{orderDetail.contacterName}}[{{orderDetail.contacterPhone}}]</td>
               </tr>
               <tr>
                 <td class="td-title">是否续费</td>
@@ -87,7 +87,7 @@
             <table class="detail-table">
               <tr>
                 <td class="td-title">销售订单创建时间</td>
-                <td colspan="5">{{orderDetail.created}}</td>
+                <td colspan="5">{{orderDetail.created && $moment(orderDetail.created).format('YYYY-MM-DD HH:mm:ss')}}</td>
               </tr>
             </table>
           </el-tab-pane>
@@ -236,8 +236,8 @@
 <script>
   import comButton from '../../../components/button/comButton'
   import addDialog from './addDialog'
-  import order from './oder'
-  import orderInfo from './oderInfo'
+  import order from './order'
+  import orderInfo from './orderInfo'
   import API from '../../../utils/api'
   import { mapState } from 'vuex'
 
@@ -259,6 +259,7 @@
         'orderTypeOptions',
         'orderState',
         'orderSource',
+        'themeIndex',
       ]),
     },
     watch: {
@@ -281,13 +282,13 @@
             this.$vDialog.modal(addDialog, {
               title: '修改订单',
               width: 900,
-              height: 340,
+              height: 380,
               params: {
                 orderDetail: this.orderDetail,
               },
-              callback (data) {
+              callback: (data) => {
                 if (data.type === 'save') {
-                  alert('弹窗关闭，添加成功刷新列表')
+                  this.getSalesOrderDetail()
                 }
               },
             })
@@ -298,9 +299,14 @@
               cancelButtonText: '取消',
               type: 'warning',
             }).then(() => {
-              this.$message({
-                type: 'success',
-                message: '删除成功!',
+              API.salesOrder.deleteOrder(this.orderDetail.id, (da) => {
+                if (da.status) {
+                  this.$message({
+                    type: 'success',
+                    message: '删除成功!',
+                  })
+                  this.$router.go(-1)
+                }
               })
             }).catch(() => {
               this.$message({
@@ -311,30 +317,30 @@
             break
           case 'orderInfo':
             this.$vDialog.modal(orderInfo, {
-              title: '修改订单',
+              title: 'APP订单信息浏览',
               width: 900,
               height: 740,
               params: {
                 orderDetail: this.orderDetail,
               },
-              callback (data) {
+              callback: (data) => {
                 if (data.type === 'save') {
-                  alert('弹窗关闭，添加成功刷新列表')
+                  // alert('弹窗关闭，添加成功刷新列表')
                 }
               },
             })
             break
-          case 'order':
+          case 'appOrder':
             this.$vDialog.modal(order, {
-              title: '修改订单',
-              width: 514,
-              height: 260,
+              title: 'APP下单',
+              width: 564,
+              height: 300,
               params: {
                 orderDetail: this.orderDetail,
               },
-              callback (data) {
+              callback: (data) => {
                 if (data.type === 'save') {
-                  alert('弹窗关闭，添加成功刷新列表')
+                  this.getSalesOrderDetail()
                 }
               },
             })
@@ -344,8 +350,12 @@
       getSalesOrderDetail () {
         this.dataLoading = true
         API.salesOrder.detail(this.$route.query.id, (data) => {
-          this.orderDetail = data.data
-          this.dataLoading = false
+          setTimeout(() => {
+            this.dataLoading = false
+            if (data.status) {
+              this.orderDetail = data.data
+            }
+          }, 500)
         }, (data) => {
           this.orderDetail = data.data
           this.dataLoading = false

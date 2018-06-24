@@ -1,11 +1,12 @@
 export const pageMinWidth = 1100 // 页面最小宽度
-export const versionLogs = 'version: 1.0.9, 发布时间：2018.6.1 11:00'
+export const versionLogs = 'version: 1.0.10, 发布：2018.6.13'
 // export const serverUrl = 'http://sales.dcstar-inc.com/sales' // server地址
 // export const serverUrl = 'http://erp.zzcfo.cn/sales' // server地址
 export const serverUrl = process.env.API_ROOT // server地址
+export const externalAPI = process.env.API_EXTERNAL // APP 外部地址
 
 console.log(process.env.API_ROOT, 'test----环境地址')
-console.log(process.env.server_url, 'test-环境地址')
+console.log(process.env.API_EXTERNAL, 'test APP----环境地址')
 
 // 表单验证
 const validatePhone = (rule, value, callback) => { // 自定义规则验证手机号

@@ -5,17 +5,17 @@
     <!--头部-->
     <div class="com-head">
       <el-breadcrumb separator-class="el-icon-arrow-right">
-        <el-breadcrumb-item :to="{ name: 'saleHome' }">销售管理系统</el-breadcrumb-item>
-        <el-breadcrumb-item>销售订单</el-breadcrumb-item>
+        <el-breadcrumb-item v-if="themeIndex === 0" v-for="item in $route.meta.pos" :key="item.toName" :to="{name: item.toName}">{{item.name}}</el-breadcrumb-item>
+        <el-breadcrumb-item v-if="themeIndex === 1" v-for="item in $route.meta.pos2" :key="item.toName" :to="{name: item.toName}">{{item.name}}</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <!--控制栏-->
     <div class="com-bar">
       <div class="com-bar-left">
-        <com-button buttonType="delete" icon="el-icon-plus" @click="operateOptions('delete')" :disabled="multipleSelection.length <= 0">删除</com-button>
+        <com-button buttonType="delete" icon="el-icon-delete" @click="operateOptions('delete')" :disabled="multipleSelection.length <= 0">删除</com-button>
         <com-button buttonType="add" icon="el-icon-plus" @click="operateOptions('add')">新增</com-button>
       </div>
-      <div class="com-bar-right">
+      <div class="com-bar-right" v-if="themeIndex === 0"><!--前端-->
         <el-select v-model="orderTypeOption" placeholder="请选择" class="com-el-select">
           <el-option
             v-for="item in orderTypeOptions"
@@ -25,6 +25,22 @@
           </el-option>
         </el-select>
         <com-button buttonType="search" @click="searchHandle">搜索</com-button>
+        <com-button buttonType="search" @click="advancedSearchHandle" style="">高级搜索</com-button>
+      </div>
+      <div class="com-bar-right" v-if="themeIndex === 1"><!--后端-->
+        <el-select
+          v-model="organizationId"
+          @change="searchHandle"
+          placeholder="请选择组织" class="com-el-select" style="width: 200px">
+          <el-option label="全部组织的销售订单" :value="null"></el-option>
+          <el-option
+            v-for="item in organizationOptions"
+            :key="item.name"
+            :label="item.name"
+            :value="item.id">
+          </el-option>
+        </el-select>
+        <!--<com-button buttonType="search" @click="searchHandle">搜索</com-button>-->
       </div>
     </div>
     <!--详细-->
@@ -32,9 +48,11 @@
       <el-table
         ref="multipleTable"
         border
+        stripe
         :data="tableData"
         tooltip-effect="dark"
         style="width: 100%"
+        @sort-change="sortChangeHandle"
         @selection-change="handleSelectionChange">
         <el-table-column
           fixed
@@ -44,39 +62,49 @@
         </el-table-column>
         <el-table-column
           align="center"
+          sortable="custom"
+          prop="id"
           label="订单编号"
           show-overflow-tooltip
           width="200"
         >
           <template slot-scope="scope">
-            <a class="col-link" @click="handleRouter('detail', scope.row.id)">{{ scope.row.billOrderId }}</a>
+            <!--<a class="col-link" @click="handleRouter('detail', scope.row.id)">{{ scope.row.billOrderId }}</a>-->
+            <a class="col-link" @click="handleRouter('detail', scope.row.id)">{{ scope.row.id + '-' + scope.row.orderId}}</a>
           </template>
         </el-table-column>
         <el-table-column
           align="center"
+          sortable="custom"
+          prop="chanceName"
           label="关联销售机会"
           show-overflow-tooltip
-          width="120">
+          width="160">
           <template slot-scope="scope">
-            <a class="col-link">{{ scope.row.changeName }}</a></template>
+            <router-link class="col-link" :to="{name: 'salesOpportunitiesDetail', query: {view: 'detail', id: scope.row.chanceId}, params: {end: 'FE'}}">{{ scope.row.chanceName }}</router-link></template>
         </el-table-column>
         <el-table-column
           align="center"
+          sortable="custom"
+          prop="customerName"
           label="关联客户名称"
           show-overflow-tooltip
           width="160">
           <template slot-scope="scope">
-            <a class="col-link">{{ scope.row.customerName }}</a></template>
+            <router-link class="col-link" :to="{name: 'customersDetail', query: {view: 'detail', customerId: scope.row.customerId}, params: {end: 'FE'}}">{{ scope.row.customerName }}</router-link></template>
         </el-table-column>
         <el-table-column
           align="center"
+          sortable="custom"
+          prop="contacterName"
           label="联系人"
           width="160"
           show-overflow-tooltip>
-          <template slot-scope="scope">{{ scope.row.contracterName }}</template>
+          <template slot-scope="scope"><router-link class="col-link" :to="{name: 'contactsDetail', query: {view: 'detail', contactsId: scope.row.contacterId}, params: {end: 'FE'}}">{{ scope.row.contacterName }}</router-link></template>
         </el-table-column>
         <el-table-column
           align="center"
+          sortable="custom"
           prop="productName"
           label="购买商品"
           width="160"
@@ -84,6 +112,7 @@
         </el-table-column>
         <el-table-column
           align="center"
+          sortable="custom"
           prop="billAmount"
           label="签单金额"
           width="160"
@@ -91,6 +120,7 @@
         </el-table-column>
         <el-table-column
           align="center"
+          sortable="custom"
           prop="refund_amount"
           label="回款金额"
           width="160"
@@ -98,6 +128,7 @@
         </el-table-column>
         <el-table-column
           align="center"
+          sortable="custom"
           prop="not_refund_amount"
           label="待回款金额"
           width="160"
@@ -106,6 +137,7 @@
         <el-table-column
           align="center"
           prop="isRenew"
+          sortable="custom"
           label="是否续费"
           width="160"
           show-overflow-tooltip>
@@ -113,7 +145,8 @@
         </el-table-column>
         <el-table-column
           align="center"
-          prop="address"
+          prop="orderState"
+          sortable="custom"
           label="订单状态"
           width="160"
           show-overflow-tooltip>
@@ -124,6 +157,7 @@
         </el-table-column>
         <el-table-column
           align="center"
+          sortable="custom"
           prop="source"
           label="订单来源"
           width="160"
@@ -135,6 +169,7 @@
         </el-table-column>
         <el-table-column
           align="center"
+          sortable="custom"
           prop="creatorName"
           label="创建人"
           width="160"
@@ -142,6 +177,7 @@
         </el-table-column>
         <el-table-column
           align="center"
+          sortable="custom"
           prop="salerName"
           label="销售员"
           width="160"
@@ -149,6 +185,7 @@
         </el-table-column>
         <el-table-column
           align="center"
+          sortable="custom"
           prop="counselorName"
           label="咨询师"
           width="160"
@@ -156,10 +193,23 @@
         </el-table-column>
         <el-table-column
           align="center"
+          sortable="custom"
           prop="created"
           label="创建日期"
           width="160"
           show-overflow-tooltip>
+          <template slot-scope="scope">
+            {{scope.row.created && $moment(scope.row.created).format('YYYY-MM-DD')}}
+          </template>
+        </el-table-column>
+        <el-table-column
+          v-if="themeIndex === 1"
+          show-overflow-tooltip
+          align="center"
+          sortable="custom"
+          prop="organizationName"
+          label="所属组织"
+          width="160">
         </el-table-column>
       </el-table>
     </div>
@@ -184,6 +234,8 @@
   import comButton from '../../../components/button/comButton'
   import API from '../../../utils/api'
   import addDialog from './addDialog'
+  import advancedSearch from './advancedSearch'
+  import { underscoreName, arrToStr } from '../../../utils/utils'
 
   export default {
     name: 'list',
@@ -209,6 +261,19 @@
         tableDataTotal: 0,
         multipleSelection: [],
         currentPage: 1,
+        defaultListParams: { // 默认顾客列表请求参数
+          page: null,
+          pageSize: null,
+          type: null,
+          customerId: null,
+          organizationId: null,
+        },
+        customerId: null, // 路由参数
+        chanceId: null, // 路由参数，机会id
+        organizationOptions: [], // 组织列表
+        organizationId: null, // 选择的组织
+        sortObj: null, // 排序
+        advancedSearch: null, // 高级搜索
       }
     },
     computed: {
@@ -217,6 +282,7 @@
         'orderTypeOptions',
         'orderState',
         'orderSource',
+        'themeIndex',
       ]),
     },
     components: {
@@ -229,13 +295,13 @@
             this.$vDialog.modal(addDialog, {
               title: '添加订单',
               width: 900,
-              height: 340,
+              height: 380,
               params: {
                 // id: '123456',
               },
-              callback (data) {
+              callback: (data) => {
                 if (data.type === 'save') {
-                  alert('弹窗关闭，添加成功刷新列表')
+                  this.getSalesOrderList()
                 }
               },
             })
@@ -246,9 +312,15 @@
               cancelButtonText: '取消',
               type: 'warning',
             }).then(() => {
-              this.$message({
-                type: 'success',
-                message: '删除成功!',
+              API.salesOrder.batchDeleteOrder({salerOrderIds: arrToStr(this.multipleSelection, 'id')}, (da) => {
+                if (da.status) {
+                  if (da.data.fail > 0) {
+                    this.$message.warning(`成功${da.data.success}, 失败${da.data.fail}, 失败原因：${da.data.errorMessage}`)
+                  } else {
+                    this.$message.success(`成功${da.data.success},失败${da.data.fail}`)
+                  }
+                  this.getSalesOrderList()
+                }
               })
             }).catch(() => {
               this.$message({
@@ -260,42 +332,90 @@
         }
       },
       searchHandle () {
-        this.getSalesOrderList(this.currentPage - 1, this.pagesOptions.pageSize, this.orderTypeOption)
+        this.getSalesOrderList()
+      },
+      sortChangeHandle (sortObj) {
+        // console.log(sortObj)
+        let order = null
+        if (sortObj.order === 'ascending') {
+          order = 'asc'
+        } else if (sortObj.order === 'descending') {
+          order = 'desc'
+        }
+        this.sortObj = {sort: underscoreName(sortObj.prop) + ',' + order}
+        this.getSalesOrderList()
+      },
+      advancedSearchHandle () {
+        this.$vDialog.modal(advancedSearch, {
+          title: '高级搜索',
+          width: 900,
+          height: 500,
+          params: {
+            orderState: this.orderState,
+            orderSource: this.orderSource,
+          },
+          callback: (data) => {
+            if (data.type === 'search') {
+              console.log('高级搜索数据：', data.params)
+              this.advancedSearch = data.params
+              this.getSalesOrderList()
+            }
+          },
+        })
       },
       handleSelectionChange (val) {
         this.multipleSelection = val
       },
       handleSizeChange (val) {
         console.log(`每页 ${val} 条`)
-        this.getSalesOrderList(this.currentPage - 1, this.pagesOptions.pageSize, this.orderTypeOption)
+        this.getSalesOrderList()
       },
       handleCurrentChange (val) {
         console.log(`当前页: ${val}`)
         this.currentPage = val
-        this.getSalesOrderList(this.currentPage - 1, this.pagesOptions.pageSize, this.orderTypeOption)
+        this.getSalesOrderList()
       },
       handleRouter (name, id) {
         this.$router.push({name: 'salesOrdersDetail', query: {view: name, id: id}, params: {end: 'FE'}})
       },
-      getSalesOrderList (page, pageSize, type) {
+      getSalesOrderList () {
         this.dataLoading = true
-        API.salesOrder.list({
-          page: page,
-          pageSize: pageSize,
-          type: type,
-        }, (data) => {
+        this.getQueryParams()
+        API.salesOrder.list(Object.assign({}, this.defaultListParams, this.sortObj, this.advancedSearch), (data) => {
           this.tableData = data.data.content
           this.tableDataTotal = data.data.totalElements
-          this.dataLoading = false
-        }, (data) => {
-          this.tableData = data.data.content
-          this.tableDataTotal = data.data.totalElements
-          this.dataLoading = false
+          setInterval(() => {
+            this.dataLoading = false
+          }, 500)
+        })
+      },
+      getQueryParams () { // 请求参数配置
+        this.customerId = this.$route.query.customerId
+        this.chanceId = this.$route.query.chanceId
+        this.defaultListParams = {
+          page: this.currentPage - 1,
+          pageSize: this.pagesOptions.pageSize,
+          type: this.orderTypeOption, // 前端
+          organizationId: this.organizationId // 后端
+        }
+        if (this.customerId) { // 更多[来至客户，联系人]
+          this.defaultListParams.customerId = this.customerId
+        }
+        if (this.chanceId) { // 更多[来至机会]
+          this.defaultListParams.chanceId = this.chanceId
+        }
+      },
+      getOrganization (pa) {
+        API.organization.queryAllList(pa, (data) => {
+          this.organizationOptions = data.data
         })
       },
     },
     created () {
-      this.getSalesOrderList(this.currentPage - 1, this.pagesOptions.pageSize, this.orderTypeOption)
+      this.getSalesOrderList()
+      if (this.themeIndex === 1) { // 后端， 拉取组织列表
+        this.getOrganization({pid: 1})
+      }
     },
   }
 </script>

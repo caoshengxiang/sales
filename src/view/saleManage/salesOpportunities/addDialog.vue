@@ -7,7 +7,7 @@
               <td class="td-title">客户名称</td>
               <td class="td-text">
                 <el-form-item prop="customerId">
-                  <el-select v-model.number="addForm.customerId" placeholder="请选择客户" style="width: 100%">
+                  <el-select :disabled="params.detailCustomersId?true:false" v-model.number="addForm.customerId" placeholder="请选择客户" style="width: 100%">
                     <el-option v-for="item in customersList" :key="item.id" :label="item.name" :value="item.id"></el-option>
                   </el-select>
                 </el-form-item>
@@ -17,7 +17,8 @@
               <td class="td-text">
                 <el-form-item prop="state">
                   <el-select :disabled="true" v-model.number="addForm.state" placeholder="" style="width: 100%">
-                    <el-option v-for="item in salesState" :key="item.type" :label="item.value + item.percent" :value="item.type"></el-option>
+                    <el-option v-for="item in salesState" :key="item.type" :label="item.value + item.percent"
+                               :value="item.type" v-if="item.type !== -1"></el-option>
                   </el-select>
                 </el-form-item>
               </td>
@@ -38,7 +39,8 @@
               <td class="td-text">
                 <!--<input type="text" v-model="addForm.industry">-->
                 <el-form-item prop="intentBillAmount">
-                  <el-input type="number" v-model.number="addForm.intentBillAmount"></el-input>
+                  <!--<el-input type="number" minlength="0" v-model.number="addForm.intentBillAmount"></el-input>-->
+                  <el-input-number style="width: 100%" v-model="addForm.intentBillAmount" :precision="2" :step="1" :min="0"></el-input-number>
                 </el-form-item>
               </td>
             </tr>
@@ -95,6 +97,7 @@
           intentProductId: '',
           intentProductName: '',
           chanceRemark: '',
+          pageSource: 1, // 公海添加机会，传2. 其他传1
         },
         customersList: [],
         salesState: [],
@@ -108,16 +111,16 @@
             // {required: true, message: '请选择需求阶段', trigger: 'change'},
           ],
           billDate: [
-            // {required: true, message: '请选择预计签单时间', trigger: 'change'},
+            {required: true, message: '请选择预计签单时间', trigger: 'change'},
           ],
           intentBillAmount: [
-            // {required: true, message: '请输入预计签单金额', trigger: 'blur'},
+            {required: true, message: '请输入预计签单金额', trigger: 'blur'},
           ],
           intentProductCate: [
             {required: true, message: '请选择意向商品分类', trigger: 'change'},
           ],
           intentProductId: [
-            // {required: true, message: '请选择意向商品', trigger: 'change'},
+            {required: true, message: '请选择意向商品', trigger: 'change'},
           ],
           chanceRemark: [
             // {required: true, message: '请输入需求描述', trigger: 'blur'},
@@ -195,6 +198,8 @@
       },
       intentProductCateChangeHandle (id) {
         this.getIntentProductList(id) // 分类id获取商品
+        this.addForm.intentProductName = ''
+        this.addForm.intentProductId = ''
         this.intentProductCateList.forEach(item => {
           if (item.objectId === id) {
             this.addForm.intentProductCateName = item.name
@@ -206,8 +211,16 @@
       this.getCustomersList()
       this.getIntentProductCateList()
       this.salesState = this.params.salesState
-      if (this.params.detail) {
-        this.addForm = this.params.detail
+      if (this.params.detail) { // 编辑
+        this.addForm = this.params.detail // 需要根据分类id获取商品列表进行展示
+        this.getIntentProductList(this.addForm.intentProductCate)
+      }
+      if (this.params.stateValue) { // 设置默认2，销售阶段；[公海1]
+        this.addForm.state = this.params.stateValue
+        this.addForm.pageSource = 2 // 公海添加机会，传2. 其他传1
+      }
+      if (this.params.detailCustomersId) { // 详细页面的添加, 并禁用下拉列表
+        this.addForm.customerId = this.params.detailCustomersId
       }
     }
   }

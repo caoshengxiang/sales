@@ -3,9 +3,7 @@
     <!--头部-->
     <div class="com-head">
       <el-breadcrumb separator-class="el-icon-arrow-right">
-        <el-breadcrumb-item :to="{ name: 'saleHome' }">销售管理系统</el-breadcrumb-item>
-        <el-breadcrumb-item>工作任务</el-breadcrumb-item>
-        <el-breadcrumb-item>任务详情</el-breadcrumb-item>
+        <el-breadcrumb-item v-for="item in $route.meta.pos" :key="item.toName" :to="{name: item.toName}">{{item.name}}</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <!--控制栏-->
@@ -30,7 +28,7 @@
           <td colspan="3">{{detailInfo.businessDesc}}</td>
         </tr>
         <tr>
-          <td class="td-title">公司名称</td>
+          <td class="td-title">操作</td>
           <td colspan="7">
             <com-button buttonType="backHighSeas" @click="auditTaskYes" v-if="detailInfo.state === 1">审核通过
             </com-button>
@@ -51,13 +49,13 @@
             <td class="td-title">营业执照</td>
             <td>{{customerDetail.businessLicense}}</td>
             <td class="td-title">客户级别</td>
-            <td>{{customerDetail.levelName}}</td>
+            <td>{{customerDetail.level}}</td>
           </tr>
           <tr>
             <td class="td-title">客户简称</td>
             <td>{{customerDetail.shortName}}</td>
             <td class="td-title">客户行业</td>
-            <td>{{customerDetail.industryName}}</td>
+            <td>{{customerDetail.industry}}</td>
             <td class="td-title">客户来源</td>
             <td>
                   <span v-for="item in customerSourceType" :key="item.type"
@@ -102,7 +100,7 @@
           </tr>
           <tr>
             <td class="td-title">预计签单时间</td>
-            <td>{{salesOpportunitiesDetail.billDate}}</td>
+            <td>{{salesOpportunitiesDetail.billDate && $moment(salesOpportunitiesDetail.billDate).format('YYYY-MM-DD')}}</td>
             <td class="td-title">意向商品</td>
             <td>{{salesOpportunitiesDetail.intentProductName}}</td>
             <td class="td-title">实际签单金额</td>
@@ -241,7 +239,6 @@
               type: 'error',
             })
           }
-
         }, (mock) => {
           that.loading = false
           Message({
@@ -249,7 +246,6 @@
             type: 'error',
           })
         })
-
       },
       handleTabsClick (tab, event) {
         // console.log(tab.name)
@@ -274,7 +270,6 @@
           } else {
             this.$message.success(res.error.message)
           }
-
         }, (mock) => {
           that.loading = false
           this.$message.success('系统繁忙')

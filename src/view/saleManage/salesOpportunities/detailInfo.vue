@@ -1,3 +1,8 @@
+<!-- 客户回复的：
+按钮设置逻辑，跟进人可以操作销售机会所有按钮，创建人员，只能操作“添加联系人”，
+公海池的销售机会详情页面，非团队成员无权限查看，所以，不存在，没有跟进这个销售机会的去操作这个销售机会，
+也就不用控制那些按钮的显示了
+-->
 <template>
   <div class="com-container com-detail-container"
        v-loading="dataLoading"
@@ -5,9 +10,8 @@
     <!--头部-->
     <div class="com-head">
       <el-breadcrumb separator-class="el-icon-arrow-right">
-        <el-breadcrumb-item :to="{ name: 'saleHome' }">销售管理系统</el-breadcrumb-item>
-        <el-breadcrumb-item>销售机会</el-breadcrumb-item>
-        <el-breadcrumb-item>销售机会详情</el-breadcrumb-item>
+        <el-breadcrumb-item v-if="themeIndex === 0" v-for="item in $route.meta.pos" :key="item.toName" :to="{name: item.toName}">{{item.name}}</el-breadcrumb-item>
+        <el-breadcrumb-item v-if="themeIndex === 1" v-for="item in $route.meta.pos2" :key="item.toName" :to="{name: item.toName}">{{item.name}}</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <!--控制栏-->
@@ -19,7 +23,7 @@
           <p>
             <span class="com-d-item">客户名称: <span>{{salesOpportunitiesDetail.customerName}}</span></span>
             <span class="com-d-item">预计签单金额: <span>{{salesOpportunitiesDetail.intentBillAmount}}</span></span>
-            <span class="com-d-item">预计签单日期: <span>{{$moment(salesOpportunitiesDetail.billDate).format('YYYY-MM-DD')}}</span></span>
+            <span class="com-d-item">预计签单日期: <span>{{salesOpportunitiesDetail.billDate && $moment(salesOpportunitiesDetail.billDate).format('YYYY-MM-DD')}}</span></span>
             <br>
             <span class="com-d-item">销售机会所有人: <span>{{salesOpportunitiesDetail.ownerName}}</span></span>
           </p>
@@ -31,19 +35,21 @@
         <!--<el-radio-button class="btn-width" label="move">删除</el-radio-button>-->
         <!--</el-radio-group>-->
         <ul class="com-info-op-group">
-          <li class="op-active" @click="operateOptions('move')">转移</li>
-          <li @click="operateOptions('delete')">删除</li>
+          <!--输单后隐藏删除以外得按钮-->
+          <li class="op-active" v-if="salesOpportunitiesDetail.stage !== -1 && isChangeFollower" @click="operateOptions('move')">转移</li>
+          <li v-if="isChangeFollower" @click="operateOptions('delete')">删除</li>
         </ul>
       </div>
       <div class="step-box">
         <div class="step">
           <el-steps :active="salesOpportunitiesDetail.stage" align-center>
             <el-step @click.native="stepClickHandle(item)" v-for="(item, index) in salesState" :key="index"
-                     :title="item.value + '(' + item.percent + ')'"></el-step>
+                     :title="item.value + '(' + item.percent + ')'" v-if="index !== 0"></el-step>
             <el-step title="输单"></el-step>
           </el-steps>
         </div>
-        <a v-if="salesOpportunitiesDetail.stage !== -1" class="lose-bill" @click="operateOptions('discard')">输单</a>
+        <!--输单后隐藏删除以外得按钮-->
+        <a v-if="salesOpportunitiesDetail.stage !== -1 && isChangeFollower" class="lose-bill" @click="operateOptions('discard')">输单</a>
       </div>
 
     </div>
@@ -68,7 +74,7 @@
               </tr>
               <tr>
                 <td class="td-title">预计签单时间</td>
-                <td>{{$moment(salesOpportunitiesDetail.billDate).format('YYYY-MM-DD')}}</td>
+                <td>{{salesOpportunitiesDetail.billDate && $moment(salesOpportunitiesDetail.billDate).format('YYYY-MM-DD')}}</td>
                 <td class="td-title">意向商品</td>
                 <td>{{salesOpportunitiesDetail.intentProductName}}</td>
                 <td class="td-title">实际签单金额</td>
@@ -88,7 +94,11 @@
               </tr>
               <tr>
                 <td class="td-title">销售合同网址</td>
-                <td colspan="5">{{salesOpportunitiesDetail.contractUrl}}</td>
+                <!--<td colspan="5">{{salesOpportunitiesDetail.contractUrl}}</td>-->
+                <td colspan="5">
+                  <router-link v-if="salesOpportunitiesDetail.oncePay === true" :to="{name: 'onetimeContract', query: {name: salesOpportunitiesDetail.intentProductName}}" target="_blank">查看一次合同</router-link>
+                  <router-link v-if="salesOpportunitiesDetail.oncePay === false"  :to="{name: 'multipleContracts', query: {name: salesOpportunitiesDetail.intentProductName}}" target="_blank">查看分次合同</router-link>
+                </td>
               </tr>
               <tr>
                 <td class="td-title">机会输单备注</td>
@@ -100,21 +110,21 @@
             <table class="detail-table">
               <tr>
                 <td class="td-title">销售机会创建时间</td>
-                <td colspan="3">{{$moment(salesOpportunitiesDetail.created).format('YYYY-MM-DD HH:mm:ss')}}</td>
+                <td colspan="3">{{salesOpportunitiesDetail.created && $moment(salesOpportunitiesDetail.created).format('YYYY-MM-DD HH:mm:ss')}}</td>
                 <td class="td-title">所有人</td>
                 <td>{{salesOpportunitiesDetail.creatorName}}</td>
               </tr>
               <tr>
                 <td class="td-title">销售机会修改时间</td>
-                <td colspan="3">{{$moment(salesOpportunitiesDetail.modified).format('YYYY-MM-DD HH:mm:ss')}}</td>
+                <td colspan="3">{{salesOpportunitiesDetail.modified && $moment(salesOpportunitiesDetail.modified).format('YYYY-MM-DD HH:mm:ss')}}</td>
                 <td class="td-title">修改人</td>
                 <td>{{salesOpportunitiesDetail.modifierName}}</td>
               </tr>
               <tr>
                 <td class="td-title">销售机会活动时间</td>
-                <td colspan="3">{{$moment(salesOpportunitiesDetail.followDate).format('YYYY-MM-DD HH:mm:ss')}}</td>
+                <td colspan="3">{{ salesOpportunitiesDetail.followDate && $moment(salesOpportunitiesDetail.followDate).format('YYYY-MM-DD HH:mm:ss')}}</td>
                 <td class="td-title">跟进人</td>
-                <td>{{salesOpportunitiesDetail.salerName}}</td>
+                <td>{{salesOpportunitiesDetail.team.salerName}}</td>
               </tr>
             </table>
           </el-tab-pane>
@@ -124,13 +134,14 @@
             <div class="related-btn-group">
               <com-button buttonType="theme" @click="handleRoute('contact')">联系人({{contactTotal}})</com-button>
               <com-button buttonType="grey" @click="handleRoute('orderRecords')">跟单记录({{orderRecordsTotal}})</com-button>
-              <com-button buttonType="grey" @click="handleRoute('order')">APP订单({{appOrderTotal}})</com-button>
+              <com-button buttonType="grey" @click="handleRoute('order')">APP订单({{orderTotal}})</com-button>
             </div>
 
             <p class="table-title">
               联系人({{contactTotal}})
               <a class="more" v-if="contactTotal > 5" @click="handleRoute('contact')">更多》</a>
-              <a class="table-add" @click="quickOperation('addContact')"><i class="el-icon-plus"></i>新增联系人</a>
+              <!--（-1 输单）-->
+              <a v-if="salesOpportunitiesDetail.stage !== -1 && (isChangeFollower || isChanceCreater)" class="table-add" @click="quickOperation('addContact')"><i class="el-icon-plus"></i>新增联系人</a>
             </p>
             <table class="detail-table related-table">
               <tr>
@@ -147,30 +158,32 @@
                 <td>{{item.position}}</td>
                 <td>{{item.wx}}</td>
                 <td>{{item.qq}}</td>
-                <td>{{$moment(item.created).format('YYYY-MM-DD HH:mm:ss')}}</td>
+                <td>{{item.created && $moment(item.created).format('YYYY-MM-DD HH:mm:ss')}}</td>
               </tr>
             </table>
 
             <p class="table-title">
               跟单记录({{orderRecordsTotal}})
-              <a class="more" v-if="orderRecordsTotal > 0" @click="handleRoute('orderRecords')">更多》</a>
-              <a class="table-add" @click="quickOperation('addRecord')"><i class="el-icon-plus"></i>新增跟单记录</a>
+              <a class="more" v-if="orderRecordsTotal > 5" @click="handleRoute('orderRecords')">更多》</a>
+              <!--（-1输单）-->
+              <a v-if="salesOpportunitiesDetail.stage !== -1 && isChangeFollower" class="table-add" @click="quickOperation('addRecord')"><i class="el-icon-plus"></i>新增跟单记录</a>
             </p>
             <table class="detail-table related-table">
               <tr>
                 <th class="td-title" colspan="4">跟单描述</th>
                 <th class="td-title" colspan="2">所在公海</th>
               </tr>
-              <tr>
-                <td colspan="4">客户创建时间</td>
-                <td colspan="2">test</td>
+              <tr v-for="item in orderRecordsList" :key="item.id">
+                <td colspan="4">{{item.followDesc}}</td>
+                <td colspan="2">{{$moment(item.created).format('YYYY-MM-DD HH:mm:ss')}}</td>
               </tr>
             </table>
 
             <p class="table-title">
-              APP订单({{appOrderTotal}})
-              <a class="more" v-if="appOrderTotal > 5" @click="handleRoute('order')">更多》</a>
-              <a class="table-add" @click="quickOperation('addOrder')"><i class="el-icon-plus"></i>新增关联订单</a>
+              销售订单({{orderTotal}})
+              <a class="more" v-if="orderTotal > 5" @click="handleRoute('order')">更多》</a>
+              <!--（-1 输单）-->
+              <a v-if="salesOpportunitiesDetail.stage !== -1 && isChangeFollower" class="table-add" @click="quickOperation('addOrder')"><i class="el-icon-plus"></i>新增关联订单</a>
             </p>
             <table class="detail-table related-table">
               <tr>
@@ -184,13 +197,16 @@
                 <th class="td-title">关联状态</th>
               </tr>
               <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
+              <tr v-for="item in orderList" :key="item.id">
+                <td>{{item.id + '-' + item.orderId}}</td>
+                <td>{{item.isRenew?'续费订单':'新签订单'}}</td>
+              <td><span v-for="os in orderState" :key="os.type"
+                        v-if="item.orderState === os.type">{{os.value}}</span>
+              </td>
+                <td>{{item.productName}}</td>
+                <td>{{item.billAmount}}</td>
+                <td>{{item.refund_amount}}</td>
+                <td>{{item.created && $moment(item.created).format('YYYY-MM-DD HH:mm:ss')}}</td>
                 <td></td>
               </tr>
             </table>
@@ -199,8 +215,6 @@
       </div>
       <!--团队成员-->
       <div class="detail-right com-box-padding">
-        <!--<team-member :detail="salesOpportunitiesDetail"></team-member>-->
-
         <div class="team-title">
           <span class="title-text">团队成员</span>
         </div>
@@ -242,10 +256,11 @@
             </div>
           </li>
         </ul>
-        <div class="team-btn-group">
-          <div v-if="salesOpportunitiesDetail.team && !salesOpportunitiesDetail.team.counselorId" class="btn-item-1" @click="operateOptions('apply')">申请咨询师协同</div>
+        <!--输单后隐藏删除以外得按钮-->
+        <div class="team-btn-group" v-if="salesOpportunitiesDetail.stage !== -1">
+          <div v-if="salesOpportunitiesDetail.team && !salesOpportunitiesDetail.team.counselorId && isChangeFollower" class="btn-item-1" @click="operateOptions('apply')">申请咨询师协同</div>
           <div class="btn-item-2" @click="operateOptions('exit')">咨询师主动退出</div>
-          <div class="btn-item-3" @click="operateOptions('replace')">申请替换咨询师</div>
+          <div v-if="isChangeFollower" class="btn-item-3" @click="operateOptions('replace')">申请替换咨询师</div>
         </div>
       </div>
     </div>
@@ -256,7 +271,6 @@
   import comButton from '../../../components/button/comButton'
   import { mapState, mapActions } from 'vuex'
   import API from '../../../utils/api'
-  // import teamMember from '../../../components/teamMember'
   import moveDialog from './moveDialog'
   import applyDialog from './applyDialog'
   // import { arrToStr } from '../../../utils/utils'
@@ -264,8 +278,10 @@
   import addDialog from './addDialog'
   import webStorage from 'webStorage'
   import addContactDialog from '../contacts/addDialog'
-  import addChanceDialog from '../salesOpportunities/addDialog'
+  // import addChanceDialog from '../salesOpportunities/addDialog'
   import addOrderDialog from '../salesOrders/addDialog'
+  import addOrderRecord from '../orderRecords/addDialog'
+  import order from './order'
 
   export default {
     name: 'detailInfo',
@@ -277,13 +293,18 @@
         contactTotal: 0,
         orderRecordsList: [],
         orderRecordsTotal: 0,
-        appOrderList: [],
-        appOrderTotal: 0,
+        orderList: [],
+        orderTotal: 0,
+        userInfo: '',
+        isChangeFollower: true, // 当前用户是机会的更进人
+        isChanceCreater: true, // 当前用户是机会的创建人
       }
     },
     computed: {
       ...mapState('constData', [
         'salesState',
+        'orderState',
+        'themeIndex',
       ]),
       ...mapState('salesOpportunities', [
         'salesOpportunitiesDetail',
@@ -438,6 +459,12 @@
           setTimeout(() => {
             this.dataLoading = false
           }, 500)
+          if (this.userInfo.id !== this.salesOpportunitiesDetail.team.salerId) { // 判断机会的更进人
+            this.isChangeFollower = false
+          }
+          if (this.userInfo.id !== this.salesOpportunitiesDetail.team.creator) { // 判断机会的创建人
+            this.isChanceCreater = false
+          }
         })
       },
       getContactList (customerId) {
@@ -449,13 +476,13 @@
       getOrderRecordsList (id) {
         API.orderRecords.list({chanceId: id, pageSize: 5}, (da) => {
           this.orderRecordsList = da.data.content
-          this.orderRecordsList = da.data.totalElements
+          this.orderRecordsTotal = da.data.totalElements
         })
       },
       getAppOrderList (id) {
         API.salesOrder.list({chanceId: id, pageSize: 5}, (da) => {
-          this.orderRecordsList = da.data.content
-          this.orderRecordsList = da.data.totalElements
+          this.orderList = da.data.content
+          this.orderTotal = da.data.totalElements
         })
       },
       stepClickHandle (step) {
@@ -463,24 +490,76 @@
         // console.log(step)
         switch (step.type) {
           case 3:
-            this.$vDialog.modal(addDialog, {
-              title: '确定销售需求',
-              width: 900,
-              height: 400,
-              params: {
-                salesState: this.salesState,
-                detail: JSON.parse(JSON.stringify(this.salesOpportunitiesDetail))
-              },
-              callback: (data) => {
-                if (data.type === 'save') {
-                  this.getSalesOpportunitiesDetail()
-                }
-              },
-            })
+            if (this.salesOpportunitiesDetail.stage === -1) {
+              this.$message.warning('销售机会已经输单，不能操作！')
+            } else if (!this.isChangeFollower) {
+              this.$message.warning('不是销售跟进人员，不能操作！')
+            } else if (this.salesOpportunitiesDetail.stage >= 3) {
+              this.$message.warning('销售机会已确认！')
+            } else {
+              this.$vDialog.modal(addDialog, {
+                title: '确定销售需求',
+                width: 900,
+                height: 400,
+                params: {
+                  salesState: this.salesState,
+                  detail: JSON.parse(JSON.stringify(this.salesOpportunitiesDetail))
+                },
+                callback: (data) => {
+                  if (data.type === 'save') {
+                    this.getSalesOpportunitiesDetail()
+                  }
+                },
+              })
+            }
             break
           case 4:
+            if (this.salesOpportunitiesDetail.stage === -1) {
+              this.$message.warning('销售机会已经输单，不能操作！')
+            } else if (!this.isChangeFollower) {
+              this.$message.warning('不是销售跟进人员，不能操作！')
+            } else if (this.salesOpportunitiesDetail.stage !== 3) {
+              this.$message.warning('需求确定阶段的订单才能预下订单！')
+            } else {
+              this.$vDialog.modal(addOrderDialog, {
+                title: '预下订单',
+                width: 900,
+                height: 380,
+                params: {
+                  detailCustomersId: this.salesOpportunitiesDetail.customerId,
+                  detailChanceId: this.salesOpportunitiesDetail.id
+                },
+                callback: (data) => {
+                  if (data.type === 'save') {
+                    this.getSalesOpportunitiesDetail()
+                  }
+                },
+              })
+            }
             break
           case 5:
+            if (this.salesOpportunitiesDetail.stage === -1) {
+              this.$message.warning('销售机会已经输单，不能操作！')
+            } else if (!this.isChangeFollower) {
+              this.$message.warning('不是销售跟进人员，不能操作！')
+            } else if (this.salesOpportunitiesDetail.stage !== 4) {
+              this.$message.warning('预下订单阶段才能签单！')
+            } else {
+              this.$vDialog.modal(order, {
+                title: '客户签单',
+                width: 964,
+                height: 500,
+                params: {
+                  salesOpportunitiesDetail: this.salesOpportunitiesDetail,
+                  orderState: this.orderState,
+                },
+                callback: (data) => {
+                  if (data.type === 'save') {
+                    this.getSalesOpportunitiesDetail()
+                  }
+                },
+              })
+            }
             break
         }
       },
@@ -489,11 +568,11 @@
           case 'contact':
             this.$router.push({name: 'contactsList', query: {customerId: this.salesOpportunitiesDetail.customerId}})
             break
-          case 'orderRecords':
-            this.$router.push({name: 'orderRecordsList', query: {customerId: this.salesOpportunitiesDetail.id}})
+          case 'orderRecords': // 机会
+            this.$router.push({name: 'orderRecordsList', query: {chanceId: this.salesOpportunitiesDetail.id}})
             break
           case 'order':
-            this.$router.push({name: 'salesOrdersList', query: {customerId: this.salesOpportunitiesDetail.id}})
+            this.$router.push({name: 'salesOrdersList', query: {chanceId: this.salesOpportunitiesDetail.id}})
             break
         }
       },
@@ -506,7 +585,7 @@
               width: 900,
               height: 460,
               params: {
-                // id: '123456',
+                detailCustomersId: this.salesOpportunitiesDetail.customerId,
               },
               callback (data) {
                 if (data.type === 'save') {
@@ -516,30 +595,47 @@
             })
             break
           case 'addRecord':
-            // that.$router.push({name: 'salesOpportunitiesDetail', query: {view: 'detail', id: that.salesOpportunitiesDetail.id}, params: {end: 'FE'}})
-            break
-          case 'addOrder':
-            this.$vDialog.modal(addOrderDialog, {
-              title: '添加订单',
-              width: 900,
-              height: 340,
+            this.$vDialog.modal(addOrderRecord, {
+              title: '新建跟单记录',
+              width: 700,
+              height: 320,
               params: {
-                // id: '123456',
+                detailCustomersId: this.salesOpportunitiesDetail.customerId,
+                detailChanceId: this.salesOpportunitiesDetail.id
               },
               callback (data) {
                 if (data.type === 'save') {
-                  // this.getOrderRecordsList(that.salesOpportunitiesDetail.id)
-                  that.getAppOrderList(that.salesOpportunitiesDetail.id)
+                  that.getOrderRecordsList(that.salesOpportunitiesDetail.id)
+                }
+              },
+            })
+            break
+          case 'addOrder':
+            this.$vDialog.modal(addOrderDialog, {
+              title: '新增关联订单',
+              width: 900,
+              height: 380,
+              params: {
+                detailCustomersId: this.salesOpportunitiesDetail.customerId,
+                detailChanceId: this.salesOpportunitiesDetail.id
+              },
+              callback: (data) => {
+                if (data.type === 'save') {
+                  this.getSalesOpportunitiesDetail()
                 }
               },
             })
             break
         }
       },
+      routeToContract () {
+        this.$router.push({name: 'onetimeContract', query: {name: '商品名称'}})
+      }
     },
     created () {
       this.activeViewName = this.$route.query.view
       this.getSalesOpportunitiesDetail()
+      this.userInfo = webStorage.getItem('userInfo')
     },
   }
 </script>

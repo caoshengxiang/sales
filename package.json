@@ -5,19 +5,19 @@
   "author": "caoshengxiang <1104729815@qq.com>",
   "private": true,
   "scripts": {
-    "dev": "set server_url=http://sales.dcstar-inc.com/sales&& webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
+    "dev": "set external_url=http://47.96.26.250:84&& set server_url=http://sales.dcstar-inc.com/sales&& webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
     "start": "npm run dev",
     "unit": "jest --config test/unit/jest.conf.js --coverage",
     "e2e": "node test/e2e/runner.js",
     "test": "npm run unit && npm run e2e",
     "lint": "eslint --ext .js,.vue src test/unit test/e2e/specs",
-    "build:test": "set server_url=http://sales.dcstar-inc.com/sales&& node build/build.js",
-    "build:prod": "set server_url=http://erp.zzcfo.cn/sales&& node build/build.js",
+    "build:test": "set external_url=http://47.96.26.250:84&& set server_url=http://sales.dcstar-inc.com/sales&& node build/build.js",
+    "build:prod": "set external_url=http://app.zzcfo.cn&& set server_url=http://erp.zzcfo.cn/sales&& node build/build.js",
     "compress": "rm -rf dist && npm run build",
-    "release": "npm run build && bash ./bash/release.sh",
-    "releaseTest": "npm run build && bash ./bash/test.sh",
-    "release_linux": "npm run build && ./bash/release.sh",
-    "releaseTest_linux": "npm run build && ./bash/test.sh"
+    "release": "npm run build:prod && bash ./bash/release.sh",
+    "releaseTest": "npm run build:test && bash ./bash/test.sh",
+    "release_linux": "npm run build:prod && ./bash/release.sh",
+    "releaseTest_linux": "npm run build:test && ./bash/test.sh"
   },
   "dependencies": {
     "axios": "^0.18.0",
@@ -26,9 +26,11 @@
     "jquery": "^3.3.1",
     "js-sha1": "^0.6.0",
     "moment": "^2.22.1",
+    "qs": "^6.5.2",
     "v-dialogs": "^1.9.0",
     "vue": "^2.5.2",
     "vue-router": "^3.0.1",
+    "vue-xlsx-table": "^1.2.8",
     "vuex": "^3.0.1",
     "webStorage": "^2.1.1"
   },

@@ -22,6 +22,9 @@ export default {
       }, {
         type: 3,
         value: '我参与的客户',
+      }, {
+        type: 4,
+        value: '我下属跟进的客户',
       }],
     customerSourceType: [ // 客户来源
       {
@@ -51,7 +54,7 @@ export default {
         value: '全部销售机会'
       },
       {
-        type: 1,
+        type: 1, // 注意： 首页有直接使用 1这个值
         value: '我创建的销售机会'
       },
       {
@@ -61,6 +64,9 @@ export default {
       {
         type: 3,
         value: '我参与的销售机会'
+      }, {
+        type: 4,
+        value: '我下属跟进的销售机会'
       }
     ],
     customerState: [ // 状态
@@ -85,6 +91,9 @@ export default {
       }, {
         type: 2,
         value: '我跟进的联系人',
+      }, {
+        type: 3,
+        value: '我下属跟进的联系人',
       },
     ],
     contactsStatus: [ // 联系人状态
@@ -116,7 +125,7 @@ export default {
         value: '需求确定',
         percent: '60%',
       }, {
-        type: 4,
+        type: 4, // 注意： 首页有直接使用这个值
         value: ' 预下订单',
         percent: '80%',
       }, {
@@ -169,7 +178,7 @@ export default {
         type: 5,
         value: '已取消'
       }, {
-        type: 6,
+        type: 0, // 注意：修改值得时候注意有页面直接使用了0这个值【订单详细，APP订单预览】
         value: '预下单',
       },
     ],
@@ -252,7 +261,7 @@ export default {
         name: '普通职能',
       }
     ],
-    //角色系统
+    // 角色系统
     businessSystems: [
       {
         value: 100,

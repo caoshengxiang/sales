@@ -5,9 +5,9 @@
     <!--头部-->
     <div class="com-head">
       <el-breadcrumb separator-class="el-icon-arrow-right">
-        <el-breadcrumb-item :to="{ name: 'saleHome' }">销售管理系统</el-breadcrumb-item>
+        <el-breadcrumb-item :to="{ name: 'companyManageHome' }">管理系统</el-breadcrumb-item>
         <el-breadcrumb-item>用户管理</el-breadcrumb-item>
-        <el-breadcrumb-item>用户管理</el-breadcrumb-item>
+        <el-breadcrumb-item>代理商管理</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <!--控制栏-->
@@ -30,25 +30,24 @@
         <com-button buttonType="search" @click="searchHandle">搜索</com-button>
       </div>
       <div class="com-bar-right" style="float: right">
-        <el-cascader
-          placeholder="请选择人员组织"
-          :change-on-select="true"
-          :options="allorganization"
-          v-model="selectedOptions"
-          @change="selectedOptionsHandleChange"
-          :props="props"
-        >
-        </el-cascader>
-
-        <el-select v-model.number="form.departmentId" placeholder="请选择人员部门">
+        <el-select v-model.number="form.organizationId" @change="selectedOptionsHandleChange" placeholder="请选择人员组织">
           <el-option
-            v-for="item in alldepartments"
+            v-for="item in allorganization"
             :key="item.id"
             :label="item.name"
             :value="item.id"
           >
           </el-option>
         </el-select>
+        <el-cascader
+          placeholder="请选择人员部门"
+          :change-on-select="true"
+          :options="alldepartments"
+          v-model="selectedOptions"
+          :props="props"
+          @change="selecteddptHandleChange"
+        >
+        </el-cascader>
       </div>
     </div>
     <!--详细-->
@@ -121,29 +120,52 @@
         <el-table-column
           show-overflow-tooltip
           align="center"
-          prop="superiorName"
+          prop=""
           label="直接上级"
         >
+          <template slot-scope="scope">
+            <span v-for="item in scope.row.heads"
+                  :key="item.id"
+            >{{item.name}}&nbsp;</span>
+          </template>
         </el-table-column>
         <el-table-column
           show-overflow-tooltip
           align="center"
-          prop="trainerName"
+          prop=""
           label="部门培训师"
           width="160">
+          <template slot-scope="scope">
+            <span v-for="item in scope.row.trainers"
+                  :key="item.id"
+            >{{item.name}}&nbsp;</span>
+          </template>
         </el-table-column>
         <el-table-column
           show-overflow-tooltip
           align="center"
-          prop="assistantName"
+          prop=""
           label="部门销售助理"
         >
+          <template slot-scope="scope">
+            <span v-for="item in scope.row.assistants"
+                  :key="item.id"
+            >{{item.name}}&nbsp;</span>
+          </template>
         </el-table-column>
         <el-table-column
           show-overflow-tooltip
           align="center"
           prop="sex"
           label="性别"
+        >
+        </el-table-column>
+        <el-table-column
+          show-overflow-tooltip
+          align="center"
+          prop="status"
+          :formatter="fmtNumColumn"
+          label="状态"
         >
         </el-table-column>
       </el-table>
@@ -186,14 +208,14 @@
         selectedOptions: [],
         allorganization: [],
         alldepartments: [],
-        props:{
-          children:'children',
-          value:'id',
-          label:'name',
+        props: {
+          children: 'children',
+          value: 'id',
+          label: 'name',
         },
         form: { // 添加用户表单
           departmentId: '',
-          organizationId:''
+          organizationId: '',
         },
       }
     },
@@ -216,29 +238,65 @@
     props: ['params'],
     created () {
       this.getuserList(this.currentPage - 1, this.pagesOptions.pageSize, this.userType)
-      console.log("为什么不执行")
-      let params = {}
-      API.organization.queryList(params, (res) => {
+      let params = {
+        page: 1,
+        pageSize: 999,
+        pid: 1,
+        type: 1,
+      }
+      API.organization.queryAllList(params, (res) => {
         this.allorganization = res.data
       }, (mock) => {
-        this.allorganization = mock.data
+        this.alldepartments = mock.data
         this.dataLoading = false
       })
     },
     methods: {
+      fmtNumColumn (row, column, cellValue) {
+        if (cellValue === 1) {
+          return '有效'
+        } else if (cellValue === -1) {
+          return '无效'
+        } else if (cellValue === 2) {
+          return '内置'
+        } else if (cellValue === 3) {
+          return '禁用'
+        }
+      },
+      selecteddptHandleChange (value) {
+        this.form.departmentId = value[value.length - 1] // 取当前选中的部门
+      },
       selectedOptionsHandleChange (value) {
-        this.form.organizationId =value[value.length -1] // 取当前选中的组织
+        var that = this
+        // this.form.organizationId =value[value.length -1] // 取当前选中的组织
         let depparams = {
           page: 1,
           pageSize: 999,
         }
-        depparams.pid = this.form.organizationId
+        depparams.pid = value
         depparams.type = 2 // 查询出部门
-        API.organization.queryAllList(depparams, (res) => {
-          this.alldepartments = res.data
+        API.organization.queryList(depparams, (res) => {
+          that.alldepartments = res.data
+          if (that.params.id > 0) {
+            var tempid = that.form.departmentId
+            var loopDo = function (list, id) {
+              for (var i = 0; i < list.length; i++) {
+                var item = list[i]
+                if (item.id === id) {
+                  that.selectedOptions.push(item.id)
+                  if (item.pid > 0) {
+                    loopDo(that.alldepartments, item.pid)
+                  }
+                } else {
+                  loopDo(item.children, id)
+                }
+              }
+            }
+
+            loopDo(that.alldepartments, tempid)
+            that.selectedOptions.reverse()
+          }
         }, (mock) => {
-          this.alldepartments = mock.data
-          this.dataLoading = false
         })
       },
       closeDialog () {
@@ -251,7 +309,7 @@
           width: 700,
           height: 500,
           params: {
-            store: that.$store, //弹窗组件如果需要用到vuex，必须传值过去赋值
+            store: that.$store, // 弹窗组件如果需要用到vuex，必须传值过去赋值
             action: 'add',
           },
           callback: function (data) {
@@ -261,11 +319,12 @@
       },
       selsChange (sels) {
         this.sels = sels
-        //alert(this.sels)
+        // alert(this.sels)
       },
       delGroup () {
+        // eslint-disable-next-line
         var ids = this.sels.map(item => item.id).join() // 获取所有选中行的id组成的字符串，以逗号分隔
-        //alert(ids)
+        // alert(ids)
       },
       ...mapActions('user', [
         'ac_userList',
@@ -274,9 +333,9 @@
         let param = {
           page: page,
           pageSize: pageSize,
-          type: 2,  // 查询员工
-          departmentId:this.form.departmentId,
-          organizationId:this.form.organizationId
+          type: 2, // 查询员工
+          departmentId: this.form.departmentId,
+          organizationId: this.form.organizationId,
         }
         this.dataLoading = true
         API.user.userList(param, (res) => {
@@ -311,20 +370,20 @@
         this.type = 'add'
       },
       modifyHandle () {
-        var that = this;
-        this.$vDialog.modal(addDialog,{
-          title:'修改用户',
+        var that = this
+        this.$vDialog.modal(addDialog, {
+          title: '修改用户',
           width: 700,
           height: 500,
           params: {
             id: that.multipleSelection.map(item => item.id).join(),
-            store:that.$store, //弹窗组件如果需要用到vuex，必须传值过去赋值
-            action:"update"
+            store: that.$store, // 弹窗组件如果需要用到vuex，必须传值过去赋值
+            action: 'update',
           },
-          callback: function(data){
+          callback: function (data) {
             that.searchHandle()
-          }
-        });
+          },
+        })
       },
       deleteHandle () {
         this.$confirm('确定删除当前选中所有用户, 是否继续?', '提示', {

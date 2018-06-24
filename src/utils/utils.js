@@ -1,7 +1,7 @@
 import webStorage from 'webStorage'
 
 const utils = {
-  loginExamine: function (self, callback) { //登录检验  当前组件this
+  loginExamine: function (self, callback) { // 登录检验  当前组件this
     if (!webStorage.getItem('userInfo')) {
       self.$router.push({path: '/'})
     }
@@ -60,7 +60,7 @@ export function iOSOrAndroid () {
   }
 }
 
-/*eslint-enable*/
+/* eslint-enable */
 
 /*
 * 解析地址栏参数
@@ -232,4 +232,19 @@ export function arrToStr (arr, attr) { // 对象数组id属性转为字符串[{i
     tempArr.push(item[attr])
   })
   return tempArr.join(',')
+}
+
+/*
+* aBC 转 a_b_c
+* */
+export function underscoreName (s) {
+  if (!s) {
+    return null
+  }
+  return s.replace(/([A-Z])/g, '_$1').toLowerCase()
+}
+/*
+* a_b_c 转 aBC
+* */
+export function camelName () {
 }

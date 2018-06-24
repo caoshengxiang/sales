@@ -39,6 +39,8 @@
   font-size: 16px;
   position: relative;
   padding-bottom: $page-base-padding;
+  display: inline-block;
+  width: 100%;
   &:before {
     content: '';
     display: inline-block;
@@ -66,6 +68,7 @@
 .com-container {
   padding: $page-base-padding $page-base-padding 0 $page-base-padding;
   min-width: $detail-min-width;
+  //overflow: auto;
   //&.com-detail-container {}
   //overflow: scroll;
   .com-head {
