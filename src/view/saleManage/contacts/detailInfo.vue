@@ -5,8 +5,12 @@
     <!--头部-->
     <div class="com-head">
       <el-breadcrumb separator-class="el-icon-arrow-right">
-        <el-breadcrumb-item v-if="themeIndex === 0" v-for="item in $route.meta.pos" :key="item.toName" :to="{name: item.toName}">{{item.name}}</el-breadcrumb-item>
-        <el-breadcrumb-item v-if="themeIndex === 1" v-for="item in $route.meta.pos2" :key="item.toName" :to="{name: item.toName}">{{item.name}}</el-breadcrumb-item>
+        <el-breadcrumb-item v-if="themeIndex === 0" v-for="item in $route.meta.pos" :key="item.toName"
+                            :to="{name: item.toName}">{{item.name}}
+        </el-breadcrumb-item>
+        <el-breadcrumb-item v-if="themeIndex === 1" v-for="item in $route.meta.pos2" :key="item.toName"
+                            :to="{name: item.toName}">{{item.name}}
+        </el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <!--控制栏-->
@@ -80,19 +84,25 @@
             <table class="detail-table">
               <tr>
                 <td class="td-title">联系人创建时间</td>
-                <td colspan="3">{{contactsDetail.created && $moment(contactsDetail.created).format('YYYY-MM-DD HH:mm:ss')}}</td>
+                <td colspan="3">
+                  {{contactsDetail.created && $moment(contactsDetail.created).format('YYYY-MM-DD HH:mm:ss')}}
+                </td>
                 <td class="td-title">所有人</td>
                 <td>{{contactsDetail.creatorName}}</td>
               </tr>
               <tr>
                 <td class="td-title">联系人修改时间</td>
-                <td colspan="3">{{contactsDetail.modified && $moment(contactsDetail.modified).format('YYYY-MM-DD HH:mm:ss')}}</td>
+                <td colspan="3">
+                  {{contactsDetail.modified && $moment(contactsDetail.modified).format('YYYY-MM-DD HH:mm:ss')}}
+                </td>
                 <td class="td-title">修改人</td>
                 <td>{{contactsDetail.modifierName}}</td>
               </tr>
               <tr>
                 <td class="td-title">联系人活动时间</td>
-                <td colspan="3">{{contactsDetail.activeTime && $moment(contactsDetail.activeTime).format('YYYY-MM-DD HH:mm:ss')}}</td>
+                <td colspan="3">
+                  {{contactsDetail.activeTime && $moment(contactsDetail.activeTime).format('YYYY-MM-DD HH:mm:ss')}}
+                </td>
                 <td class="td-title">跟进人</td>
                 <td>{{contactsDetail.followerName}}</td>
               </tr>
@@ -316,60 +326,88 @@
           // case 'addContact':
           //   break
           case 'addChance':
-            this.$vDialog.modal(addChanceDialog, {
-              title: '新增销售机会',
-              width: 900,
-              height: 400,
-              params: {
-                salesState: this.salesState,
-                detailCustomersId: this.contactsDetail.customerId,
-              },
-              callback (data) {
-                if (data.type === 'save') {
-                  this.getChanceList(that.contactsDetail.customerId)
-                }
-              },
-            })
+            if (this.currentUserIsTeamNum()) {
+              this.$vDialog.modal(addChanceDialog, {
+                title: '新增销售机会',
+                width: 900,
+                height: 400,
+                params: {
+                  salesState: this.salesState,
+                  detailCustomersId: this.contactsDetail.customerId,
+                },
+                callback (data) {
+                  if (data.type === 'save') {
+                    this.getChanceList(that.contactsDetail.customerId)
+                  }
+                },
+              })
+            } else {
+              this.$message.warning('非团队成员！不能添加。')
+            }
             break
           case 'addOrder':
-            this.$vDialog.modal(addOrderDialog, {
-              title: '添加订单',
-              width: 900,
-              height: 380,
-              params: {
-                detailCustomersId: this.contactsDetail.customerId,
-              },
-              callback: (data) => {
-                if (data.type === 'save') {
-                  this.getOrderList(that.contactsDetail.customerId)
-                }
-              },
-            })
+            if (this.currentUserIsTeamNum()) {
+              this.$vDialog.modal(addOrderDialog, {
+                title: '添加订单',
+                width: 900,
+                height: 380,
+                params: {
+                  detailCustomersId: this.contactsDetail.customerId,
+                },
+                callback: (data) => {
+                  if (data.type === 'save') {
+                    this.getOrderList(that.contactsDetail.customerId)
+                  }
+                },
+              })
+            } else {
+              this.$message.warning('非团队成员！不能添加。')
+            }
             break
           case 'deleteOrder':
-            this.$confirm('确定删除销售订单, 是否继续?', '提示', {
-              confirmButtonText: '确定',
-              cancelButtonText: '取消',
-              type: 'warning',
-            }).then(() => {
-              API.salesOrder.deleteOrder(deleteId, (da) => {
-                if (da.status) {
-                  this.$message({
-                    type: 'success',
-                    message: '删除成功!',
-                  })
-                  this.getOrderList(this.contactsDetail.customerId)
-                }
+            if (this.currentUserIsTeamNum()) {
+              this.$confirm('确定删除销售订单, 是否继续?', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning',
+              }).then(() => {
+                API.salesOrder.deleteOrder(deleteId, (da) => {
+                  if (da.status) {
+                    this.$message({
+                      type: 'success',
+                      message: '删除成功!',
+                    })
+                    this.getOrderList(this.contactsDetail.customerId)
+                  }
+                })
+              }).catch(() => {
+                this.$message({
+                  type: 'info',
+                  message: '已取消删除',
+                })
               })
-            }).catch(() => {
-              this.$message({
-                type: 'info',
-                message: '已取消删除',
-              })
-            })
+            } else {
+              this.$message.warning('非团队成员！不能添加。')
+            }
             break
         }
-      }
+      },
+      currentUserIsTeamNum () { // 判断当前用户是否为团对成员
+        let currentUserId = webStorage.getItem('userInfo').id
+        let team = this.customerDetail.team // creator 创建人id; salerList[] salerId 销售员id
+        if (currentUserId === team.creator) {
+          return true
+        } else {
+          let isSaler = team.salerList.some(item => {
+            return item.salerId === currentUserId
+          })
+          if (isSaler) {
+            return true
+          } else {
+            return false
+          }
+        }
+      },
     },
     created () {
       this.activeViewName = this.$route.query.view

@@ -8,8 +8,12 @@
         <!--<el-breadcrumb-item :to="{ name: 'saleHome' }">销售管理系统</el-breadcrumb-item>-->
         <!--<el-breadcrumb-item>客户</el-breadcrumb-item>-->
         <!--<el-breadcrumb-item>客户详情</el-breadcrumb-item>-->
-        <el-breadcrumb-item v-if="themeIndex === 0" v-for="item in $route.meta.pos" :key="item.toName" :to="{name: item.toName}">{{item.name}}</el-breadcrumb-item>
-        <el-breadcrumb-item v-if="themeIndex === 1" v-for="item in $route.meta.pos2" :key="item.toName" :to="{name: item.toName}">{{item.name}}</el-breadcrumb-item>
+        <el-breadcrumb-item v-if="themeIndex === 0" v-for="item in $route.meta.pos" :key="item.toName"
+                            :to="{name: item.toName}">{{item.name}}
+        </el-breadcrumb-item>
+        <el-breadcrumb-item v-if="themeIndex === 1" v-for="item in $route.meta.pos2" :key="item.toName"
+                            :to="{name: item.toName}">{{item.name}}
+        </el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <!--控制栏-->
@@ -104,19 +108,28 @@
               </tr>
               <tr>
                 <td class="td-title">客户创建时间</td>
-                <td colspan="3">{{customerDetail.created && $moment(customerDetail.created).format('YYYY-MM-DD HH:mm:ss')}}</td>
+                <td colspan="3">
+                  {{customerDetail.created &&
+                  $moment(customerDetail.created).format('YYYY-MM-DD HH:mm:ss')}}
+                </td>
                 <td class="td-title">创建人</td>
                 <td>{{customerDetail.creatorName}}</td>
               </tr>
               <tr>
                 <td class="td-title">最新修改时间</td>
-                <td colspan="3">{{customerDetail.modified && $moment(customerDetail.modified).format('YYYY-MM-DD HH:mm:ss')}}</td>
+                <td colspan="3">
+                  {{customerDetail.modified &&
+                  $moment(customerDetail.modified).format('YYYY-MM-DD HH:mm:ss')}}
+                </td>
                 <td class="td-title">修改人</td>
                 <td>{{customerDetail.modifierName}}</td>
               </tr>
               <tr>
                 <td class="td-title">最新活动时间</td>
-                <td colspan="3">{{customerDetail.activeTime && $moment(customerDetail.activeTime).format('YYYY-MM-DD HH:mm:ss')}}</td>
+                <td colspan="3">
+                  {{customerDetail.activeTime &&
+                  $moment(customerDetail.activeTime).format('YYYY-MM-DD HH:mm:ss')}}
+                </td>
                 <td class="td-title">跟进人</td>
                 <td>{{customerDetail.followerName}}</td>
               </tr>
@@ -261,6 +274,7 @@
   import addDialog from './addDialog'
   // import { arrToStr } from '../../../utils/utils'
   import returnPoll from './returnPoll'
+  import webStorage from 'webStorage'
 
   export default {
     name: 'detailInfo',
@@ -405,79 +419,111 @@
         let deleteId = id || ''
         switch (op) {
           case 'addContact':
-            this.$vDialog.modal(addContactDialog, {
-              title: '新增联系人',
-              width: 900,
-              height: 460,
-              params: {
-                detailCustomersId: this.customerDetail.id,
-              },
-              callback (data) {
-                if (data.type === 'save') {
-                  // that.dataLoading = true
-                  that.getContactList()
-                  // setTimeout(() => {
-                  //   that.dataLoading = false
-                  // }, 500)
-                }
-              },
-            })
+            if (this.currentUserIsTeamNum()) {
+              this.$vDialog.modal(addContactDialog, {
+                title: '新增联系人',
+                width: 900,
+                height: 460,
+                params: {
+                  detailCustomersId: this.customerDetail.id,
+                },
+                callback (data) {
+                  if (data.type === 'save') {
+                    // that.dataLoading = true
+                    that.getContactList()
+                    // setTimeout(() => {
+                    //   that.dataLoading = false
+                    // }, 500)
+                  }
+                },
+              })
+            } else {
+              this.$message.warning('非团队成员！不能添加。')
+            }
             break
           case 'addChance':
-            this.$vDialog.modal(addChanceDialog, {
-              title: '新增销售机会',
-              width: 900,
-              height: 400,
-              params: {
-                salesState: this.salesState,
-                detailCustomersId: this.customerDetail.id,
-              },
-              callback (data) {
-                if (data.type === 'save') {
-                  that.getChanceList()
-                }
-              },
-            })
+            if (this.currentUserIsTeamNum()) {
+              this.$vDialog.modal(addChanceDialog, {
+                title: '新增销售机会',
+                width: 900,
+                height: 400,
+                params: {
+                  salesState: this.salesState,
+                  detailCustomersId: this.customerDetail.id,
+                },
+                callback (data) {
+                  if (data.type === 'save') {
+                    that.getChanceList()
+                  }
+                },
+              })
+            } else {
+              this.$message.warning('非团队成员！不能添加。')
+            }
             break
           case 'addOrder':
-            this.$vDialog.modal(addOrderDialog, {
-              title: '添加订单',
-              width: 900,
-              height: 380,
-              params: {
-                detailCustomersId: this.customerDetail.id,
-              },
-              callback (data) {
-                if (data.type === 'save') {
-                  that.getOrderList()
-                }
-              },
-            })
+            if (this.currentUserIsTeamNum()) {
+              this.$vDialog.modal(addOrderDialog, {
+                title: '添加订单',
+                width: 900,
+                height: 380,
+                params: {
+                  detailCustomersId: this.customerDetail.id,
+                },
+                callback (data) {
+                  if (data.type === 'save') {
+                    that.getOrderList()
+                  }
+                },
+              })
+            } else {
+              this.$message.warning('非团队成员！不能添加。')
+            }
             break
           case 'deleteOrder':
-            this.$confirm('确定删除销售订单, 是否继续?', '提示', {
-              confirmButtonText: '确定',
-              cancelButtonText: '取消',
-              type: 'warning',
-            }).then(() => {
-              API.salesOrder.deleteOrder(deleteId, (da) => {
-                if (da.status) {
-                  this.$message({
-                    type: 'success',
-                    message: '删除成功!',
-                  })
-                  this.getOrderList()
-                }
+            if (this.currentUserIsTeamNum()) {
+              this.$confirm('确定删除销售订单, 是否继续?', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning',
+              }).then(() => {
+                API.salesOrder.deleteOrder(deleteId, (da) => {
+                  if (da.status) {
+                    this.$message({
+                      type: 'success',
+                      message: '删除成功!',
+                    })
+                    this.getOrderList()
+                  }
+                })
+              }).catch(() => {
+                this.$message({
+                  type: 'info',
+                  message: '已取消删除',
+                })
               })
-            }).catch(() => {
-              this.$message({
-                type: 'info',
-                message: '已取消删除',
-              })
-            })
+            } else {
+              this.$message.warning('非团队成员！不能添加。')
+            }
             break
         }
-      }
+      },
+      currentUserIsTeamNum () { // 判断当前用户是否为团对成员
+        let currentUserId = webStorage.getItem('userInfo').id
+        let team = this.customerDetail.team // creator 创建人id; salerList[] salerId 销售员id
+        if (currentUserId === team.creator) {
+          return true
+        } else {
+          let isSaler = team.salerList.some(item => {
+            return item.salerId === currentUserId
+          })
+          if (isSaler) {
+            return true
+          } else {
+            return false
+          }
+        }
+      },
     },
     created () {
       this.activeViewName = this.$route.query.view
