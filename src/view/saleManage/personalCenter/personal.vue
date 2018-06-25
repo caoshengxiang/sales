@@ -18,14 +18,14 @@
               <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="120px" class="demo-ruleForm">
                 <p class="table-title">基本信息修改</p>
                 <div class="form-box">
-                  <el-form-item label="用户账号" prop="name">
-                    <label>12312131313132</label>
+                  <el-form-item label="用户账号">
+                    <label>{{ruleForm.account}}</label>
                   </el-form-item>
                   <el-form-item label="用户姓名" prop="name">
                     <el-input v-model="ruleForm.name"></el-input>
                   </el-form-item>
-                  <el-form-item label="身份证号" prop="name">
-                    <el-input v-model="ruleForm.name"></el-input>
+                  <el-form-item label="身份证号" prop="idCard">
+                    <el-input v-model="ruleForm.idCard"></el-input>
                   </el-form-item>
                   <el-form-item label="用户性别" prop="sex">
                     <el-radio-group v-model="ruleForm.sex">
@@ -33,47 +33,55 @@
                       <el-radio label="女"></el-radio>
                     </el-radio-group>
                   </el-form-item>
-                  <el-form-item label="用户年龄" prop="">
-                    <el-input v-model="ruleForm.name"></el-input>
+                  <el-form-item label="用户年龄" prop="age">
+                    <el-input type="age" v-model="ruleForm.age"></el-input>
                   </el-form-item>
-                  <el-form-item label="所在地图" prop="">
-                    <el-input v-model="ruleForm.name"></el-input>
+                  <el-form-item label="所在地区" prop="">
+                    <!--<el-input v-model="ruleForm.name"></el-input>-->
+                    <AreaSelect ref="areaSelect"
+                                :initValue="ruleForm.provinceId"
+                                :area="(ruleForm.provinceName?ruleForm.provinceName:'') + ' ' + (ruleForm.cityName?ruleForm.cityName:'')  + ' ' + (ruleForm.areaName?ruleForm.areaName:'')"
+                                @change="areaSelectedOptionsHandleChange"
+                                :selectLastLevelMode="true"></AreaSelect>
                   </el-form-item>
                   <el-form-item label="个性化签名" prop="">
-                    <el-input v-model="ruleForm.name"></el-input>
+                    <el-input v-model="ruleForm.sign"></el-input>
                   </el-form-item>
                 </div>
                 <p class="table-title">用户单位信息</p>
                 <div class="form-box">
                   <el-form-item label="所在单位" prop="">
-                    <label>成都*********</label>
+                    <label>{{ruleForm.organizationName}}</label>
                   </el-form-item>
-                  <el-form-item label="用户姓名" prop="">
-                    <label>12312131313132</label>
+                  <el-form-item label="所在部门" prop="">
+                    <label>{{ruleForm.departmentName}}</label>
                   </el-form-item>
                   <el-form-item label="公司职位" prop="">
-                    <label>12312131313132</label>
+                    <!--<label>{{ruleForm.departmentName}}</label>-->
                   </el-form-item>
                 </div>
                 <p class="table-title">用户联系方式</p>
                 <div class="form-box">
-                  <el-form-item label="用户邮箱" prop="name">
-                    <el-input v-model="ruleForm.name"></el-input>
+                  <el-form-item label="用户邮箱" prop="mail">
+                    <el-input v-model="ruleForm.mail"></el-input>
                   </el-form-item>
-                  <el-form-item label="QQ/微信" prop="name">
-                    <el-input v-model="ruleForm.name"></el-input>
+                  <el-form-item label="QQ" prop="qq">
+                    <el-input v-model="ruleForm.qq"></el-input>
+                  </el-form-item>
+                  <el-form-item label="微信" prop="wx">
+                    <el-input v-model="ruleForm.wx"></el-input>
                   </el-form-item>
                 </div>
                 <p class="table-title">银行账户信息设置</p>
                 <div class="form-box">
-                  <el-form-item label="开户银行" prop="">
-                    <el-input v-model="ruleForm.name"></el-input>
+                  <el-form-item label="开户银行" prop="bankDeposit">
+                    <el-input v-model="ruleForm.bankDeposit"></el-input>
                   </el-form-item>
-                  <el-form-item label="开户户名" prop="">
-                    <el-input v-model="ruleForm.name"></el-input>
+                  <el-form-item label="开户户名" prop="bankUsername">
+                    <el-input v-model="ruleForm.bankUsername"></el-input>
                   </el-form-item>
-                  <el-form-item label="开户账号" prop="">
-                    <el-input v-model="ruleForm.name"></el-input>
+                  <el-form-item label="开户账号" prop="bankAccount">
+                    <el-input v-model="ruleForm.bankAccount"></el-input>
                   </el-form-item>
                 </div>
                 <el-form-item>
@@ -123,14 +131,14 @@
           <el-tab-pane label="用户密码修改" name="pass">
             <div class="base-form">
               <el-form :model="ruleForm2" :rules="rules" ref="ruleForm2" label-width="120px" class="demo-ruleForm">
-                <el-form-item label="原始密码" prop="oldPass">
-                  <el-input v-model="ruleForm2.oldPass"></el-input>
+                <el-form-item label="原始密码" prop="pwd">
+                  <el-input v-model="ruleForm2.pwd" type="password"></el-input>
                 </el-form-item>
-                <el-form-item label="新 密 码" prop="newPass">
-                  <el-input v-model="ruleForm2.newPass" type="password" auto-complete="off" ></el-input>
+                <el-form-item label="新 密 码" prop="newPwd">
+                  <el-input v-model="ruleForm2.newPwd" type="password" auto-complete="off" ></el-input>
                 </el-form-item>
-                <el-form-item label="确认新密码" prop="newPass2">
-                  <el-input v-model="ruleForm2.newPass2" type="password" auto-complete="off" ></el-input>
+                <el-form-item label="确认新密码" prop="newPwd2">
+                  <el-input v-model="ruleForm2.newPwd2" type="password" auto-complete="off" ></el-input>
                 </el-form-item>
                 <el-form-item>
                   <!--todo 按钮修改状态-->
@@ -149,6 +157,9 @@
 
 <script>
   import comButton from '../../../components/button/comButton'
+  import API from '../../../utils/api'
+  import webStorage from 'webStorage'
+  import sha1 from 'js-sha1'
 
   export default {
     name: 'detailInfo',
@@ -156,7 +167,7 @@
       let validatePass2 = (rule, value, callback) => {
         if (value === '') {
           callback(new Error('请再次输入密码'))
-        } else if (value !== this.ruleForm2.newPass) {
+        } else if (value !== this.ruleForm2.newPwd) {
           callback(new Error('两次输入密码不一致!'))
         } else {
           callback()
@@ -165,33 +176,36 @@
       return {
         tapOption: '',
         activeViewName: 'base',
+        userDetail: {},
+        currentUser: {},
         ruleForm: {
           name: '',
           sex: '',
         },
         rules: {
           name: [
-            {required: true, message: '请输入活动名称', trigger: 'blur'},
-            {min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur'},
+            // {required: true, message: '请输入用户姓名', trigger: 'blur'},
+            // {min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur'},
           ],
           sex: [
-            {required: true, message: '请选择性别', trigger: 'blur'},
+            // {required: true, message: '请选择性别', trigger: 'blur'},
           ],
-          oldPass: [
+          pwd: [
             {required: true, message: '请输入您的原始密码信息', trigger: 'blur'},
           ],
-          newPass: [
+          newPwd: [
             {required: true, message: '请输入您的新密码信息', trigger: 'blur'},
           ],
-          newPass2: [
+          newPwd2: [
             {required: true, message: '请输入您的确认密码信息', trigger: 'blur'},
             {validator: validatePass2, trigger: 'blur'},
           ],
         },
         ruleForm2: {
-          oldPass: '',
-          newPass: '',
-          newPass2: '',
+          account: '',
+          pwd: '',
+          newPwd: '',
+          newPwd2: '',
         },
       }
     },
@@ -211,9 +225,12 @@
       submitForm (formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            alert('submit!')
+            API.user.userModify(this.ruleForm, (da) => {
+              if (da.status) {
+                this.$message.success('保存成功')
+              }
+            })
           } else {
-            console.log('error submit!!')
             return false
           }
         })
@@ -221,16 +238,40 @@
       submitForm2 (formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            alert('submit!')
+            API.login.resetPwd({
+              account: this.ruleForm2.account,
+              pwd: sha1(this.ruleForm2.pwd),
+              newPwd: sha1(this.ruleForm2.newPwd),
+            }, (da) => {
+              if (da.status) {
+                this.$message.success('保存成功')
+              }
+            })
           } else {
-            console.log('error submit!!')
             return false
           }
         })
       },
+      getUserDetail (id) {
+        API.user.userDetail({id: id}, (da) => {
+          this.ruleForm = da.data
+        })
+      },
+      areaSelectedOptionsHandleChange (value) {
+        let name = this.$refs.areaSelect.getSelectedName(value)
+        this.ruleForm.provinceId = value[0] || ''
+        this.ruleForm.cityId = value[1] || ''
+        this.ruleForm.areaId = value[2] || ''
+        this.ruleForm.provinceName = name[0] || ''
+        this.ruleForm.cityName = name[1] || ''
+        this.ruleForm.areaName = name[2] || ''
+      },
     },
     created () {
       this.activeViewName = this.$route.query.view
+      this.currentUser = webStorage.getItem('userInfo')
+      this.getUserDetail(this.currentUser.id)
+      this.ruleForm2.account = this.currentUser.account
     },
   }
 </script>

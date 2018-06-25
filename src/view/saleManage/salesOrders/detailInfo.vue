@@ -23,7 +23,7 @@
             <span class="com-d-item">客户所有人: <span>{{orderDetail.customerName}}</span></span>
             <span class="com-d-item">订单状态:<span v-for="item in orderState" :key="item.type"
                                                 v-if="orderDetail.orderState === item.type">{{item.value}}</span></span>
-            <span class="com-d-item">订单所有人: <span>{{orderDetail.contacterName}}</span></span>
+            <span class="com-d-item">订单所有人: <span>{{orderDetail.team.creatorName}}</span></span>
           </p>
         </div>
       </div>

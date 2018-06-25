@@ -641,7 +641,7 @@ export default {
         error && error(err)
       })
     },
-    userDetail (params, success, error) { // 用户列表
+    userDetail (params, success, error) { // 用户信息详情
       $axios.get('user/' + params.id, {}).then((res) => {
         success && success(res.data)
       }).catch(() => {

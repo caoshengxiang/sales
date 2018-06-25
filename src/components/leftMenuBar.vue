@@ -224,7 +224,11 @@
         })
       },
       routePersonal () {
-        this.$router.push({name: 'personal', query: {view: 'base'}, params: {end: 'FE'}})
+        if (this.themeIndex === 0) {
+          this.$router.push({name: 'personal', query: {view: 'base'}, params: {end: 'FE'}})
+        } else if (this.themeIndex === 1) {
+          this.$router.push({name: 'personal', query: {view: 'base'}, params: {end: 'ME'}})
+        }
       },
       listPermissions (m, id) { // menus权限判断，return true和false
         let mus = m || []

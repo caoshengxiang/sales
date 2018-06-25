@@ -206,7 +206,6 @@ area,预显示地址
       handleItemChange (val) {
         var that = this
         console.log('区域控件选择完成：' + val.join(','))
-        this.$emit('change', val)
         if (that.selectLastLevelMode) {
           that.selectedBindValue = []
         } else {
@@ -214,6 +213,32 @@ area,预显示地址
         }
         that.selectedValue = val
         that.$options.methods.queryList.bind(that)(val[val.length - 1])
+        this.$emit('change', val)
+      },
+      getSelectedName (val) { // 通过value获取名称
+        let name = []
+        if (val[0]) { // 省id
+          this.list.forEach(item0 => {
+            if (val[0] === item0.id) {
+              name[0] = item0.name
+              if (val[1]) { // 市id
+                item0.children.forEach(item1 => {
+                  if (val[1] === item1.id) {
+                    name[1] = item1.name
+                    if (val[2]) { // 区id
+                      item1.children.forEach(item2 => {
+                        if (val[2] === item2.id) {
+                          name[2] = item2.name
+                        }
+                      })
+                    }
+                  }
+                })
+              }
+            }
+          })
+        }
+        return name
       },
       getSelectedValue () {
         return this.selectedBindValue
