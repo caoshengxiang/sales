@@ -940,7 +940,7 @@ export default {
   baseSetting: {
     getProductType (params, success, error) {
       $axios.get('goodsType', {
-        params: params,}).then((res) => {
+        params: params}).then((res) => {
         success && success(res.data)
       }).catch(() => {
         setTimeout(() => {

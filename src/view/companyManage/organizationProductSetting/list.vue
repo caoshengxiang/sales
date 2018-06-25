@@ -98,7 +98,7 @@
         searchForm: {},
         allorganization: [],
         organizationIndex: '1',
-        goodsConfs:[]
+        goodsConfs: [],
       }
     },
     components: {
@@ -276,14 +276,14 @@
       save () {
         var that = this
         that.loading = true
-        for(let i =0;i<that.roleDetail.length;i++ ) {
+        for (let i = 0; i < that.roleDetail.length; i++) {
           var obj = {}
-          obj.id=that.roleDetail[i].id
-          obj.beContractSubject=that.roleDetail[i].beContractSubject
-          obj.saleable =that.roleDetail[i].saleable
+          obj.id = that.roleDetail[i].id
+          obj.beContractSubject = that.roleDetail[i].beContractSubject
+          obj.saleable = that.roleDetail[i].saleable
           that.goodsConfs.push(obj)
         }
-        API.baseSetting.saveOrganizationGoodsConf({goodsConfs:this.goodsConfs}, function (resData) {
+        API.baseSetting.saveOrganizationGoodsConf({goodsConfs: this.goodsConfs}, function (resData) {
           that.loading = false
           if (resData.status) {
             Message({
