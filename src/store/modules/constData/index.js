@@ -69,17 +69,14 @@ export default {
         value: '我下属跟进的销售机会'
       }
     ],
-    customerState: [ // 状态
+    customerState: [ // 客户状态
       {
         type: 1,
-        value: '自建',
+        value: '待领取',
       }, {
         type: 2,
         value: '已领取',
-      }, {
-        type: 3,
-        value: '已分配',
-      },
+      }
     ],
     contactsTypeOptions: [ // 联系人类型选择
       {

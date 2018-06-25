@@ -76,14 +76,14 @@
           }
         })
       },
-      getOldSalerList (customerId) { // todo 走流程
-        API.user.toTransferUserList({customerId: customerId}, (data) => {
+      toReturnList (customerId) { // 待退回销售列表
+        API.user.toReturnList({customerId: customerId}, (data) => {
           this.oldSalerList = data.data
         })
       }
     },
     created () {
-      this.getOldSalerList(arrToStr(this.params.customerIds, 'id'))
+      this.toReturnList(arrToStr(this.params.customerIds, 'id'))
       this.moveCustomerForm.customerIds = arrToStr(this.params.customerIds, 'id')
     },
   }

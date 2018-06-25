@@ -580,6 +580,15 @@ export default {
         error && error(err)
       })
     },
+    toReturnList (params, success, error) { // 待退回销售列表
+      $axios.get('user/toReturn/list', {
+        params: params,
+      }).then((res) => {
+        success && success(res.data)
+      }).catch(err => {
+        error && error(err)
+      })
+    },
     userSubordinates (params, success, error) { // 查询登录用户下属用户列表
       $axios.get('user/subordinates', {
         params: params,
