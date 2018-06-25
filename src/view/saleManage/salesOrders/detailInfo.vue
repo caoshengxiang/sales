@@ -19,9 +19,11 @@
             <a class="order-info" @click="operateOptions('orderInfo')">APP订单信息浏览</a>
           </div>
           <p>
-            <span class="com-d-item">客户所有人: <span>凡特塞科技</span></span>
-            <span class="com-d-item">所属公海: <span>成都公海</span></span>
-            <span class="com-d-item">创建时间: <span>2018.02.13 12:20:20</span></span>
+            <span class="com-d-item">订单编号: <span>{{orderDetail.id}}<span v-if="orderDetail.orderId">-{{orderDetail.orderId}}</span></span></span>
+            <span class="com-d-item">客户所有人: <span>{{orderDetail.customerName}}</span></span>
+            <span class="com-d-item">订单状态:<span v-for="item in orderState" :key="item.type"
+                                                v-if="orderDetail.orderState === item.type">{{item.value}}</span></span>
+            <span class="com-d-item">订单所有人: <span>{{orderDetail.contacterName}}</span></span>
           </p>
         </div>
       </div>
@@ -62,7 +64,7 @@
               </tr>
               <tr>
                 <td class="td-title">购买规格</td>
-                <td>{{orderDetail.specification}}</td>
+                <td>{{orderDetail.specificationName}}</td>
                 <td class="td-title">购买数量</td>
                 <td>x{{orderDetail.quantity}}</td>
                 <td class="td-title">订单状态</td>
@@ -333,7 +335,7 @@
           case 'appOrder':
             this.$vDialog.modal(order, {
               title: 'APP下单',
-              width: 564,
+              width: 604,
               height: 300,
               params: {
                 orderDetail: this.orderDetail,

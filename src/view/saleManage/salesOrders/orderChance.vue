@@ -98,8 +98,9 @@
     cursor: pointer;
     font-size: 12px;
     border: 1px solid #1E88E5;
-    padding: 3px 5px;
+    padding: 0px 5px;
     border-radius: 5px;
+    display: inline-block;
     &.time {
       cursor: auto;
     }

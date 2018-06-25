@@ -70,7 +70,7 @@
         >
           <template slot-scope="scope">
             <!--<a class="col-link" @click="handleRouter('detail', scope.row.id)">{{ scope.row.billOrderId }}</a>-->
-            <a class="col-link" @click="handleRouter('detail', scope.row.id)">{{ scope.row.id + '-' + scope.row.orderId}}</a>
+            <a class="col-link" @click="handleRouter('detail', scope.row.id)">{{ scope.row.id}} <span v-if="scope.row.orderId">-{{scope.row.orderId}}</span></a>
           </template>
         </el-table-column>
         <el-table-column
