@@ -6,7 +6,8 @@
             borderColor: theme[themeIndex].leftMenuBarBorderButtonColor
      }">
       <div class="u-head" @click="routePersonal">
-        <img src="../assets/icon/headDefault.png" alt="">
+        <img v-if="userInfo.avatar" :src="serverUrl + '/' + userInfo.avatar" alt="">
+        <img v-else src="../assets/icon/headDefault.png" alt="">
       </div>
       <div class="u-text">
         <h4 class="username" :style="{color: theme[themeIndex].leftMenuBarUserTextColor}">{{userInfo.name}}</h4>
@@ -72,8 +73,8 @@
         <i class="iconfont icon-shenpi"></i>
         <span slot="title">任务审批</span>
       </el-menu-item>
-     <!--后端菜单-->
-     <!--后端菜单-->
+      <!--后端菜单-->
+      <!--后端菜单-->
       <!--<el-menu-item index="companyManageHome" v-if="listPermissions(menus, 'adminHome')">--><!--去掉两个首页的权限控制-->
       <el-menu-item index="companyManageHome" v-if="themeIndex === 1">
         <i class="iconfont icon-home"></i>
@@ -100,7 +101,8 @@
           <!--<template slot="title">分组一</template>-->
           <el-menu-item index="organizationList" v-if="listPermissions(menus, 'orgManagementSub')">组织管理</el-menu-item>
           <el-menu-item index="customerPool" v-if="listPermissions(menus, 'customerPool')">客户池管理</el-menu-item>
-          <el-menu-item index="organizationProductSetting" v-if="listPermissions(menus, 'orgGoodsConfig')">组织商品配置</el-menu-item>
+          <el-menu-item index="organizationProductSetting" v-if="listPermissions(menus, 'orgGoodsConfig')">组织商品配置
+          </el-menu-item>
         </el-menu-item-group>
       </el-submenu>
       <el-submenu index="financial" v-if="listPermissions(menus, 'financialManagement')">
@@ -134,7 +136,8 @@
           <el-menu-item index="siteList" v-if="listPermissions(menus, 'siteOnOff')">站点开关</el-menu-item>
           <el-menu-item index="customerAreaSetting">客户地区</el-menu-item>
           <el-menu-item index="baseSettingList" v-if="listPermissions(menus, 'paramConfig')">参数配置</el-menu-item>
-          <el-menu-item index="settlementRulesList" v-if="listPermissions(menus, 'commissionConfig')">返佣规则</el-menu-item>
+          <el-menu-item index="settlementRulesList" v-if="listPermissions(menus, 'commissionConfig')">返佣规则
+          </el-menu-item>
           <el-menu-item index="productType" v-if="listPermissions(menus, 'orgGoodsConfig')">商品类型设置</el-menu-item>
         </el-menu-item-group>
       </el-submenu>
@@ -166,9 +169,12 @@
         <el-menu-item-group>
           <el-menu-item index="customersList" v-if="listPermissions(menus, 'customerManagement')">客户管理</el-menu-item>
           <el-menu-item index="contactsList" v-if="listPermissions(menus, 'contactManagement')">联系人管理</el-menu-item>
-          <el-menu-item index="salesOpportunitiesList" v-if="listPermissions(menus, 'salerChanceManagement')">销售机会管理</el-menu-item>
-          <el-menu-item index="salesOrdersList" v-if="listPermissions(menus, 'salerOrderManagement')">销售订单管理</el-menu-item>
-          <el-menu-item index="customersHighSeasList" v-if="listPermissions(menus, 'customerSeaManagement')">客户公海管理</el-menu-item>
+          <el-menu-item index="salesOpportunitiesList" v-if="listPermissions(menus, 'salerChanceManagement')">销售机会管理
+          </el-menu-item>
+          <el-menu-item index="salesOrdersList" v-if="listPermissions(menus, 'salerOrderManagement')">销售订单管理
+          </el-menu-item>
+          <el-menu-item index="customersHighSeasList" v-if="listPermissions(menus, 'customerSeaManagement')">客户公海管理
+          </el-menu-item>
         </el-menu-item-group>
       </el-submenu>
     </el-menu>
@@ -178,6 +184,7 @@
 <script>
   import { mapState } from 'vuex'
   import utils from '../utils/utils'
+  import { serverUrl } from '../utils/const'
   // import webStorage from 'webStorage'
 
   export default {
@@ -196,7 +203,7 @@
         //   'meMessageList',
         //   'siteList', 'customerAreaSetting', 'baseSettingList', 'settlementRulesList'
         // ],
-        defaultActiveIndex: 'saleHome'
+        defaultActiveIndex: 'saleHome',
       }
     },
     computed: {
@@ -204,6 +211,9 @@
         'theme',
         'themeIndex',
       ]),
+      serverUrl () {
+        return serverUrl
+      },
     },
     created () {
       this.userInfo = utils.loginExamine(this)
@@ -235,7 +245,7 @@
         return mus.some(item => {
           return item.id === id || this.listPermissions(item.children, id)
         })
-      }
+      },
     },
   }
 </script>
@@ -279,40 +289,40 @@
     }
   }
 
-/*  .child-menu {
-    float: right;
-    display: inline-block;
-    line-height: 56px;
-    width: 30px;
-    position: relative;
-    .child-fixed {
-      z-index: 199;
-      position: absolute;
-      height: 0;
-    }
-    .child-menu-box {
-      display: none;
+  /*  .child-menu {
+      float: right;
+      display: inline-block;
+      line-height: 56px;
+      width: 30px;
       position: relative;
-      top: -55px;
-      left: 30px;
-      li {
-        background-color: #e4e4e4;
-        width: 120px;
-        padding-left: 20px;
-        line-height: 30px;
-        color: #2d2d2d;
-        &:hover {
-          background-color: #f4f6f8;
-          color: #333e48;
+      .child-fixed {
+        z-index: 199;
+        position: absolute;
+        height: 0;
+      }
+      .child-menu-box {
+        display: none;
+        position: relative;
+        top: -55px;
+        left: 30px;
+        li {
+          background-color: #e4e4e4;
+          width: 120px;
+          padding-left: 20px;
+          line-height: 30px;
+          color: #2d2d2d;
+          &:hover {
+            background-color: #f4f6f8;
+            color: #333e48;
+          }
         }
       }
-    }
-    &:hover {
-      .child-menu-box {
-        display: block;
+      &:hover {
+        .child-menu-box {
+          display: block;
+        }
       }
-    }
-  }*/
+    }*/
 
   .el-menu-item {
     padding: 0;
