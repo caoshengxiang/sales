@@ -217,6 +217,7 @@
   import addDialog from './addDialog'
   import addChanceDialog from '../salesOpportunities/addDialog'
   import addOrderDialog from '../salesOrders/addDialog'
+  import webStorage from 'webStorage'
 
   export default {
     name: 'detailInfo',
@@ -394,7 +395,7 @@
       },
       currentUserIsTeamNum () { // 判断当前用户是否为团对成员
         let currentUserId = webStorage.getItem('userInfo').id
-        let team = this.customerDetail.team // creator 创建人id; salerList[] salerId 销售员id
+        let team = this.contactsDetail.team // creator 创建人id; salerList[] salerId 销售员id
         if (currentUserId === team.creator) {
           return true
         } else {
