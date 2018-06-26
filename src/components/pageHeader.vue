@@ -90,12 +90,12 @@
     align-items: center;
     justify-content: space-between;
     &.font-end-bg {
-      background-color: $page-header-bg;
+      background-color: #4bcf99;
       .left {
-        color: $font-color-0;
+        color: #e4e7ed;
       }
       .right {
-        color: $font-color-1;
+        color: #e4e7ed;
       }
     }
     &.manage-bg {

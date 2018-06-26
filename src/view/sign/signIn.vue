@@ -76,13 +76,13 @@
         <p>众智联邦销售管理平台 2017-2017 @凡特赛科技</p>
         <div class="waveWrapper waveAnimation">
           <div class="waveWrapperInner bgTop">
-            <div class="wave waveTop" style="background-image: url('../../../static/images/wave-top.png')"></div>
+            <div class="wave waveTop" style="background-image: url('../../../static/images/wave-top-2.png')"></div>
           </div>
           <div class="waveWrapperInner bgMiddle">
-            <div class="wave waveMiddle" style="background-image: url('../../../static/images/wave-mid.png')"></div>
+            <div class="wave waveMiddle" style="background-image: url('../../../static/images/wave-mid-2.png')"></div>
           </div>
           <div class="waveWrapperInner bgBottom">
-            <div class="wave waveBottom" style="background-image: url('../../../static/images/wave-bot.png')"></div>
+            <div class="wave waveBottom" style="background-image: url('../../../static/images/wave-bot-2.png')"></div>
           </div>
         </div>
       </div>
@@ -243,7 +243,7 @@
   .client-1 {
     width: 100%;
     height: 100%;
-    background-color: #F0F3F6;
+    background-color: #FBFFFF;
     .sign-box {
       width: 640px;
       margin: 0px auto;
@@ -266,7 +266,7 @@
         width: 100%;
         padding: 50px 0;
         box-shadow: 0px 5px 5px #999999;
-        border-top: 6px solid #4F5F6F;
+        border-top: 6px solid #4BCF99;
         .forget {
           float: right;
           margin-top: -38px;
@@ -279,11 +279,11 @@
         .el-submit {
           width: 50%;
           margin-left: 90px;
-          background-color: #4F5F6F;
+          background-color: #4BCF99;
           color: #fff;
           &:active {
             color: #FFF;
-            border: 1px solid #4F5F6F;
+            border: 1px solid #4BCF99;
             outline: 0;
           }
         }
@@ -311,6 +311,7 @@
   .client-2 {
     width: 100%;
     height: 100%;
+    background-color: #F0F3F6;
     .sign-box {
       width: 640px;
       margin: 0px auto;
@@ -333,7 +334,7 @@
         width: 100%;
         padding: 50px 0;
         box-shadow: 0px 5px 5px #999999;
-        border-top: 6px solid #0BC3C4;
+        border-top: 6px solid #4F5F6F;
         .el-form-w {
           width: 340px;
           margin: 0 auto;
@@ -345,11 +346,11 @@
         }
         .el-submit {
           width: 100%;
-          background-color: #0BC3C4;
+          background-color: #4F5F6F;
           color: #fff;
           &:active {
             color: #FFF;
-            border: 1px solid #39C189;
+            border: 1px solid #4F5F6F;
             outline: 0;
           }
         }
@@ -364,7 +365,7 @@
       text-align: center;
       p {
         position: absolute;
-        bottom: 20px;
+        top: -20px;
         width: 100%;
         text-align: center;
         font-size: 12px;
@@ -379,7 +380,7 @@
     /*bottom: 11%;*/
     text-align: center;
     a {
-      color: blue;
+      color: #728395;
       cursor: pointer;
     }
   }
