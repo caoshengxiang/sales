@@ -38,10 +38,12 @@
             <td class="td-title">购买商品</td>
             <td class="td-text">
               <el-form-item prop="productId">
-                <el-select style="width: 100%" :disabled="true" v-model.number="addForm.productId"
+                <el-select style="width: 100%" :disabled="(addForm.chanceId || params.fromChance)?true:false"
+                           v-model.number="addForm.productId"
+                           @change="goodSelectChange"
                            placeholder="请选择购买商品">
-                  <el-option v-for="item in chanceList" :key="item.id" :label="item.intentProductName"
-                             :value="item.intentProductId"></el-option>
+                  <el-option v-for="item in allGoodsList" :key="item.objectId" :label="item.name"
+                             :value="item.objectId"></el-option>
                 </el-select>
               </el-form-item>
             </td>
@@ -97,6 +99,7 @@
         chanceList: [], // 客户对应的机会列表
         contactList: [], // 客户对应的联系人列表
         productsList: [], // 产品【规格】列表
+        allGoodsList: [],
         addForm: { // 添加表单
           customerId: '',
           contacterId: '',
@@ -115,9 +118,9 @@
           contacterId: [
             {required: true, message: '请选择签单联系人', trigger: 'change'},
           ],
-          chanceId: [
-            {required: true, message: '请选择关联销售机会', trigger: 'change'},
-          ],
+          // chanceId: [
+          //   {required: true, message: '请选择关联销售机会', trigger: 'change'},
+          // ],
           // productId: [
           //   {required: true, message: '请选择购买商品', trigger: 'change'},
           // ],
@@ -192,10 +195,18 @@
           // this.contactTotal = da.data.totalElements
         })
       },
+      getAllGoodsList () { // 获取所有分类商品
+        API.external.findGoods({}, (da) => {
+          this.allGoodsList = da.content
+        })
+      },
       getProductsList (goodsId) { // 产品【规格】列表
         API.external.getProducts({goodsId: goodsId}, (data) => {
           this.productsList = data.content
         })
+        // 清除规格
+        this.addForm.specificationId = ''
+        this.addForm.specificationName = ''
       },
       intentProductChange () { // 机会change
         this.chanceList.forEach(item => {
@@ -204,11 +215,17 @@
             this.addForm.productName = item.intentProductName
             // 对应的规格列表
             this.getProductsList(item.intentProductId)
-            // 清除规格
-            this.addForm.specificationId = ''
-            this.addForm.specificationName = ''
           }
         })
+      },
+      goodSelectChange (id) { // 直接选择商品获取名称
+        this.allGoodsList.forEach(item => {
+          if (item.objectId === id) {
+            this.addForm.productName = item.name
+          }
+        })
+        // 对应的规格列表
+        this.getProductsList(id)
       },
       specificationChange () { // 规格change
         this.productsList.forEach(item => {
@@ -237,6 +254,7 @@
     },
     created () {
       this.getCustomersList()
+      this.getAllGoodsList()
       if (this.params.orderDetail) { // 编辑
         this.addForm = JSON.parse(JSON.stringify(this.params.orderDetail))
         this.getChanceList(this.params.orderDetail.customerId)

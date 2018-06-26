@@ -7,7 +7,7 @@
           <span>众智联邦销售管理系统</span>
         </div>
         <div class="sign-form-box">
-          <el-form label-width="0px" :model="formData" :rules="rules" ref="ruleForm">
+          <el-form label-width="0px" class="el-form-w" :model="formData" :rules="rules" ref="ruleForm">
             <el-form-item label="" prop="username">
               <el-input v-model="formData.username" placeholder="请输入您的登录账号"></el-input>
             </el-form-item>
@@ -25,11 +25,22 @@
               <el-button class="el-submit" @click="submitForm('ruleForm')">登录</el-button>
             </el-form-item>
           </el-form>
+          <div class="change-client"><a @click="client = 2;clientPathParam = 'ME'">切换登录系统</a></div>
         </div>
-        <div class="change-client"><a @click="client = 2;clientPathParam = 'ME'">众智联邦销企业资源管理系统</a></div>
       </div>
       <div class="footer">
         <p>众智联邦销售管理平台 2017-2017 @凡特赛科技</p>
+        <div class="waveWrapper waveAnimation">
+          <div class="waveWrapperInner bgTop">
+            <div class="wave waveTop" style="background-image: url('../../../static/images/wave-top.png')"></div>
+          </div>
+          <div class="waveWrapperInner bgMiddle">
+            <div class="wave waveMiddle" style="background-image: url('../../../static/images/wave-mid.png')"></div>
+          </div>
+          <div class="waveWrapperInner bgBottom">
+            <div class="wave waveBottom" style="background-image: url('../../../static/images/wave-bot.png')"></div>
+          </div>
+        </div>
       </div>
       <fe-element></fe-element>
     </div>
@@ -58,13 +69,22 @@
               <el-button class="el-submit" @click="submitForm('ruleForm')">登录</el-button>
             </el-form-item>
           </el-form>
-          <div>
-          </div>
+          <div class="change-client"><a @click="client = 1;clientPathParam = 'FE'">切换登录系统</a></div>
         </div>
-        <div class="change-client"><a @click="client = 1;clientPathParam = 'FE'">众智联邦销售管理系统</a></div>
       </div>
       <div class="footer">
         <p>众智联邦销售管理平台 2017-2017 @凡特赛科技</p>
+        <div class="waveWrapper waveAnimation">
+          <div class="waveWrapperInner bgTop">
+            <div class="wave waveTop" style="background-image: url('../../../static/images/wave-top.png')"></div>
+          </div>
+          <div class="waveWrapperInner bgMiddle">
+            <div class="wave waveMiddle" style="background-image: url('../../../static/images/wave-mid.png')"></div>
+          </div>
+          <div class="waveWrapperInner bgBottom">
+            <div class="wave waveBottom" style="background-image: url('../../../static/images/wave-bot.png')"></div>
+          </div>
+        </div>
       </div>
       <me-element></me-element>
     </div>
@@ -105,7 +125,7 @@
     watch: {
       client (d) {
         webStorage.setItem('client', d)
-      }
+      },
     },
     components: {
       feElement,
@@ -197,7 +217,7 @@
         } else {
           webStorage.setItem('client', this.client)
         }
-      }
+      },
     },
     created () {
       this.getClient()
@@ -221,13 +241,18 @@
   }
 
   .client-1 {
+    width: 100%;
+    height: 100%;
+    background-color: #F0F3F6;
     .sign-box {
-      width: 440px;
-      margin: 100px auto;
+      width: 640px;
+      margin: 0px auto;
+      padding-top: 100px;
       .logo-box {
         text-align: center;
         display: flex;
         align-items: center;
+        justify-content: center;
         img {
           width: 48px;
         }
@@ -238,20 +263,27 @@
       }
       .sign-form-box {
         margin: 80px auto 0 auto;
-        width: 340px;
+        width: 100%;
+        padding: 50px 0;
+        box-shadow: 0px 5px 5px #999999;
+        border-top: 6px solid #4F5F6F;
         .forget {
           float: right;
           margin-top: -38px;
           cursor: pointer;
         }
+        .el-form-w {
+          width: 340px;
+          margin: 0 auto;
+        }
         .el-submit {
           width: 50%;
           margin-left: 90px;
-          background-color: #4BCF99;
+          background-color: #4F5F6F;
           color: #fff;
           &:active {
             color: #FFF;
-            border: 1px solid #39C189;
+            border: 1px solid #4F5F6F;
             outline: 0;
           }
         }
@@ -259,15 +291,15 @@
     }
 
     .footer {
-      height: 10%;
-      background-color: #D7DDE4;
+      height: 15%;
+      /*background-color: #D7DDE4;*/
       position: absolute;
       bottom: 0;
       width: 100%;
       text-align: center;
       p {
         position: absolute;
-        bottom: 20px;
+        top: -20px;
         width: 100%;
         text-align: center;
         font-size: 12px;
@@ -277,9 +309,12 @@
   }
 
   .client-2 {
+    width: 100%;
+    height: 100%;
     .sign-box {
       width: 640px;
-      margin: 100px auto;
+      margin: 0px auto;
+      padding-top: 100px;
       .logo-box {
         text-align: center;
         display: flex;
@@ -321,8 +356,8 @@
       }
     }
     .footer {
-      height: 10%;
-      background-color: #D7DDE4;
+      height: 15%;
+      /*background-color: #D7DDE4;*/
       position: absolute;
       bottom: 0;
       width: 100%;
@@ -339,13 +374,96 @@
   }
 
   .change-client {
-    position: absolute;
-    right: 100px;
-    bottom: 11%;
-    text-align: right;
+    /*position: absolute;*/
+    /*right: 100px;*/
+    /*bottom: 11%;*/
+    text-align: center;
     a {
       color: blue;
       cursor: pointer;
     }
   }
+
+  @keyframes move_wave {
+    0% {
+      transform: translateX(0) translateZ(0) scaleY(1)
+    }
+    50% {
+      transform: translateX(-25%) translateZ(0) scaleY(0.55)
+    }
+    100% {
+      transform: translateX(-50%) translateZ(0) scaleY(1)
+    }
+  }
+
+  .waveWrapper {
+    overflow: hidden;
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    margin: auto;
+  }
+
+  .waveWrapperInner {
+    position: absolute;
+    width: 100%;
+    overflow: hidden;
+    height: 100%;
+    bottom: -1px;
+    /*background-image: linear-gradient(to top, #86377b 20%, #27273c 80%);*/
+  }
+
+  .bgTop {
+    z-index: 15;
+    opacity: 0.5;
+  }
+
+  .bgMiddle {
+    z-index: 10;
+    opacity: 0.75;
+  }
+
+  .bgBottom {
+    z-index: 5;
+  }
+
+  .wave {
+    position: absolute;
+    left: 0;
+    width: 200%;
+    height: 100%;
+    background-repeat: repeat no-repeat;
+    background-position: 0 bottom;
+    transform-origin: center bottom;
+  }
+
+  .waveTop {
+    background-size: 50% 100px;
+  }
+
+  .waveAnimation .waveTop {
+    animation: move-wave 3s;
+    -webkit-animation: move-wave 3s;
+    -webkit-animation-delay: 1s;
+    animation-delay: 1s;
+  }
+
+  .waveMiddle {
+    background-size: 50% 120px;
+  }
+
+  .waveAnimation .waveMiddle {
+    animation: move_wave 10s linear infinite;
+  }
+
+  .waveBottom {
+    background-size: 50% 100px;
+  }
+
+  .waveAnimation .waveBottom {
+    animation: move_wave 15s linear infinite;
+  }
+
 </style>

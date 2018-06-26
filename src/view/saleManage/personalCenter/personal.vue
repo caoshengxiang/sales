@@ -57,7 +57,9 @@
                     <label>{{ruleForm.departmentName}}</label>
                   </el-form-item>
                   <el-form-item label="公司职位" prop="">
-                    <label><span v-for="item in ruleForm.roles">{{item.name}}、</span></label>
+                    <label>
+                      <span v-for="item in ruleForm.roles" :key="item.name">{{item.name}}、</span>
+                    </label>
                   </el-form-item>
                 </div>
                 <p class="table-title">用户联系方式</p>

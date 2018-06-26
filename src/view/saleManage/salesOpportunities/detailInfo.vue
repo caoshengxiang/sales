@@ -527,7 +527,8 @@
                 height: 380,
                 params: {
                   detailCustomersId: this.salesOpportunitiesDetail.customerId,
-                  detailChanceId: this.salesOpportunitiesDetail.id
+                  detailChanceId: this.salesOpportunitiesDetail.id,
+                  fromChance: true,
                 },
                 callback: (data) => {
                   if (data.type === 'save') {
@@ -617,7 +618,8 @@
               height: 380,
               params: {
                 detailCustomersId: this.salesOpportunitiesDetail.customerId,
-                detailChanceId: this.salesOpportunitiesDetail.id
+                detailChanceId: this.salesOpportunitiesDetail.id,
+                fromChance: true,
               },
               callback: (data) => {
                 if (data.type === 'save') {
