@@ -265,6 +265,9 @@
     width: 100%;
     height: 100%;
     background-color: #FBFFFF;
+    .el-form-item__label {
+      color: #728395;
+    }
     .sign-box {
       width: 820px;
       margin: 0px auto;
@@ -293,6 +296,7 @@
           float: right;
           margin-top: -38px;
           cursor: pointer;
+          color: #4BCF99;
         }
         .el-form-w {
           width: 340px;
@@ -316,7 +320,7 @@
     }
 
     .footer {
-      height: 15%;
+      height: 89px;
       /*background-color: #D7DDE4;*/
       position: absolute;
       bottom: 0;
@@ -328,7 +332,7 @@
         width: 100%;
         text-align: center;
         font-size: 12px;
-        color: #333E48;
+        color: #728395;
       }
     }
   }
@@ -337,6 +341,9 @@
     width: 100%;
     height: 100%;
     background-color: #F0F3F6;
+    .el-form-item__label {
+      color: #4F5F6F;
+    }
     .sign-box {
       width: 820px;
       margin: 0px auto;
@@ -369,6 +376,7 @@
           float: right;
           margin-top: -38px;
           cursor: pointer;
+          color: #4F5F6F;
         }
         .el-submit {
           width: 100%;
@@ -386,7 +394,7 @@
       }
     }
     .footer {
-      height: 15%;
+      height: 89px;
       /*background-color: #D7DDE4;*/
       position: absolute;
       bottom: 0;
@@ -398,7 +406,7 @@
         width: 100%;
         text-align: center;
         font-size: 12px;
-        color: #333E48;
+        color: #728395;
       }
     }
   }
@@ -425,7 +433,6 @@
       transform: translateX(-50%) translateZ(0) scaleY(1)
     }
   }
-
   .waveWrapper {
     overflow: hidden;
     position: absolute;
@@ -435,30 +442,30 @@
     top: 0;
     margin: auto;
   }
-
   .waveWrapperInner {
     position: absolute;
     width: 100%;
     overflow: hidden;
     height: 100%;
     bottom: -1px;
-    /*background-image: linear-gradient(to top, #86377b 20%, #27273c 80%);*/
+    background-image: linear-gradient(to top, #f0f3f6 20%, #f0f3f6 80%);
   }
-
+  .client-1 {
+    .waveWrapperInner {
+      background-image: linear-gradient(to top, #fbffff 20%, #fbffff 80%);
+    }
+  }
   .bgTop {
     z-index: 15;
     opacity: 0.5;
   }
-
   .bgMiddle {
     z-index: 10;
     opacity: 0.75;
   }
-
   .bgBottom {
     z-index: 5;
   }
-
   .wave {
     position: absolute;
     left: 0;
@@ -468,30 +475,24 @@
     background-position: 0 bottom;
     transform-origin: center bottom;
   }
-
   .waveTop {
     background-size: 50% 100px;
   }
-
   .waveAnimation .waveTop {
     animation: move-wave 3s;
     -webkit-animation: move-wave 3s;
     -webkit-animation-delay: 1s;
     animation-delay: 1s;
   }
-
   .waveMiddle {
     background-size: 50% 120px;
   }
-
   .waveAnimation .waveMiddle {
     animation: move_wave 10s linear infinite;
   }
-
   .waveBottom {
     background-size: 50% 100px;
   }
-
   .waveAnimation .waveBottom {
     animation: move_wave 15s linear infinite;
   }
