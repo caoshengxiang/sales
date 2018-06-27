@@ -7,12 +7,12 @@
           <span>众智联邦销售管理系统</span>
         </div>
         <div class="sign-form-box">
-          <el-form label-width="0px" class="el-form-w" :model="formData" :rules="rules" ref="ruleForm">
-            <el-form-item label="" prop="username">
+          <el-form label-width="50px" class="el-form-w" :model="formData" :rules="rules" ref="ruleForm">
+            <el-form-item label="账号" prop="username">
               <el-input v-model="formData.username" placeholder="请输入您的登录账号"></el-input>
             </el-form-item>
-            <el-form-item label="" prop="password">
-              <el-input @keydown.native="keydown" type="password" v-model="formData.password"
+            <el-form-item label="密码" prop="password">
+              <el-input style="border: 0" @keydown.native="keydown" type="password" v-model="formData.password"
                         placeholder="请输入你的登录密码"></el-input>
             </el-form-item>
             <el-form-item label="" prop="type">
@@ -57,11 +57,11 @@
             </el-form-item>
             <el-form-item label="密码" prop="password">
               <el-input @keydown.native="keydown" type="password" v-model="formData.password"
-                        placeholder="请输入你的登录密码"></el-input>
+                        placeholder="请输入您的登录密码"></el-input>
             </el-form-item>
             <el-form-item label="" prop="type">
               <el-checkbox-group v-model="isRemember">
-                <el-checkbox label="记住密码" name="type"></el-checkbox>
+                <el-checkbox class="remember-col" label="记住密码" name="type"></el-checkbox>
               </el-checkbox-group>
               <a class="forget" @click="recoverPassword">忘记密码</a>
             </el-form-item>
@@ -112,11 +112,11 @@
         isRemember: false,
         rules: {
           username: [
-            {required: true, message: '请输入你的登录账号', trigger: 'blur'},
+            {required: true, message: '请输入您的登录账号', trigger: 'blur'},
             ...chartLengthRule.defaultRule,
           ],
           password: [
-            {required: true, message: '请输入你的登录密码', trigger: 'blur'},
+            {required: true, message: '请输入您的登录密码', trigger: 'blur'},
             ...chartLengthRule.defaultRule,
           ],
         },
@@ -213,6 +213,9 @@
       getClient () {
         if (webStorage.getItem('client')) {
           this.client = webStorage.getItem('client')
+          if (this.client > 2) { // 这里主要是登录了微信client===3 后pc不能显示登陆页面
+            this.client = 1
+          }
           this.clientPathParam = this.client === 1 ? 'FE' : 'ME'
         } else {
           webStorage.setItem('client', this.client)
@@ -228,7 +231,7 @@
   }
 </script>
 
-<style scoped lang="scss" rel="stylesheet/scss">
+<style lang="scss" rel="stylesheet/scss">
   .sign-in {
     height: 100%;
     min-height: 800px;
@@ -239,13 +242,31 @@
     bottom: 0;
     left: 0;
   }
-
+  .remember-col {
+    .el-checkbox__input.is-checked + .el-checkbox__label {
+      color: #4F5F6F;
+    }
+    .el-checkbox__input.is-checked .el-checkbox__inner {
+      background-color: #4F5F6F;
+      border-color: #4F5F6F;
+    }
+    .el-checkbox__input.is-focus .el-checkbox__inner {
+      border-color: #4F5F6F;
+    }
+  }
+  .el-form-w {
+    .el-input__inner {
+      border: 0;
+      border-bottom: 1px solid #EAEAEA;
+      border-radius: 0;
+    }
+  }
   .client-1 {
     width: 100%;
     height: 100%;
     background-color: #FBFFFF;
     .sign-box {
-      width: 640px;
+      width: 820px;
       margin: 0px auto;
       padding-top: 100px;
       .logo-box {
@@ -264,9 +285,10 @@
       .sign-form-box {
         margin: 80px auto 0 auto;
         width: 100%;
-        padding: 50px 0;
+        padding: 80px 0;
         box-shadow: 0px 5px 5px #999999;
         border-top: 6px solid #4BCF99;
+        background-color: #fff;
         .forget {
           float: right;
           margin-top: -38px;
@@ -277,10 +299,13 @@
           margin: 0 auto;
         }
         .el-submit {
-          width: 50%;
-          margin-left: 90px;
+          width: 100%;
+          /*margin-left: 90px;*/
           background-color: #4BCF99;
           color: #fff;
+          height: 40px;
+          font-size: 14px;
+          border-radius: 4px;
           &:active {
             color: #FFF;
             border: 1px solid #4BCF99;
@@ -313,7 +338,7 @@
     height: 100%;
     background-color: #F0F3F6;
     .sign-box {
-      width: 640px;
+      width: 820px;
       margin: 0px auto;
       padding-top: 100px;
       .logo-box {
@@ -332,9 +357,10 @@
       .sign-form-box {
         margin: 80px auto 0 auto;
         width: 100%;
-        padding: 50px 0;
+        padding: 80px 0;
         box-shadow: 0px 5px 5px #999999;
         border-top: 6px solid #4F5F6F;
+        background-color: #fff;
         .el-form-w {
           width: 340px;
           margin: 0 auto;
@@ -348,6 +374,9 @@
           width: 100%;
           background-color: #4F5F6F;
           color: #fff;
+          height: 40px;
+          font-size: 14px;
+          border-radius: 4px;
           &:active {
             color: #FFF;
             border: 1px solid #4F5F6F;

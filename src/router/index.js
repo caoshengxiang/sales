@@ -170,7 +170,8 @@ const router = new Router({
     }, {
       path: '*',
       name: 'HelloWorld',
-      component: HelloWorld,
+      // component: HelloWorld,
+      redirect: '/FE/signIn',
       meta: {
         title: '404',
         pos: [{name: '404'}],
