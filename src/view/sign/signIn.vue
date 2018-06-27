@@ -449,6 +449,7 @@
     text-align: center;
     margin-top: 12px;
     padding-left: 60px;
+    font-size: 12px;
     a {
       color: #728395;
       cursor: pointer;
