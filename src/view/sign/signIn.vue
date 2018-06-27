@@ -7,7 +7,7 @@
           <span>众智联邦销售管理系统</span>
         </div>
         <div class="sign-form-box">
-          <el-form label-width="50px" class="el-form-w" :model="formData" :rules="rules" ref="ruleForm">
+          <el-form label-width="60px" class="el-form-w" :model="formData" :rules="rules" ref="ruleForm">
             <el-form-item label="账号" prop="username">
               <el-input v-model="formData.username" placeholder="请输入您的登录账号"></el-input>
             </el-form-item>
@@ -30,16 +30,16 @@
       </div>
       <div class="footer">
         <p>众智联邦销售管理平台 2017-2017 @凡特赛科技</p>
-        <div class="waveWrapper waveAnimation">
-          <div class="waveWrapperInner bgTop">
-            <div class="wave waveTop" style="background-image: url('../../../static/images/wave-top.png')"></div>
-          </div>
-          <div class="waveWrapperInner bgMiddle">
-            <div class="wave waveMiddle" style="background-image: url('../../../static/images/wave-mid.png')"></div>
-          </div>
-          <div class="waveWrapperInner bgBottom">
-            <div class="wave waveBottom" style="background-image: url('../../../static/images/wave-bot.png')"></div>
-          </div>
+      </div>
+      <div class="waveWrapper waveAnimation">
+        <div class="waveWrapperInner bgTop">
+          <div class="wave waveTop" style="background-image: url('../../../static/images/wave-top.png')"></div>
+        </div>
+        <div class="waveWrapperInner bgMiddle">
+          <div class="wave waveMiddle" style="background-image: url('../../../static/images/wave-mid.png')"></div>
+        </div>
+        <div class="waveWrapperInner bgBottom">
+          <div class="wave waveBottom" style="background-image: url('../../../static/images/wave-bot.png')"></div>
         </div>
       </div>
       <fe-element></fe-element>
@@ -51,7 +51,7 @@
           <span>众智联邦销企业资源管理系统</span>
         </div>
         <div class="sign-form-box">
-          <el-form label-width="50px" class="el-form-w" :model="formData" :rules="rules" ref="ruleForm">
+          <el-form label-width="60px" class="el-form-w" :model="formData" :rules="rules" ref="ruleForm">
             <el-form-item label="账号" prop="username">
               <el-input v-model="formData.username" placeholder="请输入您的登录账号"></el-input>
             </el-form-item>
@@ -74,16 +74,16 @@
       </div>
       <div class="footer">
         <p>众智联邦销售管理平台 2017-2017 @凡特赛科技</p>
-        <div class="waveWrapper waveAnimation">
-          <div class="waveWrapperInner bgTop">
-            <div class="wave waveTop" style="background-image: url('../../../static/images/wave-top-2.png')"></div>
-          </div>
-          <div class="waveWrapperInner bgMiddle">
-            <div class="wave waveMiddle" style="background-image: url('../../../static/images/wave-mid-2.png')"></div>
-          </div>
-          <div class="waveWrapperInner bgBottom">
-            <div class="wave waveBottom" style="background-image: url('../../../static/images/wave-bot-2.png')"></div>
-          </div>
+      </div>
+      <div class="waveWrapper waveAnimation">
+        <div class="waveWrapperInner bgTop">
+          <div class="wave waveTop" style="background-image: url('../../../static/images/wave-top-2.png')"></div>
+        </div>
+        <div class="waveWrapperInner bgMiddle">
+          <div class="wave waveMiddle" style="background-image: url('../../../static/images/wave-mid-2.png')"></div>
+        </div>
+        <div class="waveWrapperInner bgBottom">
+          <div class="wave waveBottom" style="background-image: url('../../../static/images/wave-bot-2.png')"></div>
         </div>
       </div>
       <me-element></me-element>
@@ -232,6 +232,11 @@
 </script>
 
 <style lang="scss" rel="stylesheet/scss">
+  input:-webkit-autofill {
+    background-color : #FFF;
+    background-image : none ;
+    color : #000 ;
+  }
   .sign-in {
     height: 100%;
     min-height: 800px;
@@ -245,10 +250,13 @@
   .remember-col {
     .el-checkbox__input.is-checked + .el-checkbox__label {
       color: #4F5F6F;
+      font-size: 12px;
     }
     .el-checkbox__input.is-checked .el-checkbox__inner {
       background-color: #4F5F6F;
       border-color: #4F5F6F;
+      width: 12px;
+      height: 12px;
     }
     .el-checkbox__input.is-focus .el-checkbox__inner {
       border-color: #4F5F6F;
@@ -264,12 +272,26 @@
   .client-1 {
     width: 100%;
     height: 100%;
-    background-color: #FBFFFF;
+    /*background-color: #FBFFFF;*/
     .el-form-item__label {
       color: #728395;
+      font-size: 14px;
+    }
+    .el-checkbox__label {
+      color: #728395;
+    }
+    .el-checkbox__input.is-checked + .el-checkbox__label {
+      color: #728395;
+      font-size: 12px;
+    }
+    .el-checkbox__input.is-checked .el-checkbox__inner {
+      background-color: #4BCF99;
+      border-color: #4BCF99;
+      width: 12px;
+      height: 12px;
     }
     .sign-box {
-      width: 820px;
+      width: 640px;
       margin: 0px auto;
       padding-top: 100px;
       .logo-box {
@@ -286,10 +308,10 @@
         }
       }
       .sign-form-box {
-        margin: 80px auto 0 auto;
+        margin: 66px auto 0 auto;
         width: 100%;
-        padding: 80px 0;
-        box-shadow: 0px 5px 5px #999999;
+        padding: 50px 0 34px 0px;
+        box-shadow: 0px 3px 5px #d3f2f2;
         border-top: 6px solid #4BCF99;
         background-color: #fff;
         .forget {
@@ -297,6 +319,7 @@
           margin-top: -38px;
           cursor: pointer;
           color: #4BCF99;
+          font-size: 12px;
         }
         .el-form-w {
           width: 340px;
@@ -326,11 +349,14 @@
       bottom: 0;
       width: 100%;
       text-align: center;
+      box-sizing: border-box;
+      overflow: hidden;
       p {
         position: absolute;
-        top: -20px;
+        top: -40px;
         width: 100%;
         text-align: center;
+        padding-left: 30px;
         font-size: 12px;
         color: #728395;
       }
@@ -340,12 +366,13 @@
   .client-2 {
     width: 100%;
     height: 100%;
-    background-color: #F0F3F6;
+    /*background-color: #F0F3F6;*/
     .el-form-item__label {
       color: #4F5F6F;
+      font-size: 14px;
     }
     .sign-box {
-      width: 820px;
+      width: 640px;
       margin: 0px auto;
       padding-top: 100px;
       .logo-box {
@@ -362,10 +389,10 @@
         }
       }
       .sign-form-box {
-        margin: 80px auto 0 auto;
+        margin: 66px auto 0 auto;
         width: 100%;
-        padding: 80px 0;
-        box-shadow: 0px 5px 5px #999999;
+        padding: 50px 0 34px 0px;
+        box-shadow: 0px 3px 5px #d1d6dc;
         border-top: 6px solid #4F5F6F;
         background-color: #fff;
         .el-form-w {
@@ -377,6 +404,7 @@
           margin-top: -38px;
           cursor: pointer;
           color: #4F5F6F;
+          font-size: 12px;
         }
         .el-submit {
           width: 100%;
@@ -400,10 +428,13 @@
       bottom: 0;
       width: 100%;
       text-align: center;
+      box-sizing: border-box;
+      overflow: hidden;
       p {
         position: absolute;
-        top: -20px;
+        top: -40px;
         width: 100%;
+        padding-left: 30px;
         text-align: center;
         font-size: 12px;
         color: #728395;
@@ -416,6 +447,8 @@
     /*right: 100px;*/
     /*bottom: 11%;*/
     text-align: center;
+    margin-top: 12px;
+    padding-left: 60px;
     a {
       color: #728395;
       cursor: pointer;
@@ -441,6 +474,7 @@
     bottom: 0;
     top: 0;
     margin: auto;
+    z-index: -10;
   }
   .waveWrapperInner {
     position: absolute;
