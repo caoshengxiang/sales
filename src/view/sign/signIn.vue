@@ -255,8 +255,19 @@
     .el-checkbox__input.is-checked .el-checkbox__inner {
       background-color: #4F5F6F;
       border-color: #4F5F6F;
-      width: 12px;
-      height: 12px;
+      /*width: 12px;*/
+      /*height: 12px;*/
+      transform: scale(0.85);
+    }
+    .el-checkbox__input + .el-checkbox__label {
+      color: #4F5F6F;
+      font-size: 12px;
+    }
+    .el-checkbox__input .el-checkbox__inner {
+      border-color: #4F5F6F;
+      /*width: 12px;*/
+      /*height: 12px;*/
+      transform: scale(0.85);
     }
     .el-checkbox__input.is-focus .el-checkbox__inner {
       border-color: #4F5F6F;
@@ -287,8 +298,18 @@
     .el-checkbox__input.is-checked .el-checkbox__inner {
       background-color: #4BCF99;
       border-color: #4BCF99;
-      width: 12px;
-      height: 12px;
+      /*width: 12px;*/
+      /*height: 12px;*/
+      transform: scale(0.85);
+    }
+    .el-checkbox__input + .el-checkbox__label {
+      color: #728395;
+      font-size: 12px;
+    }
+    .el-checkbox__input .el-checkbox__inner {
+      /*width: 12px;*/
+      /*height: 12px;*/
+      transform: scale(0.85);
     }
     .sign-box {
       width: 640px;
