@@ -1,5 +1,5 @@
 <template>
-  <div class="ql-editor contract" data-gramm="false" contenteditable="true">
+  <div class="ql-editor contract" data-gramm="false">
     <p><strong style="color: rgb(102, 102, 102);">版本号：2017-SC002&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;适用分次付款产品</strong>
     </p>
     <p><br></p>

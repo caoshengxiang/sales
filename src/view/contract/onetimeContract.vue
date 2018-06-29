@@ -1,5 +1,5 @@
 <template>
-  <div class="ql-editor contract" data-gramm="false" contenteditable="true">
+  <div class="ql-editor contract" data-gramm="false">
     <p>版本号：2017-SC001&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>适用于一次性付款类产品</strong>
     </p>
     <p class="ql-align-right"><br></p>
