@@ -95,6 +95,15 @@ export default {
         error && error(err)
       })
     },
+    contractSubjects (params, success, error) { // 查询商品签约主体列表
+      $axios.get('organizationGoodsConf/contractSubjects', {
+        params: params
+      }).then((res) => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+    },
   },
   login: {
 

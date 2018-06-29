@@ -370,8 +370,6 @@
       bottom: 0;
       width: 100%;
       text-align: center;
-      box-sizing: border-box;
-      overflow: hidden;
       p {
         position: absolute;
         top: -40px;
@@ -380,6 +378,7 @@
         padding-left: 30px;
         font-size: 12px;
         color: #728395;
+        box-sizing: border-box;
       }
     }
   }
@@ -449,8 +448,6 @@
       bottom: 0;
       width: 100%;
       text-align: center;
-      box-sizing: border-box;
-      overflow: hidden;
       p {
         position: absolute;
         top: -40px;
@@ -459,6 +456,7 @@
         text-align: center;
         font-size: 12px;
         color: #728395;
+        box-sizing: border-box;
       }
     }
   }

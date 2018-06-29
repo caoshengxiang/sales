@@ -59,12 +59,27 @@
                 </el-select>
               </el-form-item>
             </td>
+            <td class="td-title">签约主体</td>
+            <td class="td-text">
+              <el-form-item prop="contractSubjectId">
+                <el-select style="width: 100%" v-model.number="addForm.contractSubjectId"
+                           placeholder="请选择签约主体">
+                  <el-option v-for="item in contractSubjects" :key="item.id" :label="item.name"
+                             :value="item.id"></el-option>
+                </el-select>
+              </el-form-item>
+            </td>
+          </tr>
+          <tr>
             <td class="td-title">购买数量</td>
             <td class="td-text">
               <el-form-item prop="quantity">
                 <el-input-number style="width: 100%" v-model="addForm.quantity" :min="1" :max="10"
                                  label="请输入购买数量"></el-input-number>
               </el-form-item>
+            </td>
+            <td class="td-title"></td>
+            <td class="td-text">
             </td>
           </tr>
           <tr>
@@ -99,6 +114,7 @@
         chanceList: [], // 客户对应的机会列表
         contactList: [], // 客户对应的联系人列表
         productsList: [], // 产品【规格】列表
+        contractSubjects: [], // 签约主体
         allGoodsList: [],
         addForm: { // 添加表单
           customerId: '',
@@ -108,6 +124,7 @@
           productName: '',
           specificationId: '',
           specificationName: '',
+          contractSubjectId: '',
           quantity: '',
           remark: '',
         },
@@ -126,6 +143,9 @@
           // ],
           specificationId: [
             {required: true, message: '请选择购买规格', trigger: 'change'},
+          ],
+          contractSubjectId: [
+            {required: true, message: '请选择签约主体', trigger: 'change'},
           ],
           quantity: [
             {required: true, message: '请输入购买数量', trigger: 'blur'},
@@ -208,6 +228,13 @@
         this.addForm.specificationId = ''
         this.addForm.specificationName = ''
       },
+      getContractSubjects (id) {
+        API.common.contractSubjects({goodsId: id}, da => {
+          this.contractSubjects = da.data
+        })
+        // 清除签约主体
+        this.addForm.contractSubjectId = ''
+      },
       intentProductChange () { // 机会change
         this.chanceList.forEach(item => {
           if (item.id === this.addForm.chanceId) {
@@ -215,6 +242,8 @@
             this.addForm.productName = item.intentProductName
             // 对应的规格列表
             this.getProductsList(item.intentProductId)
+            // 对应的签约主体
+            this.getContractSubjects(item.intentProductId)
           }
         })
       },
@@ -226,6 +255,8 @@
         })
         // 对应的规格列表
         this.getProductsList(id)
+        // 对应的签约主体
+        this.getContractSubjects(id)
       },
       specificationChange () { // 规格change
         this.productsList.forEach(item => {
@@ -247,6 +278,7 @@
           productName: '',
           specificationId: '',
           specificationName: '',
+          contractSubjectId: '',
           quantity: '',
           remark: '',
         }
