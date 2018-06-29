@@ -120,9 +120,9 @@ export default {
     logout (params, success, error) {
       $axios.get('user/logout', {
         params: params,
-        headers: {
-          'authKey': utils.getwebStorage('userInfo').authKey,
-        },
+        // headers: {
+        //   'authKey': utils.getwebStorage('userInfo').authKey,
+        // },
       }).then((res) => {
         success && success(res.data)
       }).catch((err) => {
@@ -133,6 +133,15 @@ export default {
       $axios({
         method: 'post',
         url: 'user/password/edit',
+        params: params,
+      }).then((res) => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+    },
+    recoverPwd (params, success, error) {
+      $axios.get('user/password/reset', {
         params: params,
       }).then((res) => {
         success && success(res.data)

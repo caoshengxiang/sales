@@ -7,19 +7,20 @@
       </div>
       <div class="sign-form-box">
         <el-form label-width="0px" :model="formData" :rules="rules" ref="ruleForm">
-          <el-form-item label="" prop="phone">
-            <el-input class="phone" v-model.number="formData.phone" placeholder="请输入您的手机号"></el-input>
+          <el-form-item label="" prop="account">
+            <el-input class="account" v-model.number="formData.account" placeholder="请输入您的手机号"></el-input>
             <span class="code" v-if="time === 0" @click="getCode">获取验证码</span>
             <span class="code time" v-else>重新发送({{time}})</span>
           </el-form-item>
-          <el-form-item label="" prop="password">
-            <el-input v-model="formData.password" type="password" auto-complete="off" placeholder="请输入8-12新密码"></el-input>
+          <el-form-item label="" prop="newPwd">
+            <el-input v-model="formData.newPwd" type="password" auto-complete="off" placeholder="请输入8-12新密码"></el-input>
           </el-form-item>
           <el-form-item label="" prop="password2">
-            <el-input v-model="formData.password2" type="password" auto-complete="off" placeholder="请再次输入新密码"></el-input>
+            <el-input v-model="formData.password2" type="password" auto-complete="off"
+                      placeholder="请再次输入新密码"></el-input>
           </el-form-item>
-          <el-form-item label="" prop="verificationCode">
-            <el-input v-model="formData.verificationCode" placeholder="请输入您收到的验证码"></el-input>
+          <el-form-item label="" prop="authCode">
+            <el-input type="number" v-model="formData.authCode" placeholder="请输入您收到的验证码"></el-input>
           </el-form-item>
 
           <el-form-item>
@@ -45,6 +46,9 @@
 <script>
   import { chartLengthRule } from '../../utils/const'
   import feElement from '../../components/feElement'
+  import API from '../../utils/api'
+  import webStorage from 'webStorage'
+  import sha1 from 'js-sha1'
 
   export default {
     name: 'recoverPassword',
@@ -52,7 +56,7 @@
       let validatePass2 = (rule, value, callback) => {
         if (value === '') {
           callback(new Error('请再次输入新密码'))
-        } else if (value !== this.formData.password) {
+        } else if (value !== this.formData.newPwd) {
           callback(new Error('两次密码输入不一致!'))
         } else {
           callback()
@@ -62,18 +66,18 @@
         time: 0,
         timer: '',
         formData: {
-          phone: '',
-          password: '',
+          account: '',
+          newPwd: '',
           password2: '',
-          verificationCode: '',
+          authCode: '',
         },
         isRemember: false,
         rules: {
-          phone: [
+          account: [
             // {required: true, message: '请输入手机号', trigger: 'blur'},
-           chartLengthRule.validatePhone,
+            chartLengthRule.validatePhone,
           ],
-          password: [
+          newPwd: [
             {required: true, message: '请输入新密码', trigger: 'blur'},
             ...chartLengthRule.defaultRule,
             {min: 8, max: 12, message: '长度为 8-12 个字符', trigger: 'blur'},
@@ -84,7 +88,7 @@
             ...chartLengthRule.defaultRule,
             {min: 8, max: 12, message: '长度为 8-12 个字符', trigger: 'blur'},
           ],
-          verificationCode: [
+          authCode: [
             {required: true, message: '请输入短信验证码', trigger: 'blur'},
             ...chartLengthRule.defaultRule,
             {min: 6, max: 6, message: '长度为 6 个字符', trigger: 'blur'},
@@ -93,13 +97,23 @@
       }
     },
     components: {
-      feElement
+      feElement,
     },
     methods: {
       submitForm (formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            this.signIn()
+            API.login.recoverPwd(Object.assign({
+              client: webStorage.getItem('client'),
+              account: sha1(this.formData.account),
+              newPwd: sha1(this.formData.newPwd),
+              authCode: this.formData.authCode,
+            }), da => {
+              if (da.status) {
+                this.$message.success('密码找回成功！')
+                this.signIn()
+              }
+            })
           } else {
             console.log('error submit!!')
             return false
@@ -109,16 +123,36 @@
       signIn () {
         this.$router.push({name: 'signIn', params: {end: 'FE'}})
       },
+      validatePhone (value) { // 自定义规则验证手机号
+        let regPhone = /^1[3,4,5,7,8][0-9]{9}$/
+        if (value === '') {
+          return '请输入您的手机号'
+        } else if (!regPhone.test(value)) {
+          return '请输入有效手机号!'
+        } else {
+          return 'ok'
+        }
+      },
       getCode () {
-        this.time = 60
-        this.timer = setInterval(() => {
-          this.time--
-          if (this.time <= 0) {
-            clearInterval(this.timer)
-            this.time = 0
-          }
-        }, 1000)
-      }
+        let vp = this.validatePhone(this.formData.account)
+        if (vp === 'ok') {
+          this.time = 60
+          this.timer = setInterval(() => {
+            this.time--
+            if (this.time <= 0) {
+              clearInterval(this.timer)
+              this.time = 0
+            }
+          }, 1000)
+          API.user.userAuthcode({mobile: this.formData.account}, (da) => {
+            if (da.data > 0) {
+              this.$message.success('验证码已发送至您的手机，请查收。')
+            }
+          })
+        } else {
+          this.$message.warning(vp)
+        }
+      },
     },
   }
 </script>
@@ -148,7 +182,7 @@
     .sign-form-box {
       margin: 80px auto 0 auto;
       width: 340px;
-      .phone {
+      .account {
         position: relative;
       }
       .code {

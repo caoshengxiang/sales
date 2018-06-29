@@ -40,6 +40,7 @@
   import feElement from '../../components/feElement'
   import API from '../../utils/api'
   import sha1 from 'js-sha1'
+  import webStorage from 'webStorage'
 
   export default {
     name: 'recoverPassword',
@@ -94,6 +95,7 @@
               account: this.formData.phone,
               pwd: sha1(this.formData.oldpassword),
               newPwd: sha1(this.formData.password),
+              client: webStorage.getItem('client')
             }
             API.login.resetPwd(params, (res) => {
               this.loading = false

@@ -244,6 +244,7 @@
               account: this.ruleForm2.account,
               pwd: sha1(this.ruleForm2.pwd),
               newPwd: sha1(this.ruleForm2.newPwd),
+              client: webStorage.getItem('client')
             }, (da) => {
               if (da.status) {
                 this.$message.success('保存成功')
