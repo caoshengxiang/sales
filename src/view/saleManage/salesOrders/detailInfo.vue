@@ -110,36 +110,22 @@
             <table class="detail-table related-table">
               <tr>
                 <!--todo 7 个 th-->
-                <th class="td-title">所在公海</th>
-                <th class="td-title">所在公海</th>
-                <th class="td-title">所在公海</th>
-                <th class="td-title">所在公海</th>
-                <th class="td-title">所在公海</th>
-                <th class="td-title">所在公海</th>
+                <th class="td-title">款项名称</th>
+                <th class="td-title">计划回款金额</th>
+                <th class="td-title">是否回款</th>
+                <th class="td-title">回款金额</th>
+                <th class="td-title">回款时间</th>
+                <th class="td-title">审核状态</th>
+                <th class="td-title">审核时间</th>
               </tr>
-              <tr>
-                <td>客户创建时间</td>
-                <td>2018.11.12 12:12:12</td>
-                <td>创建人</td>
-                <td>创建人</td>
-                <td>创建人</td>
-                <td>test</td>
-              </tr>
-              <tr>
-                <td>客户创建时间</td>
-                <td>2018.11.12 12:12:12</td>
-                <td>创建人</td>
-                <td>创建人</td>
-                <td>创建人</td>
-                <td>test</td>
-              </tr>
-              <tr>
-                <td>客户创建时间</td>
-                <td>2018.11.12 12:12:12</td>
-                <td>创建人</td>
-                <td>创建人</td>
-                <td>创建人</td>
-                <td>test</td>
+              <tr v-for="item in refundRecordList" :key="item.id">
+                <td>{{item.name}}</td>
+                <td>{{item.receivable}}</td>
+                <td></td>
+                <td>{{item.netReceipts}}</td>
+                <td>{{item.refundDate && $moment(item.refundDate).format('YYYY-MM-DD HH:mm:ss')}}</td>
+                <td>{{item.refundStatus}}</td>
+                <td>{{item.auditTime && $moment(item.auditTime).format('YYYY-MM-DD HH:mm:ss')}}</td>
               </tr>
             </table>
 
@@ -150,36 +136,14 @@
             </p>
             <table class="detail-table related-table">
               <tr>
-                <th class="td-title">所在公海</th>
-                <th class="td-title">所在公海</th>
-                <th class="td-title">所在公海</th>
-                <th class="td-title">所在公海</th>
-                <th class="td-title">所在公海</th>
-                <th class="td-title">所在公海</th>
+                <th class="td-title">销售机会开发人</th>
+                <th class="td-title">销售机会跟单人</th>
+                <th class="td-title">销售机会咨询师</th>
               </tr>
               <tr>
-                <td>客户创建时间</td>
-                <td>2018.11.12 12:12:12</td>
-                <td>创建人</td>
-                <td>创建人</td>
-                <td>创建人</td>
-                <td>test</td>
-              </tr>
-              <tr>
-                <td>客户创建时间</td>
-                <td>2018.11.12 12:12:12</td>
-                <td>创建人</td>
-                <td>创建人</td>
-                <td>创建人</td>
-                <td>test</td>
-              </tr>
-              <tr>
-                <td>客户创建时间</td>
-                <td>2018.11.12 12:12:12</td>
-                <td>创建人</td>
-                <td>创建人</td>
-                <td>创建人</td>
-                <td>test</td>
+                <td>{{orderDetail.team.creatorName && orderDetail.team.creatorName + '[' + orderDetail.team.creatorMobilePhone + ']'}}</td>
+                <td>{{orderDetail.team.salerName && orderDetail.team.salerName + '[' + orderDetail.team.salerMobilePhone + ']'}}</td>
+                <td>{{orderDetail.team.counselorName && orderDetail.team.counselorName + '['  + orderDetail.team.salerMobilePhone + ']'}}</td>
               </tr>
             </table>
           </el-tab-pane>
@@ -253,6 +217,7 @@
         orderDetail: {
           team: {}
         },
+        refundRecordList: [],
       }
     },
     computed: {
@@ -356,6 +321,9 @@
             this.dataLoading = false
             if (data.status) {
               this.orderDetail = data.data
+              if (data.data.orderId) { // 生成了订单才有
+                this.getRefundRecord(data.data.orderId)
+              }
             }
           }, 500)
         }, (data) => {
@@ -363,6 +331,11 @@
           this.dataLoading = false
         })
       },
+      getRefundRecord (orderId) {
+        API.refundRecord.list({orderId: orderId}, da => {
+          this.refundRecordList = da.data.content
+        })
+      }
     },
     created () {
       this.activeViewName = this.$route.query.view

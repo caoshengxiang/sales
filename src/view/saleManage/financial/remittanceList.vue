@@ -1,18 +1,18 @@
 <template>
-  <div class="com-container">
+  <div class="com-container" v-loading="dataLoading">
     <!--头部-->
     <div class="com-head">
       <el-breadcrumb separator-class="el-icon-arrow-right">
-        <!--<el-breadcrumb-item :to="{ name: 'saleHome' }">销售管理系统</el-breadcrumb-item>-->
-        <!--<el-breadcrumb-item>财务管理</el-breadcrumb-item>-->
-        <!--<el-breadcrumb-item>佣金结算管理</el-breadcrumb-item>-->
-        <el-breadcrumb-item v-for="item in $route.meta.pos" :key="item.toName" :to="{name: item.toName}">{{item.name}}</el-breadcrumb-item>
+        <el-breadcrumb-item v-for="item in $route.meta.pos" :key="item.toName" :to="{name: item.toName}">{{item.name}}
+        </el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <!--控制栏-->
     <div class="com-bar">
       <div class="com-bar-left">
-        <com-button buttonType="add" @click="addHandle">完成审核</com-button>
+        <!--<com-button buttonType="add" @click="addHandle">完成审核</com-button>-->
+        <br>
+        <br>
       </div>
       <div class="com-bar-right">
         <el-select v-model="value" placeholder="请选择" class="com-el-select" style="width:180px">
@@ -23,224 +23,360 @@
             :value="item.value">
           </el-option>
         </el-select>
-        <!--<com-button buttonType="search">搜索</com-button>-->
+        <com-button buttonType="search" @click="searchHandle">搜索</com-button>
+        <com-button buttonType="search" @click="advancedSearchHandle" style="">高级搜索</com-button>
       </div>
     </div>
     <!--详细-->
-        <div class="com-box com-box-padding com-list-box">
-          <el-table
-            ref="multipleTable"
-            border
-            :data="tableData"
-            tooltip-effect="dark"
-            style="width: 100%"
-          >
-            <el-table-column
-              fixed
-              type="selection"
-              align="center"
-              prop="id"
-              reserve-selection=""
-              width="40">
-            </el-table-column>
+    <div class="com-box com-box-padding com-list-box">
+      <el-table
+        ref="multipleTable"
+        border
+        stripe
+        :data="refundRecordList"
+        tooltip-effect="dark"
+        style="width: 100%"
+        @sort-change="sortChangeHandle"
+        @selection-change="handleSelectionChange"
+      >
+        <el-table-column
+          fixed
+          type="selection"
+          align="center"
+          prop=""
+          reserve-selection=""
+          width="40">
+        </el-table-column>
         <el-table-column
           align="center"
           label="来自订单"
-          prop="name"
-          width="90"
+          prop="orderId"
+          width="140"
+          sortable="custom"
+          show-overflow-tooltip
         >
+          <template slot-scope="scope">
+            <router-link class="col-link" :to="{name: 'salesOrdersDetail', query: {view:'detail', id: scope.row.orderId}}">
+              {{ scope.row.orderId }}
+            </router-link>
+          </template>
         </el-table-column>
         <el-table-column
           align="center"
-          prop="name"
+          prop="customerName"
           label="来自客户"
           width="115px"
+          sortable="custom"
+          show-overflow-tooltip
         >
         </el-table-column>
         <el-table-column
           align="center"
-          prop="address"
+          prop="contacterName"
           label="客户联系人"
           width="115"
+          sortable="custom"
           show-overflow-tooltip>
         </el-table-column>
         <el-table-column
           align="center"
           label="订单销售商品"
-          width="120"
-          >
-          <template slot-scope="scope">{{ scope.row.date }}</template>
+          width="140"
+          sortable="custom"
+          prop="productName"
+          show-overflow-tooltip
+        >
         </el-table-column>
-            <el-table-column
-              align="center"
-              prop="address"
-              label="商品规格数量"
-              width="120"
-              show-overflow-tooltip>
-            </el-table-column>
+        <el-table-column
+          align="center"
+          prop="quantity"
+          label="商品规格数量"
+          width="120"
+          sortable="custom"
+          show-overflow-tooltip>
+        </el-table-column>
         <el-table-column
           align="center"
           prop="name"
           label="款项名称"
-          width="90"
-          >
+          width="100"
+          sortable="custom"
+          show-overflow-tooltip
+        >
         </el-table-column>
-            <el-table-column
-              align="center"
-              label="回款金额"
-              width="90"
-            >
-              <template slot-scope="scope">{{ scope.row.date }}</template>
-            </el-table-column>
+        <el-table-column
+          align="center"
+          label="回款金额"
+          width="100"
+          sortable="custom"
+          prop="netReceipts"
+          show-overflow-tooltip
+        >
+        </el-table-column>
         <el-table-column
           align="center"
           label="回款日期"
-          width="90"
-      >
-          <template slot-scope="scope">{{ scope.row.date }}</template>
+          width="120"
+          sortable="custom"
+          show-overflow-tooltip
+        >
+          <template slot-scope="scope">
+            {{ scope.row.refundDate && $moment(scope.row.refundDate).format('YYYY-MM-DD HH:mm') }}
+          </template>
         </el-table-column>
         <el-table-column
           align="center"
-          prop="name"
+          prop="refundStatus"
           label="回款审核状态"
           width="120"
+          sortable="custom"
+          show-overflow-tooltip
         >
         </el-table-column>
         <el-table-column
           align="center"
-          prop="name"
+          prop=""
           label="审核日期"
-          width="90"
+          width="120"
+          sortable="custom"
+          show-overflow-tooltip
         >
+          <template slot-scope="scope"></template>
         </el-table-column>
-          <el-table-column
-            align="center"
-            prop="name"
-            label="是否续费"
-            width="90"
-          >
-          </el-table-column>
-
-          <el-table-column
-            align="center"
-            prop="name"
-            label="返佣方式"
-            width="90"
-          >
-          </el-table-column>
-
-            <el-table-column
-              align="center"
-              prop="name"
-              label="返佣主体"
-              width="90"
-            >
-            </el-table-column>
         <el-table-column
           align="center"
-          prop="name"
+          prop="isRenew"
+          label="是否续费"
+          width="100"
+          sortable="custom"
+          show-overflow-tooltip
+        >
+          <template slot-scope="scope">{{scope.row.isRenew?'是':'否'}}</template>
+        </el-table-column>
+
+        <el-table-column
+          align="center"
+          prop="rebateType"
+          label="返佣方式"
+          width="100"
+          sortable="custom"
+          show-overflow-tooltip
+        >
+          <template slot-scope="scope">{{scope.row.rebateType===1?'分子公司独立结':'平台结算'}}</template>
+        </el-table-column>
+
+        <el-table-column
+          align="center"
+          prop="rebateSubjectName"
+          label="返佣主体"
+          width="100"
+          sortable="custom"
+          show-overflow-tooltip
+        >
+        </el-table-column>
+        <!--销售人员-->
+        <el-table-column
+          align="center"
+          prop=""
           label="销售人员"
         >
           <el-table-column
             align="center"
-            prop="name"
+            prop=""
             label="需求所有人"
             width="115"
           >
+            <el-table-column
+              align="center"
+              prop="ownerName"
+              label="名称"
+              width="115"
+              sortable="custom"
+              show-overflow-tooltip
+            ></el-table-column>
+            <el-table-column
+              align="center"
+              prop="ownerCommission"
+              label="金额"
+              width="90"
+              sortable="custom"
+              show-overflow-tooltip
+            ></el-table-column>
           </el-table-column>
+          <!---->
           <el-table-column
             align="center"
-            prop="name"
+            prop=""
             label="销售跟进人"
-            width="115"
           >
-        </el-table-column>
+            <el-table-column
+              align="center"
+              prop="followerName"
+              label="名称"
+              width="115"
+              sortable="custom"
+              show-overflow-tooltip
+            ></el-table-column>
+            <el-table-column
+              align="center"
+              prop="followerCommission"
+              label="金额"
+              width="90"
+              sortable="custom"
+              show-overflow-tooltip
+            ></el-table-column>
+          </el-table-column>
+          <!---->
           <el-table-column
             align="center"
-            prop="name"
+            prop=""
             label="销售咨询师"
-            width="115"
           >
+            <el-table-column
+              align="center"
+              prop="counselorName"
+              label="名称"
+              width="115"
+              sortable="custom"
+              show-overflow-tooltip
+            ></el-table-column>
+            <el-table-column
+              align="center"
+              prop="counselorCommission"
+              label="金额"
+              width="90"
+              sortable="custom"
+              show-overflow-tooltip
+            ></el-table-column>
           </el-table-column>
         </el-table-column>
+        <!--管理人员-->
         <el-table-column
           align="center"
-          prop="name"
+          prop=""
           label="管理人员"
         >
-
           <el-table-column
             align="center"
-            prop="name"
+            prop=""
             label="大区总监"
-            width="90"
           >
+            <el-table-column
+              align="center"
+              prop="regionChiefName"
+              label="名称"
+              width="100"
+              sortable="custom"
+              show-overflow-tooltip
+            ></el-table-column>
+            <el-table-column
+              align="center"
+              prop="regionChiefCommission"
+              label="金额"
+              width="90"
+              sortable="custom"
+              show-overflow-tooltip
+            ></el-table-column>
           </el-table-column>
+          <!---->
           <el-table-column
             align="center"
-            prop="name"
-            label="金额"
-            width="90"
-          >
-          </el-table-column>
-
-          <el-table-column
-            align="center"
-            prop="name"
+            prop=""
             label="区域经理"
-            width="90"
           >
+            <el-table-column
+              align="center"
+              prop="areaManagerName"
+              label="名称"
+              width="100"
+              sortable="custom"
+              show-overflow-tooltip
+            >
+            </el-table-column>
+            <el-table-column
+              align="center"
+              prop="areaManagerCommission"
+              label="金额"
+              width="90"
+              sortable="custom"
+              show-overflow-tooltip
+            >
+            </el-table-column>
           </el-table-column>
+          <!---->
           <el-table-column
             align="center"
-            prop="name"
-            label="金额"
-            width="90"
-          >
-          </el-table-column>
-
-          <el-table-column
-            align="center"
-            prop="name"
+            prop="trainerName"
             label="培训师"
-            width="90"
           >
+            <el-table-column
+              align="center"
+              prop="trainerName"
+              label="名称"
+              width="90"
+              sortable="custom"
+              show-overflow-tooltip
+            >
+            </el-table-column>
+            <el-table-column
+              align="center"
+              prop="trainerCommission"
+              label="金额"
+              width="90"
+              sortable="custom"
+              show-overflow-tooltip
+            >
+            </el-table-column>
           </el-table-column>
+          <!---->
           <el-table-column
             align="center"
-            prop="name"
-            label="金额"
-            width="90"
-          >
-          </el-table-column>
-
-          <el-table-column
-            align="center"
-            prop="name"
+            prop="assistantName"
             label="销售助理"
-            width="90"
           >
+            <el-table-column
+              align="center"
+              prop="assistantName"
+              label="名称"
+              width="100"
+              sortable="custom"
+              show-overflow-tooltip
+            >
+            </el-table-column>
+            <el-table-column
+              align="center"
+              prop="assistantCommission"
+              label="金额"
+              width="90"
+              sortable="custom"
+              show-overflow-tooltip
+            >
+            </el-table-column>
           </el-table-column>
+          <!---->
           <el-table-column
             align="center"
-            prop="name"
-            label="金额"
-            width="90"
-          >
-          </el-table-column>
-          <el-table-column
-            align="center"
-            prop="name"
+            prop="deputyManagerName"
             label="营销副总"
-            width="90"
           >
-          </el-table-column>
-          <el-table-column
-            align="center"
-            prop="name"
-            label="金额"
-            width="90"
-          >
+            <el-table-column
+              align="center"
+              prop="deputyManagerName"
+              label="名称"
+              width="100"
+              sortable="custom"
+              show-overflow-tooltip
+            >
+            </el-table-column>
+            <el-table-column
+              align="center"
+              prop="deputyManagerCommission"
+              label="金额"
+              width="90"
+              sortable="custom"
+              show-overflow-tooltip
+            >
+            </el-table-column>
           </el-table-column>
 
         </el-table-column>
@@ -250,7 +386,7 @@
     <div class="com-pages-box">
       <el-pagination
         background
-        :total="1000"
+        :total="refundRecordListTotal"
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
         :current-page="currentPage"
@@ -265,51 +401,41 @@
 <script>
   import { mapState } from 'vuex'
   import comButton from '../../../components/button/comButton'
+  import API from '../../../utils/api'
+  import { underscoreName } from '../../../utils/utils'
+  import advancedSearch from './advancedSearch'
 
   export default {
     name: 'list',
     data () {
       return {
+        dataLoading: false,
         options: [
           {
-            value: 1,
+            value: null,
             label: '全部汇款记录',
           }, {
-            value: 2,
+            value: 1,
             label: '我负责的订单汇款记录',
           }, {
-            value: 3,
+            value: 2,
             label: '我参与的订单汇款记录',
           }, {
             value: 3,
             label: '我跟单的订单汇款记录',
           }],
-        value: 1,
-        tableData: [
-          {
-            customerName: '成都凡特塞科技有限公司',
-            businessLicense: '',
-            date: '2016-05-03',
-            name: '王小虎',
-            address: '上海市普陀区金沙江路 1518 弄',
-            status: 1
-          }, {
-            customerName: '成都凡特塞科技有限公司',
-            businessLicense: '',
-            date: '2016-05-03',
-            name: '王小虎',
-            address: '上海市普陀区金沙江路 1518 弄',
-            status: 2
-          }, {
-            customerName: '成都凡特塞科技有限公司',
-            businessLicense: '',
-            date: '2016-05-03',
-            name: '王小虎',
-            address: '上海市普陀区金沙江路 1518 弄',
-            status: 3
-          }],
+        value: null,
+        refundRecordList: [],
+        refundRecordListTotal: 0,
         multipleSelection: [],
         currentPage: 1,
+        defaultListParams: { // 默认列表请求参数
+          page: null,
+          pageSize: null,
+          type: null,
+        },
+        sortObj: null, // 排序
+        advancedSearch: null, // 高级搜索
       }
     },
     computed: {
@@ -334,22 +460,77 @@
         console.log(`每页 ${val} 条`)
       },
       handleCurrentChange (val) {
-        console.log(`当前页: ${val}`)
+        this.currentPage = val
+        this.getRefundRecord()
+        // console.log(`当前页: ${val}`)
       },
       handleRouter (name) {
         this.$router.push({name: 'taskApprovalDetail', params: {end: 'FE'}, query: {view: name}})
       },
+      getQueryParams () { // 请求参数配置
+        this.defaultListParams = {
+          page: this.currentPage - 1,
+          pageSize: this.pagesOptions.pageSize,
+          type: this.value,
+        }
+      },
+      getRefundRecord () {
+        this.getQueryParams()
+        this.dataLoading = true
+        API.refundRecord.list(Object.assign({}, this.defaultListParams, this.sortObj, this.advancedSearch), da => {
+          this.refundRecordList = da.data.content
+          this.refundRecordListTotal = da.data.totalElements
+          setTimeout(() => {
+            this.dataLoading = false
+          }, 300)
+        })
+      },
+      sortChangeHandle (sortObj) {
+        // console.log(sortObj)
+        let order = null
+        if (sortObj.order === 'ascending') {
+          order = 'asc'
+        } else if (sortObj.order === 'descending') {
+          order = 'desc'
+        }
+        this.sortObj = {sort: underscoreName(sortObj.prop) + ',' + order}
+        this.getRefundRecord()
+      },
+      searchHandle () {
+        this.currentPage = 1
+        this.getRefundRecord()
+      },
+      advancedSearchHandle () {
+        this.$vDialog.modal(advancedSearch, {
+          title: '高级搜索',
+          width: 900,
+          height: 600,
+          params: {},
+          callback: (data) => {
+            if (data.type === 'search') {
+              console.log('高级搜索数据：', data.params)
+              this.advancedSearch = data.params
+              this.getRefundRecord()
+            }
+          },
+        })
+      },
+    },
+    created () {
+      this.getRefundRecord()
     },
   }
 </script>
 
 <style scoped lang="scss" rel="stylesheet/scss">
   @import "../../../styles/common";
+
   .link {
     color: #00A7FE;
     text-decoration: underline;
     cursor: pointer;
   }
+
   .button {
     padding: 5px 10px;
     color: #fff;

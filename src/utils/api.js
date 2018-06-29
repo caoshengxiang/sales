@@ -1140,4 +1140,16 @@ export default {
       })
     },
   },
+  // 回款
+  refundRecord: {
+    list (params, success, error) { // 获取回款记录列表
+      $axios.get('refundRecord', {
+        params: params
+      }).then(res => {
+        success && success(res.data)
+      }).catch(err => {
+        error && error(err)
+      })
+    }
+  }
 }
