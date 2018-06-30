@@ -55,6 +55,45 @@
                 >
                 </el-option>
               </el-select>
+
+            </el-form-item>
+          </el-col>
+
+          <el-col :span="8">
+          <el-form-item  label="用户性别：">
+            <el-select v-model.number="searchForm.sex" placeholder="请选择员工性别">
+              <el-option label="男" value="男"></el-option>
+              <el-option label="女" value="女"></el-option>
+            </el-select>
+          </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="8">
+            <el-form-item  label="用户角色：">
+            <el-select v-model="searchForm.roleId"  placeholder="请选择角色职能">
+              <el-option
+                v-for="item in allroles"
+                :key="item.id"
+                :label="item.name"
+                :value="item.id">
+              </el-option>
+            </el-select>
+            </el-form-item>
+
+          </el-col>
+
+          <el-col :span="16">
+            <el-form-item label="出生日期：">
+              <el-date-picker
+                v-model="timeInterval"
+                type="daterange"
+                value-format="yyyy-MM-dd"
+                @change="timeIntervalHandle"
+                range-separator="至"
+                start-placeholder="开始日期"
+                end-placeholder="结束日期">
+              </el-date-picker>
             </el-form-item>
           </el-col>
         </el-row>
@@ -100,14 +139,24 @@
           startAuditTime: null, // 审核时间下限
           endAuditTime: null,
           organizationId: null,
+          sex:'',
+          roleId:null,
+          startDate: null,
+          endDate: null,
         },
         organizationOptions: [], // 组织列表
         timeIntervalRefundDate: '',
         timeIntervalAuditTime: '',
+        allroles:[],
+        timeInterval: ''
       }
     },
     props: ['params'],
     methods: {
+      timeIntervalHandle (value) {
+        this.searchForm.startDate = value[0] || ''
+        this.searchForm.endDate = value[1] || ''
+      },
       selectedOptionsHandleChange (value) {
         var that = this
         that.organizationId  = value
@@ -141,7 +190,20 @@
       },
     },
     created () {
-      this.getOrganization({pid: 1})
+      var that = this
+      that.getOrganization({pid: 1})
+      let params = {
+        page: 1,
+        pageSize: 999,
+      }
+      API.user.roleList(params, (res) => {
+        that.allroles = res.data
+      }, (mock) => {
+        that.allroles = mock.data
+        that.dataLoading = false
+      })
+
+
     },
   }
 </script>
