@@ -7,6 +7,7 @@
         border
         :data="tableData"
         tooltip-effect="dark"
+        show-summary
         style="width: 100%"
       >
         <el-table-column

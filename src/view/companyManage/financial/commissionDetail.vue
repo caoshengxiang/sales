@@ -8,6 +8,7 @@
         :data="tableData"
         tooltip-effect="dark"
         style="width: 100%"
+        show-summary
       >
         <el-table-column
           align="center"

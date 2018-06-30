@@ -11,7 +11,7 @@
     <!--控制栏-->
     <div class="com-bar">
       <div class="com-bar-left">
-        <com-button buttonType="add" @click="addHandle">完成审核</com-button>
+        <com-button buttonType="add" @click="auditCheck">完成审核</com-button>
       </div>
       <div class="com-bar-right">
         <el-form :model="searchForm" inline>
@@ -44,6 +44,7 @@
         :data="tableData"
         tooltip-effect="dark"
         style="width: 100%"
+        @selection-change="handleSelectionChange"
       >
         <el-table-column
           fixed
@@ -193,7 +194,7 @@
     <div class="com-pages-box">
       <el-pagination
         background
-        :total="1000"
+        :total="totle"
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
         :current-page="currentPage"
@@ -220,6 +221,7 @@
     name: 'list',
     data () {
       return {
+        totle:0,
         clearState: [ // 订单状态
           {
             type: 1,
@@ -285,6 +287,33 @@
 
   },
     methods: {
+      auditCheck(){
+        var that = this;
+        if(that.multipleSelection.length === 0){
+          return
+        }
+
+        API.financial.audit(that.multipleSelection, (res) => {
+          that.loading = false
+          if (res.status) {
+            that.getCommissionClear();
+          } else {
+            Message({
+              message: res.error.message,
+              type: 'error',
+            })
+          }
+        }, (mock) => {
+          that.loading = false
+          Message({
+            message: '系统繁忙，请稍后再试！',
+            type: 'error',
+          })
+        })
+      },
+      handleSelectionChange (val) {
+        this.multipleSelection = val
+      },
       saleCommission(row,type){
         var that = this
         if(type === 1){
@@ -378,6 +407,7 @@
           that.loading = false
           if (res.status) {
             that.tableData = res.data.content
+            that.totle = res.data.totalElements
           } else {
             Message({
               message: res.error.message,

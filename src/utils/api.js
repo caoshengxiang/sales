@@ -1104,6 +1104,17 @@ export default {
     },
   },
   financial:{
+    queryPaymentList (params, success, error) {
+      $axios({
+        method: 'get',
+        url: 'commissionPayment',
+        params: params,
+      }).then((res) => {
+        success && success(res.data)
+      }).catch((errorData) => {
+        error && error(errorData)
+      })
+    },
     queryList (params, success, error) {
       $axios({
         method: 'get',
@@ -1120,6 +1131,17 @@ export default {
         method: 'get',
         url: 'commissionClearDetail',
         params: params,
+      }).then((res) => {
+        success && success(res.data)
+      }).catch((errorData) => {
+        error && error(errorData)
+      })
+    },
+    audit (params, success, error) {
+      $axios({
+        method: 'put',
+        url: 'commissionClear/audit',
+        data: params,
       }).then((res) => {
         success && success(res.data)
       }).catch((errorData) => {
