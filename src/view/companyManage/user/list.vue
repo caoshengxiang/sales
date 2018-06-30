@@ -29,18 +29,19 @@
       </div>
       <div class="com-bar-right" style="float: right">
         <com-button buttonType="search" @click="searchHandle">搜索</com-button>
+        <com-button buttonType="search" @click="advancedSearchHandle" style="">高级搜索</com-button>
       </div>
-      <div class="com-bar-right" style="float: right">
-        <el-select v-model.number="form.organizationId" @change="selectedOptionsHandleChange" placeholder="请选择人员组织"
-                   style="width: 140px">
-          <el-option
-            v-for="item in allorganization"
-            :key="item.id"
-            :label="item.name"
-            :value="item.id"
-          >
-          </el-option>
-        </el-select>
+        <div class="com-bar-right" style="float: right">
+          <el-select v-model.number="form.organizationId" @change="selectedOptionsHandleChange" placeholder="请选择人员组织"
+                     style="width: 140px">
+            <el-option
+              v-for="item in allorganization"
+              :key="item.id"
+              :label="item.name"
+              :value="item.id"
+            >
+            </el-option>
+          </el-select>
         <el-cascader
           placeholder="请选择人员部门"
           :change-on-select="true"
@@ -194,6 +195,7 @@
   import API from '../../../utils/api'
   import { mapState, mapActions } from 'vuex'
   import addDialog from './addDialog'
+  import advancedSearch from './advancedSearch'
 
   export default {
     name: 'list',
@@ -237,6 +239,7 @@
     components: {
       comButton,
       addDialog,
+      advancedSearch
     },
     props: ['params'],
     created () {
@@ -255,6 +258,24 @@
       })
     },
     methods: {
+      advancedSearchHandle () {
+        this.$vDialog.modal(advancedSearch, {
+          title: '高级搜索',
+          width: 900,
+          height: 460,
+          params: {
+            salesState: this.salesState,
+            demandSource: this.demandSource,
+          },
+          callback: (data) => {
+            if (data.type === 'search') {
+              console.log('高级搜索数据：', data.params)
+              this.advancedSearch = data.params
+              this.getSalesOpportunititeisList()
+            }
+          },
+        })
+      },
       selecteddptHandleChange (value) {
         this.form.departmentId = value[value.length - 1] // 取当前选中的部门
       },
