@@ -26,7 +26,7 @@
           </el-form-item>
           <el-form-item>
             <el-select v-model="searchForm.clearState" placeholder="请选择结算状态">
-              <el-option v-for="item in clearState" :key="item.type" :label="item.value" :value="item.type"></el-option>
+              <el-option v-for="item in clearState"  :key="item.type" :label="item.value" :value="item.type"></el-option>
             </el-select>
           </el-form-item>
           <el-form-item>
@@ -259,7 +259,9 @@
         multipleSelection: [],
         currentPage: 1,
         searchForm:{
-          organizationId: ""
+          organizationId: "",
+          clearMonth:new Date(),
+          clearState:3
         }
       }
     },
@@ -369,8 +371,8 @@
         let param = {
           page: that.currentPage - 1,
           pageSize: that.pagesOptions.pageSize,
-          //clearMonth: that.searchForm.clearMonth.getFullYear()+""+('00'+(1+that.searchForm.clearMonth.getMonth())).slice(-2),
-         // clearState: that.searchForm.clearState
+          clearMonth: that.searchForm.clearMonth.getFullYear()+""+('00'+(1+that.searchForm.clearMonth.getMonth())).slice(-2),
+          clearState: that.searchForm.clearState
         }
         API.financial.queryList(param, (res) => {
           that.loading = false
