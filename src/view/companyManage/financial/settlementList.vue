@@ -76,7 +76,7 @@
             <span v-for="item in clearState" :key="item.type"
                   v-if="scope.row.clearState === item.type">{{item.value}}</span>
           </template>
-        </el-table-column
+        </el-table-column>
         <el-table-column
           align="center"
           prop="serviceSubjectName"
@@ -218,6 +218,9 @@
   import { mapState } from 'vuex'
   import comButton from '../../../components/button/comButton'
   import API from '../../../utils/api'
+  import commissionDetail from './commissionDetail'
+  import serviceCommission from './serviceCommission'
+
 
   export default {
     name: 'list',
@@ -273,6 +276,8 @@
     },
     components: {
       comButton,
+      commissionDetail,
+      serviceCommission,
     },
   created(){
     var that = this;
@@ -282,7 +287,38 @@
   },
     methods: {
       saleCommission(row,type){
-        alert(type)
+        var that = this
+        if(type === 1){
+          that.openSaleCommission(row.id);
+        } else if(type === 2){
+          that.openServiceCommission(row.id);
+        }
+      },
+      openServiceCommission(id){
+        var that = this
+        that.$vDialog.modal(serviceCommission, {
+          title: '管理佣金返佣详情',
+          width: 1200,
+          height: 800,
+          params: {
+            id: id,
+          },
+          callback: function (data) {
+          },
+        })
+      },
+      openSaleCommission(id){
+        var that = this
+        that.$vDialog.modal(commissionDetail, {
+          title: '销售佣金返佣详情',
+          width: 1200,
+          height: 800,
+          params: {
+            id: id,
+          },
+          callback: function (data) {
+          },
+        })
       },
       getCommissionClear () {
         var that = this

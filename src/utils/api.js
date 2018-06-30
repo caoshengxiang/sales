@@ -1115,6 +1115,17 @@ export default {
         error && error(errorData)
       })
     },
+    detail (params, success, error) {
+      $axios({
+        method: 'get',
+        url: 'commissionClearDetail',
+        params: params,
+      }).then((res) => {
+        success && success(res.data)
+      }).catch((errorData) => {
+        error && error(errorData)
+      })
+    },
   },
   customerAreaSetting: {
     queryList (params, success, error) {
