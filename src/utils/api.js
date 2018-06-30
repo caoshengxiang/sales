@@ -1104,10 +1104,45 @@ export default {
     },
   },
   financial:{
+    auditPayment(params, success, error) {
+      $axios({
+        method: 'put',
+        url: 'commissionPayment/audit',
+        params: params,
+      }).then((res) => {
+        success && success(res.data)
+      }).catch((errorData) => {
+        error && error(errorData)
+      })
+
+    },
+    auditPay(params, success, error) {
+      $axios({
+        method: 'put',
+        url: 'commissionPayment/finish',
+        params: params,
+      }).then((res) => {
+        success && success(res.data)
+      }).catch((errorData) => {
+        error && error(errorData)
+      })
+
+    },
     queryPaymentList (params, success, error) {
       $axios({
         method: 'get',
         url: 'commissionPayment',
+        params: params,
+      }).then((res) => {
+        success && success(res.data)
+      }).catch((errorData) => {
+        error && error(errorData)
+      })
+    },
+    paymentDetail(params, success, error) {
+      $axios({
+        method: 'get',
+        url: 'commissionPayment/detail',
         params: params,
       }).then((res) => {
         success && success(res.data)
@@ -1141,7 +1176,7 @@ export default {
       $axios({
         method: 'put',
         url: 'commissionClear/audit',
-        data: params,
+        params: params,
       }).then((res) => {
         success && success(res.data)
       }).catch((errorData) => {

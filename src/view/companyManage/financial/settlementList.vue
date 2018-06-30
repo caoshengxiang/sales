@@ -293,23 +293,31 @@
           return
         }
 
-        API.financial.audit(that.multipleSelection, (res) => {
+        API.financial.audit({ids:that.multipleSelection.map(item => item.id).join() }, (res) => {
+            this.$confirm('确认审核?', '提示', {
+              type: 'warning',
+            }).then(() => {
           that.loading = false
           if (res.status) {
+            that.$message({
+              type: 'success',
+              message: '审核成功!',
+            })
             that.getCommissionClear();
           } else {
-            Message({
+            that.$message({
               message: res.error.message,
               type: 'error',
             })
           }
         }, (mock) => {
           that.loading = false
-          Message({
+          that.$message({
             message: '系统繁忙，请稍后再试！',
             type: 'error',
           })
         })
+        }).catch(() => {})
       },
       handleSelectionChange (val) {
         this.multipleSelection = val

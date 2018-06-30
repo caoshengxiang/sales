@@ -11,8 +11,8 @@
     <!--控制栏-->
     <div class="com-bar">
       <div class="com-bar-left">
-        <com-button buttonType="add" @click="addHandle">完成审核</com-button>
-        <com-button buttonType="add" @click="addHandle">完成打款</com-button>
+        <com-button buttonType="add" @click="auditCheck">完成审核</com-button>
+        <com-button buttonType="add" @click="auditPay">完成打款</com-button>
       </div>
       <div class="com-bar-right">
         <el-form :model="searchForm" inline>
@@ -45,6 +45,7 @@
         :data="tableData"
         tooltip-effect="dark"
         style="width: 100%"
+        @selection-change="handleSelectionChange"
       >
         <el-table-column
           fixed
@@ -70,9 +71,11 @@
 
         <el-table-column
           align="center"
-          prop="totalAmount"
           label="返佣合计金额"
           show-overflow-tooltip>
+          <template slot-scope="scope">
+            <a class="col-link" @click="saleCommission(scope.row)">{{ scope.row.totalAmount }}</a>
+          </template>
         </el-table-column>
 
         <el-table-column
@@ -98,19 +101,15 @@
           <el-table-column
             align="center"
             label="销售佣金"
+             prop="saleCommission"
           >
-            <template slot-scope="scope">
-              <a class="col-link" @click="saleCommission(scope.row,1)">{{ scope.row.saleCommission }}</a>
-            </template>
           </el-table-column>
 
           <el-table-column
             align="center"
             label="管理佣金"
+            prop="managementCommission"
           >
-            <template slot-scope="scope">
-              <a class="col-link" @click="saleCommission(scope.row,2)">{{ scope.row.managementCommission }}</a>
-            </template>
           </el-table-column>
         </el-table-column>
         <el-table-column
@@ -120,26 +119,20 @@
           <el-table-column
             align="center"
             label="服务佣金"
+            prop="serviceCommission"
           >
-            <template slot-scope="scope">
-              <a class="col-link" @click="saleCommission(scope.row,3)">{{ scope.row.serviceCommission }}</a>
-            </template>
           </el-table-column>
           <el-table-column
             align="center"
             label="服务奖励"
+            prop="serviceReward"
           >
-            <template slot-scope="scope">
-              <a class="col-link" @click="saleCommission(scope.row,4)">{{ scope.row.serviceReward }}</a>
-            </template>
           </el-table-column>
           <el-table-column
             align="center"
             label="服务补贴"
+            prop="serviceAllowance"
           >
-            <template slot-scope="scope">
-              <a class="col-link" @click="saleCommission(scope.row,5)">{{ scope.row.serviceAllowance }}</a>
-            </template>
           </el-table-column>
         </el-table-column>
 
@@ -165,11 +158,8 @@
   import { mapState } from 'vuex'
   import comButton from '../../../components/button/comButton'
   import API from '../../../utils/api'
-  import commissionDetail from './commissionDetail'
-  import serviceCommission from './serviceCommission'
-  import managementCommission from './managementCommission'
-  import serviceReward from './serviceReward'
-  import serviceAllowance from './serviceAllowance'
+  import spendingDetail from './spendingDetail'
+
 
 
   export default {
@@ -235,11 +225,7 @@
     },
     components: {
       comButton,
-      commissionDetail,
-      serviceCommission,
-      managementCommission,
-      serviceReward,
-      serviceAllowance
+      spendingDetail,
     },
     created(){
       var that = this;
@@ -248,81 +234,79 @@
 
     },
     methods: {
-      saleCommission(row,type){
-        var that = this
-        if(type === 1){
-          that.openSaleCommission(row.id);
-        } else if(type === 2){
-          that.openManagementCommission(row.id);
-        } else if(type === 3){
-          that.openServiceCommission(row.id);
-        } else if(type === 4) {
-          that.openServiceReward(row.id);
+      auditCheck(){
+        var that = this;
+        if(that.multipleSelection.length === 0){
+          return
         }
-        else if(type === 5){
-          that.openServiceAllowance(row.id);
-        }
+        API.financial.auditPayment({ids:that.multipleSelection.map(item => item.id).join() } , (res) => {
+            this.$confirm('确认审核?', '提示', {
+              type: 'warning',
+            }).then(() => {
+          that.loading = false
+          if (res.status) {
+            that.$message({
+              type: 'success',
+              message: '审核成功!',
+            })
+            that.getCommissionClear();
+          } else {
+            that.$message({
+              message: res.error.message,
+              type: 'error',
+            })
+          }
+        }, (mock) => {
+          that.loading = false
+          that.$message({
+            message: '系统繁忙，请稍后再试！',
+            type: 'error',
+          })
+        })
+        }).catch(() => {})
       },
-      openManagementCommission(id){
+      auditPay(){
+        var that = this;
+        if(that.multipleSelection.length === 0){
+          return
+        }
+        this.$confirm('确认付款?', '提示', {
+          type: 'warning',
+        }).then(() => {
+        API.financial.auditPay({ids:that.multipleSelection.map(item => item.id).join() }, (res) => {
+          that.loading = false
+          if (res.status) {
+            that.$message({
+              type: 'success',
+              message: '付款成功!',
+            })
+            that.getCommissionClear();
+          } else {
+            that.$message({
+              message: res.error.message,
+              type: 'error',
+            })
+          }
+        }, (mock) => {
+          that.loading = false
+          that.$message({
+            message: '系统繁忙，请稍后再试！',
+            type: 'error',
+          })
+        })
+      }).catch(() => {})
+      },
+      handleSelectionChange (val) {
+        this.multipleSelection = val
+      },
+      saleCommission(row){
         var that = this
-        that.$vDialog.modal(managementCommission, {
+        that.$vDialog.modal(spendingDetail, {
           title: '管理佣金返佣详情',
-          width: 1500,
+          width: 1900,
           height: 800,
           params: {
-            id: id,
-          },
-          callback: function (data) {
-          },
-        })
-      },
-      openServiceAllowance(id){
-        var that = this
-        that.$vDialog.modal(serviceAllowance, {
-          title: '服务补贴返佣详情',
-          width: 1500,
-          height: 800,
-          params: {
-            id: id,
-          },
-          callback: function (data) {
-          },
-        })
-      },
-      openServiceCommission(id){
-        var that = this
-        that.$vDialog.modal(serviceCommission, {
-          title: '服务佣金返佣详情',
-          width: 1500,
-          height: 800,
-          params: {
-            id: id,
-          },
-          callback: function (data) {
-          },
-        })
-      },
-      openServiceReward(id){
-        var that = this
-        that.$vDialog.modal(serviceReward, {
-          title: '服务奖励返佣详情',
-          width: 1500,
-          height: 800,
-          params: {
-            id: id,
-          },
-          callback: function (data) {
-          },
-        })
-      },
-      openSaleCommission(id){
-        var that = this
-        that.$vDialog.modal(commissionDetail, {
-          title: '销售佣金返佣详情',
-          width: 1200,
-          height: 800,
-          params: {
-            id: id,
+            id: row.id,
           },
           callback: function (data) {
           },
