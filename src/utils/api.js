@@ -1103,6 +1103,19 @@ export default {
       })
     },
   },
+  financial:{
+    queryList (params, success, error) {
+      $axios({
+        method: 'get',
+        url: 'commissionClear',
+        params: params,
+      }).then((res) => {
+        success && success(res.data)
+      }).catch((errorData) => {
+        error && error(errorData)
+      })
+    },
+  },
   customerAreaSetting: {
     queryList (params, success, error) {
       $axios({
