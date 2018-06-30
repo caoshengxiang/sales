@@ -24,12 +24,12 @@
 
         <el-table-column
           align="center"
-          label="服务佣金类型"
+          label="管理佣金类型"
         >
 
           <el-table-column
             align="center"
-            label="外勤管理"
+            label="营销副总"
           >
 
             <el-table-column
@@ -59,7 +59,7 @@
 
           <el-table-column
             align="center"
-            label="财务管理"
+            label="大区总监"
           >
 
             <el-table-column
@@ -90,7 +90,7 @@
 
           <el-table-column
             align="center"
-            label="税务管家"
+            label="区域经理"
           >
 
 
@@ -99,7 +99,7 @@
               label="返佣对象"
               prop="regionalManagerRebateSubjectName"
             >
-              >
+            >
             </el-table-column>
 
 
@@ -122,7 +122,7 @@
 
           <el-table-column
             align="center"
-            label="内控管家"
+            label="销售助理"
           >
 
 
@@ -154,7 +154,7 @@
 
           <el-table-column
             align="center"
-            label="金融管家"
+            label="培训师"
           >
 
 
@@ -222,7 +222,7 @@
       var that=this
       let param = {
         clearId: that.params.id,
-        type: 3,
+        type: 1,
       }
       API.financial.detail(param, (res) => {
         that.loading = false

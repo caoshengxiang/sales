@@ -34,15 +34,6 @@
             <com-button buttonType="export" icon="el-icon-download">导出</com-button>
           </el-form-item>
         </el-form>
-        <!--<el-select v-model="queryParam.organizationId" placeholder="请选择" class="com-el-select" style="width:180px">-->
-          <!--<el-option label="全部" value=""></el-option>-->
-          <!--<el-option-->
-            <!--v-for="item in organizationOptions"-->
-            <!--:key="item.id"-->
-            <!--:label="item.name"-->
-            <!--:value="item.id">-->
-          <!--</el-option>-->
-        <!--</el-select>-->
       </div>
     </div>
     <!--详细-->
@@ -220,6 +211,9 @@
   import API from '../../../utils/api'
   import commissionDetail from './commissionDetail'
   import serviceCommission from './serviceCommission'
+  import managementCommission from './managementCommission'
+  import serviceReward from './serviceReward'
+  import serviceAllowance from './serviceAllowance'
 
 
   export default {
@@ -278,6 +272,9 @@
       comButton,
       commissionDetail,
       serviceCommission,
+      managementCommission,
+      serviceReward,
+      serviceAllowance
     },
   created(){
     var that = this;
@@ -291,14 +288,60 @@
         if(type === 1){
           that.openSaleCommission(row.id);
         } else if(type === 2){
+          that.openManagementCommission(row.id);
+        } else if(type === 3){
           that.openServiceCommission(row.id);
+        } else if(type === 4) {
+          that.openServiceReward(row.id);
         }
+         else if(type === 5){
+          that.openServiceAllowance(row.id);
+        }
+      },
+      openManagementCommission(id){
+        var that = this
+        that.$vDialog.modal(managementCommission, {
+          title: '管理佣金返佣详情',
+          width: 1500,
+          height: 800,
+          params: {
+            id: id,
+          },
+          callback: function (data) {
+          },
+        })
+      },
+      openServiceAllowance(id){
+        var that = this
+        that.$vDialog.modal(serviceAllowance, {
+          title: '服务补贴返佣详情',
+          width: 1500,
+          height: 800,
+          params: {
+            id: id,
+          },
+          callback: function (data) {
+          },
+        })
       },
       openServiceCommission(id){
         var that = this
         that.$vDialog.modal(serviceCommission, {
-          title: '管理佣金返佣详情',
-          width: 1200,
+          title: '服务佣金返佣详情',
+          width: 1500,
+          height: 800,
+          params: {
+            id: id,
+          },
+          callback: function (data) {
+          },
+        })
+      },
+      openServiceReward(id){
+        var that = this
+        that.$vDialog.modal(serviceReward, {
+          title: '服务奖励返佣详情',
+          width: 1500,
           height: 800,
           params: {
             id: id,

@@ -24,7 +24,7 @@
 
         <el-table-column
           align="center"
-          label="服务佣金类型"
+          label="佣金奖励类型"
         >
 
           <el-table-column
@@ -99,7 +99,7 @@
               label="返佣对象"
               prop="regionalManagerRebateSubjectName"
             >
-              >
+            >
             </el-table-column>
 
 
@@ -222,7 +222,7 @@
       var that=this
       let param = {
         clearId: that.params.id,
-        type: 3,
+        type: 4,
       }
       API.financial.detail(param, (res) => {
         that.loading = false

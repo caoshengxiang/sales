@@ -24,7 +24,7 @@
 
         <el-table-column
           align="center"
-          label="服务佣金类型"
+          label="佣金补贴类型"
         >
 
           <el-table-column
@@ -222,7 +222,7 @@
       var that=this
       let param = {
         clearId: that.params.id,
-        type: 3,
+        type: 5,
       }
       API.financial.detail(param, (res) => {
         that.loading = false
