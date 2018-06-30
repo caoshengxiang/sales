@@ -382,6 +382,7 @@
           },
           callback: function (data) {
             that.searchHandle()
+            that.$refs.multipleTable.clearSelection();
           },
         })
       },
