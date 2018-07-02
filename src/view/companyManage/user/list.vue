@@ -91,7 +91,7 @@
         <el-table-column
           show-overflow-tooltip
           align="center"
-          prop="mobilePhone"
+          prop="productName"
           label="手机号"
         >
         </el-table-column>
@@ -201,6 +201,7 @@
     name: 'list',
     data () {
       return {
+        advancedSearch:null, // 高级搜索
         loading: false,
         dataLoading: true,
         addDialogOpen: false, // 新增弹窗
@@ -271,7 +272,7 @@
             if (data.type === 'search') {
               console.log('高级搜索数据：', data.params)
               this.advancedSearch = data.params
-              this.getSalesOpportunititeisList()
+              this.getuserList()
             }
           },
         })
@@ -360,7 +361,7 @@
           organizationId: this.form.organizationId,
         }
         this.dataLoading = true
-        API.user.userList(param, (res) => {
+        API.user.userList(Object.assign({}, this.param,  this.advancedSearch), (res) => {
           this.ac_userList(res.data)
           setTimeout(() => {
             this.dataLoading = false
