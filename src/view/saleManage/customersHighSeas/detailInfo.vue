@@ -73,6 +73,22 @@
                 <td>{{customerDetail.phone}}</td>
               </tr>
               <tr>
+                <td class="td-title">最近跟进时间</td>
+                <td>{{customerDetail.latestReturnTime && $moment(customerDetail.latestReturnTime).format('YYYY-MM-DD')}}</td>
+                <td class="td-title">最近跟进记录</td>
+                <td>{{customerDetail.latestFollowRecord}}</td>
+                <td class="td-title">最近跟进人</td>
+                <td>{{customerDetail.latestFollowerName}}</td>
+              </tr>
+              <tr>
+                <td class="td-title">客户退回次数</td>
+                <td>{{customerDetail.returnTimes}}</td>
+                <td class="td-title">销售机会（商品）</td>
+                <td colspan="3">
+                  <span v-for="item in customerDetail.chanceList" :key="item.productId">{{item.productName}}、</span>
+                </td>
+              </tr>
+              <tr>
                 <td class="td-title">联系地址</td>
                 <td colspan="5">{{customerDetail.address}}</td>
               </tr>

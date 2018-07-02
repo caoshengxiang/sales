@@ -121,7 +121,7 @@
 </template>
 
 <script>
-  import API from '../../../utils/api'
+  import API from '../../../../utils/api'
 
   export default {
     name: 'advancedSearch',
@@ -184,5 +184,5 @@
 </script>
 
 <style scoped lang="scss" rel="stylesheet/scss">
-  @import "../../../styles/common";
+  @import "../../../../styles/common";
 </style>

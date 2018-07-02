@@ -52,11 +52,11 @@ const orderRecordsList = resolve => require.ensure([],
   'orderRecordsList')
 // 回款记录
 const remittanceRecords = resolve => require.ensure([],
-  () => resolve(require('../view/saleManage/financial/remittanceList')),
+  () => resolve(require('../view/saleManage/financial/refunds/remittanceList')),
   'remittanceRecords')
 // 返佣记录
 const rebateRecordsList = resolve => require.ensure([],
-  () => resolve(require('../view/saleManage/financial/spendinglist')),
+  () => resolve(require('../view/saleManage/financial/rebate/spendingList')),
   'rebateRecords')
 // 客户公海
 const customersHighSeasList = resolve => require.ensure([],

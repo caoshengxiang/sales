@@ -97,7 +97,7 @@ export default {
     },
     contractSubjects (params, success, error) { // 查询商品签约主体列表
       $axios.get('organizationGoodsConf/contractSubjects', {
-        params: params
+        params: params,
       }).then((res) => {
         success && success(res.data)
       }).catch((err) => {
@@ -967,7 +967,8 @@ export default {
   baseSetting: {
     getProductType (params, success, error) {
       $axios.get('goodsType', {
-        params: params}).then((res) => {
+        params: params,
+      }).then((res) => {
         success && success(res.data)
       }).catch(() => {
         setTimeout(() => {
@@ -1103,8 +1104,19 @@ export default {
       })
     },
   },
-  financial:{
-    auditPayment(params, success, error) {
+  financial: {
+    commissionPaymentConfirm (params, success, error) { // 确认佣金支出记录
+      $axios({
+        method: 'put',
+        url: 'commissionPayment/confirm',
+        params: params,
+      }).then((res) => {
+        success && success(res.data)
+      }).catch((errorData) => {
+        error && error(errorData)
+      })
+    },
+    auditPayment (params, success, error) {
       $axios({
         method: 'put',
         url: 'commissionPayment/audit',
@@ -1114,9 +1126,8 @@ export default {
       }).catch((errorData) => {
         error && error(errorData)
       })
-
     },
-    auditPay(params, success, error) {
+    auditPay (params, success, error) {
       $axios({
         method: 'put',
         url: 'commissionPayment/finish',
@@ -1126,7 +1137,6 @@ export default {
       }).catch((errorData) => {
         error && error(errorData)
       })
-
     },
     queryPaymentList (params, success, error) {
       $axios({
@@ -1139,7 +1149,7 @@ export default {
         error && error(errorData)
       })
     },
-    paymentDetail(params, success, error) {
+    paymentDetail (params, success, error) {
       $axios({
         method: 'get',
         url: 'commissionPayment/detail',
@@ -1234,12 +1244,12 @@ export default {
   refundRecord: {
     list (params, success, error) { // 获取回款记录列表
       $axios.get('refundRecord', {
-        params: params
+        params: params,
       }).then(res => {
         success && success(res.data)
       }).catch(err => {
         error && error(err)
       })
-    }
-  }
+    },
+  },
 }
