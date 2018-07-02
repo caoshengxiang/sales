@@ -8,14 +8,24 @@
               <el-input type="text" v-model="searchForm.name"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="8">
-            <el-form-item label="员工号：">
+          <el-col :span="8" v-if="type===0">
+            <el-form-item label="员工号：" >
               <el-input type="text" v-model="searchForm.jobNo"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="8">
+          <el-col :span="8" v-if="type===1">
+            <el-form-item label="代理商号：" >
+              <el-input type="text" v-model="searchForm.agentNo"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8" v-if="type===1">
+            <el-form-item label="微信号：">
+              <el-input type="text" v-model="searchForm.wx"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8" v-if="type===0">
             <el-form-item label="手机号：">
-              <el-input type="text" v-model="searchForm.productName"></el-input>
+              <el-input type="text" v-model="searchForm.mobilePhone"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -26,24 +36,29 @@
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="直接上级：">
-              <el-input type="text" v-model="searchForm.name"></el-input>
+            <el-form-item label="直接上级：" v-if="type===0">
+              <el-input type="text" v-model="searchForm.head"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="部门培训师：">
-              <el-input type="text" v-model="searchForm.rebateSubjectName"></el-input>
+            <el-form-item label="部门销售助理：">
+              <el-input type="text" v-model="searchForm.assistant"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8" v-if="type===1">
+            <el-form-item label="销售培训师：">
+              <el-input type="text" v-model="searchForm.trainer"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row class="el-row-cla">
-          <el-col :span="8">
+          <el-col :span="8" v-if="type===0">
             <el-form-item label="销售培训师：">
-              <el-input type="text" v-model="searchForm.rebateRelUserName"></el-input>
+              <el-input type="text" v-model="searchForm.trainer"></el-input>
             </el-form-item>
           </el-col>
 
-          <el-col :span="8">
+          <el-col :span="8" v-if="type===0">
             <el-form-item label="用户组织：">
               <el-select v-model.number="searchForm.organizationId" @change="selectedOptionsHandleChange" placeholder="请选择人员组织"
                          style="width: 140px">
@@ -59,7 +74,7 @@
             </el-form-item>
           </el-col>
 
-          <el-col :span="8">
+          <el-col :span="8"  v-if="type===0">
           <el-form-item  label="用户性别：">
             <el-select v-model.number="searchForm.sex" placeholder="请选择员工性别">
               <el-option label="男" value="男"></el-option>
@@ -69,6 +84,14 @@
           </el-col>
         </el-row>
         <el-row>
+          <el-col :span="8"  v-if="type===1">
+            <el-form-item  label="用户性别：">
+              <el-select v-model.number="searchForm.sex" placeholder="请选择员工性别">
+                <el-option label="男" value="男"></el-option>
+                <el-option label="女" value="女"></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
           <el-col :span="8">
             <el-form-item  label="用户角色：">
             <el-select v-model="searchForm.roleId"  placeholder="请选择角色职能">
@@ -122,40 +145,34 @@
         customerSourceType: [], // 客户来源
         customerState: [], // 客户状态
         searchForm: { // 表单
-          customerName: null,
-          contacterName: null,
-          productName: null,
-          specificationName: null,
+          mobilePhone:null,
+          jobNo:null,
           name: null,
-          rebateSubjectName: null,
-          rebateRelUserName: null,
-          refundStatus: null,
-          isRenew: null,
-          // 回款
-          startNetReceipts: null,
-          endNetReceipts: null,
-          startRefundDate: null, // 回款日期下限
-          endRefundDate: null,
-          startAuditTime: null, // 审核时间下限
-          endAuditTime: null,
           organizationId: null,
-          sex:null,
           roleId:null,
-          startDate: null,
-          endDate: null,
+          birthdayStart: null,
+          birthdayEnd: null,
+          departmentName:null,
+          head:null,
+          assistant:null,
+          trainer:null,
+          sex:null,
+          agentNo:null,
+          wx:null,
         },
         organizationOptions: [], // 组织列表
         timeIntervalRefundDate: '',
         timeIntervalAuditTime: '',
         allroles:[],
-        birthday: ''
+        birthday: '',
+        type:0
       }
     },
     props: ['params'],
     methods: {
       timeIntervalHandle (value) {
-        this.searchForm.startDate = value[0] || ''
-        this.searchForm.endDate = value[1] || ''
+        this.searchForm.birthdayStart = value[0] || ''
+        this.searchForm.birthdayEnd = value[1] || ''
       },
       selectedOptionsHandleChange (value) {
         var that = this
@@ -203,6 +220,8 @@
         that.dataLoading = false
       })
 
+      this.type = this.params.type
+      alert(this.type)
 
     },
   }
