@@ -1105,6 +1105,17 @@ export default {
     },
   },
   financial: {
+    commissionPaymentConfirm (params, success, error) { // 确认佣金支出记录
+      $axios({
+        method: 'put',
+        url: 'commissionPayment/confirm',
+        params: params,
+      }).then((res) => {
+        success && success(res.data)
+      }).catch((errorData) => {
+        error && error(errorData)
+      })
+    },
     auditPayment (params, success, error) {
       $axios({
         method: 'put',

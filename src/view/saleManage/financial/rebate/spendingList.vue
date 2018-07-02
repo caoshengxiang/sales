@@ -13,9 +13,10 @@
     <!--控制栏-->
     <div class="com-bar">
       <div class="com-bar-left">
-        <com-button buttonType="cardNum" icon="el-icon-plus" @click="addHandle">设置银行卡账户信息</com-button>
+        <com-button buttonType="add" @click="commissionPaymentConfirm" :disabled="multipleSelection.length<1">佣金确认</com-button>
       </div>
       <div class="com-bar-right">
+        <com-button buttonType="cardNum" icon="el-icon-plus" @click="addHandle">设置银行卡账户信息</com-button>
       </div>
     </div>
     <!--详细-->
@@ -26,6 +27,8 @@
         :data="tableData"
         tooltip-effect="dark"
         style="width: 100%"
+        @sort-change="sortChangeHandle"
+        @selection-change="handleSelectionChange"
       >
         <el-table-column
           fixed
@@ -132,7 +135,7 @@
   import { mapState } from 'vuex'
   import comButton from '../../../../components/button/comButton'
   import API from '../../../../utils/api'
-  import { underscoreName } from '../../../../utils/utils'
+  import { underscoreName, arrToStr } from '../../../../utils/utils'
   import detailList from './detailList'
 
   export default {
@@ -179,7 +182,14 @@
     },
     methods: {
       addHandle () {
-        alert('add btn')
+        this.$router.push({name: 'personal', query: {view: 'base'}})
+      },
+      commissionPaymentConfirm () {
+        API.financial.commissionPaymentConfirm({ids: arrToStr(this.multipleSelection, 'id')}, (da) => {
+          if (da > 0) {
+            this.$message.success('操作成功')
+          }
+        })
       },
       moveHandle () {
         alert('move')
