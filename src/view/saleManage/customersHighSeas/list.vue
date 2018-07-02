@@ -136,19 +136,27 @@
           label="销售机会（商品）"
           width="160"
           show-overflow-tooltip>
+          <template slot-scope="scope">
+            <span v-for="item in scope.row.chanceList" :key="item.productId">
+              {{item.productName}}、
+            </span>
+          </template>
         </el-table-column>
         <el-table-column
           align="center"
           sortable
-          prop=""
+          prop="latestReturnTime"
           label="最近跟进时间"
           width="120"
           show-overflow-tooltip>
+          <template slot-scope="scope">
+            {{scope.row.latestReturnTime && $moment(scope.row.latestReturnTime).format('YYYY-MM-DD')}}
+          </template>
         </el-table-column>
         <el-table-column
           align="center"
           sortable
-          prop=""
+          prop="latestFollowRecord"
           label="最近跟进记录"
           width="120"
           show-overflow-tooltip>
@@ -156,7 +164,7 @@
         <el-table-column
           align="center"
           sortable
-          prop=""
+          prop="latestFollowerName"
           label="最近跟进人"
           width="120"
           show-overflow-tooltip>
@@ -164,7 +172,7 @@
         <el-table-column
           align="center"
           sortable
-          prop=""
+          prop="returnTimes"
           label="客户退回次数"
           width="140"
           show-overflow-tooltip>
