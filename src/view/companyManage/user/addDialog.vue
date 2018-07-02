@@ -66,7 +66,7 @@
             <td class="td-text">
               <!--<input type="text">-->
               <el-form-item prop="roles">
-                <el-select v-model="choseroles" multiple placeholder="请选择人员角色">
+                <el-select :disabled="update === 'update' ?true:false"  v-model="choseroles" multiple placeholder="请选择人员角色">
                   <el-option
                     v-for="item in allroles"
                     :key="item.id"
@@ -165,11 +165,14 @@
         alldepartments: [],
         choseroles: [],
         type: '',
+        update:false
       }
     },
     props: ['params'],
     created () {
       var that = this
+
+      that.update = that.params.action
       let params = {
         page: 1,
         pageSize: 999,

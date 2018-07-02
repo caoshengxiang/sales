@@ -5,12 +5,12 @@
         <el-row class="el-row-cla">
           <el-col :span="8">
             <el-form-item label="姓名：">
-              <el-input type="text" v-model="searchForm.customerName"></el-input>
+              <el-input type="text" v-model="searchForm.name"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item label="员工号：">
-              <el-input type="text" v-model="searchForm.contacterName"></el-input>
+              <el-input type="text" v-model="searchForm.jobNo"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -22,7 +22,7 @@
         <el-row class="el-row-cla">
           <el-col :span="8">
             <el-form-item label="部门：">
-              <el-input type="text" v-model="searchForm.specificationName"></el-input>
+              <el-input type="text" v-model="searchForm.departmentName"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -86,7 +86,7 @@
           <el-col :span="16">
             <el-form-item label="出生日期：">
               <el-date-picker
-                v-model="timeInterval"
+                v-model="birthday"
                 type="daterange"
                 value-format="yyyy-MM-dd"
                 @change="timeIntervalHandle"
@@ -139,7 +139,7 @@
           startAuditTime: null, // 审核时间下限
           endAuditTime: null,
           organizationId: null,
-          sex:'',
+          sex:null,
           roleId:null,
           startDate: null,
           endDate: null,
@@ -148,7 +148,7 @@
         timeIntervalRefundDate: '',
         timeIntervalAuditTime: '',
         allroles:[],
-        timeInterval: ''
+        birthday: ''
       }
     },
     props: ['params'],
