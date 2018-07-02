@@ -1,13 +1,13 @@
 <template>
   <div class="com-dialog-container" v-loading="dataLoading">
     <div class="com-dialog">
-      <el-form :model="addForm" ref="addForm" label-width="0px" :rules="rules">
+      <el-form :model="addForm" ref="addForm" label-width="0px" :rules="rules" :disabled="orderState>0?true:false">
         <table class="com-dialog-table">
           <tr>
             <td class="td-title">签单客户</td>
             <td class="td-text">
               <el-form-item prop="customerId">
-                <el-select @change="customerChange" :disabled="params.detailCustomersId?true:false"
+                <el-select @change="customerChange" :disabled="(orderState === 0 || params.detailCustomersId)?true:false"
                            v-model.number="addForm.customerId" placeholder="请选择客户" style="width: 100%">
                   <el-option v-for="item in customersList" :key="item.id" :label="item.name"
                              :value="item.id"></el-option>
@@ -29,7 +29,7 @@
             <td class="td-title">关联销售机会</td>
             <td class="td-text">
               <el-form-item prop="chanceId">
-                <el-select  :disabled="params.detailChanceId?true:false" style="width: 100%" @change="intentProductChange" v-model.number="addForm.chanceId"
+                <el-select  :disabled="(orderState===0||params.detailChanceId)?true:false" style="width: 100%" @change="intentProductChange" v-model.number="addForm.chanceId"
                            placeholder="请选择关联销售机会">
                   <el-option v-for="item in chanceList" :key="item.id" :label="item.intentProductName"
                              :value="item.id"></el-option>
@@ -38,7 +38,7 @@
             <td class="td-title">购买商品</td>
             <td class="td-text">
               <el-form-item prop="productId">
-                <el-select style="width: 100%" :disabled="(addForm.chanceId || params.fromChance)?true:false"
+                <el-select style="width: 100%" :disabled="(orderState===0 || addForm.chanceId || params.fromChance)?true:false"
                            v-model.number="addForm.productId"
                            @change="goodSelectChange"
                            placeholder="请选择购买商品">
@@ -128,6 +128,7 @@
           quantity: '',
           remark: '',
         },
+        orderState: null,
         rules: {
           customerId: [
             {required: true, message: '请选择签单客户', trigger: 'change'},
@@ -292,6 +293,7 @@
         this.getChanceList(this.params.orderDetail.customerId)
         this.getProductsList(this.params.orderDetail.productId)
         this.getContactList(this.params.orderDetail.customerId)
+        this.orderState = this.params.orderDetail.orderState // 订单状态 【销售订单-修改，预下订单后，客户、机会、商品信息不可更改，客户签单后，所有信息都不可修改】
       }
       if (this.params.detailCustomersId) { // 详细页面的添加, 并禁用下拉列表
         this.addForm.customerId = this.params.detailCustomersId
