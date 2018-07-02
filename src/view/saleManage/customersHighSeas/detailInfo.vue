@@ -73,6 +73,22 @@
                 <td>{{customerDetail.phone}}</td>
               </tr>
               <tr>
+                <td class="td-title">销售机会（商品）</td>
+                <td></td>
+                <td class="td-title">最近跟进时间</td>
+                <td></td>
+                <td class="td-title">最近跟进记录</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td class="td-title">最近跟进人</td>
+                <td></td>
+                <td class="td-title">客户退回次数</td>
+                <td></td>
+                <td class="td-title"></td>
+                <td></td>
+              </tr>
+              <tr>
                 <td class="td-title">联系地址</td>
                 <td colspan="5">{{customerDetail.address}}</td>
               </tr>
