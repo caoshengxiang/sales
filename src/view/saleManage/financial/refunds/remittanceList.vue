@@ -400,9 +400,9 @@
 
 <script>
   import { mapState } from 'vuex'
-  import comButton from '../../../components/button/comButton'
-  import API from '../../../utils/api'
-  import { underscoreName } from '../../../utils/utils'
+  import comButton from '../../../../components/button/comButton'
+  import API from '../../../../utils/api'
+  import { underscoreName } from '../../../../utils/utils'
   import advancedSearch from './advancedSearch'
 
   export default {
@@ -523,7 +523,7 @@
 </script>
 
 <style scoped lang="scss" rel="stylesheet/scss">
-  @import "../../../styles/common";
+  @import "../../../../styles/common";
 
   .link {
     color: #00A7FE;
