@@ -3,7 +3,8 @@
     <!--头部-->
     <div class="com-head">
       <el-breadcrumb separator-class="el-icon-arrow-right">
-        <el-breadcrumb-item v-for="item in $route.meta.pos" :key="item.toName" :to="{name: item.toName}">{{item.name}}</el-breadcrumb-item>
+        <el-breadcrumb-item v-for="item in $route.meta.pos" :key="item.toName" :to="{name: item.toName}">{{item.name}}
+        </el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <!--控制栏-->
@@ -97,13 +98,17 @@
           <!---->
           <el-tab-pane label="用户头像修改" name="head">
             <div class="head-text-box">
-              <com-button buttonType="uploadImg">本地图片</com-button>
+              <com-button buttonType="uploadImg" style="position: relative">
+                本地图片
+                <input type="file" class="upload-input" @change="fileUploadHandle">
+              </com-button>
               <span class="tips">使用高质量图片，可生成高清头像</span>
               <p>仅支持JPG、静态GIF和PNG图片文件，且文件小于3M</p>
             </div>
             <div class="img-box">
               <div class="upload">
-                <img width="115px" src="../../../assets/icon/placeholder.jpg" alt="">
+                <img v-if="ruleForm.avatar" width="115px" :src="ruleForm.avatar" alt="">
+                <img v-else width="115px" src="../../../assets/icon/placeholder.jpg" alt="">
                 <p class="up-link">选择你要上传的头像</p>
                 <p class="up-tips">本地照片：选择一张本地的图片编辑后上传为头像</p>
               </div>
@@ -137,10 +142,10 @@
                   <el-input v-model="ruleForm2.pwd" type="password"></el-input>
                 </el-form-item>
                 <el-form-item label="新 密 码" prop="newPwd">
-                  <el-input v-model="ruleForm2.newPwd" type="password" auto-complete="off" ></el-input>
+                  <el-input v-model="ruleForm2.newPwd" type="password" auto-complete="off"></el-input>
                 </el-form-item>
                 <el-form-item label="确认新密码" prop="newPwd2">
-                  <el-input v-model="ruleForm2.newPwd2" type="password" auto-complete="off" ></el-input>
+                  <el-input v-model="ruleForm2.newPwd2" type="password" auto-complete="off"></el-input>
                 </el-form-item>
                 <el-form-item>
                   <!--todo 按钮修改状态-->
@@ -209,6 +214,9 @@
           newPwd: '',
           newPwd2: '',
         },
+        ruleFormImg: {
+          file: '',
+        },
       }
     },
     watch: {
@@ -244,7 +252,7 @@
               account: this.ruleForm2.account,
               pwd: sha1(this.ruleForm2.pwd),
               newPwd: sha1(this.ruleForm2.newPwd),
-              client: webStorage.getItem('client')
+              client: webStorage.getItem('client'),
             }, (da) => {
               if (da.status) {
                 this.$message.success('保存成功')
@@ -269,6 +277,23 @@
         this.ruleForm.cityName = name[1] || ''
         this.ruleForm.areaName = name[2] || ''
       },
+      fileUploadHandle (e) {
+        let files = e.target.files || e.dataTransfer.files
+        let formData = new FormData()
+        formData.append('filename', files[0].name)
+        formData.append('file', files[0])
+        API.common.uploadFile({path: 'avatar', body: formData}, upImg => {
+          if (upImg.status) {
+            this.ruleForm.avatar = upImg.data
+            API.user.userModify(this.ruleForm, (da) => {
+              if (da.status) {
+                this.$message.success('保存成功')
+                this.getUserDetail(this.currentUser.id)
+              }
+            })
+          }
+        })
+      }
     },
     created () {
       this.activeViewName = this.$route.query.view
@@ -308,6 +333,7 @@
       margin: $box-margin 0;
     }
   }
+
   .img-box {
     display: flex;
     .upload {
@@ -356,5 +382,16 @@
         margin-top: $box-margin + 4px;
       }
     }
+  }
+
+  .upload-input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    display: inline-block;
+    opacity: 0;
   }
 </style>

@@ -234,7 +234,8 @@
         <ul class="team-member">
           <li class="team-member-item">
             <div class="head">
-              <img src="../../../assets/icon/headDefault.png" alt="">
+              <img style="width: 58px;height: 58px;border-radius: 100%;" v-if="customerDetail.team.avatar" :src="customerDetail.team.avatar" alt="">
+              <img v-else src="../../../assets/icon/headDefault.png" alt="">
             </div>
             <div class="text">
               <h4>{{customerDetail.team.creatorName}}</h4>
@@ -246,7 +247,8 @@
           </li>
           <li class="team-member-item" :key="item.salerId" v-for="item in customerDetail.team.salerList">
             <div class="head">
-              <img src="../../../assets/icon/headDefault.png" alt="">
+              <img style="width: 58px;height: 58px;border-radius: 100%;" v-if="item.avatar" :src="item.avatar" alt="">
+              <img v-else src="../../../assets/icon/headDefault.png" alt="">
             </div>
             <div class="text">
               <h4>{{item.salerName}}</h4>
