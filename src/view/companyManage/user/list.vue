@@ -400,7 +400,7 @@
           params: {
             id: that.multipleSelection.map(item => item.id).join(),
             store: that.$store, // 弹窗组件如果需要用到vuex，必须传值过去赋值
-            action: 'update',
+            action: 'add',
           },
           callback: function (data) {
             that.searchHandle()
