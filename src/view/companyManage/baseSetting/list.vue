@@ -132,7 +132,7 @@
       },
       selectRole (index) {
         var that = this
-        that.des = that.roleList.find((n) => n.id === index).name
+        that.des = that.roleList.find((n) => n.id === parseInt(index)).name
         that.$options.methods.getCodeConfig.bind(that)(index)
       },
       getCodeConfig (id) {
