@@ -2,121 +2,85 @@
   <div class="com-dialog-container">
     <div class="com-dialog">
       <el-form :model="searchForm" ref="searchForm" label-width="120px">
-        <el-row class="el-row-cla">
-          <el-col :span="8">
-            <el-form-item label="姓名：">
+        <el-row class="el-row-cla"  v-if="type===0">
+          <el-col :span="8" >
+            <el-form-item label="订单号：">
               <el-input type="text" v-model="searchForm.name"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="8" v-if="type===0">
-            <el-form-item label="员工号：" >
+          <el-col :span="8" >
+            <el-form-item label="订单客户：" >
               <el-input type="text" v-model="searchForm.jobNo"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="8" v-if="type===1">
-            <el-form-item label="代理商号：" >
+          <el-col :span="8">
+            <el-form-item label="销售商品：" >
               <el-input type="text" v-model="searchForm.agentNo"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="8" v-if="type===1">
-            <el-form-item label="微信号：">
+          <el-col :span="8" >
+            <el-form-item label="签约主体：">
               <el-input type="text" v-model="searchForm.wx"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="8" v-if="type===0">
-            <el-form-item label="手机号：">
+          <el-col :span="8">
+            <el-form-item label="销售主体：">
               <el-input type="text" v-model="searchForm.mobilePhone"></el-input>
             </el-form-item>
           </el-col>
-        </el-row>
-        <el-row class="el-row-cla">
           <el-col :span="8">
-            <el-form-item label="部门：">
+            <el-form-item label="服务主体：" >
               <el-input type="text" v-model="searchForm.departmentName"></el-input>
             </el-form-item>
           </el-col>
+        </el-row>
+        <el-row class="el-row-cla"  v-if="type===0">
           <el-col :span="8">
-            <el-form-item label="直接上级：" v-if="type===0">
+            <el-form-item label="返佣主体：">
               <el-input type="text" v-model="searchForm.head"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="8">
-            <el-form-item label="部门销售助理：">
+          <el-col :span="8" >
+            <el-form-item label="结算状态：">
+              <el-select v-model="searchForm.clearState" placeholder="请选择结算状态">
+                <el-option v-for="item in clearState"  :key="item.type" :label="item.value" :value="item.type"></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row  v-if="type===0">
+          <el-col :span="8" >
+            <el-form-item label="回款金额：">
+              <el-input type="text" ></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8" >
+            <el-form-item  label="至：">
+              <el-input type="text" ></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row  v-if="type===0">
+          <el-col :span="8" >
+            <el-form-item label="收支合计：">
+              <el-input type="text" ></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8" >
+            <el-form-item  label="至：">
+              <el-input type="text" ></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row v-if="type===1">
+          <el-col :span="8" >
+            <el-form-item label="返佣对象：">
               <el-input type="text" v-model="searchForm.assistant"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="8" v-if="type===1">
-            <el-form-item label="销售培训师：">
+          <el-col :span="8" >
+            <el-form-item label="佣金状态：">
               <el-input type="text" v-model="searchForm.trainer"></el-input>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row class="el-row-cla">
-          <el-col :span="8" v-if="type===0">
-            <el-form-item label="销售培训师：">
-              <el-input type="text" v-model="searchForm.trainer"></el-input>
-            </el-form-item>
-          </el-col>
-
-          <el-col :span="8" v-if="type===0">
-            <el-form-item label="用户组织：">
-              <el-select v-model.number="searchForm.organizationId" @change="selectedOptionsHandleChange" placeholder="请选择人员组织"
-                         style="width: 140px">
-                <el-option
-                  v-for="item in organizationOptions"
-                  :key="item.id"
-                  :label="item.name"
-                  :value="item.id"
-                >
-                </el-option>
-              </el-select>
-
-            </el-form-item>
-          </el-col>
-
-          <el-col :span="8"  v-if="type===0">
-          <el-form-item  label="用户性别：">
-            <el-select v-model.number="searchForm.sex" placeholder="请选择员工性别">
-              <el-option label="男" value="男"></el-option>
-              <el-option label="女" value="女"></el-option>
-            </el-select>
-          </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="8"  v-if="type===1">
-            <el-form-item  label="用户性别：">
-              <el-select v-model.number="searchForm.sex" placeholder="请选择员工性别">
-                <el-option label="男" value="男"></el-option>
-                <el-option label="女" value="女"></el-option>
-              </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item  label="用户角色：">
-            <el-select v-model="searchForm.roleId"  placeholder="请选择角色职能">
-              <el-option
-                v-for="item in allroles"
-                :key="item.id"
-                :label="item.name"
-                :value="item.id">
-              </el-option>
-            </el-select>
-            </el-form-item>
-
-          </el-col>
-
-          <el-col :span="16">
-            <el-form-item label="出生日期：">
-              <el-date-picker
-                v-model="birthday"
-                type="daterange"
-                value-format="yyyy-MM-dd"
-                @change="timeIntervalHandle"
-                range-separator="至"
-                start-placeholder="开始日期"
-                end-placeholder="结束日期">
-              </el-date-picker>
             </el-form-item>
           </el-col>
         </el-row>
@@ -139,6 +103,18 @@
     name: 'advancedSearch',
     data () {
       return {
+        clearState: [ // 订单状态
+          {
+            type: 1,
+            value: '待审核'
+          }, {
+            type: 2,
+            value: '已作废'
+          }, {
+            type: 3,
+            value: '已审核'
+          }
+        ],
         industryList: [], // 行业
         levelList: [], // 级别
         seaList: [], // 公海

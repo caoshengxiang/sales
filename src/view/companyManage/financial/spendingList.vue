@@ -32,6 +32,7 @@
           </el-form-item>
           <el-form-item>
             <com-button buttonType="search" @click="getCommissionClear">搜索</com-button>
+            <com-button buttonType="search" @click="advancedSearchHandle" style="">高级搜索</com-button>
             <com-button buttonType="export" icon="el-icon-download">导出</com-button>
           </el-form-item>
         </el-form>
@@ -159,6 +160,7 @@
   import comButton from '../../../components/button/comButton'
   import API from '../../../utils/api'
   import spendingDetail from './spendingDetail'
+  import advancedSearch from './advancedSearch'
 
 
 
@@ -166,6 +168,7 @@
     name: 'list',
     data () {
       return {
+        advancedSearch:null, // 高级搜索
         totle:0,
         paymentState: [ // 订单状态
           {
@@ -213,8 +216,8 @@
         currentPage: 1,
         searchForm:{
           organizationId: "",
-          paymentMonth:new Date(),
-          paymentState:1
+          paymentMonth:null,
+          paymentState:null
         }
       }
     },
@@ -226,6 +229,7 @@
     components: {
       comButton,
       spendingDetail,
+      advancedSearch
     },
     created(){
       var that = this;
@@ -234,6 +238,25 @@
 
     },
     methods: {
+      advancedSearchHandle () {
+        this.$vDialog.modal(advancedSearch, {
+          title: '高级搜索',
+          width: 900,
+          height: 460,
+          params: {
+            salesState: this.salesState,
+            demandSource: this.demandSource,
+            type:1
+          },
+          callback: (data) => {
+            if (data.type === 'search') {
+              console.log('高级搜索数据：', data.params)
+              this.advancedSearch = data.params
+              this.getuserList()
+            }
+          },
+        })
+      },
       auditCheck(){
         var that = this;
         if(that.multipleSelection.length === 0){
@@ -318,7 +341,7 @@
         let param = {
           page: that.currentPage - 1,
           pageSize: that.pagesOptions.pageSize,
-          paymentMonth: that.searchForm.paymentMonth.getFullYear()+""+('00'+(1+that.searchForm.paymentMonth.getMonth())).slice(-2),
+          paymentMonth: that.searchForm.paymentMonth===null?"":(that.searchForm.paymentMonth.getFullYear()+""+('00'+(1+that.searchForm.paymentMonth.getMonth())).slice(-2)),
           paymentState: that.searchForm.paymentState
         }
         API.financial.queryPaymentList(param, (res) => {
