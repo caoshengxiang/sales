@@ -17,7 +17,7 @@
           <el-badge is-dot class="badge">
             <i class="iconfont icon-tixing"></i>
           </el-badge>
-          提醒事项<span>(2)</span>
+          待办事项<span>(2)</span>
         </li>
         <li class="item item-hello">您好，{{userInfo.name}}!</li>
       </ul>

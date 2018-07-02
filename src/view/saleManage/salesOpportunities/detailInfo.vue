@@ -221,7 +221,8 @@
         <ul class="team-member">
           <li class="team-member-item">
             <div class="head">
-              <img src="../../../assets/icon/headDefault.png" alt="">
+              <img style="width: 58px;height: 58px;border-radius: 100%;" v-if="salesOpportunitiesDetail.team.creatorAvatar" :src="salesOpportunitiesDetail.team.creatorAvatar" alt="">
+              <img v-else src="../../../assets/icon/headDefault.png" alt="">
             </div>
             <div class="text">
               <h4>{{salesOpportunitiesDetail.team && salesOpportunitiesDetail.team.creatorName}}</h4>
@@ -233,7 +234,8 @@
           </li>
           <li class="team-member-item">
             <div class="head">
-              <img src="../../../assets/icon/headDefault.png" alt="">
+              <img style="width: 58px;height: 58px;border-radius: 100%;" v-if="salesOpportunitiesDetail.team.salerAvatar" :src="salesOpportunitiesDetail.team.salerAvatar" alt="">
+              <img v-else src="../../../assets/icon/headDefault.png" alt="">
             </div>
             <div class="text">
               <h4>{{salesOpportunitiesDetail.team && salesOpportunitiesDetail.team.salerName}}</h4>
@@ -245,7 +247,8 @@
           </li>
           <li class="team-member-item">
             <div class="head">
-              <img src="../../../assets/icon/headDefault.png" alt="">
+              <img style="width: 58px;height: 58px;border-radius: 100%;" v-if="salesOpportunitiesDetail.team.counselorAvatar" :src="salesOpportunitiesDetail.team.counselorAvatar" alt="">
+              <img v-else src="../../../assets/icon/headDefault.png" alt="">
             </div>
             <div class="text">
               <h4>{{salesOpportunitiesDetail.team && salesOpportunitiesDetail.team.counselorName}}</h4>

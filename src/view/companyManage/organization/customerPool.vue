@@ -329,14 +329,25 @@
         })
       },
       deletePool () {
-        API.customerSea.deleteSea(this.activeIndex, (da) => {
-          if (da.status) {
-            this.$message.success('操作成功')
-            API.customerSea.list(this.organizationId, (da) => {
-              this.pollList = da.data.content
-              this.getPoolDetail(this.pollList[0].id)
-            })
-          }
+        this.$confirm('确定删除, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning',
+        }).then(() => {
+          API.customerSea.deleteSea(this.activeIndex, (da) => {
+            if (da.status) {
+              this.$message.success('操作成功')
+              API.customerSea.list(this.organizationId, (da) => {
+                this.pollList = da.data.content
+                this.getPoolDetail(this.pollList[0].id)
+              })
+            }
+          })
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除',
+          })
         })
       },
       update () {

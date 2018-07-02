@@ -181,7 +181,8 @@
         <ul class="team-member">
           <li class="team-member-item">
             <div class="head">
-              <img src="../../../assets/icon/headDefault.png" alt="">
+              <img style="width: 58px;height: 58px;border-radius: 100%;" v-if="contactsDetail.team.avatar" :src="contactsDetail.team.avatar" alt="">
+              <img v-else src="../../../assets/icon/headDefault.png" alt="">
             </div>
             <div class="text">
               <h4>{{contactsDetail.team.creatorName}}</h4>
@@ -193,7 +194,8 @@
           </li>
           <li class="team-member-item" :key="item.salerId" v-for="item in contactsDetail.team.salerList">
             <div class="head">
-              <img src="../../../assets/icon/headDefault.png" alt="">
+              <img style="width: 58px;height: 58px;border-radius: 100%;" v-if="item.avatar" :src="item.avatar" alt="">
+              <img v-else src="../../../assets/icon/headDefault.png" alt="">
             </div>
             <div class="text">
               <h4>{{item.salerName}}</h4>

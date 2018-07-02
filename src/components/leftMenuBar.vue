@@ -6,7 +6,7 @@
             borderColor: theme[themeIndex].leftMenuBarBorderButtonColor
      }">
       <div class="u-head" @click="routePersonal">
-        <img v-if="userInfo.avatar" :src="serverUrl + '/' + userInfo.avatar" alt="">
+        <img v-if="userInfo.avatar" :src="userInfo.avatar" alt="" style="width: 50px;height: 50px;border-radius: 50px;">
         <img v-else src="../assets/icon/headDefault.png" alt="">
       </div>
       <div class="u-text">

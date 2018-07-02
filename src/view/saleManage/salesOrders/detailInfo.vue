@@ -157,7 +157,8 @@
         <ul class="team-member">
           <li class="team-member-item">
             <div class="head">
-              <img src="../../../assets/icon/headDefault.png" alt="">
+              <img style="width: 58px;height: 58px;border-radius: 100%;" v-if="orderDetail.team.creatorAvatar" :src="orderDetail.team.creatorAvatar" alt="">
+              <img v-else src="../../../assets/icon/headDefault.png" alt="">
             </div>
             <div class="text">
               <h4>{{orderDetail.team.creatorName}}</h4>
@@ -170,7 +171,8 @@
           </li>
           <li class="team-member-item">
             <div class="head">
-              <img src="../../../assets/icon/headDefault.png" alt="">
+              <img style="width: 58px;height: 58px;border-radius: 100%;" v-if="orderDetail.team.salerAvatar" :src="orderDetail.team.salerAvatar" alt="">
+              <img v-else src="../../../assets/icon/headDefault.png" alt="">
             </div>
             <div class="text">
               <h4>{{orderDetail.team.salerName}}</h4>
@@ -182,7 +184,8 @@
           </li>
           <li class="team-member-item">
             <div class="head">
-              <img src="../../../assets/icon/headDefault.png" alt="">
+              <img style="width: 58px;height: 58px;border-radius: 100%;" v-if="orderDetail.team.counselorAvatar" :src="orderDetail.team.counselorAvatar" alt="">
+              <img v-else src="../../../assets/icon/headDefault.png" alt="">
             </div>
             <div class="text">
               <h4>{{orderDetail.team.counselorName}}</h4>
@@ -193,7 +196,6 @@
             </div>
           </li>
         </ul>
-        <!--todo 操作-->
       </div>
     </div>
   </div>

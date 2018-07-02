@@ -104,6 +104,13 @@ export default {
         error && error(err)
       })
     },
+    uploadFile (params, success, error) { // 文件上传,avatar：用户头像；
+      $axios.post('file/' + params.path, params.body).then((res) => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+    },
   },
   login: {
 
