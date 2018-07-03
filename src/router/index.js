@@ -129,6 +129,10 @@ const baseSettingList = resolve => require.ensure([],
 const customerAreaSetting = resolve => require.ensure([],
   () => resolve(require('../view/companyManage/customerAareaSetting/index')), 'customerAreaSetting')
 
+// 客户源管理
+const customerSource = resolve => require.ensure([],
+  () => resolve(require('../view/companyManage/customerSourceSetting/index')), 'customerSource')
+
 // 站点开关设置
 const siteList = resolve => require.ensure([],
   () => resolve(require('../view/companyManage/baseSetting/site/list')), 'siteList')
@@ -510,6 +514,17 @@ const router = new Router({
             pos: [{name: '管理系统', toName: 'companyManageHome'}, {name: '配置管理'}, {name: '客户地区管理'}],
           },
         },
+        // 配置管理 -- 客户地区管理
+        {
+          path: 'customerSource',
+          name: 'customerSource',
+          component: customerSource,
+          meta: {
+            title: '客户源管理',
+            pos: [{name: '管理系统', toName: 'companyManageHome'}, {name: '配置管理'}, {name: '客户源管理'}],
+          },
+        },
+
         // 配置管理 -- 站点开关设置
         {
           path: 'siteList',

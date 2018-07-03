@@ -267,6 +267,7 @@
           params: {
             salesState: this.salesState,
             demandSource: this.demandSource,
+            type:0
           },
           callback: (data) => {
             if (data.type === 'search') {

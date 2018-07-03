@@ -28,6 +28,7 @@
       </div>
       <div class="com-bar-right" style="float: right">
         <com-button buttonType="search" @click="searchHandle">搜索</com-button>
+        <com-button buttonType="search" @click="advancedSearchHandle" style="">高级搜索</com-button>
       </div>
       <div class="com-bar-right" style="float: right">
         <el-select v-model.number="form.organizationId" @change="selectedOptionsHandleChange" placeholder="请选择人员组织">
@@ -191,11 +192,13 @@
   import API from '../../../utils/api'
   import { mapState, mapActions } from 'vuex'
   import addDialog from './addDialog'
+  import advancedSearch from './advancedSearch'
 
   export default {
     name: 'list',
     data () {
       return {
+        advancedSearch:null, // 高级搜索
         loading: false,
         dataLoading: true,
         addDialogOpen: false, // 新增弹窗
@@ -234,6 +237,7 @@
     components: {
       comButton,
       addDialog,
+      advancedSearch
     },
     props: ['params'],
     created () {
@@ -252,6 +256,25 @@
       })
     },
     methods: {
+      advancedSearchHandle () {
+        this.$vDialog.modal(advancedSearch, {
+          title: '高级搜索',
+          width: 900,
+          height: 460,
+          params: {
+            salesState: this.salesState,
+            demandSource: this.demandSource,
+            type:1
+          },
+          callback: (data) => {
+            if (data.type === 'search') {
+              console.log('高级搜索数据：', data.params)
+              this.advancedSearch = data.params
+              this.getuserList()
+            }
+          },
+        })
+      },
       fmtNumColumn (row, column, cellValue) {
         if (cellValue === 1) {
           return '有效'
@@ -338,7 +361,7 @@
           organizationId: this.form.organizationId,
         }
         this.dataLoading = true
-        API.user.userList(param, (res) => {
+        API.user.userList(Object.assign({}, this.param,  this.advancedSearch), (res) => {
           this.ac_userList(res.data)
           setTimeout(() => {
             this.dataLoading = false
