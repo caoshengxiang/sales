@@ -1270,5 +1270,50 @@ export default {
         error && error(err)
       })
     },
+    topChance (params, success, error) { // 进行中的商机top5
+      $axios.get('home/topChance', {
+        params: params,
+      }).then(res => {
+        success && success(res.data)
+      }).catch(err => {
+        error && error(err)
+      })
+    },
+    recentChance (params, success, error) { // 最近半个月重点商机
+      $axios.get('home/recentChance', {
+        params: params,
+      }).then(res => {
+        success && success(res.data)
+      }).catch(err => {
+        error && error(err)
+      })
+    },
+    orderReport (params, success, error) { // 订单报表,表
+      $axios.get('home/orderReport', {
+        params: params,
+      }).then(res => {
+        success && success(res.data)
+      }).catch(err => {
+        error && error(err)
+      })
+    },
+    orderStat (params, success, error) { // 订单统计
+      $axios.get('home/orderStat', {
+        params: params,
+      }).then(res => {
+        success && success(res.data)
+      }).catch(err => {
+        error && error(err)
+      })
+    },
+    chanceStat (params, success, error) { // 销售机会统计
+      $axios.get('home/chanceStat', {
+        params: params,
+      }).then(res => {
+        success && success(res.data)
+      }).catch(err => {
+        error && error(err)
+      })
+    },
   }
 }

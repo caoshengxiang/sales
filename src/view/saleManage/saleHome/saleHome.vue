@@ -31,9 +31,9 @@
     </div>
     <div class="home-row home-row-2">
       <el-row>
-          <div class="col-box">
-            <order-chart></order-chart>
-          </div>
+        <div class="col-box">
+          <order-chart></order-chart>
+        </div>
       </el-row>
     </div>
     <div class="home-row home-row-2">
@@ -46,7 +46,9 @@
               <li>服务商服务内容提交审核</li>
               <li>服务订单派发（30）</li>
             </ul>
-            <div class="link"><router-link :to="{name: 'taskApprovalList'}" class="link-all">查看全部 ></router-link></div>
+            <div class="link">
+              <router-link :to="{name: 'taskApprovalList'}" class="link-all">查看全部 ></router-link>
+            </div>
           </div>
         </el-col>
         <el-col :span="8" class="lr-part">
@@ -57,7 +59,9 @@
               <li>我开发的销售机会 <span>{{chanceMy}}</span></li>
               <li>即将签单销售机会 <span>{{chanceOrder}}</span></li>
             </ul>
-            <div class="link"><router-link :to="{name: 'salesOpportunitiesList'}" class="link-all">查看全部 ></router-link></div>
+            <div class="link">
+              <router-link :to="{name: 'salesOpportunitiesList'}" class="link-all">查看全部 ></router-link>
+            </div>
           </div>
         </el-col>
         <el-col :span="8">
@@ -68,7 +72,9 @@
               <li>您的服务内容调整申请已经通过审核</li>
               <li>您的服务内容调整申请已经通过审核</li>
             </ul>
-            <div class="link"><router-link :to="{name: 'messageList'}" class="link-all">查看全部 ></router-link></div>
+            <div class="link">
+              <router-link :to="{name: 'messageList'}" class="link-all">查看全部 ></router-link>
+            </div>
           </div>
         </el-col>
       </el-row>
@@ -101,19 +107,39 @@
     methods: {
       getSalesOpportunititeisList () { // 获取机会
         API.salesOpportunities.list({page: 0, pageSize: 1}, (da) => {
-         this.chanceTotal = da.data.totalElements
+          this.chanceTotal = da.data.totalElements
         })
         API.salesOpportunities.list({page: 0, pageSize: 1, type: 1}, (da) => {
-         this.chanceMy = da.data.totalElements
+          this.chanceMy = da.data.totalElements
         })
         API.salesOpportunities.list({page: 0, pageSize: 1, stage: 4}, (da) => {
-         this.chanceOrder = da.data.totalElements
+          this.chanceOrder = da.data.totalElements
+        })
+      },
+      chanceStat () { //
+        API.home.chanceStat({}, da => {
+          this.chanceTotal = da.data.total
+          this.chanceMy = da.data.myDev
+          this.chanceOrder = da.data.billing
+        }, () => {
+          let test = {
+            'data': {
+              'billing': 1,
+              'myDev': 13,
+              'total': 13,
+            },
+            'error': null,
+            'status': true,
+          }
+          this.chanceTotal = test.data.total
+          this.chanceMy = test.data.myDev
+          this.chanceOrder = test.data.billing
         })
       },
     },
     created () {
-      this.getSalesOpportunititeisList()
-    }
+      this.chanceStat()
+    },
   }
 </script>
 
@@ -150,6 +176,7 @@
       height: 362px;
     }
   }
+
   .list {
     li {
       color: #333333;
@@ -164,6 +191,7 @@
       }
     }
   }
+
   .link {
     padding: 20px;
     text-align: center;
