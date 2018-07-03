@@ -12,7 +12,7 @@
     <!--控制栏-->
     <div class="com-bar">
       <div class="com-info-left">
-        <img class="com-info-img" src="../../../assets/placeholder.jpg" alt="">
+        <img class="com-info-img" src="../../../assets/icon/company.png" alt="">
         <div class="com-info-text">
           <div>
             <h3 style="display: inline-block">成都凡特塞科技有限公司</h3>

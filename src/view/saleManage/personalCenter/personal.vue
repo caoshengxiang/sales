@@ -108,7 +108,7 @@
             <div class="img-box">
               <div class="upload">
                 <img v-if="ruleForm.avatar" width="115px" :src="ruleForm.avatar" alt="">
-                <img v-else width="115px" src="../../../assets/icon/placeholder.jpg" alt="">
+                <img v-else width="115px" src="../../../assets/icon/Upload.png" alt="">
                 <p class="up-link">选择你要上传的头像</p>
                 <p class="up-tips">本地照片：选择一张本地的图片编辑后上传为头像</p>
               </div>
@@ -117,16 +117,16 @@
                   请注意中小尺寸的头像是否清晰。</p>
                 <div class="img-size-3">
                   <div class="size-1">
-                    <img width="180px" src="../../../assets/icon/placeholder.jpg" alt="">
+                    <img width="180px" src="../../../assets/icon/head_180.png" alt="">
                     <p class="description">大尺寸头像，180*180像素</p>
                   </div>
                   <div class="size-23">
                     <div class="size-2">
-                      <img width="50" src="../../../assets/icon/placeholder.jpg" alt="">
+                      <img width="50" src="../../../assets/icon/head_50.png" alt="">
                       <p class="description">中尺寸头像 <br>50*50像素</p>
                     </div>
                     <div class="size-3">
-                      <img width="30" src="../../../assets/icon/placeholder.jpg" alt="">
+                      <img width="30" src="../../../assets/icon/head_30.png" alt="">
                       <p class="description">大尺寸头像 <br>30*30像素</p>
                     </div>
                   </div>

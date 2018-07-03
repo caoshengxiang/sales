@@ -13,10 +13,14 @@
 </template>
 
 <script>
+  import API from '../../../utils/api'
+  import { mapState } from 'vuex'
+
   export default {
     name: 'funnelChart',
     data () {
       return {
+        type: 1, // 1:本周 2:本月 3:本季 4:本年
         funnelChart: '',
         funnelOption: { // 漏斗图
           title: {
@@ -30,7 +34,9 @@
               let data = obj.data
               return '<div style="border-bottom: 1px solid rgba(255,255,255,.3); font-size: 18px;padding-bottom: 7px;margin-bottom: 7px">' +
                 obj.seriesName + '</div>' +
-                data.name + ':' + data.text
+                data.name + '<br>' +
+                data.amount + '<br>' +
+                data.quantity + '<br>'
             },
           },
           toolbox: {
@@ -87,9 +93,9 @@
                 },
               },
               data: [
-                {value: 60, name: '客户签单', text: '3000.00元/14件'},
+                {value: 20, name: '客户签单', text: '3000.00元/14件'},
                 {value: 40, name: '预定下单', text: '4000.00元/14件'},
-                {value: 20, name: '需求确定', text: '5000.00元/14件'},
+                {value: 60, name: '需求确定', text: '5000.00元/14件'},
                 {value: 80, name: '销售跟单', text: '6000.00元/14件'},
                 {value: 100, name: '初步接洽', text: '7000.00元/14件'},
               ],
@@ -98,6 +104,11 @@
         },
       }
     },
+    computed: {
+      ...mapState('constData', [
+        'salesState'
+      ])
+    },
     methods: {
       drawFunnelChart () {
         if (!this.funnelChart) {
@@ -105,6 +116,54 @@
         }
         this.funnelChart.setOption(this.funnelOption)
       },
+      getData () {
+        API.home.saleFunnel({type: this.type}, da => {
+          console.log(da.data)
+        }, () => {
+          let testData = [
+            {
+              'amount': 46,
+              'quantity': 3,
+              'stage': 1,
+            }, {
+              'amount': 46,
+              'quantity': 3,
+              'stage': 2,
+            }, {
+              'amount': 46,
+              'quantity': 3,
+              'stage': 3,
+            }, {
+              'amount': 46,
+              'quantity': 3,
+              'stage': 4,
+            }, {
+              'amount': 46,
+              'quantity': 3,
+              'stage': 5,
+            },
+          ]
+          let showData = []
+          testData.forEach(item => {
+            if (item.stage === 1) {
+              showData[0] = {value: 20, name: '客户签单', amount: '金额:' + item.amount, quantity: '数量:' + item.quantity}
+            } if (item.stage === 2) {
+              showData[1] = {value: 40, name: '预定下单', amount: '金额:' + item.amount, quantity: '数量:' + item.quantity}
+            } if (item.stage === 3) {
+              showData[2] = {value: 60, name: '需求确定', amount: '金额:' + item.amount, quantity: '数量:' + item.quantity}
+            } if (item.stage === 4) {
+              showData[3] = {value: 80, name: '销售跟单', amount: '金额:' + item.amount, quantity: '数量:' + item.quantity}
+            } if (item.stage === 5) {
+              showData[4] = {value: 100, name: '初步接洽', amount: '金额:' + item.amount, quantity: '数量:' + item.quantity}
+            }
+          })
+          this.funnelOption.series[0].data = showData
+          this.drawFunnelChart()
+        })
+      },
+    },
+    created () {
+      this.getData()
     },
     mounted () {
       this.drawFunnelChart()

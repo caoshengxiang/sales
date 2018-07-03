@@ -1259,4 +1259,16 @@ export default {
       })
     },
   },
+  // 首页
+  home: {
+    saleFunnel (params, success, error) { // 销售漏斗
+      $axios.get('home/saleFunnel', {
+        params: params,
+      }).then(res => {
+        success && success(res.data)
+      }).catch(err => {
+        error && error(err)
+      })
+    },
+  }
 }
