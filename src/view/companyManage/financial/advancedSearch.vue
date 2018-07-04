@@ -5,39 +5,39 @@
         <el-row class="el-row-cla"  v-if="type===0">
           <el-col :span="8" >
             <el-form-item label="订单号：">
-              <el-input type="text" v-model="searchForm.name"></el-input>
+              <el-input type="text" v-model="searchForm.orderId"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8" >
             <el-form-item label="订单客户：" >
-              <el-input type="text" v-model="searchForm.jobNo"></el-input>
+              <el-input type="text" v-model="searchForm.customerName"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item label="销售商品：" >
-              <el-input type="text" v-model="searchForm.agentNo"></el-input>
+              <el-input type="text" v-model="searchForm.productName"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8" >
             <el-form-item label="签约主体：">
-              <el-input type="text" v-model="searchForm.wx"></el-input>
+              <el-input type="text" v-model="searchForm.contractSubjectName"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item label="销售主体：">
-              <el-input type="text" v-model="searchForm.mobilePhone"></el-input>
+              <el-input type="text" v-model="searchForm.saleSubjectName"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item label="服务主体：" >
-              <el-input type="text" v-model="searchForm.departmentName"></el-input>
+              <el-input type="text" v-model="searchForm.serviceSubjectName"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row class="el-row-cla"  v-if="type===0">
           <el-col :span="8">
             <el-form-item label="返佣主体：">
-              <el-input type="text" v-model="searchForm.head"></el-input>
+              <el-input type="text" v-model="searchForm.rebateSubjectName"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8" >
@@ -51,36 +51,38 @@
         <el-row  v-if="type===0">
           <el-col :span="8" >
             <el-form-item label="回款金额：">
-              <el-input type="text" ></el-input>
+              <el-input type="text" v-model="searchForm.netReceiptsStart"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8" >
             <el-form-item  label="至：">
-              <el-input type="text" ></el-input>
+              <el-input type="text" v-model="searchForm.netReceiptsEnd"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row  v-if="type===0">
           <el-col :span="8" >
             <el-form-item label="收支合计：">
-              <el-input type="text" ></el-input>
+              <el-input type="text" v-model="searchForm.totalAmountStart"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8" >
             <el-form-item  label="至：">
-              <el-input type="text" ></el-input>
+              <el-input type="text" v-model="searchForm.totalAmountEnd"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row v-if="type===1">
           <el-col :span="8" >
             <el-form-item label="返佣对象：">
-              <el-input type="text" v-model="searchForm.assistant"></el-input>
+              <el-input type="text" v-model="searchForm.rebateUserName"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8" >
             <el-form-item label="佣金状态：">
-              <el-input type="text" v-model="searchForm.trainer"></el-input>
+              <el-select v-model="searchForm.paymentState" placeholder="请选择佣金状态">
+                <el-option v-for="item in paymentState"  :key="item.type" :label="item.value" :value="item.type"></el-option>
+              </el-select>
             </el-form-item>
           </el-col>
         </el-row>
@@ -115,26 +117,44 @@
             value: '已审核'
           }
         ],
+        paymentState: [ // 订单状态
+          {
+            type: 1,
+            value: '待审核'
+          }, {
+            type: 2,
+            value: '已审核'
+          }, {
+            type: 3,
+            value: '已确认'
+          }, {
+            type: 4,
+            value: '已打款'
+          }, {
+            type: 5,
+            value: '已作废'
+          }
+        ],
         industryList: [], // 行业
         levelList: [], // 级别
         seaList: [], // 公海
         customerSourceType: [], // 客户来源
         customerState: [], // 客户状态
         searchForm: { // 表单
-          mobilePhone:null,
-          jobNo:null,
-          name: null,
-          organizationId: null,
-          roleId:null,
-          birthdayStart: null,
-          birthdayEnd: null,
-          departmentName:null,
-          head:null,
-          assistant:null,
-          trainer:null,
-          sex:null,
-          agentNo:null,
-          wx:null,
+          clearState:null,
+          orderId:null,
+          customerName: null,
+          productName: null,
+          contractSubjectName:null,
+          saleSubjectName: null,
+          rebateSubjectName: null,
+          serviceSubjectName:null,
+          totalAmountStart:null,
+          totalAmountEnd:null,
+          netReceiptsStart:null,
+          netReceiptsEnd:null,
+          rebateUserName:null,
+          paymentState:null
         },
         organizationOptions: [], // 组织列表
         timeIntervalRefundDate: '',

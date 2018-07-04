@@ -305,7 +305,7 @@
             if (data.type === 'search') {
               console.log('高级搜索数据：', data.params)
               this.advancedSearch = data.params
-              this.getuserList()
+              this.getCommissionClear()
             }
           },
         })
@@ -434,7 +434,7 @@
           clearMonth: that.searchForm.clearMonth===null?"":(that.searchForm.clearMonth.getFullYear()+""+('00'+(1+that.searchForm.clearMonth.getMonth())).slice(-2)),
           clearState: that.searchForm.clearState
         }
-        API.financial.queryList(param, (res) => {
+        API.financial.queryList(Object.assign({}, this.param,  this.advancedSearch), (res) => {
           that.loading = false
           if (res.status) {
             that.tableData = res.data.content

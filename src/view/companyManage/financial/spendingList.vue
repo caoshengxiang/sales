@@ -252,7 +252,7 @@
             if (data.type === 'search') {
               console.log('高级搜索数据：', data.params)
               this.advancedSearch = data.params
-              this.getuserList()
+              this.getCommissionClear()
             }
           },
         })
@@ -344,7 +344,7 @@
           paymentMonth: that.searchForm.paymentMonth===null?"":(that.searchForm.paymentMonth.getFullYear()+""+('00'+(1+that.searchForm.paymentMonth.getMonth())).slice(-2)),
           paymentState: that.searchForm.paymentState
         }
-        API.financial.queryPaymentList(param, (res) => {
+        API.financial.queryPaymentList(Object.assign({}, this.param,  this.advancedSearch), (res) => {
           that.loading = false
           if (res.status) {
             that.tableData = res.data.content
