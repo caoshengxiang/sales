@@ -45,6 +45,7 @@
         :data="tableData"
         tooltip-effect="dark"
         style="width: 100%"
+        @sort-change="sortChangeHandle"
         @selection-change="handleSelectionChange"
       >
         <el-table-column
@@ -59,6 +60,7 @@
           align="center"
           prop="orderId"
           label="订单号"
+          sortable="custom"
           show-overflow-tooltip>
         </el-table-column>
         <el-table-column
@@ -74,6 +76,7 @@
           align="center"
           prop="serviceSubjectName"
           label="订单客户"
+          sortable="custom"
           show-overflow-tooltip>
         </el-table-column>
 
@@ -81,11 +84,13 @@
           align="center"
           prop="productName"
           label="销售商品"
+          sortable="custom"
         >
         </el-table-column>
 
         <el-table-column
           align="center"
+          sortable="custom"
           prop="netReceipts"
           label="回款金额"
         >
@@ -97,6 +102,7 @@
           <el-table-column
             align="center"
             prop="totalAmount"
+            sortable="custom"
             label="合计收支"
           >
           </el-table-column>
@@ -104,17 +110,20 @@
           <el-table-column
             align="center"
             label="签约主体"
+            sortable="custom"
             prop="contractSubjectName"
           >
           </el-table-column>
           <el-table-column
             align="center"
             label="签约金额"
+            sortable="custom"
             prop="contractSubjectAmount"
           >
           </el-table-column>
           <el-table-column
             align="center"
+            sortable="custom"
             prop="saleSubjectName"
             label="销售主体"
           >
@@ -122,6 +131,7 @@
 
           <el-table-column
             align="center"
+            sortable="custom"
             prop="serviceSubjectName"
             label="服务主体"
           >
@@ -129,6 +139,7 @@
 
           <el-table-column
             align="center"
+            sortable="custom"
             prop="rebateSubjectName"
             label="返佣主体"
           >
@@ -143,6 +154,8 @@
         >
           <el-table-column
             align="center"
+            prop="saleCommission"
+            sortable="custom"
             label="销售佣金"
           >
             <template slot-scope="scope">
@@ -166,6 +179,8 @@
           <el-table-column
             align="center"
             label="服务佣金"
+            prop="serviceCommission"
+            sortable="custom"
           >
             <template slot-scope="scope">
               <a class="col-link" @click="saleCommission(scope.row,3)">{{ scope.row.serviceCommission }}</a>
@@ -217,12 +232,14 @@
   import serviceReward from './serviceReward'
   import serviceAllowance from './serviceAllowance'
   import advancedSearch from './advancedSearch'
+  import { underscoreName } from '../../../utils/utils'
 
 
   export default {
     name: 'list',
     data () {
       return {
+        sortObj: null, // 排序
         advancedSearch:null, // 高级搜索
         totle:0,
         clearState: [ // 订单状态
@@ -291,6 +308,16 @@
 
   },
     methods: {
+      sortChangeHandle (sortObj) {
+        let order = null
+        if (sortObj.order === 'ascending') {
+          order = 'asc'
+        } else if (sortObj.order === 'descending') {
+          order = 'desc'
+        }
+        this.sortObj = {sort: underscoreName(sortObj.prop) + ',' + order}
+        this.getCommissionClear()
+      },
       advancedSearchHandle () {
         this.$vDialog.modal(advancedSearch, {
           title: '高级搜索',
@@ -434,7 +461,7 @@
           clearMonth: that.searchForm.clearMonth===null?"":(that.searchForm.clearMonth.getFullYear()+""+('00'+(1+that.searchForm.clearMonth.getMonth())).slice(-2)),
           clearState: that.searchForm.clearState
         }
-        API.financial.queryList(Object.assign({}, this.param,  this.advancedSearch), (res) => {
+        API.financial.queryList(Object.assign({}, param, this.sortObj, this.advancedSearch), (res) => {
           that.loading = false
           if (res.status) {
             that.tableData = res.data.content

@@ -46,6 +46,7 @@
         :data="tableData"
         tooltip-effect="dark"
         style="width: 100%"
+        @sort-change="sortChangeHandle"
         @selection-change="handleSelectionChange"
       >
         <el-table-column
@@ -60,6 +61,7 @@
           align="center"
           prop="paymentMonth"
           label="返佣月度"
+          sortable="custom"
           show-overflow-tooltip>
         </el-table-column>
 
@@ -73,6 +75,8 @@
         <el-table-column
           align="center"
           label="返佣合计金额"
+          prop="totalAmount"
+          sortable="custom"
           show-overflow-tooltip>
           <template slot-scope="scope">
             <a class="col-link" @click="saleCommission(scope.row)">{{ scope.row.totalAmount }}</a>
@@ -92,6 +96,7 @@
           align="center"
           prop="created"
           label="返佣结算日期"
+          sortable="custom"
           show-overflow-tooltip>
         </el-table-column>
 
@@ -102,6 +107,7 @@
           <el-table-column
             align="center"
             label="销售佣金"
+            sortable="custom"
              prop="saleCommission"
           >
           </el-table-column>
@@ -109,6 +115,7 @@
           <el-table-column
             align="center"
             label="管理佣金"
+            sortable="custom"
             prop="managementCommission"
           >
           </el-table-column>
@@ -161,6 +168,7 @@
   import API from '../../../utils/api'
   import spendingDetail from './spendingDetail'
   import advancedSearch from './advancedSearch'
+  import { underscoreName } from '../../../utils/utils'
 
 
 
@@ -168,6 +176,7 @@
     name: 'list',
     data () {
       return {
+        sortObj: null, // 排序
         advancedSearch:null, // 高级搜索
         totle:0,
         paymentState: [ // 订单状态
@@ -238,6 +247,16 @@
 
     },
     methods: {
+      sortChangeHandle (sortObj) {
+        let order = null
+        if (sortObj.order === 'ascending') {
+          order = 'asc'
+        } else if (sortObj.order === 'descending') {
+          order = 'desc'
+        }
+        this.sortObj = {sort: underscoreName(sortObj.prop) + ',' + order}
+        this.getCommissionClear()
+      },
       advancedSearchHandle () {
         this.$vDialog.modal(advancedSearch, {
           title: '高级搜索',
@@ -344,7 +363,7 @@
           paymentMonth: that.searchForm.paymentMonth===null?"":(that.searchForm.paymentMonth.getFullYear()+""+('00'+(1+that.searchForm.paymentMonth.getMonth())).slice(-2)),
           paymentState: that.searchForm.paymentState
         }
-        API.financial.queryPaymentList(Object.assign({}, this.param,  this.advancedSearch), (res) => {
+        API.financial.queryPaymentList(Object.assign({}, param,  this.sortObj, this.advancedSearch), (res) => {
           that.loading = false
           if (res.status) {
             that.tableData = res.data.content
