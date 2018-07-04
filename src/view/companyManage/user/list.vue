@@ -59,9 +59,11 @@
       <el-table
         ref="multipleTable"
         border
+        stripe
         :data="userList"
         tooltip-effect="dark"
         style="width: 100%"
+        @sort-change="sortChangeHandle"
         @selection-change="handleSelectionChange">
         <el-table-column
           fixed
@@ -74,6 +76,8 @@
         <el-table-column
           align="center"
           label="姓名"
+          prop="name"
+          sortable="custom"
           width="200"
           show-overflow-tooltip
         >
@@ -85,14 +89,16 @@
           show-overflow-tooltip
           align="center"
           label="工号"
+          sortable="custom"
           prop="jobNo"
         >
         </el-table-column>
         <el-table-column
           show-overflow-tooltip
           align="center"
-          prop="productName"
+          prop="mobilePhone"
           label="手机号"
+          sortable="custom"
         >
         </el-table-column>
         <el-table-column
@@ -100,6 +106,7 @@
           align="center"
           prop="organizationName"
           label="组织"
+          sortable="custom"
         >
         </el-table-column>
         <el-table-column
@@ -112,8 +119,9 @@
         <el-table-column
           show-overflow-tooltip
           align="center"
-          prop=""
+          prop="roleName"
           label="角色"
+          sortable="custom"
         >
           <template slot-scope="scope">
             <span v-for="item in scope.row.roles"
@@ -160,6 +168,17 @@
         <el-table-column
           show-overflow-tooltip
           align="center"
+          prop="birthday"
+          label="出生日期"
+          sortable="custom"
+        >
+          <template slot-scope="scope">
+            {{scope.row.birthday && $moment(scope.row.birthday).format('YYYY-MM-DD')}}
+          </template>
+        </el-table-column>
+        <el-table-column
+          show-overflow-tooltip
+          align="center"
           prop="sex"
           label="性别"
         >
@@ -168,6 +187,7 @@
           show-overflow-tooltip
           align="center"
           prop="status"
+          sortable="custom"
           :formatter="fmtNumColumn"
           label="状态"
         >
@@ -196,11 +216,13 @@
   import { mapState, mapActions } from 'vuex'
   import addDialog from './addDialog'
   import advancedSearch from './advancedSearch'
+  import { underscoreName } from '../../../utils/utils'
 
   export default {
     name: 'list',
     data () {
       return {
+        sortObj: null, // 排序
         advancedSearch:null, // 高级搜索
         loading: false,
         dataLoading: true,
@@ -259,6 +281,16 @@
       })
     },
     methods: {
+    sortChangeHandle (sortObj) {
+      let order = null
+      if (sortObj.order === 'ascending') {
+        order = 'asc'
+      } else if (sortObj.order === 'descending') {
+        order = 'desc'
+      }
+      this.sortObj = {sort: underscoreName(sortObj.prop) + ',' + order}
+      this.getuserList()
+    },
       advancedSearchHandle () {
         this.$vDialog.modal(advancedSearch, {
           title: '高级搜索',
@@ -353,16 +385,16 @@
       ...mapActions('user', [
         'ac_userList',
       ]),
-      getuserList (page, pageSize, type) { // 获取列表数据
+      getuserList () { // 获取列表数据
         let param = {
-          page: page,
-          pageSize: pageSize,
+          page: this.currentPage - 1,
+          pageSize: this.pagesOptions.pageSize,
           type: 1, // 查询员工
           departmentId: this.form.departmentId,
           organizationId: this.form.organizationId,
         }
         this.dataLoading = true
-        API.user.userList(Object.assign({}, this.param,  this.advancedSearch), (res) => {
+        API.user.userList(Object.assign({}, param, this.sortObj, this.advancedSearch), (res) => {
           this.ac_userList(res.data)
           setTimeout(() => {
             this.dataLoading = false

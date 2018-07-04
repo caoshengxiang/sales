@@ -326,7 +326,7 @@
         var that = this
         that.$vDialog.modal(spendingDetail, {
           title: '管理佣金返佣详情',
-          width: 1900,
+          width: 1024,
           height: 800,
           params: {
             id: row.id,

@@ -223,7 +223,7 @@
       var that=this
       let param = {
         clearId: that.params.id,
-        type: 1,
+        type: 2,
       }
       API.financial.detail(param, (res) => {
         that.loading = false
