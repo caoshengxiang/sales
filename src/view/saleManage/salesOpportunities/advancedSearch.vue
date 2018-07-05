@@ -65,13 +65,15 @@
             <el-form-item label="预计签单金额：">
               <el-row>
                 <el-col :span="10">
-                  <el-input @change="intentBillAmountStartHandle" type="number" v-model.number="searchForm.startIntentBillAmount"></el-input>
+                  <el-input @change="intentBillAmountStartHandle" type="number"
+                            v-model.number="searchForm.startIntentBillAmount"></el-input>
                 </el-col>
                 <el-col :span="2">
                   <div style="text-align: center">-</div>
                 </el-col>
                 <el-col :span="10">
-                  <el-input @change="intentBillAmountEndHandle" type="number" v-model.number="searchForm.endIntentBillAmount"></el-input>
+                  <el-input @change="intentBillAmountEndHandle" type="number"
+                            v-model.number="searchForm.endIntentBillAmount"></el-input>
                 </el-col>
               </el-row>
             </el-form-item>
@@ -117,7 +119,8 @@
         }
       },
       intentBillAmountEndHandle () {
-        if (this.searchForm.startIntentBillAmount && this.searchForm.startIntentBillAmount > this.searchForm.endIntentBillAmount) {
+        if (this.searchForm.startIntentBillAmount && this.searchForm.startIntentBillAmount >
+          this.searchForm.endIntentBillAmount) {
           this.searchForm.endIntentBillAmount = this.searchForm.startIntentBillAmount
         }
       },

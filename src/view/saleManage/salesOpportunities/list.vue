@@ -5,8 +5,12 @@
     <!--头部-->
     <div class="com-head">
       <el-breadcrumb separator-class="el-icon-arrow-right">
-        <el-breadcrumb-item v-if="themeIndex === 0" v-for="item in $route.meta.pos" :key="item.toName" :to="{name: item.toName}">{{item.name}}</el-breadcrumb-item>
-        <el-breadcrumb-item v-if="themeIndex === 1" v-for="item in $route.meta.pos2" :key="item.toName" :to="{name: item.toName}">{{item.name}}</el-breadcrumb-item>
+        <el-breadcrumb-item v-if="themeIndex === 0" v-for="item in $route.meta.pos" :key="item.toName"
+                            :to="{name: item.toName}">{{item.name}}
+        </el-breadcrumb-item>
+        <el-breadcrumb-item v-if="themeIndex === 1" v-for="item in $route.meta.pos2" :key="item.toName"
+                            :to="{name: item.toName}">{{item.name}}
+        </el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <!--控制栏-->
@@ -17,7 +21,8 @@
         </com-button>
         <com-button buttonType="add" icon="el-icon-plus" @click="operateOptions('add')">新增</com-button>
         <com-button buttonType="orange" @click="operateOptions('move')"
-                    :disabled="multipleSelection.length <= 0"><i class="el-icon-sort" style="transform: rotate(90deg)"></i> 转移
+                    :disabled="multipleSelection.length <= 0"><i class="el-icon-sort"
+                                                                 style="transform: rotate(90deg)"></i> 转移
         </com-button>
       </div>
       <div class="com-bar-right" v-if="themeIndex === 0"><!--前端-->
@@ -74,7 +79,8 @@
           show-overflow-tooltip
         >
           <template slot-scope="scope">
-            <a class="col-link" @click="handleRouter('detail', scope.row.id)">{{ scope.row.intentProductName || '无名'}}</a>
+            <a class="col-link" @click="handleRouter('detail', scope.row.id)">{{ scope.row.intentProductName ||
+              '无名'}}</a>
           </template>
         </el-table-column>
         <el-table-column
@@ -350,12 +356,13 @@
       getSalesOpportunititeisList () { // 获取列表
         this.dataLoading = true
         this.getQueryParams()
-        API.salesOpportunities.list(Object.assign({}, this.defaultListParams, this.sortObj, this.advancedSearch), (data) => {
-          this.ac_salesOpportunitiesList(data.data)
-          setTimeout(() => {
-            this.dataLoading = false
-          }, 500)
-        })
+        API.salesOpportunities.list(Object.assign({}, this.defaultListParams, this.sortObj, this.advancedSearch),
+          (data) => {
+            this.ac_salesOpportunitiesList(data.data)
+            setTimeout(() => {
+              this.dataLoading = false
+            }, 500)
+          })
       },
       handleSizeChange (val) {
         console.log(`每页 ${val} 条`)
@@ -410,7 +417,7 @@
           page: this.currentPage - 1,
           pageSize: this.pagesOptions.pageSize,
           type: this.salesOpportunitiesOptionsType, // 前端
-          organizationId: this.organizationId // 后端
+          organizationId: this.organizationId, // 后端
         }
         if (this.customerId) { // 更多
           this.defaultListParams.customerId = this.customerId

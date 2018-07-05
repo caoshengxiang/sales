@@ -1,87 +1,95 @@
 <template>
   <div class="com-dialog-container" v-loading="dataLoading">
-      <div class="com-dialog">
-        <el-form :model="addForm" ref="addForm" label-width="0px" :rules="rules">
-          <table class="com-dialog-table">
-            <tr>
-              <td class="td-title">客户名称</td>
-              <td class="td-text">
-                <el-form-item prop="customerId">
-                  <el-select :disabled="params.detailCustomersId?true:false" v-model.number="addForm.customerId" placeholder="请选择客户" style="width: 100%">
-                    <el-option v-for="item in customersList" :key="item.id" :label="item.name" :value="item.id"></el-option>
-                  </el-select>
-                </el-form-item>
-              </td>
+    <div class="com-dialog">
+      <el-form :model="addForm" ref="addForm" label-width="0px" :rules="rules">
+        <table class="com-dialog-table">
+          <tr>
+            <td class="td-title">客户名称</td>
+            <td class="td-text">
+              <el-form-item prop="customerId">
+                <el-select :disabled="params.detailCustomersId?true:false" v-model.number="addForm.customerId"
+                           placeholder="请选择客户" style="width: 100%">
+                  <el-option v-for="item in customersList" :key="item.id" :label="item.name"
+                             :value="item.id"></el-option>
+                </el-select>
+              </el-form-item>
+            </td>
 
-              <td class="td-title">需求阶段</td>
-              <td class="td-text">
-                <el-form-item prop="state">
-                  <el-select :disabled="true" v-model.number="addForm.state" placeholder="" style="width: 100%">
-                    <el-option v-for="item in salesState" :key="item.type" :label="item.value + item.percent"
-                               :value="item.type" v-if="item.type !== -1"></el-option>
-                  </el-select>
-                </el-form-item>
-              </td>
-            </tr>
-            <tr>
-              <td class="td-title">预计签单时间</td>
-              <td class="td-text">
-                <el-form-item prop="billDate">
-                  <el-date-picker
-                    style="width: 100%"
-                    v-model="addForm.billDate"
-                    type="datetime"
-                    placeholder="选择时间">
-                  </el-date-picker>
-                </el-form-item>
-              </td>
-              <td class="td-title">预计签单金额</td>
-              <td class="td-text">
-                <!--<input type="text" v-model="addForm.industry">-->
-                <el-form-item prop="intentBillAmount">
-                  <!--<el-input type="number" minlength="0" v-model.number="addForm.intentBillAmount"></el-input>-->
-                  <el-input-number style="width: 100%" v-model="addForm.intentBillAmount" :precision="2" :step="1" :min="0"></el-input-number>
-                </el-form-item>
-              </td>
-            </tr>
-            <tr>
-              <td class="td-title">意向商品分类</td>
-              <td class="td-text">
-                <el-form-item prop="intentProductCate">
-                  <el-select v-model.number="addForm.intentProductCate" @change="intentProductCateChangeHandle" placeholder="请选择意向商品分类" style="width: 100%">
-                    <el-option v-for="item in intentProductCateList" :key="item.objectId" :label="item.name" :value="item.objectId"></el-option>
-                  </el-select>
-                </el-form-item>
-              </td>
-              <td class="td-title">意向商品</td>
-              <td class="td-text">
-                <el-form-item prop="intentProductId">
-                  <el-select v-model.number="addForm.intentProductId" @change="intentProductIdChangeHandle" placeholder="请选择意向商品" style="width: 100%">
-                    <el-option v-for="item in intentProductList" :key="item.objectId" :label="item.name" :value="item.objectId"></el-option>
-                  </el-select>
-                </el-form-item>
-              </td>
-            </tr>
-            <tr>
-              <td class="td-title">需求描述</td>
-              <td class="td-text" colspan="3">
-                <el-form-item prop="chanceRemark">
-                  <el-input type="text" v-model="addForm.chanceRemark"></el-input>
-                </el-form-item>
-              </td>
-            </tr>
-          </table>
-        </el-form>
-        <div slot="footer" class="dialog-footer">
-          <el-button class="cancel-button" @click="$vDialog.close({type: 'cancel'})">取 消</el-button>
-          <el-button class="save-button" @click="saveSubmitForm('addForm')">确 定</el-button>
-        </div>
+            <td class="td-title">需求阶段</td>
+            <td class="td-text">
+              <el-form-item prop="state">
+                <el-select :disabled="true" v-model.number="addForm.state" placeholder="" style="width: 100%">
+                  <el-option v-for="item in salesState" :key="item.type" :label="item.value + item.percent"
+                             :value="item.type" v-if="item.type !== -1"></el-option>
+                </el-select>
+              </el-form-item>
+            </td>
+          </tr>
+          <tr>
+            <td class="td-title">预计签单时间</td>
+            <td class="td-text">
+              <el-form-item prop="billDate">
+                <el-date-picker
+                  style="width: 100%"
+                  v-model="addForm.billDate"
+                  type="datetime"
+                  placeholder="选择时间">
+                </el-date-picker>
+              </el-form-item>
+            </td>
+            <td class="td-title">预计签单金额</td>
+            <td class="td-text">
+              <!--<input type="text" v-model="addForm.industry">-->
+              <el-form-item prop="intentBillAmount">
+                <!--<el-input type="number" minlength="0" v-model.number="addForm.intentBillAmount"></el-input>-->
+                <el-input-number style="width: 100%" v-model="addForm.intentBillAmount" :precision="2" :step="1"
+                                 :min="0"></el-input-number>
+              </el-form-item>
+            </td>
+          </tr>
+          <tr>
+            <td class="td-title">意向商品分类</td>
+            <td class="td-text">
+              <el-form-item prop="intentProductCate">
+                <el-select v-model.number="addForm.intentProductCate" @change="intentProductCateChangeHandle"
+                           placeholder="请选择意向商品分类" style="width: 100%">
+                  <el-option v-for="item in intentProductCateList" :key="item.objectId" :label="item.name"
+                             :value="item.objectId"></el-option>
+                </el-select>
+              </el-form-item>
+            </td>
+            <td class="td-title">意向商品</td>
+            <td class="td-text">
+              <el-form-item prop="intentProductId">
+                <el-select v-model.number="addForm.intentProductId" @change="intentProductIdChangeHandle"
+                           placeholder="请选择意向商品" style="width: 100%">
+                  <el-option v-for="item in intentProductList" :key="item.objectId" :label="item.name"
+                             :value="item.objectId"></el-option>
+                </el-select>
+              </el-form-item>
+            </td>
+          </tr>
+          <tr>
+            <td class="td-title">需求描述</td>
+            <td class="td-text" colspan="3">
+              <el-form-item prop="chanceRemark">
+                <el-input type="text" v-model="addForm.chanceRemark"></el-input>
+              </el-form-item>
+            </td>
+          </tr>
+        </table>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button class="cancel-button" @click="$vDialog.close({type: 'cancel'})">取 消</el-button>
+        <el-button class="save-button" @click="saveSubmitForm('addForm')">确 定</el-button>
       </div>
+    </div>
   </div>
 </template>
 
 <script>
   import API from '../../../utils/api'
+
   export default {
     name: 'addDialog',
     data () {
@@ -205,7 +213,7 @@
             this.addForm.intentProductCateName = item.name
           }
         })
-      }
+      },
     },
     created () {
       this.getCustomersList()
@@ -222,7 +230,7 @@
       if (this.params.detailCustomersId) { // 详细页面的添加, 并禁用下拉列表
         this.addForm.customerId = this.params.detailCustomersId
       }
-    }
+    },
   }
 </script>
 

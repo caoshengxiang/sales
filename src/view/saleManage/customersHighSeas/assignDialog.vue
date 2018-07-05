@@ -45,23 +45,24 @@
         this.$refs[formName].validate((valid) => {
           if (valid) {
             this.dataLoading = true
-            API.customerSea.allocate({customerIds: this.params.customerIds, newSalerId: this.moveCustomerForm.newSalerId}, (data) => {
-              if (data.status) {
-                if (data.data.fail > 0) {
-                  this.$message.warning(`成功${data.data.success}, 失败${data.data.fail}, 失败原因：${data.data.errorMessage}`)
+            API.customerSea.allocate(
+              {customerIds: this.params.customerIds, newSalerId: this.moveCustomerForm.newSalerId}, (data) => {
+                if (data.status) {
+                  if (data.data.fail > 0) {
+                    this.$message.warning(`成功${data.data.success}, 失败${data.data.fail}, 失败原因：${data.data.errorMessage}`)
+                  } else {
+                    this.$message.success(`成功${data.data.success},失败${data.data.fail}`)
+                  }
+                  setTimeout(() => {
+                    this.dataLoading = false
+                    this.$vDialog.close({type: 'save'})
+                  }, 500)
                 } else {
-                  this.$message.success(`成功${data.data.success},失败${data.data.fail}`)
+                  setTimeout(() => {
+                    this.dataLoading = false
+                  }, 500)
                 }
-                setTimeout(() => {
-                  this.dataLoading = false
-                  this.$vDialog.close({type: 'save'})
-                }, 500)
-              } else {
-                setTimeout(() => {
-                  this.dataLoading = false
-                }, 500)
-              }
-            })
+              })
           } else {
             console.log('error submit!!')
             return false
@@ -72,7 +73,7 @@
         API.user.seaFollowersList({customerId: customerId}, (data) => {
           this.salerList = data.data
         })
-      }
+      },
     },
     created () {
       this.getUserSearch(this.params.customerIds)

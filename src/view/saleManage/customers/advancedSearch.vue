@@ -20,11 +20,11 @@
           </el-col>
         </el-row>
         <!--<el-row class="el-row-cla">-->
-          <!--<el-col :span="8">-->
-            <!--<el-form-item label="销售人：">-->
-              <!--<el-input type="text" v-model="searchForm.salerName"></el-input>-->
-            <!--</el-form-item>-->
-          <!--</el-col>-->
+        <!--<el-col :span="8">-->
+        <!--<el-form-item label="销售人：">-->
+        <!--<el-input type="text" v-model="searchForm.salerName"></el-input>-->
+        <!--</el-form-item>-->
+        <!--</el-col>-->
         <!--</el-row>-->
         <el-row class="el-row-cla">
           <el-col :span="8">
@@ -62,14 +62,16 @@
           <el-col :span="8">
             <el-form-item label="客户来源：">
               <el-select v-model="searchForm.source" placeholder="请选择客户来源">
-                <el-option v-for="item in customerSourceType" :key="item.type" :label="item.value" :value="item.type"></el-option>
+                <el-option v-for="item in customerSourceType" :key="item.type" :label="item.value"
+                           :value="item.type"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item label="状态：">
               <el-select v-model="searchForm.state" placeholder="请选择状态">
-                <el-option v-for="item in customerState" :key="item.type" :label="item.value" :value="item.type"></el-option>
+                <el-option v-for="item in customerState" :key="item.type" :label="item.value"
+                           :value="item.type"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
@@ -100,6 +102,7 @@
 
 <script>
   import API from '../../../utils/api'
+
   export default {
     name: 'advancedSearch',
     data () {
@@ -124,7 +127,7 @@
           startDate: null,
           endDate: null,
         },
-        timeInterval: ''
+        timeInterval: '',
       }
     },
     props: ['params'],
@@ -154,7 +157,7 @@
       timeIntervalHandle (value) {
         this.searchForm.startDate = value[0] || ''
         this.searchForm.endDate = value[1] || ''
-      }
+      },
     },
     created () {
       this.getConfigData(2)
@@ -162,7 +165,7 @@
       this.getSeaList()
       this.customerSourceType = this.params.customerSourceType
       this.customerState = this.params.customerState
-    }
+    },
   }
 </script>
 

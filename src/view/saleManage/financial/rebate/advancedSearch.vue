@@ -100,13 +100,15 @@
           <el-form-item label="回款金额：">
             <el-row>
               <el-col :span="5">
-                <el-input @change="intervalStartHandle" type="number" v-model.number="searchForm.startNetReceipts"></el-input>
+                <el-input @change="intervalStartHandle" type="number"
+                          v-model.number="searchForm.startNetReceipts"></el-input>
               </el-col>
               <el-col :span="2">
                 <div style="text-align: center">-</div>
               </el-col>
               <el-col :span="5">
-                <el-input @change="intervalEndHandle" type="number" v-model.number="searchForm.endNetReceipts"></el-input>
+                <el-input @change="intervalEndHandle" type="number"
+                          v-model.number="searchForm.endNetReceipts"></el-input>
               </el-col>
             </el-row>
           </el-form-item>

@@ -104,6 +104,7 @@
 
 <style scoped lang="scss" rel="stylesheet/scss">
   @import "../../../static/quill.snow.css";
+
   .contract {
     width: 870px;
     padding: 20px;

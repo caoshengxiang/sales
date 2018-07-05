@@ -178,7 +178,7 @@
           ],
           phone: [
             // {required: true, message: '请输入联系电话', trigger: 'blur'},
-            chartLengthRule.validatePhone
+            chartLengthRule.validatePhone,
           ],
           // seaName: '',
           seaId: [

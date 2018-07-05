@@ -3,7 +3,8 @@
     <!--头部-->
     <div class="com-head">
       <el-breadcrumb separator-class="el-icon-arrow-right">
-        <el-breadcrumb-item v-for="item in $route.meta.pos" :key="item.toName" :to="{name: item.toName}">{{item.name}}</el-breadcrumb-item>
+        <el-breadcrumb-item v-for="item in $route.meta.pos" :key="item.toName" :to="{name: item.toName}">{{item.name}}
+        </el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <!--控制栏-->
@@ -100,7 +101,9 @@
           </tr>
           <tr>
             <td class="td-title">预计签单时间</td>
-            <td>{{salesOpportunitiesDetail.billDate && $moment(salesOpportunitiesDetail.billDate).format('YYYY-MM-DD')}}</td>
+            <td>{{salesOpportunitiesDetail.billDate &&
+              $moment(salesOpportunitiesDetail.billDate).format('YYYY-MM-DD')}}
+            </td>
             <td class="td-title">意向商品</td>
             <td>{{salesOpportunitiesDetail.intentProductName}}</td>
             <td class="td-title">实际签单金额</td>

@@ -10,8 +10,12 @@
     <!--头部-->
     <div class="com-head">
       <el-breadcrumb separator-class="el-icon-arrow-right">
-        <el-breadcrumb-item v-if="themeIndex === 0" v-for="item in $route.meta.pos" :key="item.toName" :to="{name: item.toName}">{{item.name}}</el-breadcrumb-item>
-        <el-breadcrumb-item v-if="themeIndex === 1" v-for="item in $route.meta.pos2" :key="item.toName" :to="{name: item.toName}">{{item.name}}</el-breadcrumb-item>
+        <el-breadcrumb-item v-if="themeIndex === 0" v-for="item in $route.meta.pos" :key="item.toName"
+                            :to="{name: item.toName}">{{item.name}}
+        </el-breadcrumb-item>
+        <el-breadcrumb-item v-if="themeIndex === 1" v-for="item in $route.meta.pos2" :key="item.toName"
+                            :to="{name: item.toName}">{{item.name}}
+        </el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <!--控制栏-->
@@ -36,7 +40,9 @@
         <!--</el-radio-group>-->
         <ul class="com-info-op-group">
           <!--输单后隐藏删除以外得按钮-->
-          <li class="op-active" v-if="salesOpportunitiesDetail.stage !== -1 && isChangeFollower" @click="operateOptions('move')">转移</li>
+          <li class="op-active" v-if="salesOpportunitiesDetail.stage !== -1 && isChangeFollower"
+              @click="operateOptions('move')">转移
+          </li>
           <li v-if="isChangeFollower" @click="operateOptions('delete')">删除</li>
         </ul>
       </div>
@@ -49,7 +55,8 @@
           </el-steps>
         </div>
         <!--输单后隐藏删除以外得按钮-->
-        <a v-if="salesOpportunitiesDetail.stage !== -1 && isChangeFollower" class="lose-bill" @click="operateOptions('discard')">输单</a>
+        <a v-if="salesOpportunitiesDetail.stage !== -1 && isChangeFollower" class="lose-bill"
+           @click="operateOptions('discard')">输单</a>
       </div>
 
     </div>
@@ -74,7 +81,9 @@
               </tr>
               <tr>
                 <td class="td-title">预计签单时间</td>
-                <td>{{salesOpportunitiesDetail.billDate && $moment(salesOpportunitiesDetail.billDate).format('YYYY-MM-DD')}}</td>
+                <td>{{salesOpportunitiesDetail.billDate &&
+                  $moment(salesOpportunitiesDetail.billDate).format('YYYY-MM-DD')}}
+                </td>
                 <td class="td-title">意向商品</td>
                 <td>{{salesOpportunitiesDetail.intentProductName}}</td>
                 <td class="td-title">实际签单金额</td>
@@ -96,8 +105,14 @@
                 <td class="td-title">销售合同网址</td>
                 <!--<td colspan="5">{{salesOpportunitiesDetail.contractUrl}}</td>-->
                 <td colspan="5">
-                  <router-link v-if="salesOpportunitiesDetail.oncePay === true" :to="{name: 'onetimeContract', query: {name: salesOpportunitiesDetail.intentProductName}}" target="_blank">查看一次合同</router-link>
-                  <router-link v-if="salesOpportunitiesDetail.oncePay === false"  :to="{name: 'multipleContracts', query: {name: salesOpportunitiesDetail.intentProductName}}" target="_blank">查看分次合同</router-link>
+                  <router-link v-if="salesOpportunitiesDetail.oncePay === true"
+                               :to="{name: 'onetimeContract', query: {name: salesOpportunitiesDetail.intentProductName}}"
+                               target="_blank">查看一次合同
+                  </router-link>
+                  <router-link v-if="salesOpportunitiesDetail.oncePay === false"
+                               :to="{name: 'multipleContracts', query: {name: salesOpportunitiesDetail.intentProductName}}"
+                               target="_blank">查看分次合同
+                  </router-link>
                 </td>
               </tr>
               <tr>
@@ -110,19 +125,25 @@
             <table class="detail-table">
               <tr>
                 <td class="td-title">销售机会创建时间</td>
-                <td colspan="3">{{salesOpportunitiesDetail.created && $moment(salesOpportunitiesDetail.created).format('YYYY-MM-DD HH:mm:ss')}}</td>
+                <td colspan="3">{{salesOpportunitiesDetail.created &&
+                  $moment(salesOpportunitiesDetail.created).format('YYYY-MM-DD HH:mm:ss')}}
+                </td>
                 <td class="td-title">所有人</td>
                 <td>{{salesOpportunitiesDetail.creatorName}}</td>
               </tr>
               <tr>
                 <td class="td-title">销售机会修改时间</td>
-                <td colspan="3">{{salesOpportunitiesDetail.modified && $moment(salesOpportunitiesDetail.modified).format('YYYY-MM-DD HH:mm:ss')}}</td>
+                <td colspan="3">{{salesOpportunitiesDetail.modified &&
+                  $moment(salesOpportunitiesDetail.modified).format('YYYY-MM-DD HH:mm:ss')}}
+                </td>
                 <td class="td-title">修改人</td>
                 <td>{{salesOpportunitiesDetail.modifierName}}</td>
               </tr>
               <tr>
                 <td class="td-title">销售机会活动时间</td>
-                <td colspan="3">{{ salesOpportunitiesDetail.followDate && $moment(salesOpportunitiesDetail.followDate).format('YYYY-MM-DD HH:mm:ss')}}</td>
+                <td colspan="3">{{ salesOpportunitiesDetail.followDate &&
+                  $moment(salesOpportunitiesDetail.followDate).format('YYYY-MM-DD HH:mm:ss')}}
+                </td>
                 <td class="td-title">跟进人</td>
                 <td>{{salesOpportunitiesDetail.team.salerName}}</td>
               </tr>
@@ -133,7 +154,8 @@
 
             <div class="related-btn-group">
               <com-button buttonType="theme" @click="handleRoute('contact')">联系人({{contactTotal}})</com-button>
-              <com-button buttonType="grey" @click="handleRoute('orderRecords')">跟单记录({{orderRecordsTotal}})</com-button>
+              <com-button buttonType="grey" @click="handleRoute('orderRecords')">跟单记录({{orderRecordsTotal}})
+              </com-button>
               <com-button buttonType="grey" @click="handleRoute('order')">APP订单({{orderTotal}})</com-button>
             </div>
 
@@ -141,7 +163,8 @@
               联系人({{contactTotal}})
               <a class="more" v-if="contactTotal > 5" @click="handleRoute('contact')">更多》</a>
               <!--（-1 输单）-->
-              <a v-if="salesOpportunitiesDetail.stage !== -1 && (isChangeFollower || isChanceCreater)" class="table-add" @click="quickOperation('addContact')"><i class="el-icon-plus"></i>新增联系人</a>
+              <a v-if="salesOpportunitiesDetail.stage !== -1 && (isChangeFollower || isChanceCreater)" class="table-add"
+                 @click="quickOperation('addContact')"><i class="el-icon-plus"></i>新增联系人</a>
             </p>
             <table class="detail-table related-table">
               <tr>
@@ -166,7 +189,8 @@
               跟单记录({{orderRecordsTotal}})
               <a class="more" v-if="orderRecordsTotal > 5" @click="handleRoute('orderRecords')">更多》</a>
               <!--（-1输单）-->
-              <a v-if="salesOpportunitiesDetail.stage !== -1 && isChangeFollower" class="table-add" @click="quickOperation('addRecord')"><i class="el-icon-plus"></i>新增跟单记录</a>
+              <a v-if="salesOpportunitiesDetail.stage !== -1 && isChangeFollower" class="table-add"
+                 @click="quickOperation('addRecord')"><i class="el-icon-plus"></i>新增跟单记录</a>
             </p>
             <table class="detail-table related-table">
               <tr>
@@ -183,7 +207,8 @@
               销售订单({{orderTotal}})
               <a class="more" v-if="orderTotal > 5" @click="handleRoute('order')">更多》</a>
               <!--（-1 输单）-->
-              <a v-if="salesOpportunitiesDetail.stage !== -1 && isChangeFollower" class="table-add" @click="quickOperation('addOrder')"><i class="el-icon-plus"></i>新增关联订单</a>
+              <a v-if="salesOpportunitiesDetail.stage !== -1 && isChangeFollower" class="table-add"
+                 @click="quickOperation('addOrder')"><i class="el-icon-plus"></i>新增关联订单</a>
             </p>
             <table class="detail-table related-table">
               <tr>
@@ -200,9 +225,9 @@
               <tr v-for="item in orderList" :key="item.id">
                 <td>{{item.id + '-' + item.orderId}}</td>
                 <td>{{item.isRenew?'续费订单':'新签订单'}}</td>
-              <td><span v-for="os in orderState" :key="os.type"
-                        v-if="item.orderState === os.type">{{os.value}}</span>
-              </td>
+                <td><span v-for="os in orderState" :key="os.type"
+                          v-if="item.orderState === os.type">{{os.value}}</span>
+                </td>
                 <td>{{item.productName}}</td>
                 <td>{{item.billAmount}}</td>
                 <td>{{item.refund_amount}}</td>
@@ -221,7 +246,9 @@
         <ul class="team-member">
           <li class="team-member-item">
             <div class="head">
-              <img style="width: 58px;height: 58px;border-radius: 100%;" v-if="salesOpportunitiesDetail.team.creatorAvatar" :src="salesOpportunitiesDetail.team.creatorAvatar" alt="">
+              <img style="width: 58px;height: 58px;border-radius: 100%;"
+                   v-if="salesOpportunitiesDetail.team.creatorAvatar" :src="salesOpportunitiesDetail.team.creatorAvatar"
+                   alt="">
               <img v-else src="../../../assets/icon/headDefault.png" alt="">
             </div>
             <div class="text">
@@ -234,7 +261,9 @@
           </li>
           <li class="team-member-item">
             <div class="head">
-              <img style="width: 58px;height: 58px;border-radius: 100%;" v-if="salesOpportunitiesDetail.team.salerAvatar" :src="salesOpportunitiesDetail.team.salerAvatar" alt="">
+              <img style="width: 58px;height: 58px;border-radius: 100%;"
+                   v-if="salesOpportunitiesDetail.team.salerAvatar" :src="salesOpportunitiesDetail.team.salerAvatar"
+                   alt="">
               <img v-else src="../../../assets/icon/headDefault.png" alt="">
             </div>
             <div class="text">
@@ -247,7 +276,9 @@
           </li>
           <li class="team-member-item">
             <div class="head">
-              <img style="width: 58px;height: 58px;border-radius: 100%;" v-if="salesOpportunitiesDetail.team.counselorAvatar" :src="salesOpportunitiesDetail.team.counselorAvatar" alt="">
+              <img style="width: 58px;height: 58px;border-radius: 100%;"
+                   v-if="salesOpportunitiesDetail.team.counselorAvatar"
+                   :src="salesOpportunitiesDetail.team.counselorAvatar" alt="">
               <img v-else src="../../../assets/icon/headDefault.png" alt="">
             </div>
             <div class="text">
@@ -261,7 +292,9 @@
         </ul>
         <!--输单后隐藏删除以外得按钮-->
         <div class="team-btn-group" v-if="salesOpportunitiesDetail.stage !== -1">
-          <div v-if="salesOpportunitiesDetail.team && !salesOpportunitiesDetail.team.counselorId && isChangeFollower" class="btn-item-1" @click="operateOptions('apply')">申请咨询师协同</div>
+          <div v-if="salesOpportunitiesDetail.team && !salesOpportunitiesDetail.team.counselorId && isChangeFollower"
+               class="btn-item-1" @click="operateOptions('apply')">申请咨询师协同
+          </div>
           <div class="btn-item-2" @click="operateOptions('exit')">咨询师主动退出</div>
           <div v-if="isChangeFollower" class="btn-item-3" @click="operateOptions('replace')">申请替换咨询师</div>
         </div>
@@ -390,7 +423,7 @@
               params: {
                 type: 'apply',
                 chanceId: this.salesOpportunitiesDetail.id,
-                exceptUserIds: this.getTeamAndOwn()
+                exceptUserIds: this.getTeamAndOwn(),
               },
               callback: (data) => {
                 if (data.type === 'save') {
@@ -425,7 +458,7 @@
               params: {
                 type: 'replace',
                 chanceId: this.salesOpportunitiesDetail.id,
-                exceptUserIds: this.getTeamAndOwn()
+                exceptUserIds: this.getTeamAndOwn(),
               },
               callback: (data) => {
                 if (data.type === 'save') {
@@ -506,7 +539,7 @@
                 height: 400,
                 params: {
                   salesState: this.salesState,
-                  detail: JSON.parse(JSON.stringify(this.salesOpportunitiesDetail))
+                  detail: JSON.parse(JSON.stringify(this.salesOpportunitiesDetail)),
                 },
                 callback: (data) => {
                   if (data.type === 'save') {
@@ -605,7 +638,7 @@
               height: 320,
               params: {
                 detailCustomersId: this.salesOpportunitiesDetail.customerId,
-                detailChanceId: this.salesOpportunitiesDetail.id
+                detailChanceId: this.salesOpportunitiesDetail.id,
               },
               callback (data) {
                 if (data.type === 'save') {
@@ -635,7 +668,7 @@
       },
       routeToContract () {
         this.$router.push({name: 'onetimeContract', query: {name: '商品名称'}})
-      }
+      },
     },
     created () {
       this.activeViewName = this.$route.query.view

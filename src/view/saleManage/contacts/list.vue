@@ -5,8 +5,12 @@
     <!--头部-->
     <div class="com-head">
       <el-breadcrumb separator-class="el-icon-arrow-right">
-        <el-breadcrumb-item v-if="themeIndex === 0" v-for="item in $route.meta.pos" :key="item.toName" :to="{name: item.toName}">{{item.name}}</el-breadcrumb-item>
-        <el-breadcrumb-item v-if="themeIndex === 1" v-for="item in $route.meta.pos2" :key="item.toName" :to="{name: item.toName}">{{item.name}}</el-breadcrumb-item>
+        <el-breadcrumb-item v-if="themeIndex === 0" v-for="item in $route.meta.pos" :key="item.toName"
+                            :to="{name: item.toName}">{{item.name}}
+        </el-breadcrumb-item>
+        <el-breadcrumb-item v-if="themeIndex === 1" v-for="item in $route.meta.pos2" :key="item.toName"
+                            :to="{name: item.toName}">{{item.name}}
+        </el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <!--控制栏-->
@@ -356,7 +360,7 @@
           page: this.currentPage - 1,
           pageSize: this.pagesOptions.pageSize,
           type: this.contactsTypeOption, // 前端
-          organizationId: this.organizationId // 后端
+          organizationId: this.organizationId, // 后端
         }
         if (this.customerId) { // 更多
           this.defaultListParams.customerId = this.customerId

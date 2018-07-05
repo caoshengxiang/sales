@@ -95,22 +95,22 @@
       return {
         orderDetail: null,
         rateNum: 3.5,
-        tableData: [{
-          name: '基础服务费',
-          bill: '300.00',
-          state: '已支付',
-          way: '支付宝'
-        }, {
-          name: '服务费尾款',
-          bill: '300.00',
-          state: '已支付',
-          way: '支付宝'
-        }]
+        tableData: [
+          {
+            name: '基础服务费',
+            bill: '300.00',
+            state: '已支付',
+            way: '支付宝',
+          }, {
+            name: '服务费尾款',
+            bill: '300.00',
+            state: '已支付',
+            way: '支付宝',
+          }],
       }
     },
     props: ['params'],
-    methods: {
-    },
+    methods: {},
     created () {
       this.orderDetail = this.params.orderDetail
     },
@@ -123,13 +123,16 @@
   .el-form-item--mini.el-form-item, .el-form-item--small.el-form-item {
     margin: 0;
   }
+
   .order-no {
     color: #39C189;
     font-size: 12px;
   }
+
   .step-box {
     margin: 30px;
   }
+
   .order-info {
     img {
       height: 56px;
@@ -148,6 +151,7 @@
       }
     }
   }
+
   .sum {
     margin-top: 10px;
     margin-bottom: 30px;
@@ -163,9 +167,11 @@
       }
     }
   }
+
   .el-table-box {
     margin: 20px 0;
   }
+
   .detail-box {
     background-color: #FCFCFC;
     font-size: 12px;
@@ -175,7 +181,7 @@
       p {
         margin: 5px 0;
       }
-      &:last-child{
+      &:last-child {
         display: flex;
         .left {
           width: 50%;

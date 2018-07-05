@@ -7,7 +7,8 @@
             <td class="td-title">签单客户</td>
             <td class="td-text">
               <el-form-item prop="customerId">
-                <el-select @change="customerChange" :disabled="(orderState === 0 || params.detailCustomersId)?true:false"
+                <el-select @change="customerChange"
+                           :disabled="(orderState === 0 || params.detailCustomersId)?true:false"
                            v-model.number="addForm.customerId" placeholder="请选择客户" style="width: 100%">
                   <el-option v-for="item in customersList" :key="item.id" :label="item.name"
                              :value="item.id"></el-option>
@@ -29,7 +30,8 @@
             <td class="td-title">关联销售机会</td>
             <td class="td-text">
               <el-form-item prop="chanceId">
-                <el-select  :disabled="(orderState===0||params.detailChanceId)?true:false" style="width: 100%" @change="intentProductChange" v-model.number="addForm.chanceId"
+                <el-select :disabled="(orderState===0||params.detailChanceId)?true:false" style="width: 100%"
+                           @change="intentProductChange" v-model.number="addForm.chanceId"
                            placeholder="请选择关联销售机会">
                   <el-option v-for="item in chanceList" :key="item.id" :label="item.intentProductName"
                              :value="item.id"></el-option>
@@ -38,7 +40,8 @@
             <td class="td-title">购买商品</td>
             <td class="td-text">
               <el-form-item prop="productId">
-                <el-select style="width: 100%" :disabled="(orderState===0 || addForm.chanceId || params.fromChance)?true:false"
+                <el-select style="width: 100%"
+                           :disabled="(orderState===0 || addForm.chanceId || params.fromChance)?true:false"
                            v-model.number="addForm.productId"
                            @change="goodSelectChange"
                            placeholder="请选择购买商品">

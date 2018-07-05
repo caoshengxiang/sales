@@ -3,9 +3,15 @@
     <div class="com-title">
       <span>销售漏斗</span>
       <div class="report-bar">
-        <el-button size="mini" style="padding: 7px 3px;margin-left: 0px">本周</el-button>
-        <el-button size="mini" style="padding: 7px 3px;margin-left: 3px">本季</el-button>
-        <el-button size="mini" style="padding: 7px 3px;margin-left: 3px">本年</el-button>
+        <el-button size="mini" :class="{active: this.type===1}" style="padding: 7px 3px;margin-left: 0px"
+                   @click="setType(1)">本周
+        </el-button>
+        <el-button size="mini" :class="{active: this.type===3}" style="padding: 7px 3px;margin-left: 3px"
+                   @click="setType(3)">本季
+        </el-button>
+        <el-button size="mini" :class="{active: this.type===4}" style="padding: 7px 3px;margin-left: 3px"
+                   @click="setType(4)">本年
+        </el-button>
       </div>
     </div>
     <div style="width: 100%;height: 320px" id="funnelChart"></div>
@@ -20,7 +26,7 @@
     name: 'funnelChart',
     data () {
       return {
-        type: 1, // 1:本周 2:本月 3:本季 4:本年
+        type: 4, // 1:本周 2:本月 3:本季 4:本年
         funnelChart: '',
         funnelOption: { // 漏斗图
           title: {
@@ -93,11 +99,11 @@
                 },
               },
               data: [
-                {value: 20, name: '客户签单', text: '3000.00元/14件'},
-                {value: 40, name: '预定下单', text: '4000.00元/14件'},
-                {value: 60, name: '需求确定', text: '5000.00元/14件'},
-                {value: 80, name: '销售跟单', text: '6000.00元/14件'},
-                {value: 100, name: '初步接洽', text: '7000.00元/14件'},
+                {value: 20, name: '客户签单', amount: '金额: 0', quantity: '数量: 0'},
+                {value: 40, name: '预定下单', amount: '金额: 0', quantity: '数量: 0'},
+                {value: 60, name: '需求确定', amount: '金额: 0', quantity: '数量: 0'},
+                {value: 80, name: '销售跟单', amount: '金额: 0', quantity: '数量: 0'},
+                {value: 100, name: '初步接洽', amount: '金额: 0', quantity: '数量: 0'},
               ],
             },
           ],
@@ -106,8 +112,8 @@
     },
     computed: {
       ...mapState('constData', [
-        'salesState'
-      ])
+        'salesState',
+      ]),
     },
     methods: {
       drawFunnelChart () {
@@ -118,48 +124,57 @@
       },
       getData () {
         API.home.saleFunnel({type: this.type}, da => {
-          console.log(da.data)
-        }, () => {
-          let testData = [
-            {
-              'amount': 46,
-              'quantity': 3,
-              'stage': 1,
-            }, {
-              'amount': 46,
-              'quantity': 3,
-              'stage': 2,
-            }, {
-              'amount': 46,
-              'quantity': 3,
-              'stage': 3,
-            }, {
-              'amount': 46,
-              'quantity': 3,
-              'stage': 4,
-            }, {
-              'amount': 46,
-              'quantity': 3,
-              'stage': 5,
-            },
-          ]
+          let testData = da.data
           let showData = []
           testData.forEach(item => {
             if (item.stage === 1) {
-              showData[0] = {value: 20, name: '客户签单', amount: '金额:' + item.amount, quantity: '数量:' + item.quantity}
-            } if (item.stage === 2) {
-              showData[1] = {value: 40, name: '预定下单', amount: '金额:' + item.amount, quantity: '数量:' + item.quantity}
-            } if (item.stage === 3) {
-              showData[2] = {value: 60, name: '需求确定', amount: '金额:' + item.amount, quantity: '数量:' + item.quantity}
-            } if (item.stage === 4) {
-              showData[3] = {value: 80, name: '销售跟单', amount: '金额:' + item.amount, quantity: '数量:' + item.quantity}
-            } if (item.stage === 5) {
-              showData[4] = {value: 100, name: '初步接洽', amount: '金额:' + item.amount, quantity: '数量:' + item.quantity}
+              this.funnelOption.series[0].data[0] = {
+                value: 20,
+                name: '客户签单',
+                amount: '金额:' + item.amount,
+                quantity: '数量:' + item.quantity,
+              }
+            }
+            if (item.stage === 2) {
+              this.funnelOption.series[0].data[1] = {
+                value: 40,
+                name: '预定下单',
+                amount: '金额:' + item.amount,
+                quantity: '数量:' + item.quantity,
+              }
+            }
+            if (item.stage === 3) {
+              this.funnelOption.series[0].data[2] = {
+                value: 60,
+                name: '需求确定',
+                amount: '金额:' + item.amount,
+                quantity: '数量:' + item.quantity,
+              }
+            }
+            if (item.stage === 4) {
+              this.funnelOption.series[0].data[3] = {
+                value: 80,
+                name: '销售跟单',
+                amount: '金额:' + item.amount,
+                quantity: '数量:' + item.quantity,
+              }
+            }
+            if (item.stage === 5) {
+              this.funnelOption.series[0].data[4] = {
+                value: 100,
+                name: '初步接洽',
+                amount: '金额:' + item.amount,
+                quantity: '数量:' + item.quantity,
+              }
             }
           })
-          this.funnelOption.series[0].data = showData
+          // this.funnelOption.series[0].data = showData
           this.drawFunnelChart()
-        })
+        }, () => {})
+      },
+      setType (type) {
+        this.type = type
+        this.getData()
       },
     },
     created () {
@@ -177,5 +192,15 @@
   .report-bar {
     text-align: center;
     float: right;
+  }
+
+  .bar-item {
+
+  }
+
+  .active {
+    color: #4BCF99;
+    border-color: #c9f1e0;
+    background-color: #edfaf5;
   }
 </style>

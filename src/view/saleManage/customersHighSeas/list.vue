@@ -5,8 +5,12 @@
     <!--头部-->
     <div class="com-head">
       <el-breadcrumb separator-class="el-icon-arrow-right">
-        <el-breadcrumb-item v-if="themeIndex === 0" v-for="item in $route.meta.pos" :key="item.toName" :to="{name: item.toName}">{{item.name}}</el-breadcrumb-item>
-        <el-breadcrumb-item v-if="themeIndex === 1" v-for="item in $route.meta.pos2" :key="item.toName" :to="{name: item.toName}">{{item.name}}</el-breadcrumb-item>
+        <el-breadcrumb-item v-if="themeIndex === 0" v-for="item in $route.meta.pos" :key="item.toName"
+                            :to="{name: item.toName}">{{item.name}}
+        </el-breadcrumb-item>
+        <el-breadcrumb-item v-if="themeIndex === 1" v-for="item in $route.meta.pos2" :key="item.toName"
+                            :to="{name: item.toName}">{{item.name}}
+        </el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <!--控制栏-->
@@ -14,7 +18,8 @@
       <div class="com-bar-left">
         <com-button buttonType="add" icon="el-icon-plus" @click="operateOptions('add')">新增</com-button>
         <com-button buttonType="orange" @click="operateOptions('assign')"
-                    :disabled="multipleSelection.length !== 1"><i class="el-icon-sort" style="transform: rotate(90deg)"></i> 分配
+                    :disabled="multipleSelection.length !== 1"><i class="el-icon-sort"
+                                                                  style="transform: rotate(90deg)"></i> 分配
         </com-button>
         <com-button buttonType="backHighSeas" icon="el-icon-upload2" @click="operateOptions('gain')"
                     :disabled="multipleSelection.length <= 0">捞取
@@ -40,7 +45,7 @@
             </el-option>
           </el-select>
           <!--<com-button buttonType="search" @click="searchHandle">搜索</com-button>-->
-&nbsp;&nbsp;&nbsp;&nbsp;
+          &nbsp;&nbsp;&nbsp;&nbsp;
           <!--<com-button buttonType="import">导入</com-button>-->
           <vue-xlsx-table @on-select-file="handleSelectedFile">导入</vue-xlsx-table>
         </div>
@@ -365,7 +370,7 @@
           page: this.currentPage - 1,
           pageSize: this.pagesOptions.pageSize,
           type: this.contactsTypeOption, // 前端
-          organizationId: this.organizationId // 后端
+          organizationId: this.organizationId, // 后端
         }
         if (this.chanceId) { // 更多
           this.defaultListParams.chanceId = this.chanceId
@@ -391,7 +396,7 @@
             }
           },
         })
-      }
+      },
     },
     created () {
       this.getCustomersSeaList()
@@ -404,6 +409,7 @@
 
 <style scoped lang="scss" rel="stylesheet/scss">
   @import "../../../styles/common";
+
   .xlsx-button {
     background-color: #FF7700 !important;
     width: 72px !important;

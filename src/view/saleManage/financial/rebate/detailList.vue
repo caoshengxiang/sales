@@ -54,7 +54,8 @@
         label="回款日期"
         show-overflow-tooltip
       >
-        <template slot-scope="scope">{{ scope.row.refundDate && $moment(scope.row.refundDate).format('YYYY-MM-DD') }}</template>
+        <template slot-scope="scope">{{ scope.row.refundDate && $moment(scope.row.refundDate).format('YYYY-MM-DD') }}
+        </template>
       </el-table-column>
       <el-table-column
         align="center"
@@ -72,7 +73,8 @@
         label="审核日期"
         show-overflow-tooltip
       >
-        <template slot-scope="scope">{{ scope.row.auditDate && $moment(scope.row.auditDate).format('YYYY-MM-DD') }}</template>
+        <template slot-scope="scope">{{ scope.row.auditDate && $moment(scope.row.auditDate).format('YYYY-MM-DD') }}
+        </template>
       </el-table-column>
       <el-table-column
         align="center"
@@ -119,7 +121,8 @@
         label="营销副总"
         show-overflow-tooltip
       >
-        <template slot-scope="scope">{{scope.row.vpAmount}}&nbsp;({{scope.row.vpPeriod}}/{{scope.row.vpPeriodTotal}}期)</template>
+        <template slot-scope="scope">{{scope.row.vpAmount}}&nbsp;({{scope.row.vpPeriod}}/{{scope.row.vpPeriodTotal}}期)
+        </template>
       </el-table-column>
       <el-table-column
         align="center"
@@ -159,7 +162,8 @@
         label="服务奖励"
         show-overflow-tooltip
       >
-        <template slot-scope="scope"><span v-if="scope.row.serviceReward">{{scope.row.serviceReward}}&nbsp;({{scope.row.serviceRewardPeriod}}/{{scope.row.serviceRewardPeriodTotal}}期)</span></template>
+        <template slot-scope="scope"><span v-if="scope.row.serviceReward">{{scope.row.serviceReward}}&nbsp;({{scope.row.serviceRewardPeriod}}/{{scope.row.serviceRewardPeriodTotal}}期)</span>
+        </template>
       </el-table-column>
       <el-table-column
         align="center"
@@ -167,7 +171,8 @@
         label="服务补贴"
         show-overflow-tooltip
       >
-        <template slot-scope="scope"><span v-if="scope.row.serviceAllowance">{{scope.row.serviceAllowance}}&nbsp;({{scope.row.serviceAllowancePeriod}}/{{scope.row.serviceAllowancePeriodTotal}}期)</span></template>
+        <template slot-scope="scope"><span v-if="scope.row.serviceAllowance">{{scope.row.serviceAllowance}}&nbsp;({{scope.row.serviceAllowancePeriod}}/{{scope.row.serviceAllowancePeriodTotal}}期)</span>
+        </template>
       </el-table-column>
       <el-table-column
         align="center"
@@ -175,7 +180,8 @@
         label="服务佣金"
         show-overflow-tooltip
       >
-        <template slot-scope="scope"><span v-if="scope.row.serviceCommission">{{scope.row.serviceCommission}}&nbsp;({{scope.row.demandPeriod}}/{{scope.row.demandPeriodTotal}}期)</span></template>
+        <template slot-scope="scope"><span v-if="scope.row.serviceCommission">{{scope.row.serviceCommission}}&nbsp;({{scope.row.demandPeriod}}/{{scope.row.demandPeriodTotal}}期)</span>
+        </template>
       </el-table-column>
       <el-table-column
         align="center"

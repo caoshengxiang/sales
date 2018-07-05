@@ -7,7 +7,9 @@
             <td class="td-title">客户名称</td>
             <td class="td-text">
               <el-form-item prop="customerId">
-                <el-select :disabled="(params.detailCustomersId || params.addCustomersAndAddContact_customerName)?true:false" v-model.number="addForm.customerId" placeholder="请选择客户">
+                <el-select
+                  :disabled="(params.detailCustomersId || params.addCustomersAndAddContact_customerName)?true:false"
+                  v-model.number="addForm.customerId" placeholder="请选择客户">
                   <el-option v-for="item in customersList" :key="item.id" :label="item.name"
                              :value="item.id"></el-option>
                 </el-select>

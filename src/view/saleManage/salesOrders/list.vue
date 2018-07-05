@@ -5,14 +5,20 @@
     <!--头部-->
     <div class="com-head">
       <el-breadcrumb separator-class="el-icon-arrow-right">
-        <el-breadcrumb-item v-if="themeIndex === 0" v-for="item in $route.meta.pos" :key="item.toName" :to="{name: item.toName}">{{item.name}}</el-breadcrumb-item>
-        <el-breadcrumb-item v-if="themeIndex === 1" v-for="item in $route.meta.pos2" :key="item.toName" :to="{name: item.toName}">{{item.name}}</el-breadcrumb-item>
+        <el-breadcrumb-item v-if="themeIndex === 0" v-for="item in $route.meta.pos" :key="item.toName"
+                            :to="{name: item.toName}">{{item.name}}
+        </el-breadcrumb-item>
+        <el-breadcrumb-item v-if="themeIndex === 1" v-for="item in $route.meta.pos2" :key="item.toName"
+                            :to="{name: item.toName}">{{item.name}}
+        </el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <!--控制栏-->
     <div class="com-bar">
       <div class="com-bar-left">
-        <com-button buttonType="delete" icon="el-icon-delete" @click="operateOptions('delete')" :disabled="multipleSelection.length <= 0">删除</com-button>
+        <com-button buttonType="delete" icon="el-icon-delete" @click="operateOptions('delete')"
+                    :disabled="multipleSelection.length <= 0">删除
+        </com-button>
         <com-button buttonType="add" icon="el-icon-plus" @click="operateOptions('add')">新增</com-button>
       </div>
       <div class="com-bar-right" v-if="themeIndex === 0"><!--前端-->
@@ -70,7 +76,8 @@
         >
           <template slot-scope="scope">
             <!--<a class="col-link" @click="handleRouter('detail', scope.row.id)">{{ scope.row.billOrderId }}</a>-->
-            <a class="col-link" @click="handleRouter('detail', scope.row.id)">{{ scope.row.id}} <span v-if="scope.row.orderId">-{{scope.row.orderId}}</span></a>
+            <a class="col-link" @click="handleRouter('detail', scope.row.id)">{{ scope.row.id}} <span
+              v-if="scope.row.orderId">-{{scope.row.orderId}}</span></a>
           </template>
         </el-table-column>
         <el-table-column
@@ -81,7 +88,11 @@
           show-overflow-tooltip
           width="160">
           <template slot-scope="scope">
-            <router-link class="col-link" :to="{name: 'salesOpportunitiesDetail', query: {view: 'detail', id: scope.row.chanceId}, params: {end: 'FE'}}">{{ scope.row.chanceName }}</router-link></template>
+            <router-link class="col-link"
+                         :to="{name: 'salesOpportunitiesDetail', query: {view: 'detail', id: scope.row.chanceId}, params: {end: 'FE'}}">
+              {{ scope.row.chanceName }}
+            </router-link>
+          </template>
         </el-table-column>
         <el-table-column
           align="center"
@@ -91,7 +102,11 @@
           show-overflow-tooltip
           width="160">
           <template slot-scope="scope">
-            <router-link class="col-link" :to="{name: 'customersDetail', query: {view: 'detail', customerId: scope.row.customerId}, params: {end: 'FE'}}">{{ scope.row.customerName }}</router-link></template>
+            <router-link class="col-link"
+                         :to="{name: 'customersDetail', query: {view: 'detail', customerId: scope.row.customerId}, params: {end: 'FE'}}">
+              {{ scope.row.customerName }}
+            </router-link>
+          </template>
         </el-table-column>
         <el-table-column
           align="center"
@@ -100,7 +115,12 @@
           label="联系人"
           width="160"
           show-overflow-tooltip>
-          <template slot-scope="scope"><router-link class="col-link" :to="{name: 'contactsDetail', query: {view: 'detail', contactsId: scope.row.contacterId}, params: {end: 'FE'}}">{{ scope.row.contacterName }}</router-link></template>
+          <template slot-scope="scope">
+            <router-link class="col-link"
+                         :to="{name: 'contactsDetail', query: {view: 'detail', contactsId: scope.row.contacterId}, params: {end: 'FE'}}">
+              {{ scope.row.contacterName }}
+            </router-link>
+          </template>
         </el-table-column>
         <el-table-column
           align="center"
@@ -396,7 +416,7 @@
           page: this.currentPage - 1,
           pageSize: this.pagesOptions.pageSize,
           type: this.orderTypeOption, // 前端
-          organizationId: this.organizationId // 后端
+          organizationId: this.organizationId, // 后端
         }
         if (this.customerId) { // 更多[来至客户，联系人]
           this.defaultListParams.customerId = this.customerId

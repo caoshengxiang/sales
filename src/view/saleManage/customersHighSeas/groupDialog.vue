@@ -19,6 +19,7 @@
 
 <script>
   import API from '../../../utils/api'
+
   export default {
     name: 'moveDialog',
     data () {
@@ -43,23 +44,24 @@
         this.$refs[formName].validate((valid) => {
           if (valid) {
             this.dataLoading = true
-            API.customerSea.regroup({customerIds: this.params.customerIds, newSeaId: this.moveCustomerForm.newSeaId}, (data) => {
-              if (data.status) {
-                if (data.data.fail > 0) {
-                  this.$message.warning(`成功${data.data.success}, 失败${data.data.fail}, 失败原因：${data.data.errorMessage}`)
+            API.customerSea.regroup({customerIds: this.params.customerIds, newSeaId: this.moveCustomerForm.newSeaId},
+              (data) => {
+                if (data.status) {
+                  if (data.data.fail > 0) {
+                    this.$message.warning(`成功${data.data.success}, 失败${data.data.fail}, 失败原因：${data.data.errorMessage}`)
+                  } else {
+                    this.$message.success(`成功${data.data.success},失败${data.data.fail}`)
+                  }
+                  setTimeout(() => {
+                    this.dataLoading = false
+                    this.$vDialog.close({type: 'save'})
+                  }, 500)
                 } else {
-                  this.$message.success(`成功${data.data.success},失败${data.data.fail}`)
+                  setTimeout(() => {
+                    this.dataLoading = false
+                  }, 500)
                 }
-                setTimeout(() => {
-                  this.dataLoading = false
-                  this.$vDialog.close({type: 'save'})
-                }, 500)
-              } else {
-                setTimeout(() => {
-                  this.dataLoading = false
-                }, 500)
-              }
-            })
+              })
           } else {
             console.log('error submit!!')
             return false
@@ -70,11 +72,11 @@
         API.customerSea.listAboutCustomer((data) => {
           this.poolList = data.data
         })
-      }
+      },
     },
     created () {
       this.getPoolList()
-    }
+    },
   }
 </script>
 

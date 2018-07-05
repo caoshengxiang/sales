@@ -5,8 +5,12 @@
     <!--头部-->
     <div class="com-head">
       <el-breadcrumb separator-class="el-icon-arrow-right">
-        <el-breadcrumb-item v-if="themeIndex === 0" v-for="item in $route.meta.pos" :key="item.toName" :to="{name: item.toName}">{{item.name}}</el-breadcrumb-item>
-        <el-breadcrumb-item v-if="themeIndex === 1" v-for="item in $route.meta.pos2" :key="item.toName" :to="{name: item.toName}">{{item.name}}</el-breadcrumb-item>
+        <el-breadcrumb-item v-if="themeIndex === 0" v-for="item in $route.meta.pos" :key="item.toName"
+                            :to="{name: item.toName}">{{item.name}}
+        </el-breadcrumb-item>
+        <el-breadcrumb-item v-if="themeIndex === 1" v-for="item in $route.meta.pos2" :key="item.toName"
+                            :to="{name: item.toName}">{{item.name}}
+        </el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <!--控制栏-->
@@ -74,7 +78,9 @@
               </tr>
               <tr>
                 <td class="td-title">最近跟进时间</td>
-                <td>{{customerDetail.latestReturnTime && $moment(customerDetail.latestReturnTime).format('YYYY-MM-DD')}}</td>
+                <td>{{customerDetail.latestReturnTime &&
+                  $moment(customerDetail.latestReturnTime).format('YYYY-MM-DD')}}
+                </td>
                 <td class="td-title">最近跟进记录</td>
                 <td>{{customerDetail.latestFollowRecord}}</td>
                 <td class="td-title">最近跟进人</td>
@@ -117,19 +123,25 @@
               </tr>
               <tr>
                 <td class="td-title">客户创建时间</td>
-                <td colspan="3">{{customerDetail.created && $moment(customerDetail.created).format('YYYY-MM-DD HH:mm:ss')}}</td>
+                <td colspan="3">
+                  {{customerDetail.created && $moment(customerDetail.created).format('YYYY-MM-DD HH:mm:ss')}}
+                </td>
                 <td class="td-title">创建人</td>
                 <td>{{customerDetail.creatorName}}</td>
               </tr>
               <tr>
                 <td class="td-title">最新修改时间</td>
-                <td colspan="3">{{customerDetail.modified && $moment(customerDetail.modified).format('YYYY-MM-DD HH:mm:ss')}}</td>
+                <td colspan="3">
+                  {{customerDetail.modified && $moment(customerDetail.modified).format('YYYY-MM-DD HH:mm:ss')}}
+                </td>
                 <td class="td-title">修改人</td>
                 <td>{{customerDetail.modifierName}}</td>
               </tr>
               <tr>
                 <td class="td-title">最新活动时间</td>
-                <td colspan="3">{{customerDetail.activeTime && $moment(customerDetail.activeTime).format('YYYY-MM-DD HH:mm:ss')}}</td>
+                <td colspan="3">
+                  {{customerDetail.activeTime && $moment(customerDetail.activeTime).format('YYYY-MM-DD HH:mm:ss')}}
+                </td>
                 <td class="td-title">跟进人</td>
                 <td>{{customerDetail.followerName}}</td>
               </tr>
@@ -186,7 +198,7 @@
                 <td>{{item.intentProductName}}</td>
                 <td>
                   <span v-for="st in salesState" :key="st.type"
-                          v-if="st.type === item.stage">{{st.value}}&nbsp;&nbsp;{{st.percent}}</span>
+                        v-if="st.type === item.stage">{{st.value}}&nbsp;&nbsp;{{st.percent}}</span>
                 </td>
                 <td>{{item.intentBillAmount}}</td>
                 <td>{{item.billDate && $moment(item.billDate).format('YYYY-MM-DD')}}</td>
@@ -234,7 +246,8 @@
         <ul class="team-member">
           <li class="team-member-item">
             <div class="head">
-              <img style="width: 58px;height: 58px;border-radius: 100%;" v-if="customerDetail.team.avatar" :src="customerDetail.team.avatar" alt="">
+              <img style="width: 58px;height: 58px;border-radius: 100%;" v-if="customerDetail.team.avatar"
+                   :src="customerDetail.team.avatar" alt="">
               <img v-else src="../../../assets/icon/headDefault.png" alt="">
             </div>
             <div class="text">

@@ -77,16 +77,16 @@
     created () {
       this.addForm.chanceId = this.params.detailChanceId
       // if (this.params.detail) {
-        // let detail = JSON.parse(JSON.stringify(this.params.detail))
-        // this.addForm = { // 添加表单
-        //   chanceId: detail.id,
-        //   chanceName: detail,
-        //   customerId: detail.customerId,
-        //   customerName: detail.customerName,
-        //   creator: detail.creator,
-        //   creatorName: detail.creatorName,
-        //   stage: detail.stage,
-        // }
+      // let detail = JSON.parse(JSON.stringify(this.params.detail))
+      // this.addForm = { // 添加表单
+      //   chanceId: detail.id,
+      //   chanceName: detail,
+      //   customerId: detail.customerId,
+      //   customerName: detail.customerName,
+      //   creator: detail.creator,
+      //   creatorName: detail.creatorName,
+      //   stage: detail.stage,
+      // }
       // }
     },
   }

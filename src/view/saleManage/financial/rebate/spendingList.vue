@@ -13,7 +13,8 @@
     <!--控制栏-->
     <div class="com-bar">
       <div class="com-bar-left">
-        <com-button buttonType="add" @click="commissionPaymentConfirm" :disabled="multipleSelection.length<1">佣金确认</com-button>
+        <com-button buttonType="add" @click="commissionPaymentConfirm" :disabled="multipleSelection.length<1">佣金确认
+        </com-button>
       </div>
       <div class="com-bar-right">
         <com-button buttonType="cardNum" icon="el-icon-plus" @click="addHandle">设置银行卡账户信息</com-button>
@@ -251,7 +252,7 @@
           width: 1100,
           height: 660,
           params: {
-            id: id
+            id: id,
           },
           callback: (data) => {
           },

@@ -80,12 +80,12 @@
             // {required: true, message: '请再次输入新密码', trigger: 'blur'},
             {validator: validatePass2, trigger: 'blur'},
             ...chartLengthRule.defaultRule,
-          ]
+          ],
         },
       }
     },
     components: {
-      feElement
+      feElement,
     },
     methods: {
       submitForm (formName) {
@@ -95,7 +95,7 @@
               account: this.formData.phone,
               pwd: sha1(this.formData.oldpassword),
               newPwd: sha1(this.formData.password),
-              client: webStorage.getItem('client')
+              client: webStorage.getItem('client'),
             }
             API.login.resetPwd(params, (res) => {
               this.loading = false
@@ -104,14 +104,14 @@
               } else {
                 this.$message({
                   message: '系统繁忙，请稍后再试！',
-                  type: 'error'
+                  type: 'error',
                 })
               }
             }, (mock) => {
               this.loading = false
               this.$message({
                 message: '系统繁忙，请稍后再试！',
-                type: 'error'
+                type: 'error',
               })
             })
           } else {
@@ -131,7 +131,7 @@
             this.time = 0
           }
         }, 1000)
-      }
+      },
     },
   }
 </script>

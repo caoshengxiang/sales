@@ -35,14 +35,16 @@
           <el-col :span="8">
             <el-form-item label="订单状态：">
               <el-select v-model="searchForm.orderState" placeholder="请选择订单状态">
-                <el-option v-for="item in orderState" :key="item.type" :label="item.value" :value="item.type"></el-option>
+                <el-option v-for="item in orderState" :key="item.type" :label="item.value"
+                           :value="item.type"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item label="订单来源：">
               <el-select v-model="searchForm.source" placeholder="请选择订单来源">
-                <el-option v-for="item in orderSource" :key="item.type" :label="item.value" :value="item.type"></el-option>
+                <el-option v-for="item in orderSource" :key="item.type" :label="item.value"
+                           :value="item.type"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
@@ -75,13 +77,15 @@
             <el-form-item label="签单金额：">
               <el-row>
                 <el-col :span="10">
-                  <el-input @change="intervalStartHandle" type="number" v-model.number="searchForm.startBillAmount"></el-input>
+                  <el-input @change="intervalStartHandle" type="number"
+                            v-model.number="searchForm.startBillAmount"></el-input>
                 </el-col>
                 <el-col :span="2">
                   <div style="text-align: center">-</div>
                 </el-col>
                 <el-col :span="10">
-                  <el-input @change="intervalEndHandle" type="number" v-model.number="searchForm.endBillAmount"></el-input>
+                  <el-input @change="intervalEndHandle" type="number"
+                            v-model.number="searchForm.endBillAmount"></el-input>
                 </el-col>
               </el-row>
             </el-form-item>
@@ -90,13 +94,15 @@
             <el-form-item label="回款金额：">
               <el-row>
                 <el-col :span="10">
-                  <el-input @change="intervalStartHandle" type="number" v-model.number="searchForm.startRefundAmount"></el-input>
+                  <el-input @change="intervalStartHandle" type="number"
+                            v-model.number="searchForm.startRefundAmount"></el-input>
                 </el-col>
                 <el-col :span="2">
                   <div style="text-align: center">-</div>
                 </el-col>
                 <el-col :span="10">
-                  <el-input @change="intervalEndHandle" type="number" v-model.number="searchForm.endRefundAmount"></el-input>
+                  <el-input @change="intervalEndHandle" type="number"
+                            v-model.number="searchForm.endRefundAmount"></el-input>
                 </el-col>
               </el-row>
             </el-form-item>
@@ -105,13 +111,15 @@
             <el-form-item label="待回款金额：">
               <el-row>
                 <el-col :span="10">
-                  <el-input @change="intervalStartHandle" type="number" v-model.number="searchForm.startNotRefundAmount"></el-input>
+                  <el-input @change="intervalStartHandle" type="number"
+                            v-model.number="searchForm.startNotRefundAmount"></el-input>
                 </el-col>
                 <el-col :span="2">
                   <div style="text-align: center">-</div>
                 </el-col>
                 <el-col :span="10">
-                  <el-input @change="intervalEndHandle" type="number" v-model.number="searchForm.endNotRefundAmount"></el-input>
+                  <el-input @change="intervalEndHandle" type="number"
+                            v-model.number="searchForm.endNotRefundAmount"></el-input>
                 </el-col>
               </el-row>
             </el-form-item>
@@ -151,7 +159,7 @@
           startRefundAmount: null,
           endRefundAmount: null,
           startNotRefundAmount: null,
-          endNotRefundAmount: null
+          endNotRefundAmount: null,
         },
         timeInterval: '',
       }
@@ -176,7 +184,8 @@
         if (this.searchForm.startRefundAmount && this.searchForm.startRefundAmount > this.searchForm.endRefundAmount) {
           this.searchForm.endRefundAmount = this.searchForm.startRefundAmount
         }
-        if (this.searchForm.startNotRefundAmount && this.searchForm.startNotRefundAmount > this.searchForm.endNotRefundAmount) {
+        if (this.searchForm.startNotRefundAmount && this.searchForm.startNotRefundAmount >
+          this.searchForm.endNotRefundAmount) {
           this.searchForm.endNotRefundAmount = this.searchForm.startNotRefundAmount
         }
       },

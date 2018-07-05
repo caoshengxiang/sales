@@ -1,12 +1,13 @@
 <template>
-    <div>
-      <p class="com-title">最近半个月重点商机</p>
-      <div style="width: 100%; height: 310px" id="scatterChart"></div>
-    </div>
+  <div>
+    <p class="com-title">最近半个月重点商机</p>
+    <div style="width: 100%; height: 310px" id="scatterChart"></div>
+  </div>
 </template>
 
 <script>
   import API from '../../../utils/api'
+
   export default {
     name: 'scatterChart',
     data () {
@@ -14,7 +15,7 @@
         scatterChart: '',
         scatterOption: {
           color: [
-            '#39C189', '#fec42c', '#80F1BE'
+            '#39C189', '#fec42c', '#80F1BE',
           ],
           tooltip: {
             trigger: 'item',
@@ -25,6 +26,12 @@
               return `<div style="border-bottom: 1px solid rgba(255,255,255,.3); font-size: 18px;padding-bottom: 7px;margin-bottom: 7px"> ${value[3]}</div>
                金额：${value[1]} <br> 预计签单日期: ${value[2]}`
             },
+          },
+          grid: {
+            left: '3%',
+            // right: '5%',
+            // bottom: '5%',
+            containLabel: true,
           },
           xAxis: {
             type: 'category',
@@ -38,7 +45,7 @@
               show: true,
               xAxisIndex: [0],
               start: 0,
-              end: 100
+              end: 100,
             },
             {
               type: 'slider',
@@ -46,20 +53,20 @@
               yAxisIndex: [0],
               left: '93%',
               start: 1,
-              end: 100
+              end: 100,
             },
             {
               type: 'inside',
               xAxisIndex: [0],
               start: 1,
-              end: 100
+              end: 100,
             },
             {
               type: 'inside',
               yAxisIndex: [0],
               start: 0,
-              end: 100
-            }
+              end: 100,
+            },
           ],
           series: [
             {
@@ -94,41 +101,7 @@
       },
       getData () {
         API.home.recentChance({}, da => {
-          console.log(da.data)
-        }, () => {
-          let testData = [
-            {
-              'amount': 55,
-              'billDate': 1529596800000,
-              'chanceId': 109,
-              'productId': 323195,
-              'productName': '测试商品的产品选择1',
-            }, {
-              'amount': 30,
-              'billDate': 1529596800000,
-              'chanceId': 109,
-              'productId': 323195,
-              'productName': '测试商品的产品选择2',
-            }, {
-              'amount': 40,
-              'billDate': 1529596800000,
-              'chanceId': 109,
-              'productId': 323195,
-              'productName': '测试商品的产品选择3',
-            }, {
-              'amount': 80,
-              'billDate': 1529596800000,
-              'chanceId': 109,
-              'productId': 323195,
-              'productName': '测试商品的产品选择4',
-            }, {
-              'amount': 50,
-              'billDate': 1529596800000,
-              'chanceId': 109,
-              'productId': 323195,
-              'productName': '测试商品的产品选择5',
-            },
-          ]
+          let testData = da.data
           let showData = []
           let date = []
           testData.forEach((item, index) => {
@@ -137,7 +110,7 @@
             // this.barOption.xAxis.data = productName
             this.scatterOption.series[0].data = showData
             this.drawScatterChart()
-          })
+          }, () => {})
         })
       },
     },

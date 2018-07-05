@@ -89,9 +89,9 @@
         this.getUserList({
           bilityIds: this.principalType,
           organizationId: webStorage.getItem('userInfo').organizationId,
-          exceptUserIds: this.exceptUserIds.join(',')
+          exceptUserIds: this.exceptUserIds.join(','),
         })
-      }
+      },
     },
     created () {
       if (this.params.type === 'apply') {
@@ -104,7 +104,7 @@
       this.getUserList({ // 默认拉取专业咨询师列表
         bilityIds: this.principalType,
         organizationId: webStorage.getItem('userInfo').organizationId,
-        exceptUserIds: this.exceptUserIds.join(',')
+        exceptUserIds: this.exceptUserIds.join(','),
       })
     },
   }

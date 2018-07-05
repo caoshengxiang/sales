@@ -80,7 +80,7 @@
         API.user.toReturnList({customerId: customerId}, (data) => {
           this.oldSalerList = data.data
         })
-      }
+      },
     },
     created () {
       this.toReturnList(arrToStr(this.params.customerIds, 'id'))

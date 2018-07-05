@@ -100,7 +100,8 @@
             <div class="head-text-box">
               <com-button buttonType="uploadImg" style="position: relative">
                 本地图片
-                <input type="file" class="upload-input" accept="image/png,image/jpeg,image/gif,image/jpg" @change="fileUploadHandle">
+                <input type="file" class="upload-input" accept="image/png,image/jpeg,image/gif,image/jpg"
+                       @change="fileUploadHandle">
               </com-button>
               <span class="tips">使用高质量图片，可生成高清头像</span>
               <p>仅支持JPG、静态GIF和PNG图片文件，且文件小于3M</p>
@@ -293,7 +294,7 @@
             })
           }
         })
-      }
+      },
     },
     created () {
       this.activeViewName = this.$route.query.view

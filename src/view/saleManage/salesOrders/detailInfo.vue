@@ -5,8 +5,12 @@
     <!--头部-->
     <div class="com-head">
       <el-breadcrumb separator-class="el-icon-arrow-right">
-        <el-breadcrumb-item v-if="themeIndex === 0" v-for="item in $route.meta.pos" :key="item.toName" :to="{name: item.toName}">{{item.name}}</el-breadcrumb-item>
-        <el-breadcrumb-item v-if="themeIndex === 1" v-for="item in $route.meta.pos2" :key="item.toName" :to="{name: item.toName}">{{item.name}}</el-breadcrumb-item>
+        <el-breadcrumb-item v-if="themeIndex === 0" v-for="item in $route.meta.pos" :key="item.toName"
+                            :to="{name: item.toName}">{{item.name}}
+        </el-breadcrumb-item>
+        <el-breadcrumb-item v-if="themeIndex === 1" v-for="item in $route.meta.pos2" :key="item.toName"
+                            :to="{name: item.toName}">{{item.name}}
+        </el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <!--控制栏-->
@@ -89,7 +93,8 @@
             <table class="detail-table">
               <tr>
                 <td class="td-title">销售订单创建时间</td>
-                <td colspan="5">{{orderDetail.created && $moment(orderDetail.created).format('YYYY-MM-DD HH:mm:ss')}}</td>
+                <td colspan="5">{{orderDetail.created && $moment(orderDetail.created).format('YYYY-MM-DD HH:mm:ss')}}
+                </td>
               </tr>
             </table>
           </el-tab-pane>
@@ -141,9 +146,15 @@
                 <th class="td-title">销售机会咨询师</th>
               </tr>
               <tr>
-                <td>{{orderDetail.team.creatorName && orderDetail.team.creatorName + '[' + orderDetail.team.creatorMobilePhone + ']'}}</td>
-                <td>{{orderDetail.team.salerName && orderDetail.team.salerName + '[' + orderDetail.team.salerMobilePhone + ']'}}</td>
-                <td>{{orderDetail.team.counselorName && orderDetail.team.counselorName + '['  + orderDetail.team.salerMobilePhone + ']'}}</td>
+                <td>{{orderDetail.team.creatorName && orderDetail.team.creatorName + '[' +
+                  orderDetail.team.creatorMobilePhone + ']'}}
+                </td>
+                <td>{{orderDetail.team.salerName && orderDetail.team.salerName + '[' + orderDetail.team.salerMobilePhone
+                  + ']'}}
+                </td>
+                <td>{{orderDetail.team.counselorName && orderDetail.team.counselorName + '[' +
+                  orderDetail.team.salerMobilePhone + ']'}}
+                </td>
               </tr>
             </table>
           </el-tab-pane>
@@ -157,7 +168,8 @@
         <ul class="team-member">
           <li class="team-member-item">
             <div class="head">
-              <img style="width: 58px;height: 58px;border-radius: 100%;" v-if="orderDetail.team.creatorAvatar" :src="orderDetail.team.creatorAvatar" alt="">
+              <img style="width: 58px;height: 58px;border-radius: 100%;" v-if="orderDetail.team.creatorAvatar"
+                   :src="orderDetail.team.creatorAvatar" alt="">
               <img v-else src="../../../assets/icon/headDefault.png" alt="">
             </div>
             <div class="text">
@@ -171,7 +183,8 @@
           </li>
           <li class="team-member-item">
             <div class="head">
-              <img style="width: 58px;height: 58px;border-radius: 100%;" v-if="orderDetail.team.salerAvatar" :src="orderDetail.team.salerAvatar" alt="">
+              <img style="width: 58px;height: 58px;border-radius: 100%;" v-if="orderDetail.team.salerAvatar"
+                   :src="orderDetail.team.salerAvatar" alt="">
               <img v-else src="../../../assets/icon/headDefault.png" alt="">
             </div>
             <div class="text">
@@ -184,7 +197,8 @@
           </li>
           <li class="team-member-item">
             <div class="head">
-              <img style="width: 58px;height: 58px;border-radius: 100%;" v-if="orderDetail.team.counselorAvatar" :src="orderDetail.team.counselorAvatar" alt="">
+              <img style="width: 58px;height: 58px;border-radius: 100%;" v-if="orderDetail.team.counselorAvatar"
+                   :src="orderDetail.team.counselorAvatar" alt="">
               <img v-else src="../../../assets/icon/headDefault.png" alt="">
             </div>
             <div class="text">
@@ -217,7 +231,7 @@
         tapOption: '',
         activeViewName: '',
         orderDetail: {
-          team: {}
+          team: {},
         },
         refundRecordList: [],
       }
@@ -337,7 +351,7 @@
         API.refundRecord.list({orderId: orderId}, da => {
           this.refundRecordList = da.data.content
         })
-      }
+      },
     },
     created () {
       this.activeViewName = this.$route.query.view

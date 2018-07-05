@@ -233,10 +233,11 @@
 
 <style lang="scss" rel="stylesheet/scss">
   input:-webkit-autofill {
-    background-color : #FFF;
-    background-image : none ;
-    color : #000 ;
+    background-color: #FFF;
+    background-image: none;
+    color: #000;
   }
+
   .sign-in {
     height: 100%;
     min-height: 800px;
@@ -247,6 +248,7 @@
     bottom: 0;
     left: 0;
   }
+
   .remember-col {
     .el-checkbox__input.is-checked + .el-checkbox__label {
       color: #4F5F6F;
@@ -273,6 +275,7 @@
       border-color: #4F5F6F;
     }
   }
+
   .el-form-w {
     .el-input__inner {
       border: 0;
@@ -280,6 +283,7 @@
       border-radius: 0;
     }
   }
+
   .client-1 {
     width: 100%;
     height: 100%;
@@ -486,6 +490,7 @@
       transform: translateX(-50%) translateZ(0) scaleY(1)
     }
   }
+
   .waveWrapper {
     overflow: hidden;
     position: absolute;
@@ -496,6 +501,7 @@
     margin: auto;
     z-index: -10;
   }
+
   .waveWrapperInner {
     position: absolute;
     width: 100%;
@@ -504,22 +510,27 @@
     bottom: -1px;
     background-image: linear-gradient(to top, #f0f3f6 20%, #f0f3f6 80%);
   }
+
   .client-1 {
     .waveWrapperInner {
       background-image: linear-gradient(to top, #fbffff 20%, #fbffff 80%);
     }
   }
+
   .bgTop {
     z-index: 15;
     opacity: 0.5;
   }
+
   .bgMiddle {
     z-index: 10;
     opacity: 0.75;
   }
+
   .bgBottom {
     z-index: 5;
   }
+
   .wave {
     position: absolute;
     left: 0;
@@ -529,24 +540,30 @@
     background-position: 0 bottom;
     transform-origin: center bottom;
   }
+
   .waveTop {
     background-size: 50% 100px;
   }
+
   .waveAnimation .waveTop {
     animation: move-wave 3s;
     -webkit-animation: move-wave 3s;
     -webkit-animation-delay: 1s;
     animation-delay: 1s;
   }
+
   .waveMiddle {
     background-size: 50% 120px;
   }
+
   .waveAnimation .waveMiddle {
     animation: move_wave 10s linear infinite;
   }
+
   .waveBottom {
     background-size: 50% 100px;
   }
+
   .waveAnimation .waveBottom {
     animation: move_wave 15s linear infinite;
   }

@@ -247,7 +247,8 @@
           }
         }
         let link = document.createElement('a') // 创建事件对象
-        let query = QS.stringify(Object.assign({}, this.defaultListParams, this.sortObj, as, {authKey: webStorage.getItem('userInfo').authKey}))
+        let query = QS.stringify(Object.assign({}, this.defaultListParams, this.sortObj, as,
+          {authKey: webStorage.getItem('userInfo').authKey}))
         // console.log('下载参数：', query)
         link.setAttribute('href', serverUrl + '/followOrderRecord/export?' + query)
         link.setAttribute('download', '跟单记录导出')

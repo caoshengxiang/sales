@@ -3,7 +3,8 @@
     <!--头部-->
     <div class="com-head">
       <el-breadcrumb separator-class="el-icon-arrow-right">
-        <el-breadcrumb-item v-for="item in $route.meta.pos" :key="item.toName" :to="{name: item.toName}">{{item.name}}</el-breadcrumb-item>
+        <el-breadcrumb-item v-for="item in $route.meta.pos" :key="item.toName" :to="{name: item.toName}">{{item.name}}
+        </el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <!--控制栏-->
@@ -53,7 +54,8 @@
           label="消息标题"
         >
           <template slot-scope="scope">
-            <a class="col-link" @click="handleRouter('detail')" :class="{'read-message': scope.row.read}">{{ scope.row.messageTitle }}</a>
+            <a class="col-link" @click="handleRouter('detail')" :class="{'read-message': scope.row.read}">{{
+              scope.row.messageTitle }}</a>
           </template>
         </el-table-column>
         <el-table-column
@@ -116,7 +118,7 @@
             messageType: '系统消息',
             messageTitle: '修改密码通知',
             date: '2016-05-03 12:00:00',
-            read: false
+            read: false,
           }],
         ipleSelection: [],
         currentPage: 1,
@@ -159,6 +161,7 @@
   .col-link {
     text-decoration: underline;
   }
+
   .read-message {
     color: #DDDDDD !important;
   }

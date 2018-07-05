@@ -181,7 +181,8 @@
         <ul class="team-member">
           <li class="team-member-item">
             <div class="head">
-              <img style="width: 58px;height: 58px;border-radius: 100%;" v-if="contactsDetail.team.avatar" :src="contactsDetail.team.avatar" alt="">
+              <img style="width: 58px;height: 58px;border-radius: 100%;" v-if="contactsDetail.team.avatar"
+                   :src="contactsDetail.team.avatar" alt="">
               <img v-else src="../../../assets/icon/headDefault.png" alt="">
             </div>
             <div class="text">
