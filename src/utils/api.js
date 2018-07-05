@@ -1315,5 +1315,14 @@ export default {
         error && error(err)
       })
     },
+    dashboard (params, success, error) { // 后端统计
+      $axios.get('home/dashboard', {
+        params: params,
+      }).then(res => {
+        success && success(res.data)
+      }).catch(err => {
+        error && error(err)
+      })
+    },
   }
 }

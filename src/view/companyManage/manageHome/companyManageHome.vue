@@ -14,9 +14,11 @@
               <span class="tag">当前</span>
             </div>
             <div class="show">
-              <span class="num">300</span>
+              <span class="num">{{dashboard.customerCount}}</span>
               <span class="change">
-                本月新增：<span class="change-up"><i class="el-icon-back" style="transform: rotate(90deg)"></i> 15</span>
+                本月新增：
+                <span class="change-up" v-if="dashboard.customerChangeRate>=0"><i class="iconfont icon-top"></i> {{dashboard.customerChangeRate}}%</span>
+                <span class="change-down" v-if="dashboard.customerChangeRate<0"><i class="iconfont icon-xia"></i> {{dashboard.customerChangeRate}}%</span>
               </span>
             </div>
           </div>
@@ -28,9 +30,11 @@
               <span class="tag">当前</span>
             </div>
             <div class="show">
-              <span class="num">300</span>
+              <span class="num">{{dashboard.intentCustomerCount}}</span>
               <span class="change">
-                本月下降：<span class="change-down"><i class="el-icon-back" style="transform: rotate(-90deg)"></i> 15</span>
+                本月下降：
+                 <span class="change-up" v-if="dashboard.intentCustomerChangeRate>=0"><i class="iconfont icon-top"></i> {{dashboard.intentCustomerChangeRate}}%</span>
+                <span class="change-down" v-if="dashboard.intentCustomerChangeRate<0"><i class="iconfont icon-xia"></i> {{dashboard.intentCustomerChangeRate}}%</span>
               </span>
             </div>
           </div>
@@ -42,9 +46,11 @@
               <span class="tag">当前</span>
             </div>
             <div class="show">
-              <span class="num">300</span>
+              <span class="num">{{dashboard.contacterCount}}</span>
               <span class="change">
-                本月新增：<span class="change-up"><i class="el-icon-back" style="transform: rotate(90deg)"></i> 15</span>
+                本月新增：
+                 <span class="change-up" v-if="dashboard.contacterChangeRate>=0"><i class="iconfont icon-top"></i> {{dashboard.contacterChangeRate}}%</span>
+                <span class="change-down" v-if="dashboard.contacterChangeRate<0"><i class="iconfont icon-xia"></i> {{dashboard.contacterChangeRate}}%</span>
               </span>
             </div>
           </div>
@@ -58,9 +64,11 @@
               <span class="tag">当前</span>
             </div>
             <div class="show">
-              <span class="num">300</span>
+              <span class="num">{{dashboard.chanceCount}}</span>
               <span class="change">
-                本月新增：<span class="change-up"><i class="el-icon-back" style="transform: rotate(90deg)"></i> 15</span>
+                本月新增：
+                 <span class="change-up" v-if="dashboard.chanceChangeRate>=0"><i class="iconfont icon-top"></i> {{dashboard.chanceChangeRate}}%</span>
+                <span class="change-down" v-if="dashboard.chanceChangeRate<0"><i class="iconfont icon-xia"></i> {{dashboard.chanceChangeRate}}%</span>
               </span>
             </div>
           </div>
@@ -68,13 +76,15 @@
         <el-col :span="8" class="lr-part">
           <div class="col-box">
             <div class="title">
-              <span class="text">意向客户量</span>
+              <span class="text">销售订单</span>
               <span class="tag">当前</span>
             </div>
             <div class="show">
-              <span class="num">300</span>
+              <span class="num">{{dashboard.orderCount}}</span>
               <span class="change">
-                本月新增：<span class="change-up"><i class="el-icon-back" style="transform: rotate(90deg)"></i> 15</span>
+                本月新增：
+                 <span class="change-up" v-if="dashboard.orderChangeRate>=0"><i class="iconfont icon-top"></i> {{dashboard.orderChangeRate}}%</span>
+                <span class="change-down" v-if="dashboard.orderChangeRate<0"><i class="iconfont icon-xia"></i> {{dashboard.orderChangeRate}}%</span>
               </span>
             </div>
           </div>
@@ -82,13 +92,15 @@
         <el-col :span="8">
           <div class="col-box">
             <div class="title">
-              <span class="text">销售订单</span>
+              <span class="text">跟单记录</span>
               <span class="tag">当前</span>
             </div>
             <div class="show">
-              <span class="num">300</span>
+              <span class="num">{{dashboard.followRecordCount}}</span>
               <span class="change">
-                本月新增：<span class="change-up"><i class="el-icon-back" style="transform: rotate(90deg)"></i> 15</span>
+                本月新增：
+                 <span class="change-up" v-if="dashboard.followRecordChangeRate>=0"><i class="iconfont icon-top"></i> {{dashboard.followRecordChangeRate}}%</span>
+                <span class="change-down" v-if="dashboard.followRecordChangeRate<0"><i class="iconfont icon-xia"></i> {{dashboard.followRecordChangeRate}}%</span>
               </span>
             </div>
           </div>
@@ -108,18 +120,27 @@
 <script>
   // import moment from 'moment'
   import orderChart from './orderChart'
+  import API from '../../../utils/api'
 
   export default {
     name: 'saleHome',
     data () {
       return {
+        dashboard: {},
       }
     },
     components: {
       orderChart,
     },
+    methods: {
+      getDashboard () {
+        API.home.dashboard({}, da => {
+          this.dashboard = da.data
+        })
+      },
+    },
     created () {
-      // console.log(moment(new Date()).format('YYYY-MM-DD hh:mm:ss'))
+      this.getDashboard()
     },
   }
 </script>
@@ -127,6 +148,7 @@
 <style scoped lang="scss" rel="stylesheet/scss">
   @import "../../../styles/common";
   @import "../../../styles/sprites.css";
+  @import "../../../../static/iconFont/iconfont.css";
   .sale-home {
   }
 
@@ -184,9 +206,11 @@
           margin-top: 30px;
           .change-up {
             color: #39C189;
+            font-weight: bold;
           }
           .change-down {
             color: #FE5455;
+            font-weight: bold;
           }
         }
       }

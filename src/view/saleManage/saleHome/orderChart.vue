@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="com-title com-title-no">
-      <span>新增订单数</span>
+      <span>订单数</span>
       <el-select v-model="paramsForm.userIds" placeholder="请选择" @change="selectOptionsHandle" style="margin-left: 20px">
         <el-option label="部门全部" :value="null"></el-option>
         <!--<el-option label="只看自己" :value="currentUserId"></el-option>-->
@@ -28,10 +28,10 @@
             <p class="data">{{orderStat.currentYearOrderQuantity}}</p>
             <p class="detail"><span class="tip">本年累计新增订单</span>
               <span class="percent percent-plus" v-if="orderStat.yearQuantityChangeRate > 0">
-                <i class="el-icon-back" style="transform: rotate(90deg)"></i>{{orderStat.yearQuantityChangeRate}}%
+                <i class="iconfont icon-top"></i>{{orderStat.yearQuantityChangeRate}}%
               </span>
               <span class="percent percent-minus" v-if="orderStat.yearQuantityChangeRate < 0">
-                <i class="el-icon-back" style="transform: rotate(-90deg)"></i>{{orderStat.yearQuantityChangeRate}}%
+                <i class="iconfont icon-xia"></i>{{orderStat.yearQuantityChangeRate}}%
               </span>
               <span class="percent percent-flat" v-if="orderStat.yearQuantityChangeRate === 0">
                 <i class="el-icon-minus"></i>&nbsp;&nbsp;&nbsp;持平
@@ -42,10 +42,10 @@
             <p class="data">{{orderStat.currentMonthOrderQuantity}}</p>
             <p class="detail"><span class="tip">本月累计新增订单</span>
               <span class="percent percent-plus" v-if="orderStat.monthQuantityChangeRate > 0">
-                <i class="el-icon-back" style="transform: rotate(90deg)"></i>{{orderStat.monthQuantityChangeRate}}%
+                <i class="iconfont icon-top"></i>{{orderStat.monthQuantityChangeRate}}%
               </span>
               <span class="percent percent-minus" v-if="orderStat.monthQuantityChangeRate < 0">
-                <i class="el-icon-back" style="transform: rotate(-90deg)"></i>{{orderStat.monthQuantityChangeRate}}%
+                <i class="iconfont icon-xia"></i>{{orderStat.monthQuantityChangeRate}}%
               </span>
               <span class="percent percent-flat" v-if="orderStat.monthQuantityChangeRate === 0">
                 <i class="el-icon-minus"></i>&nbsp;&nbsp;&nbsp;持平
@@ -56,10 +56,10 @@
             <p class="data">{{orderStat.currentWeekOrderQuantity}}</p>
             <p class="detail"><span class="tip">本周累计新增订单</span>
               <span class="percent percent-plus" v-if="orderStat.weekQuantityChangeRate > 0">
-                <i class="el-icon-back" style="transform: rotate(90deg)"></i>{{orderStat.weekQuantityChangeRate}}%
+                <i class="iconfont icon-top"></i>{{orderStat.weekQuantityChangeRate}}%
               </span>
               <span class="percent percent-minus" v-if="orderStat.weekQuantityChangeRate < 0">
-                <i class="el-icon-back" style="transform: rotate(-90deg)"></i>{{orderStat.weekQuantityChangeRate}}%
+                <i class="iconfont icon-xia"></i>{{orderStat.weekQuantityChangeRate}}%
               </span>
               <span class="percent percent-flat" v-if="orderStat.weekQuantityChangeRate === 0">
                 <i class="el-icon-minus"></i>&nbsp;&nbsp;&nbsp;持平
@@ -210,6 +210,7 @@
 
 <style scoped lang="scss" rel="stylesheet/scss">
   @import "../../../styles/common";
+  @import "../../../../static/iconFont/iconfont.css";
   /*.com-title-no {*/
   /*&:after {*/
   /*display: none;*/

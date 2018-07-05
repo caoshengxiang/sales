@@ -31,13 +31,13 @@
       </el-menu-item>
       <el-menu-item index="customersList" v-if="listPermissions(menus, 'customer')">
         <template slot="title">
-          <i class="iconfont icon-user"></i>
+          <i class="iconfont icon-kehu"></i>
           <span slot="title">客户</span>
         </template>
       </el-menu-item>
       <el-menu-item index="contactsList" v-if="listPermissions(menus, 'contacts')">
         <template slot="title">
-          <i class="iconfont icon-users"></i>
+          <i class="iconfont icon-qunzu"></i>
           <span slot="title">联系人</span>
         </template>
       </el-menu-item>
@@ -49,12 +49,12 @@
       </el-menu-item>
       <el-menu-item index="salesOrdersList" v-if="listPermissions(menus, 'salerOrder')">
         <template slot="title">
-          <i class="iconfont icon-icon-test"></i>
+          <i class="iconfont icon-myorder"></i>
           <span slot="title">销售订单</span>
         </template>
       </el-menu-item>
       <el-menu-item index="orderRecordsList" v-if="listPermissions(menus, 'followOrder')">
-        <i class="iconfont icon-jilu"></i>
+        <i class="iconfont icon-jilu2"></i>
         <span slot="title">跟单记录</span>
       </el-menu-item>
       <el-menu-item index="remittanceRecords" v-if="listPermissions(menus, 'refund')">
@@ -62,11 +62,11 @@
         <span slot="title">回款记录</span>
       </el-menu-item>
       <el-menu-item index="rebateRecordsList" v-if="listPermissions(menus, 'commission')">
-        <i class="iconfont icon-qiahao"></i>
+        <i class="iconfont icon-ai-wallet"></i>
         <span slot="title">返佣记录</span>
       </el-menu-item>
       <el-menu-item index="customersHighSeasList" v-if="listPermissions(menus, 'customerSea')">
-        <i class="iconfont icon-iconset0132"></i>
+        <i class="iconfont icon-ene_mon_mes_sta"></i>
         <span slot="title">客户公海</span>
       </el-menu-item>
       <el-menu-item index="taskApprovalList" v-if="listPermissions(menus, 'approval')">
@@ -82,7 +82,7 @@
       </el-menu-item>
       <el-submenu index="user" v-if="listPermissions(menus, 'userManagement')">
         <template slot="title">
-          <i class="iconfont icon-user"></i>
+          <i class="iconfont icon-kehu"></i>
           <span>用戶管理</span>
         </template>
         <el-menu-item-group>
@@ -94,7 +94,7 @@
       </el-submenu>
       <el-submenu index="organization" v-if="listPermissions(menus, 'orgManagement')">
         <template slot="title">
-          <i class="iconfont icon-users"></i>
+          <i class="iconfont icon-qunzu"></i>
           <span>组织管理</span>
         </template>
         <el-menu-item-group>
@@ -107,7 +107,7 @@
       </el-submenu>
       <el-submenu index="financial" v-if="listPermissions(menus, 'financialManagement')">
         <template slot="title">
-          <i class="iconfont icon-caiwurenminbizhifu2"></i>
+          <i class="iconfont icon-caiwu"></i>
           <span>财务管理</span>
         </template>
         <el-menu-item-group>
@@ -128,7 +128,7 @@
       </el-submenu>
       <el-submenu index="customerAreaSetting" v-if="listPermissions(menus, 'configManagement')">
         <template slot="title">
-          <i class="iconfont icon-peizhiconfiguration15"></i>
+          <i class="iconfont icon-lvzhou_shebeipeizhi"></i>
           <span>配置管理</span>
         </template>
         <el-menu-item-group>
@@ -145,7 +145,7 @@
       </el-submenu>
       <el-submenu index="todo-300" v-if="listPermissions(menus, 'statistics')">
         <template slot="title">
-          <i class="iconfont icon-iconset0132"></i>
+          <i class="iconfont icon-ene_mon_mes_sta"></i>
           <span>统计分析</span>
         </template>
         <el-menu-item-group>
@@ -155,7 +155,7 @@
       </el-submenu>
       <el-submenu index="log" v-if="listPermissions(menus, 'logManagement')">
         <template slot="title">
-          <i class="iconfont icon-xitongrizhi"></i>
+          <i class="iconfont icon-rizhi"></i>
           <span>日志管理</span>
         </template>
         <el-menu-item-group>
@@ -165,7 +165,7 @@
       </el-submenu>
       <el-submenu index="crm" v-if="listPermissions(menus, 'crmManagement')">
         <template slot="title">
-          <i class="iconfont icon-webicon319"></i>
+          <i class="iconfont icon-webicon319" style="transform: scale(1.1)"></i>
           <span>CRM管理</span>
         </template>
         <el-menu-item-group>
