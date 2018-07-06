@@ -135,9 +135,6 @@
           page: this.currentPage - 1,
           pageSize: this.pagesOptions.pageSize,
         }
-        if (this.customerId) { // 更多
-          this.defaultListParams.customerId = this.customerId
-        }
       },
       handleSizeChange (val) {
         // console.log(`每页 ${val} 条`)

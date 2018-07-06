@@ -42,12 +42,10 @@
           <div class="col-box">
             <p class="com-title">任务审批待办列表</p>
             <ul class="list">
-              <li>服务商基本信息完善</li>
-              <li>服务商服务内容提交审核</li>
-              <li>服务订单派发（30）</li>
+              <li v-for="item in TodoItemList" @click="handleTodoItemRouter(item)" :key="item.id">{{item.title}}</li>
             </ul>
             <div class="link">
-              <router-link :to="{name: 'taskApprovalList'}" class="link-all">查看全部 ></router-link>
+              <router-link :to="{name: 'todoItemList'}" class="link-all">查看全部 ></router-link>
             </div>
           </div>
         </el-col>
@@ -88,6 +86,7 @@
   import scatterChart from './scatterChart'
   import orderChart from './orderChart'
   import API from '../../../utils/api'
+  import utils from '../../../utils/utils'
 
   export default {
     name: 'saleHome',
@@ -96,6 +95,9 @@
         chanceTotal: 0,
         chanceMy: 0,
         chanceOrder: 0,
+        TodoItemList: [],
+        TodoItemTotal: 0,
+        userInfo: {},
       }
     },
     components: {
@@ -116,29 +118,41 @@
           this.chanceOrder = da.data.totalElements
         })
       },
+      getTodoItemList () {
+        API.todoItem.list({page: 0, pageSize: 3}, (res) => {
+          if (res.status) {
+            this.TodoItemList = res.data.content
+            this.TodoItemTotal = res.data.totalElements
+          }
+        })
+      },
       chanceStat () { //
         API.home.chanceStat({}, da => {
           this.chanceTotal = da.data.total
           this.chanceMy = da.data.myDev
           this.chanceOrder = da.data.billing
-        }, () => {
-          let test = {
-            'data': {
-              'billing': 1,
-              'myDev': 13,
-              'total': 13,
-            },
-            'error': null,
-            'status': true,
-          }
-          this.chanceTotal = test.data.total
-          this.chanceMy = test.data.myDev
-          this.chanceOrder = test.data.billing
         })
+      },
+      handleTodoItemRouter (row) {
+        let END = this.themeIndex === 2 ? 'ME' : 'FE'
+        switch (row.type) {
+          case 1: // 个人资料完善，跳转到：个人资料编辑页面
+            this.$router.push({name: 'personal', query: {view: 'base'}, params: {end: END}})
+            break
+          case 2: // 咨询师派单审批，跳转到：任务审批页面-我待办的任务审批
+            this.$router.push({name: 'taskApprovalDetail', params: {end: 'FE'}, query: {view: 'detail', id: row.targetId}})
+            break
+          case 3: // 咨询师更换审批，跳转到：任务审批页面-我待办的任务审批
+            this.$router.push({name: 'taskApprovalDetail', params: {end: 'FE'}, query: {view: 'detail', id: row.targetId}})
+            break
+          default:
+        }
       },
     },
     created () {
       this.chanceStat()
+      this.userInfo = utils.loginExamine(this)
+      this.getTodoItemList()
     },
   }
 </script>
@@ -182,6 +196,9 @@
       color: #333333;
       padding: 20px;
       border-bottom: 1px dashed #ccc;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
       span {
         float: right;
       }
