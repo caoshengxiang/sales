@@ -13,6 +13,7 @@ import customer from './modules/customer'
 import contacts from './modules/contacts'
 import user from './modules/user'
 import salesOpportunities from './modules/salesOpportunities'
+import todoItem from './modules/todoItem'
 
 Vue.use(Vuex)
 
@@ -30,5 +31,6 @@ export default new Vuex.Store({
     contacts,
     salesOpportunities,
     user,
+    todoItem,
   }
 })

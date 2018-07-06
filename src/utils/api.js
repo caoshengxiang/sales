@@ -1324,5 +1324,25 @@ export default {
         error && error(err)
       })
     },
+  },
+  todoItem: {
+    total (params, success, error) { // 获取个人待办事项总数
+      $axios.get('backlog/total', {
+        params: params,
+      }).then(res => {
+        success && success(res.data)
+      }).catch(err => {
+        error && error(err)
+      })
+    },
+    list (params, success, error) { // 获取个人待办事项列表
+      $axios.get('backlog', {
+        params: params,
+      }).then(res => {
+        success && success(res.data)
+      }).catch(err => {
+        error && error(err)
+      })
+    },
   }
 }

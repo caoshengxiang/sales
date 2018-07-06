@@ -85,6 +85,10 @@ const taskApprovalDetail = resolve => require.ensure([],
 const personal = resolve => require.ensure([],
   () => resolve(require('../view/saleManage/personalCenter/personal')),
   'personal')
+// 代办事项列表
+const todoItemList = resolve => require.ensure([],
+  () => resolve(require('../view/saleManage/todoItem/list')),
+  'todoItemList')
 
 // 销售前端 end
 
@@ -368,6 +372,14 @@ const router = new Router({
           meta: {
             title: '任务审批',
             pos: [{name: '销售管理系统', toName: 'saleHome'}, {name: '任务审批'}],
+          },
+        }, {
+          path: 'todoItemList',
+          name: 'todoItemList',
+          component: todoItemList,
+          meta: {
+            title: '代办事项',
+            pos: [{name: '销售管理系统', toName: 'saleHome'}, {name: '代办事项'}],
           },
         }, {
           path: 'taskApprovalDetail',

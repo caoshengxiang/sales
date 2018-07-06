@@ -285,7 +285,7 @@
         formData.append('file', files[0])
         API.common.uploadFile({path: 'avatar', body: formData}, upImg => {
           if (upImg.status) {
-            this.ruleForm.avatar = upImg.data
+            this.ruleForm.avatar = upImg.data.path
             API.user.userModify(this.ruleForm, (da) => {
               if (da.status) {
                 this.$message.success('保存成功')

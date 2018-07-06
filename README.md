@@ -387,8 +387,9 @@ console.log(process.env.API_ROOT, 'test----环境地址') // http://sales.dcstar
 console.log(process.env.server_url, 'test-环境地址') // undefined
 ```
 
-## webStorm 过去
+## webStorm 过期
 【6.13】 https://idea.qmanga.com/
+【2018.7.6】 http://idea.wrbugtest.tk/
 
 ## webpack 打包-webkit-box-orient: vertical;不见了
 [解决](https://www.cnblogs.com/xianhuiwang/p/9044725.html)
