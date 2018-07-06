@@ -8,10 +8,10 @@
           <a>注销</a>
         </li>
         <li class="item cursor" @click="messageHandle" v-if="themeIndex === 0">
-          <el-badge :is-dot="false" class="badge">
+          <el-badge :is-dot="messageTotal > 0" class="badge">
             <i class="iconfont icon-iconfontunie62c"></i>
           </el-badge>
-          消息通知<span></span>
+          消息通知<span v-if="messageTotal > 0">({{messageTotal}})</span>
         </li>
         <li class="item cursor" @click="todoItemList" v-if="themeIndex === 0 && listPermissions(menus, 'approval')">
           <el-badge :is-dot="todoItemTotal > 0" class="badge">
@@ -47,10 +47,16 @@
       ...mapState('todoItem', [
         'todoItemTotal',
       ]),
+      ...mapState('message', [
+        'messageTotal',
+      ]),
     },
     methods: {
       ...mapActions('todoItem', [
         'ac_todoItemTotal',
+      ]),
+      ...mapActions('message', [
+        'ac_messageTotal',
       ]),
       logout () {
         API.login.logout({}, (res) => {
@@ -83,11 +89,17 @@
           this.ac_todoItemTotal(da.data)
         })
       },
+      getMessageTotal () {
+        API.message.unreadCnt({}, da => {
+          this.ac_messageTotal(da.data)
+        })
+      }
     },
     created () {
       this.userInfo = utils.loginExamine(this)
       this.menus = this.userInfo.menus
       this.getTodoItemTotal()
+      this.getMessageTotal()
     },
   }
 </script>

@@ -1,5 +1,6 @@
 <template>
-  <div class="com-container">
+  <div class="com-container" v-loading="dataLoading"
+       element-loading-text="数据加载中...">
     <!--头部-->
     <div class="com-head">
       <el-breadcrumb separator-class="el-icon-arrow-right">
@@ -10,8 +11,12 @@
     <!--控制栏-->
     <div class="com-bar">
       <div class="com-bar-left">
-        <com-button buttonType="orange" icon="el-icon-plus" @click="moveHandle">删除</com-button>
-        <com-button buttonType="add" icon="el-icon-plus" @click="addHandle">标记已读</com-button>
+        <com-button buttonType="orange" icon="el-icon-plus" :disabled="multipleSelection.length<=0" @click="moveHandle">
+          删除
+        </com-button>
+        <com-button buttonType="add" icon="el-icon-plus" :disabled="multipleSelection.length<=0" @click="addHandle">
+          标记已读
+        </com-button>
       </div>
       <div class="com-bar-right">
         <!--<el-select v-model="value" placeholder="请选择" class="com-el-select">-->
@@ -44,9 +49,10 @@
           align="center"
           label="消息类型"
           width="200"
+          prop="msgType"
         >
           <template slot-scope="scope">
-            <span :class="{'read-message': scope.row.read}">{{ scope.row.messageType }}</span>
+            <span :class="{'read-message': scope.row.readStatus}">{{ scope.row.msgType === 1 ? '系统消息': '平台通知' }}</span>
           </template>
         </el-table-column>
         <el-table-column
@@ -54,8 +60,8 @@
           label="消息标题"
         >
           <template slot-scope="scope">
-            <a class="col-link" @click="handleRouter('detail')" :class="{'read-message': scope.row.read}">{{
-              scope.row.messageTitle }}</a>
+            <a class="col-link" @click="handleRouter('detail')" :class="{'read-message': scope.row.readStatus}">{{
+              scope.row.title }}</a>
           </template>
         </el-table-column>
         <el-table-column
@@ -64,7 +70,7 @@
           label="发送时间"
           width="200">
           <template slot-scope="scope">
-            <span :class="{'read-message': scope.row.read}">{{ scope.row.date }}</span>
+            <span :class="{'read-message': scope.row.readStatus}">{{ scope.row.sendTime && $moment(scope.row.sendTime).format('YYYY-MM-DD HH:mm:ss') }}</span>
           </template>
         </el-table-column>
       </el-table>
@@ -73,7 +79,7 @@
     <div class="com-pages-box">
       <el-pagination
         background
-        :total="1000"
+        :total="total"
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
         :current-page="currentPage"
@@ -88,40 +94,19 @@
 <script>
   import { mapState } from 'vuex'
   import comButton from '../../../components/button/comButton'
+  import API from '../../../utils/api'
 
   export default {
     name: 'list',
     data () {
       return {
-        // options: [
-        //   {
-        //     value: 1,
-        //     label: '全部客户',
-        //   }, {
-        //     value: 2,
-        //     label: '我负责的客户',
-        //   }, {
-        //     value: 3,
-        //     label: '我跟进的客户',
-        //   }, {
-        //     value: 4,
-        //     label: '我参与的客户',
-        //   }],
-        // value: 3,
-        tableData: [
-          {
-            messageType: '系统消息',
-            messageTitle: '修改密码通知',
-            date: '2016-05-03 12:00:00',
-            read: true,
-          }, {
-            messageType: '系统消息',
-            messageTitle: '修改密码通知',
-            date: '2016-05-03 12:00:00',
-            read: false,
-          }],
-        ipleSelection: [],
+        dataLoading: true,
+        tableData: [],
+        total: 0,
+        multipleSelection: [],
         currentPage: 1,
+        sortObj: null, // 排序
+        advancedSearch: null, // 高级搜索
       }
     },
     computed: {
@@ -144,13 +129,41 @@
       },
       handleSizeChange (val) {
         console.log(`每页 ${val} 条`)
+        this.getMessageList()
       },
       handleCurrentChange (val) {
+        this.currentPage = val
         console.log(`当前页: ${val}`)
+        this.getMessageList()
       },
       handleRouter (name) {
         this.$router.push({name: 'messageDetail', params: {end: 'FE'}, query: {view: name}})
       },
+      getMessageList () { // 获取列表数据
+        this.getQueryParams()
+        this.dataLoading = true
+        API.message.personalMessage(Object.assign({}, this.defaultListParams, this.sortObj, this.advancedSearch),
+          da => {
+            this.tableData = da.data.content
+            this.total = da.data.totalElements
+            setTimeout(() => {
+              this.dataLoading = false
+            }, 300)
+          }, () => {
+            // setTimeout(() => {
+            //   this.dataLoading = false
+            // }, 300)
+          })
+      },
+      getQueryParams () { // 请求参数配置
+        this.defaultListParams = {
+          page: this.currentPage - 1,
+          pageSize: this.pagesOptions.pageSize,
+        }
+      },
+    },
+    created () {
+      this.getMessageList()
     },
   }
 </script>

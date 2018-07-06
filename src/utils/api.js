@@ -1344,5 +1344,25 @@ export default {
         error && error(err)
       })
     },
+  },
+  message: {
+    personalMessage (params, success, error) { // 获取个人消息列表
+      $axios.get('message/personal', {
+        params: params,
+      }).then(res => {
+        success && success(res.data)
+      }).catch(err => {
+        error && error(err)
+      })
+    },
+    unreadCnt (params, success, error) { // 获取个人未读消息数目
+      $axios.get('message/personal/unreadCnt', {
+        params: params,
+      }).then(res => {
+        success && success(res.data)
+      }).catch(err => {
+        error && error(err)
+      })
+    },
   }
 }
