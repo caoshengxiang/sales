@@ -106,7 +106,7 @@
   @import "../../../static/quill.snow.css";
 
   .contract {
-    width: 870px;
+    max-width: 870px;
     padding: 20px;
     margin: 0 auto;
   }
