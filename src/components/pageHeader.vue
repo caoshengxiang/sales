@@ -13,7 +13,8 @@
           </el-badge>
           消息通知<span v-if="messageTotal > 0">({{messageTotal}})</span>
         </li>
-        <li class="item cursor" @click="todoItemList" v-if="themeIndex === 0 && listPermissions(menus, 'approval')">
+        <!--<li class="item cursor" @click="todoItemList" v-if="themeIndex === 0 && listPermissions(menus, 'approval')">-->
+        <li class="item cursor" @click="todoItemList" v-if="themeIndex === 0">
           <el-badge :is-dot="todoItemTotal > 0" class="badge">
             <i class="iconfont icon-tixing"></i>
           </el-badge>

@@ -43,8 +43,9 @@
             <p class="com-title">任务审批待办列表</p>
             <ul class="list">
               <li v-for="item in TodoItemList" @click="handleTodoItemRouter(item)" :key="item.id">{{item.title}}</li>
+              <li style="text-align: center;color: #333333;" v-if="!TodoItemList.length">暂无代办事项</li>
             </ul>
-            <div class="link">
+            <div class="link" v-if="TodoItemList.length>0">
               <router-link :to="{name: 'todoItemList'}" class="link-all">查看全部 ></router-link>
             </div>
           </div>

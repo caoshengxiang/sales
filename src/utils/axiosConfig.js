@@ -2,6 +2,7 @@ import { serverUrl } from './const'
 // import { Message, Loading } from 'element-ui'
 import { Message } from 'element-ui'
 import webStorage from 'webStorage'
+import $router from '../router'
 
 $axios.defaults.baseURL = serverUrl
 $axios.defaults.timeout = 100000
@@ -41,7 +42,7 @@ $axios.interceptors.response.use((response) => {
       }, 0)
       setTimeout(() => {
         if (response.data.error.statusCode === '10004' || response.data.error.statusCode === '10007') { // 10004未登录，10007登录过期
-          location.href = '/'
+          $router.push({name: 'signIn'})
         }
       }, 1000)
     }

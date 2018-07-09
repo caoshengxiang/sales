@@ -61,10 +61,18 @@
           </el-col>
           <el-col :span="8">
             <el-form-item label="客户来源：">
-              <el-select v-model="searchForm.source" placeholder="请选择客户来源">
-                <el-option v-for="item in customerSourceType" :key="item.type" :label="item.value"
-                           :value="item.type"></el-option>
-              </el-select>
+              <!--<el-select v-model="searchForm.customerSource" placeholder="请选择客户来源">-->
+              <!--<el-option v-for="item in customerSourceType" :key="item.type" :label="item.value"-->
+              <!--:value="item.type"></el-option>-->
+              <!--</el-select>-->
+              <el-cascader
+                :change-on-select="false"
+                :options="customerSourceType"
+                v-model="customerSourceArr"
+                @active-item-change="customerSourceChangeHandle"
+                :props="props"
+              >
+              </el-cascader>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -122,12 +130,17 @@
           cityId: null,
           areaId: null,
           seaId: null,
-          source: null,
+          customerSource: null,
           state: null,
           startDate: null,
           endDate: null,
         },
         timeInterval: '',
+        customerSourceArr: [],
+        props: {
+          value: 'id',
+          label: 'codeName'
+        }
       }
     },
     props: ['params'],
@@ -135,14 +148,41 @@
       saveSubmitForm () {
         this.$vDialog.close({type: 'search', params: this.searchForm})
       },
-      getConfigData (type) {
-        API.common.codeConfig(type, (data) => {
+      getConfigData (type, pCode) {
+        API.common.codeConfig({type: type, pCode: pCode}, (data) => {
           if (type === 2) {
             this.levelList = data.data
           } else if (type === 3) {
             this.industryList = data.data
+          } else if (type === 5) {
+            let arr = data.data.map((item) => {
+              item.children = []
+              return item
+            })
+            if (this.customerSourceType.length === 0) {
+              this.customerSourceType = arr
+            } else {
+
+            }
           }
         })
+      },
+      customerSourceChangeHandle (va) {
+        console.log(va)
+        API.common.codeConfig({type: 5, pCode: va[va.length - 1]}, (data) => {
+          this.customerSourceType.forEach(item => {
+            if (va[va.length - 1] === item.id) {
+              let arr = data.data.map((item) => {
+                item.children = []
+                return item
+              })
+              item.children = arr
+            }
+          })
+        })
+      },
+      setChildren (list, id) {
+
       },
       getSeaList () {
         API.customerSea.listAboutCustomer((data) => {
@@ -162,8 +202,9 @@
     created () {
       this.getConfigData(2)
       this.getConfigData(3)
+      this.getConfigData(5)
       this.getSeaList()
-      this.customerSourceType = this.params.customerSourceType
+      // this.customerSourceType = this.params.customerSourceType
       this.customerState = this.params.customerState
     },
   }

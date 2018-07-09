@@ -290,7 +290,7 @@
         console.log('val', val)
       },
       getConfigData (type) {
-        API.common.codeConfig(type, (data) => {
+        API.common.codeConfig({type: type}, (data) => {
           if (type === 2) {
             this.levelList = data.data
           } else if (type === 3) {

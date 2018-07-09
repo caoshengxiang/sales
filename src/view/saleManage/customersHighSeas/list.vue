@@ -82,14 +82,9 @@
           show-overflow-tooltip
           align="center"
           sortable
-          prop="source"
+          prop="customerSourceName"
           label="客户来源"
           width="120">
-          <template slot-scope="scope">
-            <span v-for="item in customerSourceType"
-                  :key="item.type"
-                  v-if="item.type === scope.row.source">{{item.value}}</span>
-          </template>
         </el-table-column>
         <el-table-column
           align="center"

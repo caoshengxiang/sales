@@ -147,15 +147,10 @@
         <el-table-column
           show-overflow-tooltip
           align="center"
-          prop="source"
+          prop="customerSourceName"
           sortable="custom"
           label="客户来源"
           width="160">
-          <template slot-scope="scope">
-            <span v-for="item in customerSourceType"
-                  :key="item.type"
-                  v-if="item.type === scope.row.source">{{item.value}}</span>
-          </template>
         </el-table-column>
         <el-table-column
           show-overflow-tooltip

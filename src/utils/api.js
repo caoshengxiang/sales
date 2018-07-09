@@ -58,9 +58,9 @@ export default {
         error && error(errorData)
       })
     },
-    codeConfig (params, success, error) { // 2 - 客户级别，3 - 客户行业
+    codeConfig (params, success, error) { // 2 - 客户级别，3 - 客户行业， 5 - 客户源
       $axios.get('codeConfig', {
-        params: {type: params},
+        params: params,
       }).then((res) => {
         success && success(res.data)
       }).catch((err) => {
