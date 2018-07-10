@@ -14,19 +14,21 @@
     </div>
     <div>
       <div class="order-info">
-        <img src="../../../assets/placeholder.jpg" alt="">
+        <img src="../../../assets/icon/company.png" alt="">
         <div class="text">
-          <p>金融托管[创业板]</p>
-          <p>基础服务费：50.00元/年 <span style="margin-left: 50px">x3</span></p>
+          <p>{{orderDetail.productName}}</p>
+          <p>{{orderDetail.unit}} <span style="margin-left: 50px">x{{orderDetail.quantity}}</span></p>
         </div>
       </div>
       <div class="sum">
-        <span class="left">合计金额：￥500.00</span>
-        <div class="right"><span>优惠50元</span><span class="repayment">回款：￥5000.00</span></div>
+        <span class="left">合计金额：￥{{orderDetail.totalAmount}}</span>
+        <div class="right">
+          <!--<span>优惠50元</span>-->
+          <span class="repayment">回款：￥{{orderDetail.refundAmount}}</span></div>
       </div>
       <div class="el-table-box">
         <el-table
-          :data="tableData"
+          :data="orderDetail.refundRecordList"
           border
           style="width: 100%">
           <el-table-column
@@ -35,17 +37,17 @@
             align="center">
           </el-table-column>
           <el-table-column
-            prop="bill"
-            label="支付金额"
+            prop="netReceipts"
+            label="支付金额(元)"
             align="center">
           </el-table-column>
           <el-table-column
-            prop="state"
+            prop="paymentMethod"
             align="center"
             label="支付方式">
           </el-table-column>
           <el-table-column
-            prop="way"
+            prop="status"
             align="center"
             label="支付状态">
           </el-table-column>
@@ -53,33 +55,33 @@
       </div>
       <div class="detail-box">
         <div class="detail-item">
-          <p>服务企业：成都*********</p>
-          <p>预约时间：</p>
+          <p>服务企业：</p>
+          <p>预约时间：{{orderDetail.createDate&&$moment(orderDetail.createDate).format('YYYY-MM-DD HH:mm:ss')}}</p>
           <p>订单备注：</p>
         </div>
-        <div class="detail-item">
-          <p>评价星级：
-            <el-rate
-              style="display: inline-block"
-              v-model="rateNum"
-              disabled
-              show-score
-              text-color="#ff9900"
-              score-template="{value}">
-            </el-rate>
-          </p>
-          <p>评价内容：</p>
-        </div>
+        <!--<div class="detail-item">-->
+          <!--<p>评价星级：-->
+            <!--<el-rate-->
+              <!--style="display: inline-block"-->
+              <!--v-model="rateNum"-->
+              <!--disabled-->
+              <!--show-score-->
+              <!--text-color="#ff9900"-->
+              <!--score-template="{value}">-->
+            <!--</el-rate>-->
+          <!--</p>-->
+          <!--<p>评价内容：</p>-->
+        <!--</div>-->
         <div class="detail-item">
           <div class="left">
-            <p>下单时间：</p>
-            <p>确认时间：</p>
-            <p>服务结束：</p>
+            <p>下单时间：{{orderDetail.createDate&&$moment(orderDetail.createDate).format('YYYY-MM-DD HH:mm:ss')}}</p>
+            <p>确认时间：{{orderDetail.ensureDate&&$moment(orderDetail.ensureDate).format('YYYY-MM-DD HH:mm:ss')}}</p>
+            <p>服务结束：{{orderDetail.serviceStartDate&&$moment(orderDetail.serviceStartDate).format('YYYY-MM-DD HH:mm:ss')}}</p>
           </div>
           <div class="right">
-            <p>支付时间：</p>
-            <p>服务开始：</p>
-            <p>订单完成：</p>
+            <p>支付时间：{{orderDetail.payDate&&$moment(orderDetail.payDate).format('YYYY-MM-DD HH:mm:ss')}}</p>
+            <p>服务开始：{{orderDetail.serviceEndDate&&$moment(orderDetail.serviceEndDate).format('YYYY-MM-DD HH:mm:ss')}}</p>
+            <p>订单完成：{{orderDetail.finishDate&&$moment(orderDetail.finishDate).format('YYYY-MM-DD HH:mm:ss')}}</p>
           </div>
         </div>
       </div>
@@ -95,18 +97,6 @@
       return {
         orderDetail: null,
         rateNum: 3.5,
-        tableData: [
-          {
-            name: '基础服务费',
-            bill: '300.00',
-            state: '已支付',
-            way: '支付宝',
-          }, {
-            name: '服务费尾款',
-            bill: '300.00',
-            state: '已支付',
-            way: '支付宝',
-          }],
       }
     },
     props: ['params'],

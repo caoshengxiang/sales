@@ -363,7 +363,7 @@ export default {
       }).catch((err) => {
         error && error(err)
       })
-    }
+    },
   },
   // 联系人
   contacts: { // 联系人
@@ -1371,5 +1371,30 @@ export default {
         error && error(err)
       })
     },
-  }
+    msgDelFlag (params, success, error) { // 批量标记删除（前端删除消息用）
+      $axios.put('message/delFlag', {
+        params: params,
+      }).then(res => {
+        success && success(res.data)
+      }).catch(err => {
+        error && error(err)
+      })
+    },
+    msgRead (params, success, error) { // 批量标记已读
+      $axios.put('message/read', {
+        params: params,
+      }).then(res => {
+        success && success(res.data)
+      }).catch(err => {
+        error && error(err)
+      })
+    },
+    msgDetail (params, success, error) { // 查看消息详情
+      $axios.get('message/' + params).then(res => {
+        success && success(res.data)
+      }).catch(err => {
+        error && error(err)
+      })
+    },
+  },
 }

@@ -11,10 +11,11 @@
     <!--控制栏-->
     <div class="com-bar">
       <div class="com-bar-left">
-        <com-button buttonType="orange" icon="el-icon-plus" :disabled="multipleSelection.length<=0" @click="moveHandle">
+        <com-button buttonType="orange" icon="el-icon-plus" :disabled="multipleSelection.length<=0" @click="delHandle">
           删除
         </com-button>
-        <com-button buttonType="add" icon="el-icon-plus" :disabled="multipleSelection.length<=0" @click="addHandle">
+        <com-button buttonType="add" icon="el-icon-plus" :disabled="multipleSelection.length<=0"
+                    @click="flagReadHandle">
           标记已读
         </com-button>
       </div>
@@ -60,8 +61,10 @@
           label="消息标题"
         >
           <template slot-scope="scope">
-            <a class="col-link" @click="handleRouter('detail')" :class="{'read-message': scope.row.readStatus}">{{
-              scope.row.title }}</a>
+            <a class="col-link" @click="handleRouter('detail', scope.row.id)"
+               :class="{'read-message': scope.row.readStatus}">
+              {{scope.row.title }}
+            </a>
           </template>
         </el-table-column>
         <el-table-column
@@ -95,6 +98,7 @@
   import { mapState } from 'vuex'
   import comButton from '../../../components/button/comButton'
   import API from '../../../utils/api'
+  import { arrToStr } from '../../../utils/utils'
 
   export default {
     name: 'list',
@@ -118,11 +122,41 @@
       comButton,
     },
     methods: {
-      addHandle () {
-        alert('add btn')
+      flagReadHandle () {
+        this.$confirm('确定操作, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning',
+        }).then(() => {
+          API.message.msgRead({ids: arrToStr(this.multipleSelection, 'id')}, (da) => {
+            if (da.data > 1) {
+              this.$message.success('操作成功')
+            }
+          })
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消',
+          })
+        })
       },
-      moveHandle () {
-        alert('move')
+      delHandle () {
+        this.$confirm('确定删除, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning',
+        }).then(() => {
+          API.message.msgDelFlag({ids: arrToStr(this.multipleSelection, 'id')}, (da) => {
+            if (da.data > 1) {
+              this.$message.success('删除成功')
+            }
+          })
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除',
+          })
+        })
       },
       handleSelectionChange (val) {
         this.multipleSelection = val
@@ -136,8 +170,12 @@
         console.log(`当前页: ${val}`)
         this.getMessageList()
       },
-      handleRouter (name) {
-        this.$router.push({name: 'messageDetail', params: {end: 'FE'}, query: {view: name}})
+      handleRouter (name, id) {
+        API.message.msgRead({ids: id}, (da) => { // 先标记为已读
+          if (da.data > 1) {
+            this.$router.push({name: 'messageDetail', params: {end: 'FE'}, query: {view: name, id: id}})
+          }
+        })
       },
       getMessageList () { // 获取列表数据
         this.getQueryParams()
