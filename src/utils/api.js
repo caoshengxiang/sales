@@ -357,6 +357,13 @@ export default {
         error && error(err)
       })
     },
+    seaImport (params, success, error) {
+      $axios.post('customerSea/import', params).then(res => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+    }
   },
   // 联系人
   contacts: { // 联系人

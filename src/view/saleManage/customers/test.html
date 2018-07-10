@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<script>
+  let at = [
+    {a: 1, c: [{a: 2, c: [{a: 3, c: []}]}]},
+    {a: 4, c: [{a: 5, c: [{a: 6, c: []}]}]}
+    ]
+let temp = null
+  function fun (arr, n) {
+    arr.forEach(item => {
+      console.log(item.a)
+      if (item.a === n) {
+        temp = item
+      }
+      else {
+        fun(item.c, n)
+      }
+    })
+  }
+  fun(at, 3)
+  console.log(temp)
+</script>
+</body>
+</html>

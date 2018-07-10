@@ -6,8 +6,8 @@
         <el-option label="部门全部" :value="null"></el-option>
         <!--<el-option label="只看自己" :value="currentUserId"></el-option>-->
         <el-option
-          v-for="item in selectOptions"
-          :key="item.id"
+          v-for="(item, index) in selectOptions"
+          :key="index"
           :label="item.name"
           :value="item.id">
         </el-option>

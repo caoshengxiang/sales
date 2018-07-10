@@ -45,9 +45,14 @@
             </el-option>
           </el-select>
           <!--<com-button buttonType="search" @click="searchHandle">搜索</com-button>-->
+          <!--<com-button buttonType="search" @click="advancedSearchHandle" style="">高级搜索</com-button>-->
           &nbsp;&nbsp;&nbsp;&nbsp;
-          <!--<com-button buttonType="import">导入</com-button>-->
-          <vue-xlsx-table @on-select-file="handleSelectedFile">导入</vue-xlsx-table>
+          <com-button buttonType="import" style="position: relative;overflow: hidden;">
+            <input @change="fileUploadHandle" type="file"
+                   style="position: absolute;top: 0;left: 0; right: 0;bottom: 0;opacity: 0;">
+            导入
+          </com-button>
+          <!--<vue-xlsx-table @on-select-file="handleSelectedFile">导入</vue-xlsx-table>-->
         </div>
       </div>
     </div>
@@ -60,6 +65,7 @@
         :data="tableData"
         tooltip-effect="dark"
         style="width: 100%"
+        @sort-change="sortChangeHandle"
         @selection-change="handleSelectionChange">
         <el-table-column
           fixed
@@ -69,7 +75,7 @@
         </el-table-column>
         <el-table-column
           align="center"
-          sortable
+          sortable="custom"
           prop="name"
           label="客户名称"
           width="200"
@@ -81,14 +87,14 @@
         <el-table-column
           show-overflow-tooltip
           align="center"
-          sortable
+          sortable="custom"
           prop="customerSourceName"
           label="客户来源"
           width="120">
         </el-table-column>
         <el-table-column
           align="center"
-          sortable
+          sortable="custom"
           prop="seaName"
           label="所属公海"
           show-overflow-tooltip
@@ -96,7 +102,7 @@
         </el-table-column>
         <el-table-column
           align="center"
-          sortable
+          sortable="custom"
           prop="level"
           label="客户级别"
           width="130"
@@ -104,7 +110,7 @@
         </el-table-column>
         <el-table-column
           align="center"
-          sortable
+          sortable="custom"
           prop="modified"
           label="最新动态日期"
           width="160"
@@ -115,7 +121,7 @@
         </el-table-column>
         <el-table-column
           align="center"
-          sortable
+          sortable="custom"
           prop="followerName"
           label="最近跟进人"
           width="120"
@@ -123,7 +129,7 @@
         </el-table-column>
         <el-table-column
           align="center"
-          sortable
+          sortable="custom"
           prop="creatorName"
           label="创建人"
           width="120"
@@ -131,7 +137,7 @@
         </el-table-column>
         <el-table-column
           align="center"
-          sortable
+          sortable="custom"
           prop=""
           label="销售机会（商品）"
           width="160"
@@ -144,7 +150,7 @@
         </el-table-column>
         <el-table-column
           align="center"
-          sortable
+          sortable="custom"
           prop="latestReturnTime"
           label="最近跟进时间"
           width="120"
@@ -155,7 +161,7 @@
         </el-table-column>
         <el-table-column
           align="center"
-          sortable
+          sortable="custom"
           prop="latestFollowRecord"
           label="最近跟进记录"
           width="120"
@@ -163,7 +169,7 @@
         </el-table-column>
         <el-table-column
           align="center"
-          sortable
+          sortable="custom"
           prop="latestFollowerName"
           label="最近跟进人"
           width="120"
@@ -171,7 +177,7 @@
         </el-table-column>
         <el-table-column
           align="center"
-          sortable
+          sortable="custom"
           prop="returnTimes"
           label="客户退回次数"
           width="140"
@@ -181,7 +187,7 @@
           v-if="themeIndex === 1"
           show-overflow-tooltip
           align="center"
-          sortable
+          sortable="custom"
           prop="organizationName"
           label="所属组织">
         </el-table-column>
@@ -210,8 +216,9 @@
   import assignDialog from './assignDialog'
   import groupDialog from './groupDialog'
   import API from '../../../utils/api'
-  import { arrToStr } from '../../../utils/utils'
+  import { arrToStr, underscoreName } from '../../../utils/utils'
   import previewExcel from './previewExcel'
+  import advancedSearch from './advancedSearch'
 
   export default {
     name: 'list',
@@ -343,13 +350,42 @@
       searchHandle () {
         this.getCustomersSeaList()
       },
+      sortChangeHandle (sortObj) {
+        // console.log(sortObj)
+        let order = null
+        if (sortObj.order === 'ascending') {
+          order = 'asc'
+        } else if (sortObj.order === 'descending') {
+          order = 'desc'
+        }
+        this.sortObj = {sort: underscoreName(sortObj.prop) + ',' + order}
+        this.getCustomersSeaList()
+      },
+      advancedSearchHandle () {
+        this.$vDialog.modal(advancedSearch, {
+          title: '高级搜索',
+          width: 900,
+          height: 460,
+          params: {
+            customerSourceType: this.customerSourceType,
+            customerState: this.customerState,
+          },
+          callback: (data) => {
+            if (data.type === 'search') {
+              console.log('高级搜索数据：', data.params)
+              this.advancedSearch = data.params
+              this.getCustomersSeaList()
+            }
+          },
+        })
+      },
       handleRouter (name, id) {
         this.$router.push({name: 'customersHighSeasDetail', query: {view: name, customerId: id}, params: {end: 'FE'}})
       },
       getCustomersSeaList () {
         this.dataLoading = true
         this.getQueryParams()
-        API.customer.seaList(this.defaultListParams, (data) => {
+        API.customer.seaList(Object.assign({}, this.defaultListParams, this.sortObj, this.advancedSearch), (data) => {
           if (data.status) {
             this.tableData = data.data.content
             this.total = data.data.totalElements
@@ -376,7 +412,7 @@
           this.organizationOptions = data.data
         })
       },
-      handleSelectedFile (convertedData) { // 导入
+      handleSelectedFile (convertedData) { // 导入, 未使用
         console.log(convertedData)
         this.$vDialog.modal(previewExcel, {
           title: '预览',
@@ -392,6 +428,25 @@
           },
         })
       },
+      fileUploadHandle (e) {
+        let files = e.target.files || e.dataTransfer.files
+        let formData = new FormData()
+        formData.append('filename', files[0].name)
+        formData.append('file', files[0])
+        API.customerSea.seaImport(formData, up => {
+          if (up.status) {
+            this.$alert(`成功：${up.data.success},\n失败：${up.data.fail},\n错误日志: ${up.data.errorMessage}`, '导入日志', {
+              confirmButtonText: '确定',
+              callback: action => {
+                // this.$message({
+                //   type: 'info',
+                //   message: `action: ${ action }`,
+                // })
+              },
+            })
+          }
+        })
+      }
     },
     created () {
       this.getCustomersSeaList()
