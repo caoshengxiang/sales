@@ -123,7 +123,16 @@
           </tr>
           <tr>
             <td class="td-title">销售合同网址</td>
-            <td colspan="5">{{salesOpportunitiesDetail.contractUrl}}</td>
+            <td colspan="5">
+              <router-link v-if="salesOpportunitiesDetail.oncePay === true"
+                           :to="{name: 'onetimeContract', query: {name: salesOpportunitiesDetail.intentProductName}}"
+                           target="_blank">查看一次合同
+              </router-link>
+              <router-link v-if="salesOpportunitiesDetail.oncePay === false"
+                           :to="{name: 'multipleContracts', query: {name: salesOpportunitiesDetail.intentProductName}}"
+                           target="_blank">查看分次合同
+              </router-link>
+            </td>
           </tr>
           <tr>
             <td class="td-title">机会输单备注</td>

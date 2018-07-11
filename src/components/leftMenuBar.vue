@@ -7,10 +7,14 @@
      }">
       <div class="u-head" @click="routePersonal">
         <img v-if="userInfo.avatar" :src="userInfo.avatar" alt="" style="width: 50px;height: 50px;border-radius: 50px;">
-        <img v-else src="../assets/icon/headDefault.png" alt="">
+        <img v-else src="../assets/icon/touxiang2.png" alt="">
       </div>
       <div class="u-text">
-        <h4 class="username" :style="{color: theme[themeIndex].leftMenuBarUserTextColor}">{{userInfo.name}}</h4>
+        <h4 class="username" :style="{color: theme[themeIndex].leftMenuBarUserTextColor}">
+          <el-tooltip class="item" effect="dark" :content="userInfo.name" placement="right">
+            <span>{{userInfo.name}}</span>
+          </el-tooltip>
+        </h4>
       </div>
     </div>
 
@@ -277,6 +281,13 @@
         font-size: 16px;
         font-weight: normal;
         /*color: #FEFEFE*/
+        span {
+          display: inline-block;
+          width: 70px;
+          overflow: hidden;
+          text-overflow:ellipsis;
+          white-space: nowrap;
+        }
       }
       .tags {
         margin-top: 5px;

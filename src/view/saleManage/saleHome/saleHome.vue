@@ -3,7 +3,7 @@
     <div class="welcome">欢迎进入服务商管理系统！</div>
     <div class="latest-announcement">
       <p class="com-title">最新公告</p>
-      <p>
+      <p class="announcement-con">
         在新的监管模式下，新旧监管主体将重新定位其监管角色，金融机构和市场亦将随之而变。届时，中国运行达15年的“一行三会”分业模式将从历史舞台谢幕。触发这一历史转折的是，资产规模高达百万亿元的中国金融业，近年来突破性的成长、创新、巨变与
         挑战。随后中国金融业在完成国有金融机构改革、利率市场化、全流通股改等一系列市场化改革后，综合经营渐成 势。2006年的“十一五”规划则奠定了我国金融业综合经营的起点。 <br>
         一位研究金融监管体制改革的经济学家向《财经》记者表示，中国金融监管改革源于现有的混业经营，当控股公司成为金融公司主要的存在形式，监管重叠和监管真空以及监管套利相继出现时，分业监管便已不再适应当前金融业的发展。此后，金融监管改革
@@ -172,6 +172,9 @@
   .latest-announcement {
     border-bottom: 6px solid $part-color;
     padding: $page-base-padding;
+    .announcement-con {
+      color: #4F5F6F;
+    }
   }
 
   .home-row {

@@ -251,7 +251,7 @@
         },
         organizationOptions: [], // 组织列表
         organizationId: null, // 选择的组织
-        sortObj: null, // 排序
+        sortObj: {sort: 'created,desc'}, // 排序
         advancedSearch: null, // 高级搜索
       }
     },

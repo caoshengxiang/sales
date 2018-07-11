@@ -1372,7 +1372,7 @@ export default {
       })
     },
     msgDelFlag (params, success, error) { // 批量标记删除（前端删除消息用）
-      $axios.put('message/delFlag', {
+      $axios.put('message/delFlag', null, {
         params: params,
       }).then(res => {
         success && success(res.data)
@@ -1381,7 +1381,7 @@ export default {
       })
     },
     msgRead (params, success, error) { // 批量标记已读
-      $axios.put('message/read', {
+      $axios.put('message/read', null, {
         params: params,
       }).then(res => {
         success && success(res.data)

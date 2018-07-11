@@ -223,7 +223,7 @@
       },
     },
     created () {
-      this.getClient() //  【ERP的域名进入后固定让页面每次默认显示ERP的前端登陆页面，如需登陆后台需点击切换。】
+      // this.getClient() //  【ERP的域名进入后固定让页面每次默认显示ERP的前端登陆页面，如需登陆后台需点击切换。】
     },
     mounted () {
       this.getCookie()

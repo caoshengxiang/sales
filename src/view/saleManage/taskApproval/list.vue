@@ -8,12 +8,12 @@
       </el-breadcrumb>
     </div>
     <!--控制栏-->
-    <div class="com-bar">
+    <div class="com-bar" style="height: 64px">
       <div class="com-bar-left">
       </div>
       <div class="com-bar-right">
         <el-select v-model="value" placeholder="请选择" @change="selectedOptionsHandleChange" class="com-el-select"
-                   style="width:180px">
+                   style="width:180px;">
           <el-option
             v-for="item in options"
             :key="item.value"
@@ -236,7 +236,15 @@
 
 <style scoped lang="scss" rel="stylesheet/scss">
   @import "../../../styles/common";
-
+  .com-container .com-bar[data-v-c15852fa]:after {
+    content: '';
+    display: block;
+    height: 6px;
+    width: calc(100% + 40px);
+    margin-left: -16px;
+    background-color: #F0F3F6;
+    margin-top: 26px;
+  }
   .link {
     color: #00A7FE;
     text-decoration: underline;

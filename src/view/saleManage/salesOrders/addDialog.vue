@@ -229,21 +229,26 @@
           this.productsList = data.content
         })
         // 清除规格
-        this.addForm.specificationId = ''
-        this.addForm.specificationName = ''
+        // this.addForm.specificationId = ''
+        // this.addForm.specificationName = ''
       },
       getContractSubjects (id) {
         API.common.contractSubjects({goodsId: id}, da => {
           this.contractSubjects = da.data
         })
         // 清除签约主体
-        this.addForm.contractSubjectId = ''
+        // this.addForm.contractSubjectId = ''
       },
       intentProductChange () { // 机会change
         this.chanceList.forEach(item => {
           if (item.id === this.addForm.chanceId) {
             this.addForm.productId = item.intentProductId
             this.addForm.productName = item.intentProductName
+            // 清除规格
+            this.addForm.specificationId = ''
+            this.addForm.specificationName = ''
+            // 清除签约主体
+            this.addForm.contractSubjectId = ''
             // 对应的规格列表
             this.getProductsList(item.intentProductId)
             // 对应的签约主体
@@ -257,6 +262,12 @@
             this.addForm.productName = item.name
           }
         })
+        // 清除规格
+        this.addForm.specificationId = ''
+        this.addForm.specificationName = ''
+        // 清除签约主体
+        this.addForm.contractSubjectId = ''
+
         // 对应的规格列表
         this.getProductsList(id)
         // 对应的签约主体
@@ -295,6 +306,7 @@
         this.addForm = JSON.parse(JSON.stringify(this.params.orderDetail))
         this.getChanceList(this.params.orderDetail.customerId)
         this.getProductsList(this.params.orderDetail.productId)
+        this.getContractSubjects(this.params.orderDetail.productId) // 签约主体
         this.getContactList(this.params.orderDetail.customerId)
         this.orderState = this.params.orderDetail.orderState // 订单状态 【销售订单-修改，预下订单后，客户、机会、商品信息不可更改，客户签单后，所有信息都不可修改】
       }

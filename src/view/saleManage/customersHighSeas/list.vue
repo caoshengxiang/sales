@@ -45,6 +45,7 @@
             </el-option>
           </el-select>
           <!--<com-button buttonType="search" @click="searchHandle">搜索</com-button>-->
+          <!--todo 高级搜索后端不支持，隐藏掉该功能-->
           <!--<com-button buttonType="search" @click="advancedSearchHandle" style="">高级搜索</com-button>-->
           &nbsp;&nbsp;&nbsp;&nbsp;
           <com-button buttonType="import" style="position: relative;overflow: hidden;">
@@ -239,6 +240,8 @@
         chanceId: null, // 路由参数
         organizationOptions: [], // 组织列表
         organizationId: null, // 选择的组织
+        sortObj: {sort: 'created,desc'}, // 排序
+        advancedSearch: null,
       }
     },
     computed: {

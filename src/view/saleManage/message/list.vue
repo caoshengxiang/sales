@@ -129,8 +129,9 @@
           type: 'warning',
         }).then(() => {
           API.message.msgRead({ids: arrToStr(this.multipleSelection, 'id')}, (da) => {
-            if (da.data > 1) {
+            if (da.data > 0) {
               this.$message.success('操作成功')
+              this.getMessageList()
             }
           })
         }).catch(() => {
@@ -147,8 +148,9 @@
           type: 'warning',
         }).then(() => {
           API.message.msgDelFlag({ids: arrToStr(this.multipleSelection, 'id')}, (da) => {
-            if (da.data > 1) {
+            if (da.data > 0) {
               this.$message.success('删除成功')
+              this.getMessageList()
             }
           })
         }).catch(() => {
@@ -172,7 +174,7 @@
       },
       handleRouter (name, id) {
         API.message.msgRead({ids: id}, (da) => { // 先标记为已读
-          if (da.data > 1) {
+          if (da.data > 0) {
             this.$router.push({name: 'messageDetail', params: {end: 'FE'}, query: {view: name, id: id}})
           }
         })

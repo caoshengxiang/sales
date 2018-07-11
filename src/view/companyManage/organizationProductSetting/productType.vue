@@ -111,7 +111,7 @@
         var that = this
         let params = {
           page: this.currentPage - 1,
-          pageSize: 10,
+          pageSize: this.pagesOptions.pageSize,
         }
         API.baseSetting.getProductType(params, (res) => {
           that.roleDetail = res.data.content

@@ -28,13 +28,13 @@
             <p class="data">{{orderStat.currentYearOrderQuantity}}</p>
             <p class="detail"><span class="tip">本年累计新增订单</span>
               <span class="percent percent-plus" v-if="orderStat.yearQuantityChangeRate > 0">
-                <i class="iconfont icon-top"></i>{{orderStat.yearQuantityChangeRate}}%
+                <i class="iconfont icon-top"></i><span class="num">{{orderStat.yearQuantityChangeRate}}%</span>
               </span>
               <span class="percent percent-minus" v-if="orderStat.yearQuantityChangeRate < 0">
-                <i class="iconfont icon-xia"></i>{{orderStat.yearQuantityChangeRate}}%
+                <i class="iconfont icon-xia"></i><span class="num">{{orderStat.yearQuantityChangeRate}}%</span>
               </span>
               <span class="percent percent-flat" v-if="orderStat.yearQuantityChangeRate === 0">
-                <i class="el-icon-minus"></i>&nbsp;&nbsp;&nbsp;持平
+                <i class="el-icon-minus"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;持平
               </span>
             </p>
           </li>
@@ -42,13 +42,13 @@
             <p class="data">{{orderStat.currentMonthOrderQuantity}}</p>
             <p class="detail"><span class="tip">本月累计新增订单</span>
               <span class="percent percent-plus" v-if="orderStat.monthQuantityChangeRate > 0">
-                <i class="iconfont icon-top"></i>{{orderStat.monthQuantityChangeRate}}%
+                <i class="iconfont icon-top"></i><span class="num">{{orderStat.monthQuantityChangeRate}}%</span>
               </span>
               <span class="percent percent-minus" v-if="orderStat.monthQuantityChangeRate < 0">
-                <i class="iconfont icon-xia"></i>{{orderStat.monthQuantityChangeRate}}%
+                <i class="iconfont icon-xia"></i><span class="num">{{orderStat.monthQuantityChangeRate}}%</span>
               </span>
               <span class="percent percent-flat" v-if="orderStat.monthQuantityChangeRate === 0">
-                <i class="el-icon-minus"></i>&nbsp;&nbsp;&nbsp;持平
+                <i class="el-icon-minus"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;持平
               </span>
             </p>
           </li>
@@ -56,13 +56,13 @@
             <p class="data">{{orderStat.currentWeekOrderQuantity}}</p>
             <p class="detail"><span class="tip">本周累计新增订单</span>
               <span class="percent percent-plus" v-if="orderStat.weekQuantityChangeRate > 0">
-                <i class="iconfont icon-top"></i>{{orderStat.weekQuantityChangeRate}}%
+                <i class="iconfont icon-top"></i><span class="num">{{orderStat.weekQuantityChangeRate}}%</span>
               </span>
               <span class="percent percent-minus" v-if="orderStat.weekQuantityChangeRate < 0">
-                <i class="iconfont icon-xia"></i>{{orderStat.weekQuantityChangeRate}}%
+                <i class="iconfont icon-xia"></i><span style="font-weight: bold;">{{orderStat.weekQuantityChangeRate}}%</span>
               </span>
               <span class="percent percent-flat" v-if="orderStat.weekQuantityChangeRate === 0">
-                <i class="el-icon-minus"></i>&nbsp;&nbsp;&nbsp;持平
+                <i class="el-icon-minus"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;持平
               </span>
             </p>
           </li>
@@ -259,6 +259,9 @@
       .percent {
         float: right;
         font-size: 16px;
+        .num {
+          font-weight: bold;
+        }
       }
       .percent-plus {
         color: #1FC459;
