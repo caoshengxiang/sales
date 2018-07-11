@@ -1353,6 +1353,15 @@ export default {
     },
   },
   message: {
+    messageList(params, success, error){
+      $axios.get('message/notice', {
+        params: params,
+      }).then(res => {
+        success && success(res.data)
+      }).catch(err => {
+        error && error(err)
+      })
+    },
     personalMessage (params, success, error) { // 获取个人消息列表
       $axios.get('message/personal', {
         params: params,

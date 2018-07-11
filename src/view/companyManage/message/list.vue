@@ -46,7 +46,7 @@
           width="200"
         >
           <template slot-scope="scope">
-            <span :class="{'read-message': scope.row.read}">{{ scope.row.messageType }}</span>
+            <span :class="{'read-message': scope.row.read}">{{ scope.row.msgType==1?"系统消息":"平台消息" }}</span>
           </template>
         </el-table-column>
         <el-table-column
@@ -55,7 +55,7 @@
         >
           <template slot-scope="scope">
             <a class="col-link" @click="handleRouter('detail')" :class="{'read-message': scope.row.read}">{{
-              scope.row.messageTitle }}</a>
+              scope.row.title }}</a>
           </template>
         </el-table-column>
         <el-table-column
@@ -64,7 +64,7 @@
           label="发送时间"
           width="200">
           <template slot-scope="scope">
-            <span :class="{'read-message': scope.row.read}">{{ scope.row.date }}</span>
+            <span :class="{'read-message': scope.row.read}">{{ scope.row.sendTime }}</span>
           </template>
         </el-table-column>
       </el-table>
@@ -73,7 +73,7 @@
     <div class="com-pages-box">
       <el-pagination
         background
-        :total="1000"
+        :total="total "
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
         :current-page="currentPage"
@@ -89,6 +89,7 @@
   import { mapState } from 'vuex'
   import comButton from '../../../components/button/comButton'
   import add from './add'
+  import API from '../../../utils/api'
 
   export default {
     name: 'list',
@@ -109,20 +110,14 @@
         //     label: '我参与的客户',
         //   }],
         // value: 3,
-        tableData: [
-          {
-            messageType: '系统消息',
-            messageTitle: '修改密码通知',
-            date: '2016-05-03 12:00:00',
-            read: true,
-          }, {
-            messageType: '系统消息',
-            messageTitle: '修改密码通知',
-            date: '2016-05-03 12:00:00',
-            read: false,
-          }],
+        tableData: [],
         ipleSelection: [],
         currentPage: 1,
+        defaultListParams: { // 默认顾客列表请求参数
+          page: null,
+          pageSize: null
+        },
+        total:0
       }
     },
     computed: {
@@ -133,7 +128,32 @@
     components: {
       comButton,
     },
+    created () {
+      var that = this
+      that.$options.methods.init.bind(that)()
+    },
     methods: {
+      init () {
+        var that = this
+        this.loading = true
+        this.getQueryParams()
+        this.dataLoading = true
+        API.message.messageList(Object.assign({}, this.defaultListParams, null, null),
+          da => {
+            this.tableData = da.data.content
+            this.total = da.data.totalElements
+            setTimeout(() => {
+              this.dataLoading = false
+            }, 300)
+          }, () => {
+          })
+      },
+      getQueryParams () { // 请求参数配置
+        this.defaultListParams = {
+          page: this.currentPage - 1,
+          pageSize: this.pagesOptions.pageSize,
+        }
+      },
       addHandle () {
         var that = this
         this.$vDialog.modal(add, {
