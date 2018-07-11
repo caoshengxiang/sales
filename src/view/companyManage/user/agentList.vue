@@ -7,7 +7,7 @@
       <el-breadcrumb separator-class="el-icon-arrow-right">
         <el-breadcrumb-item :to="{ name: 'companyManageHome' }">管理系统</el-breadcrumb-item>
         <el-breadcrumb-item>用户管理</el-breadcrumb-item>
-        <el-breadcrumb-item>代理商管理</el-breadcrumb-item>
+        <el-breadcrumb-item>代理商组织</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <!--控制栏-->
