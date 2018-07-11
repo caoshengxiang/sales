@@ -119,7 +119,6 @@
         industryList: [], // 行业
         levelList: [], // 级别
         seaList: [], // 公海
-        customerSourceType: [], // 客户来源
         customerState: [], // 客户状态
         searchForm: { // 表单
           name: null,
@@ -137,6 +136,7 @@
           endDate: null,
         },
         timeInterval: '',
+        customerSourceType: [], // 客户来源
         customerSourceArr: [],
         props: {
           value: 'id',

@@ -99,6 +99,13 @@
         <el-table-column
           show-overflow-tooltip
           align="center"
+          prop="wx"
+          label="微信号"
+        >
+        </el-table-column>
+        <el-table-column
+          show-overflow-tooltip
+          align="center"
           prop="organizationName"
           label="组织"
         >

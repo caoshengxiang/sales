@@ -86,9 +86,9 @@
           label="任务状态"
           show-overflow-tooltip>
           <template slot-scope="scope">
-            <a v-if="scope.row.state === 1" class="link" @click="handleRouter('detail', scope.row.id)">办理</a>
+            <a v-if="scope.row.state === 1" class="button" @click="handleRouter('detail', scope.row.id)">办理</a>
             <a v-if="scope.row.state === 2" class="link" @click="handleRouter('detail', scope.row.id)">已通过</a>
-            <a v-if="scope.row.state === 3" class="button" @click="handleRouter('detail', scope.row.id)">已拒绝</a>
+            <a v-if="scope.row.state === 3" class="link" @click="handleRouter('detail', scope.row.id)">已拒绝</a>
           </template>
         </el-table-column>
       </el-table>

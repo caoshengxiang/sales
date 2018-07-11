@@ -67,10 +67,10 @@
             <p class="data">￥{{orderStat.currentYearOrderAmount}} <span class="money">订单数：{{orderStat.currentYearOrderQuantity}}</span></p>
             <p class="detail"><span class="tip">本年累计新增销售额</span>
               <span class="percent percent-plus" v-if="orderStat.yearAmountChangeRate > 0">
-                <i class="iconfont icon-top"></i>{{orderStat.yearAmountChangeRate}}%
+                <i class="iconfont icon-top"></i><span class="num">{{orderStat.yearAmountChangeRate}}%</span>
               </span>
               <span class="percent percent-minus" v-if="orderStat.yearAmountChangeRate < 0">
-                <i class="iconfont icon-xia"></i>{{orderStat.yearAmountChangeRate}}%
+                <i class="iconfont icon-xia"></i><span class="num">{{orderStat.yearAmountChangeRate}}%</span>
               </span>
               <span class="percent percent-flat" v-if="orderStat.yearAmountChangeRate === 0">
                 <i class="el-icon-minus"></i>&nbsp;&nbsp;&nbsp;持平
@@ -81,10 +81,10 @@
             <p class="data">￥{{orderStat.currentMonthOrderAmount}} <span class="money">订单数：{{orderStat.currentMonthOrderQuantity}}</span></p>
             <p class="detail"><span class="tip">本月累计新增销售额</span>
               <span class="percent percent-plus" v-if="orderStat.monthAmountChangeRate > 0">
-                <i class="iconfont icon-top"></i>{{orderStat.monthAmountChangeRate}}%
+                <i class="iconfont icon-top"></i><span class="num">{{orderStat.monthAmountChangeRate}}%</span>
               </span>
               <span class="percent percent-minus" v-if="orderStat.monthAmountChangeRate < 0">
-                <i class="iconfont icon-xia"></i>{{orderStat.monthAmountChangeRate}}%
+                <i class="iconfont icon-xia"></i><span class="num">{{orderStat.monthAmountChangeRate}}%</span>
               </span>
               <span class="percent percent-flat" v-if="orderStat.monthAmountChangeRate === 0">
                 <i class="el-icon-minus"></i>&nbsp;&nbsp;&nbsp;持平
@@ -95,10 +95,10 @@
             <p class="data">￥{{orderStat.currentWeekOrderAmount}} <span class="money">订单数：{{orderStat.currentWeekOrderQuantity}}</span></p>
             <p class="detail"><span class="tip">本周累计新增销售额</span>
               <span class="percent percent-plus" v-if="orderStat.weekAmountChangeRate > 0">
-                <i class="iconfont icon-top"></i>{{orderStat.weekAmountChangeRate}}%
+                <i class="iconfont icon-top"></i><span class="num">{{orderStat.weekAmountChangeRate}}%</span>
               </span>
               <span class="percent percent-minus" v-if="orderStat.weekAmountChangeRate < 0">
-                <i class="iconfont icon-xia"></i>{{orderStat.weekAmountChangeRate}}%
+                <i class="iconfont icon-xia"></i><span class="num">{{orderStat.weekAmountChangeRate}}%</span>
               </span>
               <span class="percent percent-flat" v-if="orderStat.weekAmountChangeRate === 0">
                 <i class="el-icon-minus"></i>&nbsp;&nbsp;&nbsp;持平
@@ -322,6 +322,9 @@
       .percent {
         float: right;
         font-size: 16px;
+        .num {
+          font-weight: bold;
+        }
       }
       .percent-plus {
         color: #1FC459;

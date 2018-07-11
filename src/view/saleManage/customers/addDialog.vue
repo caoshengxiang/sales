@@ -90,6 +90,21 @@
             </td>
           </tr>
           <tr>
+            <td class="td-title">客户来源</td>
+            <td class="td-text" colspan="5">
+              <el-cascader
+                style="width: 100%"
+                :change-on-select="false"
+                :options="customerSourceType"
+                v-model="customerSourceArr"
+                @active-item-change="customerSourceChangeHandle"
+                @change="customerSourceChange"
+                :props="props"
+              >
+              </el-cascader>
+            </td>
+          </tr>
+          <tr>
             <td class="td-title">联系地址</td>
             <td class="td-text" colspan="5">
               <el-form-item prop="address">
@@ -193,6 +208,13 @@
           ],
         },
         dialogType: 'add',
+        customerSourceType: [], // 客户来源
+        customerSourceArr: [],
+        props: {
+          value: 'id',
+          label: 'codeName',
+        },
+        targetObj: null,
       }
     },
     props: ['params'],
@@ -289,14 +311,55 @@
       handleAreaItemChange (val) {
         console.log('val', val)
       },
-      getConfigData (type) {
-        API.common.codeConfig({type: type}, (data) => {
+      getConfigData (type, pCode) {
+        API.common.codeConfig({type: type, pCode: pCode}, (data) => {
           if (type === 2) {
             this.levelList = data.data
           } else if (type === 3) {
             this.industryList = data.data
+          } else if (type === 5) {
+            let arr = data.data.map((item) => {
+              item.children = []
+              return item
+            })
+            if (this.customerSourceType.length === 0) {
+              this.customerSourceType = arr
+            } else {
+
+            }
           }
         })
+      },
+      customerSourceChangeHandle (va) {
+        // console.log(va)
+        this.getLastItem(this.customerSourceType, va, 'id')
+        API.common.codeConfig({type: 5, pCode: va[va.length - 1]}, (data) => {
+          // console.log('目标item:', this.targetObj)
+          if (data.data.length) {
+            let arr = data.data.map((item) => {
+              item.children = []
+              return item
+            })
+            this.targetObj.children = arr
+          } else {
+            this.targetObj.children = null
+          }
+        })
+      },
+      customerSourceChange (va) {
+        this.addForm.customerSource = va.join('-')
+      },
+      getLastItem (list, vals, key) { // 获取点击得目标对象, key 对应得 值vals 数组
+        let LIST = list || []
+        // console.log(LIST, vals, key)
+        for (let item of LIST) {
+          if (item[key] === vals[vals.length - 1]) {
+            this.targetObj = item
+            break
+          } else {
+            this.getLastItem(item.children, vals, key)
+          }
+        }
       },
       getSeaList () {
         API.customerSea.listAboutCustomer((data) => {
@@ -308,6 +371,7 @@
       this.getAreaOptionsData(null)
       this.getConfigData(2)
       this.getConfigData(3)
+      this.getConfigData(5, 0)
       this.getSeaList()
       if (this.params.detail) { // 编辑
         this.addForm = JSON.parse(JSON.stringify(this.params.detail))

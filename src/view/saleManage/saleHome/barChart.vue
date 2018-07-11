@@ -3,13 +3,13 @@
     <div class="com-title">
       <span>进行中的商机TOP5</span>
       <div class="report-bar">
-        <el-button size="mini" :class="{active: this.type===1}" style="padding: 7px 3px;margin-left: 0px"
+        <el-button size="mini" :class="{active: this.type===1}" style="padding: 3px 3px;margin-left: 0px;margin-top: 3px;"
                    @click="setType(1)">本周
         </el-button>
-        <el-button size="mini" :class="{active: this.type===3}" style="padding: 7px 3px;margin-left: 3px"
+        <el-button size="mini" :class="{active: this.type===3}" style="padding: 3px 3px;margin-left: 3px;margin-top: 3px;"
                    @click="setType(3)">本季
         </el-button>
-        <el-button size="mini" :class="{active: this.type===4}" style="padding: 7px 3px;margin-left: 3px"
+        <el-button size="mini" :class="{active: this.type===4}" style="padding: 3px 3px;margin-left: 3px;margin-top: 3px;"
                    @click="setType(4)">本年
         </el-button>
       </div>
