@@ -6,8 +6,8 @@
           <tr>
             <td class="td-title">请输入消息名称</td>
             <td class="td-text">
-              <el-form-item prop="name">
-                <el-input type="text" v-model="form.name" placeholder="请输入消息名称" :maxlength="30"></el-input>
+              <el-form-item prop="title">
+                <el-input type="text" v-model="form.title" placeholder="请输入消息名称" :maxlength="30"></el-input>
               </el-form-item>
             </td>
           </tr>
@@ -15,10 +15,9 @@
             <td class="td-title">请选择接收角色</td>
             <td class="td-text">
               <el-form-item prop="businessSystems">
-                <el-select v-model="businessSystemsOptions" multiple placeholder="请选择接收角色"
-                           @change="changeBusinessSystem">
+                <el-select  v-model="form.roleIds" multiple placeholder="请选择接收角色">
                   <el-option
-                    v-for="item in businessSystemList"
+                    v-for="item in allroles"
                     :key="item.id"
                     :label="item.name"
                     :value="item.id">
@@ -31,12 +30,14 @@
             <td class="td-title">请选择接收组织</td>
             <td class="td-text">
               <el-form-item prop="bilities">
-                <el-select v-model="roleBilitysOptions" multiple placeholder="请选择接收组织">
+                <el-select v-model="form.organizationIds"  multiple @change="selectedOptionsHandleChange"
+                           placeholder="请选择接收组织">
                   <el-option
-                    v-for="item in bilityList"
+                    v-for="item in allorganization"
                     :key="item.id"
                     :label="item.name"
-                    :value="item.id">
+                    :value="item.id"
+                  >
                   </el-option>
                 </el-select>
               </el-form-item>
@@ -45,8 +46,8 @@
           <tr>
             <td class="td-title">请输入消息内容</td>
             <td class="td-text">
-              <el-form-item prop="name">
-                <el-input type="textarea" v-model="form.name" placeholder="请输入消息内容" :rows="5"></el-input>
+              <el-form-item prop="content">
+                <el-input type="textarea" v-model="form.content" placeholder="请输入消息内容" :rows="5"></el-input>
               </el-form-item>
             </td>
           </tr>
@@ -55,8 +56,14 @@
             <td class="td-text">
               <el-form-item prop="name">
                 <fileUpload
-                  flag="message"
-                  :loading="loading"></fileUpload>
+                  :limit="1"
+                  :fileList="imgurl"
+                  ref="uploadControl"
+                  flag="notice"
+                  :multiple="false"
+                  :styleType="2"
+                  v-if="!loading"
+                ></fileUpload>
               </el-form-item>
             </td>
           </tr>
@@ -72,17 +79,16 @@
 <script>
   import API from '../../../utils/api'
   import { Message } from 'element-ui'
-  import fileUpload from '@/components/fileUpload'
-
+  import fileUpload from '../../../components/fileUpload'
   export default {
     data () {
       return {
         loading: false,
         isFormDisabled: false,
         form: {
-          maxSeaFollower: 1,
-          maxSeaFollowerPerMonth: 1,
-
+          organizationIds:[],
+          roleIds:[],
+          msgType:2
         },
         businessSystemsOptions: [],
         roleBilitysOptions: [],
@@ -93,136 +99,57 @@
         },
         businessSystemList: [],
         bilityList: [],
+        imgurl:'',
+        allroles: [],
       }
     },
     props: ['params'],
     components: {
-      fileUpload,
+      fileUpload
     },
     created () {
       var that = this
-      that.$store = that.params.store // 状态库赋值
-      API.role.getBusinessSystemList(function (res) {
-        if (res.status) {
-          that.businessSystemList = res.data
-          if (that.params.action === 'update') {
-            that.$options.methods.getRoleDetail.bind(that)(that.params.id)
-          }
-        }
-      }, function () {
-        Message({
-          message: '系统繁忙，请稍后再试1！',
-          type: 'error',
-        })
+      let params = {
+        page: 1,
+        pageSize: 999,
+      }
+      API.user.roleList(params, (res) => {
+        that.allroles = res.data
+      }, (mock) => {
+        that.allroles = mock.data
+      })
+
+      params = {
+        page: 1,
+        pageSize: 999,
+        pid: 1,
+        type: 1,
+      }
+      API.organization.queryAllList(params, (res) => {
+        this.allorganization = res.data
+      }, (mock) => {
       })
     },
     methods: {
-      closeDialog () {
-        this.$vDialog.close()
-      },
-      save (formName) {
+      save(){
         var that = this
-        // 组装部分字段数据格式
-        var businessSystemsNewArray = []
-        for (var i = 0; i < that.businessSystemsOptions.length; i++) {
-          var item = {id: that.businessSystemsOptions[i]}
-          businessSystemsNewArray.push(item)
-        }
-        that.form.businessSystems = businessSystemsNewArray
-/* eslint-disable  */
-        var roleBilitysNewArray = []
-        for (var i = 0; i < that.roleBilitysOptions.length; i++) {
-          var item = {id: that.roleBilitysOptions[i]}
-          roleBilitysNewArray.push(item)
-        }
-        /* eslint-enable */
-        that.form.bilities = roleBilitysNewArray
+        console.log(that.$refs.uploadControl.getFileListStr())
 
-        that.$refs[formName].validate((valid) => {
-          if (valid) {
-            switch (that.params.action) {
-              case 'add':
-                that.loading = true
-                API.role.add(that.form, function (resData) {
-                  that.loading = false
-                  if (resData.status) {
-                    Message({
-                      message: '新增角色成功！',
-                      type: 'success',
-                    })
-                    that.$vDialog.close() // 关闭弹窗
-                  }
-                }, function () {
-                  that.loading = false
-                  Message({
-                    message: '系统繁忙，请稍后再试！',
-                    type: 'error',
-                  })
-                })
-                break
-              case 'update':
-                that.loading = true
-                API.role.update(that.form, function (resData) {
-                  that.loading = false
-                  if (resData.status) {
-                    Message({
-                      message: '修改角色成功！',
-                      type: 'success',
-                    })
-                    that.$vDialog.close() // 关闭弹窗
-                  }
-                }, function () {
-                  that.loading = false
-                  Message({
-                    message: '系统繁忙，请稍后再试！',
-                    type: 'error',
-                  })
-                })
-                break
-            }
-          }
-        })
-      },
-      getRoleDetail (id) {
-        var that = this
-        that.loading = true
-        API.role.getDetail({id: id}, function (res) {
-          that.loading = false
-          if (res.status) {
-            that.form = res.data
-            that.form.businessSystems = []
-            that.businessSystemsOptions = Array.from(that.form.businessSystems, (x) => x.id)
-          } else {
-            Message({
-              message: res.error.message,
-              type: 'error',
-            })
-          }
-        }, function () {
-          that.loading = false
-          Message({
-            message: '系统繁忙，请稍后再试1！',
-            type: 'error',
+        that.form.attachments =[]
+        var obj={}
+        obj.name=that.$refs.uploadControl.getFileListStr()[0].name
+        obj.path=that.$refs.uploadControl.getFileListStr()[0].path
+        that.form.attachments.push(obj)
+        API.message.addMessage(this.form, (res) => {
+          this.$message({
+            type: 'success',
+            message: '添加消息成功!',
           })
+          this.$vDialog.close()
+        }, (mock) => {
         })
-      },
-      changeBusinessSystem () {
-        var that = this
-        that.bilityList = []
-        that.form.businessSystems = that.businessSystemsOptions
-        console.log(that.businessSystemsOptions)
-        API.role.getBilityList({businessSystemIds: that.businessSystemsOptions.join(',')}, function (res) {
-          if (res.status) {
-            that.bilityList = res.data
-          }
-        }, function () {
-          Message({
-            message: '系统繁忙，请稍后再试！',
-            type: 'error',
-          })
-        })
-      },
-    },
+      }
+    }
   }
 </script>
 

@@ -1353,6 +1353,19 @@ export default {
     },
   },
   message: {
+    addMessage (params, success, error) { // 保存佣金结算规则
+      $axios({
+        method: 'post',
+        url: 'message',
+        data: params,
+      }).then((res) => {
+        success && success(res.data)
+      }).catch(() => {
+        setTimeout(() => {
+          error && error(mockdata)
+        }, 1000)
+      })
+    },
     messageList(params, success, error){
       $axios.get('message/notice', {
         params: params,

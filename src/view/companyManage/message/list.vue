@@ -64,7 +64,7 @@
           label="发送时间"
           width="200">
           <template slot-scope="scope">
-            <span :class="{'read-message': scope.row.read}">{{ scope.row.sendTime }}</span>
+            <span :class="{'read-message': scope.row.readStatus}">{{ scope.row.sendTime }}</span>
           </template>
         </el-table-column>
       </el-table>
@@ -159,13 +159,13 @@
         this.$vDialog.modal(add, {
           title: '发送消息通知',
           width: 700,
-          height: 400,
+          height: 500,
           params: {
             store: that.$store, // 弹窗组件如果需要用到vuex，必须传值过去赋值
             action: 'add',
           },
           callback: function (data) {
-            // that.$options.methods.getRoleList.bind(that)();
+            that.$options.methods.init.bind(that)()
           },
         })
       },

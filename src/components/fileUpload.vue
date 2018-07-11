@@ -17,7 +17,7 @@
       v-loading="uploadConfig.loading"
       element-loading-text="正在上传..."
       element-loading-background="rgba(0, 0, 0, 0.6)"
-      :action="uploadConfig.prefixServerFileUrl+'/'+flag"
+      :action="uploadConfig.uploadFileApiUrl+'/'+flag"
       :show-file-list="true"
       :on-success="handleImageSuccess"
       :before-upload="beforeImageUpload"
@@ -38,16 +38,64 @@
     <el-dialog :visible.sync="uploadConfig.dialogVisible">
       <el-row v-show="styleType == 1"><img width="100%" :src="uploadConfig.previewImageUrl" alt=""></el-row>
       <el-row v-show="styleType == 2">
-        <el-col :span="6">
-          <el-button type="info" @click="openLinkUrl(uploadConfig.previewImageUrl)">下载文件</el-button>
-        </el-col>
-        <el-col :span="18">
-          <el-alert
-            title="点击下载打开页面，右键保存即可！"
-            type="info"
-            show-icon
-            :closable="false">
-          </el-alert>
+        <el-col>
+          <el-row>
+            <el-col :span="6">
+              <el-button @click="openLinkUrl(uploadConfig.previewImageUrl)">下载文件</el-button>
+            </el-col>
+            <el-col :span="18">
+              <el-alert
+                title="点击下载打开页面，右键保存即可！"
+                type="info"
+                show-icon
+                :closable="false">
+              </el-alert>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col>&nbsp;</el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="6">
+              <el-button @click="showPlay = !showPlay" :disabled="!(showVideo || showAudio)">在线播放</el-button>
+            </el-col>
+            <el-col :span="18">
+              <el-alert
+                title="该文件支持在线播放！"
+                type="success"
+                show-icon
+                :closable="false"
+                v-if="showVideo || showAudio">
+              </el-alert>
+              <el-alert
+                title="该文件不支持在线播放！"
+                type="warning"
+                show-icon
+                :closable="false"
+                v-else>
+              </el-alert>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col>&nbsp;</el-col>
+          </el-row>
+          <el-row>
+            <el-col>
+              <transition name="el-fade-in">
+                <div v-show="showPlay" class="transition-box">
+                  <video width="100%" controls v-if="showVideo">
+                    <source :src="uploadConfig.previewImageUrl" type="video/mp4">
+                    <source :src="uploadConfig.previewImageUrl" type="video/ogg">
+                    <source :src="uploadConfig.previewImageUrl" type="video/webm">
+                    您的浏览器不支持 视频播放。
+                  </video>
+                  <audio :src="uploadConfig.previewImageUrl" controls v-if="showAudio">
+                    您的浏览器不支持 音频播放。
+                  </audio>
+                </div>
+              </transition>
+            </el-col>
+          </el-row>
         </el-col>
       </el-row>
     </el-dialog>
@@ -55,156 +103,213 @@
 </template>
 
 <script>
-  // import API from '@/utils/api'
-  // import { Message } from 'element-ui'
-
+  import {Message} from 'element-ui';
   export default {
     data () {
       return {
-        // 上传文件配置属性
+        video: ".mp4|.ogg|.webm",
+        audio: ".mp3|.ogg|.wav",
+        //上传文件配置属性
         uploadConfig: {
           loading: false,
-          prefixServerFileUrl: utils.getConst('FILEURL'),
-          previewImageUrl: '',
+//        prefixServerFileUrl:'http://precision.dcstar-inc.com/files',
+          prefixServerFileUrl: 'http://sales.dcstar-inc.com/sales/file',
+//        uploadFileApiUrl:'http://precision.dcstar-inc.com/precision/file',
+          uploadFileApiUrl: 'http://sales.dcstar-inc.com/sales/file',
+          previewImageUrl: "",
           succeedFileList: [],
           dialogVisible: false,
-          initFileList: [],
+          initFileList: []
         },
+        showPlay: false,
+        showVideo: false,
+        showAudio: false
       }
     },
-    // 接收参数
+    //接收参数
     props: {
-      // 最大上传数量 默认1
+      //最大上传数量 默认1
       limit: {
         type: Number,
         required: false,
-        default: 1,
+        default: 1
       },
-      // 初始化文件列表 默认为空
+      //初始化文件列表 默认为空
       fileList: {
         type: String,
         required: false,
-        default: '',
+        default: ""
       },
-      // 文件标识
+      //文件标识
       flag: {
         type: String,
-        required: true,
+        required: true
       },
-      // 是否支持多选文件 默认为false
+      //是否支持多选文件 默认为false
       multiple: {
         type: Boolean,
         required: false,
-        default: false,
+        default: false
       },
-      // 样式类型(1:图片类型 2.附件类型) 默认1
+      //样式类型(1:图片类型 2.附件类型) 默认1
       styleType: {
         type: Number,
         required: false,
-        default: 1,
+        default: 1
       },
-      // tip备注提示
+      //tip备注提示
       tipMessage: {
         type: String,
-        required: false,
+        required: false
       },
-      // 允许上传文件类型后缀白名单（例如：".jpg|.png"，|分隔）
+      //允许上传文件类型后缀白名单（例如：".jpg|.png"，|分隔）
       allowFileTypes: {
         type: String,
         required: false,
-        default: '.jpg|.jpeg|.gif|.png',
+        default: ".jpg|.jpeg|.gif|.png|.rar"
       },
+      //缩略图大小（宽高 例如：100x100）
+      thumbnailSize: {
+        type: String,
+        required: false,
+        default: "146x146"
+      }
     },
-    created () {
-      var that = this
-      that.$options.methods.initFileList.bind(that)(that.fileList)
+    created(){
+      var that = this;
+      that.$options.methods.initFileList.bind(that)(that.fileList);
     },
     methods: {
-      handleImageSuccess (res, file) {
-        var that = this
-        that.uploadConfig.loading = false
-        that.uploadConfig.succeedFileList.push(file.response.data)
+      handleImageSuccess(res, file) {
+        var that = this;
+        that.uploadConfig.loading = false;
+        console.log(file.response.data)
+        that.uploadConfig.succeedFileList.push(file.response.data);
       },
-      beforeImageUpload (file) {
-        var that = this
-        var checkFile = false
-        const fileNameSuffix = file.name.substring(file.name.lastIndexOf('.'))
-        const allowFileTypes = that.allowFileTypes.split('|')
-        const isLt2M = file.size / 1024 / 1024 < 2
+      beforeImageUpload(file) {
+        var that = this;
+        var checkFile = false;
+        const fileNameSuffix = file.name.substring(file.name.lastIndexOf("."));
+        const allowFileTypes = that.allowFileTypes.split("|");
+        const isLt2M = file.size / 1024 / 1024 < 2;
         if (allowFileTypes && allowFileTypes.length > 0) {
           for (var i = 0; i < allowFileTypes.length; i++) {
-            if (allowFileTypes[i].toUpperCase() === fileNameSuffix.toUpperCase()) {
-              checkFile = true
-              break
+            if (allowFileTypes[i].toUpperCase() == fileNameSuffix.toUpperCase()) {
+              checkFile = true;
+              break;
             }
           }
         }
         if (!checkFile) {
-          that.$message.error('上传文件格式错误!')
-          return false
+          that.$message.error('上传文件格式错误!');
+          return false;
         }
-        if (that.styleType === 1 && !isLt2M) {
-          that.$message.error('上传图片大小不能超过 2MB!')
-          return false
+        if (that.styleType == 1 && !isLt2M) {
+          that.$message.error('上传图片大小不能超过 2MB!');
+          return false;
         }
-        that.uploadConfig.loading = true
-        return true
+        that.uploadConfig.loading = true;
+        return true;
       },
-      handleImageUploadRemove (file, fileList) {
-        var that = this
-        that.uploadConfig.succeedFileList.splice(0, that.uploadConfig.succeedFileList.length)
+      handleImageUploadRemove(file, fileList){
+        var that = this;
+        that.uploadConfig.succeedFileList.splice(0, that.uploadConfig.succeedFileList.length);
         if (fileList.length > 0) {
           for (var i = 0; i < fileList.length; i++) {
-            var fileItem = fileList[i]
-            that.uploadConfig.succeedFileList.push(fileItem.response.data)
+            var fileItem = fileList[i];
+            that.uploadConfig.succeedFileList.push(fileItem.response.data);
           }
         }
       },
-      handleImagePreview (file) {
-        this.uploadConfig.previewImageUrl = file.url
-        this.uploadConfig.dialogVisible = true
-      },
-      initFileList (fileListStr) {
-        var that = this
-        if (fileListStr != null && fileListStr !== '') {
-          var list = fileListStr.split(',')
-          for (var i = 0; i < list.length; i++) {
-            var model = {}
-            model.name = list[i].substring(list[i].lastIndexOf('/') + 1)
-            if (list[i].indexOf('http') !== -1) {
-              model.url = list[i]
-            } else {
-              model.url = that.uploadConfig.prefixServerFileUrl + list[i]
+      handleImagePreview(file){
+        if (file.url.lastIndexOf("_") > -1) {
+          this.uploadConfig.previewImageUrl = file.url.substring(0, file.url.lastIndexOf("_"));
+        } else {
+          this.uploadConfig.previewImageUrl = file.url;
+        }
+
+        var fileNameSuffix = file.name.substring(file.name.lastIndexOf("."));
+        //判断是否支持视频播放
+        var allowVideoFileTypes = this.video.split("|");
+        if (allowVideoFileTypes && allowVideoFileTypes.length > 0) {
+          for (var i = 0; i < allowVideoFileTypes.length; i++) {
+            if (allowVideoFileTypes[i].toUpperCase() == fileNameSuffix.toUpperCase()) {
+              this.showVideo = true;
+              break;
             }
-            model.response = {data: list[i]}
-            that.uploadConfig.initFileList.push(model)
-            that.uploadConfig.succeedFileList.push(list[i])
+          }
+        }
+        //判断是否支持音频播放
+        var allowAudioFileTypes = this.audio.split("|");
+        if (allowAudioFileTypes && allowAudioFileTypes.length > 0) {
+          for (var i = 0; i < allowAudioFileTypes.length; i++) {
+            if (allowAudioFileTypes[i].toUpperCase() == fileNameSuffix.toUpperCase()) {
+              this.showAudio = true;
+              break;
+            }
+          }
+        }
+
+        this.uploadConfig.dialogVisible = true;
+      },
+      initFileList(fileListStr){
+        var that = this;
+        if (fileListStr != null && fileListStr != "") {
+          var list = fileListStr.split(",");
+          for (var i = 0; i < list.length; i++) {
+            var model = {};
+            model.name = list[i].substring(list[i].lastIndexOf("/") + 1);
+            if (list[i].indexOf("http") != -1) {
+              model.url = list[i] + "_" + that.thumbnailSize;
+            } else {
+              model.url = that.uploadConfig.prefixServerFileUrl + list[i] + "_" + that.thumbnailSize;
+            }
+            model.response = {data: list[i]};
+            that.uploadConfig.initFileList.push(model);
+            that.uploadConfig.succeedFileList.push(list[i]);
           }
         }
       },
-      getFileListStr () {
-        var that = this
-        return that.uploadConfig.succeedFileList.join(',')
+      getFileListStr(){
+        var that = this;
+        return that.uploadConfig.succeedFileList;
       },
-      handleExceed (files, fileList) {
-        var that = this
-        that.$message.warning(
-          `当前最多上传 ${that.limit} 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`)
+      handleExceed(files, fileList){
+        var that = this;
+        that.$message.warning(`当前最多上传 ${that.limit} 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
       },
-      openLinkUrl (url) {
-        location.href = url
+      openLinkUrl(url){
+        location.href = url;
       },
-      clearFileUpload () {
-        var that = this
-        that.$refs.uploadCtl.clearFiles()
-        that.uploadConfig.succeedFileList.splice(0, that.uploadConfig.succeedFileList.length)
-      },
-    },
+      clearFileUpload(){
+        var that = this;
+        that.$refs.uploadCtl.clearFiles();
+        that.uploadConfig.succeedFileList.splice(0, that.uploadConfig.succeedFileList.length);
+      }
+    }
   }
 </script>
 <style>
   /*文件上传样式重写 2018.3.24 姚政伟 新增*/
   .uploadDisabled .el-upload {
     display: none !important;
+  }
+
+  .el-upload-list.is-disabled {
+    margin-top: -40px;
+  }
+
+  .el-upload-list.is-disabled:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #fff;
+  }
+
+  .el-upload-list.is-disabled .el-upload-list__item-status-label, .el-upload-list.is-disabled .el-upload-list__item.is-success .el-upload-list__item-status-label {
+    display: none;
   }
 </style>
