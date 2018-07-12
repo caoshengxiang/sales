@@ -3,12 +3,8 @@
     <div class="welcome">欢迎进入服务商管理系统！</div>
     <div class="latest-announcement">
       <p class="com-title">最新公告</p>
-      <p class="announcement-con">
-        在新的监管模式下，新旧监管主体将重新定位其监管角色，金融机构和市场亦将随之而变。届时，中国运行达15年的“一行三会”分业模式将从历史舞台谢幕。触发这一历史转折的是，资产规模高达百万亿元的中国金融业，近年来突破性的成长、创新、巨变与
-        挑战。随后中国金融业在完成国有金融机构改革、利率市场化、全流通股改等一系列市场化改革后，综合经营渐成 势。2006年的“十一五”规划则奠定了我国金融业综合经营的起点。 <br>
-        一位研究金融监管体制改革的经济学家向《财经》记者表示，中国金融监管改革源于现有的混业经营，当控股公司成为金融公司主要的存在形式，监管重叠和监管真空以及监管套利相继出现时，分业监管便已不再适应当前金融业的发展。此后，金融监管改革
-        呼声渐起，“改革并完善适应现代金融市场发展的金融监管框架”，在2015年10月召开的十八届五中全会上被正式提出。<br>
-        去年7月召开的全国金融工作会议提出，要加强金融监管协调、补齐监管短板，设立国务院金融稳定发展委员会，强化人民银行宏观审慎管理和系统性风险防范职责。11月，金稳委成立，办公室设在央行。</p>
+      <p class="announcement-con" v-if="announcement">{{announcement.content}}</p>
+      <p style="padding-left: 10px;color: #ccc;"  v-else>暂无公告内容</p>
     </div>
     <div class="home-row">
       <el-row>
@@ -53,7 +49,7 @@
         <el-col :span="8" class="lr-part">
           <div class="col-box">
             <p class="com-title">销售机会列表</p>
-            <ul class="list">
+            <ul class="list no-list">
               <li>全部销售机会 <span>{{chanceTotal}}</span></li>
               <li>我开发的销售机会 <span>{{chanceMy}}</span></li>
               <li>即将签单销售机会 <span>{{chanceOrder}}</span></li>
@@ -67,9 +63,10 @@
           <div class="col-box">
             <p class="com-title">最新消息</p>
             <ul class="list">
-              <li>关于调整服务商服务内容通知</li>
-              <li>您的服务内容调整申请已经通过审核</li>
-              <li>您的服务内容调整申请已经通过审核</li>
+              <li v-for="(item, index) in messageList" :key="item.id" v-if="index<3">
+                <router-link :to="{name: 'messageDetail', params: {end: 'FE'}, query: {view: 'detail', id: item.id}}">{{item.title}}</router-link>
+              </li>
+              <li style="text-align: center;color: #333333;" v-if="!messageList.length">暂无代办事项</li>
             </ul>
             <div class="link">
               <router-link :to="{name: 'messageList'}" class="link-all">查看全部 ></router-link>
@@ -99,6 +96,8 @@
         TodoItemList: [],
         TodoItemTotal: 0,
         userInfo: {},
+        messageList: [],
+        announcement: null
       }
     },
     components: {
@@ -119,7 +118,7 @@
           this.chanceOrder = da.data.totalElements
         })
       },
-      getTodoItemList () {
+      getTodoItemList () { // 代办列表
         API.todoItem.list({page: 0, pageSize: 3}, (res) => {
           if (res.status) {
             this.TodoItemList = res.data.content
@@ -149,11 +148,37 @@
           default:
         }
       },
+      getMessageList () { // 获取列表数据
+        API.message.personalMessage({
+          page: 0,
+          pageSize: 1000,
+          sort: 'send_time,desc'
+        }, da => {
+          this.messageList = da.data.content
+          // this.messageListTotal = da.data.totalElements
+          for (let i = 0; i < this.messageList.length; i++) {
+            if (this.messageList[i].msgType === 2) {
+              this.getMesDetail(this.messageList[i].id)
+              break
+            }
+          }
+          setTimeout(() => {
+            this.dataLoading = false
+          }, 300)
+        }, () => {
+        })
+      },
+      getMesDetail (id) { // 消息详细，公告
+        API.message.msgDetail(id, da => {
+          this.announcement = da.data
+        })
+      },
     },
     created () {
       this.chanceStat()
       this.userInfo = utils.loginExamine(this)
       this.getTodoItemList()
+      this.getMessageList()
     },
   }
 </script>
@@ -206,9 +231,20 @@
       span {
         float: right;
       }
+      a {
+        color: #333333;
+      }
       &:hover {
         text-decoration: underline;
         cursor: pointer;
+      }
+    }
+  }
+  .no-list {
+    li{
+      &:hover {
+        text-decoration: none;
+        cursor: default;
       }
     }
   }

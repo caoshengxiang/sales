@@ -1,3 +1,4 @@
+<!--只有订单的跟进人有删除权限（APP下单、修改这两个操作也一样，只有跟进人才有权限）-->
 <template>
   <div class="com-container com-detail-container"
        v-loading="dataLoading"
@@ -39,9 +40,9 @@
         <!--</el-radio-group>-->
         <ul class="btn-group">
           <!--订单为预下单 - 显示APP下单-->
-          <li class="btn-order" v-if="orderDetail.orderState === 0" @click="operateOptions('appOrder')">APP下单</li>
-          <li class="btn-edit" @click="operateOptions('edit')">修改</li>
-          <li class="btn-delete" @click="operateOptions('delete')">删除</li>
+          <li class="btn-order" v-if="orderDetail.orderState === 0 && isFollower" @click="operateOptions('appOrder')">APP下单</li>
+          <li class="btn-edit" v-if="isFollower" @click="operateOptions('edit')">修改</li>
+          <li class="btn-delete" v-if="isFollower" @click="operateOptions('delete')">删除</li>
         </ul>
       </div>
     </div>
@@ -222,6 +223,7 @@
   import orderInfo from './orderInfo'
   import API from '../../../utils/api'
   import { mapState } from 'vuex'
+  import webStorage from 'webStorage'
 
   export default {
     name: 'detailInfo',
@@ -234,6 +236,8 @@
           team: {},
         },
         refundRecordList: [],
+        isFollower: true, // 跟单人
+        userInfo: '',
       }
     },
     computed: {
@@ -340,6 +344,9 @@
               if (data.data.orderId) { // 生成了订单才有
                 this.getRefundRecord(data.data.orderId)
               }
+              if (this.userInfo.id !== this.orderDetail.team.salerId) { // 判断更进人
+                this.isFollower = false
+              }
             }
           }, 500)
         }, (data) => {
@@ -354,6 +361,7 @@
       },
     },
     created () {
+      this.userInfo = webStorage.getItem('userInfo')
       this.activeViewName = this.$route.query.view
       this.getSalesOrderDetail()
     },

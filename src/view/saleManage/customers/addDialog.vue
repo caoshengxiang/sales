@@ -92,16 +92,18 @@
           <tr>
             <td class="td-title">客户来源</td>
             <td class="td-text" colspan="5">
-              <el-cascader
-                style="width: 100%"
-                :change-on-select="false"
-                :options="customerSourceType"
-                v-model="customerSourceArr"
-                @active-item-change="customerSourceChangeHandle"
-                @change="customerSourceChange"
-                :props="props"
-              >
-              </el-cascader>
+              <el-form-item prop="customerSource">
+                <el-cascader
+                  style="width: 100%"
+                  :change-on-select="false"
+                  :options="customerSourceType"
+                  v-model="customerSourceArr"
+                  @active-item-change="customerSourceChangeHandle"
+                  @change="customerSourceChange"
+                  :props="props"
+                >
+                </el-cascader>
+              </el-form-item>
             </td>
           </tr>
           <tr>
@@ -156,6 +158,7 @@
           seaId: '',
           address: '',
           business: '',
+          customerSource: '',
         },
         areaOptionsData: [],
         // areaSelectedOptions: [],
@@ -205,6 +208,9 @@
           business: [
             {required: true, message: '请输入主营业务', trigger: 'blur'},
             {max: 100, message: '长度为 100 个字符以内', trigger: 'blur'},
+          ],
+          customerSource: [
+            {required: true, message: '请选择客户来源', trigger: 'change'},
           ],
         },
         dialogType: 'add',

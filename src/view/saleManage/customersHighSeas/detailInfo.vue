@@ -95,6 +95,10 @@
                 </td>
               </tr>
               <tr>
+                <td class="td-title">客户来源</td>
+                <td colspan="5">{{customerDetail.customerSourceName}}</td>
+              </tr>
+              <tr>
                 <td class="td-title">联系地址</td>
                 <td colspan="5">{{customerDetail.address}}</td>
               </tr>
