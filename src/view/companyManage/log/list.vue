@@ -12,15 +12,17 @@
       <div class="com-bar-left">
       </div>
       <div class="com-bar-right" style="float: right">
-        <com-button buttonType="search" @click="searchHandle">导出</com-button>
+        <com-button buttonType="search" @click="onExport">导出</com-button>
       </div>
       <div class="com-bar-right" style="float: right">
-        <el-select v-model="value" placeholder="请选择" class="com-el-select" style="width:180px">
+        <el-select v-model="form.organizationIds" @change="selectedOptionsHandleChange"
+                   placeholder="请选择组织">
           <el-option
-            v-for="item in options"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value">
+            v-for="item in allorganization"
+            :key="item.id"
+            :label="item.name"
+            :value="item.id"
+          >
           </el-option>
         </el-select>
       </div>
@@ -36,7 +38,7 @@
           <el-table-column
             show-overflow-tooltip
             align="center"
-            prop="siteName"
+            prop="userName"
             label="操作者"
           >
           </el-table-column>
@@ -44,7 +46,7 @@
           <el-table-column
             show-overflow-tooltip
             align="center"
-            prop="siteName"
+            prop="organizationName"
             label="操作人组织"
           >
           </el-table-column>
@@ -52,7 +54,7 @@
           <el-table-column
             show-overflow-tooltip
             align="center"
-            prop="siteName"
+            prop="action"
             label="行为"
           >
           </el-table-column>
@@ -60,7 +62,7 @@
           <el-table-column
             show-overflow-tooltip
             align="center"
-            prop="siteName"
+            prop="businessSystemName"
             label="对象系统"
           >
           </el-table-column>
@@ -68,7 +70,7 @@
           <el-table-column
             show-overflow-tooltip
             align="center"
-            prop="siteName"
+            prop="objectType"
             label="对象类型"
           >
           </el-table-column>
@@ -76,7 +78,7 @@
           <el-table-column
             show-overflow-tooltip
             align="center"
-            prop="siteName"
+            prop="subjectName"
             label="对象主体"
           >
           </el-table-column>
@@ -84,19 +86,31 @@
           <el-table-column
             show-overflow-tooltip
             align="center"
-            prop="siteName"
             label="操作时间"
           >
+            <template slot-scope="scope">{{scope.row.created && $moment(scope.row.created).format('YYYY-MM-DD HH:mm:ss')}}    </template>
           </el-table-column>
 
           <el-table-column
             show-overflow-tooltip
             align="center"
-            prop="siteName"
-            label="操作详情"
+            prop="detail"
+            label="操作内容"
           >
           </el-table-column>
         </el-table>
+      </div>
+      <div class="com-pages-box">
+        <el-pagination
+          background
+          :total="total "
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+          :current-page="currentPage"
+          :layout="pagesOptions.layout"
+          :page-sizes="pagesOptions.pageSizes"
+          :page-size="pagesOptions.pageSize">
+        </el-pagination>
       </div>
     </div>
   </div>
@@ -113,26 +127,16 @@
     name: 'list',
     data () {
       return {
-        options: [
-          {
-            value: 1,
-            label: '全部',
-          },
-          {
-            value: 2,
-            label: '代理商',
-          },
-          {
-            value: 3,
-            label: '成都凡特塞科技有限公司',
-          }, {
-            value: 4,
-            label: '税务一分公司',
-          }, {
-            value: 5,
-            label: '税务二分公司',
-          }],
+        currentPage: 1,
         tableData: [],
+        defaultListParams: { // 默认顾客列表请求参数
+          page: null,
+          pageSize: null
+        },
+        allorganization:[] ,
+        form: {
+          organizationIds:''
+        },
       }
     },
     computed: {
@@ -145,9 +149,49 @@
     },
     created () {
       var that = this
-      that.$options.methods.getSiteList.bind(that)()
+      let   params = {
+          page: 1,
+          pageSize: 999,
+          pid: 1,
+          type: 1,
+          level:2
+        }
+      API.organization.queryAllList(params, (res) => {
+        this.allorganization = res.data
+      }, (mock) => {
+      })
+      that.$options.methods.init.bind(that)()
     },
     methods: {
+      onExport(){
+        window.open('http://sales.dcstar-inc.com/sales/operateLog/export'+"?organizationId=" + this.form.organizationIds,'_blank');
+      },
+      selectedOptionsHandleChange(){
+        var that = this
+        that.$options.methods.init.bind(that)()
+      },
+      getQueryParams () { // 请求参数配置
+        this.defaultListParams = {
+          page: this.currentPage - 1,
+          pageSize: this.pagesOptions.pageSize,
+          organizationId: this.form.organizationIds
+        }
+      },
+      init () {
+        var that = this
+        this.loading = true
+        this.getQueryParams()
+        this.dataLoading = true
+        API.syslog.logList(Object.assign({}, this.defaultListParams, null, null),
+          da => {
+            this.tableData = da.data.content
+            this.total = da.data.totalElements
+            setTimeout(() => {
+              this.dataLoading = false
+            }, 300)
+          }, () => {
+          })
+      },
       getSiteList () {
         var that = this
         this.loading = true

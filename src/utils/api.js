@@ -1353,6 +1353,28 @@ export default {
     },
   },
   message: {
+    addMessage (params, success, error) { // 保存佣金结算规则
+      $axios({
+        method: 'post',
+        url: 'message',
+        data: params,
+      }).then((res) => {
+        success && success(res.data)
+      }).catch(() => {
+        setTimeout(() => {
+          error && error(mockdata)
+        }, 1000)
+      })
+    },
+    messageList(params, success, error){
+      $axios.get('message/notice', {
+        params: params,
+      }).then(res => {
+        success && success(res.data)
+      }).catch(err => {
+        error && error(err)
+      })
+    },
     personalMessage (params, success, error) { // 获取个人消息列表
       $axios.get('message/personal', {
         params: params,
@@ -1391,6 +1413,27 @@ export default {
     },
     msgDetail (params, success, error) { // 查看消息详情
       $axios.get('message/' + params).then(res => {
+        success && success(res.data)
+      }).catch(err => {
+        error && error(err)
+      })
+    },
+    msgDelete (params, success, error) { // 查看消息详情
+      $axios({
+        method: 'delete',
+        url: '/message/notice?ids=' + params.ids,
+      }).then(res => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+    },
+  },
+  syslog: {
+    logList(params, success, error){
+      $axios.get('operateLog', {
+        params: params,
+      }).then(res => {
         success && success(res.data)
       }).catch(err => {
         error && error(err)

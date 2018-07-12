@@ -46,7 +46,7 @@
           width="200"
         >
           <template slot-scope="scope">
-            <span :class="{'read-message': scope.row.read}">{{ scope.row.messageType }}</span>
+            <span :class="{'read-message': scope.row.read}">{{ scope.row.msgType==1?"系统消息":"平台消息" }}</span>
           </template>
         </el-table-column>
         <el-table-column
@@ -54,8 +54,8 @@
           label="消息标题"
         >
           <template slot-scope="scope">
-            <a class="col-link" @click="handleRouter('detail')" :class="{'read-message': scope.row.read}">{{
-              scope.row.messageTitle }}</a>
+            <a class="col-link" @click="handleRouter('detail',scope.row.id)" :class="{'read-message': scope.row.read}">{{
+              scope.row.title }}</a>
           </template>
         </el-table-column>
         <el-table-column
@@ -64,7 +64,7 @@
           label="发送时间"
           width="200">
           <template slot-scope="scope">
-            <span :class="{'read-message': scope.row.read}">{{ scope.row.date }}</span>
+            <span :class="{'read-message': scope.row.readStatus}">{{ scope.row.sendTime }}</span>
           </template>
         </el-table-column>
       </el-table>
@@ -73,7 +73,7 @@
     <div class="com-pages-box">
       <el-pagination
         background
-        :total="1000"
+        :total="total "
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
         :current-page="currentPage"
@@ -89,40 +89,21 @@
   import { mapState } from 'vuex'
   import comButton from '../../../components/button/comButton'
   import add from './add'
+  import API from '../../../utils/api'
 
   export default {
     name: 'list',
     data () {
       return {
-        // options: [
-        //   {
-        //     value: 1,
-        //     label: '全部客户',
-        //   }, {
-        //     value: 2,
-        //     label: '我负责的客户',
-        //   }, {
-        //     value: 3,
-        //     label: '我跟进的客户',
-        //   }, {
-        //     value: 4,
-        //     label: '我参与的客户',
-        //   }],
-        // value: 3,
-        tableData: [
-          {
-            messageType: '系统消息',
-            messageTitle: '修改密码通知',
-            date: '2016-05-03 12:00:00',
-            read: true,
-          }, {
-            messageType: '系统消息',
-            messageTitle: '修改密码通知',
-            date: '2016-05-03 12:00:00',
-            read: false,
-          }],
+        tableData: [],
         ipleSelection: [],
         currentPage: 1,
+        defaultListParams: { // 默认顾客列表请求参数
+          page: null,
+          pageSize: null
+        },
+        total:0,
+        multipleSelection: [],
       }
     },
     computed: {
@@ -133,24 +114,78 @@
     components: {
       comButton,
     },
+    created () {
+      var that = this
+      that.$options.methods.init.bind(that)()
+    },
     methods: {
+      init () {
+        var that = this
+        this.loading = true
+        this.getQueryParams()
+        this.dataLoading = true
+        API.message.messageList(Object.assign({}, this.defaultListParams, null, null),
+          da => {
+            this.tableData = da.data.content
+            this.total = da.data.totalElements
+            setTimeout(() => {
+              this.dataLoading = false
+            }, 300)
+          }, () => {
+          })
+      },
+      getQueryParams () { // 请求参数配置
+        this.defaultListParams = {
+          page: this.currentPage - 1,
+          pageSize: this.pagesOptions.pageSize,
+        }
+      },
       addHandle () {
         var that = this
         this.$vDialog.modal(add, {
           title: '发送消息通知',
           width: 700,
-          height: 400,
+          height: 500,
           params: {
             store: that.$store, // 弹窗组件如果需要用到vuex，必须传值过去赋值
             action: 'add',
           },
           callback: function (data) {
-            // that.$options.methods.getRoleList.bind(that)();
+            that.$options.methods.init.bind(that)()
           },
         })
       },
       deleteHandle () {
-        alert('move')
+        this.$confirm('确定删除当前选中消息, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning',
+        }).then(() => {
+          var id = this.multipleSelection.map(item => item.id).join() // 当前选中的所有ID
+          let param = {
+            ids: id,
+          }
+          API.message.msgDelete(param, (res) => {
+            this.$message({
+              type: 'success',
+              message: '删除成功!',
+            })
+            this.$options.methods.init.bind(that)()
+          }, (mock) => {
+            if (mock.status) {
+              this.$message({
+                type: 'success',
+                message: '删除成功!',
+              })
+            }
+            this.dataLoading = false
+          })
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除',
+          })
+        })
       },
       handleSelectionChange (val) {
         this.multipleSelection = val
@@ -161,8 +196,8 @@
       handleCurrentChange (val) {
         console.log(`当前页: ${val}`)
       },
-      handleRouter (name) {
-        this.$router.push({name: 'messageDetail', params: {end: 'ME'}, query: {view: name}})
+      handleRouter (name,id) {
+        this.$router.push({name: 'messageDetail', params: {end: 'ME'}, query: {view: name,id: id}})
       },
     },
   }
