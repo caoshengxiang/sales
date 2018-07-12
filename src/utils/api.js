@@ -1429,4 +1429,15 @@ export default {
       })
     },
   },
+  syslog: {
+    logList(params, success, error){
+      $axios.get('operateLog', {
+        params: params,
+      }).then(res => {
+        success && success(res.data)
+      }).catch(err => {
+        error && error(err)
+      })
+    },
+  },
 }
