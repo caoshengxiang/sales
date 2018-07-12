@@ -171,8 +171,8 @@
     props: ['params'],
     methods: {
       timeIntervalHandle (value) {
-        this.searchForm.birthdayStart = value[0] || ''
-        this.searchForm.birthdayEnd = value[1] || ''
+        this.searchForm.birthdayStart =Number(new Date(value[0])) || ''
+        this.searchForm.birthdayEnd = Number(new Date(value[1])) || ''
       },
       selectedOptionsHandleChange (value) {
         var that = this

@@ -12,6 +12,7 @@
       <div class="com-bar-left">
       </div>
       <div class="com-bar-right" style="float: right">
+        <com-button buttonType="search" @click="advancedSearchHandle" style="">高级搜索</com-button>
         <com-button buttonType="search" @click="onExport">导出</com-button>
       </div>
       <div class="com-bar-right" style="float: right">
@@ -34,11 +35,13 @@
         <el-table
           border
           tooltip-effect="dark"
+          @sort-change="sortChangeHandle"
           :data="tableData">
           <el-table-column
             show-overflow-tooltip
             align="center"
             prop="userName"
+            sortable="custom"
             label="操作者"
           >
           </el-table-column>
@@ -47,6 +50,7 @@
             show-overflow-tooltip
             align="center"
             prop="organizationName"
+            sortable="custom"
             label="操作人组织"
           >
           </el-table-column>
@@ -86,9 +90,11 @@
           <el-table-column
             show-overflow-tooltip
             align="center"
+            sortable="custom"
+            prop="operateTime"
             label="操作时间"
           >
-            <template slot-scope="scope">{{scope.row.created && $moment(scope.row.created).format('YYYY-MM-DD HH:mm:ss')}}    </template>
+            <template slot-scope="scope">{{scope.row.operateTime && $moment(scope.row.operateTime).format('YYYY-MM-DD HH:mm:ss')}}    </template>
           </el-table-column>
 
           <el-table-column
@@ -121,12 +127,15 @@
   import API from '../../../utils/api'
   // import utils from '../../../utils/utils'
   import comButton from '../../../components/button/comButton'
+  import advancedSearch from './advancedSearch'
+  import { underscoreName } from '../../../utils/utils'
   // import moment from 'moment'
 
   export default {
     name: 'list',
     data () {
       return {
+        sortObj: null, // 排序
         currentPage: 1,
         tableData: [],
         defaultListParams: { // 默认顾客列表请求参数
@@ -137,6 +146,7 @@
         form: {
           organizationIds:''
         },
+        advancedSearch:null, // 高级搜索
       }
     },
     computed: {
@@ -146,6 +156,7 @@
     },
     components: {
       comButton,
+      advancedSearch
     },
     created () {
       var that = this
@@ -163,6 +174,35 @@
       that.$options.methods.init.bind(that)()
     },
     methods: {
+      sortChangeHandle (sortObj) {
+        let order = null
+        if (sortObj.order === 'ascending') {
+          order = 'asc'
+        } else if (sortObj.order === 'descending') {
+          order = 'desc'
+        }
+        this.sortObj = {sort: underscoreName(sortObj.prop) + ',' + order}
+        this.init()
+      },
+      advancedSearchHandle () {
+        this.$vDialog.modal(advancedSearch, {
+          title: '高级搜索',
+          width: 900,
+          height: 460,
+          params: {
+            salesState: this.salesState,
+            demandSource: this.demandSource,
+            type:0
+          },
+          callback: (data) => {
+            if (data.type === 'search') {
+              console.log('高级搜索数据：', data.params)
+              this.advancedSearch = data.params
+              this.init()
+            }
+          },
+        })
+      },
       onExport(){
         window.open('http://sales.dcstar-inc.com/sales/operateLog/export'+"?organizationId=" + this.form.organizationIds,'_blank');
       },
@@ -182,7 +222,7 @@
         this.loading = true
         this.getQueryParams()
         this.dataLoading = true
-        API.syslog.logList(Object.assign({}, this.defaultListParams, null, null),
+        API.syslog.logList(Object.assign({}, this.defaultListParams,  this.sortObj, this.advancedSearch),
           da => {
             this.tableData = da.data.content
             this.total = da.data.totalElements
