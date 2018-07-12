@@ -199,6 +199,7 @@
         this.defaultListParams = {
           page: this.currentPage - 1,
           pageSize: this.pagesOptions.pageSize,
+          sort: 'send_time,desc'
         }
       },
     },

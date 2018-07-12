@@ -39,35 +39,35 @@
             // data: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
           },
           yAxis: {},
-          dataZoom: [
-            {
-              type: 'slider',
-              show: true,
-              xAxisIndex: [0],
-              start: 0,
-              end: 100,
-            },
-            {
-              type: 'slider',
-              show: true,
-              yAxisIndex: [0],
-              left: '93%',
-              start: 1,
-              end: 100,
-            },
-            {
-              type: 'inside',
-              xAxisIndex: [0],
-              start: 1,
-              end: 100,
-            },
-            {
-              type: 'inside',
-              yAxisIndex: [0],
-              start: 0,
-              end: 100,
-            },
-          ],
+          // dataZoom: [ // 放大
+          //   {
+          //     type: 'slider',
+          //     show: true,
+          //     xAxisIndex: [0],
+          //     start: 0,
+          //     end: 100,
+          //   },
+          //   {
+          //     type: 'slider',
+          //     show: true,
+          //     yAxisIndex: [0],
+          //     left: '93%',
+          //     start: 1,
+          //     end: 100,
+          //   },
+          //   {
+          //     type: 'inside',
+          //     xAxisIndex: [0],
+          //     start: 1,
+          //     end: 100,
+          //   },
+          //   {
+          //     type: 'inside',
+          //     yAxisIndex: [0],
+          //     start: 0,
+          //     end: 100,
+          //   },
+          // ],
           series: [
             {
               symbolSize: 8,
