@@ -32,7 +32,7 @@
           <el-form-item>
             <com-button buttonType="search" @click="getCommissionClear">搜索</com-button>
             <com-button buttonType="search" @click="advancedSearchHandle" style="">高级搜索</com-button>
-            <com-button buttonType="export" icon="el-icon-download">导出</com-button>
+            <com-button buttonType="export" icon="el-icon-download" @click="excelExport">导出</com-button>
           </el-form-item>
         </el-form>
       </div>
@@ -233,6 +233,9 @@
   import serviceAllowance from './serviceAllowance'
   import advancedSearch from './advancedSearch'
   import { underscoreName } from '../../../utils/utils'
+  import QS from 'qs'
+  import webStorage from 'webStorage'
+  import { serverUrl } from '../../../utils/const'
 
 
   export default {
@@ -284,7 +287,8 @@
           organizationId: "",
           clearMonth:null,
           clearState:null
-        }
+        },
+        defaultListParams:null
       }
     },
     computed: {
@@ -308,6 +312,25 @@
 
   },
     methods: {
+      excelExport () { // 导出
+        let as = {}
+        for (let key in this.advancedSearch) { // 去除null
+          if (this.advancedSearch[key]) {
+            as[key] = this.advancedSearch[key]
+          }
+        }
+        let link = document.createElement('a') // 创建事件对象
+        let query = QS.stringify(Object.assign({}, this.defaultListParams, this.sortObj, as,
+          {authKey: webStorage.getItem('userInfo').authKey}))
+        // console.log('下载参数：', query)
+        alert(query)
+        link.setAttribute('href', serverUrl + '/commissionClear/export?' + query)
+        link.setAttribute('download', '导出结算佣金')
+        let event = document.createEvent('MouseEvents') // 初始化事件对象
+        event.initMouseEvent('click', true, true, document.defaultView, 0, 0, 0, 0, 0, false, false, false, false, 0,
+          null) // 触发事件
+        link.dispatchEvent(event)
+      },
       sortChangeHandle (sortObj) {
         let order = null
         if (sortObj.order === 'ascending') {
@@ -455,13 +478,13 @@
       getCommissionClear () {
         var that = this
         that.loading = true
-        let param = {
+        that.defaultListParams= {
           page: that.currentPage - 1,
           pageSize: that.pagesOptions.pageSize,
           clearMonth: that.searchForm.clearMonth===null?"":(that.searchForm.clearMonth.getFullYear()+""+('00'+(1+that.searchForm.clearMonth.getMonth())).slice(-2)),
           clearState: that.searchForm.clearState
         }
-        API.financial.queryList(Object.assign({}, param, this.sortObj, this.advancedSearch), (res) => {
+        API.financial.queryList(Object.assign({}, that.defaultListParams, this.sortObj, this.advancedSearch), (res) => {
           that.loading = false
           if (res.status) {
             that.tableData = res.data.content

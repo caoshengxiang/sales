@@ -13,7 +13,7 @@
       </div>
       <div class="com-bar-right" style="float: right">
         <com-button buttonType="search" @click="advancedSearchHandle" style="">高级搜索</com-button>
-        <com-button buttonType="search" @click="onExport">导出</com-button>
+        <com-button buttonType="search" @click="excelExport">导出</com-button>
       </div>
       <div class="com-bar-right" style="float: right">
         <el-select v-model="form.organizationIds" @change="selectedOptionsHandleChange"
@@ -203,8 +203,24 @@
           },
         })
       },
-      onExport(){
-        window.open('http://sales.dcstar-inc.com/sales/operateLog/export'+"?organizationId=" + this.form.organizationIds,'_blank');
+      excelExport () { // 导出
+        let as = {}
+        for (let key in this.advancedSearch) { // 去除null
+          if (this.advancedSearch[key]) {
+            as[key] = this.advancedSearch[key]
+          }
+        }
+        let link = document.createElement('a') // 创建事件对象
+        let query = QS.stringify(Object.assign({}, this.defaultListParams, this.sortObj, null,
+          {authKey: webStorage.getItem('userInfo').authKey}))
+        // console.log('下载参数：', query)
+        alert(query)
+        link.setAttribute('href', serverUrl + '/operateLog/export?' + query)
+        link.setAttribute('download', '导出结算佣金')
+        let event = document.createEvent('MouseEvents') // 初始化事件对象
+        event.initMouseEvent('click', true, true, document.defaultView, 0, 0, 0, 0, 0, false, false, false, false, 0,
+          null) // 触发事件
+        link.dispatchEvent(event)
       },
       selectedOptionsHandleChange(){
         var that = this
