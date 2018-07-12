@@ -339,8 +339,8 @@
   }
 
   .active {
-    color: #4BCF99;
-    border-color: #c9f1e0;
-    background-color: #edfaf5;
+    color: #fff;
+    border-color: #39C189;
+    background-color: #39C189;
   }
 </style>

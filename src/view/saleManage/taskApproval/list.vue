@@ -181,6 +181,7 @@
         let param = {
           page: this.currentPage - 1,
           pageSize: this.pagesOptions.pageSize,
+          sort: 'publishTime,desc'
         }
 
         if (that.changeValue === 2) {
