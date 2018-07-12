@@ -1418,5 +1418,15 @@ export default {
         error && error(err)
       })
     },
+    msgDelete (params, success, error) { // 查看消息详情
+      $axios({
+        method: 'delete',
+        url: '/message/notice?ids=' + params.ids,
+      }).then(res => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+    },
   },
 }

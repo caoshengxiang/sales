@@ -124,6 +124,7 @@
         pageSize: 999,
         pid: 1,
         type: 1,
+        level:2
       }
       API.organization.queryAllList(params, (res) => {
         this.allorganization = res.data

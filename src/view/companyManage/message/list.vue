@@ -54,7 +54,7 @@
           label="消息标题"
         >
           <template slot-scope="scope">
-            <a class="col-link" @click="handleRouter('detail')" :class="{'read-message': scope.row.read}">{{
+            <a class="col-link" @click="handleRouter('detail',scope.row.id)" :class="{'read-message': scope.row.read}">{{
               scope.row.title }}</a>
           </template>
         </el-table-column>
@@ -95,21 +95,6 @@
     name: 'list',
     data () {
       return {
-        // options: [
-        //   {
-        //     value: 1,
-        //     label: '全部客户',
-        //   }, {
-        //     value: 2,
-        //     label: '我负责的客户',
-        //   }, {
-        //     value: 3,
-        //     label: '我跟进的客户',
-        //   }, {
-        //     value: 4,
-        //     label: '我参与的客户',
-        //   }],
-        // value: 3,
         tableData: [],
         ipleSelection: [],
         currentPage: 1,
@@ -117,7 +102,8 @@
           page: null,
           pageSize: null
         },
-        total:0
+        total:0,
+        multipleSelection: [],
       }
     },
     computed: {
@@ -170,7 +156,36 @@
         })
       },
       deleteHandle () {
-        alert('move')
+        this.$confirm('确定删除当前选中消息, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning',
+        }).then(() => {
+          var id = this.multipleSelection.map(item => item.id).join() // 当前选中的所有ID
+          let param = {
+            ids: id,
+          }
+          API.message.msgDelete(param, (res) => {
+            this.$message({
+              type: 'success',
+              message: '删除成功!',
+            })
+            this.$options.methods.init.bind(that)()
+          }, (mock) => {
+            if (mock.status) {
+              this.$message({
+                type: 'success',
+                message: '删除成功!',
+              })
+            }
+            this.dataLoading = false
+          })
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除',
+          })
+        })
       },
       handleSelectionChange (val) {
         this.multipleSelection = val
@@ -181,8 +196,8 @@
       handleCurrentChange (val) {
         console.log(`当前页: ${val}`)
       },
-      handleRouter (name) {
-        this.$router.push({name: 'messageDetail', params: {end: 'ME'}, query: {view: name}})
+      handleRouter (name,id) {
+        this.$router.push({name: 'messageDetail', params: {end: 'ME'}, query: {view: name,id: id}})
       },
     },
   }
