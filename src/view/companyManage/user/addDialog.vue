@@ -230,7 +230,7 @@
           page: 1,
           pageSize: 999,
         }
-        depparams.pid = value
+        depparams.id = value
         depparams.type = 2 // 查询出部门
         API.organization.queryList(depparams, (res) => {
           that.alldepartments = res.data
