@@ -110,7 +110,10 @@
               <div class="upload">
                 <img v-if="ruleForm.avatar" width="115px" :src="ruleForm.avatar" alt="">
                 <img v-else width="115px" src="../../../assets/icon/Upload.png" alt="">
-                <p class="up-link">选择你要上传的头像</p>
+                <p class="up-link" style="position: relative">选择你要上传的头像
+                  <input type="file" class="upload-input"
+                         accept="image/png,image/jpeg,image/gif,image/jpg"
+                         @change="uploadImg($event, 1)"></p>
                 <p class="up-tips">本地照片：选择一张本地的图片编辑后上传为头像</p>
               </div>
               <div class="show">
@@ -118,16 +121,19 @@
                   请注意中小尺寸的头像是否清晰。</p>
                 <div class="img-size-3">
                   <div class="size-1">
-                    <img width="180px" src="../../../assets/icon/head_180.png" alt="">
+                    <img width="180px" v-if="ruleForm.avatar" :src="ruleForm.avatar" alt="">
+                    <img width="180px" v-else src="../../../assets/icon/head_180.png" alt="">
                     <p class="description">大尺寸头像，180*180像素</p>
                   </div>
                   <div class="size-23">
                     <div class="size-2">
-                      <img width="50" src="../../../assets/icon/head_50.png" alt="">
+                      <img width="50" v-if="ruleForm.avatar" :src="ruleForm.avatar" alt="">
+                      <img width="50" v-else src="../../../assets/icon/head_50.png" alt="">
                       <p class="description">中尺寸头像 <br>50*50像素</p>
                     </div>
                     <div class="size-3">
-                      <img width="30" src="../../../assets/icon/head_30.png" alt="">
+                      <img width="30" v-if="ruleForm.avatar" :src="ruleForm.avatar" alt="">
+                      <img width="30" v-else src="../../../assets/icon/head_30.png" alt="">
                       <p class="description">大尺寸头像 <br>30*30像素</p>
                     </div>
                   </div>
@@ -160,6 +166,24 @@
         </el-tabs>
       </div>
     </div>
+<div style="width: 400px;height: 400px;border: 1px solid red;">
+  <vue-cropper
+    ref="cropper2"
+    :img="example2.img"
+    :outputSize="example2.size"
+    :outputType="example2.outputType"
+    :info="example2.info"
+    :canScale="example2.canScale"
+    :autoCrop="example2.autoCrop"
+    :autoCropWidth="example2.autoCropWidth"
+    :autoCropHeight="example2.autoCropHeight"
+    :fixed="example2.fixed"
+    :fixedNumber="example2.fixedNumber"
+    :fixedBox="example2.fixedBox"
+  ></vue-cropper>
+  <button @click="getCropperImg">test</button>
+</div>
+
   </div>
 </template>
 
@@ -168,6 +192,7 @@
   import API from '../../../utils/api'
   import webStorage from 'webStorage'
   import sha1 from 'js-sha1'
+  import VueCropper from 'vue-cropper'
 
   export default {
     name: 'detailInfo',
@@ -218,6 +243,21 @@
         ruleFormImg: {
           file: '',
         },
+        example2: {
+          img: 'http://ofyaji162.bkt.clouddn.com/bg1.jpg',
+          // info: true,
+          // size: 1,
+          // outputType: 'jpeg',
+          // canScale: false,
+          autoCrop: true,
+          // 只有自动截图开启 宽度高度才生效
+          autoCropWidth: 180,
+          autoCropHeight: 180,
+          // 开启宽度和高度比例
+          // fixed: true,
+          // fixedNumber: [1, 1]
+          fixedBox: true,
+        },
       }
     },
     watch: {
@@ -227,6 +267,7 @@
     },
     components: {
       comButton,
+      VueCropper,
     },
     methods: {
       handleTabsClick (tab, event) {
@@ -295,6 +336,59 @@
           }
         })
       },
+      down (type) {
+        // event.preventDefault()
+        var aLink = document.createElement('a')
+        aLink.download = 'demo'
+        // 输出
+        if (type === 'blob') {
+          this.$refs.cropper.getCropBlob((data) => {
+            this.downImg = data
+            aLink.href = data
+            aLink.click()
+          })
+        } else {
+          this.$refs.cropper.getCropData((data) => {
+            this.downImg = data
+            aLink.href = data
+            aLink.click()
+          })
+        }
+      },
+
+      uploadImg (e, num) {
+        // 上传图片
+        // this.option.img
+        var file = e.target.files[0]
+        console.log(file)
+        if (!/\.(gif|jpg|jpeg|png|bmp|GIF|JPG|PNG)$/.test(e.target.value)) {
+          alert('图片类型必须是.gif,jpeg,jpg,png,bmp中的一种')
+          return false
+        }
+        var reader = new FileReader()
+        reader.onload = (e) => {
+          let data
+          if (typeof e.target.result === 'object') {
+            // 把Array Buffer转化为blob 如果是base64不需要
+            data = window.URL.createObjectURL(new Blob([e.target.result]))
+          } else {
+            data = e.target.result
+          }
+          this.example2.img = data
+        }
+        // 转化为base64
+        // reader.readAsDataURL(file)
+        // 转化为blob
+        reader.readAsArrayBuffer(file)
+      },
+      getCropperImg () {
+        this.$refs.cropper2.getCropData((data) => {
+          console.log('data', data)
+        })
+        this.$refs.cropper2.getCropBlob((data) => {
+          console.log('blob', data)
+        })
+      }
     },
     created () {
       this.activeViewName = this.$route.query.view
