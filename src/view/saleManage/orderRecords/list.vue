@@ -161,10 +161,10 @@
     },
     methods: {
       addHandle () {
-        alert('add btn')
+        // alert('add btn')
       },
       moveHandle () {
-        alert('move')
+        // alert('move')
       },
       handleSelectionChange (val) {
         this.multipleSelection = val

@@ -516,7 +516,7 @@
           //   })
           //   break
           case 'deleteOrder':
-            alert(deleteId)
+            // alert(deleteId)
             break
         }
       },

@@ -323,7 +323,7 @@
         let query = QS.stringify(Object.assign({}, this.defaultListParams, this.sortObj, as,
           {authKey: webStorage.getItem('userInfo').authKey}))
         // console.log('下载参数：', query)
-        alert(query)
+        // alert(query)
         link.setAttribute('href', serverUrl + '/commissionClear/export?' + query)
         link.setAttribute('download', '导出结算佣金')
         let event = document.createEvent('MouseEvents') // 初始化事件对象
@@ -511,7 +511,7 @@
         this.currentPage = val;
       },
       addHandle () {
-        alert('add btn')
+        // alert('add btn')
       },
       getOrganization (pa) {
         API.organization.queryAllList(pa, (data) => {

@@ -95,12 +95,14 @@
               <el-form-item prop="customerSource">
                 <el-cascader
                   style="width: 100%"
-                  :change-on-select="false"
+                  :change-on-select="selectLastLevelMode"
                   :options="customerSourceType"
                   v-model="customerSourceArr"
                   @active-item-change="customerSourceChangeHandle"
-                  @change="customerSourceChange"
+                  @change="customerSourceChangeHandle"
                   :props="props"
+                  :placeholder="addForm.customerSourceName"
+                  :value="selectedBindValue"
                 >
                 </el-cascader>
               </el-form-item>
@@ -209,9 +211,9 @@
             {required: true, message: '请输入主营业务', trigger: 'blur'},
             {max: 100, message: '长度为 100 个字符以内', trigger: 'blur'},
           ],
-          customerSource: [
-            {required: true, message: '请选择客户来源', trigger: 'change'},
-          ],
+          // customerSource: [
+          //   {required: true, message: '请选择客户来源', trigger: 'change'},
+          // ],
         },
         dialogType: 'add',
         customerSourceType: [], // 客户来源
@@ -221,6 +223,8 @@
           label: 'codeName',
         },
         targetObj: null,
+        selectedBindValue: [],
+        selectLastLevelMode: true,
       }
     },
     props: ['params'],
@@ -337,7 +341,6 @@
         })
       },
       customerSourceChangeHandle (va) {
-        // console.log(va)
         this.getLastItem(this.customerSourceType, va, 'id')
         API.common.codeConfig({type: 5, pCode: va[va.length - 1]}, (data) => {
           // console.log('目标item:', this.targetObj)
@@ -351,16 +354,18 @@
             this.targetObj.children = null
           }
         })
-      },
-      customerSourceChange (va) {
         this.addForm.customerSource = va.join('-')
       },
+      // customerSourceChange (va) {
+      //   this.addForm.customerSource = va.join('-')
+      // },
       getLastItem (list, vals, key) { // 获取点击得目标对象, key 对应得 值vals 数组
         let LIST = list || []
         // console.log(LIST, vals, key)
         for (let item of LIST) {
           if (item[key] === vals[vals.length - 1]) {
             this.targetObj = item
+            this.selectedBindValue.push(item[key])
             break
           } else {
             this.getLastItem(item.children, vals, key)
