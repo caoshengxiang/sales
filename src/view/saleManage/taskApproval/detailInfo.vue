@@ -57,11 +57,8 @@
             <td>{{customerDetail.shortName}}</td>
             <td class="td-title">客户行业</td>
             <td>{{customerDetail.industry}}</td>
-            <td class="td-title">客户来源</td>
-            <td>
-                  <span v-for="item in customerSourceType" :key="item.type"
-                        v-if="item.type === customerDetail.source">{{item.value}}</span>
-            </td>
+            <td class="td-title">联系电话</td>
+            <td>{{customerDetail.phone}}</td>
           </tr>
           <tr>
             <td class="td-title">所在地区</td>
@@ -71,8 +68,12 @@
             </td>
             <td class="td-title">公司网站</td>
             <td>{{customerDetail.website}}</td>
-            <td class="td-title">联系电话</td>
-            <td>{{customerDetail.phone}}</td>
+            <td class="td-title"></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td class="td-title">客户来源</td>
+            <td colspan="5">{{customerDetail.customerSourceName}}</td>
           </tr>
           <tr>
             <td class="td-title">联系地址</td>
