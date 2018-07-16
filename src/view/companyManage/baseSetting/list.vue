@@ -109,7 +109,7 @@
     },
     methods: {
       handleSelectionChange (val) {
-        alert(val.length)
+        // alert(val.length)
         this.multipleSelection = val
         console.log('x选中的')
         console.log(val)

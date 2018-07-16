@@ -4,7 +4,7 @@
       <div class="sign-box">
         <div class="logo-box">
           <img src="../../assets/icon/logo.png" alt="">
-          <span>众智联邦销售管理系统</span>
+          <span>众智联邦企业资源管理系统-ERP</span>
         </div>
         <div class="sign-form-box">
           <el-form label-width="60px" class="el-form-w" :model="formData" :rules="rules" ref="ruleForm">
@@ -29,7 +29,7 @@
         </div>
       </div>
       <div class="footer">
-        <p>众智联邦销售管理平台 2017-2017 @凡特赛科技</p>
+        <p>众智联邦企业资源管理系统 2017-2017 @凡特赛科技</p>
       </div>
       <div class="waveWrapper waveAnimation">
         <div class="waveWrapperInner bgTop">
@@ -73,7 +73,7 @@
         </div>
       </div>
       <div class="footer">
-        <p>众智联邦销售管理平台 2017-2017 @凡特赛科技</p>
+        <p>众智联邦企业资源管理系统 2017-2017 @凡特赛科技</p>
       </div>
       <div class="waveWrapper waveAnimation">
         <div class="waveWrapperInner bgTop">

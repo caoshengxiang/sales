@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <link rel="stylesheet" href="//unpkg.com/iview/dist/styles/iview.css">
+  <script src="//unpkg.com/vue/dist/vue.js"></script>
+  <script src="//unpkg.com/iview/dist/iview.min.js"></script>
+</head>
+<body>
+<div id="app">
+  <cascader :data="data4" :load-data="loadData"></cascader>
+</div>
+</body>
+<script>
+  new Vue({
+    el: '#app',
+    data: function () {
+      return {
+        data4: [
+          {
+            value: 'beijing',
+            label: '北京',
+            children: [],
+            loading: false,
+          },
+          {
+            value: 'hangzhou',
+            label: '杭州',
+            children: [],
+            loading: false,
+          },
+        ],
+      }
+    },
+    methods: {
+      loadData (item, callback) {
+        console.log(item)
+        item.loading = true
+        setTimeout(() => {
+          if (item.value === 'beijing') {
+            item.children = [
+              {
+                value: 'talkingdata',
+                label: 'TalkingData',
+                children: [
+                  {
+                    value: 'a',
+                    label: 'a',
+                    children: []
+                  },
+                ]
+              },
+              {
+                value: 'baidu',
+                label: '百度',
+                children: [
+                  {
+                    value: 'b',
+                    label: 'b',
+                    children: [
+                      {
+                        value: 'c',
+                        label: 'c',
+                        children: []
+                      },
+                    ]
+                  },
+                ]
+              },
+              {
+                value: 'sina',
+                label: '新浪',
+                children: []
+              },
+            ]
+          } else if (item.value === 'hangzhou') {
+            item.children = [
+              {
+                value: 'ali',
+                label: '阿里巴巴',
+                children: []
+              },
+              {
+                value: '163',
+                label: '网易',
+                children: []
+              },
+            ]
+          }
+          item.loading = false
+          callback()
+        }, 1000)
+      },
+    },
+  })
+</script>
+</html>

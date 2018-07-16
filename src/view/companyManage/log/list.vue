@@ -214,7 +214,7 @@
         let query = QS.stringify(Object.assign({}, this.defaultListParams, this.sortObj, null,
           {authKey: webStorage.getItem('userInfo').authKey}))
         // console.log('下载参数：', query)
-        alert(query)
+        // alert(query)
         link.setAttribute('href', serverUrl + '/operateLog/export?' + query)
         link.setAttribute('download', '导出结算佣金')
         let event = document.createEvent('MouseEvents') // 初始化事件对象

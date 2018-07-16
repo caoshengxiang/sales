@@ -55,9 +55,9 @@
       </div>
       <div class="detail-box">
         <div class="detail-item">
-          <p>服务企业：</p>
-          <p>预约时间：{{orderDetail.createDate&&$moment(orderDetail.createDate).format('YYYY-MM-DD HH:mm:ss')}}</p>
-          <p>订单备注：</p>
+          <p>服务企业：{{orderDetail.companyName}}</p>
+          <p>预约时间：{{orderDetail.expectDate&&$moment(orderDetail.expectDate).format('YYYY-MM-DD HH:mm:ss')}}</p>
+          <p>订单备注：{{orderDetail.appOrderRemark}}</p>
         </div>
         <!--<div class="detail-item">-->
           <!--<p>评价星级：-->

@@ -193,7 +193,7 @@
         })
       },
       moveHandle () {
-        alert('move')
+        // alert('move')
       },
       handleSelectionChange (val) {
         this.multipleSelection = val

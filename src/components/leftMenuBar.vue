@@ -1,11 +1,12 @@
 <template>
   <div class="left-menu-bar">
     <div class="u-show"
+         @click="routePersonal"
          :style="{
             backgroundColor: theme[themeIndex].leftMenuBarBg,
             borderColor: theme[themeIndex].leftMenuBarBorderButtonColor
      }">
-      <div class="u-head" @click="routePersonal">
+      <div class="u-head" >
         <img v-if="userInfo.avatar" :src="userInfo.avatar" alt="" style="width: 50px;height: 50px;border-radius: 50px;">
         <img v-else src="../assets/icon/touxiang2.png" alt="">
       </div>

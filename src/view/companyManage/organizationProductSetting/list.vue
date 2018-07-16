@@ -182,7 +182,7 @@
           that.loading = false
           if (res.status) {
             that.roleList = res.data.content
-            alert(that.roleList.length)
+            // alert(that.roleList.length)
             if (that.roleList.length > 0) {
               that.roleDefaultIndex = that.roleList[0].id.toString()
               that.$options.methods.getRoleDetail.bind(that)(that.roleDefaultIndex)
