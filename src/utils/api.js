@@ -1002,7 +1002,9 @@ export default {
       })
     },
     getOrganizationGoodsConf (params, success, error) {
-      $axios.get('organizationGoodsConf', {}).then((res) => {
+      $axios.get('organizationGoodsConf', {
+        params: params,
+      }).then((res) => {
         success && success(res.data)
       }).catch(() => {
         setTimeout(() => {
