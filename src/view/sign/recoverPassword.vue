@@ -124,7 +124,7 @@
         this.$router.push({name: 'signIn', params: {end: 'FE'}})
       },
       validatePhone (value) { // 自定义规则验证手机号
-        let regPhone = /^1[3,4,5,7,8][0-9]{9}$/
+        let regPhone = /^1[0-9]{10}$/
         if (value === '') {
           return '请输入您的手机号'
         } else if (!regPhone.test(value)) {

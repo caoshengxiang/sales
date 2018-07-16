@@ -10,7 +10,8 @@ console.log(process.env.API_EXTERNAL, 'test APP----环境地址')
 
 // 表单验证
 const validatePhone = (rule, value, callback) => { // 自定义规则验证手机号
-  let regPhone = /^1[3,4,5,7,8][0-9]{9}$/
+  // let regPhone = /^1[3,4,5,7,8][0-9]{9}$/
+  let regPhone = /^1[0-9]{10}$/
   if (value === '') {
     callback(new Error('请输入您的手机号'))
   } else if (!regPhone.test(value)) {

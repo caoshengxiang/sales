@@ -155,7 +155,7 @@
             <p class="table-title">
               联系人({{contactTotal}})
               <!--<a class="more" v-if="contactTotal > 5" @click="handleRoute('contact')">更多》</a>-->
-              <a class="table-add" @click="quickOperation('addContact')"><i class="el-icon-plus"></i>新增联系人</a>
+              <a class="table-add" @click="quickOperation('addContact')" v-if="isFollower || isCreater">><i class="el-icon-plus"></i>新增联系人</a>
             </p>
             <table class="detail-table related-table">
               <tr>
@@ -179,7 +179,7 @@
             <p class="table-title">
               销售机会({{chanceTotal}})
               <!--<a class="more" v-if="chanceTotal > 5" @click="handleRoute('chance')">更多》</a>-->
-              <a class="table-add" @click="quickOperation('addChance')"><i class="el-icon-plus"></i>新增销售需求</a>
+              <a class="table-add" @click="quickOperation('addChance')" v-if="isFollower || isCreater"><i class="el-icon-plus"></i>新增销售需求</a>
             </p>
             <table class="detail-table related-table">
               <tr>
@@ -299,6 +299,9 @@
         chanceTotal: 0,
         orderList: [],
         orderTotal: 0,
+        isFollower: true, // 当前用户是机会的更进人
+        isCreater: true, // 当前用户是机会的创建人
+        userInfo: '',
       }
     },
     computed: {
@@ -403,6 +406,12 @@
         this.dataLoading = true
         API.customerSea.customerDetail(this.$route.query.customerId, (data) => {
           this.ac_customerDetail(data.data)
+          if (this.userInfo.id !== data.data.team.salerId) { // 判断更进人
+            this.isFollower = false
+          }
+          if (this.userInfo.id !== data.data.team.creator) { // 判断创建人
+            this.isCreater = false
+          }
           setTimeout(() => {
             this.dataLoading = false
           }, 500)
@@ -523,6 +532,7 @@
     },
     created () {
       this.activeViewName = this.$route.query.view
+      this.userInfo = webStorage.getItem('userInfo')
       this.getCustomerDetail()
       this.getContactList()
       this.getChanceList()
