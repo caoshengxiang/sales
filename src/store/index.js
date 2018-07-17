@@ -22,6 +22,7 @@ export default new Vuex.Store({
   strict: true, // 在严格模式下，无论何时发生了状态变更且不是由 mutation 函数引起的，将会抛出错误。这能保证所有的状态变更都能被调试工具跟踪到。
   state: {
     user: '', // 当前登录用户信息
+    userHead: '', // todo 临时，修改用户头像用，实时显示，不重新登录[ 这里应该接口支持，通过登录得id,重新获取数据]
   },
   getters,
   actions,

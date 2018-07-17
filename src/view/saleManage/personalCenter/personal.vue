@@ -101,19 +101,43 @@
               <com-button buttonType="uploadImg" style="position: relative">
                 本地图片
                 <input type="file" class="upload-input" accept="image/png,image/jpeg,image/gif,image/jpg"
-                       @change="fileUploadHandle">
+                       @change="uploadImg($event)">
               </com-button>
               <span class="tips">使用高质量图片，可生成高清头像</span>
               <p>仅支持JPG、静态GIF和PNG图片文件，且文件小于3M</p>
             </div>
             <div class="img-box">
               <div class="upload">
-                <img v-if="ruleForm.avatar" width="115px" :src="ruleForm.avatar" alt="">
-                <img v-else width="115px" src="../../../assets/icon/Upload.png" alt="">
-                <p class="up-link" style="position: relative">选择你要上传的头像
+                <!--<img v-if="ruleForm.avatar" width="115px" :src="ruleForm.avatar" alt="">-->
+                <!--<img v-else width="115px" src="../../../assets/icon/Upload.png" alt="">-->
+                <div style="width: 400px;height: 400px;">
+                  <vue-cropper
+                    ref="cropper2"
+                    :img="example2.img"
+                    :outputSize="example2.size"
+                    :outputType="example2.outputType"
+                    :info="example2.info"
+                    :canScale="example2.canScale"
+                    :autoCrop="example2.autoCrop"
+                    :autoCropWidth="example2.autoCropWidth"
+                    :autoCropHeight="example2.autoCropHeight"
+                    :fixed="example2.fixed"
+                    :fixedNumber="example2.fixedNumber"
+                    :fixedBox="example2.fixedBox"
+                  ></vue-cropper>
+                </div>
+                <!--<p class="up-link" style="position: relative">选择你要上传的头像-->
+                <!--<input type="file" class="upload-input"-->
+                <!--accept="image/png,image/jpeg,image/gif,image/jpg"-->
+                <!--@change="uploadImg($event)"></p>-->
+                <p class="up-cut-img">
+                  <span class="up-link" style="position: relative">选择你要上传的头像
                   <input type="file" class="upload-input"
                          accept="image/png,image/jpeg,image/gif,image/jpg"
-                         @change="uploadImg($event, 1)"></p>
+                         @change="uploadImg($event)">
+                  </span>
+                  <el-button class="el-up-img" size="mini" type="success" @click="getCropperImg">上传图片</el-button>
+                </p>
                 <p class="up-tips">本地照片：选择一张本地的图片编辑后上传为头像</p>
               </div>
               <div class="show">
@@ -166,24 +190,6 @@
         </el-tabs>
       </div>
     </div>
-<div style="width: 400px;height: 400px;border: 1px solid red;">
-  <vue-cropper
-    ref="cropper2"
-    :img="example2.img"
-    :outputSize="example2.size"
-    :outputType="example2.outputType"
-    :info="example2.info"
-    :canScale="example2.canScale"
-    :autoCrop="example2.autoCrop"
-    :autoCropWidth="example2.autoCropWidth"
-    :autoCropHeight="example2.autoCropHeight"
-    :fixed="example2.fixed"
-    :fixedNumber="example2.fixedNumber"
-    :fixedBox="example2.fixedBox"
-  ></vue-cropper>
-  <button @click="getCropperImg">test</button>
-</div>
-
   </div>
 </template>
 
@@ -193,6 +199,7 @@
   import webStorage from 'webStorage'
   import sha1 from 'js-sha1'
   import VueCropper from 'vue-cropper'
+  import { mapState, mapActions } from 'vuex'
 
   export default {
     name: 'detailInfo',
@@ -244,7 +251,8 @@
           file: '',
         },
         example2: {
-          img: 'http://ofyaji162.bkt.clouddn.com/bg1.jpg',
+          // img: 'http://ofyaji162.bkt.clouddn.com/bg1.jpg',
+          img: '',
           // info: true,
           // size: 1,
           // outputType: 'jpeg',
@@ -260,6 +268,12 @@
         },
       }
     },
+    computed: {
+      ...mapState([
+        'user',
+        'userHead',
+      ]),
+    },
     watch: {
       '$route.query.view' (view) {
         this.activeViewName = view
@@ -270,11 +284,15 @@
       VueCropper,
     },
     methods: {
+      ...mapActions([
+        'ac_user',
+        'ac_userHead',
+      ]),
       handleTabsClick (tab, event) {
         // console.log(tab.name)
         this.$router.push({name: 'personal', params: {end: 'FE'}, query: {view: tab.name}})
       },
-      submitForm (formName) {
+      submitForm (formName) { // 基本信息
         this.$refs[formName].validate((valid) => {
           if (valid) {
             API.user.userModify(this.ruleForm, (da) => {
@@ -287,7 +305,7 @@
           }
         })
       },
-      submitForm2 (formName) {
+      submitForm2 (formName) { // 密码
         this.$refs[formName].validate((valid) => {
           if (valid) {
             API.login.resetPwd({
@@ -308,6 +326,7 @@
       getUserDetail (id) {
         API.user.userDetail({id: id}, (da) => {
           this.ruleForm = da.data
+          // this.example2.img = this.ruleForm.avatar
         })
       },
       areaSelectedOptionsHandleChange (value) {
@@ -327,6 +346,7 @@
         API.common.uploadFile({path: 'avatar', body: formData}, upImg => {
           if (upImg.status) {
             this.ruleForm.avatar = upImg.data.path
+            this.ac_userHead(upImg.data.url)
             API.user.userModify(this.ruleForm, (da) => {
               if (da.status) {
                 this.$message.success('保存成功')
@@ -356,7 +376,7 @@
         }
       },
 
-      uploadImg (e, num) {
+      uploadImg (e) {
         // 上传图片
         // this.option.img
         var file = e.target.files[0]
@@ -387,8 +407,23 @@
         })
         this.$refs.cropper2.getCropBlob((data) => {
           console.log('blob', data)
+          let formData = new FormData()
+          // formData.append('filename', files[0].name)
+          formData.append('file', data)
+          API.common.uploadFile({path: 'avatar', body: formData}, upImg => {
+            if (upImg.status) {
+              this.ruleForm.avatar = upImg.data.path
+              this.ac_userHead(upImg.data.url)
+              API.user.userModify(this.ruleForm, (da) => {
+                if (da.status) {
+                  this.$message.success('保存成功')
+                  this.getUserDetail(this.currentUser.id)
+                }
+              })
+            }
+          })
         })
-      }
+      },
     },
     created () {
       this.activeViewName = this.$route.query.view
@@ -433,16 +468,22 @@
     display: flex;
     .upload {
       width: 445px;
-      height: 394px;
+      height: 494px;
       border: 1px dashed $border-color;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       .up-link {
-        margin: $box-margin;
+        /*margin: $box-margin;*/
         color: $font-color-4;
         text-decoration: underline;
+        display: inline-block;
+        margin-right: 10px;
+      }
+      .up-cut-img {
+        margin: 10px;
+        display: inline-block;
       }
       .up-tips {
         font-size: 12px;

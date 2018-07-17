@@ -7,13 +7,14 @@
             borderColor: theme[themeIndex].leftMenuBarBorderButtonColor
      }">
       <div class="u-head">
-        <img v-if="userInfo.avatar" :src="userInfo.avatar" alt="" style="width: 50px;height: 50px;border-radius: 50px;">
+        <!--todo userHead 临时解决，接口支持再修改-->
+        <img v-if="user.avatar" :src="userHead || user.avatar" alt="" style="width: 50px;height: 50px;border-radius: 50px;">
         <img v-else src="../assets/icon/touxiang2.png" alt="">
       </div>
       <div class="u-text">
         <h4 class="username" :style="{color: theme[themeIndex].leftMenuBarUserTextColor}">
-          <el-tooltip class="item" effect="dark" :content="userInfo.name" placement="right">
-            <span>{{userInfo.name}}</span>
+          <el-tooltip class="item" effect="dark" :content="user.name" placement="right">
+            <span>{{user.name}}</span>
           </el-tooltip>
         </h4>
       </div>
@@ -220,6 +221,7 @@
       ]),
       ...mapState([
         'user',
+        'userHead',
       ]),
       serverUrl () {
         return serverUrl
@@ -235,6 +237,7 @@
     methods: {
       ...mapActions([
         'ac_user',
+        'ac_userHead',
       ]),
       handleOpen (key, keyPath) {
         console.log(key, keyPath)
