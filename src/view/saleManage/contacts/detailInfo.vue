@@ -118,7 +118,7 @@
 
             <p class="table-title">
               销售机会({{chanceTotal}})
-              <a class="more" v-if="chanceTotal > 5" @click="handleRoute('chance')">更多》</a>
+              <!--<a class="more" v-if="chanceTotal > 5" @click="handleRoute('chance')">更多》</a>-->
               <a class="table-add" @click="quickOperation('addChance')"><i class="el-icon-plus"></i>新增销售机会</a>
             </p>
             <table class="detail-table related-table">
@@ -145,7 +145,7 @@
 
             <p class="table-title">
               销售订单({{orderTotal}})
-              <a class="more" v-if="orderTotal > 5" @click="handleRoute('order')">更多》</a>
+              <!--<a class="more" v-if="orderTotal > 5" @click="handleRoute('order')">更多》</a>-->
               <a class="table-add" @click="quickOperation('addOrder')"><i class="el-icon-plus"></i>新增销售订单</a>
             </p>
             <table class="detail-table related-table">
@@ -298,27 +298,27 @@
         })
       },
       getChanceList (customerId) {
-        API.salesOpportunities.list({customerId: customerId, pageSize: 5}, (da) => {
+        API.salesOpportunities.listNoAuth({customerId: customerId, pageSize: 10000}, (da) => {
           this.chanceList = da.data.content
           this.chanceTotal = da.data.totalElements
         })
       },
       getOrderList (customerId) {
-        API.salesOrder.list({customerId: customerId, pageSize: 5}, (da) => {
+        API.salesOrder.listNoAuth({customerId: customerId, pageSize: 10000}, (da) => {
           this.orderList = da.data.content
           this.orderTotal = da.data.totalElements
         })
       },
       handleRoute (list) {
-        switch (list) {
+        switch (list) { // 相关列表和菜单列表权限不同，不能直接跳过去
           // case 'contact':
           //   this.$router.push({name: 'contactsList', query: {customerId: this.contactsDetail.customerId}})
           //   break
           case 'chance':
-            this.$router.push({name: 'salesOpportunitiesList', query: {customerId: this.contactsDetail.customerId}})
+            // this.$router.push({name: 'salesOpportunitiesList', query: {customerId: this.contactsDetail.customerId}})
             break
           case 'order':
-            this.$router.push({name: 'salesOrdersList', query: {customerId: this.contactsDetail.customerId}})
+            // this.$router.push({name: 'salesOrdersList', query: {customerId: this.contactsDetail.customerId}})
             break
         }
       },
