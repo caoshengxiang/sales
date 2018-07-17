@@ -129,6 +129,9 @@
   import comButton from '../../../components/button/comButton'
   import advancedSearch from './advancedSearch'
   import { underscoreName } from '../../../utils/utils'
+  import QS from 'qs'
+  import webStorage from 'webStorage'
+  import { serverUrl } from '../../../utils/const'
   // import moment from 'moment'
 
   export default {
@@ -213,8 +216,6 @@
         let link = document.createElement('a') // 创建事件对象
         let query = QS.stringify(Object.assign({}, this.defaultListParams, this.sortObj, null,
           {authKey: webStorage.getItem('userInfo').authKey}))
-        // console.log('下载参数：', query)
-        // alert(query)
         link.setAttribute('href', serverUrl + '/operateLog/export?' + query)
         link.setAttribute('download', '导出结算佣金')
         let event = document.createEvent('MouseEvents') // 初始化事件对象
