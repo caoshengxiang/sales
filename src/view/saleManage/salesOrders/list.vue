@@ -178,14 +178,10 @@
         <el-table-column
           align="center"
           sortable="custom"
-          prop="source"
+          prop="orderSourceName"
           label="订单来源"
           width="160"
           show-overflow-tooltip>
-          <template slot-scope="scope">
-            <span v-for="item in orderSource" :key="item.type"
-                  v-if="scope.row.source === item.type">{{item.value}}</span>
-          </template>
         </el-table-column>
         <el-table-column
           align="center"

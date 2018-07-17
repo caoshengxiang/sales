@@ -70,17 +70,17 @@
             </td>
           </tr>
           <tr>
-            <td class="td-title">客户来源</td>
+            <td class="td-title">需求来源</td>
             <td class="td-text" colspan="3">
               <el-cascader
                 style="width: 100%"
                 :change-on-select="selectLastLevelMode"
-                :options="customerSourceType"
-                v-model="customerSourceArr"
-                @active-item-change="customerSourceChangeHandle"
-                @change="customerSourceChangeHandle"
+                :options="orderSourceType"
+                v-model="orderSourceArr"
+                @active-item-change="orderSourceChangeHandle"
+                @change="orderSourceChangeHandle"
                 :props="props"
-                :placeholder="addForm.customerSourceName"
+                :placeholder="addForm.orderSourceName"
               >
               </el-cascader>
             </td>
@@ -122,7 +122,7 @@
           intentProductName: '',
           chanceRemark: '',
           pageSource: 1, // 公海添加机会，传2. 其他传1
-          customerSource: '',
+          orderSource: '',
         },
         customersList: [],
         salesState: [],
@@ -151,8 +151,8 @@
             // {required: true, message: '请输入需求描述', trigger: 'blur'},
           ],
         },
-        customerSourceType: [], // 客户来源
-        customerSourceArr: [],
+        orderSourceType: [], // 客户来源
+        orderSourceArr: [],
         props: {
           value: 'id',
           label: 'codeName',
@@ -251,25 +251,25 @@
               item.children = []
               return item
             })
-            if (this.customerSourceType.length === 0) {
-              // this.customerSourceType = arr
+            if (this.orderSourceType.length === 0) {
+              // this.orderSourceType = arr
               // 客户公池中列表及详情页面中的新增弹框均固定为调取公司资源，
               // 其他模块中新增调取销售自建，
               // 金钥匙微信端调取代理商并不让用户填写直接把字段传后台
-              this.customerSourceType = [{
+              this.orderSourceType = [{
                 codeName: '销售自建',
                 id: 28,
                 children: []
               }]
               // this.selectedBindValue.push(28)
-              this.customerSourceArr.push(28)
-              this.customerSourceChangeHandle([28]) // 默认获取第二级
+              this.orderSourceArr.push(28)
+              this.orderSourceChangeHandle([28]) // 默认获取第二级
             }
           }
         })
       },
-      customerSourceChangeHandle (va) {
-        this.getLastItem(this.customerSourceType, va, 'id')
+      orderSourceChangeHandle (va) {
+        this.getLastItem(this.orderSourceType, va, 'id')
         API.common.codeConfig({type: 5, pCode: va[va.length - 1]}, (data) => {
           // console.log('目标item:', this.targetObj)
           if (data.data.length) {
@@ -283,10 +283,10 @@
           }
         })
         console.log(va)
-        this.addForm.customerSource = va.join('-')
+        this.addForm.orderSource = va.join('-')
       },
-      // customerSourceChange (va) {
-      //   this.addForm.customerSource = va.join('-')
+      // orderSourceChange (va) {
+      //   this.addForm.orderSource = va.join('-')
       // },
       getLastItem (list, vals, key) { // 获取点击得目标对象, key 对应得 值vals 数组
         let LIST = list || []

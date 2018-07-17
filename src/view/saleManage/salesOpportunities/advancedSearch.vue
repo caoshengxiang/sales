@@ -38,10 +38,17 @@
           </el-col>
           <el-col :span="8">
             <el-form-item label="需求来源：">
-              <el-select v-model="searchForm.source" placeholder="请选择需求来源">
-                <el-option v-for="item in demandSource" :key="item.type" :label="item.value"
-                           :value="item.type"></el-option>
-              </el-select>
+              <el-cascader
+                style="width: 100%"
+                :change-on-select="selectLastLevelMode"
+                :options="orderSourceType"
+                v-model="orderSourceArr"
+                @active-item-change="orderSourceChangeHandle"
+                @change="orderSourceChangeHandle"
+                :props="props"
+                :placeholder="searchForm.orderSourceName"
+              >
+              </el-cascader>
             </el-form-item>
           </el-col>
         </el-row>
@@ -89,7 +96,7 @@
 </template>
 
 <script>
-  // import API from '../../../utils/api'
+  import API from '../../../utils/api'
 
   export default {
     name: 'advancedSearch',
@@ -109,6 +116,15 @@
           endIntentBillAmount: null,
         },
         timeInterval: '',
+        orderSourceType: [], // 客户来源
+        orderSourceArr: [],
+        props: {
+          value: 'id',
+          label: 'codeName',
+        },
+        targetObj: null,
+        // selectedBindValue: [],
+        selectLastLevelMode: true,
       }
     },
     props: ['params'],
@@ -131,10 +147,62 @@
         this.searchForm.startCreateDate = value[0] || ''
         this.searchForm.endCreateDate = value[1] || ''
       },
+      getConfigData (type, pCode) {
+        API.common.codeConfig({type: type, pCode: pCode}, (data) => {
+          if (type === 2) {
+            this.levelList = data.data
+          } else if (type === 3) {
+            this.industryList = data.data
+          } else if (type === 5) {
+            let arr = data.data.map((item) => {
+              item.children = []
+              return item
+            })
+            if (this.orderSourceType.length === 0) {
+              this.orderSourceType = arr
+            } else {
+
+            }
+          }
+        })
+      },
+      // orderSourceChange (va) {
+      //   this.searchForm.orderSource = va.join('-')
+      // },
+      orderSourceChangeHandle (va) {
+        this.getLastItem(this.orderSourceType, va, 'id')
+        API.common.codeConfig({type: 5, pCode: va[va.length - 1]}, (data) => {
+          if (data.data.length) {
+            let arr = data.data.map((item) => {
+              item.children = []
+              return item
+            })
+            this.targetObj.children = arr
+          } else {
+            this.targetObj.children = null
+          }
+        })
+        this.searchForm.orderSource = va.join('-')
+      },
+      getLastItem (list, vals, key) { // 获取点击得目标对象, key 对应得 值vals 数组
+        let LIST = list || []
+        // console.log(LIST, vals, key)
+        for (let item of LIST) {
+          if (item[key] === vals[vals.length - 1]) {
+            this.targetObj = item
+            this.selectedBindValue.push(item[key])
+            break
+          } else {
+            this.getLastItem(item.children, vals, key)
+          }
+        }
+      },
     },
     created () {
       this.salesState = this.params.salesState
       this.demandSource = this.params.demandSource
+      // 来源
+      this.getConfigData(5, 0)
     },
   }
 </script>
