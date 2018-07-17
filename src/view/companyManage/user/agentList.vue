@@ -246,7 +246,9 @@
           departmentId: '',
           organizationId:'',
         },
-        disabled:true
+        disabled:true,
+        userTotal:0,
+        userList:null
       }
     },
     computed: {
@@ -257,8 +259,6 @@
         'pagesOptions',
       ]),
       ...mapState('user', [
-        'userList',
-        'userTotal',
       ]),
     },
     components: {
@@ -396,25 +396,26 @@
         // alert(ids)
       },
       ...mapActions('user', [
-        'ac_userList',
       ]),
       getuserList (page, pageSize, type) { // 获取列表数据
+        var that= this
         let param = {
-          page: this.currentPage - 1,
-          pageSize: this.pagesOptions.pageSize,
+          page: that.currentPage - 1,
+          pageSize: that.pagesOptions.pageSize,
           type: 2, // 查询员工
-          departmentId: this.form.departmentId,
-          organizationId: this.form.organizationId,
+          departmentId: that.form.departmentId,
+          organizationId: that.form.organizationId,
         }
-        this.dataLoading = true
-        API.user.userList(Object.assign({}, param, this.sortObj, this.advancedSearch), (res) => {
-          this.ac_userList(res.data)
+        that.dataLoading = true
+        API.user.userList(Object.assign({}, param, that.sortObj, that.advancedSearch), (res) => {
+          that.userList = res.data.content
+          that.userTotal = res.data.totalElements
           setTimeout(() => {
-            this.dataLoading = false
+            that.dataLoading = false
           }, 300)
         }, (mock) => {
-          this.ac_userList(mock.data)
-          this.dataLoading = false
+          that.ac_userList(mock.data)
+          that.dataLoading = false
         })
       },
       searchHandle () {
