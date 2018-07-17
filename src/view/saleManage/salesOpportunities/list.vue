@@ -149,14 +149,14 @@
         <el-table-column
           align="center"
           sortable="custom"
-          prop="source"
+          prop="sourceName"
           label="需求来源"
           width="160"
           show-overflow-tooltip>
-          <template slot-scope="scope">
-            <span v-for="item in demandSource" :key="item.type"
-                  v-if="item.type === scope.row.source">{{item.value}}</span>
-          </template>
+          <!--<template slot-scope="scope">-->
+            <!--<span v-for="item in demandSource" :key="item.type"-->
+                  <!--v-if="item.type === scope.row.source">{{item.value}}</span>-->
+          <!--</template>-->
         </el-table-column>
         <el-table-column
           align="center"

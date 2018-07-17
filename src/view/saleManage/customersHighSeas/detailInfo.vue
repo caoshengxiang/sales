@@ -155,7 +155,7 @@
             <p class="table-title">
               联系人({{contactTotal}})
               <!--<a class="more" v-if="contactTotal > 5" @click="handleRoute('contact')">更多》</a>-->
-              <a class="table-add" @click="quickOperation('addContact')" v-if="isFollower || isCreater">><i class="el-icon-plus"></i>新增联系人</a>
+              <a class="table-add" @click="quickOperation('addContact')" v-if="isFollower || isCreater"><i class="el-icon-plus"></i>新增联系人</a>
             </p>
             <table class="detail-table related-table">
               <tr>

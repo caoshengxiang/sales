@@ -66,12 +66,13 @@
               <!--:value="item.type"></el-option>-->
               <!--</el-select>-->
               <el-cascader
-                :change-on-select="false"
+                :change-on-select="selectLastLevelMode"
                 :options="customerSourceType"
                 v-model="customerSourceArr"
                 @active-item-change="customerSourceChangeHandle"
-                @change="customerSourceChange"
+                @change="customerSourceChangeHandle"
                 :props="props"
+                :value="selectedBindValue"
               >
               </el-cascader>
             </el-form-item>
@@ -143,6 +144,8 @@
           label: 'codeName',
         },
         targetObj: null,
+        selectedBindValue: [],
+        selectLastLevelMode: true,
       }
     },
     props: ['params'],
@@ -169,14 +172,12 @@
           }
         })
       },
-      customerSourceChange (va) {
-        this.searchForm.customerSource = va.join('-')
-      },
+      // customerSourceChange (va) {
+      //   this.searchForm.customerSource = va.join('-')
+      // },
       customerSourceChangeHandle (va) {
-        // console.log(va)
         this.getLastItem(this.customerSourceType, va, 'id')
         API.common.codeConfig({type: 5, pCode: va[va.length - 1]}, (data) => {
-          // console.log('目标item:', this.targetObj)
           if (data.data.length) {
             let arr = data.data.map((item) => {
               item.children = []
@@ -187,6 +188,7 @@
             this.targetObj.children = null
           }
         })
+        this.searchForm.customerSource = va.join('-')
       },
       getLastItem (list, vals, key) { // 获取点击得目标对象, key 对应得 值vals 数组
         let LIST = list || []
@@ -194,6 +196,7 @@
         for (let item of LIST) {
           if (item[key] === vals[vals.length - 1]) {
             this.targetObj = item
+            this.selectedBindValue.push(item[key])
             break
           } else {
             this.getLastItem(item.children, vals, key)

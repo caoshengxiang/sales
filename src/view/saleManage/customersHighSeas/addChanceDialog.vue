@@ -70,6 +70,22 @@
             </td>
           </tr>
           <tr>
+            <td class="td-title">客户来源</td>
+            <td class="td-text" colspan="3">
+              <el-cascader
+                style="width: 100%"
+                :change-on-select="selectLastLevelMode"
+                :options="customerSourceType"
+                v-model="customerSourceArr"
+                @active-item-change="customerSourceChangeHandle"
+                @change="customerSourceChangeHandle"
+                :props="props"
+                :placeholder="addForm.customerSourceName"
+              >
+              </el-cascader>
+            </td>
+          </tr>
+          <tr>
             <td class="td-title">需求描述</td>
             <td class="td-text" colspan="3">
               <el-form-item prop="chanceRemark">
@@ -106,6 +122,7 @@
           intentProductName: '',
           chanceRemark: '',
           pageSource: 1, // 公海添加机会，传2. 其他传1
+          customerSource: '',
         },
         customersList: [],
         salesState: [],
@@ -134,6 +151,15 @@
             // {required: true, message: '请输入需求描述', trigger: 'blur'},
           ],
         },
+        customerSourceType: [], // 客户来源
+        customerSourceArr: [],
+        props: {
+          value: 'id',
+          label: 'codeName',
+        },
+        targetObj: null,
+        // selectedBindValue: [],
+        selectLastLevelMode: true,
       }
     },
     props: ['params'],
@@ -214,6 +240,67 @@
           }
         })
       },
+      getConfigData (type, pCode) {
+        API.common.codeConfig({type: type, pCode: pCode}, (data) => {
+          if (type === 2) {
+            this.levelList = data.data
+          } else if (type === 3) {
+            this.industryList = data.data
+          } else if (type === 5) {
+            let arr = data.data.map((item) => {
+              item.children = []
+              return item
+            })
+            if (this.customerSourceType.length === 0) {
+              // this.customerSourceType = arr
+              // 客户公池中列表及详情页面中的新增弹框均固定为调取公司资源，
+              // 其他模块中新增调取销售自建，
+              // 金钥匙微信端调取代理商并不让用户填写直接把字段传后台
+              this.customerSourceType = [{
+                codeName: '公司资源',
+                id: 33,
+                children: []
+              }]
+              // this.selectedBindValue.push(33)
+              this.customerSourceArr.push(33)
+              this.customerSourceChangeHandle([33]) // 默认获取第二级
+            }
+          }
+        })
+      },
+      customerSourceChangeHandle (va) {
+        this.getLastItem(this.customerSourceType, va, 'id')
+        API.common.codeConfig({type: 5, pCode: va[va.length - 1]}, (data) => {
+          // console.log('目标item:', this.targetObj)
+          if (data.data.length) {
+            let arr = data.data.map((item) => {
+              item.children = []
+              return item
+            })
+            this.targetObj.children = arr
+          } else {
+            this.targetObj.children = null
+          }
+        })
+        console.log(va)
+        this.addForm.customerSource = va.join('-')
+      },
+      // customerSourceChange (va) {
+      //   this.addForm.customerSource = va.join('-')
+      // },
+      getLastItem (list, vals, key) { // 获取点击得目标对象, key 对应得 值vals 数组
+        let LIST = list || []
+        // console.log(LIST, vals, key)
+        for (let item of LIST) {
+          if (item[key] === vals[vals.length - 1]) {
+            this.targetObj = item
+            // this.selectedBindValue.push(item[key])
+            break
+          } else {
+            this.getLastItem(item.children, vals, key)
+          }
+        }
+      },
     },
     created () {
       this.getCustomersList()
@@ -230,6 +317,9 @@
       if (this.params.detailCustomersId) { // 详细页面的添加, 并禁用下拉列表
         this.addForm.customerId = this.params.detailCustomersId
       }
+
+      // 来源
+      this.getConfigData(5, 0)
     },
   }
 </script>

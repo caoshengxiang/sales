@@ -263,7 +263,7 @@
             this.$vDialog.modal(addDialog, {
               title: '添加客户',
               width: 900,
-              height: 410,
+              height: 460,
               params: {
                 customerAddSource: this.customerAddSource,
                 pageSource: 2, // 1:客户管理模块 2:客户公海模块

@@ -49,17 +49,6 @@
             <td class="td-text">
               <!--<input type="text">-->
               <el-form-item prop="provinceId">
-                <!--<el-cascader
-                  placeholder="请选择客户地区"
-                  :options="areaOptionsData"
-                  v-model="areaSelectedOptions"
-                  @active-item-change="handleAreaItemChange"
-                  @change="areaSelectedOptionsHandleChange"
-                  :props="{
-                    value: 'id',
-                    label: 'name',
-                  }">
-                </el-cascader>-->
                 <AreaSelect ref="areaSe"
                             :area="(addForm.provinceName?addForm.provinceName:'') + ' ' + (addForm.cityName?addForm.cityName:'')  + ' ' + (addForm.areaName?addForm.areaName:'')"
                             @change="areaSelectedOptionsHandleChange"
@@ -94,12 +83,13 @@
             <td class="td-text" colspan="5">
               <el-cascader
                 style="width: 100%"
-                :change-on-select="false"
+                :change-on-select="selectLastLevelMode"
                 :options="customerSourceType"
                 v-model="customerSourceArr"
                 @active-item-change="customerSourceChangeHandle"
-                @change="customerSourceChange"
+                @change="customerSourceChangeHandle"
                 :props="props"
+                :placeholder="addForm.customerSourceName"
               >
               </el-cascader>
             </td>
@@ -215,6 +205,8 @@
           label: 'codeName',
         },
         targetObj: null,
+        // selectedBindValue: [],
+        selectLastLevelMode: true,
       }
     },
     props: ['params'],
@@ -323,15 +315,23 @@
               return item
             })
             if (this.customerSourceType.length === 0) {
-              this.customerSourceType = arr
-            } else {
-
+              // this.customerSourceType = arr
+              // 客户公池中列表及详情页面中的新增弹框均固定为调取公司资源，
+              // 其他模块中新增调取销售自建，
+              // 金钥匙微信端调取代理商并不让用户填写直接把字段传后台
+              this.customerSourceType = [{
+                codeName: '公司资源',
+                id: 33,
+                children: []
+              }]
+              // this.selectedBindValue.push(33)
+              this.customerSourceArr.push(33)
+              this.customerSourceChangeHandle([33]) // 默认获取第二级
             }
           }
         })
       },
       customerSourceChangeHandle (va) {
-        // console.log(va)
         this.getLastItem(this.customerSourceType, va, 'id')
         API.common.codeConfig({type: 5, pCode: va[va.length - 1]}, (data) => {
           // console.log('目标item:', this.targetObj)
@@ -345,16 +345,19 @@
             this.targetObj.children = null
           }
         })
-      },
-      customerSourceChange (va) {
+        console.log(va)
         this.addForm.customerSource = va.join('-')
       },
+      // customerSourceChange (va) {
+      //   this.addForm.customerSource = va.join('-')
+      // },
       getLastItem (list, vals, key) { // 获取点击得目标对象, key 对应得 值vals 数组
         let LIST = list || []
         // console.log(LIST, vals, key)
         for (let item of LIST) {
           if (item[key] === vals[vals.length - 1]) {
             this.targetObj = item
+            // this.selectedBindValue.push(item[key])
             break
           } else {
             this.getLastItem(item.children, vals, key)

@@ -6,7 +6,7 @@
             backgroundColor: theme[themeIndex].leftMenuBarBg,
             borderColor: theme[themeIndex].leftMenuBarBorderButtonColor
      }">
-      <div class="u-head" >
+      <div class="u-head">
         <img v-if="userInfo.avatar" :src="userInfo.avatar" alt="" style="width: 50px;height: 50px;border-radius: 50px;">
         <img v-else src="../assets/icon/touxiang2.png" alt="">
       </div>
@@ -189,7 +189,7 @@
 </template>
 
 <script>
-  import { mapState } from 'vuex'
+  import { mapState, mapActions } from 'vuex'
   import utils from '../utils/utils'
   import { serverUrl } from '../utils/const'
   // import webStorage from 'webStorage'
@@ -218,6 +218,9 @@
         'theme',
         'themeIndex',
       ]),
+      ...mapState([
+        'user',
+      ]),
       serverUrl () {
         return serverUrl
       },
@@ -225,10 +228,14 @@
     created () {
       this.userInfo = utils.loginExamine(this)
       this.menus = this.userInfo.menus
+      this.ac_user(this.userInfo)
       // console.log('tetssss', this.listPermissions(this.menus, 'salerHome')) // 测试权限方法
       this.defaultActiveIndex = this.$route.name // 首次进入，或刷新菜单获取active【注意：defaultActiveIndex是path不是name,所以定义路由的时候path名和name名写成一样的】
     },
     methods: {
+      ...mapActions([
+        'ac_user',
+      ]),
       handleOpen (key, keyPath) {
         console.log(key, keyPath)
       },
@@ -286,7 +293,7 @@
           display: inline-block;
           width: 70px;
           overflow: hidden;
-          text-overflow:ellipsis;
+          text-overflow: ellipsis;
           white-space: nowrap;
         }
       }

@@ -86,6 +86,23 @@
             </td>
           </tr>
           <tr>
+            <td class="td-title">客户来源</td>
+            <td class="td-text" colspan="3">
+              <el-cascader
+                :disabled="(addForm.chanceId || params.fromChance)?true:false"
+                style="width: 100%"
+                :change-on-select="selectLastLevelMode"
+                :options="customerSourceType"
+                v-model="customerSourceArr"
+                @active-item-change="customerSourceChangeHandle"
+                @change="customerSourceChangeHandle"
+                :props="props"
+                :placeholder="addForm.customerSourceName"
+              >
+              </el-cascader>
+            </td>
+          </tr>
+          <tr>
             <td class="td-title">订单备注</td>
             <td class="td-text" colspan="3">
               <el-form-item prop="remark">
@@ -130,6 +147,8 @@
           contractSubjectId: '',
           quantity: '',
           remark: '',
+          customerSource: '',
+          // customerSourceName: ''
         },
         orderState: null,
         rules: {
@@ -158,6 +177,15 @@
             // {required: true, message: '请输入备注', trigger: 'blur'},
           ],
         },
+        customerSourceType: [], // 客户来源
+        customerSourceArr: [],
+        props: {
+          value: 'id',
+          label: 'codeName',
+        },
+        targetObj: null,
+        // selectedBindValue: [],
+        selectLastLevelMode: true,
       }
     },
     props: ['params'],
@@ -253,6 +281,9 @@
             this.getProductsList(item.intentProductId)
             // 对应的签约主体
             this.getContractSubjects(item.intentProductId)
+            // 重置来源
+            this.customerSourceArr = []
+            this.addForm.customerSourceName = item.customerSourceName || ''
           }
         })
       },
@@ -298,6 +329,68 @@
           remark: '',
         }
       },
+      getConfigData (type, pCode) {
+        API.common.codeConfig({type: type, pCode: pCode}, (data) => {
+          if (type === 2) {
+            this.levelList = data.data
+          } else if (type === 3) {
+            this.industryList = data.data
+          } else if (type === 5) {
+            let arr = data.data.map((item) => {
+              item.children = []
+              return item
+            })
+            if (this.customerSourceType.length === 0) {
+              // this.customerSourceType = arr
+              // 客户公池中列表及详情页面中的新增弹框均固定为调取公司资源，
+              // 其他模块中新增调取销售自建，
+              // 金钥匙微信端调取代理商并不让用户填写直接把字段传后台
+              this.customerSourceType = [
+                {
+                  codeName: '销售自建',
+                  id: 28,
+                  children: [],
+                }]
+              // this.selectedBindValue.push(28)
+              this.customerSourceArr.push(28)
+              this.customerSourceChangeHandle([28]) // 默认获取第二级
+            }
+          }
+        })
+      },
+      customerSourceChangeHandle (va) {
+        this.getLastItem(this.customerSourceType, va, 'id')
+        API.common.codeConfig({type: 5, pCode: va[va.length - 1]}, (data) => {
+          // console.log('目标item:', this.targetObj)
+          if (data.data.length) {
+            let arr = data.data.map((item) => {
+              item.children = []
+              return item
+            })
+            this.targetObj.children = arr
+          } else {
+            this.targetObj.children = null
+          }
+        })
+        console.log(va)
+        this.addForm.customerSource = va.join('-')
+      },
+      // customerSourceChange (va) {
+      //   this.addForm.customerSource = va.join('-')
+      // },
+      getLastItem (list, vals, key) { // 获取点击得目标对象, key 对应得 值vals 数组
+        let LIST = list || []
+        // console.log(LIST, vals, key)
+        for (let item of LIST) {
+          if (item[key] === vals[vals.length - 1]) {
+            this.targetObj = item
+            // this.selectedBindValue.push(item[key])
+            break
+          } else {
+            this.getLastItem(item.children, vals, key)
+          }
+        }
+      },
     },
     created () {
       this.getCustomersList()
@@ -315,6 +408,9 @@
         this.getChanceList(this.params.detailCustomersId)
         this.getContactList(this.params.detailCustomersId)
       }
+
+      // 来源
+      this.getConfigData(5, 0)
     },
   }
 </script>

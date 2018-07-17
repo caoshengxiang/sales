@@ -98,6 +98,7 @@
   import API from '../../utils/api'
   import sha1 from 'js-sha1'
   import webStorage from 'webStorage'
+  import { mapState, mapActions } from 'vuex'
 
   export default {
     name: 'signIn',
@@ -122,6 +123,11 @@
         },
       }
     },
+    computed: {
+      ...mapState([
+        'user',
+      ]),
+    },
     watch: {
       client (d) {
         webStorage.setItem('client', d)
@@ -132,6 +138,9 @@
       meElement,
     },
     methods: {
+      ...mapActions([
+        'ac_user',
+      ]),
       // 设置cookie
       /* eslint-disable */
       setCookie (c_name, c_pwd, c_isRemember, exdays) {
@@ -179,6 +188,7 @@
               this.loading = false
               if (res.status) {
                 webStorage.setItem('userInfo', res.data)
+                this.ac_user(res.data)
                 if (this.client === 1) {
                   this.$router.push({name: 'saleHome', params: {end: this.clientPathParam}})
                 } else {
