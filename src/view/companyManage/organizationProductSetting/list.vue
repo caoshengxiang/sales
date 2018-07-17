@@ -37,7 +37,7 @@
           <div class="role-head-con">
             描述：<span style="padding-right: 10px;">{{roleDetail.name}}</span>
           </div>
-          <div class="role-view-con">
+          <div class="com-box com-box-padding com-list-box">
             <el-table
               border
               tooltip-effect="dark"
@@ -73,6 +73,18 @@
               </el-table-column>
             </el-table>
           </div>
+          <div class="com-pages-box">
+            <el-pagination
+              background
+              :total="totles"
+              @size-change="handleSizeChange"
+              @current-change="handleCurrentChange"
+              :current-page="currentPage"
+              :layout="pagesOptions.layout"
+              :page-sizes="pagesOptions.pageSizes"
+              :page-size="pagesOptions.pageSize">
+            </el-pagination>
+          </div>
         </el-col>
       </el-row>
     </div>
@@ -84,11 +96,13 @@
   import API from '../../../utils/api'
   import add from './add'
   import { Message } from 'element-ui'
+  import { mapState, mapActions } from 'vuex'
 
   export default {
     name: 'roleList',
     data () {
       return {
+        totles:0,
         loading: false,
         roleList: [],
         roleDefaultIndex: '1',
@@ -99,7 +113,13 @@
         allorganization: [],
         organizationIndex: '1',
         goodsConfs: [],
+        currentPage: 1, // 当前页
       }
+    },
+    computed: {
+      ...mapState('constData', [
+        'pagesOptions',
+      ]),
     },
     components: {
       comButton,
@@ -196,18 +216,31 @@
           },
         })
       },
+      handleSizeChange (val) {
+      },
+      handleCurrentChange (val) {
+        this.currentPage = val
+        this.getRoleDetail(this.roleDefaultIndex)
+      },
       selectRole (index) {
         var that = this
+        this.currentPage = 1
         that.$options.methods.getRoleDetail.bind(that)(index)
       },
       getRoleDetail (id) {
         var that = this
         that.roleDefaultIndex = id.toString()
         that.loading = true
-        API.baseSetting.getOrganizationGoodsConf({id: id}, function (res) {
+        let params = {
+          page: this.currentPage - 1,
+          pageSize: this.pagesOptions.pageSize,
+          organizationId: id,
+        }
+        API.baseSetting.getOrganizationGoodsConf(params, function (res) {
           that.loading = false
           if (res.status) {
             that.roleDetail = res.data.content
+            that.totles = res.data.totalElements
           } else {
             Message({
               message: res.error.message,
@@ -281,6 +314,7 @@
           obj.id = that.roleDetail[i].id
           obj.beContractSubject = that.roleDetail[i].beContractSubject
           obj.saleable = that.roleDetail[i].saleable
+          obj.organizationId = this.roleDefaultIndex
           that.goodsConfs.push(obj)
         }
         API.baseSetting.saveOrganizationGoodsConf({goodsConfs: this.goodsConfs}, function (resData) {

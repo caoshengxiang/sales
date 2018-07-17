@@ -31,7 +31,7 @@
         <com-button buttonType="search" @click="advancedSearchHandle" style="">高级搜索</com-button>
       </div>
       <div class="com-bar-right" style="float: right">
-        <el-select v-model.number="form.organizationId" @change="selectedOptionsHandleChange" placeholder="请选择人员组织">
+        <el-select v-model.number="form.organizationId"   :disabled="disabled" @change="selectedOptionsHandleChange" placeholder="请选择代理商组织">
           <el-option
             v-for="item in allorganization"
             :key="item.id"
@@ -41,7 +41,7 @@
           </el-option>
         </el-select>
         <el-cascader
-          placeholder="请选择人员部门"
+          placeholder="请选择代理商部门"
           :change-on-select="true"
           :options="alldepartments"
           v-model="selectedOptions"
@@ -244,8 +244,9 @@
         },
         form: { // 添加用户表单
           departmentId: '',
-          organizationId: '',
+          organizationId:'',
         },
+        disabled:true
       }
     },
     computed: {
@@ -276,6 +277,14 @@
       }
       API.organization.queryAllList(params, (res) => {
         this.allorganization = res.data
+        if(this.allorganization.find((n) => n.name === "代理商组织") == undefined){
+          this.$message({
+            message: '当前没有设置名称为"代理商组织"的组织！',
+            type: 'fail',
+          })
+        }
+        this.form.organizationId = this.allorganization.find((n) => n.name === "代理商组织").id
+        this.selectedOptionsHandleChange()
       }, (mock) => {
         this.alldepartments = mock.data
         this.dataLoading = false
@@ -325,14 +334,15 @@
       selecteddptHandleChange (value) {
         this.form.departmentId = value[value.length - 1] // 取当前选中的部门
       },
-      selectedOptionsHandleChange (value) {
+      selectedOptionsHandleChange () {
         var that = this
         // this.form.organizationId =value[value.length -1] // 取当前选中的组织
         let depparams = {
           page: 1,
           pageSize: 999,
         }
-        depparams.id = value
+        alert(that.form.organizationId)
+        depparams.id = that.form.organizationId
         depparams.type = 2 // 查询出部门
         API.organization.queryList(depparams, (res) => {
           that.alldepartments = res.data

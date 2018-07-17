@@ -31,7 +31,7 @@
             <td class="td-title">人员组织</td>
             <td class="td-text">
               <el-form-item prop="organizationId">
-                <el-select v-model.number="form.organizationId" @change="selectedOptionsHandleChange"
+                <el-select v-model.number="form.organizationId" :disabled="update === 'update' ?true:false"  @change="selectedOptionsHandleChange"
                            placeholder="请选择人员组织">
                   <el-option
                     v-for="item in allorganization"
