@@ -255,7 +255,6 @@
         for (let item of LIST) {
           if (item[key] === vals[vals.length - 1]) {
             this.targetObj = item
-            this.selectedBindValue.push(item[key])
             break
           } else {
             this.getLastItem(item.children, vals, key)

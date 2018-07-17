@@ -148,7 +148,6 @@
           show-overflow-tooltip
           align="center"
           prop="customerSourceName"
-          sortable="custom"
           label="客户来源"
           width="160">
         </el-table-column>
