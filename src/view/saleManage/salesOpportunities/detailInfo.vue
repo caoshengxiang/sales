@@ -102,6 +102,10 @@
                 <td colspan="5">{{salesOpportunitiesDetail.chanceRemark || '暂无备注信息'}}</td>
               </tr>
               <tr>
+                <td class="td-title">需求来源</td>
+                <td colspan="5">{{salesOpportunitiesDetail.chanceSourceName}}</td>
+              </tr>
+              <tr>
                 <td class="td-title">销售合同网址</td>
                 <!--<td colspan="5">{{salesOpportunitiesDetail.contractUrl}}</td>-->
                 <td colspan="5">
