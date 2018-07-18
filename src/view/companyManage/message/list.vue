@@ -223,8 +223,12 @@
       handleCurrentChange (val) {
         console.log(`当前页: ${val}`)
       },
-      handleRouter (name,id) {
-        this.$router.push({name: 'messageDetail', params: {end: 'ME'}, query: {view: name,id: id}})
+      handleRouter (name, id) {
+        API.message.msgRead({ids: id}, (da) => { // 先标记为已读
+          if (da.data > 0) {
+            this.$router.push({name: 'messageDetail', params: {end: 'ME'}, query: {view: name, id: id}})
+          }
+        })
       },
     },
   }
