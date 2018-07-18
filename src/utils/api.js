@@ -1010,6 +1010,26 @@ export default {
         error && error(err)
       })
     },
+    chanceDetail (params, success, error) { // 审批销售机会
+      $axios({
+        method: 'get',
+        url: 'approval/salerChance',
+        params: params,
+      }).then(res => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+    },
+    customerDetail (params, success, error) { // 审批客户
+      $axios.get('approval/customer', {
+        params: params,
+      }).then((res) => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+    },
   },
   baseSetting: {
     getProductType (params, success, error) {
@@ -1401,7 +1421,7 @@ export default {
         }, 1000)
       })
     },
-    messageList(params, success, error){
+    messageList (params, success, error) {
       $axios.get('message/notice', {
         params: params,
       }).then(res => {
@@ -1465,7 +1485,7 @@ export default {
     },
   },
   syslog: {
-    logList(params, success, error){
+    logList (params, success, error) {
       $axios.get('operateLog', {
         params: params,
       }).then(res => {

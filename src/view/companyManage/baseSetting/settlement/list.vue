@@ -206,6 +206,8 @@
                 <td></td>
               </tr>
             </table>
+
+            <el-input style="width: 102px" type="number" min="0" max="1" step="0.01" v-model.number="testNum"></el-input>
             <div class="btn-group">
               <el-button type="primary" style="width: 100px">保存</el-button>
             </div>
@@ -227,6 +229,7 @@
     name: 'list',
     data () {
       return {
+        testNum: 0,
         tableData: [],
         settlementForm: {
           dayOfGenerateRebate: 1,
@@ -317,7 +320,11 @@
         this.cptSaleCommissionConfig.forEach(arr => {
           param = param.concat(arr)
         })
-        // console.log(param)
+        param.forEach(item => { // 防止输入空
+          if (!item.commissionPercent) {
+            item.commissionPercent = 0
+          }
+        })
         API.common.saveSaleCommissionConfig({commissionConfigs: param}, (resData) => {
           this.loading = false
           if (resData.status) {

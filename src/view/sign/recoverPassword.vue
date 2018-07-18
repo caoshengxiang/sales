@@ -12,15 +12,15 @@
             <span class="code" v-if="time === 0" @click="getCode">获取验证码</span>
             <span class="code time" v-else>重新发送({{time}})</span>
           </el-form-item>
+          <el-form-item label="" prop="authCode">
+            <el-input type="number" v-model="formData.authCode" placeholder="请输入您收到的验证码"></el-input>
+          </el-form-item>
           <el-form-item label="" prop="newPwd">
             <el-input v-model="formData.newPwd" type="password" auto-complete="off" placeholder="请输入8-12新密码"></el-input>
           </el-form-item>
           <el-form-item label="" prop="password2">
             <el-input v-model="formData.password2" type="password" auto-complete="off"
                       placeholder="请再次输入新密码"></el-input>
-          </el-form-item>
-          <el-form-item label="" prop="authCode">
-            <el-input type="number" v-model="formData.authCode" placeholder="请输入您收到的验证码"></el-input>
           </el-form-item>
 
           <el-form-item>
@@ -105,7 +105,7 @@
           if (valid) {
             API.login.recoverPwd(Object.assign({
               client: webStorage.getItem('client'),
-              account: sha1(this.formData.account),
+              account: this.formData.account,
               newPwd: sha1(this.formData.newPwd),
               authCode: this.formData.authCode,
             }), da => {

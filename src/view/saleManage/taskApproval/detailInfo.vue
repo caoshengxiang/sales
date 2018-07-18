@@ -233,10 +233,9 @@
             that.detailInfo = res.data
             that.detailInfo.publishTime = moment(that.detailInfo.publishTime).format('YYYY-MM-DD HH:mm:ss')
             that.detailInfo.deadline = moment(that.detailInfo.deadline).format('YYYY-MM-DD HH:mm:ss')
-
-            API.salesOpportunities.detail(that.detailInfo.chanceId, (data) => {
+            API.task.chanceDetail({chanceId: that.detailInfo.chanceId}, (data) => {
               that.salesOpportunitiesDetail = data.data
-              API.customer.detail({id: that.salesOpportunitiesDetail.customerId}, (data) => {
+              API.task.customerDetail({customerId: that.salesOpportunitiesDetail.customerId}, (data) => {
                 that.customerDetail = data.data
                 setTimeout(() => {
                   this.dataLoading = false
