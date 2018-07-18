@@ -177,6 +177,13 @@
       that.$options.methods.init.bind(that)()
     },
     methods: {
+      handleSizeChange (val) {
+        console.log(`每页 ${val} 条`)
+      },
+      handleCurrentChange (val) {
+        this.currentPage = val
+        this.init()
+      },
       sortChangeHandle (sortObj) {
         let order = null
         if (sortObj.order === 'ascending') {
