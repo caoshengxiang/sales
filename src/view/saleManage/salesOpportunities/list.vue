@@ -148,8 +148,7 @@
         </el-table-column>
         <el-table-column
           align="center"
-          sortable="custom"
-          prop="orderSourceName"
+          prop="chanceSourceName"
           label="需求来源"
           width="160"
           show-overflow-tooltip>

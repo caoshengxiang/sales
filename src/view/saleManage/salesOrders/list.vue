@@ -177,7 +177,6 @@
         </el-table-column>
         <el-table-column
           align="center"
-          sortable="custom"
           prop="orderSourceName"
           label="订单来源"
           width="160"
@@ -311,7 +310,7 @@
             this.$vDialog.modal(addDialog, {
               title: '添加订单',
               width: 900,
-              height: 380,
+              height: 480,
               params: {
                 // id: '123456',
               },

@@ -41,12 +41,12 @@
               <el-cascader
                 style="width: 100%"
                 :change-on-select="selectLastLevelMode"
-                :options="orderSourceType"
-                v-model="orderSourceArr"
-                @active-item-change="orderSourceChangeHandle"
-                @change="orderSourceChangeHandle"
+                :options="chanceSourceType"
+                v-model="chanceSourceArr"
+                @active-item-change="chanceSourceChangeHandle"
+                @change="chanceSourceChangeHandle"
                 :props="props"
-                :placeholder="searchForm.orderSourceName"
+                :placeholder="searchForm.chanceSourceName"
               >
               </el-cascader>
             </el-form-item>
@@ -116,8 +116,8 @@
           endIntentBillAmount: null,
         },
         timeInterval: '',
-        orderSourceType: [], // 客户来源
-        orderSourceArr: [],
+        chanceSourceType: [], // 客户来源
+        chanceSourceArr: [],
         props: {
           value: 'id',
           label: 'codeName',
@@ -158,19 +158,19 @@
               item.children = []
               return item
             })
-            if (this.orderSourceType.length === 0) {
-              this.orderSourceType = arr
+            if (this.chanceSourceType.length === 0) {
+              this.chanceSourceType = arr
             } else {
 
             }
           }
         })
       },
-      // orderSourceChange (va) {
-      //   this.searchForm.orderSource = va.join('-')
+      // chanceSourceChange (va) {
+      //   this.searchForm.chanceSource = va.join('-')
       // },
-      orderSourceChangeHandle (va) {
-        this.getLastItem(this.orderSourceType, va, 'id')
+      chanceSourceChangeHandle (va) {
+        this.getLastItem(this.chanceSourceType, va, 'id')
         API.common.codeConfig({type: 5, pCode: va[va.length - 1]}, (data) => {
           if (data.data.length) {
             let arr = data.data.map((item) => {
@@ -182,7 +182,7 @@
             this.targetObj.children = null
           }
         })
-        this.searchForm.orderSource = va.join('-')
+        this.searchForm.chanceSource = va.join('-')
       },
       getLastItem (list, vals, key) { // 获取点击得目标对象, key 对应得 值vals 数组
         let LIST = list || []
@@ -190,7 +190,7 @@
         for (let item of LIST) {
           if (item[key] === vals[vals.length - 1]) {
             this.targetObj = item
-            this.selectedBindValue.push(item[key])
+            // this.selectedBindValue.push(item[key])
             break
           } else {
             this.getLastItem(item.children, vals, key)

@@ -20,15 +20,15 @@
         <img class="com-info-img" src="../../../assets/icon/company.png" alt="">
         <div class="com-info-text">
           <div>
-            <h3 style="display: inline-block">成都凡特塞科技有限公司</h3>
+            <h3 style="display: inline-block">{{orderDetail.customerName}}</h3>
             <a class="order-info" @click="operateOptions('orderInfo')">APP订单信息浏览</a>
           </div>
           <p>
             <span class="com-d-item">订单编号: <span>{{orderDetail.id}}<span v-if="orderDetail.orderId">-{{orderDetail.orderId}}</span></span></span>
-            <span class="com-d-item">客户所有人: <span>{{orderDetail.customerName}}</span></span>
+            <span class="com-d-item">客户所有人: <span>{{orderDetail.customerOwnerName}}</span></span>
             <span class="com-d-item">订单状态:<span v-for="item in orderState" :key="item.type"
                                                 v-if="orderDetail.orderState === item.type">{{item.value}}</span></span>
-            <span class="com-d-item">订单所有人: <span>{{orderDetail.team.creatorName}}</span></span>
+            <span class="com-d-item">订单所有人: <span>{{orderDetail.ownerName}}</span></span>
           </p>
         </div>
       </div>
@@ -83,6 +83,10 @@
                 <td>{{orderDetail.refund_amount}}</td>
                 <td class="td-title">待回款金额</td>
                 <td>{{orderDetail.not_refund_amount}}</td>
+              </tr>
+              <tr>
+                <td class="td-title">订单来源</td>
+                <td colspan="5">{{orderDetail.orderSourceName}}</td>
               </tr>
               <tr>
                 <td class="td-title">订单备注</td>

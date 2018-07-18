@@ -142,7 +142,7 @@
 
             <p class="table-title">
               联系人({{contactTotal}})
-              <a class="more" v-if="contactTotal > 5" @click="handleRoute('contact')">更多》</a>
+              <!--<a class="more" v-if="contactTotal > 5" @click="handleRoute('contact')">更多》</a>-->
               <a class="table-add" @click="quickOperation('addContact')"><i class="el-icon-plus"></i>新增联系人</a>
             </p>
             <table class="detail-table related-table">
@@ -166,7 +166,7 @@
 
             <p class="table-title">
               销售机会({{chanceTotal}})
-              <a class="more" v-if="chanceTotal > 5" @click="handleRoute('chance')">更多》</a>
+              <!--<a class="more" v-if="chanceTotal > 5" @click="handleRoute('chance')">更多》</a>-->
               <a class="table-add" @click="quickOperation('addChance')"><i class="el-icon-plus"></i>新增销售需求</a>
             </p>
             <table class="detail-table related-table">
@@ -193,7 +193,7 @@
 
             <p class="table-title">
               销售订单({{orderTotal}})
-              <a class="more" v-if="orderTotal > 5" @click="handleRoute('order')">更多》</a>
+              <!--<a class="more" v-if="orderTotal > 5" @click="handleRoute('order')">更多》</a>-->
               <a class="table-add" @click="quickOperation('addOrder')"><i class="el-icon-plus"></i>新增销售订单</a>
             </p>
             <table class="detail-table related-table">
@@ -381,34 +381,34 @@
           }, 500)
         })
       },
-      getContactList () {
-        API.contacts.list({customerId: this.$route.query.customerId, pageSize: 5}, (da) => {
+      getContactList () { // 相关
+        API.contacts.listNoAuth({customerId: this.$route.query.customerId, pageSize: 10000}, (da) => {
           this.contactList = da.data.content
           this.contactTotal = da.data.totalElements
         })
       },
-      getChanceList () {
-        API.salesOpportunities.list({customerId: this.$route.query.customerId, pageSize: 5}, (da) => {
+      getChanceList () { // 相关
+        API.salesOpportunities.listNoAuth({customerId: this.$route.query.customerId, pageSize: 1000}, (da) => {
           this.chanceList = da.data.content
           this.chanceTotal = da.data.totalElements
         })
       },
-      getOrderList () {
-        API.salesOrder.list({customerId: this.$route.query.customerId, pageSize: 5}, (da) => {
+      getOrderList () { // 相关
+        API.salesOrder.listNoAuth({customerId: this.$route.query.customerId, pageSize: 1000}, (da) => {
           this.orderList = da.data.content
           this.orderTotal = da.data.totalElements
         })
       },
       handleRoute (list) {
-        switch (list) {
+        switch (list) { // 相关列表和菜单列表权限不同，不能直接跳过去
           case 'contact':
-            this.$router.push({name: 'contactsList', query: {customerId: this.$route.query.customerId}})
+            // this.$router.push({name: 'contactsList', query: {customerId: this.$route.query.customerId}})
             break
           case 'chance':
-            this.$router.push({name: 'salesOpportunitiesList', query: {customerId: this.$route.query.customerId}})
+            // this.$router.push({name: 'salesOpportunitiesList', query: {customerId: this.$route.query.customerId}})
             break
           case 'order':
-            this.$router.push({name: 'salesOrdersList', query: {customerId: this.$route.query.customerId}})
+            // this.$router.push({name: 'salesOrdersList', query: {customerId: this.$route.query.customerId}})
             break
         }
       },

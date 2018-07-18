@@ -75,12 +75,12 @@
               <el-cascader
                 style="width: 100%"
                 :change-on-select="selectLastLevelMode"
-                :options="orderSourceType"
-                v-model="orderSourceArr"
-                @active-item-change="orderSourceChangeHandle"
-                @change="orderSourceChangeHandle"
+                :options="chanceSourceType"
+                v-model="chanceSourceArr"
+                @active-item-change="chanceSourceChangeHandle"
+                @change="chanceSourceChangeHandle"
                 :props="props"
-                :placeholder="addForm.orderSourceName"
+                :placeholder="addForm.chanceSourceName"
               >
               </el-cascader>
             </td>
@@ -122,7 +122,7 @@
           intentProductName: '',
           chanceRemark: '',
           pageSource: 1, // 公海添加机会，传2. 其他传1
-          orderSource: '',
+          chanceSource: '',
         },
         customersList: [],
         salesState: [],
@@ -151,8 +151,8 @@
             // {required: true, message: '请输入需求描述', trigger: 'blur'},
           ],
         },
-        orderSourceType: [], // 客户来源
-        orderSourceArr: [],
+        chanceSourceType: [], // 客户来源
+        chanceSourceArr: [],
         props: {
           value: 'id',
           label: 'codeName',
@@ -251,25 +251,25 @@
               item.children = []
               return item
             })
-            if (this.orderSourceType.length === 0) {
-              // this.orderSourceType = arr
+            if (this.chanceSourceType.length === 0) {
+              // this.chanceSourceType = arr
               // 客户公池中列表及详情页面中的新增弹框均固定为调取公司资源，
               // 其他模块中新增调取销售自建，
               // 金钥匙微信端调取代理商并不让用户填写直接把字段传后台
-              this.orderSourceType = [{
+              this.chanceSourceType = [{
                 codeName: '销售自建',
                 id: 28,
                 children: []
               }]
               // this.selectedBindValue.push(28)
-              this.orderSourceArr.push(28)
-              this.orderSourceChangeHandle([28]) // 默认获取第二级
+              this.chanceSourceArr.push(28)
+              this.chanceSourceChangeHandle([28]) // 默认获取第二级
             }
           }
         })
       },
-      orderSourceChangeHandle (va) {
-        this.getLastItem(this.orderSourceType, va, 'id')
+      chanceSourceChangeHandle (va) {
+        this.getLastItem(this.chanceSourceType, va, 'id')
         API.common.codeConfig({type: 5, pCode: va[va.length - 1]}, (data) => {
           // console.log('目标item:', this.targetObj)
           if (data.data.length) {
@@ -283,10 +283,10 @@
           }
         })
         console.log(va)
-        this.addForm.orderSource = va.join('-')
+        this.addForm.chanceSource = va.join('-')
       },
-      // orderSourceChange (va) {
-      //   this.addForm.orderSource = va.join('-')
+      // chanceSourceChange (va) {
+      //   this.addForm.chanceSource = va.join('-')
       // },
       getLastItem (list, vals, key) { // 获取点击得目标对象, key 对应得 值vals 数组
         let LIST = list || []

@@ -283,7 +283,7 @@
             this.getContractSubjects(item.intentProductId)
             // 重置来源
             this.orderSourceArr = []
-            this.addForm.orderSourceName = item.orderSourceName || ''
+            this.addForm.orderSourceName = item.chanceSourceName || '' // 获取机会对应来源
           }
         })
       },
@@ -327,6 +327,7 @@
           contractSubjectId: '',
           quantity: '',
           remark: '',
+          orderSource: this.orderSourceArr.join('-')
         }
       },
       getConfigData (type, pCode) {

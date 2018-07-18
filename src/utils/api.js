@@ -367,6 +367,17 @@ export default {
   },
   // 联系人
   contacts: { // 联系人
+    listNoAuth (params, success, error) { // 联系人列表,相关【无权限】
+      $axios({
+        method: 'get',
+        url: 'customerContacter/page',
+        params: params,
+      }).then(res => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+    },
     list (params, success, error) { // 联系人列表
       $axios({
         method: 'get',
@@ -413,6 +424,17 @@ export default {
   },
   // 销售机会
   salesOpportunities: {
+    listNoAuth (params, success, error) { // 销售机会列表,相关【无权限】
+      $axios({
+        method: 'get',
+        url: 'salerChance/page',
+        params: params,
+      }).then(res => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+    },
     list (params, success, error) { // 销售机会列表
       $axios({
         method: 'get',
@@ -489,6 +511,17 @@ export default {
   },
   // 销售订单
   salesOrder: {
+    listNoAuth (params, success, error) { // 列表,相关【无权限】
+      $axios({
+        method: 'get',
+        url: 'salerOrder/page',
+        params: params,
+      }).then(res => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+    },
     list (params, success, error) { // 列表
       $axios({
         method: 'get',

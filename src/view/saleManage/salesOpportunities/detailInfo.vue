@@ -102,6 +102,10 @@
                 <td colspan="5">{{salesOpportunitiesDetail.chanceRemark || '暂无备注信息'}}</td>
               </tr>
               <tr>
+                <td class="td-title">需求来源</td>
+                <td colspan="5">{{salesOpportunitiesDetail.chanceSourceName}}</td>
+              </tr>
+              <tr>
                 <td class="td-title">销售合同网址</td>
                 <!--<td colspan="5">{{salesOpportunitiesDetail.contractUrl}}</td>-->
                 <td colspan="5">
@@ -161,7 +165,7 @@
 
             <p class="table-title">
               联系人({{contactTotal}})
-              <a class="more" v-if="contactTotal > 5" @click="handleRoute('contact')">更多》</a>
+              <!--<a class="more" v-if="contactTotal > 5" @click="handleRoute('contact')">更多》</a>-->
               <!--（-1 输单）-->
               <a v-if="salesOpportunitiesDetail.stage !== -1 && (isChangeFollower || isChanceCreater)" class="table-add"
                  @click="quickOperation('addContact')"><i class="el-icon-plus"></i>新增联系人</a>
@@ -187,7 +191,7 @@
 
             <p class="table-title">
               跟单记录({{orderRecordsTotal}})
-              <a class="more" v-if="orderRecordsTotal > 5" @click="handleRoute('orderRecords')">更多》</a>
+              <!--<a class="more" v-if="orderRecordsTotal > 5" @click="handleRoute('orderRecords')">更多》</a>-->
               <!--（-1输单）-->
               <a v-if="salesOpportunitiesDetail.stage !== -1 && isChangeFollower" class="table-add"
                  @click="quickOperation('addRecord')"><i class="el-icon-plus"></i>新增跟单记录</a>
@@ -205,7 +209,7 @@
 
             <p class="table-title">
               销售订单({{orderTotal}})
-              <a class="more" v-if="orderTotal > 5" @click="handleRoute('order')">更多》</a>
+              <!--<a class="more" v-if="orderTotal > 5" @click="handleRoute('order')">更多》</a>-->
               <!--（-1 输单）-->
               <a v-if="salesOpportunitiesDetail.stage !== -1 && isChangeFollower" class="table-add"
                  @click="quickOperation('addOrder')"><i class="el-icon-plus"></i>新增关联订单</a>
@@ -504,19 +508,19 @@
         })
       },
       getContactList (customerId) {
-        API.contacts.list({customerId: customerId, pageSize: 5}, (da) => {
+        API.contacts.listNoAuth({customerId: customerId, pageSize: 10000}, (da) => {
           this.contactList = da.data.content
           this.contactTotal = da.data.totalElements
         })
       },
       getOrderRecordsList (id) {
-        API.orderRecords.list({chanceId: id, pageSize: 5}, (da) => {
+        API.orderRecords.list({chanceId: id, pageSize: 10000}, (da) => {
           this.orderRecordsList = da.data.content
           this.orderRecordsTotal = da.data.totalElements
         })
       },
       getAppOrderList (id) {
-        API.salesOrder.list({chanceId: id, pageSize: 5}, (da) => {
+        API.salesOrder.listNoAuth({chanceId: id, pageSize: 10000}, (da) => {
           this.orderList = da.data.content
           this.orderTotal = da.data.totalElements
         })
@@ -603,13 +607,13 @@
       handleRoute (list) {
         switch (list) {
           case 'contact':
-            this.$router.push({name: 'contactsList', query: {customerId: this.salesOpportunitiesDetail.customerId}})
+            // this.$router.push({name: 'contactsList', query: {customerId: this.salesOpportunitiesDetail.customerId}})
             break
           case 'orderRecords': // 机会
-            this.$router.push({name: 'orderRecordsList', query: {chanceId: this.salesOpportunitiesDetail.id}})
+            // this.$router.push({name: 'orderRecordsList', query: {chanceId: this.salesOpportunitiesDetail.id}})
             break
           case 'order':
-            this.$router.push({name: 'salesOrdersList', query: {chanceId: this.salesOpportunitiesDetail.id}})
+            // this.$router.push({name: 'salesOrdersList', query: {chanceId: this.salesOpportunitiesDetail.id}})
             break
         }
       },
