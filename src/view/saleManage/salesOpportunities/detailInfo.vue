@@ -228,7 +228,7 @@
               </tr>
               <tr>
               <tr v-for="item in orderList" :key="item.id">
-                <td>{{item.id + '-' + item.orderId}}</td>
+                <td>{{item.id}}<span v-if="item.orderId">{{'-' + item.orderId}}</span></td>
                 <td>{{item.isRenew?'续费订单':'新签订单'}}</td>
                 <td><span v-for="os in orderState" :key="os.type"
                           v-if="item.orderState === os.type">{{os.value}}</span>
@@ -303,8 +303,8 @@
           <div v-if="salesOpportunitiesDetail.team && !salesOpportunitiesDetail.team.counselorId && isChangeFollower"
                class="btn-item-1" @click="operateOptions('apply')">申请咨询师协同
           </div>
-          <div class="btn-item-2" @click="operateOptions('exit')">咨询师主动退出</div>
-          <div v-if="isChangeFollower" class="btn-item-3" @click="operateOptions('replace')">申请替换咨询师</div>
+          <div v-if="salesOpportunitiesDetail.team && salesOpportunitiesDetail.team.counselorId && isChangeFollower" class="btn-item-2" @click="operateOptions('exit')">咨询师主动退出</div>
+          <div v-if="salesOpportunitiesDetail.team && salesOpportunitiesDetail.team.counselorId && isChangeFollower" class="btn-item-3" @click="operateOptions('replace')">申请替换咨询师</div>
         </div>
       </div>
     </div>
