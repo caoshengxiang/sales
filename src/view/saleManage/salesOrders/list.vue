@@ -298,6 +298,7 @@
         'orderState',
         'orderSource',
         'themeIndex',
+        'topSource',
       ]),
     },
     components: {
@@ -313,6 +314,7 @@
               height: 480,
               params: {
                 // id: '123456',
+                topSource: this.topSource, // 顶级客户来源
               },
               callback: (data) => {
                 if (data.type === 'save') {

@@ -262,6 +262,7 @@
         'pagesOptions',
         'customerAddSource',
         'themeIndex',
+        'topSource',
       ]),
       ...mapState('customer', [
         'customerList',
@@ -349,6 +350,7 @@
           params: {
             customerAddSource: this.customerAddSource,
             pageSource: 1, // 1:客户管理模块 2:客户公海模块
+            topSource: this.topSource, // 顶级客户来源
           },
           callback (data) {
             if (data.type === 'save') {

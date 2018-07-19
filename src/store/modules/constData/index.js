@@ -287,6 +287,19 @@ export default {
         value: 2,
         name: '部门',
       }
+    ],
+    // 顶级来源
+    topSource: [
+      {
+        name: '销售自建',
+        value: 101,
+      }, {
+        name: '代理商',
+        value: 102,
+      }, {
+        name: '公司资源',
+        value: 103
+      }
     ]
   },
   // getters,

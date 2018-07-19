@@ -312,6 +312,7 @@
         'salesState',
         'orderState',
         'themeIndex',
+        'topSource',
       ]),
       ...mapState('customer', [
         'customerDetail',
@@ -498,6 +499,7 @@
                   salesState: this.salesState,
                   stateValue: 1, // 设置默认，销售阶段
                   detailCustomersId: this.customerDetail.id,
+                  topSource: this.topSource, // 顶级客户来源
                 },
                 callback (data) {
                   if (data.type === 'save') {

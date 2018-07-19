@@ -347,14 +347,14 @@
               // 其他模块中新增调取销售自建，
               // 金钥匙微信端调取代理商并不让用户填写直接把字段传后台
               this.orderSourceType = [
-                {
-                  codeName: '销售自建',
-                  id: 28,
+                { // 销售自建
+                  codeName: this.params.topSource[0].name,
+                  id: this.params.topSource[0].value,
                   children: [],
                 }]
-              // this.selectedBindValue.push(28)
-              this.orderSourceArr.push(28)
-              this.orderSourceChangeHandle([28]) // 默认获取第二级
+              // this.selectedBindValue.push(this.topSource[0].value)
+              this.orderSourceArr.push(this.params.topSource[0].value)
+              this.orderSourceChangeHandle([this.params.topSource[0].value]) // 默认获取第二级
             }
           }
         })

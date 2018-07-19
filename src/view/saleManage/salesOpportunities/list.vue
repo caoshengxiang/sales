@@ -268,6 +268,7 @@
         'demandSource',
         'salesOpportunitiesOptions',
         'themeIndex',
+        'topSource',
       ]),
       ...mapState('salesOpportunities', [
         'salesOpportunitiesList',
@@ -293,6 +294,7 @@
               height: 400,
               params: {
                 salesState: this.salesState,
+                topSource: this.topSource, // 顶级客户来源
               },
               callback (data) {
                 if (data.type === 'save') {
