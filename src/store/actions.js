@@ -6,7 +6,4 @@ export default {
   ac_user ({commit}, data) {
     commit('mut_user', data)
   },
-  ac_userHead ({commit}, data) {
-    commit('mut_userHead', data)
-  }
 }

@@ -237,7 +237,6 @@
     methods: {
       ...mapActions([
         'ac_user',
-        'ac_userHead',
       ]),
       handleOpen (key, keyPath) {
         console.log(key, keyPath)

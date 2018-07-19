@@ -286,7 +286,6 @@
     methods: {
       ...mapActions([
         'ac_user',
-        'ac_userHead',
       ]),
       handleTabsClick (tab, event) {
         // console.log(tab.name)
@@ -417,7 +416,6 @@
           API.common.uploadFile({path: 'avatar', body: formData}, upImg => {
             if (upImg.status) {
               this.ruleForm.avatar = upImg.data.path
-              this.ac_userHead(upImg.data.url)
               API.user.userModify(this.ruleForm, (da) => {
                 if (da.status) {
                   this.$message.success('保存成功')
