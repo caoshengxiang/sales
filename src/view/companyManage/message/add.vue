@@ -138,9 +138,11 @@
 
         that.form.attachments =[]
         var obj={}
-        obj.name=that.$refs.uploadControl.getFileListStr()[0].name
-        obj.path=that.$refs.uploadControl.getFileListStr()[0].path
-        that.form.attachments.push(obj)
+        if(that.$refs.uploadControl.getFileListStr().length >0) {
+          obj.name=that.$refs.uploadControl.getFileListStr()[0].name
+          obj.path=that.$refs.uploadControl.getFileListStr()[0].path
+          that.form.attachments.push(obj)
+        }
         API.message.addMessage(this.form, (res) => {
           this.$message({
             type: 'success',

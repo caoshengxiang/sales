@@ -31,7 +31,7 @@
         <com-button buttonType="search" @click="advancedSearchHandle" style="">高级搜索</com-button>
       </div>
       <div class="com-bar-right" style="float: right">
-        <el-select v-model.number="form.organizationId"   @change="selectedOptionsHandleChange" placeholder="请选择代理商组织">
+        <el-select v-model.number="form.organizationId"  placeholder="请选择代理商组织">
           <el-option
             v-for="item in allorganization"
             :key="item.id"
@@ -40,7 +40,7 @@
           >
           </el-option>
         </el-select>
-        <el-cascader
+    <!--    <el-cascader
           placeholder="请选择代理商部门"
           :change-on-select="true"
           :options="alldepartments"
@@ -48,7 +48,7 @@
           :props="props"
           @change="selecteddptHandleChange"
         >
-        </el-cascader>
+        </el-cascader>-->
       </div>
     </div>
     <!--详细-->
@@ -277,14 +277,7 @@
       }
       API.organization.queryAllList(params, (res) => {
         this.allorganization = res.data
-        if(this.allorganization.find((n) => n.name === "代理商组织") == undefined){
-          this.$message({
-            message: '当前没有设置名称为"代理商组织"的组织！',
-            type: 'fail',
-          })
-        }
-        this.form.organizationId = this.allorganization.find((n) => n.name === "代理商组织").id
-        this.selectedOptionsHandleChange()
+       // this.selectedOptionsHandleChange()
       }, (mock) => {
         this.alldepartments = mock.data
         this.dataLoading = false

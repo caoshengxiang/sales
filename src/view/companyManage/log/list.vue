@@ -138,7 +138,7 @@
     name: 'list',
     data () {
       return {
-        sortObj: null, // 排序
+        sortObj: {sort: "operate_time,desc"}, // 排序
         currentPage: 1,
         tableData: [],
         defaultListParams: { // 默认顾客列表请求参数

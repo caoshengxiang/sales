@@ -42,7 +42,7 @@
             >
             </el-option>
           </el-select>
-        <el-cascader
+       <!-- <el-cascader
           placeholder="请选择人员部门"
           :change-on-select="true"
           :options="alldepartments"
@@ -51,7 +51,7 @@
           @change="selecteddptHandleChange"
           style="width: 140px"
         >
-        </el-cascader>
+        </el-cascader>-->
       </div>
     </div>
     <!--详细-->
