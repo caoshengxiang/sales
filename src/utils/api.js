@@ -1298,7 +1298,7 @@ export default {
     update (params, success, error) {
       $axios({
         method: 'put',
-        url: 'region',
+        url: 'region/' + params.id,
         data: params,
       }).then((res) => {
         success && success(res.data)
