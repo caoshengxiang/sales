@@ -710,8 +710,17 @@ export default {
       $axios.get('user/' + params.id, {}).then((res) => {
         success && success(res.data)
       }).catch(() => {
-        setTimeout(() => {
-          error && error(mockdata)
+        setTimeout((err) => {
+          error && error(err)
+        }, 1000)
+      })
+    },
+    cacheInfo (params, success, error) { // 修改登录用户信息后获取新详情
+      $axios.get('user/cacheInfo').then((res) => {
+        success && success(res.data)
+      }).catch(() => {
+        setTimeout((err) => {
+          error && error(err)
         }, 1000)
       })
     },

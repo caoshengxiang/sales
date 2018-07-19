@@ -136,7 +136,7 @@
                          accept="image/png,image/jpeg,image/gif,image/jpg"
                          @change="uploadImg($event)">
                   </span>
-                  <el-button class="el-up-img" size="mini" type="success" @click="getCropperImg">上传图片</el-button>
+                  <el-button class="el-up-img" size="mini" type="success" :disabled="!!!example2.img" @click="getCropperImg">上传图片</el-button>
                 </p>
                 <p class="up-tips">本地照片：选择一张本地的图片编辑后上传为头像</p>
               </div>
@@ -351,6 +351,10 @@
               if (da.status) {
                 this.$message.success('保存成功')
                 this.getUserDetail(this.currentUser.id)
+                API.user.cacheInfo(da => {
+                  this.ac_user(da.data)
+                  webStorage.setItem('userInfo', da.data)
+                })
               }
             })
           }
@@ -418,6 +422,10 @@
                 if (da.status) {
                   this.$message.success('保存成功')
                   this.getUserDetail(this.currentUser.id)
+                  API.user.cacheInfo(da => { // 注意下，所有修改，需要改变state和storage
+                    this.ac_user(da.data)
+                    webStorage.setItem('userInfo', da.data)
+                  })
                 }
               })
             }
