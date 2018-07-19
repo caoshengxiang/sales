@@ -197,7 +197,7 @@
               type: 'success',
               message: '删除成功!',
             })
-            this.$options.methods.init.bind(that)()
+            this.$options.methods.init.bind(this)()
           }, (mock) => {
             if (mock.status) {
               this.$message({
