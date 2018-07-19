@@ -31,7 +31,7 @@
         <com-button buttonType="search" @click="advancedSearchHandle" style="">高级搜索</com-button>
       </div>
       <div class="com-bar-right" style="float: right">
-        <el-select v-model.number="form.organizationId"   :disabled="disabled" @change="selectedOptionsHandleChange" placeholder="请选择代理商组织">
+        <el-select v-model.number="form.organizationId"   @change="selectedOptionsHandleChange" placeholder="请选择代理商组织">
           <el-option
             v-for="item in allorganization"
             :key="item.id"
@@ -272,7 +272,7 @@
       let params = {
         page: 1,
         pageSize: 999,
-        pid: 1,
+        pid:8,
         type: 1,
       }
       API.organization.queryAllList(params, (res) => {
@@ -341,7 +341,6 @@
           page: 1,
           pageSize: 999,
         }
-        alert(that.form.organizationId)
         depparams.id = that.form.organizationId
         depparams.type = 2 // 查询出部门
         API.organization.queryList(depparams, (res) => {
