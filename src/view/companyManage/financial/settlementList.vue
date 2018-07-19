@@ -508,7 +508,8 @@
 
       },
       handleCurrentChange (val) {
-        this.currentPage = val;
+        this.currentPage = val
+        this.getCommissionClear()
       },
       addHandle () {
         // alert('add btn')
