@@ -345,6 +345,7 @@
         'salesState',
         'orderState',
         'themeIndex',
+        'topSource',
       ]),
       ...mapState('salesOpportunities', [
         'salesOpportunitiesDetail',
@@ -514,7 +515,7 @@
         })
       },
       getOrderRecordsList (id) {
-        API.orderRecords.list({chanceId: id, pageSize: 10000}, (da) => {
+        API.orderRecords.listNoAuth({chanceId: id, pageSize: 10000}, (da) => {
           this.orderRecordsList = da.data.content
           this.orderRecordsTotal = da.data.totalElements
         })
@@ -544,6 +545,7 @@
                 params: {
                   salesState: this.salesState,
                   detail: JSON.parse(JSON.stringify(this.salesOpportunitiesDetail)),
+                  topSource: this.topSource, // 顶级客户来源
                 },
                 callback: (data) => {
                   if (data.type === 'save') {

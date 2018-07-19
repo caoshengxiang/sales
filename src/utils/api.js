@@ -589,6 +589,17 @@ export default {
   },
   // 跟单记录
   orderRecords: {
+    listNoAuth (params, success, error) { // 跟单记录列表，权限得
+      $axios({
+        method: 'get',
+        url: 'followOrderRecord/page',
+        params: params,
+      }).then(res => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+    },
     list (params, success, error) { // 跟单记录列表
       $axios({
         method: 'get',

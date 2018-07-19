@@ -81,6 +81,7 @@
                 @change="chanceSourceChangeHandle"
                 :props="props"
                 :placeholder="addForm.chanceSourceName"
+                :disabled="!!params.detail"
               >
               </el-cascader>
             </td>
@@ -251,21 +252,26 @@
               item.children = []
               return item
             })
-            if (this.chanceSourceType.length === 0) {
-              // this.chanceSourceType = arr
-              // 客户公池中列表及详情页面中的新增弹框均固定为调取公司资源，
-              // 其他模块中新增调取销售自建，
-              // 金钥匙微信端调取代理商并不让用户填写直接把字段传后台
-              this.chanceSourceType = [
-                { // 销售自建
-                  codeName: this.params.topSource[0].name,
-                  id: this.params.topSource[0].value,
-                  children: [],
-                }]
-              // this.selectedBindValue.push(this.topSource[0].value)
-              this.chanceSourceArr.push(this.params.topSource[0].value)
-              this.chanceSourceChangeHandle([this.params.topSource[0].value]) // 默认获取第二级
+            if (this.params.detail) {
+              // alert('确认需求')
+            } else {
+              if (this.chanceSourceType.length === 0) {
+                // this.chanceSourceType = arr
+                // 客户公池中列表及详情页面中的新增弹框均固定为调取公司资源，
+                // 其他模块中新增调取销售自建，
+                // 金钥匙微信端调取代理商并不让用户填写直接把字段传后台
+                this.chanceSourceType = [
+                  { // 销售自建
+                    codeName: this.params.topSource[0].name,
+                    id: this.params.topSource[0].value,
+                    children: [],
+                  }]
+                // this.selectedBindValue.push(this.topSource[0].value)
+                this.chanceSourceArr.push(this.params.topSource[0].value)
+                this.chanceSourceChangeHandle([this.params.topSource[0].value]) // 默认获取第二级
+              }
             }
+
           }
         })
       },
