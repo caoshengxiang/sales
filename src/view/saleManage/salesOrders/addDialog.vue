@@ -282,7 +282,9 @@
             // 对应的签约主体
             this.getContractSubjects(item.intentProductId)
             // 重置来源
-            this.orderSourceArr = []
+            // console.log(item.chanceSource)
+            this.orderSourceArr = item.chanceSource.split('-') // 获取机会对应来源
+            this.addForm.orderSource = item.chanceSource
             this.addForm.orderSourceName = item.chanceSourceName || '' // 获取机会对应来源
           }
         })

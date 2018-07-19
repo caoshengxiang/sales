@@ -298,6 +298,7 @@
         'salesState',
         'orderState',
         'themeIndex',
+        'topSource',
       ]),
       ...mapState('customer', [
         'customerDetail',
@@ -449,6 +450,7 @@
                 params: {
                   salesState: this.salesState,
                   detailCustomersId: this.customerDetail.id,
+                  topSource: this.topSource, // 顶级客户来源
                 },
                 callback (data) {
                   if (data.type === 'save') {
@@ -468,6 +470,7 @@
                 height: 380,
                 params: {
                   detailCustomersId: this.customerDetail.id,
+                  topSource: this.topSource, // 顶级客户来源
                 },
                 callback (data) {
                   if (data.type === 'save') {

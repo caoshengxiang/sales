@@ -564,7 +564,7 @@
               this.$vDialog.modal(addOrderDialog, {
                 title: '预下订单',
                 width: 900,
-                height: 380,
+                height: 480,
                 params: {
                   detailCustomersId: this.salesOpportunitiesDetail.customerId,
                   detailChanceId: this.salesOpportunitiesDetail.id,
@@ -655,7 +655,7 @@
             this.$vDialog.modal(addOrderDialog, {
               title: '新增关联订单',
               width: 900,
-              height: 380,
+              height: 480,
               params: {
                 detailCustomersId: this.salesOpportunitiesDetail.customerId,
                 detailChanceId: this.salesOpportunitiesDetail.id,
