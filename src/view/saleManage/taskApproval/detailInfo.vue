@@ -155,7 +155,8 @@
             </div>
             <div class="text">
               <h4>{{salesOpportunitiesDetail.team && salesOpportunitiesDetail.team.creatorName}}</h4>
-              <p>{{salesOpportunitiesDetail.team && salesOpportunitiesDetail.team.creatorMobilePhone}}</p>
+              <!--<p>{{salesOpportunitiesDetail.team && salesOpportunitiesDetail.team.creatorMobilePhone}}</p>-->
+              <p>******</p>
             </div>
             <div class="post">
               <span class="post-tag-1">创建人</span>
