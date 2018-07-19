@@ -31,9 +31,9 @@
         <tr>
           <td class="td-title">操作</td>
           <td colspan="7">
-            <com-button buttonType="backHighSeas" @click="auditTaskYes" v-if="detailInfo.state === 1">审核通过
+            <com-button buttonType="backHighSeas" @click="auditTaskYes" v-if="detailInfo.state === 1 && detailInfo.principalId === userInfo.id">审核通过
             </com-button>
-            <com-button buttonType="grey" @click="auditTaskNo" v-if="detailInfo.state === 1">审核拒绝
+            <com-button buttonType="grey" @click="auditTaskNo" v-if="detailInfo.state === 1 && detailInfo.principalId !== userInfo.id">审核拒绝
             </com-button>
           </td>
         </tr>
@@ -196,6 +196,7 @@
   import API from '../../../utils/api'
   import moment from 'moment'
   import { mapState } from 'vuex'
+  import webStorage from 'webStorage'
 
   export default {
     name: 'detailInfo',
@@ -204,6 +205,7 @@
         detailInfo: '',
         salesOpportunitiesDetail: '',
         customerDetail: '',
+        userInfo: '',
       }
     },
     computed: {
@@ -291,6 +293,7 @@
     created () {
       this.$options.methods.getTaskDetail.bind(this)()
       this.activeViewName = this.$route.query.view
+      this.userInfo = webStorage.getItem('userInfo')
     },
   }
 </script>

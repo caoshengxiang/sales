@@ -221,19 +221,20 @@
         this.$router.push({name: 'recoverPassword', params: {end: this.clientPathParam}})
       },
       getClient () {
-        if (webStorage.getItem('client')) {
-          this.client = webStorage.getItem('client')
-          if (this.client > 2) { // 这里主要是登录了微信client===3 后pc不能显示登陆页面
-            this.client = 1
-          }
-          this.clientPathParam = this.client === 1 ? 'FE' : 'ME'
-        } else {
-          webStorage.setItem('client', this.client)
-        }
+        // if (webStorage.getItem('client')) {
+        //   this.client = webStorage.getItem('client')
+        //   if (this.client > 2) { // 这里主要是登录了微信client===3 后pc不能显示登陆页面
+        //     this.client = 1
+        //   }
+        //   this.clientPathParam = this.client === 1 ? 'FE' : 'ME'
+        // } else {
+        //   webStorage.setItem('client', this.client)
+        // }
+        webStorage.setItem('client', this.client)
       },
     },
     created () {
-      // this.getClient() //  【ERP的域名进入后固定让页面每次默认显示ERP的前端登陆页面，如需登陆后台需点击切换。】
+      this.getClient()
     },
     mounted () {
       this.getCookie()

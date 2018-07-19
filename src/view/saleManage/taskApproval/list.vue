@@ -86,7 +86,8 @@
           label="任务状态"
           show-overflow-tooltip>
           <template slot-scope="scope">
-            <a v-if="scope.row.state === 1" class="button" @click="handleRouter('detail', scope.row.id)">办理</a>
+            <a v-if="scope.row.state === 1 && userInfo.id === scope.row.principalId" class="button" @click="handleRouter('detail', scope.row.id)">办理</a>
+            <a v-if="scope.row.state === 1 && userInfo.id !== scope.row.principalId" class="button" @click="handleRouter('detail', scope.row.id)">查看</a>
             <a v-if="scope.row.state === 2" class="link" @click="handleRouter('detail', scope.row.id)">已通过</a>
             <a v-if="scope.row.state === 3" class="link" @click="handleRouter('detail', scope.row.id)">已拒绝</a>
           </template>
@@ -115,6 +116,7 @@
   import utils from '../../../utils/utils'
   import comButton from '../../../components/button/comButton'
   import moment from 'moment'
+  // import webStorage from 'webStorage'
 
   export default {
     name: 'list',
@@ -140,6 +142,7 @@
         auditorId: '',
         state: 1,
         changeValue: 1,
+        userInfo: '',
       }
     },
     computed: {

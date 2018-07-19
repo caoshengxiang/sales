@@ -212,7 +212,7 @@
       },
       getCommissionPayment () {
         this.getQueryParams()
-        API.financial.queryPaymentList(Object.assign({}, this.defaultListParams, this.sortObj, this.advancedSearch),
+        API.financial.queryPaymentListPersonal(Object.assign({}, this.defaultListParams, this.sortObj, this.advancedSearch),
           da => {
             this.tableData = da.data.content
             this.tableDataTotal = da.data.totalElements

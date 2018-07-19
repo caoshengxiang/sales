@@ -78,47 +78,47 @@
                 <td class="td-title" rowspan="6">代理商下单</td>
                 <td rowspan="2">A类产品 <br>（记账或托管）</td>
                 <td>新签</td>
-                <!--<td><el-input style="width: 102px" type="number" v-model.number="getSaleCommissionConfig[0][0].commissionPercent" auto-complete="off"></el-input></td>-->
-                <!--<td><el-input style="width: 102px" type="number" v-model.number="form.num9" auto-complete="off"></el-input></td>-->
-                <!--<td><el-input style="width: 102px" type="number" v-model.number="form.num9" auto-complete="off"></el-input></td>-->
-                <!--<td><el-input style="width: 102px" type="number" v-model.number="form.num9" auto-complete="off"></el-input></td>-->
-                <!--<td><el-input style="width: 102px" type="number" v-model.number="form.num9" auto-complete="off"></el-input></td>-->
-                <!--<td><el-input style="width: 102px" type="number" v-model.number="form.num9" auto-complete="off"></el-input></td>-->
-                <!--<td><el-input style="width: 102px" type="number" v-model.number="form.num9" auto-complete="off"></el-input></td>-->
+                <!--<td><el-input style="width: 72px" type="number" step="0.01" v-model.number="getSaleCommissionConfig[0][0].commissionPercent" auto-complete="off"></el-input></td>-->
+                <!--<td><el-input style="width: 72px" type="number" step="0.01" v-model.number="form.num9" auto-complete="off"></el-input></td>-->
+                <!--<td><el-input style="width: 72px" type="number" step="0.01" v-model.number="form.num9" auto-complete="off"></el-input></td>-->
+                <!--<td><el-input style="width: 72px" type="number" step="0.01" v-model.number="form.num9" auto-complete="off"></el-input></td>-->
+                <!--<td><el-input style="width: 72px" type="number" step="0.01" v-model.number="form.num9" auto-complete="off"></el-input></td>-->
+                <!--<td><el-input style="width: 72px" type="number" step="0.01" v-model.number="form.num9" auto-complete="off"></el-input></td>-->
+                <!--<td><el-input style="width: 72px" type="number" step="0.01" v-model.number="form.num9" auto-complete="off"></el-input></td>-->
                 <td v-for="col in cptSaleCommissionConfig[0]" :key="col.id">
-                  <el-input style="width: 102px" type="number" v-model.number="col.commissionPercent" auto-complete="off"></el-input>
+                  <el-input style="width: 72px" type="number" step="0.01" v-model.number="col.commissionPercent" auto-complete="off"></el-input>%
                 </td>
               </tr>
               <tr>
                 <td>续签</td>
                 <td v-for="col in cptSaleCommissionConfig[1]" :key="col.id">
-                  <el-input style="width: 102px" type="number" v-model.number="col.commissionPercent" auto-complete="off"></el-input>
+                  <el-input style="width: 72px" type="number" step="0.01"  v-model.number="col.commissionPercent" auto-complete="off"></el-input>%
                 </td>
               </tr>
               <tr>
                 <td rowspan="2">A类产品<br>（税务顾问/财税金融咨询）</td>
                 <td>新签</td>
                 <td v-for="col in cptSaleCommissionConfig[2]" :key="col.id">
-                  <el-input style="width: 102px" type="number" v-model.number="col.commissionPercent" auto-complete="off"></el-input>
+                  <el-input style="width: 72px" type="number" step="0.01" v-model.number="col.commissionPercent" auto-complete="off"></el-input>%
                 </td>
               </tr>
               <tr>
                 <td>续签</td>
                 <td v-for="col in cptSaleCommissionConfig[3]" :key="col.id">
-                  <el-input style="width: 102px" type="number" v-model.number="col.commissionPercent" auto-complete="off"></el-input>
+                  <el-input style="width: 72px" type="number" step="0.01" v-model.number="col.commissionPercent" auto-complete="off"></el-input>%
                 </td>
               </tr>
               <tr>
                 <td rowspan="2">B类产品</td>
                 <td>新签</td>
                 <td v-for="col in cptSaleCommissionConfig[4]" :key="col.id">
-                  <el-input style="width: 102px" type="number" v-model.number="col.commissionPercent" auto-complete="off"></el-input>
+                  <el-input style="width: 72px" type="number" step="0.01" v-model.number="col.commissionPercent" auto-complete="off"></el-input>%
                 </td>
               </tr>
               <tr>
                 <td>续签</td>
                 <td v-for="col in cptSaleCommissionConfig[5]" :key="col.id">
-                  <el-input style="width: 102px" type="number" v-model.number="col.commissionPercent" auto-complete="off"></el-input>
+                  <el-input style="width: 72px" type="number" step="0.01" v-model.number="col.commissionPercent" auto-complete="off"></el-input>%
                 </td>
               </tr><!--代理商下单 end-->
               <tr><!--非代理商下单 start-->
@@ -126,39 +126,39 @@
                 <td rowspan="2">A类产品<br>（记账或托管）</td>
                 <td>新签</td>
                 <td v-for="col in cptSaleCommissionConfig[6]" :key="col.id">
-                  <el-input style="width: 102px" type="number" v-model.number="col.commissionPercent" auto-complete="off"></el-input>
+                  <el-input style="width: 72px" type="number" step="0.01" v-model.number="col.commissionPercent" auto-complete="off"></el-input>%
                 </td>
               </tr>
               <tr>
                 <td>续签</td>
                 <td v-for="col in cptSaleCommissionConfig[7]" :key="col.id">
-                  <el-input style="width: 102px" type="number" v-model.number="col.commissionPercent" auto-complete="off"></el-input>
+                  <el-input style="width: 72px" type="number" step="0.01" v-model.number="col.commissionPercent" auto-complete="off"></el-input>%
                 </td>
               </tr>
               <tr>
                 <td rowspan="2">A类产品<br>（税务顾问/财税金融咨询）</td>
                 <td>新签</td>
                 <td v-for="col in cptSaleCommissionConfig[8]" :key="col.id">
-                  <el-input style="width: 102px" type="number" v-model.number="col.commissionPercent" auto-complete="off"></el-input>
+                  <el-input style="width: 72px" type="number" step="0.01" v-model.number="col.commissionPercent" auto-complete="off"></el-input>%
                 </td>
               </tr>
               <tr>
                 <td>续签</td>
                 <td v-for="col in cptSaleCommissionConfig[9]" :key="col.id">
-                  <el-input style="width: 102px" type="number" v-model.number="col.commissionPercent" auto-complete="off"></el-input>
+                  <el-input style="width: 72px" type="number" step="0.01" v-model.number="col.commissionPercent" auto-complete="off"></el-input>%
                 </td>
               </tr>
               <tr>
                 <td rowspan="2">B类产品</td>
                 <td>新签</td>
                 <td v-for="col in cptSaleCommissionConfig[10]" :key="col.id">
-                  <el-input style="width: 102px" type="number" v-model.number="col.commissionPercent" auto-complete="off"></el-input>
+                  <el-input style="width: 72px" type="number" step="0.01" v-model.number="col.commissionPercent" auto-complete="off"></el-input>%
                 </td>
               </tr>
               <tr>
                 <td>续签</td>
                 <td v-for="col in cptSaleCommissionConfig[11]" :key="col.id">
-                  <el-input style="width: 102px" type="number" v-model.number="col.commissionPercent" auto-complete="off"></el-input>
+                  <el-input style="width: 72px" type="number" step="0.01" v-model.number="col.commissionPercent" auto-complete="off"></el-input>%
                 </td>
               </tr><!--非代理商下单 end-->
             </table>
@@ -387,7 +387,7 @@
           color: #426585;
         }
         .el-input--mini {
-          width: 102px !important;
+          width: 72px !important;
         }
       }
     }

@@ -1227,6 +1227,17 @@ export default {
         error && error(errorData)
       })
     },
+    queryPaymentListPersonal (params, success, error) { // 前端，个人佣金记录列表
+      $axios({
+        method: 'get',
+        url: 'commissionPayment/personal',
+        params: params,
+      }).then((res) => {
+        success && success(res.data)
+      }).catch((errorData) => {
+        error && error(errorData)
+      })
+    },
     paymentDetail (params, success, error) {
       $axios({
         method: 'get',
