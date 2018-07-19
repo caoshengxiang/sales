@@ -167,7 +167,10 @@
                           v-if="item.orderState === os.type">{{os.value}}</span>
                 </td>
                 <td>{{item.created && $moment(item.created).format('YYYY-MM-DD HH:mm:ss')}}</td>
-                <td><a class="table-op" @click="quickOperation('deleteOrder', item.id)">删除</a></td>
+                <td>
+                  <a class="table-op" @click="quickOperation('deleteOrder', item.id)">删除</a>
+                  <a class="table-op" @click="quickOperation('reNew', item.id)">续费</a>
+                </td>
               </tr>
             </table>
           </el-tab-pane>
@@ -356,12 +359,33 @@
               this.$vDialog.modal(addOrderDialog, {
                 title: '添加订单',
                 width: 900,
-                height: 380,
+                height: 480,
                 params: {
                   detailCustomersId: this.contactsDetail.customerId,
                   topSource: this.topSource, // 顶级客户来源
                 },
                 callback: (data) => {
+                  if (data.type === 'save') {
+                    this.getOrderList(that.contactsDetail.customerId)
+                  }
+                },
+              })
+            } else {
+              this.$message.warning('非团队成员！不能添加。')
+            }
+            break
+          case 'reNew':
+            if (this.currentUserIsTeamNum()) {
+              this.$vDialog.modal(addOrderDialog, {
+                title: '添加续费订单',
+                width: 900,
+                height: 480,
+                params: {
+                  detailCustomersId: this.contactsDetail.customerId,
+                  topSource: this.topSource, // 顶级客户来源
+                  isRenew: true,
+                },
+                callback (data) {
                   if (data.type === 'save') {
                     this.getOrderList(that.contactsDetail.customerId)
                   }
@@ -394,7 +418,7 @@
                 })
               })
             } else {
-              this.$message.warning('非团队成员！不能添加。')
+              this.$message.warning('非团队成员！不能操作。')
             }
             break
         }

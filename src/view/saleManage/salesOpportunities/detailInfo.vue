@@ -224,6 +224,7 @@
                 <th class="td-title">回款金额</th>
                 <th class="td-title">创建时间</th>
                 <th class="td-title">关联状态</th>
+                <th class="td-title">操作</th>
               </tr>
               <tr>
               <tr v-for="item in orderList" :key="item.id">
@@ -237,6 +238,9 @@
                 <td>{{item.refund_amount}}</td>
                 <td>{{item.created && $moment(item.created).format('YYYY-MM-DD HH:mm:ss')}}</td>
                 <td></td>
+                <td>
+                  <a v-if="salesOpportunitiesDetail.stage !== -1 && isChangeFollower" class="table-op" @click="quickOperation('reNew', item.id)">续费</a>
+                </td>
               </tr>
             </table>
           </el-tab-pane>
@@ -666,6 +670,24 @@
               callback: (data) => {
                 if (data.type === 'save') {
                   this.getSalesOpportunitiesDetail()
+                }
+              },
+            })
+            break
+          case 'reNew':
+            this.$vDialog.modal(addOrderDialog, {
+              title: '添加续费订单',
+              width: 900,
+              height: 480,
+              params: {
+                detailCustomersId: this.salesOpportunitiesDetail.customerId,
+                detailChanceId: this.salesOpportunitiesDetail.id,
+                fromChance: true,
+                isRenew: true,
+              },
+              callback (data) {
+                if (data.type === 'save') {
+                  that.getOrderList()
                 }
               },
             })

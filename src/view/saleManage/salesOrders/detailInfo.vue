@@ -40,9 +40,12 @@
         <!--</el-radio-group>-->
         <ul class="btn-group">
           <!--订单为预下单 - 显示APP下单-->
-          <li class="btn-order" v-if="orderDetail.orderState === 0 && isFollower" @click="operateOptions('appOrder')">APP下单</li>
+          <li class="btn-order" v-if="orderDetail.orderState === 0 && isFollower" @click="operateOptions('appOrder')">
+            APP下单
+          </li>
           <li class="btn-edit" v-if="isFollower" @click="operateOptions('edit')">修改</li>
           <li class="btn-delete" v-if="isFollower" @click="operateOptions('delete')">删除</li>
+          <li class="btn-order" v-if="isFollower" @click="operateOptions('reNew')">续费</li>
         </ul>
       </div>
     </div>
@@ -332,6 +335,23 @@
               callback: (data) => {
                 if (data.type === 'save') {
                   this.getSalesOrderDetail()
+                }
+              },
+            })
+            break
+          case 'reNew':
+            this.$vDialog.modal(addDialog, {
+              title: '添加续费订单',
+              width: 900,
+              height: 480,
+              params: {
+                // id: '123456',
+                topSource: this.topSource, // 顶级客户来源
+                isRenew: true,
+              },
+              callback: (data) => {
+                if (data.type === 'save') {
+                  this.getSalesOrderList()
                 }
               },
             })

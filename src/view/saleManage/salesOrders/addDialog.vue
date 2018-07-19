@@ -148,7 +148,8 @@
           quantity: '',
           remark: '',
           orderSource: '',
-          // orderSourceName: ''
+          // orderSourceName: '',
+          isRenew: false
         },
         orderState: null,
         rules: {
@@ -329,7 +330,8 @@
           contractSubjectId: '',
           quantity: '',
           remark: '',
-          orderSource: this.orderSourceArr.join('-')
+          orderSource: this.orderSourceArr.join('-'),
+          isRenew: !!this.params.isRenew,
         }
       },
       getConfigData (type, pCode) {
@@ -414,6 +416,9 @@
 
       // 来源
       this.getConfigData(5, 0)
+
+      // 续费订单
+      this.addForm.isRenew = !!this.params.isRenew
     },
   }
 </script>
