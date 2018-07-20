@@ -697,7 +697,7 @@
               },
               callback (data) {
                 if (data.type === 'save') {
-                  that.getOrderList()
+                  that.getSalesOpportunitiesDetail()
                 }
               },
             })

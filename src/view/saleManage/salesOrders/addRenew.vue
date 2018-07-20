@@ -164,7 +164,7 @@
           remark: '',
           orderSource: '',
           // orderSourceName: '',
-          isRenew: false,
+          isRenew: true,
         },
         orderState: null,
         rules: {
@@ -372,7 +372,21 @@
       this.getCustomersList()
       this.getAllGoodsList()
       if (this.params.orderDetail) { // 编辑
-        this.addForm = JSON.parse(JSON.stringify(this.params.orderDetail))
+        let orD = JSON.parse(JSON.stringify(this.params.orderDetail))
+        this.addForm = { // 只取这些字段
+          customerId: orD.customerId,
+          contacterId: orD.contacterId,
+          chanceId: orD.chanceId,
+          productId: orD.productId,
+          productName: orD.productName,
+          specificationId: orD.specificationId,
+          specificationName: orD.specificationName,
+          contractSubjectId: orD.contractSubjectId,
+          quantity: orD.quantity,
+          remark: orD.remark,
+          orderSource: orD.orderSource,
+          isRenew: true,
+        }
         this.getChanceList(this.params.orderDetail.customerId)
         this.getProductsList(this.params.orderDetail.productId)
         this.getContractSubjects(this.params.orderDetail.productId) // 签约主体

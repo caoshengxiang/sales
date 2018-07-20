@@ -358,7 +358,7 @@
               },
               callback: (data) => {
                 if (data.type === 'save') {
-                  this.getSalesOrderList()
+                  this.getSalesOrderDetail()
                 }
               },
             })
