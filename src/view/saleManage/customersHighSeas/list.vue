@@ -115,18 +115,18 @@
           align="center"
           sortable="custom"
           prop="modified"
-          label="最新动态日期"
+          label="最新动态时间"
           width="160"
           show-overflow-tooltip>
           <template slot-scope="scope">
-            {{scope.row.modified && $moment(scope.row.modified).format('YYYY-MM-DD')}}
+            {{scope.row.modified && $moment(scope.row.modified).format('YYYY-MM-DD HH:mm:ss')}}
           </template>
         </el-table-column>
         <el-table-column
           align="center"
           sortable="custom"
           prop="followerName"
-          label="最近跟进人"
+          label="销售跟进人"
           width="120"
           show-overflow-tooltip>
         </el-table-column>
@@ -155,11 +155,11 @@
           align="center"
           sortable="custom"
           prop="latestReturnTime"
-          label="最近跟进时间"
+          label="最近退回时间"
           width="120"
           show-overflow-tooltip>
           <template slot-scope="scope">
-            {{scope.row.latestReturnTime && $moment(scope.row.latestReturnTime).format('YYYY-MM-DD')}}
+            {{scope.row.latestReturnTime && $moment(scope.row.latestReturnTime).format('YYYY-MM-DD HH:mm:ss')}}
           </template>
         </el-table-column>
         <el-table-column
@@ -185,6 +185,17 @@
           label="客户退回次数"
           width="140"
           show-overflow-tooltip>
+        </el-table-column>
+        <el-table-column
+          align="center"
+          sortable="custom"
+          prop="created"
+          label="创建时间"
+          width="140"
+          show-overflow-tooltip>
+          <template slot-scope="scope">
+            {{scope.row.created && $moment(scope.row.created).format('YYYY-MM-DD HH:mm:ss')}}
+          </template>
         </el-table-column>
         <el-table-column
           v-if="themeIndex === 1"

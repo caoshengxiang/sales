@@ -203,7 +203,16 @@
             </template>
           </el-table-column>
         </el-table-column>
-
+        <el-table-column
+          align="center"
+          label="回款审核时间"
+          prop="refundAuditTime"
+          sortable="custom"
+          show-overflow-tooltip>
+          <template slot-scope="scope">
+            <span>{{ scope.row.refundAuditTime && $moment(scope.row.refundAuditTime).format('YYYY-YY-DD HH:mm:ss')}}</span>
+          </template>
+        </el-table-column>
       </el-table>
     </div>
     <!--分页-->

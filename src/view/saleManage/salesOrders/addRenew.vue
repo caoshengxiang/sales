@@ -386,6 +386,7 @@
           remark: orD.remark,
           orderSource: orD.orderSource,
           isRenew: true,
+          preId: orD.id,
         }
         this.getChanceList(this.params.orderDetail.customerId)
         this.getProductsList(this.params.orderDetail.productId)
