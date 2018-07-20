@@ -414,16 +414,16 @@
         options: [
           {
             value: null,
-            label: '全部汇款记录',
+            label: '全部回款记录',
           }, {
             value: 1,
-            label: '我负责的订单汇款记录',
+            label: '我负责的订单回款记录',
           }, {
             value: 2,
-            label: '我参与的订单汇款记录',
+            label: '我参与的订单回款记录',
           }, {
             value: 3,
-            label: '我跟单的订单汇款记录',
+            label: '我跟单的订单回款记录',
           }],
         value: null,
         refundRecordList: [],

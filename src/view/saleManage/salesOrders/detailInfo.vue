@@ -45,7 +45,12 @@
           </li>
           <li class="btn-edit" v-if="isFollower" @click="operateOptions('edit')">修改</li>
           <li class="btn-delete" v-if="isFollower" @click="operateOptions('delete')">删除</li>
-          <li class="btn-order" v-if="isFollower" @click="operateOptions('reNew')">续费</li>
+          <!--续费按钮出现的条件：-->
+          <!--1.订单中的商品为计时类商品；-->
+          <!--2.订单处于服务中或已完成状态。-->
+          <!--计费类型（TIMES计次，ANNUALLY包年） 包年就是计时商品-->
+          <li class="btn-order" v-if="isFollower && (orderDetail.orderState === 3 ||orderDetail.orderState === 4) && orderDetail.billingType === 'ANNUALLY'"
+              @click="operateOptions('reNew')">续费</li>
         </ul>
       </div>
     </div>
@@ -116,7 +121,8 @@
             <!--</div>-->
 
             <p class="table-title">
-              回款应收合计 6000.00 / 未收款合计 3000.00
+              <!-- todo -->
+              回款应收合计 6000.00 / 未收款合计 3000.00  todo
               <!--<a class="more">更多》</a>-->
               <!--<a class="table-add"><i class="el-icon-plus"></i></a>-->
             </p>
@@ -226,6 +232,7 @@
 <script>
   import comButton from '../../../components/button/comButton'
   import addDialog from './addDialog'
+  import addRenew from './addRenew'
   import order from './order'
   import orderInfo from './orderInfo'
   import API from '../../../utils/api'
@@ -340,12 +347,12 @@
             })
             break
           case 'reNew':
-            this.$vDialog.modal(addDialog, {
-              title: '添加续费订单',
+            this.$vDialog.modal(addRenew, {
+              title: '续费',
               width: 900,
               height: 480,
               params: {
-                // id: '123456',
+                orderDetail: this.orderDetail,
                 topSource: this.topSource, // 顶级客户来源
                 isRenew: true,
               },
@@ -378,8 +385,8 @@
           this.dataLoading = false
         })
       },
-      getRefundRecord (orderId) {
-        API.refundRecord.list({orderId: orderId}, da => {
+      getRefundRecord (orderId) { // todo 权限
+        API.refundRecord.list({orderId: orderId, pageSize: 1000, page: 0, sort: 'created,desc'}, da => {
           this.refundRecordList = da.data.content
         })
       },

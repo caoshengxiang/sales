@@ -419,19 +419,19 @@
         })
       },
       getContactList () {
-        API.contacts.listNoAuth({customerId: this.$route.query.customerId, pageSize: 1000}, (da) => {
+        API.contacts.listNoAuth({customerId: this.$route.query.customerId, pageSize: 1000, page: 0, sort: 'created,desc'}, (da) => {
           this.contactList = da.data.content
           this.contactTotal = da.data.totalElements
         })
       },
       getChanceList () {
-        API.salesOpportunities.listNoAuth({customerId: this.$route.query.customerId, pageSize: 1000}, (da) => {
+        API.salesOpportunities.listNoAuth({customerId: this.$route.query.customerId, pageSize: 1000, page: 0, sort: 'created,desc'}, (da) => {
           this.chanceList = da.data.content
           this.chanceTotal = da.data.totalElements
         })
       },
       getOrderList () {
-        API.salesOrder.listNoAuth({customerId: this.$route.query.customerId, pageSize: 1000}, (da) => {
+        API.salesOrder.listNoAuth({customerId: this.$route.query.customerId, pageSize: 1000, page: 0, sort: 'created,desc'}, (da) => {
           this.orderList = da.data.content
           this.orderTotal = da.data.totalElements
         })

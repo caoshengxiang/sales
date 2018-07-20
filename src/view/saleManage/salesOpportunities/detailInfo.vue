@@ -199,11 +199,13 @@
             <table class="detail-table related-table">
               <tr>
                 <th class="td-title" colspan="4">跟单描述</th>
-                <th class="td-title" colspan="2">所在公海</th>
+                <th class="td-title" colspan="1">跟进人</th>
+                <th class="td-title" colspan="1">跟进时间</th>
               </tr>
               <tr v-for="item in orderRecordsList" :key="item.id">
-                <td colspan="4">{{item.followDesc}}</td>
-                <td colspan="2">{{$moment(item.created).format('YYYY-MM-DD HH:mm:ss')}}</td>
+                <td colspan="4" style="text-align: left;padding-left: 5px;padding-right: 5px;">{{item.followDesc}}</td>
+                <td colspan="1">{{item.creatorName}}</td>
+                <td colspan="1">{{$moment(item.created).format('YYYY-MM-DD HH:mm:ss')}}</td>
               </tr>
             </table>
 
@@ -237,9 +239,17 @@
                 <td>{{item.billAmount}}</td>
                 <td>{{item.refund_amount}}</td>
                 <td>{{item.created && $moment(item.created).format('YYYY-MM-DD HH:mm:ss')}}</td>
-                <td></td>
                 <td>
-                  <a v-if="salesOpportunitiesDetail.stage !== -1 && isChangeFollower" class="table-op" @click="quickOperation('reNew', item.id)">续费</a>
+                  <span v-if="item.relState ===1">关联中</span>
+                  <span v-if="item.relState ===2">已完成</span>
+                  <span v-if="item.relState ===3">已作废</span>
+                </td>
+                <td>
+                  <!--续费按钮出现的条件：-->
+                  <!--1.订单中的商品为计时类商品；-->
+                  <!--2.订单处于服务中或已完成状态。-->
+                  <!--计费类型（TIMES计次，ANNUALLY包年） 包年就是计时商品-->
+                  <a v-if="salesOpportunitiesDetail.stage !== -1 && isChangeFollower && (item.orderState === 3 || item.orderState === 4) && item.billingType === 'ANNUALLY'" class="table-op" @click="quickOperation('reNew', item.id, item)">续费</a>
                 </td>
               </tr>
             </table>
@@ -324,6 +334,7 @@
   import addContactDialog from '../contacts/addDialog'
   // import addChanceDialog from '../salesOpportunities/addDialog'
   import addOrderDialog from '../salesOrders/addDialog'
+  import addRenew from '../salesOrders/addRenew'
   import addOrderRecord from '../orderRecords/addDialog'
   import order from './order'
 
@@ -513,19 +524,19 @@
         })
       },
       getContactList (customerId) {
-        API.contacts.listNoAuth({customerId: customerId, pageSize: 10000}, (da) => {
+        API.contacts.listNoAuth({customerId: customerId, pageSize: 10000, page: 0, sort: 'created,desc'}, (da) => {
           this.contactList = da.data.content
           this.contactTotal = da.data.totalElements
         })
       },
       getOrderRecordsList (id) {
-        API.orderRecords.listNoAuth({chanceId: id, pageSize: 10000}, (da) => {
+        API.orderRecords.listNoAuth({chanceId: id, pageSize: 10000, page: 0, sort: 'created,desc'}, (da) => {
           this.orderRecordsList = da.data.content
           this.orderRecordsTotal = da.data.totalElements
         })
       },
       getAppOrderList (id) {
-        API.salesOrder.listNoAuth({chanceId: id, pageSize: 10000}, (da) => {
+        API.salesOrder.listNoAuth({chanceId: id, pageSize: 10000, page: 0, sort: 'created,desc'}, (da) => {
           this.orderList = da.data.content
           this.orderTotal = da.data.totalElements
         })
@@ -623,7 +634,7 @@
             break
         }
       },
-      quickOperation (op) {
+      quickOperation (op, id, obj) {
         let that = this
         switch (op) {
           case 'addContact':
@@ -675,15 +686,14 @@
             })
             break
           case 'reNew':
-            this.$vDialog.modal(addOrderDialog, {
-              title: '添加续费订单',
+            this.$vDialog.modal(addRenew, {
+              title: '续费',
               width: 900,
               height: 480,
               params: {
-                detailCustomersId: this.salesOpportunitiesDetail.customerId,
-                detailChanceId: this.salesOpportunitiesDetail.id,
-                fromChance: true,
-                isRenew: true,
+                orderDetail: obj,
+                topSource: this.topSource, // 顶级客户来源
+                isRenew: true
               },
               callback (data) {
                 if (data.type === 'save') {

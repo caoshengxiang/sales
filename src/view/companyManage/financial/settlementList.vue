@@ -74,7 +74,7 @@
         </el-table-column>
         <el-table-column
           align="center"
-          prop="serviceSubjectName"
+          prop="customerName"
           label="订单客户"
           sortable="custom"
           show-overflow-tooltip>

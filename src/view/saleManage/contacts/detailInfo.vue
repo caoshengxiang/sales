@@ -169,7 +169,11 @@
                 <td>{{item.created && $moment(item.created).format('YYYY-MM-DD HH:mm:ss')}}</td>
                 <td>
                   <a class="table-op" @click="quickOperation('deleteOrder', item.id)">删除</a>
-                  <a class="table-op" @click="quickOperation('reNew', item.id)">续费</a>
+                  <!--续费按钮出现的条件：-->
+                  <!--1.订单中的商品为计时类商品；-->
+                  <!--2.订单处于服务中或已完成状态。-->
+                  <!--计费类型（TIMES计次，ANNUALLY包年） 包年就是计时商品-->
+                  <a class="table-op" v-if="(item.orderState === 3 || item.orderState === 4) && item.billingType === 'ANNUALLY'"  @click="quickOperation('reNew', item.id, item)">续费</a>
                 </td>
               </tr>
             </table>
@@ -223,6 +227,7 @@
   import addDialog from './addDialog'
   import addChanceDialog from '../salesOpportunities/addDialog'
   import addOrderDialog from '../salesOrders/addDialog'
+  import addRenew from '../salesOrders/addRenew'
   import webStorage from 'webStorage'
 
   export default {
@@ -302,13 +307,13 @@
         })
       },
       getChanceList (customerId) {
-        API.salesOpportunities.listNoAuth({customerId: customerId, pageSize: 10000}, (da) => {
+        API.salesOpportunities.listNoAuth({customerId: customerId, pageSize: 10000, page: 0, sort: 'created,desc'}, (da) => {
           this.chanceList = da.data.content
           this.chanceTotal = da.data.totalElements
         })
       },
       getOrderList (customerId) {
-        API.salesOrder.listNoAuth({customerId: customerId, pageSize: 10000}, (da) => {
+        API.salesOrder.listNoAuth({customerId: customerId, pageSize: 10000, page: 0, sort: 'created,desc'}, (da) => {
           this.orderList = da.data.content
           this.orderTotal = da.data.totalElements
         })
@@ -326,7 +331,7 @@
             break
         }
       },
-      quickOperation (op, id) {
+      quickOperation (op, id, obj) {
         // eslint-disable-next-line
         let that = this
         let deleteId = id || ''
@@ -376,14 +381,14 @@
             break
           case 'reNew':
             if (this.currentUserIsTeamNum()) {
-              this.$vDialog.modal(addOrderDialog, {
-                title: '添加续费订单',
+              this.$vDialog.modal(addRenew, {
+                title: '续费',
                 width: 900,
                 height: 480,
                 params: {
-                  detailCustomersId: this.contactsDetail.customerId,
+                  orderDetail: obj,
                   topSource: this.topSource, // 顶级客户来源
-                  isRenew: true,
+                  isRenew: true
                 },
                 callback (data) {
                   if (data.type === 'save') {
