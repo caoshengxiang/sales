@@ -63,8 +63,8 @@
               <el-form-item prop="intentProductId">
                 <el-select v-model.number="addForm.intentProductId" @change="intentProductIdChangeHandle"
                            placeholder="请选择意向商品" style="width: 100%">
-                  <el-option v-for="item in intentProductList" :key="item.objectId" :label="item.name"
-                             :value="item.objectId"></el-option>
+                  <el-option v-for="item in intentProductList" :key="item.id" :label="item.goodsName"
+                             :value="item.goodsId"></el-option>
                 </el-select>
               </el-form-item>
             </td>
@@ -105,6 +105,7 @@
 
 <script>
   import API from '../../../utils/api'
+  import webStorage from 'webStorage'
 
   export default {
     name: 'addDialog',
@@ -219,13 +220,17 @@
         })
       },
       getIntentProductList (id) {
-        API.external.findGoods({goodsType: id}, (data) => {
-          this.intentProductList = data.content
+        API.common.organizationGoodsConf({
+          goodsTypeId: id,
+          organizationId: webStorage.getItem('userInfo').organizationId,
+          saleable: 1,
+        }, (data) => {
+          this.intentProductList = data.data
         })
       },
       intentProductIdChangeHandle (id) {
         this.intentProductList.forEach(item => {
-          if (item.objectId === id) {
+          if (item.goodsId === id) {
             this.addForm.intentProductName = item.name
           }
         })

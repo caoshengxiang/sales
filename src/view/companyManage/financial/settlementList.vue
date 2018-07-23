@@ -210,7 +210,7 @@
           sortable="custom"
           show-overflow-tooltip>
           <template slot-scope="scope">
-            <span>{{ scope.row.refundAuditTime && $moment(scope.row.refundAuditTime).format('YYYY-YY-DD HH:mm:ss')}}</span>
+            <span>{{ scope.row.refundAuditTime && $moment(scope.row.refundAuditTime).format('YYYY-MM-DD HH:mm:ss')}}</span>
           </template>
         </el-table-column>
       </el-table>

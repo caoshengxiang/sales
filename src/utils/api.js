@@ -38,6 +38,14 @@ export default {
   },
   // 通用接口,管理配置
   common: {
+    organizationGoodsConf (params, success, error) { // 地区
+      console.log(params)
+      $axios.get('organizationGoodsConf/list', {params: params}).then((res) => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+    },
     region (params, success, error) { // 地区
       $axios.get('region', {
         params: {pid: params},

@@ -121,29 +121,27 @@
             <!--</div>-->
 
             <p class="table-title">
-              <!-- todo -->
-              回款应收合计 6000.00 / 未收款合计 3000.00  todo
+              回款应收合计 {{orderDetail.refundAmount}} / 未收款合计 {{orderDetail.notRefundAmount}}
               <!--<a class="more">更多》</a>-->
               <!--<a class="table-add"><i class="el-icon-plus"></i></a>-->
             </p>
             <table class="detail-table related-table">
               <tr>
-                <!--todo 7 个 th-->
                 <th class="td-title">款项名称</th>
                 <th class="td-title">计划回款金额</th>
-                <th class="td-title">是否回款</th>
+                <th class="td-title">回款状态</th>
                 <th class="td-title">回款金额</th>
                 <th class="td-title">回款时间</th>
                 <th class="td-title">审核状态</th>
                 <th class="td-title">审核时间</th>
               </tr>
-              <tr v-for="item in refundRecordList" :key="item.id">
+              <tr v-for="item in orderDetail.refundRecordList" :key="item.id">
                 <td>{{item.name}}</td>
                 <td>{{item.receivable}}</td>
-                <td></td>
+                <td>{{item.status}}</td>
                 <td>{{item.netReceipts}}</td>
-                <td>{{item.refundDate && $moment(item.refundDate).format('YYYY-MM-DD HH:mm:ss')}}</td>
-                <td>{{item.refundStatus}}</td>
+                <td>{{item.date && $moment(item.date).format('YYYY-MM-DD HH:mm:ss')}}</td>
+                <td>{{item.auditStatus}}</td>
                 <td>{{item.auditTime && $moment(item.auditTime).format('YYYY-MM-DD HH:mm:ss')}}</td>
               </tr>
             </table>
