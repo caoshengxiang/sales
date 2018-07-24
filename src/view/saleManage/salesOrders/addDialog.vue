@@ -45,8 +45,8 @@
                            v-model.number="addForm.productId"
                            @change="goodSelectChange"
                            placeholder="请选择购买商品">
-                  <el-option v-for="item in allGoodsList" :key="item.objectId" :label="item.name"
-                             :value="item.objectId"></el-option>
+                  <el-option v-for="item in allGoodsList" :key="item.goodsId" :label="item.goodsName"
+                             :value="item.goodsId"></el-option>
                 </el-select>
               </el-form-item>
             </td>
@@ -249,8 +249,12 @@
         })
       },
       getAllGoodsList () { // 获取所有分类商品
-        API.external.findGoods({}, (da) => {
-          this.allGoodsList = da.content
+        API.common.organizationGoodsConf({ // 这个接口该来不调用外部接口
+          goodsTypeId: null,
+          organizationId: webStorage.getItem('userInfo').organizationId,
+          saleable: 1,
+        }, (da) => {
+          this.allGoodsList = da.data
         })
       },
       getProductsList (goodsId) { // 产品【规格】列表

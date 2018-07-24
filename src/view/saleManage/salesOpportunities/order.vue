@@ -16,7 +16,7 @@
           label="订单编号"
           prop="id"
           width="180">
-          <template slot-scope="scope">{{ scope.row.id + '-' + scope.row.orderId }}</template>
+          <template slot-scope="scope">{{ scope.row.id}}<span v-if="scope.row.orderId">{{'-' + scope.row.orderId}}</span></template>
         </el-table-column>
         <el-table-column
           prop="isRenew"
