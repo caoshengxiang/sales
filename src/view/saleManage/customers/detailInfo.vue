@@ -329,7 +329,7 @@
         // console.log(tab.name)
         this.$router.push({
           name: 'customersDetail',
-          params: {end: 'FE'},
+          params: {end: this.themeIndex === 0 ? 'FE' : 'ME'},
           query: {view: tab.name, customerId: this.$route.query.customerId},
         })
       },

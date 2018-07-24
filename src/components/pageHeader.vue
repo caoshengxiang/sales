@@ -74,10 +74,10 @@
         })
       },
       messageHandle () {
-        this.$router.push({name: 'messageList', params: {end: 'FE'}})
+        this.$router.push({name: 'messageList', params: {end: this.themeIndex === 0 ? 'FE' : 'ME'}})
       },
       todoItemList () {
-        this.$router.push({name: 'todoItemList', params: {end: 'FE'}})
+        this.$router.push({name: 'todoItemList', params: {end: this.themeIndex === 0 ? 'FE' : 'ME'}})
       },
       listPermissions (m, id) { // menus权限判断，return true和false
         let mus = m || []

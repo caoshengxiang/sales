@@ -273,7 +273,7 @@
       handleTabsClick (tab, event) {
         // console.log(tab.name)
         this.$router.push(
-          {name: 'salesOrdersDetail', params: {end: 'FE'}, query: {view: tab.name, id: this.$route.query.id}})
+          {name: 'salesOrdersDetail', params: {end: this.themeIndex === 0 ? 'FE' : 'ME'}, query: {view: tab.name, id: this.$route.query.id}})
       },
       operateOptions (op) {
         switch (op) {

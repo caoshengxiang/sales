@@ -375,10 +375,10 @@
         this.getSalesOpportunititeisList()
       },
       handleRouter (name, id) {
-        this.$router.push({name: 'salesOpportunitiesDetail', query: {view: name, id: id}, params: {end: 'FE'}})
+        this.$router.push({name: 'salesOpportunitiesDetail', query: {view: name, id: id}, params: {end: this.themeIndex === 0 ? 'FE' : 'ME'}})
       },
       handleRouter2 (name, id) {
-        this.$router.push({name: 'customersDetail', query: {view: name, customerId: id}, params: {end: 'FE'}})
+        this.$router.push({name: 'customersDetail', query: {view: name, customerId: id}, params: {end: this.themeIndex === 0 ? 'FE' : 'ME'}})
       },
       searchHandle () {
         this.getSalesOpportunititeisList()

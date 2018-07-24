@@ -119,7 +119,7 @@
           width="160"
           show-overflow-tooltip>
           <template slot-scope="scope">
-            {{scope.row.modified && $moment(scope.row.modified).format('YYYY-MM-DD HH:mm:ss')}}
+            {{scope.row.modified && $moment(scope.row.modified).format('YYYY-MM-DD HH:mm')}}
           </template>
         </el-table-column>
         <el-table-column
@@ -159,7 +159,7 @@
           width="120"
           show-overflow-tooltip>
           <template slot-scope="scope">
-            {{scope.row.latestReturnTime && $moment(scope.row.latestReturnTime).format('YYYY-MM-DD HH:mm:ss')}}
+            {{scope.row.latestReturnTime && $moment(scope.row.latestReturnTime).format('YYYY-MM-DD HH:mm')}}
           </template>
         </el-table-column>
         <el-table-column
@@ -194,7 +194,7 @@
           width="140"
           show-overflow-tooltip>
           <template slot-scope="scope">
-            {{scope.row.created && $moment(scope.row.created).format('YYYY-MM-DD HH:mm:ss')}}
+            {{scope.row.created && $moment(scope.row.created).format('YYYY-MM-DD HH:mm')}}
           </template>
         </el-table-column>
         <el-table-column
@@ -401,7 +401,7 @@
         })
       },
       handleRouter (name, id) {
-        this.$router.push({name: 'customersHighSeasDetail', query: {view: name, customerId: id}, params: {end: 'FE'}})
+        this.$router.push({name: 'customersHighSeasDetail', query: {view: name, customerId: id}, params: {end: this.themeIndex === 0 ? 'FE' : 'ME'}})
       },
       getCustomersSeaList () {
         this.dataLoading = true

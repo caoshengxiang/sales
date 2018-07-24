@@ -339,7 +339,7 @@
         this.getCustomerList()
       },
       handleRouter (name, id) {
-        this.$router.push({name: 'customersDetail', query: {view: name, customerId: id}, params: {end: 'FE'}})
+        this.$router.push({name: 'customersDetail', query: {view: name, customerId: id}, params: {end: this.themeIndex === 0 ? 'FE' : 'ME'}})
       },
       addHandle () {
         let that = this

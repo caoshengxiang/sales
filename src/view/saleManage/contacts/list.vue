@@ -309,7 +309,7 @@
         this.getContactsList()
       },
       handleRouter (name, id) {
-        this.$router.push({name: 'contactsDetail', query: {view: name, contactsId: id}, params: {end: 'FE'}})
+        this.$router.push({name: 'contactsDetail', query: {view: name, contactsId: id}, params: {end: this.themeIndex === 0 ? 'FE' : 'ME'}})
       },
       getContactsList () {
         this.dataLoading = true

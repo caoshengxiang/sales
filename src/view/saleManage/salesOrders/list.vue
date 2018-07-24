@@ -393,7 +393,7 @@
         this.getSalesOrderList()
       },
       handleRouter (name, id) {
-        this.$router.push({name: 'salesOrdersDetail', query: {view: name, id: id}, params: {end: 'FE'}})
+        this.$router.push({name: 'salesOrdersDetail', query: {view: name, id: id}, params: {end: this.themeIndex === 0 ? 'FE' : 'ME'}})
       },
       getSalesOrderList () {
         this.dataLoading = true
