@@ -228,14 +228,14 @@
           this.intentProductList = data.data
         })
       },
-      intentProductIdChangeHandle (id) {
+      intentProductIdChangeHandle (id) { // 商品下拉改变
         this.intentProductList.forEach(item => {
           if (item.goodsId === id) {
-            this.addForm.intentProductName = item.name
+            this.addForm.intentProductName = item.goodsName
           }
         })
       },
-      intentProductCateChangeHandle (id) {
+      intentProductCateChangeHandle (id) { // 分类
         this.getIntentProductList(id) // 分类id获取商品
         this.addForm.intentProductName = ''
         this.addForm.intentProductId = ''
