@@ -30,6 +30,7 @@
             <td class="td-text">
               <el-form-item prop="billDate">
                 <el-date-picker
+                  @change="billDateChangeHandle"
                   style="width: 100%"
                   v-model="addForm.billDate"
                   type="datetime"
@@ -107,6 +108,7 @@
 <script>
   import API from '../../../utils/api'
   import webStorage from 'webStorage'
+  import { chartLengthRule } from '../../../utils/const'
 
   export default {
     name: 'addDialog',
@@ -139,6 +141,7 @@
           ],
           billDate: [
             {required: true, message: '请选择预计签单时间', trigger: 'change'},
+            chartLengthRule.validateBeforeTime,
           ],
           intentBillAmount: [
             {required: true, message: '请输入预计签单金额', trigger: 'blur'},
@@ -276,7 +279,6 @@
                 this.chanceSourceChangeHandle([this.params.topSource[0].value]) // 默认获取第二级
               }
             }
-
           }
         })
       },
@@ -312,6 +314,8 @@
             this.getLastItem(item.children, vals, key)
           }
         }
+      },
+      billDateChangeHandle (t) {
       },
     },
     created () {

@@ -20,6 +20,15 @@ const validatePhone = (rule, value, callback) => { // 自定义规则验证手�
     callback()
   }
 }
+// 不能选以前的时间验证
+const validateBeforeTime = (rule, value, callback) => { // 自定义规则验证手机号,Date对象格式
+  let currentDate = new Date()
+  if (Date.parse(value) < Date.parse(currentDate)) {
+    callback(new Error('请选择以前的时间'))
+  } else {
+    callback()
+  }
+}
 export const chartLengthRule = {
   defaultRule: [
     { // 通用规则 ，...[]方式加入
@@ -29,6 +38,7 @@ export const chartLengthRule = {
       trigger: 'blur',
     }],
   validatePhone: {validator: validatePhone, trigger: 'blur'}, // 自定义规则验证手机号
+  validateBeforeTime: {validator: validateBeforeTime, trigger: 'change'}, // 自定义规则验证以前的时间
 }
 
 // 分页

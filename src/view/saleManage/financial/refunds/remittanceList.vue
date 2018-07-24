@@ -136,13 +136,15 @@
         </el-table-column>
         <el-table-column
           align="center"
-          prop=""
+          prop="auditDate"
           label="审核日期"
           width="120"
           sortable="custom"
           show-overflow-tooltip
         >
-          <template slot-scope="scope"></template>
+          <template slot-scope="scope">
+            {{ $moment(scope.row.auditDate).format('YYYY-MM-DD HH:mm') }}
+          </template>
         </el-table-column>
         <el-table-column
           align="center"
