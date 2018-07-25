@@ -72,6 +72,7 @@
           prop="followDesc"
           show-overflow-tooltip
           label="发布内容">
+          <template slot-scope="scope"><div style="width: 100%;text-align: left;">{{ scope.row.followDesc }}</div></template>
         </el-table-column>
         <el-table-column
           align="center"

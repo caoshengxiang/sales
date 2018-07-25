@@ -266,7 +266,6 @@
   import webStorage from 'webStorage'
   import { serverUrl } from '../../../utils/const'
 
-
   export default {
     name: 'list',
     data () {
