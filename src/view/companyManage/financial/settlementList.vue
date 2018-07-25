@@ -213,6 +213,26 @@
             <span>{{ scope.row.refundAuditTime && $moment(scope.row.refundAuditTime).format('YYYY-MM-DD HH:mm:ss')}}</span>
           </template>
         </el-table-column>
+        <el-table-column
+          align="center"
+          label="结算生成时间"
+          prop="created"
+          sortable="custom"
+          show-overflow-tooltip>
+          <template slot-scope="scope">
+            <span>{{ scope.row.created && $moment(scope.row.created).format('YYYY-MM-DD HH:mm:ss')}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column
+          align="center"
+          label="结算审核时间"
+          prop="auditDate"
+          sortable="custom"
+          show-overflow-tooltip>
+          <template slot-scope="scope">
+            <span>{{ scope.row.auditDate && $moment(scope.row.auditDate).format('YYYY-MM-DD HH:mm:ss')}}</span>
+          </template>
+        </el-table-column>
       </el-table>
     </div>
     <!--分页-->

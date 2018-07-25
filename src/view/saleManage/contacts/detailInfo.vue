@@ -349,7 +349,7 @@
                   detailCustomersId: this.contactsDetail.customerId,
                   topSource: this.topSource, // 顶级客户来源
                 },
-                callback (data) {
+                callback: (data) => {
                   if (data.type === 'save') {
                     this.getChanceList(that.contactsDetail.customerId)
                   }

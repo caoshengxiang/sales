@@ -91,9 +91,9 @@
               </tr>
               <tr>
                 <td class="td-title">签单订单号</td>
-                <td>{{salesOpportunitiesDetail.billOrderId}}</td>
+                <td>{{salesOpportunitiesDetail.orderId}}</td>
                 <td class="td-title">签单商品</td>
-                <td>{{salesOpportunitiesDetail.billProductName}}</td>
+                <td>{{salesOpportunitiesDetail.productName}}</td>
                 <td class="td-title"></td>
                 <td></td>
               </tr>
@@ -250,6 +250,7 @@
                   <!--2.订单处于服务中或已完成状态。-->
                   <!--计费类型（TIMES计次，ANNUALLY包年） 包年就是计时商品-->
                   <a v-if="salesOpportunitiesDetail.stage !== -1 && isChangeFollower && (item.orderState === 3 || item.orderState === 4) && item.billingType === 'ANNUALLY'" class="table-op" @click="quickOperation('reNew', item.id, item)">续费</a>
+                  <!--<a v-if="true" class="table-op" @click="quickOperation('reNew', item.id, item)">续费</a>-->
                 </td>
               </tr>
             </table>

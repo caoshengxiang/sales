@@ -296,8 +296,8 @@
       },
       goodSelectChange (id) { // 直接选择商品获取名称
         this.allGoodsList.forEach(item => {
-          if (item.objectId === id) {
-            this.addForm.productName = item.name
+          if (item.goodsId === id) {
+            this.addForm.productName = item.goodsName
           }
         })
         // 清除规格
@@ -335,7 +335,7 @@
           quantity: '',
           remark: '',
           orderSource: this.orderSourceArr.join('-'),
-          isRenew: !!this.params.isRenew,
+          isRenew: this.params.orderDetail,
         }
       },
       getConfigData (type, pCode) {
@@ -420,9 +420,6 @@
 
       // 来源
       this.getConfigData(5, 0)
-
-      // 续费订单
-      this.addForm.isRenew = !!this.params.isRenew
     },
   }
 </script>
