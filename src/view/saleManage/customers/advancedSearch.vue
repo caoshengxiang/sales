@@ -86,6 +86,13 @@
             </el-form-item>
           </el-col>
         </el-row>
+        <el-row>
+          <el-col :span="8">
+            <el-form-item label="联系电话：">
+              <el-input type="text" v-model="searchForm.phone"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
         <el-row class="el-row-cla">
           <el-col :span="24">
             <el-form-item label="创建日期：">
@@ -124,6 +131,7 @@
         searchForm: { // 表单
           name: null,
           businessLicense: null,
+          phone: null,
           creatorName: null,
           salerName: null,
           level: null,

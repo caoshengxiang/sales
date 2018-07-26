@@ -65,19 +65,63 @@
       <div class="detail-left com-box-padding">
         <el-tabs v-model="activeViewName" type="card" @tab-click="handleTabsClick">
           <el-tab-pane label="销售机会资料信息" name="detail">
+            <p class="table-title">客户基本信息</p>
+            <table class="detail-table">
+              <tr>
+                <td class="td-title">公司名称</td>
+                <td>{{customerDetail.name}}</td>
+                <td class="td-title">营业执照</td>
+                <td>{{customerDetail.businessLicense}}</td>
+                <td class="td-title">客户级别</td>
+                <td>{{customerDetail.level}}</td>
+              </tr>
+              <tr>
+                <td class="td-title">客户简称</td>
+                <td>{{customerDetail.shortName}}</td>
+                <td class="td-title">客户行业</td>
+                <td>{{customerDetail.industry}}</td>
+                <td class="td-title">联系电话</td>
+                <td>{{customerDetail.phone}}</td>
+              </tr>
+              <tr>
+                <td class="td-title">所在地区</td>
+                <td>{{ customerDetail.provinceName }}
+                  {{ customerDetail.cityName }}
+                  {{ customerDetail.areaName }}
+                </td>
+                <td class="td-title">公司网站</td>
+                <td>{{customerDetail.website}}</td>
+                <td class="td-title"></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td class="td-title">客户来源</td>
+                <td colspan="5">{{customerDetail.customerSourceName}}</td>
+              </tr>
+              <tr>
+                <td class="td-title">联系地址</td>
+                <td colspan="5">{{customerDetail.address}}</td>
+              </tr>
+              <tr>
+                <td class="td-title">主营业务</td>
+                <!--<td colspan="5">暂未填写主营业务{{customerDetail.business}}</td>-->
+                <td colspan="5">{{customerDetail.business || '暂未填写主营业务'}}</td>
+              </tr>
+            </table>
+            <!---->
             <p class="table-title">销售机会基本信息</p>
             <table class="detail-table">
               <tr>
-                <td class="td-title">客户名称</td>
-                <td>{{salesOpportunitiesDetail.customerName}}</td>
-                <td class="td-title">需求进度</td>
-                <td>
-                  <span v-for="item in salesState"
-                        :key="item.type"
-                        v-if="item.type === salesOpportunitiesDetail.stage">{{item.value}}&nbsp;{{item.percent}}</span>
-                </td>
-                <td class="td-title">预计签单金额</td>
-                <td>{{salesOpportunitiesDetail.intentBillAmount}}</td>
+                <!--<td class="td-title">客户名称</td>-->
+                <!--<td>{{salesOpportunitiesDetail.customerName}}</td>-->
+                <!--<td class="td-title">需求进度</td>-->
+                <!--<td>-->
+                  <!--<span v-for="item in salesState"-->
+                        <!--:key="item.type"-->
+                        <!--v-if="item.type === salesOpportunitiesDetail.stage">{{item.value}}&nbsp;{{item.percent}}</span>-->
+                <!--</td>-->
+                <!--<td class="td-title">实际签单金额</td>-->
+                <!--<td>{{salesOpportunitiesDetail.billAmount}}</td>-->
               </tr>
               <tr>
                 <td class="td-title">预计签单时间</td>
@@ -86,16 +130,16 @@
                 </td>
                 <td class="td-title">意向商品</td>
                 <td>{{salesOpportunitiesDetail.intentProductName}}</td>
-                <td class="td-title">实际签单金额</td>
-                <td>{{salesOpportunitiesDetail.billAmount}}</td>
+                <td class="td-title">预计签单金额</td>
+                <td>{{salesOpportunitiesDetail.intentBillAmount}}</td>
               </tr>
               <tr>
-                <td class="td-title">签单订单号</td>
-                <td>{{salesOpportunitiesDetail.orderId}}</td>
-                <td class="td-title">签单商品</td>
-                <td>{{salesOpportunitiesDetail.productName}}</td>
-                <td class="td-title"></td>
-                <td></td>
+                <!--<td class="td-title">签单订单号</td>-->
+                <!--<td>{{salesOpportunitiesDetail.orderId}}</td>-->
+                <!--<td class="td-title">签单商品</td>-->
+                <!--<td>{{salesOpportunitiesDetail.productName}}</td>-->
+                <!--<td class="td-title"></td>-->
+                <!--<td></td>-->
               </tr>
               <tr>
                 <td class="td-title">销售机会备注</td>
@@ -353,7 +397,8 @@
         orderTotal: 0,
         userInfo: '',
         isChangeFollower: true, // 当前用户是机会的更进人
-        isChanceCreater: true, // 当前用户是机会的创建人
+        isChanceCreater: true, // 当前用户是机会的创建人，
+        customerDetail: {}, // 客户详细
       }
     },
     computed: {
@@ -511,6 +556,7 @@
         API.salesOpportunities.detail(this.$route.query.id, (data) => {
           this.ac_salesOpportunitiesDetail(data.data)
           this.getContactList(data.data.customerId)
+          this.getCustomerDetail(data.data.customerId)
           this.getOrderRecordsList(data.data.id)
           this.getAppOrderList(data.data.id)
           setTimeout(() => {
@@ -522,6 +568,15 @@
           if (this.userInfo.id !== this.salesOpportunitiesDetail.team.creator) { // 判断机会的创建人
             this.isChanceCreater = false
           }
+        })
+      },
+      getCustomerDetail (customerId) {
+        this.dataLoading = true
+        API.customer.detail({id: customerId}, (data) => {
+          this.customerDetail = data.data
+          setTimeout(() => {
+            this.dataLoading = false
+          }, 500)
         })
       },
       getContactList (customerId) {

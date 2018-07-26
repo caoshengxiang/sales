@@ -46,7 +46,7 @@
           </el-select>
           <!--<com-button buttonType="search" @click="searchHandle">搜索</com-button>-->
           <!--todo 高级搜索后端不支持，隐藏掉该功能-->
-          <!--<com-button buttonType="search" @click="advancedSearchHandle" style="">高级搜索</com-button>-->
+          <com-button buttonType="search" @click="advancedSearchHandle" style="">高级搜索</com-button>
           &nbsp;&nbsp;&nbsp;&nbsp;
           <com-button buttonType="export" icon="el-icon-download" @click="excelExport">导入模板下载</com-button>
           &nbsp;&nbsp;&nbsp;&nbsp;
@@ -90,7 +90,6 @@
         <el-table-column
           show-overflow-tooltip
           align="center"
-          sortable="custom"
           prop="customerSourceName"
           label="客户来源"
           width="120">
@@ -124,7 +123,6 @@
         </el-table-column>
         <el-table-column
           align="center"
-          sortable="custom"
           prop="followerName"
           label="销售跟进人"
           width="120"
@@ -164,7 +162,6 @@
         </el-table-column>
         <el-table-column
           align="center"
-          sortable="custom"
           prop="latestFollowRecord"
           label="最近跟进记录"
           width="120"

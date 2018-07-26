@@ -24,7 +24,7 @@ const validatePhone = (rule, value, callback) => { // 自定义规则验证手�
 const validateBeforeTime = (rule, value, callback) => { // 自定义规则验证手机号,Date对象格式
   let currentDate = new Date()
   if (Date.parse(value) < Date.parse(currentDate)) {
-    callback(new Error('请选择以前的时间'))
+    callback(new Error('请正确选择预约签单时间'))
   } else {
     callback()
   }
