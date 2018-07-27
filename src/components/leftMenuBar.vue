@@ -7,8 +7,7 @@
             borderColor: theme[themeIndex].leftMenuBarBorderButtonColor
      }">
       <div class="u-head">
-        <!--todo userHead 临时解决，接口支持再修改-->
-        <img v-if="user.avatar" :src="user.avatar || user.avatar" alt="" style="width: 50px;height: 50px;border-radius: 50px;">
+        <img v-if="user.avatar" :src="user.avatar" alt="" style="width: 50px;height: 50px;border-radius: 50px;">
         <img v-else src="../assets/icon/touxiang2.png" alt="">
       </div>
       <div class="u-text">

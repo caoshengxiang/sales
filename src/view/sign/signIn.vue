@@ -121,6 +121,7 @@
             ...chartLengthRule.defaultRule,
           ],
         },
+        isLogin: false,
       }
     },
     computed: {
@@ -131,6 +132,19 @@
     watch: {
       client (d) {
         webStorage.setItem('client', d)
+      },
+      isLogin (d) { // 做监听，是因为第一次进入时可能异步原因，并没有从sessionStorage拿到值进行判断
+        if (d) {
+          if (webStorage.getItem('client')) {
+            this.client = webStorage.getItem('client')
+            this.clientPathParam = this.client === 1 ? 'FE' : 'ME'
+          }
+          if (this.client === 1) {
+            this.$router.push({name: 'saleHome', params: {end: this.clientPathParam}})
+          } else {
+            this.$router.push({name: 'companyManageHome', params: {end: this.clientPathParam}})
+          }
+        }
       },
     },
     components: {
@@ -188,6 +202,8 @@
               this.loading = false
               if (res.status) {
                 webStorage.setItem('userInfo', res.data)
+                sessionStorage.setItem('HASLG', 'T')
+                this.getClient()
                 this.ac_user(res.data)
                 if (this.client === 1) {
                   this.$router.push({name: 'saleHome', params: {end: this.clientPathParam}})
@@ -232,9 +248,50 @@
         // }
         webStorage.setItem('client', this.client)
       },
+      shareSessionStorage () { // 多标签共享sessionStorage
+        let that = this
+        if (!sessionStorage.length) {
+          // 这个调用能触发目标事件，从而达到共享数据的目的
+          localStorage.setItem('getSessionStorage', Date.now())
+        }
+        // 该事件是核心
+        window.addEventListener('storage', function (event) {
+          if (event.key === 'getSessionStorage') {
+            // 已存在的标签页会收到这个事件
+            localStorage.setItem('sessionStorage', JSON.stringify(sessionStorage))
+            localStorage.removeItem('sessionStorage')
+          } else if (event.key === 'sessionStorage') {
+            // 新开启的标签页会收到这个事件
+            if (!sessionStorage.length) {
+              let data = JSON.parse(event.newValue)
+              for (let key in data) {
+                if (key === 'HASLG' && data[key] === 'T') {
+                  that.isLogin = true
+                }
+                sessionStorage.setItem(key, data[key])
+              }
+            }
+          } else if (event.key === 'getSessionStorageLogout') { // 旧标签页，退出登录旧标签页修改为未登录状态
+            sessionStorage.removeItem('HASLG')
+          }
+        })
+      },
     },
     created () {
-      this.getClient()
+      this.shareSessionStorage()
+      if (sessionStorage.HASLG === 'T') {
+        if (webStorage.getItem('client')) {
+          this.client = webStorage.getItem('client')
+          this.clientPathParam = this.client === 1 ? 'FE' : 'ME'
+        }
+        if (this.client === 1) {
+          this.$router.push({name: 'saleHome', params: {end: 'FE'}})
+        } else {
+          this.$router.push({name: 'companyManageHome', params: {end: 'ME'}})
+        }
+      } else {
+        // this.getClient()
+      }
     },
     mounted () {
       this.getCookie()

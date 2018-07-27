@@ -63,6 +63,8 @@
         API.login.logout({}, (res) => {
           this.loading = false
           if (res.status) {
+            sessionStorage.removeItem('HASLG')
+            localStorage.setItem('getSessionStorageLogout', Date.now()) // 触发其他标签修改sessionStorage
             this.$router.push({'path': '/'})
           }
         }, (mock) => {
@@ -87,16 +89,46 @@
       },
       getTodoItemTotal () { // 代办事项
         API.todoItem.total({}, da => {
-          this.ac_todoItemTotal(da.data)
+          if (da.status) {
+            sessionStorage.setItem('HASLG', 'T') // 防止直接复制地址，跳过登录页面得判断
+            this.ac_todoItemTotal(da.data)
+          }
         })
       },
       getMessageTotal () {
         API.message.unreadCnt({}, da => {
-          this.ac_messageTotal(da.data)
+          if (da.status) {
+            this.ac_messageTotal(da.data)
+          }
         })
-      }
+      },
+      shareSessionStorage () { // 多标签共享sessionStorage, 刷新
+        if (!sessionStorage.length) {
+          // 这个调用能触发目标事件，从而达到共享数据的目的
+          localStorage.setItem('getSessionStorage', Date.now())
+        }
+        // 该事件是核心
+        window.addEventListener('storage', function (event) {
+          if (event.key === 'getSessionStorage') {
+            // 已存在的标签页会收到这个事件
+            localStorage.setItem('sessionStorage', JSON.stringify(sessionStorage))
+            localStorage.removeItem('sessionStorage')
+          } else if (event.key === 'sessionStorage') {
+            // 新开启的标签页会收到这个事件
+            if (!sessionStorage.length) {
+              let data = JSON.parse(event.newValue)
+              for (let key in data) {
+                sessionStorage.setItem(key, data[key])
+              }
+            }
+          } else if (event.key === 'getSessionStorageLogout') { // 旧标签页，退出登录旧标签页修改为未登录状态
+            sessionStorage.removeItem('HASLG')
+          }
+        })
+      },
     },
     created () {
+      this.shareSessionStorage()
       this.userInfo = utils.loginExamine(this)
       this.menus = this.userInfo.menus
       this.getTodoItemTotal()

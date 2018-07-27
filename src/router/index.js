@@ -11,8 +11,10 @@ const resetPassword = resolve => require.ensure([],
   () => resolve(require('../view/sign/resetPassword')), 'sign')
 
 // 合同
-const onetimeContract = resolve => require.ensure([], () => resolve(require('../view/contract/onetimeContract')), 'contract')
-const multipleContracts = resolve => require.ensure([], () => resolve(require('../view/contract/multipleContracts')), 'contract')
+const onetimeContract = resolve => require.ensure([],
+  () => resolve(require('../view/contract/onetimeContract')), 'contract')
+const multipleContracts = resolve => require.ensure([],
+  () => resolve(require('../view/contract/multipleContracts')), 'contract')
 
 // home
 const indexPage = resolve => require.ensure([],
@@ -27,7 +29,8 @@ const saleHome = resolve => require.ensure([],
 const customersList = resolve => require.ensure([],
   () => resolve(require('../view/saleManage/customers/list')), 'customers')
 const customersDetail = resolve => require.ensure([],
-  () => resolve(require('../view/saleManage/customers/detailInfo')), 'customers')
+  () => resolve(require('../view/saleManage/customers/detailInfo')),
+  'customers')
 
 // 联系人
 const contactsList = resolve => require.ensure([],
@@ -45,7 +48,8 @@ const salesOpportunitiesDetail = resolve => require.ensure([],
 const salesOrdersList = resolve => require.ensure([],
   () => resolve(require('../view/saleManage/salesOrders/list')), 'salesOrders')
 const salesOrdersDetail = resolve => require.ensure([],
-  () => resolve(require('../view/saleManage/salesOrders/detailInfo')), 'salesOrders')
+  () => resolve(require('../view/saleManage/salesOrders/detailInfo')),
+  'salesOrders')
 // 跟单记录
 const orderRecordsList = resolve => require.ensure([],
   () => resolve(require('../view/saleManage/orderRecords/list')),
@@ -114,40 +118,52 @@ const roleList = resolve => require.ensure([],
 
 // 财务管理
 const settlementList = resolve => require.ensure([],
-  () => resolve(require('../view/companyManage/financial/settlementList')), 'financial')
+  () => resolve(require('../view/companyManage/financial/settlementList')),
+  'financial')
 // 财务管理
 const spendingList = resolve => require.ensure([],
-  () => resolve(require('../view/companyManage/financial/spendingList')), 'financial')
+  () => resolve(require('../view/companyManage/financial/spendingList')),
+  'financial')
 
 // 组织管理
 const organizationList = resolve => require.ensure([],
-  () => resolve(require('../view/companyManage/organization/list')), 'organization')
+  () => resolve(require('../view/companyManage/organization/list')),
+  'organization')
 // 客户池管理
 const customerPool = resolve => require.ensure([],
-() => resolve(require('../view/companyManage/organization/customerPool')), 'organization')
+  () => resolve(require('../view/companyManage/organization/customerPool')),
+  'organization')
 
 const baseSettingList = resolve => require.ensure([],
-  () => resolve(require('../view/companyManage/baseSetting/list')), 'baseSetting')
+  () => resolve(require('../view/companyManage/baseSetting/list')),
+  'baseSetting')
 
 // 客户地区管理
 const customerAreaSetting = resolve => require.ensure([],
-  () => resolve(require('../view/companyManage/customerAareaSetting/index')), 'customerAreaSetting')
+  () => resolve(require('../view/companyManage/customerAareaSetting/index')),
+  'customerAreaSetting')
 
 // 客户源管理
 const customerSource = resolve => require.ensure([],
-  () => resolve(require('../view/companyManage/customerSourceSetting/index')), 'customerSource')
+  () => resolve(require('../view/companyManage/customerSourceSetting/index')),
+  'customerSource')
 
 // 站点开关设置
 const siteList = resolve => require.ensure([],
-  () => resolve(require('../view/companyManage/baseSetting/site/list')), 'siteList')
+  () => resolve(require('../view/companyManage/baseSetting/site/list')),
+  'siteList')
 
 // 商品管理
 const organizationProductSetting = resolve => require.ensure([],
-  () => resolve(require('../view/companyManage/organizationProductSetting/list')), 'organizationProductSetting')
+  () => resolve(
+    require('../view/companyManage/organizationProductSetting/list')),
+  'organizationProductSetting')
 
 // 商品类型设置
 const productType = resolve => require.ensure([],
-  () => resolve(require('../view/companyManage/organizationProductSetting/productType')), 'productType')
+  () => resolve(
+    require('../view/companyManage/organizationProductSetting/productType')),
+  'productType')
 
 // 消息通知管理(ME)
 const meMessageList = resolve => require.ensure([],
@@ -159,7 +175,8 @@ const loglist = resolve => require.ensure([],
 
 // 返佣规则设置
 const settlementRulesList = resolve => require.ensure([],
-  () => resolve(require('../view/companyManage/baseSetting/settlement/list')), 'settlementRulesList')
+  () => resolve(require('../view/companyManage/baseSetting/settlement/list')),
+  'settlementRulesList')
 
 // 企业管理 end
 
@@ -197,14 +214,14 @@ const router = new Router({
       name: 'recoverPassword',
       component: recoverPassword,
       meta: {
-        title: '找回密码'
+        title: '找回密码',
       },
     }, {
       path: '/FE/resetPassword',
       name: 'resetPassword',
       component: resetPassword,
       meta: {
-        title: '重置密码'
+        title: '重置密码',
       },
     },
     { // 合同
@@ -212,14 +229,14 @@ const router = new Router({
       name: 'onetimeContract',
       component: onetimeContract,
       meta: {
-        title: '商城合同-一次性付费'
+        title: '商城合同-一次性付费',
       },
     }, {
       path: '/multipleContracts',
       name: 'multipleContracts',
       component: multipleContracts,
       meta: {
-        title: '商城合同-分次付费'
+        title: '商城合同-分次付费',
       },
     },
     {
@@ -250,8 +267,14 @@ const router = new Router({
           component: customersDetail,
           meta: {
             title: '客户详情',
-            pos: [{name: '销售管理系统', toName: 'saleHome'}, {name: '客户', toName: 'customersList'}, {name: '客户详情'}],
-            pos2: [{name: '管理系统', toName: 'companyManageHome'}, {name: '客户', toName: 'customersList'}, {name: '客户详情'}],
+            pos: [
+              {name: '销售管理系统', toName: 'saleHome'},
+              {name: '客户', toName: 'customersList'},
+              {name: '客户详情'}],
+            pos2: [
+              {name: '管理系统', toName: 'companyManageHome'},
+              {name: '客户', toName: 'customersList'},
+              {name: '客户详情'}],
           },
         }, {
           path: 'contactsList',
@@ -268,8 +291,14 @@ const router = new Router({
           component: contactsDetail,
           meta: {
             title: '联系人详情',
-            pos: [{name: '销售管理系统', toName: 'saleHome'}, {name: '联系人', toName: 'contactsList'}, {name: '联系人详情'}],
-            pos2: [{name: '管理系统', toName: 'companyManageHome'}, {name: '联系人', toName: 'contactsList'}, {name: '联系人详情'}],
+            pos: [
+              {name: '销售管理系统', toName: 'saleHome'},
+              {name: '联系人', toName: 'contactsList'},
+              {name: '联系人详情'}],
+            pos2: [
+              {name: '管理系统', toName: 'companyManageHome'},
+              {name: '联系人', toName: 'contactsList'},
+              {name: '联系人详情'}],
           },
         }, {
           path: 'salesOpportunitiesList',
@@ -286,8 +315,14 @@ const router = new Router({
           component: salesOpportunitiesDetail,
           meta: {
             title: '销售机会详情',
-            pos: [{name: '销售管理系统', toName: 'saleHome'}, {name: '销售机会', toName: 'salesOpportunitiesList'}, {name: '销售机会详情'}],
-            pos2: [{name: '管理系统', toName: 'companyManageHome'}, {name: '销售机会', toName: 'salesOpportunitiesList'}, {name: '销售机会详情'}],
+            pos: [
+              {name: '销售管理系统', toName: 'saleHome'},
+              {name: '销售机会', toName: 'salesOpportunitiesList'},
+              {name: '销售机会详情'}],
+            pos2: [
+              {name: '管理系统', toName: 'companyManageHome'},
+              {name: '销售机会', toName: 'salesOpportunitiesList'},
+              {name: '销售机会详情'}],
           },
         }, {
           path: 'salesOrdersList',
@@ -304,8 +339,14 @@ const router = new Router({
           component: salesOrdersDetail,
           meta: {
             title: '销售订单详情',
-            pos: [{name: '销售管理系统', toName: 'saleHome'}, {name: '销售订单', toName: 'salesOrdersList'}, {name: '销售订单详情'}],
-            pos2: [{name: '管理系统', toName: 'companyManageHome'}, {name: '销售订单', toName: 'salesOrdersList'}, {name: '销售订单详情'}],
+            pos: [
+              {name: '销售管理系统', toName: 'saleHome'},
+              {name: '销售订单', toName: 'salesOrdersList'},
+              {name: '销售订单详情'}],
+            pos2: [
+              {name: '管理系统', toName: 'companyManageHome'},
+              {name: '销售订单', toName: 'salesOrdersList'},
+              {name: '销售订单详情'}],
           },
         }, {
           path: 'orderRecordsList',
@@ -346,8 +387,14 @@ const router = new Router({
           component: customersHighSeasDetail,
           meta: {
             title: '客户公海详情',
-            pos: [{name: '销售管理系统', toName: 'saleHome'}, {name: '客户公海', toName: 'customersHighSeasList'}, {name: '客户公海详情'}],
-            pos2: [{name: '管理系统', toName: 'companyManageHome'}, {name: '客户公海', toName: 'customersHighSeasList'}, {name: '客户公海详情'}],
+            pos: [
+              {name: '销售管理系统', toName: 'saleHome'},
+              {name: '客户公海', toName: 'customersHighSeasList'},
+              {name: '客户公海详情'}],
+            pos2: [
+              {name: '管理系统', toName: 'companyManageHome'},
+              {name: '客户公海', toName: 'customersHighSeasList'},
+              {name: '客户公海详情'}],
           },
         }, {
           path: 'messageList',
@@ -363,7 +410,10 @@ const router = new Router({
           component: messageDetail,
           meta: {
             title: '消息详情',
-            pos: [{name: '销售管理系统', toName: 'saleHome'}, {name: '消息通知', toName: 'messageList'}, {name: '消息详情'}],
+            pos: [
+              {name: '销售管理系统', toName: 'saleHome'},
+              {name: '消息通知', toName: 'messageList'},
+              {name: '消息详情'}],
           },
         }, {
           path: 'taskApprovalList',
@@ -387,7 +437,10 @@ const router = new Router({
           component: taskApprovalDetail,
           meta: {
             title: '任务详情',
-            pos: [{name: '销售管理系统', toName: 'saleHome'}, {name: '工作任务', toName: 'taskApprovalList'}, {name: '任务详情'}],
+            pos: [
+              {name: '销售管理系统', toName: 'saleHome'},
+              {name: '工作任务', toName: 'taskApprovalList'},
+              {name: '任务详情'}],
           },
         }, {
           path: 'personal',
@@ -415,7 +468,10 @@ const router = new Router({
           component: userList,
           meta: {
             title: '用户管理',
-            pos: [{name: '管理系统', toName: 'companyManageHome'}, {name: '用户管理'}, {name: '用户管理'}],
+            pos: [
+              {name: '管理系统', toName: 'companyManageHome'},
+              {name: '用户管理'},
+              {name: '用户管理'}],
           },
         },
         {
@@ -424,7 +480,10 @@ const router = new Router({
           component: userDetail,
           meta: {
             title: '用户管理',
-            pos: [{name: '管理系统', toName: 'companyManageHome'}, {name: '用户管理'}, {name: '用户详细'}],
+            pos: [
+              {name: '管理系统', toName: 'companyManageHome'},
+              {name: '用户管理'},
+              {name: '用户详细'}],
           },
         },
         // 企业管理 -- 代理商管理
@@ -434,7 +493,10 @@ const router = new Router({
           component: agentList,
           meta: {
             title: '代理商管理',
-            pos: [{name: '管理系统', toName: 'companyManageHome'}, {name: '用户管理'}, {name: '代理商管理'}],
+            pos: [
+              {name: '管理系统', toName: 'companyManageHome'},
+              {name: '用户管理'},
+              {name: '代理商管理'}],
           },
         },
         // 企业管理 -- 角色管理
@@ -444,7 +506,10 @@ const router = new Router({
           component: roleList,
           meta: {
             title: '角色管理',
-            pos: [{name: '管理系统', toName: 'companyManageHome'}, {name: '用户管理'}, {name: '角色管理'}],
+            pos: [
+              {name: '管理系统', toName: 'companyManageHome'},
+              {name: '用户管理'},
+              {name: '角色管理'}],
           },
         },
         // 企业管理 -- 财务管理
@@ -454,7 +519,10 @@ const router = new Router({
           component: settlementList,
           meta: {
             title: '佣金结算管理',
-            pos: [{name: '管理系统', toName: 'companyManageHome'}, {name: '财务管理'}, {name: '佣金结算管理'}],
+            pos: [
+              {name: '管理系统', toName: 'companyManageHome'},
+              {name: '财务管理'},
+              {name: '佣金结算管理'}],
           },
         },
         {
@@ -463,7 +531,10 @@ const router = new Router({
           component: spendingList,
           meta: {
             title: '财务支出管理',
-            pos: [{name: '管理系统', toName: 'companyManageHome'}, {name: '财务管理'}, {name: '财务支出管理'}],
+            pos: [
+              {name: '管理系统', toName: 'companyManageHome'},
+              {name: '财务管理'},
+              {name: '财务支出管理'}],
           },
         },
         // 企业管理 -- 组织管理
@@ -483,7 +554,10 @@ const router = new Router({
           component: customerPool,
           meta: {
             title: '客户池管理',
-            pos: [{name: '管理系统', toName: 'companyManageHome'}, {name: '组织管理'}, {name: '客户池管理'}],
+            pos: [
+              {name: '管理系统', toName: 'companyManageHome'},
+              {name: '组织管理'},
+              {name: '客户池管理'}],
           },
         },
         // 企业管理 -- 组织商品配置管理
@@ -493,7 +567,10 @@ const router = new Router({
           component: organizationProductSetting,
           meta: {
             title: '组织商品配置',
-            pos: [{name: '管理系统', toName: 'companyManageHome'}, {name: '组织管理'}, {name: '组织商品配置'}],
+            pos: [
+              {name: '管理系统', toName: 'companyManageHome'},
+              {name: '组织管理'},
+              {name: '组织商品配置'}],
           },
         },
         // 企业管理 -- 商品类型设置
@@ -503,7 +580,10 @@ const router = new Router({
           component: productType,
           meta: {
             title: '组织商品配置',
-            pos: [{name: '管理系统', toName: 'companyManageHome'}, {name: '组织管理'}, {name: '组织商品配置'}],
+            pos: [
+              {name: '管理系统', toName: 'companyManageHome'},
+              {name: '组织管理'},
+              {name: '组织商品配置'}],
           },
         },
         // 配置管理 -- 参数设置
@@ -513,7 +593,10 @@ const router = new Router({
           component: baseSettingList,
           meta: {
             title: '参数配置',
-            pos: [{name: '管理系统', toName: 'companyManageHome'}, {name: '配置管理'}, {name: '参数配置'}],
+            pos: [
+              {name: '管理系统', toName: 'companyManageHome'},
+              {name: '配置管理'},
+              {name: '参数配置'}],
           },
         },
         // 配置管理 -- 客户地区管理
@@ -523,7 +606,10 @@ const router = new Router({
           component: customerAreaSetting,
           meta: {
             title: '客户地区管理',
-            pos: [{name: '管理系统', toName: 'companyManageHome'}, {name: '配置管理'}, {name: '客户地区管理'}],
+            pos: [
+              {name: '管理系统', toName: 'companyManageHome'},
+              {name: '配置管理'},
+              {name: '客户地区管理'}],
           },
         },
         // 配置管理 -- 客户地区管理
@@ -533,7 +619,10 @@ const router = new Router({
           component: customerSource,
           meta: {
             title: '客户源管理',
-            pos: [{name: '管理系统', toName: 'companyManageHome'}, {name: '配置管理'}, {name: '客户源管理'}],
+            pos: [
+              {name: '管理系统', toName: 'companyManageHome'},
+              {name: '配置管理'},
+              {name: '客户源管理'}],
           },
         },
 
@@ -544,7 +633,10 @@ const router = new Router({
           component: siteList,
           meta: {
             title: '站点开关设置',
-            pos: [{name: '管理系统', toName: 'companyManageHome'}, {name: '配置管理'}, {name: '站点开关设置'}],
+            pos: [
+              {name: '管理系统', toName: 'companyManageHome'},
+              {name: '配置管理'},
+              {name: '站点开关设置'}],
           },
         },
         // 配置管理 -- 返佣规则设置
@@ -554,7 +646,10 @@ const router = new Router({
           component: settlementRulesList,
           meta: {
             title: '返佣配置',
-            pos: [{name: '管理系统', toName: 'companyManageHome'}, {name: '配置管理'}, {name: '返佣配置'}],
+            pos: [
+              {name: '管理系统', toName: 'companyManageHome'},
+              {name: '配置管理'},
+              {name: '返佣配置'}],
           },
         },
         // 消息通知管理
@@ -589,6 +684,25 @@ router.beforeEach((to, from, next) => {
   } else {
     document.title = 'sales'
   }
+
+  // if (!sessionStorage.length) {
+  //   // 这个调用能触发目标事件，从而达到共享数据的目的
+  //   localStorage.setItem('getSessionStorage', Date.now())
+  // }
+  // // 该事件是核心
+  // window.addEventListener('storage', function (event) {
+  //   if (event.key === 'getSessionStorage') {
+  //     // 已存在的标签页会收到这个事件
+  //     localStorage.setItem('sessionStorage', JSON.stringify(sessionStorage))
+  //     localStorage.removeItem('sessionStorage')
+  //   } else if (event.key === 'sessionStorage' && !sessionStorage.length) {
+  //     // 新开启的标签页会收到这个事件
+  //     let data = JSON.parse(event.newValue)
+  //     for (let key in data) {
+  //       sessionStorage.setItem(key, data[key])
+  //     }
+  //   }
+  // })
   next()
 })
 
