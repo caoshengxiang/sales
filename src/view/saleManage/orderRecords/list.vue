@@ -54,7 +54,7 @@
           width="200"
         >
           <template slot-scope="scope">
-            <a class="col-link" @click="handleRouter('detail', scope.row.chanceId)">{{ scope.row.chanceName }}</a>
+            <a class="col-link" @click="handleRouter('detail', scope.row.chanceId)">{{ scope.row.chanceName || '无名' }}</a>
           </template>
         </el-table-column>
         <el-table-column
