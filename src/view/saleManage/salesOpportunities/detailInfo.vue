@@ -572,7 +572,7 @@
       },
       getCustomerDetail (customerId) {
         this.dataLoading = true
-        API.customer.detail({id: customerId}, (data) => {
+        API.customer.detailNoAuth({id: customerId}, (data) => {
           this.customerDetail = data.data
           setTimeout(() => {
             this.dataLoading = false
