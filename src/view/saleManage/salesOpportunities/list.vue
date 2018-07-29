@@ -73,6 +73,17 @@
         <el-table-column
           align="center"
           sortable="custom"
+          label="客户名称"
+          prop="customerName"
+          show-overflow-tooltip
+          width="160">
+          <template slot-scope="scope">
+            <a class="col-link" @click="handleRouter2('detail', scope.row.customerId)">{{ scope.row.customerName }}</a>
+          </template>
+        </el-table-column>
+        <el-table-column
+          align="center"
+          sortable="custom"
           prop="intentProductName"
           label="意向商品"
           width="160"
@@ -81,17 +92,6 @@
           <template slot-scope="scope">
             <a class="col-link" @click="handleRouter('detail', scope.row.id)">{{ scope.row.intentProductName ||
               '无名'}}</a>
-          </template>
-        </el-table-column>
-        <el-table-column
-          align="center"
-          sortable="custom"
-          label="客户名称"
-          prop="customerName"
-          show-overflow-tooltip
-          width="160">
-          <template slot-scope="scope">
-            <a class="col-link" @click="handleRouter2('detail', scope.row.customerId)">{{ scope.row.customerName }}</a>
           </template>
         </el-table-column>
         <!--要求去掉了列表的联系人-->

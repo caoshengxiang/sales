@@ -95,7 +95,7 @@
 </template>
 
 <script>
-  import { mapState } from 'vuex'
+  import { mapState, mapActions } from 'vuex'
   import comButton from '../../../components/button/comButton'
   import API from '../../../utils/api'
   import { arrToStr } from '../../../utils/utils'
@@ -122,6 +122,9 @@
       comButton,
     },
     methods: {
+      ...mapActions('message', [
+        'ac_messageTotal',
+      ]),
       flagReadHandle () {
         this.$confirm('确定操作, 是否继续?', '提示', {
           confirmButtonText: '确定',
@@ -172,8 +175,16 @@
         console.log(`当前页: ${val}`)
         this.getMessageList()
       },
+      getMessageTotal () { // 消息
+        API.message.unreadCnt({}, da => {
+          if (da.status) {
+            this.ac_messageTotal(da.data)
+          }
+        })
+      },
       handleRouter (name, id) {
         API.message.msgRead({ids: id}, (da) => { // 先标记为已读
+          this.getMessageTotal()
           if (da.data > 0) {
             this.$router.push({name: 'messageDetail', params: {end: 'FE'}, query: {view: name, id: id}})
           }

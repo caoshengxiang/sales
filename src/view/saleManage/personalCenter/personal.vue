@@ -136,7 +136,9 @@
                          accept="image/png,image/jpeg,image/gif,image/jpg"
                          @change="uploadImg($event)">
                   </span>
-                  <el-button class="el-up-img" size="mini" type="success" :disabled="!!!example2.img" @click="getCropperImg">上传图片</el-button>
+                  <el-button class="el-up-img" size="mini" type="success" :disabled="!!!example2.img"
+                             @click="getCropperImg">上传图片
+                  </el-button>
                 </p>
                 <p class="up-tips">本地照片：选择一张本地的图片编辑后上传为头像</p>
               </div>
@@ -337,7 +339,7 @@
         this.ruleForm.cityName = name[1] || ''
         this.ruleForm.areaName = name[2] || ''
       },
-      fileUploadHandle (e) {
+      fileUploadHandle (e) { // 未使用
         let files = e.target.files || e.dataTransfer.files
         let formData = new FormData()
         formData.append('filename', files[0].name)
@@ -345,7 +347,7 @@
         API.common.uploadFile({path: 'avatar', body: formData}, upImg => {
           if (upImg.status) {
             this.ruleForm.avatar = upImg.data.path
-            this.ac_userHead(upImg.data.url)
+            // this.ac_userHead(upImg.data.url)
             API.user.userModify(this.ruleForm, (da) => {
               if (da.status) {
                 this.$message.success('保存成功')
@@ -383,7 +385,7 @@
         // 上传图片
         // this.option.img
         var file = e.target.files[0]
-        console.log(file)
+        // console.log(file)
         if (!/\.(gif|jpg|jpeg|png|bmp|GIF|JPG|PNG)$/.test(e.target.value)) {
           alert('图片类型必须是.gif,jpeg,jpg,png,bmp中的一种')
           return false
@@ -406,10 +408,10 @@
       },
       getCropperImg () {
         this.$refs.cropper2.getCropData((data) => {
-          console.log('data', data)
+          // console.log('data', data)
         })
         this.$refs.cropper2.getCropBlob((data) => {
-          console.log('blob', data)
+          // console.log('blob', data)
           let formData = new FormData()
           // formData.append('filename', files[0].name)
           formData.append('file', data)
@@ -420,16 +422,19 @@
                 if (da.status) {
                   this.$message.success('保存成功')
                   this.getUserDetail(this.currentUser.id)
-                  API.user.cacheInfo(da => { // 注意下，所有修改，需要改变state和storage
-                    this.ac_user(da.data)
-                    webStorage.setItem('userInfo', da.data)
-                  })
+                  this.getCacheInfo()
                 }
               })
             }
           })
         })
       },
+      getCacheInfo () {
+        API.user.cacheInfo({}, da => { // 注意下，所有修改，需要改变state和storage
+          this.ac_user(da.data)
+          webStorage.setItem('userInfo', da.data)
+        })
+      }
     },
     created () {
       this.activeViewName = this.$route.query.view
