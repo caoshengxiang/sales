@@ -42,6 +42,9 @@ $axios.interceptors.response.use((response) => {
       }, 0)
       setTimeout(() => {
         if (response.data.error.statusCode === '10004' || response.data.error.statusCode === '10007') { // 10004未登录，10007登录过期
+          // 后台返回得登录过期，重置登录状态
+          sessionStorage.removeItem('HASLG')
+          localStorage.setItem('getSessionStorageLogout', Date.now()) // 触发其他标签修改sessionStorage
           $router.push({name: 'signIn'})
         }
       }, 1000)

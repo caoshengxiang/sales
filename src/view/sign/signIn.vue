@@ -248,6 +248,9 @@
         // }
         webStorage.setItem('client', this.client)
       },
+      /*
+      * 说明：这个方法验证有点复杂，还涉及pageHeader.vue页面。以及axiosConfig.js,登录过期【直接输入网址进入绕过登陆页面，刷新，退出登录等问题】
+      * */
       shareSessionStorage () { // 多标签共享sessionStorage
         let that = this
         if (!sessionStorage.length) {
