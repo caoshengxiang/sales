@@ -81,7 +81,7 @@
 </template>
 
 <script>
-  import { mapState } from 'vuex'
+  import { mapState, mapActions } from 'vuex'
   import API from '../../../utils/api'
   // import utils from '../../../utils/utils'
   import comButton from '../../../components/button/comButton'
@@ -112,6 +112,9 @@
       comButton,
     },
     methods: {
+      ...mapActions('todoItem', [
+        'ac_todoItemTotal',
+      ]),
       dateFormat: function (row, column) {
         var date = row[column.property]
         if (!date) {

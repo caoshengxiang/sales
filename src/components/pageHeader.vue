@@ -95,7 +95,7 @@
           }
         })
       },
-      getMessageTotal () {
+      getMessageTotal () { // 消息
         API.message.unreadCnt({}, da => {
           if (da.status) {
             this.ac_messageTotal(da.data)
