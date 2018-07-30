@@ -249,7 +249,7 @@
         })
       },
       getAllGoodsList () { // 获取所有分类商品
-        API.common.organizationGoodsConf({ // 这个接口该来不调用外部接口
+        API.common.organizationGoodsConf({ // 这个接口改来不调用外部接口
           goodsTypeId: null,
           organizationId: webStorage.getItem('userInfo').organizationId,
           saleable: 1,
@@ -335,7 +335,7 @@
           quantity: '',
           remark: '',
           orderSource: this.orderSourceArr.join('-'),
-          isRenew: this.params.orderDetail,
+          isRenew: this.params.orderDetail || false,
         }
       },
       getConfigData (type, pCode) {

@@ -135,7 +135,8 @@
         let params = {
           page: 1,
           pageSize: 999,
-          pid: 1,
+          // pid: 1,
+          level: 2,
           type: 1,
         }
         API.organization.queryAllList(params, (res) => {
