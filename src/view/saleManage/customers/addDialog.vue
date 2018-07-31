@@ -344,7 +344,14 @@
                   children: [],
                 }]
               // this.selectedBindValue.push(this.topSource[0].value)
-              this.customerSourceArr.push(this.params.topSource[0].value)
+              if (this.params.detail) { // 编辑
+                let arr = this.params.detail.customerSource.split('-')
+                this.customerSourceArr = arr.map(item => {
+                  return parseInt(item, 10)
+                })
+              } else {
+                this.customerSourceArr.push(this.params.topSource[0].value)
+              }
               this.customerSourceChangeHandle([this.params.topSource[0].value]) // 默认获取第二级
             }
           }
@@ -364,7 +371,11 @@
             this.targetObj.children = null
           }
         })
-        this.addForm.customerSource = va.join('-')
+        if (!this.params.detail) { // 非编辑
+          this.addForm.customerSource = va.join('-')
+        } else { // 编辑
+          this.addForm.customerSource = this.customerSourceArr.join('-')
+        }
       },
       // customerSourceChange (va) {
       //   this.addForm.customerSource = va.join('-')

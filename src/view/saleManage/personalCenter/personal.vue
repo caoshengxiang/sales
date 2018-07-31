@@ -296,7 +296,9 @@
       submitForm (formName) { // 基本信息
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            API.user.userModify(this.ruleForm, (da) => {
+            let noAvatarParams = JSON.parse(JSON.stringify(this.ruleForm)) // 保存时不要传头像，后台每次保存会加一个服务器前缀
+            delete noAvatarParams.avatar // 删除对象中头像字段
+            API.user.userModify(noAvatarParams, (da) => {
               if (da.status) {
                 this.$message.success('保存成功')
               }

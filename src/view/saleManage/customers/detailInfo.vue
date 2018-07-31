@@ -93,41 +93,51 @@
 
             <p class="table-title">客户其他信息</p>
             <table class="detail-table">
+              <!--<tr>-->
+                <!--<td class="td-title">所在公海</td>-->
+                <!--<td colspan="2">{{customerDetail.seaName}}</td>-->
+                <!--<td class="td-title">客户状态</td>-->
+                <!--<td colspan="2">-->
+                   <!--<span v-for="item in customerState" :key="item.type"-->
+                         <!--v-if="item.type === customerDetail.state">{{item.value}}</span>-->
+                <!--</td>-->
+              <!--</tr>-->
+              <!--<tr>-->
+                <!--<td class="td-title">客户创建时间</td>-->
+                <!--<td colspan="2">-->
+                  <!--{{customerDetail.created &&-->
+                  <!--$moment(customerDetail.created).format('YYYY-MM-DD HH:mm:ss')}}-->
+                <!--</td>-->
+                <!--<td class="td-title">创建人</td>-->
+                <!--<td colspan="2">{{customerDetail.creatorName}}</td>-->
+              <!--</tr>-->
+              <!--<tr>-->
+                <!--<td class="td-title">最新修改时间</td>-->
+                <!--<td colspan="2">-->
+                  <!--{{customerDetail.modified &&-->
+                  <!--$moment(customerDetail.modified).format('YYYY-MM-DD HH:mm:ss')}}-->
+                <!--</td>-->
+                <!--<td class="td-title">修改人</td>-->
+                <!--<td colspan="2">{{customerDetail.modifierName}}</td>-->
+              <!--</tr>-->
+              <!--<tr>-->
+                <!--<td class="td-title">最新活动时间</td>-->
+                <!--<td colspan="2">-->
+                  <!--{{customerDetail.activeTime &&-->
+                  <!--$moment(customerDetail.activeTime).format('YYYY-MM-DD HH:mm:ss')}}-->
+                <!--</td>-->
+                <!--<td class="td-title">跟进人</td>-->
+                <!--<td colspan="2">{{customerDetail.followerName}}</td>-->
+              <!--</tr>-->
               <tr>
-                <td class="td-title">所在公海</td>
-                <td colspan="2">{{customerDetail.seaName}}</td>
-                <td class="td-title">客户状态</td>
-                <td colspan="2">
-                   <span v-for="item in customerState" :key="item.type"
-                         v-if="item.type === customerDetail.state">{{item.value}}</span>
-                </td>
+                <td colspan="5" class="td-title">客户操作记录</td>
+                <td class="td-title">操作人</td>
+                <td class="td-title">操作时间</td>
               </tr>
-              <tr>
-                <td class="td-title">客户创建时间</td>
-                <td colspan="2">
-                  {{customerDetail.created &&
-                  $moment(customerDetail.created).format('YYYY-MM-DD HH:mm:ss')}}
-                </td>
-                <td class="td-title">创建人</td>
-                <td colspan="2">{{customerDetail.creatorName}}</td>
-              </tr>
-              <tr>
-                <td class="td-title">最新修改时间</td>
-                <td colspan="2">
-                  {{customerDetail.modified &&
-                  $moment(customerDetail.modified).format('YYYY-MM-DD HH:mm:ss')}}
-                </td>
-                <td class="td-title">修改人</td>
-                <td colspan="2">{{customerDetail.modifierName}}</td>
-              </tr>
-              <tr>
-                <td class="td-title">最新活动时间</td>
-                <td colspan="2">
-                  {{customerDetail.activeTime &&
-                  $moment(customerDetail.activeTime).format('YYYY-MM-DD HH:mm:ss')}}
-                </td>
-                <td class="td-title">跟进人</td>
-                <td colspan="2">{{customerDetail.followerName}}</td>
+              <tr v-for="(item, index) in customerDetail.operateLogList" :key="index">
+                <td colspan="5">{{item.detail}}</td>
+                <td>{{item.userName}}</td>
+                <td>{{item.operateTime && $moment(item.operateTime).format('YYYY-MM-DD HH:mm:ss')}}</td>
               </tr>
             </table>
           </el-tab-pane>
@@ -343,6 +353,7 @@
               params: {
                 customerAddSource: this.customerAddSource,
                 detail: this.customerDetail,
+                topSource: this.topSource, // 顶级客户来源
               },
               callback: (data) => {
                 if (data.type === 'save') {
