@@ -5,10 +5,10 @@
     <!--头部-->
     <div class="com-head">
       <el-breadcrumb separator-class="el-icon-arrow-right">
-        <el-breadcrumb-item v-if="themeIndex === 0" v-for="item in $route.meta.pos" :key="item.toName"
+        <el-breadcrumb-item v-if="themeIndex === 0" v-for="(item, index) in $route.meta.pos" :key="index"
                             :to="{name: item.toName}">{{item.name}}
         </el-breadcrumb-item>
-        <el-breadcrumb-item v-if="themeIndex === 1" v-for="item in $route.meta.pos2" :key="item.toName"
+        <el-breadcrumb-item v-if="themeIndex === 1" v-for="(item, index) in $route.meta.pos2" :key="index"
                             :to="{name: item.toName}">{{item.name}}
         </el-breadcrumb-item>
       </el-breadcrumb>
@@ -38,8 +38,8 @@
             placeholder="请选择组织" class="com-el-select" style="width: 200px">
             <el-option label="全部组织的公海" :value="null"></el-option>
             <el-option
-              v-for="item in organizationOptions"
-              :key="item.name"
+              v-for="(item, index) in organizationOptions"
+              :key="index"
               :label="item.name"
               :value="item.id">
             </el-option>
@@ -144,7 +144,7 @@
           width="160"
           show-overflow-tooltip>
           <template slot-scope="scope">
-            <span v-for="item in scope.row.chanceList" :key="item.productId">
+            <span v-for="(item, index) in scope.row.chanceList" :key="index">
               {{item.productName}}、
             </span>
           </template>
@@ -398,7 +398,11 @@
         })
       },
       handleRouter (name, id) {
-        this.$router.push({name: 'customersHighSeasDetail', query: {view: name, customerId: id}, params: {end: this.themeIndex === 0 ? 'FE' : 'ME'}})
+        this.$router.push({
+          name: 'customersHighSeasDetail',
+          query: {view: name, customerId: id},
+          params: {end: this.themeIndex === 0 ? 'FE' : 'ME'},
+        })
       },
       getCustomersSeaList () {
         this.dataLoading = true

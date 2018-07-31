@@ -5,10 +5,10 @@
     <!--头部-->
     <div class="com-head">
       <el-breadcrumb separator-class="el-icon-arrow-right">
-        <el-breadcrumb-item v-if="themeIndex === 0" v-for="item in $route.meta.pos" :key="item.toName"
+        <el-breadcrumb-item v-if="themeIndex === 0" v-for="item in $route.meta.pos" :key="item.name"
                             :to="{name: item.toName}">{{item.name}}
         </el-breadcrumb-item>
-        <el-breadcrumb-item v-if="themeIndex === 1" v-for="item in $route.meta.pos2" :key="item.toName"
+        <el-breadcrumb-item v-if="themeIndex === 1" v-for="item in $route.meta.pos2" :key="item.name"
                             :to="{name: item.toName}">{{item.name}}
         </el-breadcrumb-item>
       </el-breadcrumb>
@@ -146,7 +146,7 @@
                 <td class="td-title">操作人</td>
                 <td class="td-title">操作时间</td>
               </tr>
-              <tr v-for="(item, index) in contactsDetail.operateLogList" :key="index">
+              <tr v-for="(item, index) in customerDetail.operateLogList" :key="index">
                 <td colspan="5">{{item.detail}}</td>
                 <td>{{item.userName}}</td>
                 <td>{{item.operateTime && $moment(item.operateTime).format('YYYY-MM-DD HH:mm:ss')}}</td>

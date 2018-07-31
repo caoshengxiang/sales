@@ -6,7 +6,7 @@
         <!--<el-breadcrumb-item :to="{ name: 'saleHome' }">销售管理系统</el-breadcrumb-item>-->
         <!--<el-breadcrumb-item>财务管理</el-breadcrumb-item>-->
         <!--<el-breadcrumb-item>财务支出管理</el-breadcrumb-item>-->
-        <el-breadcrumb-item v-for="item in $route.meta.pos" :key="item.toName" :to="{name: item.toName}">{{item.name}}
+        <el-breadcrumb-item v-for="item in $route.meta.pos" :key="item.name" :to="{name: item.toName}">{{item.name}}
         </el-breadcrumb-item>
       </el-breadcrumb>
     </div>
@@ -68,7 +68,7 @@
           label="返佣状态"
           show-overflow-tooltip>
           <template slot-scope="scope">
-            <span v-for="item in paymentStateData" :key="item.type" v-if="item.type === scope.row.paymentState">{{item.value}}</span>
+            <span v-for="(item, index) in paymentStateData" :key="item.type+index" v-if="item.type === scope.row.paymentState">{{item.value}}</span>
           </template>
         </el-table-column>
         <el-table-column

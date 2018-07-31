@@ -3,7 +3,7 @@
     <!--头部-->
     <div class="com-head">
       <el-breadcrumb separator-class="el-icon-arrow-right">
-        <el-breadcrumb-item v-for="item in $route.meta.pos" :key="item.toName" :to="{name: item.toName}">{{item.name}}
+        <el-breadcrumb-item v-for="item in $route.meta.pos" :key="item.name" :to="{name: item.toName}">{{item.name}}
         </el-breadcrumb-item>
       </el-breadcrumb>
     </div>
@@ -17,8 +17,8 @@
       <div class="com-bar-right">
         <el-select v-model="value" placeholder="请选择" class="com-el-select" style="width:180px">
           <el-option
-            v-for="item in options"
-            :key="item.value"
+            v-for="(item, index) in options"
+            :key="index"
             :label="item.label"
             :value="item.value">
           </el-option>
