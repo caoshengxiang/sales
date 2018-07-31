@@ -169,31 +169,41 @@
               </tr>
             </table>
 
-            <p class="table-title">销售机会其他信息</p>
+            <p class="table-title">销售机会操作记录</p>
             <table class="detail-table">
+              <!--<tr>-->
+                <!--<td class="td-title">销售机会创建时间</td>-->
+                <!--<td colspan="3">{{salesOpportunitiesDetail.created &&-->
+                  <!--$moment(salesOpportunitiesDetail.created).format('YYYY-MM-DD HH:mm:ss')}}-->
+                <!--</td>-->
+                <!--<td class="td-title">所有人</td>-->
+                <!--<td>{{salesOpportunitiesDetail.creatorName}}</td>-->
+              <!--</tr>-->
+              <!--<tr>-->
+                <!--<td class="td-title">销售机会修改时间</td>-->
+                <!--<td colspan="3">{{salesOpportunitiesDetail.modified &&-->
+                  <!--$moment(salesOpportunitiesDetail.modified).format('YYYY-MM-DD HH:mm:ss')}}-->
+                <!--</td>-->
+                <!--<td class="td-title">修改人</td>-->
+                <!--<td>{{salesOpportunitiesDetail.modifierName}}</td>-->
+              <!--</tr>-->
+              <!--<tr>-->
+                <!--<td class="td-title">销售机会活动时间</td>-->
+                <!--<td colspan="3">{{ salesOpportunitiesDetail.followDate &&-->
+                  <!--$moment(salesOpportunitiesDetail.followDate).format('YYYY-MM-DD HH:mm:ss')}}-->
+                <!--</td>-->
+                <!--<td class="td-title">跟进人</td>-->
+                <!--<td>{{salesOpportunitiesDetail.team.salerName}}</td>-->
+              <!--</tr>-->
               <tr>
-                <td class="td-title">销售机会创建时间</td>
-                <td colspan="3">{{salesOpportunitiesDetail.created &&
-                  $moment(salesOpportunitiesDetail.created).format('YYYY-MM-DD HH:mm:ss')}}
-                </td>
-                <td class="td-title">所有人</td>
-                <td>{{salesOpportunitiesDetail.creatorName}}</td>
+                <td colspan="5" class="td-title">销售机会操作记录</td>
+                <td class="td-title">操作人</td>
+                <td class="td-title">操作时间</td>
               </tr>
-              <tr>
-                <td class="td-title">销售机会修改时间</td>
-                <td colspan="3">{{salesOpportunitiesDetail.modified &&
-                  $moment(salesOpportunitiesDetail.modified).format('YYYY-MM-DD HH:mm:ss')}}
-                </td>
-                <td class="td-title">修改人</td>
-                <td>{{salesOpportunitiesDetail.modifierName}}</td>
-              </tr>
-              <tr>
-                <td class="td-title">销售机会活动时间</td>
-                <td colspan="3">{{ salesOpportunitiesDetail.followDate &&
-                  $moment(salesOpportunitiesDetail.followDate).format('YYYY-MM-DD HH:mm:ss')}}
-                </td>
-                <td class="td-title">跟进人</td>
-                <td>{{salesOpportunitiesDetail.team.salerName}}</td>
+              <tr v-for="(item, index) in salesOpportunitiesDetail.operateLogList" :key="index">
+                <td colspan="5">{{item.detail}}</td>
+                <td>{{item.userName}}</td>
+                <td>{{item.operateTime && $moment(item.operateTime).format('YYYY-MM-DD HH:mm:ss')}}</td>
               </tr>
             </table>
           </el-tab-pane>

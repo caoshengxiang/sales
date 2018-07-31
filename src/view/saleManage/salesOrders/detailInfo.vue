@@ -102,12 +102,22 @@
               </tr>
             </table>
 
-            <p class="table-title">销售订单其他信息</p>
+            <p class="table-title">销售订单操作记录</p>
             <table class="detail-table">
+              <!--<tr>-->
+                <!--<td class="td-title">销售订单创建时间</td>-->
+                <!--<td colspan="5">{{orderDetail.created && $moment(orderDetail.created).format('YYYY-MM-DD HH:mm:ss')}}-->
+                <!--</td>-->
+              <!--</tr>-->
               <tr>
-                <td class="td-title">销售订单创建时间</td>
-                <td colspan="5">{{orderDetail.created && $moment(orderDetail.created).format('YYYY-MM-DD HH:mm:ss')}}
-                </td>
+                <td colspan="5" class="td-title">销售订单操作记录</td>
+                <td class="td-title">操作人</td>
+                <td class="td-title">操作时间</td>
+              </tr>
+              <tr v-for="(item, index) in orderDetail.operateLogList" :key="index">
+                <td colspan="5">{{item.detail}}</td>
+                <td>{{item.userName}}</td>
+                <td>{{item.operateTime && $moment(item.operateTime).format('YYYY-MM-DD HH:mm:ss')}}</td>
               </tr>
             </table>
           </el-tab-pane>

@@ -80,31 +80,41 @@
               </tr>
             </table>
 
-            <p class="table-title">联系人其他信息</p>
+            <p class="table-title">联系人操作记录</p>
             <table class="detail-table">
+              <!--<tr>-->
+                <!--<td class="td-title">联系人创建时间</td>-->
+                <!--<td colspan="3">-->
+                  <!--{{contactsDetail.created && $moment(contactsDetail.created).format('YYYY-MM-DD HH:mm:ss')}}-->
+                <!--</td>-->
+                <!--<td class="td-title">所有人</td>-->
+                <!--<td>{{contactsDetail.creatorName}}</td>-->
+              <!--</tr>-->
+              <!--<tr>-->
+                <!--<td class="td-title">联系人修改时间</td>-->
+                <!--<td colspan="3">-->
+                  <!--{{contactsDetail.modified && $moment(contactsDetail.modified).format('YYYY-MM-DD HH:mm:ss')}}-->
+                <!--</td>-->
+                <!--<td class="td-title">修改人</td>-->
+                <!--<td>{{contactsDetail.modifierName}}</td>-->
+              <!--</tr>-->
+              <!--<tr>-->
+                <!--<td class="td-title">联系人活动时间</td>-->
+                <!--<td colspan="3">-->
+                  <!--{{contactsDetail.activeTime && $moment(contactsDetail.activeTime).format('YYYY-MM-DD HH:mm:ss')}}-->
+                <!--</td>-->
+                <!--<td class="td-title">跟进人</td>-->
+                <!--<td>{{contactsDetail.followerName}}</td>-->
+              <!--</tr>-->
               <tr>
-                <td class="td-title">联系人创建时间</td>
-                <td colspan="3">
-                  {{contactsDetail.created && $moment(contactsDetail.created).format('YYYY-MM-DD HH:mm:ss')}}
-                </td>
-                <td class="td-title">所有人</td>
-                <td>{{contactsDetail.creatorName}}</td>
+                <td colspan="5" class="td-title">联系人操作记录</td>
+                <td class="td-title">操作人</td>
+                <td class="td-title">操作时间</td>
               </tr>
-              <tr>
-                <td class="td-title">联系人修改时间</td>
-                <td colspan="3">
-                  {{contactsDetail.modified && $moment(contactsDetail.modified).format('YYYY-MM-DD HH:mm:ss')}}
-                </td>
-                <td class="td-title">修改人</td>
-                <td>{{contactsDetail.modifierName}}</td>
-              </tr>
-              <tr>
-                <td class="td-title">联系人活动时间</td>
-                <td colspan="3">
-                  {{contactsDetail.activeTime && $moment(contactsDetail.activeTime).format('YYYY-MM-DD HH:mm:ss')}}
-                </td>
-                <td class="td-title">跟进人</td>
-                <td>{{contactsDetail.followerName}}</td>
+              <tr v-for="(item, index) in contactsDetail.operateLogList" :key="index">
+                <td colspan="5">{{item.detail}}</td>
+                <td>{{item.userName}}</td>
+                <td>{{item.operateTime && $moment(item.operateTime).format('YYYY-MM-DD HH:mm:ss')}}</td>
               </tr>
             </table>
           </el-tab-pane>
