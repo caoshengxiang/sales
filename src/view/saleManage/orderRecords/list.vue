@@ -16,15 +16,15 @@
         <com-button buttonType="export" icon="el-icon-download" @click="excelExport">导出</com-button>
       </div>
       <div class="com-bar-right">
-        <!--<el-select v-model="value" placeholder="请选择" class="com-el-select">-->
-        <!--<el-option-->
-        <!--v-for="item in options"-->
-        <!--:key="item.value"-->
-        <!--:label="item.label"-->
-        <!--:value="item.value">-->
-        <!--</el-option>-->
-        <!--</el-select>-->
-        <!--<com-button buttonType="search">搜索</com-button>-->
+        <el-select v-model="type" placeholder="请选择" class="com-el-select">
+          <el-option
+            v-for="item in options"
+            :key="item.type"
+            :label="item.value"
+            :value="item.type">
+          </el-option>
+        </el-select>
+        <com-button buttonType="search" @click="searchHandle">搜索</com-button>
         <com-button buttonType="search" @click="advancedSearchHandle" style="">高级搜索</com-button>
       </div>
     </div>
@@ -145,10 +145,16 @@
           page: null,
           pageSize: null,
           chanceId: null,
+          // type: 1, // 1：我创建的 2：我参与的
         },
         chanceId: null, // 路由参数
         sortObj: {sort: 'created,desc'}, // 排序
         advancedSearch: null, // 高级搜索
+        options: [
+          {type: 1, value: '我创建的跟单记录'},
+          {type: 2, value: '我参与的跟单记录'}
+        ],
+        type: 1, // 1：我创建的 2：我参与的
       }
     },
     computed: {
@@ -210,6 +216,10 @@
           },
         })
       },
+      searchHandle () {
+        this.currentPage = 1
+        this.getRecordsList()
+      },
       getRecordsList () {
         this.dataLoading = true
         this.getQueryParams()
@@ -234,6 +244,7 @@
         this.defaultListParams = {
           page: this.currentPage - 1,
           pageSize: this.pagesOptions.pageSize,
+          type: this.type
         }
         if (this.chanceId) { // 更多
           this.defaultListParams.chanceId = this.chanceId
