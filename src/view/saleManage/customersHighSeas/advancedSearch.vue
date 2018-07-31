@@ -9,8 +9,8 @@
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="营业执照：">
-              <el-input type="text" v-model="searchForm.businessLicense"></el-input>
+            <el-form-item label="联系电话：">
+              <el-input type="text" v-model="searchForm.phone"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -19,10 +19,22 @@
             </el-form-item>
           </el-col>
         </el-row>
+        <el-row>
+          <el-col :span="8">
+            <el-form-item label="最近跟进人：">
+              <el-input type="text" v-model="searchForm.latestFollowerName"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
         <!--<el-row class="el-row-cla">-->
         <!--<el-col :span="8">-->
         <!--<el-form-item label="销售人：">-->
         <!--<el-input type="text" v-model="searchForm.salerName"></el-input>-->
+        <!--</el-form-item>-->
+        <!--</el-col>-->
+        <!--<el-col :span="8">-->
+        <!--<el-form-item label="营业执照：">-->
+        <!--<el-input type="text" v-model="searchForm.businessLicense"></el-input>-->
         <!--</el-form-item>-->
         <!--</el-col>-->
         <!--</el-row>-->
@@ -35,23 +47,6 @@
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="8">
-            <el-form-item label="客户行业：">
-              <el-select v-model="searchForm.industry" placeholder="请选择客户行业">
-                <el-option v-for="item in industryList" :key="item.codeName" :label="item.codeName"
-                           :value="item.codeName"></el-option>
-              </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="客户地区：">
-              <AreaSelect ref="areaSe"
-                          @change="areaSelectedOptionsHandleChange"
-                          :selectLastLevelMode="true"></AreaSelect>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row class="el-row-cla">
           <el-col :span="8">
             <el-form-item label="所属公海：">
               <el-select v-model.number="searchForm.seaId" placeholder="请选择所属公海">
@@ -66,31 +61,42 @@
               <!--:value="item.type"></el-option>-->
               <!--</el-select>-->
               <el-cascader
-                :change-on-select="false"
+                :change-on-select="selectLastLevelMode"
                 :options="customerSourceType"
                 v-model="customerSourceArr"
                 @active-item-change="customerSourceChangeHandle"
-                @change="customerSourceChange"
+                @change="customerSourceChangeHandle"
                 :props="props"
+                :value="selectedBindValue"
               >
               </el-cascader>
             </el-form-item>
           </el-col>
-          <el-col :span="8">
-            <el-form-item label="状态：">
-              <el-select v-model="searchForm.state" placeholder="请选择状态">
-                <el-option v-for="item in customerState" :key="item.type" :label="item.value"
-                           :value="item.type"></el-option>
-              </el-select>
-            </el-form-item>
-          </el-col>
         </el-row>
-        <el-row>
-          <el-col :span="8">
-            <el-form-item label="联系电话：">
-              <el-input type="text" v-model="searchForm.phone"></el-input>
-            </el-form-item>
-          </el-col>
+        <el-row class="el-row-cla">
+          <!--<el-col :span="8">-->
+          <!--<el-form-item label="客户行业：">-->
+          <!--<el-select v-model="searchForm.industry" placeholder="请选择客户行业">-->
+          <!--<el-option v-for="item in industryList" :key="item.codeName" :label="item.codeName"-->
+          <!--:value="item.codeName"></el-option>-->
+          <!--</el-select>-->
+          <!--</el-form-item>-->
+          <!--</el-col>-->
+          <!--<el-col :span="8">-->
+          <!--<el-form-item label="客户地区：">-->
+          <!--<AreaSelect ref="areaSe"-->
+          <!--@change="areaSelectedOptionsHandleChange"-->
+          <!--:selectLastLevelMode="true"></AreaSelect>-->
+          <!--</el-form-item>-->
+          <!--</el-col>-->
+          <!--<el-col :span="8">-->
+            <!--<el-form-item label="状态：">-->
+              <!--<el-select v-model="searchForm.state" placeholder="请选择状态">-->
+                <!--<el-option v-for="item in customerState" :key="item.type" :label="item.value"-->
+                           <!--:value="item.type"></el-option>-->
+              <!--</el-select>-->
+            <!--</el-form-item>-->
+          <!--</el-col>-->
         </el-row>
         <el-row class="el-row-cla">
           <el-col :span="24">
@@ -104,6 +110,45 @@
                 start-placeholder="开始日期"
                 end-placeholder="结束日期">
               </el-date-picker>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row class="el-row-cla">
+          <el-col :span="24">
+            <el-form-item label="动态时间：">
+              <el-date-picker
+                v-model="timeInterval2"
+                type="datetimerange"
+                value-format="yyyy-MM-dd HH:mm:ss"
+                @change="timeIntervalHandle2"
+                range-separator="至"
+                start-placeholder="开始日期"
+                end-placeholder="结束日期">
+              </el-date-picker>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row class="el-row-cla">
+          <el-col :span="24">
+            <el-form-item label="退回时间：">
+              <el-date-picker
+                v-model="timeInterval3"
+                type="datetimerange"
+                value-format="yyyy-MM-dd HH:mm:ss"
+                @change="timeIntervalHandle3"
+                range-separator="至"
+                start-placeholder="开始日期"
+                end-placeholder="结束日期">
+              </el-date-picker>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row class="el-row-cla">
+          <el-col :span="12">
+            <el-form-item label="开始：">
+              <el-input style="width: 100px" type="number" min="1" v-model="searchForm.startReturnTimes"></el-input>
+              <span>至</span>
+              <el-input  style="width: 100px" type="number" min="1" v-model="searchForm.endReturnTimes"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -144,12 +189,16 @@
           endDate: null,
         },
         timeInterval: '',
+        timeInterval2: '',
+        timeInterval3: '',
         customerSourceArr: [],
         props: {
           value: 'id',
           label: 'codeName',
         },
         targetObj: null,
+        selectLastLevelMode: true,
+        selectedBindValue: [],
       }
     },
     props: ['params'],
@@ -180,10 +229,8 @@
         this.searchForm.customerSource = va.join('-')
       },
       customerSourceChangeHandle (va) {
-        // console.log(va)
         this.getLastItem(this.customerSourceType, va, 'id')
         API.common.codeConfig({type: 5, pCode: va[va.length - 1]}, (data) => {
-          // console.log('目标item:', this.targetObj)
           if (data.data.length) {
             let arr = data.data.map((item) => {
               item.children = []
@@ -194,6 +241,7 @@
             this.targetObj.children = null
           }
         })
+        this.searchForm.customerSource = va.join('-')
       },
       getLastItem (list, vals, key) { // 获取点击得目标对象, key 对应得 值vals 数组
         let LIST = list || []
@@ -201,6 +249,7 @@
         for (let item of LIST) {
           if (item[key] === vals[vals.length - 1]) {
             this.targetObj = item
+            this.selectedBindValue.push(item[key])
             break
           } else {
             this.getLastItem(item.children, vals, key)
@@ -218,8 +267,16 @@
         this.searchForm.areaId = value[2] || ''
       },
       timeIntervalHandle (value) {
-        this.searchForm.startDate = value[0] || ''
-        this.searchForm.endDate = value[1] || ''
+        this.searchForm.startCreated = value[0] || ''
+        this.searchForm.endCreated = value[1] || ''
+      },
+      timeIntervalHandle2 (value) {
+        this.searchForm.startModified = value[0] || ''
+        this.searchForm.endModified = value[1] || ''
+      },
+      timeIntervalHandle3 (value) {
+        this.searchForm.startLatestReturnTime = value[0] || ''
+        this.searchForm.endLatestReturnTime = value[1] || ''
       },
     },
     created () {
