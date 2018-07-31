@@ -102,7 +102,8 @@
                 value-format="yyyy-MM-dd HH:mm:ss"
                 @change="timeIntervalHandle"
                 :unlink-panels="true"
-                :time-arrow-control="true"
+                :picker-options="pickerOptions"
+                :default-value="lastMonthDate()"
                 range-separator="至"
                 start-placeholder="开始日期"
                 end-placeholder="结束日期">
@@ -121,6 +122,7 @@
 
 <script>
   import API from '../../../utils/api'
+  import { lastMonthDate } from '../../../utils/utils'
 
   export default {
     name: 'advancedSearch',
@@ -156,10 +158,24 @@
         targetObj: null,
         selectedBindValue: [],
         selectLastLevelMode: true,
+        pickerOptions: {
+          // disabledDate (t) {
+          //   let timestamp = Date.parse(t)
+          //   let targeTimestamp = new Date('2018-7-31')
+          //   if (timestamp > targeTimestamp) {
+          //     return true
+          //   } else {
+          //     return false
+          //   }
+          // }
+        }
       }
     },
     props: ['params'],
     methods: {
+      lastMonthDate () {
+        return lastMonthDate()
+      },
       saveSubmitForm () {
         this.$vDialog.close({type: 'search', params: this.searchForm})
       },

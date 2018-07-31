@@ -90,12 +90,12 @@
           <!--</el-form-item>-->
           <!--</el-col>-->
           <!--<el-col :span="8">-->
-            <!--<el-form-item label="状态：">-->
-              <!--<el-select v-model="searchForm.state" placeholder="请选择状态">-->
-                <!--<el-option v-for="item in customerState" :key="item.type" :label="item.value"-->
-                           <!--:value="item.type"></el-option>-->
-              <!--</el-select>-->
-            <!--</el-form-item>-->
+          <!--<el-form-item label="状态：">-->
+          <!--<el-select v-model="searchForm.state" placeholder="请选择状态">-->
+          <!--<el-option v-for="item in customerState" :key="item.type" :label="item.value"-->
+          <!--:value="item.type"></el-option>-->
+          <!--</el-select>-->
+          <!--</el-form-item>-->
           <!--</el-col>-->
         </el-row>
         <el-row class="el-row-cla">
@@ -106,6 +106,8 @@
                 type="datetimerange"
                 value-format="yyyy-MM-dd HH:mm:ss"
                 @change="timeIntervalHandle"
+                :unlink-panels="true"
+                :default-value="lastMonthDate()"
                 range-separator="至"
                 start-placeholder="开始日期"
                 end-placeholder="结束日期">
@@ -121,6 +123,8 @@
                 type="datetimerange"
                 value-format="yyyy-MM-dd HH:mm:ss"
                 @change="timeIntervalHandle2"
+                :unlink-panels="true"
+                :default-value="lastMonthDate()"
                 range-separator="至"
                 start-placeholder="开始日期"
                 end-placeholder="结束日期">
@@ -136,6 +140,8 @@
                 type="datetimerange"
                 value-format="yyyy-MM-dd HH:mm:ss"
                 @change="timeIntervalHandle3"
+                :unlink-panels="true"
+                :default-value="lastMonthDate()"
                 range-separator="至"
                 start-placeholder="开始日期"
                 end-placeholder="结束日期">
@@ -145,10 +151,10 @@
         </el-row>
         <el-row class="el-row-cla">
           <el-col :span="12">
-            <el-form-item label="开始：">
+            <el-form-item label="退回次数：">
               <el-input style="width: 100px" type="number" min="1" v-model="searchForm.startReturnTimes"></el-input>
               <span>至</span>
-              <el-input  style="width: 100px" type="number" min="1" v-model="searchForm.endReturnTimes"></el-input>
+              <el-input style="width: 100px" type="number" min="1" v-model="searchForm.endReturnTimes"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -163,6 +169,7 @@
 
 <script>
   import API from '../../../utils/api'
+  import { lastMonthDate } from '../../../utils/utils'
 
   export default {
     name: 'advancedSearch',
@@ -203,6 +210,9 @@
     },
     props: ['params'],
     methods: {
+      lastMonthDate () {
+        return lastMonthDate()
+      },
       saveSubmitForm () {
         this.$vDialog.close({type: 'search', params: this.searchForm})
       },

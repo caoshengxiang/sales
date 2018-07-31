@@ -243,8 +243,34 @@ export function underscoreName (s) {
   }
   return s.replace(/([A-Z])/g, '_$1').toLowerCase()
 }
+
 /*
 * a_b_c 转 aBC
 * */
 export function camelName () {
+}
+
+/*
+* 上个月1号日期
+*
+* */
+export function lastMonthDate () {
+  var Nowdate = new Date()
+  var vYear = Nowdate.getFullYear()
+  var vMon = Nowdate.getMonth() + 1
+  // var vDay = Nowdate.getDate()
+  // 每个月的最后一天日期（为了使用月份便于查找，数组第一位设为0）
+  // var daysInMonth = new Array(0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31)
+  if (vMon === 1) {
+    vYear = Nowdate.getFullYear() - 1
+    vMon = 12
+  } else {
+    vMon = vMon - 1
+  }
+  if (vMon < 10) {
+    vMon = '0' + vMon
+  }
+  var date = vYear + '-' + vMon + '-01'
+  console.log(date)
+  return new Date(date)
 }
