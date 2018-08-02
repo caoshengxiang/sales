@@ -96,6 +96,10 @@ module.exports = {
       $:"jquery",
       jQuery:"jquery",
       $axios: 'axios'
-    })
+    }),
+    new webpack.DllReferencePlugin({ // 添加DllReferencePlugin插件
+      context: path.resolve(__dirname, '..'),
+      manifest: require('./vendor-manifest.json')
+    }),
   ],
 }

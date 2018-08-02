@@ -18,7 +18,8 @@
     "push:prod": "bash ./bash/release.sh",
     "push:test": "bash ./bash/test.sh",
     "release:prod": "npm run gz:prod && npm run push:prod",
-    "release:test": "npm run gz:test && npm run push:test"
+    "release:test": "npm run gz:test && npm run push:test",
+    "build:dll": "webpack --config build/webpack.dll.conf.js"
   },
   "dependencies": {
     "axios": "^0.18.0",
