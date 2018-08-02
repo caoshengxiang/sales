@@ -1,3 +1,5 @@
+<!--回款记录-->
+
 <template>
   <div class="com-container" v-loading="dataLoading">
     <!--头部-->
@@ -128,7 +130,16 @@
         <el-table-column
           align="center"
           prop="refundStatus"
-          label="回款审核状态"
+          label="回款状态"
+          width="120"
+          sortable="custom"
+          show-overflow-tooltip
+        >
+        </el-table-column>
+        <el-table-column
+          align="center"
+          prop="auditStatus"
+          label="审核状态"
           width="120"
           sortable="custom"
           show-overflow-tooltip

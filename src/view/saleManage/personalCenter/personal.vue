@@ -35,7 +35,7 @@
                     </el-radio-group>
                   </el-form-item>
                   <el-form-item label="用户年龄" prop="age">
-                    <el-input type="age" v-model="ruleForm.age"></el-input>
+                    <el-input type="number" v-model="ruleForm.age"></el-input>
                   </el-form-item>
                   <el-form-item label="所在地区" prop="">
                     <!--<el-input v-model="ruleForm.name"></el-input>-->

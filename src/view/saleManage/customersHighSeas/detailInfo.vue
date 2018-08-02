@@ -106,7 +106,7 @@
               </tr>
             </table>
 
-            <p class="table-title">客户其他信息</p>
+            <p class="table-title">客户操作记录</p>
             <table class="detail-table">
               <!--<tr>-->
                 <!--<td class="td-title">所在公海</td>-->
@@ -142,7 +142,7 @@
                 <!--<td colspan="2">{{customerDetail.followerName}}</td>-->
               <!--</tr>-->
               <tr>
-                <td colspan="5" class="td-title">联系人操作记录</td>
+                <td colspan="5" class="td-title">客户操作记录</td>
                 <td class="td-title">操作人</td>
                 <td class="td-title">操作时间</td>
               </tr>

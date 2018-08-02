@@ -133,6 +133,7 @@
         }).then(() => {
           API.message.msgRead({ids: arrToStr(this.multipleSelection, 'id')}, (da) => {
             if (da.data > 0) {
+              this.getMessageTotal()
               this.$message.success('操作成功')
               this.getMessageList()
             }
