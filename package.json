@@ -13,11 +13,12 @@
     "lint": "eslint --ext .js,.vue src test/unit test/e2e/specs",
     "build:test": "set external_url=http://47.96.26.250:84&& set server_url=http://sales.dcstar-inc.com/sales&& node build/build.js",
     "build:prod": "set external_url=http://app.zzcfo.cn&& set server_url=http://erp.zzcfo.cn/sales&& node build/build.js",
-    "compress": "rm -rf dist && npm run build",
-    "release:prod": "npm run build:prod && bash ./bash/release.sh",
-    "release:test": "npm run build:test && bash ./bash/test.sh",
-    "release_linux": "npm run build:prod && ./bash/release.sh",
-    "release:test_linux": "npm run build:test && ./bash/test.sh"
+    "gz:prod": "npm run build:prod && bash ./bash/compress.sh",
+    "gz:test": "npm run build:test && bash ./bash/compress.sh",
+    "push:prod": "bash ./bash/release.sh",
+    "push:test": "bash ./bash/test.sh",
+    "release:prod": "npm run gz:prod && npm run push:prod",
+    "release:test": "npm run gz:test && npm run push:test"
   },
   "dependencies": {
     "axios": "^0.18.0",
