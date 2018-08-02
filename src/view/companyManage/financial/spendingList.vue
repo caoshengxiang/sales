@@ -5,7 +5,7 @@
       <el-breadcrumb separator-class="el-icon-arrow-right">
         <el-breadcrumb-item :to="{ name: 'companyManageHome' }">管理系统</el-breadcrumb-item>
         <el-breadcrumb-item>财务管理</el-breadcrumb-item>
-        <el-breadcrumb-item>佣金结算管理</el-breadcrumb-item>
+        <el-breadcrumb-item>佣金支出管理</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <!--控制栏-->

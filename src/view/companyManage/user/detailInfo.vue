@@ -69,11 +69,17 @@
               </tr>
               <tr>
                 <td class="td-title">直接上级</td>
-                <td>{{userDetail.superiorName}}</td>
+                <td>
+                  <span v-for="(u, index) in userDetail.heads" :key="index"><i v-if="index > 0">、</i>{{u.name}}</span>
+                </td>
                 <td class="td-title">培训师</td>
-                <td>{{userDetail.trainerName}}</td>
+                <td>
+                  <span v-for="(u, index) in userDetail.trainers" :key="index"><i v-if="index > 0">、</i>{{u.name}}</span>
+                </td>
                 <td class="td-title">销售助理</td>
-                <td>{{userDetail.assistantName}}</td>
+                <td>
+                  <span v-for="(u, index) in userDetail.assistants" :key="index"><i v-if="index > 0">、</i>{{u.name}}</span>
+                </td>
               </tr>
               <tr>
                 <td class="td-title">代理商号</td>
@@ -90,16 +96,16 @@
               <tr>
                 <td class="td-title">开户账号</td>
                 <td>{{userDetail.bankAccount}}</td>
-                <td class="td-title">可以提现金额</td>
-                <td>{{userDetail.availableCash}}</td>
-                <td class="td-title">冻结金额</td>
-                <td>{{userDetail.frozenCash}}</td>
+                <td class="td-title">开户户名</td>
+                <td>{{userDetail.bankUsername}}</td>
+                <td class="td-title">开户银行</td>
+                <td colspan="3">{{userDetail.bankDeposit}}</td>
               </tr>
               <tr>
-                <td class="td-title">开户名称</td>
-                <td>{{userDetail.bankUsername}}</td>
-                <td class="td-title">开户地点</td>
-                <td colspan="3">{{userDetail.bankAccount}}</td>
+                <!--<td class="td-title">可以提现金额</td>-->
+                <!--<td>{{userDetail.availableCash}}</td>-->
+                <!--<td class="td-title">冻结金额</td>-->
+                <!--<td>{{userDetail.frozenCash}}</td>-->
               </tr>
             </table>
           </el-tab-pane>

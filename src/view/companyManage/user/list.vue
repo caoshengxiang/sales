@@ -20,8 +20,13 @@
         <com-button buttonType="grey" icon="el-icon-edit" :disabled="this.multipleSelection.length !== 1"
                     @click="modifyHandle">修改
         </com-button>
-        <com-button buttonType="grey" icon="el-icon-remove-outline" :disabled="this.multipleSelection.length <= 0"
-                    @click="disableHandle">禁用
+        <com-button buttonType="grey" icon="el-icon-remove-outline"
+                    :disabled="this.multipleSelection.length <= 0 || disableUserHandle"
+                    @click="disableHandle(0)">禁用
+        </com-button>
+        <com-button buttonType="grey" icon="el-icon-check"
+                    :disabled="this.multipleSelection.length <= 0 || enableUserHandle"
+                    @click="disableHandle(1)">启用
         </com-button>
         <com-button buttonType="grey" icon="el-icon-setting" :disabled="this.multipleSelection.length !== 1"
                     @click="resetPassword">重置密码
@@ -246,7 +251,9 @@
           organizationId: '',
         },
         userTotal:0,
-        userList:null
+        userList:null,
+        disableUserHandle: false,
+        enableUserHandle: false
       }
     },
     computed: {
@@ -256,9 +263,23 @@
         'usertate',
         'pagesOptions',
       ]),
-      ...mapState('user', [
-        'userTotal',
-      ]),
+      // ...mapState('user', [ // 报错 "userTotal" is already defined in data.
+      //   'userTotal',
+      // ]),
+    },
+    watch: {
+      multipleSelection (va) {
+        this.enableUserHandle = false
+        this.disableUserHandle = false
+        va.forEach(item => {
+          console.log(item.status, item)
+          if (item.status === 1) { // 有效
+            this.enableUserHandle = true
+          } else if (item.status === 3) { // 禁用
+            this.disableUserHandle = true
+          }
+        })
+      }
     },
     components: {
       comButton,
@@ -475,7 +496,15 @@
           })
         })
       },
-      disableHandle () {
+      disableHandle (type) {
+        if (this.disableUserHandle && this.enableUserHandle) {
+          if (type === 0) {
+            this.$message.info('选项中包含禁用用户！')
+          } else if (type === 1) {
+            this.$message.info('选项中包含有效用户！')
+          }
+          return
+        }
         this.$confirm('确定禁用当前选中所有用户, 是否继续?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
@@ -490,6 +519,8 @@
               type: 'success',
               message: '用户禁用成功!',
             })
+            this.currentPage = 1
+            this.getuserList()
           }, (mock) => {
             if (mock.status) {
               this.$message({

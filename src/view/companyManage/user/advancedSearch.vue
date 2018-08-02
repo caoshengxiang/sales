@@ -28,8 +28,13 @@
               <el-input type="text" v-model="searchForm.mobilePhone"></el-input>
             </el-form-item>
           </el-col>
-        </el-row>
-        <el-row class="el-row-cla">
+          <el-col :span="8" v-if="type===1">
+            <el-form-item label="手机号：">
+              <el-input type="text" v-model="searchForm.mobilePhone"></el-input>
+            </el-form-item>
+          </el-col>
+        <!--</el-row>-->
+        <!--<el-row class="el-row-cla">-->
           <el-col :span="8">
             <el-form-item label="部门：">
               <el-input type="text" v-model="searchForm.departmentName"></el-input>
@@ -110,8 +115,8 @@
             <el-form-item label="出生日期：">
               <el-date-picker
                 v-model="birthday"
+                value-format="yyyy-MM-dd HH:mm:ss"
                 type="daterange"
-                value-format="yyyy-MM-dd"
                 @change="timeIntervalHandle"
                 :unlink-panels="true"
                 range-separator="至"
@@ -172,12 +177,12 @@
     props: ['params'],
     methods: {
       timeIntervalHandle (value) {
-        this.searchForm.birthdayStart =Number(new Date(value[0])) || ''
-        this.searchForm.birthdayEnd = Number(new Date(value[1])) || ''
+        this.searchForm.birthdayStart = value[0] || ''
+        this.searchForm.birthdayEnd = value[1] || ''
       },
       selectedOptionsHandleChange (value) {
         var that = this
-        that.organizationId  = value
+        that.organizationId = value
         // this.form.organizationId =value[value.length -1] // 取当前选中的组织
       },
       getOrganization (pa) {
