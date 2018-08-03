@@ -20,19 +20,25 @@
                        v-for="item in salerList" :key="item.id" :label="item.name" :value="item.id"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="请选择转移业务类型" prop="transferType">
-          <el-radio-group v-model="moveCustomerForm.transferType">
-            <div class="radio-group-item">
-              <el-radio :label="1">转移客户，转移销售机会，不保留团队成员身份</el-radio>
-            </div>
-            <div class="radio-group-item">
-              <el-radio :label="2">转移客户，转移销售机会，保留团队成员身份</el-radio>
-            </div>
-            <div class="radio-group-item">
-              <el-radio :label="3">转移客户，不转移销售机会，保留团队成员身份</el-radio>
-            </div>
-          </el-radio-group>
-        </el-form-item>
+        <!--[描述]-->
+        <!--业务模式发生变化，同一客户（含该客户的销售机会）同一时间在同一分子公司只能存在一个销售跟进人员，故客户转移的功能需要略做调整。-->
+        <!--特别说明：同一客户同一个分子公司只能有一个销售员跟进，也就是每个分子公司都可以最多有一个销售员跟进。-->
+        <!--[期望]-->
+        <!--1.转移功能弹框中原有三种转移模式，现只保留第一种，即“转移客户同时转移跟进的该客户销售机会，且不保留团队成员中的销售员身份”-->
+        <!--2.前端隐藏三种转移模式的选择，使用该功能时，默认采用第一种模式进行转移。（只前端进行隐藏，后台的功能不做变化，防止后面需求再度变化）-->
+        <!--<el-form-item label="请选择转移业务类型" prop="transferType">-->
+          <!--<el-radio-group v-model="moveCustomerForm.transferType">-->
+            <!--<div class="radio-group-item">-->
+              <!--<el-radio :label="1">转移客户，转移销售机会，不保留团队成员身份</el-radio>-->
+            <!--</div>-->
+            <!--<div class="radio-group-item">-->
+              <!--<el-radio :label="2">转移客户，转移销售机会，保留团队成员身份</el-radio>-->
+            <!--</div>-->
+            <!--<div class="radio-group-item">-->
+              <!--<el-radio :label="3">转移客户，不转移销售机会，保留团队成员身份</el-radio>-->
+            <!--</div>-->
+          <!--</el-radio-group>-->
+        <!--</el-form-item>-->
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button class="cancel-button" @click="cancelSubmitForm">取 消</el-button>
@@ -55,7 +61,7 @@
         moveCustomerForm: {
           oldSalerId: '',
           customerIds: '',
-          transferType: '',
+          transferType: 1,
           newSalerId: '',
         },
         salerList: [],
