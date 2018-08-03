@@ -200,7 +200,7 @@ export default {
       })
     },
     detailNoAuth (params, success, error) { // 客户详细, 无权限
-      $axios.get('customer/' + params.id).then((res) => {
+      $axios.get('customer/noAuth/' + params.id).then((res) => {
         success && success(res.data)
       }).catch((err) => {
         error && error(err)

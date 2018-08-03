@@ -62,12 +62,13 @@ npm test
 控制台输入bash 就可运行bash 命令
 
 1. window10 下部署
-* npm run release:test 测试服
-* npm run release 正式服
-2. linux 下部署
+* npm run release:test 测试服 [可以分为两步；npm run gz:test  和 npm run push:test]
+* npm run release:prod 正式服 [同理]
+2. linux 下部署(暂未生效)
 * npm run release:test_linux 测试服
 * npm run release_linux 正式服
-
+3. 注意使用DllReferencePlugin插件，三方库，不会修改文件在 `webpack.dll.conf.js` 配置，优化build 时间
+另外配置了之后 需执行 `npm run build:dll`
 > 【目前会提示输入两次密码】
 
 [自动输入密码](https://blog.csdn.net/zhangjikuan/article/details/51105166)

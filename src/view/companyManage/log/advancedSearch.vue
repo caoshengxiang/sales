@@ -50,7 +50,7 @@
         <el-row class="el-row-cla">
           <el-col :span="8">
             <el-form-item label="对象系统：">
-              <el-input type="text" v-model="searchForm.businessSystemId"></el-input>
+              <el-input type="text" v-model="searchForm.businessSystemName"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="16">
@@ -99,7 +99,7 @@
           subjectName: null,
           objectType:null,
           action: null,
-          businessSystemId: null,
+          businessSystemName: null,
           operateTimeStart:null,
           operateTimeEnd:null,
         },

@@ -40,9 +40,14 @@
         <!--</el-radio-group>-->
         <ul class="com-info-op-group">
           <!--输单后隐藏删除以外得按钮-->
-          <li class="op-active" v-if="salesOpportunitiesDetail.stage !== -1 && isChangeFollower"
-              @click="operateOptions('move')">转移
-          </li>
+
+         <!-- 销售机会模块列表中“转移”按钮与销售机会详情里面“转移”按钮隐藏
+          业务模式发生变化，同一客户（含该客户的销售机会）同一时间在同一分子公司只能存在一个销售跟进人员，为了避免同一客户多个销售机会被多个用户跟进，故需要隐藏销售机会“转移”功能
+          [期望]
+          销售机会模块列表中“转移”按钮与销售机会详情里面“转移”按钮隐藏-->
+          <!--<li class="op-active" v-if="salesOpportunitiesDetail.stage !== -1 && isChangeFollower"-->
+              <!--@click="operateOptions('move')">转移-->
+          <!--</li>-->
           <li v-if="isChangeFollower" @click="operateOptions('delete')">删除</li>
         </ul>
       </div>
