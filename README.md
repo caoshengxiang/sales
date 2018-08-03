@@ -393,3 +393,8 @@ console.log(process.env.server_url, 'test-环境地址') // undefined
 
 ## webpack 打包-webkit-box-orient: vertical;不见了
 [解决](https://www.cnblogs.com/xianhuiwang/p/9044725.html)
+
+## 生产环境部署
+1. 将打包后dist目录下的index.html和static打包（例如包名：Archive.zip）拷贝到服务器目录/opt/web-front/sales/下面
+2. 将服务器上原有index.html和static移动到bak目录
+3. 解压Archive.zip即完成部署
