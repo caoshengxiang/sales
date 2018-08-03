@@ -71,6 +71,22 @@
         </el-row>
         <el-row class="el-row-cla">
           <el-col :span="14">
+            <el-form-item label="预计前端日期：">
+              <el-date-picker
+                v-model="timeInterval2"
+                type="datetimerange"
+                value-format="yyyy-MM-dd HH:mm:ss"
+                @change="timeBillDateIntervalHandle"
+                :unlink-panels="true"
+                range-separator="至"
+                start-placeholder="开始日期"
+                end-placeholder="结束日期">
+              </el-date-picker>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row class="el-row-cla">
+          <el-col :span="14">
             <el-form-item label="预计签单金额：">
               <el-row>
                 <el-col :span="10">
@@ -117,8 +133,11 @@
           endCreateDate: null,
           startIntentBillAmount: null, // 签单金额
           endIntentBillAmount: null,
+          startBillDate: null,
+          endBillDate: null,
         },
         timeInterval: '',
+        timeInterval2: '',
         chanceSourceType: [], // 客户来源
         chanceSourceArr: [],
         props: {
@@ -152,6 +171,10 @@
       timeIntervalHandle (value) {
         this.searchForm.startCreateDate = value[0] || ''
         this.searchForm.endCreateDate = value[1] || ''
+      },
+      timeBillDateIntervalHandle (value) {
+        this.searchForm.startBillDate = value[0] || ''
+        this.searchForm.endBillDate = value[1] || ''
       },
       getConfigData (type, pCode) {
         API.common.codeConfig({type: type, pCode: pCode}, (data) => {

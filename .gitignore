@@ -8,6 +8,7 @@ yarn-error.log*
 /test/e2e/reports/
 selenium-debug.log
 sales.tar.gz
+dist.tar.gz
 
 # Editor directories and files
 .idea
