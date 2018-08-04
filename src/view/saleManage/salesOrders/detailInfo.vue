@@ -88,9 +88,9 @@
                 <td class="td-title">签单金额</td>
                 <td>{{orderDetail.billAmount}}</td>
                 <td class="td-title">回款金额</td>
-                <td>{{orderDetail.refund_amount}}</td>
+                <td>{{orderDetail.refundAmount}}</td>
                 <td class="td-title">待回款金额</td>
-                <td>{{orderDetail.not_refund_amount}}</td>
+                <td>{{orderDetail.notRefundAmount}}</td>
               </tr>
               <tr>
                 <td class="td-title">订单来源</td>
