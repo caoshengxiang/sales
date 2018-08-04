@@ -66,6 +66,7 @@
         <el-table-column
           align="center"
           label="结算状态"
+          show-overflow-tooltip
         >
           <template slot-scope="scope">
             <span v-for="item in clearState" :key="item.type"
@@ -85,6 +86,7 @@
           prop="productName"
           label="销售商品"
           sortable="custom"
+          show-overflow-tooltip
         >
         </el-table-column>
 
@@ -93,11 +95,13 @@
           sortable="custom"
           prop="netReceipts"
           label="回款金额"
+          show-overflow-tooltip
         >
         </el-table-column>
         <el-table-column
           align="center"
           label="结算类型"
+          show-overflow-tooltip
         >
           <el-table-column
             align="center"
@@ -112,6 +116,7 @@
             label="签约主体"
             sortable="custom"
             prop="contractSubjectName"
+            show-overflow-tooltip
           >
           </el-table-column>
           <el-table-column
@@ -119,6 +124,7 @@
             label="签约金额"
             sortable="custom"
             prop="contractSubjectAmount"
+            show-overflow-tooltip
           >
           </el-table-column>
           <el-table-column
@@ -126,6 +132,7 @@
             sortable="custom"
             prop="saleSubjectName"
             label="销售主体"
+            show-overflow-tooltip
           >
           </el-table-column>
 
@@ -134,6 +141,7 @@
             sortable="custom"
             prop="serviceSubjectName"
             label="服务主体"
+            show-overflow-tooltip
           >
           </el-table-column>
 
@@ -142,6 +150,7 @@
             sortable="custom"
             prop="rebateSubjectName"
             label="返佣主体"
+            show-overflow-tooltip
           >
           </el-table-column>
 

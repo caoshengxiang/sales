@@ -40,7 +40,7 @@
               <!--<input type="text" v-model="addForm.industry">-->
               <el-form-item prop="industry">
                 <el-select v-model="addForm.industry" @change="selectIndustry" placeholder="请选择客户行业">
-                  <el-option v-for="item in industryList" :key="item.codeName" :label="item.codeName"
+                  <el-option v-for="item in industryList" :key="item.id" :label="item.codeName"
                              :value="item.codeName"></el-option>
                 </el-select>
               </el-form-item>
@@ -83,6 +83,7 @@
             <td class="td-text" colspan="5">
               <el-cascader
                 style="width: 100%"
+                :disabled="dialogType === 'edit'?true:false"
                 :change-on-select="selectLastLevelMode"
                 :options="customerSourceType"
                 v-model="customerSourceArr"
@@ -207,6 +208,9 @@
         targetObj: null,
         // selectedBindValue: [],
         selectLastLevelMode: true,
+        isCreater: true,
+        isFollower: true,
+        userInfo: '',
       }
     },
     props: ['params'],
@@ -378,8 +382,15 @@
       this.getConfigData(5, 0)
       this.getSeaList()
       if (this.params.detail) {
+        this.userInfo = webStorage.getItem('userInfo')
         this.addForm = JSON.parse(JSON.stringify(this.params.detail))
         this.dialogType = 'edit'
+        if (this.userInfo.id !== this.addForm.team.salerId) { // 判断更进人
+          this.isFollower = false
+        }
+        if (this.userInfo.id !== this.addForm.team.creator) { // 判断创建人
+          this.isCreater = false
+        }
       }
     },
   }

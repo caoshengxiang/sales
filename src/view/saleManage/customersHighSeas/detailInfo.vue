@@ -33,7 +33,8 @@
         <!--<el-radio-button class="btn-width" label="move" @click.native="operateOptions">转移</el-radio-button>-->
         <!--</el-radio-group>-->
         <ul class="com-info-op-group">
-          <li class="op-active" @click="operateOptions('assign')">分配</li>
+          <li class="op-active" v-if="isCreater" @click="operateOptions('editCustomer')">编辑</li>
+          <li @click="operateOptions('assign')">分配</li>
           <li @click="operateOptions('gain')">捞取</li>
           <li @click="operateOptions('group')">改变分组</li>
         </ul>
@@ -293,6 +294,7 @@
   // import addOrderDialog from '../salesOrders/addDialog'
   import assignDialog from './assignDialog'
   import groupDialog from './groupDialog'
+  import addDialog from './addDialog'
   // import { arrToStr } from '../../../utils/utils'
   import webStorage from 'webStorage'
 
@@ -351,6 +353,23 @@
       operateOptions (op) {
         let that = this
         switch (op) {
+          case 'editCustomer':
+            this.$vDialog.modal(addDialog, {
+              title: '编辑客户',
+              width: 900,
+              height: 460,
+              params: {
+                customerAddSource: this.customerAddSource,
+                detail: this.customerDetail,
+                topSource: this.topSource, // 顶级客户来源
+              },
+              callback: (data) => {
+                if (data.type === 'save') {
+                  this.getCustomerDetail()
+                }
+              },
+            })
+            break
           case 'assign':
             this.$vDialog.modal(assignDialog, {
               title: '分配客户',
@@ -478,7 +497,7 @@
       quickOperation (op, id) {
         // eslint-disable-next-line
         let that = this
-        let deleteId = id || ''
+        // let deleteId = id || ''
         switch (op) {
           case 'addContact':
             if (this.currentUserIsTeamNum()) {
