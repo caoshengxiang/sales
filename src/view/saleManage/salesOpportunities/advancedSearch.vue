@@ -71,7 +71,7 @@
         </el-row>
         <el-row class="el-row-cla">
           <el-col :span="14">
-            <el-form-item label="预计前端日期：">
+            <el-form-item label="预计签单日期：">
               <el-date-picker
                 v-model="timeInterval2"
                 type="datetimerange"
