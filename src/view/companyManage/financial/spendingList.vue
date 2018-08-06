@@ -70,11 +70,15 @@
           prop="rebateUserName"
           label="返佣对象"
           show-overflow-tooltip>
+          <template slot-scope="scope">
+            <span>{{ scope.row.rebateUserName }}[{{ scope.row.mobilePhone }}]</span>
+          </template>
         </el-table-column>
 
         <el-table-column
           align="center"
           label="返佣合计金额"
+          width="120"
           prop="totalAmount"
           sortable="custom"
           show-overflow-tooltip>
@@ -96,6 +100,7 @@
           align="center"
           prop="created"
           label="返佣结算日期"
+          width="120"
           sortable="custom"
           show-overflow-tooltip>
         </el-table-column>
@@ -107,6 +112,7 @@
           <el-table-column
             align="center"
             label="销售佣金"
+            width="100"
             sortable="custom"
              prop="saleCommission"
           >
@@ -115,6 +121,7 @@
           <el-table-column
             align="center"
             label="管理佣金"
+            width="100"
             sortable="custom"
             prop="managementCommission"
           >
@@ -292,8 +299,12 @@
           },
           callback: (data) => {
             if (data.type === 'search') {
-              console.log('高级搜索数据：', data.params)
               this.advancedSearch = data.params
+              console.log(this.advancedSearch)
+              this.advancedSearch.paymentMonthStart = this.advancedSearch.paymentMonthStart===null?"":(this.advancedSearch.paymentMonthStart.getFullYear()+""+('00'+(1+this.advancedSearch.paymentMonthStart.getMonth())).slice(-2))
+
+              this.advancedSearch.paymentMonthEnd = this.advancedSearch.paymentMonthEnd===null?"":(this.advancedSearch.paymentMonthEnd.getFullYear()+""+('00'+(1+this.advancedSearch.paymentMonthEnd.getMonth())).slice(-2))
+                alert(this.advancedSearch.paymentMonthEnd)
               this.getCommissionClear()
             }
           },
