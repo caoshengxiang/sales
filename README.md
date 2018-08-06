@@ -38,11 +38,15 @@ npm install
 ### 运行开发环境
 npm run dev
 
-### 生产环境
-npm run build
+### 生产环境，打包
+npm run build:test
+npm run build:prod
+> 分别对应两个环境地址
+[设置不同环境时需要注意](https://segmentfault.com/q/1010000009324489)
 
 ### 运行生产环境，并生成报告
-npm run build --report
+npm run build:test --report
+npm run build:prod --report
 
 ### run unit tests
 npm run unit
@@ -54,7 +58,7 @@ npm run e2e
 npm test
 ```
 
-## 项目部署
+## 测试服项目部署
 
 ### window 上运行bash
 [教程](https://www.ithome.com/html/win10/233457.htm)
@@ -75,11 +79,11 @@ npm test
 
 [linux expect 使用](https://blog.csdn.net/houmou/article/details/53102051)
 
-3. 打包
-* npm run build:test
-* npm run build:prod
-> 分别对应两个环境地址
-[设置需要注意](https://segmentfault.com/q/1010000009324489)
+
+> ## 生产环境部署
+  1. 将打包后dist目录下的index.html和static打包（例如包名：Archive.zip）拷贝到服务器目录/opt/web-front/sales/下面
+  2. 将服务器上原有index.html和static移动到bak目录
+  3. 解压Archive.zip即完成部署
 
 ## 目录说明
 ```

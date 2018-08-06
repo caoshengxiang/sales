@@ -105,7 +105,7 @@ export default {
     ],
     salesState: [ // 销售阶段
       {
-        type: -1,
+        type: -1, // 机会详细直接使用
         value: '输单',
         percent: '0%',
       },
@@ -126,7 +126,7 @@ export default {
         value: ' 预下订单',
         percent: '80%',
       }, {
-        type: 5,
+        type: 5, // 机会详细直接使用
         value: '客户签单',
         percent: '100%',
       },

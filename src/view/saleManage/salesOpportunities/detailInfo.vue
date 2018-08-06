@@ -369,7 +369,8 @@
           </li>
         </ul>
         <!--输单后隐藏删除以外得按钮-->
-        <div class="team-btn-group" v-if="salesOpportunitiesDetail.stage !== -1">
+        <!--当销售机会进入100%阶段后，咨询师相关的操作按钮作隐藏处理。包含“申请咨询师协同”“申请替换咨询师”“咨询师主动退出”-->
+        <div class="team-btn-group" v-if="salesOpportunitiesDetail.stage !== -1 && salesOpportunitiesDetail.stage !== 5">
           <div v-if="salesOpportunitiesDetail.team && !salesOpportunitiesDetail.team.counselorId && isChangeFollower"
                class="btn-item-1" @click="operateOptions('apply')">申请咨询师协同
           </div>
