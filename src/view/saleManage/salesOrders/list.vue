@@ -141,7 +141,7 @@
         <el-table-column
           align="center"
           sortable="custom"
-          prop="refund_amount"
+          prop="refundAmount"
           label="回款金额"
           width="160"
           show-overflow-tooltip>
@@ -149,7 +149,7 @@
         <el-table-column
           align="center"
           sortable="custom"
-          prop="not_refund_amount"
+          prop="notRefundAmount"
           label="待回款金额"
           width="160"
           show-overflow-tooltip>
