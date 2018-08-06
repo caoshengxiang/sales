@@ -112,14 +112,14 @@
             <td class="td-title">实际签单金额</td>
             <td>{{salesOpportunitiesDetail.billAmount}}</td>
           </tr>
-          <tr>
-            <td class="td-title">签单订单号</td>
-            <td>{{salesOpportunitiesDetail.billOrderId}}</td>
-            <td class="td-title">签单商品</td>
-            <td>{{salesOpportunitiesDetail.billProductName}}</td>
-            <td class="td-title"></td>
-            <td></td>
-          </tr>
+          <!--<tr>-->
+            <!--<td class="td-title">签单订单号</td>-->
+            <!--<td>{{salesOpportunitiesDetail.orderId}}</td>-->
+            <!--<td class="td-title">签单商品</td>-->
+            <!--<td>{{salesOpportunitiesDetail.productName}}</td>-->
+            <!--<td class="td-title"></td>-->
+            <!--<td></td>-->
+          <!--</tr>-->
           <tr>
             <td class="td-title">销售机会备注</td>
             <td colspan="5">{{salesOpportunitiesDetail.chanceRemark || '暂无备注信息'}}</td>

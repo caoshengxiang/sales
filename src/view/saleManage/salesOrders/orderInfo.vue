@@ -76,11 +76,11 @@
           <div class="left">
             <p>下单时间：{{orderDetail.createDate&&$moment(orderDetail.createDate).format('YYYY-MM-DD HH:mm:ss')}}</p>
             <p>确认时间：{{orderDetail.ensureDate&&$moment(orderDetail.ensureDate).format('YYYY-MM-DD HH:mm:ss')}}</p>
-            <p>服务结束：{{orderDetail.serviceStartDate&&$moment(orderDetail.serviceStartDate).format('YYYY-MM-DD HH:mm:ss')}}</p>
+            <p>服务结束：{{orderDetail.serviceEndDate&&$moment(orderDetail.serviceEndDate).format('YYYY-MM-DD HH:mm:ss')}}</p>
           </div>
           <div class="right">
             <p>支付时间：{{orderDetail.payDate&&$moment(orderDetail.payDate).format('YYYY-MM-DD HH:mm:ss')}}</p>
-            <p>服务开始：{{orderDetail.serviceEndDate&&$moment(orderDetail.serviceEndDate).format('YYYY-MM-DD HH:mm:ss')}}</p>
+            <p>服务开始：{{orderDetail.serviceStartDate&&$moment(orderDetail.serviceStartDate).format('YYYY-MM-DD HH:mm:ss')}}</p>
             <p>订单完成：{{orderDetail.finishDate&&$moment(orderDetail.finishDate).format('YYYY-MM-DD HH:mm:ss')}}</p>
           </div>
         </div>
