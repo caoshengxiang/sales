@@ -276,10 +276,10 @@
             // 对应的签约主体
             this.getContractSubjects(item.intentProductId)
             // 重置来源
-            // console.log(item.chanceSource)
+            // console.log(item.orderSourceName)
             this.orderSourceArr = item.chanceSource.split('-') // 获取机会对应来源
-            this.addForm.orderSource = item.chanceSource
-            this.addForm.orderSourceName = item.chanceSourceName || '' // 获取机会对应来源
+            this.addForm.orderSource = item.orderSourceName
+            this.addForm.orderSourceName = item.orderSourceName || '' // 获取机会对应来源
           }
         })
       },
@@ -385,6 +385,7 @@
           quantity: orD.quantity,
           remark: orD.remark,
           orderSource: orD.orderSource,
+          orderSourceName: orD.orderSourceName || '', // 获取机会对应来源
           isRenew: true,
           preId: orD.id,
         }
