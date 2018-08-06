@@ -45,6 +45,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button class="cancel-button" @click="$vDialog.close({type: 'cancel'})">取 消</el-button>
+        <el-button class="cancel-button" @click="clearForm">清 除</el-button>
         <el-button class="save-button" @click="saveSubmitForm">确 定</el-button>
       </div>
     </div>
@@ -67,13 +68,17 @@
           startDate: null,
           endDate: null,
         },
-        timeInterval: '',
+        timeInterval: [],
       }
     },
     props: ['params'],
     methods: {
       lastMonthDate () {
         return lastMonthDate()
+      },
+      clearForm () {
+        this.searchForm = {}
+        this.timeInterval = []
       },
       saveSubmitForm () {
         this.$vDialog.close({type: 'search', params: this.searchForm})
@@ -85,6 +90,10 @@
     },
     created () {
       this.salesState = this.params.salesState
+      this.searchForm = this.params.preAdvancedSearch
+      if (this.searchForm.startDate) { // 日期
+        this.timeInterval = [this.searchForm.startDate, this.searchForm.endDate]
+      }
     },
   }
 </script>

@@ -161,6 +161,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button class="cancel-button" @click="$vDialog.close({type: 'cancel'})">取 消</el-button>
+        <el-button class="cancel-button" @click="clearForm">清 除</el-button>
         <el-button class="save-button" @click="saveSubmitForm">确 定</el-button>
       </div>
     </div>
@@ -195,9 +196,9 @@
           startDate: null,
           endDate: null,
         },
-        timeInterval: '',
-        timeInterval2: '',
-        timeInterval3: '',
+        timeInterval: [],
+        timeInterval2: [],
+        timeInterval3: [],
         customerSourceArr: [],
         props: {
           value: 'id',
@@ -212,6 +213,12 @@
     methods: {
       lastMonthDate () {
         return lastMonthDate()
+      },
+      clearForm () {
+        this.searchForm = {}
+        this.timeInterval = []
+        this.timeInterval2 = []
+        this.timeInterval3 = []
       },
       saveSubmitForm () {
         this.$vDialog.close({type: 'search', params: this.searchForm})
@@ -296,6 +303,16 @@
       this.getSeaList()
       // this.customerSourceType = this.params.customerSourceType
       this.customerState = this.params.customerState
+      this.searchForm = this.params.preAdvancedSearch
+      if (this.searchForm.startCreated) { // 日期
+        this.timeInterval = [this.searchForm.startCreated, this.searchForm.endCreated]
+      }
+      if (this.searchForm.startModified) { // 日期
+        this.timeInterval2 = [this.searchForm.startModified, this.searchForm.endModified]
+      }
+      if (this.searchForm.startLatestReturnTime) { // 日期
+        this.timeInterval3 = [this.searchForm.startLatestReturnTime, this.searchForm.endLatestReturnTime]
+      }
     },
   }
 </script>

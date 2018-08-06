@@ -449,7 +449,7 @@
           type: null,
         },
         sortObj: {sort: 'created,desc'}, // 排序
-        advancedSearch: null, // 高级搜索
+        advancedSearch: {}, // 高级搜索
       }
     },
     computed: {
@@ -519,7 +519,9 @@
           title: '高级搜索',
           width: 900,
           height: 600,
-          params: {},
+          params: {
+            preAdvancedSearch: this.advancedSearch,
+          },
           callback: (data) => {
             if (data.type === 'search') {
               console.log('高级搜索数据：', data.params)

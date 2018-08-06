@@ -116,6 +116,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button class="cancel-button" @click="$vDialog.close({type: 'cancel'})">取 消</el-button>
+        <el-button class="cancel-button" @click="clearForm">清 除</el-button>
         <el-button class="save-button" @click="saveSubmitForm">确 定</el-button>
       </div>
     </div>
@@ -152,12 +153,17 @@
           startAuditTime: null, // 审核时间下限
           endAuditTime: null,
         },
-        timeIntervalRefundDate: '',
-        timeIntervalAuditTime: '',
+        timeIntervalRefundDate: [],
+        timeIntervalAuditTime: [],
       }
     },
     props: ['params'],
     methods: {
+      clearForm () {
+        this.searchForm = {}
+        this.timeIntervalRefundDate = []
+        this.timeIntervalAuditTime = []
+      },
       saveSubmitForm () {
         this.$vDialog.close({type: 'search', params: this.searchForm})
       },
@@ -181,6 +187,13 @@
       },
     },
     created () {
+      this.searchForm = this.params.preAdvancedSearch
+      if (this.searchForm.startRefundDate) { // 日期
+        this.timeIntervalRefundDate = [this.searchForm.startRefundDate, this.searchForm.startRefundDate]
+      }
+      if (this.searchForm.startAuditTime) { // 日期
+        this.timeIntervalAuditTime = [this.searchForm.startAuditTime, this.searchForm.startAuditTime]
+      }
     },
   }
 </script>

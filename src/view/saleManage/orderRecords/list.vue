@@ -149,7 +149,7 @@
         },
         chanceId: null, // 路由参数
         sortObj: {sort: 'created,desc'}, // 排序
-        advancedSearch: null, // 高级搜索
+        advancedSearch: {}, // 高级搜索
         options: [
           {type: 1, value: '我创建的跟单记录'},
           {type: 2, value: '我参与的跟单记录'}
@@ -206,6 +206,7 @@
           height: 360,
           params: {
             salesState: this.salesState,
+            preAdvancedSearch: this.advancedSearch
           },
           callback: (data) => {
             if (data.type === 'search') {

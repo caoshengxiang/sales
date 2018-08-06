@@ -288,7 +288,7 @@
         organizationOptions: [], // 组织列表
         organizationId: null, // 选择的组织
         sortObj: {sort: 'created,desc'}, // 排序
-        advancedSearch: null, // 高级搜索
+        advancedSearch: {}, // 高级搜索
       }
     },
     computed: {
@@ -370,6 +370,7 @@
           params: {
             orderState: this.orderState,
             orderSource: this.orderSource,
+            preAdvancedSearch: this.advancedSearch,
           },
           callback: (data) => {
             if (data.type === 'search') {

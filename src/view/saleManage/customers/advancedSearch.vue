@@ -30,7 +30,7 @@
           <el-col :span="8">
             <el-form-item label="客户级别：">
               <el-select v-model="searchForm.level" placeholder="请选择客户级别">
-                <el-option v-for="item in levelList" :key="item.codeName" :label="item.codeName"
+                <el-option v-for="(item, index) in levelList" :key="index" :label="item.codeName"
                            :value="item.codeName"></el-option>
               </el-select>
             </el-form-item>
@@ -38,7 +38,7 @@
           <el-col :span="8">
             <el-form-item label="客户行业：">
               <el-select v-model="searchForm.industry" placeholder="请选择客户行业">
-                <el-option v-for="item in industryList" :key="item.codeName" :label="item.codeName"
+                <el-option v-for="(item, index) in industryList" :key="index" :label="item.codeName"
                            :value="item.codeName"></el-option>
               </el-select>
             </el-form-item>
@@ -114,6 +114,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button class="cancel-button" @click="$vDialog.close({type: 'cancel'})">取 消</el-button>
+        <el-button class="cancel-button" @click="clearForm">清 除</el-button>
         <el-button class="save-button" @click="saveSubmitForm">确 定</el-button>
       </div>
     </div>
@@ -148,7 +149,7 @@
           startDate: null,
           endDate: null,
         },
-        timeInterval: '',
+        timeInterval: [],
         customerSourceType: [], // 客户来源
         customerSourceArr: [],
         props: {
@@ -175,6 +176,10 @@
     methods: {
       lastMonthDate () {
         return lastMonthDate()
+      },
+      clearForm () {
+        this.searchForm = {}
+        this.timeInterval = []
       },
       saveSubmitForm () {
         this.$vDialog.close({type: 'search', params: this.searchForm})
@@ -251,6 +256,10 @@
       this.getSeaList()
       // this.customerSourceType = this.params.customerSourceType
       this.customerState = this.params.customerState
+      this.searchForm = this.params.preAdvancedSearch
+      if (this.searchForm.startDate) { // 日期
+        this.timeInterval = [this.searchForm.startDate, this.searchForm.endDate]
+      }
     },
   }
 </script>

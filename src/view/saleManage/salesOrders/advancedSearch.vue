@@ -137,6 +137,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button class="cancel-button" @click="$vDialog.close({type: 'cancel'})">取 消</el-button>
+        <el-button class="cancel-button" @click="clearForm">清 除</el-button>
         <el-button class="save-button" @click="saveSubmitForm">确 定</el-button>
       </div>
     </div>
@@ -171,7 +172,7 @@
           startNotRefundAmount: null,
           endNotRefundAmount: null,
         },
-        timeInterval: '',
+        timeInterval: [],
         orderSourceType: [], // 客户来源
         orderSourceArr: [],
         props: {
@@ -210,6 +211,10 @@
           this.searchForm.endNotRefundAmount) {
           this.searchForm.endNotRefundAmount = this.searchForm.startNotRefundAmount
         }
+      },
+      clearForm () {
+        this.searchForm = {}
+        this.timeInterval = []
       },
       saveSubmitForm () {
         this.$vDialog.close({type: 'search', params: this.searchForm})
@@ -273,6 +278,10 @@
       this.orderSource = this.params.orderSource
       // 来源
       this.getConfigData(5, 0)
+      this.searchForm = this.params.preAdvancedSearch
+      if (this.searchForm.startDate) { // 日期
+        this.timeInterval = [this.searchForm.startDate, this.searchForm.endDate]
+      }
     },
   }
 </script>

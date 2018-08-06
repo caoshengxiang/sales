@@ -136,8 +136,8 @@
           startBillDate: null,
           endBillDate: null,
         },
-        timeInterval: '',
-        timeInterval2: '',
+        timeInterval: [],
+        timeInterval2: [],
         chanceSourceType: [], // 客户来源
         chanceSourceArr: [],
         props: {
@@ -164,6 +164,11 @@
           this.searchForm.endIntentBillAmount) {
           this.searchForm.endIntentBillAmount = this.searchForm.startIntentBillAmount
         }
+      },
+      clearForm () {
+        this.searchForm = {}
+        this.timeInterval = []
+        this.timeInterval2 = []
       },
       saveSubmitForm () {
         this.$vDialog.close({type: 'search', params: this.searchForm})
@@ -232,6 +237,13 @@
       this.demandSource = this.params.demandSource
       // 来源
       this.getConfigData(5, 0)
+      this.searchForm = this.params.preAdvancedSearch
+      if (this.searchForm.startCreateDate) { // 日期
+        this.timeInterval = [this.searchForm.startCreateDate, this.searchForm.endCreateDate]
+      }
+      if (this.searchForm.startBillDate) { // 日期
+        this.timeInterval2 = [this.searchForm.startBillDate, this.searchForm.endBillDate]
+      }
     },
   }
 </script>
