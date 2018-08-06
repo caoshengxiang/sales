@@ -46,7 +46,7 @@
           type: 'warning',
         }).then(() => {
           API.message.msgDelFlag({ids: this.$route.query.id}, (da) => {
-            if (da.data > 1) {
+            if (da.data > 0) {
               this.$message.success('删除成功')
               this.$router.push({name: 'messageList', params: {end: 'FE'}})
             }

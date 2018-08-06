@@ -41,7 +41,7 @@
           <el-option label="全部组织的销售订单" :value="null"></el-option>
           <el-option
             v-for="item in organizationOptions"
-            :key="item.name"
+            :key="item.id"
             :label="item.name"
             :value="item.id">
           </el-option>

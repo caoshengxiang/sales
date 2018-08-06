@@ -149,6 +149,7 @@
         form: {
           organizationIds:''
         },
+        total: 0,
         advancedSearch:null, // 高级搜索
       }
     },

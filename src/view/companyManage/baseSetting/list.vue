@@ -16,7 +16,7 @@
                     @click="deleteRole">刪除
         </com-button>
         <com-button buttonType="add" icon="el-icon-plus" @click="add">新增</com-button>
-        <com-button buttonType="grey" icon="el-icon-edit" :disabled="this.multipleSelection.length !== 1"
+        <com-button buttonType="grey" icon="el-icon-edit" :disabled="this.multipleSelection.length === 1?false:true"
                     @click="update">修改
         </com-button>
       </div>

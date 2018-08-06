@@ -27,7 +27,7 @@
           placeholder="请选择" class="com-el-select" style="width: 150px">
           <el-option
             v-for="item in organizationOptions"
-            :key="item.name"
+            :key="item.id"
             :label="item.name"
             :value="item.id">
           </el-option>
