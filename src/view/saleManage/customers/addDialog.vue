@@ -40,7 +40,7 @@
               <!--<input type="text" v-model="addForm.industry">-->
               <el-form-item prop="industry">
                 <el-select v-model="addForm.industry" @change="selectIndustry" placeholder="请选择客户行业">
-                  <el-option v-for="item in industryList" :key="item.codeName" :label="item.codeName"
+                  <el-option v-for="item in industryList" :key="item.id" :label="item.codeName"
                              :value="item.codeName"></el-option>
                 </el-select>
               </el-form-item>
@@ -95,6 +95,7 @@
               <el-form-item prop="customerSource">
                 <el-cascader
                   style="width: 100%"
+                  :disabled="!!params.detail"
                   :change-on-select="selectLastLevelMode"
                   :options="customerSourceType"
                   v-model="customerSourceArr"

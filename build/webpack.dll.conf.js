@@ -10,7 +10,7 @@ module.exports = {
       'babel-polyfill',
       'axios',
       'echarts',
-      'element-ui',
+      // 'element-ui',
       'jquery',
       'js-sha1',
       'moment',
