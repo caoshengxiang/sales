@@ -9,7 +9,7 @@
         <div class="sign-form-box">
           <el-form label-width="60px" class="el-form-w" :model="formData" :rules="rules" ref="ruleForm">
             <el-form-item label="账号" prop="username">
-              <el-input v-model="formData.username" placeholder="请输入您的登录账号"></el-input>
+              <el-input v-model="formData.username" @keydown.native="keydown" placeholder="请输入您的登录账号"></el-input>
             </el-form-item>
             <el-form-item label="密码" prop="password">
               <el-input style="border: 0" @keydown.native="keydown" type="password" v-model="formData.password"
