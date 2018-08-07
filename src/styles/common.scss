@@ -95,10 +95,12 @@
     }
     .com-bar-left {
       display: inline-block;
+      min-height: 30px;
     }
     .com-bar-right {
       display: inline-block;
-      margin-left: 50px;
+      margin-left: 30px;
+      min-height: 50px;
       float: right;
     }
     .com-bar-float-right {

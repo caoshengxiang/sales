@@ -99,7 +99,7 @@
                 <td class="td-title">开户户名</td>
                 <td>{{userDetail.bankUsername}}</td>
                 <td class="td-title">开户银行</td>
-                <td colspan="3">{{userDetail.bankDeposit}}</td>
+                <td>{{userDetail.bankDeposit}}</td>
               </tr>
               <tr>
                 <!--<td class="td-title">可以提现金额</td>-->
