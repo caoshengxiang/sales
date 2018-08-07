@@ -27,48 +27,48 @@ const saleHome = resolve => require.ensure([],
   () => resolve(require('../view/saleManage/saleHome/saleHome')), 'saleHome')
 // 客户
 const customersList = resolve => require.ensure([],
-  () => resolve(require('../view/saleManage/customers/list')), 'customers')
+  () => resolve(require('../view/saleManage/CRM/customers/list')), 'customers')
 const customersDetail = resolve => require.ensure([],
-  () => resolve(require('../view/saleManage/customers/detailInfo')),
+  () => resolve(require('../view/saleManage/CRM/customers/detailInfo')),
   'customers')
 
 // 联系人
 const contactsList = resolve => require.ensure([],
-  () => resolve(require('../view/saleManage/contacts/list')), 'contacts')
+  () => resolve(require('../view/saleManage/CRM/contacts/list')), 'contacts')
 const contactsDetail = resolve => require.ensure([],
-  () => resolve(require('../view/saleManage/contacts/detailInfo')), 'customers')
+  () => resolve(require('../view/saleManage/CRM/contacts/detailInfo')), 'customers')
 // 销售机会
 const salesOpportunitiesList = resolve => require.ensure([],
-  () => resolve(require('../view/saleManage/salesOpportunities/list')),
+  () => resolve(require('../view/saleManage/CRM/salesOpportunities/list')),
   'salesOpportunities')
 const salesOpportunitiesDetail = resolve => require.ensure([],
-  () => resolve(require('../view/saleManage/salesOpportunities/detailInfo')),
+  () => resolve(require('../view/saleManage/CRM/salesOpportunities/detailInfo')),
   'salesOpportunities')
 // 销售订单
 const salesOrdersList = resolve => require.ensure([],
-  () => resolve(require('../view/saleManage/salesOrders/list')), 'salesOrders')
+  () => resolve(require('../view/saleManage/CRM/salesOrders/list')), 'salesOrders')
 const salesOrdersDetail = resolve => require.ensure([],
-  () => resolve(require('../view/saleManage/salesOrders/detailInfo')),
+  () => resolve(require('../view/saleManage/CRM/salesOrders/detailInfo')),
   'salesOrders')
 // 跟单记录
 const orderRecordsList = resolve => require.ensure([],
-  () => resolve(require('../view/saleManage/orderRecords/list')),
+  () => resolve(require('../view/saleManage/CRM/followOrderRecords/list')),
   'orderRecordsList')
 // 回款记录
-const remittanceRecords = resolve => require.ensure([],
-  () => resolve(require('../view/saleManage/financial/refunds/remittanceList')),
-  'remittanceRecords')
+const returnRecordList = resolve => require.ensure([],
+  () => resolve(require('../view/saleManage/CRM/returnRecord/returnRecordList')),
+  'returnRecordList')
 // 返佣记录
 const rebateRecordsList = resolve => require.ensure([],
   () => resolve(require('../view/saleManage/financial/rebate/spendingList')),
   'rebateRecords')
 // 客户公海
 const customersHighSeasList = resolve => require.ensure([],
-  () => resolve(require('../view/saleManage/customersHighSeas/list')),
+  () => resolve(require('../view/saleManage/CRM/customersHighSeas/list')),
   'customersHighSeas')
 // 客户公海详情
 const customersHighSeasDetail = resolve => require.ensure([],
-  () => resolve(require('../view/saleManage/customersHighSeas/detailInfo')),
+  () => resolve(require('../view/saleManage/CRM/customersHighSeas/detailInfo')),
   'customersHighSeas')
 
 // 消息
@@ -80,10 +80,10 @@ const messageDetail = resolve => require.ensure([],
   'message')
 // 任务
 const taskApprovalList = resolve => require.ensure([],
-  () => resolve(require('../view/saleManage/taskApproval/list')),
+  () => resolve(require('../view/saleManage/taskApproval/approval/list')),
   'taskApproval')
 const taskApprovalDetail = resolve => require.ensure([],
-  () => resolve(require('../view/saleManage/taskApproval/detailInfo')),
+  () => resolve(require('../view/saleManage/taskApproval/approval/detailInfo')),
   'taskApproval')
 // 个人信息
 const personal = resolve => require.ensure([],
@@ -357,9 +357,9 @@ const router = new Router({
             pos: [{name: '销售管理系统', toName: 'saleHome'}, {name: '跟单记录'}],
           },
         }, {
-          path: 'remittanceRecords',
-          name: 'remittanceRecords',
-          component: remittanceRecords,
+          path: 'returnRecordList',
+          name: 'returnRecordList',
+          component: returnRecordList, // remittanceRecords 之前命名
           meta: {
             title: '回款记录',
             pos: [{name: '销售管理系统', toName: 'saleHome'}, {name: '回款记录'}],

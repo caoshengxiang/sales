@@ -62,7 +62,7 @@
         <i class="iconfont icon-jilu2"></i>
         <span slot="title">跟单记录</span>
       </el-menu-item>
-      <el-menu-item index="remittanceRecords" v-if="listPermissions(menus, 'refund')">
+      <el-menu-item index="returnRecordList" v-if="listPermissions(menus, 'refund')">
         <i class="iconfont icon-shijian-tianchong"></i>
         <span slot="title">回款记录</span>
       </el-menu-item>

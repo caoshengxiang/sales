@@ -4,5 +4,5 @@ scp dist.tar.gz root@119.27.160.41:/opt
 # ssh root@119.27.160.41 "rm -rf /opt/web-front/sales && tar -zxvf /opt/sales.tar.gz -C /opt/web-front"
 ssh root@119.27.160.41 "rm -rf /opt/web-front/sales/bak && mkdir /opt/web-front/sales/bak && mv /opt/web-front/sales/index.html /opt/web-front/sales/static -t /opt/web-front/sales/bak/ && tar -zxvf /opt/dist.tar.gz -C /opt/web-front/sales/ && mv /opt/web-front/sales/dist/* -t /opt/web-front/sales/ && rm -rf /opt/web-front/sales/dist"
 
-# daydayUP@2017
-# http://sales.dcstar-inc.com/#/
+#
+# http://sales.dcstar-inc.com/#/daydayUP@2017
