@@ -4,15 +4,15 @@
       <el-form :model="form" ref="form" :rules="rules" :disabled="isFormDisabled">
         <table class="com-dialog-table">
           <tr>
-            <td class="td-title">请输入行政区名称</td>
+            <td class="td-title">请输入客户源名称</td>
             <td class="td-text">
-              <el-form-item prop="name">
-                <el-input type="text" v-model="form.name" :placeholder="'请输入行政区名称'" :maxlength="30"></el-input>
+              <el-form-item prop="codeName">
+                <el-input type="text" v-model="form.codeName" :placeholder="'请输入客户源名称'" :maxlength="30"></el-input>
               </el-form-item>
             </td>
           </tr>
           <tr v-if="params.action === 'add'">
-            <td class="td-title">上级行政区</td>
+            <td class="td-title">上级客户源</td>
             <td class="td-text">
               <el-form-item>
                 <el-input type="text" v-model="pName" placeholder="无" :disabled="true"></el-input>
@@ -29,7 +29,7 @@
   </div>
 </template>
 <script>
-  import API from '../../../utils/api'
+  import API from '../../../../utils/api'
   import { Message } from 'element-ui'
   import { mapState } from 'vuex'
 
@@ -39,7 +39,7 @@
         loading: false,
         isFormDisabled: false,
         form: {
-          pid: 0,
+          pCode: 0,
         },
         rules: {
           name: [
@@ -60,10 +60,10 @@
       that.$store = that.params.store // 状态库赋值
       if (that.params.currentNode) {
         if (that.params.action === 'add') {
-          that.pName = that.params.currentNode.name
-          that.form.pid = that.params.currentNode.id
+          that.pName = that.params.currentNode.codeName
+          that.form.pCode = that.params.currentNode.id
         } else {
-          that.form.name = that.params.currentNode.name
+          that.form.codeName = that.params.currentNode.codeName
           that.form.id = that.params.currentNode.id
         }
       }
@@ -74,12 +74,13 @@
       },
       save (formName) {
         var that = this
+        that.form.type=5
         that.$refs[formName].validate((valid) => {
           if (valid) {
             switch (that.params.action) {
               case 'add':
                 that.loading = true
-                API.customerAreaSetting.add(that.form, function (resData) {
+                API.baseSetting.add(that.form, function (resData) {
                   that.loading = false
                   if (resData.status) {
                     Message({
@@ -98,7 +99,12 @@
                 break
               case 'update':
                 that.loading = true
-                API.customerAreaSetting.update(that.form, function (resData) {
+                let param = {
+                  codeName: that.form.codeName,
+                  type: 5,
+                  id: that.form.id,
+                }
+                API.baseSetting.edit(that.form, function (resData) {
                   that.loading = false
                   if (resData.status) {
                     Message({
@@ -145,7 +151,7 @@
 </script>
 
 <style scoped lang="scss" rel="stylesheet/scss">
-  @import "../../../styles/common";
+  @import "../../../../styles/common";
 
   .el-form-item--mini.el-form-item, .el-form-item--small.el-form-item {
     margin: 0;

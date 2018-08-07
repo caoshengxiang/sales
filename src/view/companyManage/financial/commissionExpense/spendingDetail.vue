@@ -207,10 +207,10 @@
 </template>
 
 <script>
-  import comButton from '../../../components/button/comButton'
-  import API from '../../../utils/api'
+  import comButton from '../../../../components/button/comButton'
+  import API from '../../../../utils/api'
   import { mapState, mapActions } from 'vuex'
-  import { underscoreName } from '../../../utils/utils'
+  import { underscoreName } from '../../../../utils/utils'
 
   export default {
     name: 'list',
@@ -276,5 +276,5 @@
 </script>
 
 <style scoped lang="scss" rel="stylesheet/scss">
-  @import "../../../styles/common";
+  @import "../../../../styles/common";
 </style>

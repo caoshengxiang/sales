@@ -413,11 +413,11 @@
 </template>
 
 <script>
-  import comButton from '../../../components/button/comButton'
-  import API from '../../../utils/api'
+  import comButton from '../../../../components/button/comButton'
+  import API from '../../../../utils/api'
   import add from './add'
   import { Message } from 'element-ui'
-  import addUserDialog from '../user/addDialog'
+  import addUserDialog from '../../user/addDialog'
 
   export default {
     name: 'roleList',
@@ -852,7 +852,7 @@
 </script>
 
 <style scoped lang="scss" rel="stylesheet/scss">
-  @import "../../../styles/common";
+  @import "../../../../styles/common";
 
   .role-head-con {
     background-color: #E9F3F5;

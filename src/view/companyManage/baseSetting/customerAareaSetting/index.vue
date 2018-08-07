@@ -6,7 +6,7 @@
     <div class="com-head">
       <el-breadcrumb separator-class="el-icon-arrow-right">
         <el-breadcrumb-item :to="{ name: 'companyManageHome' }">管理系统</el-breadcrumb-item>
-        <el-breadcrumb-item>客户源管理</el-breadcrumb-item>
+        <el-breadcrumb-item>客户地区管理</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <!--控制栏-->
@@ -29,7 +29,7 @@
         :highlight-current="true"
         :expand-on-click-node="false">
         <span class="custom-tree-node" slot-scope="{ node, data }">
-          {{data.codeName}}
+          {{data.name}}
           <el-button type="text" icon="el-icon-plus" size="mini" @click="add(node)"></el-button>
           <el-button type="text" icon="el-icon-edit" size="mini" @click="update(node)"></el-button>
           <el-button type="text" icon="el-icon-delete" size="mini" @click="deleteInfo([data.id])"></el-button>
@@ -40,8 +40,8 @@
 </template>
 
 <script>
-  import comButton from '../../../components/button/comButton'
-  import API from '../../../utils/api'
+  import comButton from '../../../../components/button/comButton'
+  import API from '../../../../utils/api'
   import { Message } from 'element-ui'
   import add from './add'
 
@@ -69,7 +69,7 @@
       init () {
         var that = this
         this.loading = true
-        API.baseSetting.getCodeConfig({type: 5,pCode: 0}, function (res) {
+        API.customerAreaSetting.queryList({pid: 0}, (res) => {
           that.loading = false
           if (res.status) {
             that.list = res.data
@@ -93,7 +93,7 @@
           node = node.data
         }
         that.$vDialog.modal(add, {
-          title: '新增客户源',
+          title: '新增地区',
           width: 700,
           height: 400,
           params: {
@@ -112,7 +112,7 @@
       update (node) {
         var that = this
         that.$vDialog.modal(add, {
-          title: '修改客户源',
+          title: '修改地区',
           width: 700,
           height: 300,
           params: {
@@ -134,7 +134,7 @@
           type: 'warning',
         }).then(() => {
           that.loading = true
-          API.baseSetting.delete({ids: ids.join(',')}, function (res) {
+          API.customerAreaSetting.delete({ids: ids.join(',')}, function (res) {
             that.loading = false
             if (res.status) {
               Message({
@@ -167,7 +167,7 @@
           return
         }
         this.loading = true
-        API.baseSetting.getCodeConfig({pCode: node.data.id,type:5}, (res) => {
+        API.customerAreaSetting.queryList({pid: node.data.id}, (res) => {
           that.loading = false
           if (res.status) {
             resolve(res.data)
@@ -190,7 +190,7 @@
 </script>
 
 <style scoped lang="scss" rel="stylesheet/scss">
-  @import "../../../styles/common";
+  @import "../../../../styles/common";
 
   .role-head-con {
     background-color: #E9F3F5;

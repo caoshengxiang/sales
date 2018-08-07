@@ -172,14 +172,14 @@
 
 <script>
   import { mapState } from 'vuex'
-  import comButton from '../../../components/button/comButton'
-  import API from '../../../utils/api'
+  import comButton from '../../../../components/button/comButton'
+  import API from '../../../../utils/api'
   import spendingDetail from './spendingDetail'
-  import advancedSearch from './advancedSearch'
-  import { underscoreName } from '../../../utils/utils'
+  import advancedSearch from '../advancedSearch'
+  import { underscoreName } from '../../../../utils/utils'
   import QS from 'qs'
   import webStorage from 'webStorage'
-  import { serverUrl } from '../../../utils/const'
+  import { serverUrl } from '../../../../utils/const'
 
   export default {
     name: 'list',
@@ -437,7 +437,7 @@
 </script>
 
 <style scoped lang="scss" rel="stylesheet/scss">
-  @import "../../../styles/common";
+  @import "../../../../styles/common";
 
   .link {
     color: #00A7FE;

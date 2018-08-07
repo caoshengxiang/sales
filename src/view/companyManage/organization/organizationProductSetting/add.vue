@@ -70,7 +70,7 @@
   </div>
 </template>
 <script>
-  import API from '../../../utils/api'
+  import API from '../../../../utils/api'
   import { Message } from 'element-ui'
 
   export default {
@@ -233,7 +233,7 @@
 </script>
 
 <style scoped lang="scss" rel="stylesheet/scss">
-  @import "../../../styles/common";
+  @import "../../../../styles/common";
 
   .el-form-item--mini.el-form-item, .el-form-item--small.el-form-item {
     margin: 0;

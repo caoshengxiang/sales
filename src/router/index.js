@@ -118,34 +118,34 @@ const roleList = resolve => require.ensure([],
 
 // 财务管理
 const settlementList = resolve => require.ensure([],
-  () => resolve(require('../view/companyManage/financial/settlementList')),
+  () => resolve(require('../view/companyManage/financial/commissionSettlement/settlementList')),
   'financial')
 // 财务管理
 const spendingList = resolve => require.ensure([],
-  () => resolve(require('../view/companyManage/financial/spendingList')),
+  () => resolve(require('../view/companyManage/financial/commissionExpense/spendingList')),
   'financial')
 
 // 组织管理
 const organizationList = resolve => require.ensure([],
-  () => resolve(require('../view/companyManage/organization/list')),
+  () => resolve(require('../view/companyManage/organization/organization/list')),
   'organization')
 // 客户池管理
 const customerPool = resolve => require.ensure([],
-  () => resolve(require('../view/companyManage/organization/customerPool')),
+  () => resolve(require('../view/companyManage/organization/customerPool/customerPool')),
   'organization')
 
 const baseSettingList = resolve => require.ensure([],
-  () => resolve(require('../view/companyManage/baseSetting/list')),
+  () => resolve(require('../view/companyManage/baseSetting/paramsConfig/list')),
   'baseSetting')
 
 // 客户地区管理
 const customerAreaSetting = resolve => require.ensure([],
-  () => resolve(require('../view/companyManage/customerAareaSetting/index')),
+  () => resolve(require('../view/companyManage/baseSetting/customerAareaSetting/index')),
   'customerAreaSetting')
 
 // 客户源管理
 const customerSource = resolve => require.ensure([],
-  () => resolve(require('../view/companyManage/customerSourceSetting/index')),
+  () => resolve(require('../view/companyManage/baseSetting/customerSourceSetting/index')),
   'customerSource')
 
 // 站点开关设置
@@ -156,13 +156,13 @@ const siteList = resolve => require.ensure([],
 // 商品管理
 const organizationProductSetting = resolve => require.ensure([],
   () => resolve(
-    require('../view/companyManage/organizationProductSetting/list')),
+    require('../view/companyManage/organization/organizationProductSetting/list')),
   'organizationProductSetting')
 
 // 商品类型设置
 const productType = resolve => require.ensure([],
   () => resolve(
-    require('../view/companyManage/organizationProductSetting/productType')),
+    require('../view/companyManage/organization/organizationProductSetting/productType')),
   'productType')
 
 // 消息通知管理(ME)

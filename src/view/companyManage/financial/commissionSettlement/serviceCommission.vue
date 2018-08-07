@@ -25,7 +25,7 @@
 
         <el-table-column
           align="center"
-          label="佣金补贴类型"
+          label="服务佣金类型"
         >
 
           <el-table-column
@@ -192,8 +192,8 @@
 </template>
 
 <script>
-  import comButton from '../../../components/button/comButton'
-  import API from '../../../utils/api'
+  import comButton from '../../../../components/button/comButton'
+  import API from '../../../../utils/api'
   import { mapState, mapActions } from 'vuex'
 
   export default {
@@ -223,7 +223,7 @@
       var that=this
       let param = {
         clearId: that.params.id,
-        type: 5,
+        type: 3,
       }
       API.financial.detail(param, (res) => {
         that.loading = false
@@ -249,5 +249,5 @@
 </script>
 
 <style scoped lang="scss" rel="stylesheet/scss">
-  @import "../../../styles/common";
+  @import "../../../../styles/common";
 </style>
