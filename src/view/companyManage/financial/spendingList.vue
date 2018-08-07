@@ -27,7 +27,8 @@
           </el-form-item>
           <el-form-item>
             <el-select v-model="searchForm.paymentState" placeholder="请选择结算状态">
-              <el-option v-for="item in paymentState"  :key="item.type" :label="item.value" :value="item.type"></el-option>
+              <el-option v-for="item in paymentState" :key="item.type" :label="item.value"
+                         :value="item.type"></el-option>
             </el-select>
           </el-form-item>
           <el-form-item>
@@ -108,7 +109,7 @@
             align="center"
             label="销售佣金"
             sortable="custom"
-             prop="saleCommission"
+            prop="saleCommission"
           >
           </el-table-column>
 
@@ -173,32 +174,30 @@
   import webStorage from 'webStorage'
   import { serverUrl } from '../../../utils/const'
 
-
-
   export default {
     name: 'list',
     data () {
       return {
         sortObj: null, // 排序
-        advancedSearch:null, // 高级搜索
-        totle:0,
+        advancedSearch: null, // 高级搜索
+        totle: 0,
         paymentState: [ // 订单状态
           {
             type: 1,
-            value: '待审核'
+            value: '待审核',
           }, {
             type: 2,
-            value: '已审核'
+            value: '已审核',
           }, {
             type: 3,
-            value: '已确认'
+            value: '已确认',
           }, {
             type: 4,
-            value: '已打款'
+            value: '已打款',
           }, {
             type: 5,
-            value: '已作废'
-          }
+            value: '已作废',
+          },
         ],
         organizationOptions: [],
         tableData: [
@@ -208,30 +207,30 @@
             date: '2016-05-03',
             name: '王小虎',
             address: '上海市普陀区金沙江路 1518 弄',
-            status: 1
+            status: 1,
           }, {
             customerName: '成都凡特塞科技有限公司',
             businessLicense: '',
             date: '2016-05-03',
             name: '王小虎',
             address: '上海市普陀区金沙江路 1518 弄',
-            status: 2
+            status: 2,
           }, {
             customerName: '成都凡特塞科技有限公司',
             businessLicense: '',
             date: '2016-05-03',
             name: '王小虎',
             address: '上海市普陀区金沙江路 1518 弄',
-            status: 3
+            status: 3,
           }],
         multipleSelection: [],
         currentPage: 1,
-        searchForm:{
-          organizationId: "",
-          paymentMonth:null,
-          paymentState:null
+        searchForm: {
+          organizationId: '',
+          paymentMonth: null,
+          paymentState: null,
         },
-        defaultListParams:null
+        defaultListParams: null,
       }
     },
     computed: {
@@ -242,13 +241,12 @@
     components: {
       comButton,
       spendingDetail,
-      advancedSearch
+      advancedSearch,
     },
-    created(){
-      var that = this;
-      that.getCommissionClear(); // 查询列表
+    created () {
+      var that = this
+      that.getCommissionClear() // 查询列表
       that.getOrganization({pid: 1})
-
     },
     methods: {
       excelExport () { // 导出
@@ -288,7 +286,7 @@
           params: {
             salesState: this.salesState,
             demandSource: this.demandSource,
-            type:1
+            type: 1,
           },
           callback: (data) => {
             if (data.type === 'search') {
@@ -299,72 +297,72 @@
           },
         })
       },
-      auditCheck(){
-        var that = this;
-        if(that.multipleSelection.length === 0){
+      auditCheck () {
+        var that = this
+        if (that.multipleSelection.length === 0) {
           return
         }
-        API.financial.auditPayment({ids:that.multipleSelection.map(item => item.id).join() } , (res) => {
-            this.$confirm('确认审核?', '提示', {
-              type: 'warning',
-            }).then(() => {
-          that.loading = false
-          if (res.status) {
+        API.financial.auditPayment({ids: that.multipleSelection.map(item => item.id).join()}, (res) => {
+          this.$confirm('确认审核?', '提示', {
+            type: 'warning',
+          }).then(() => {
+            that.loading = false
+            if (res.status) {
+              that.$message({
+                type: 'success',
+                message: '审核成功!',
+              })
+              that.getCommissionClear()
+            } else {
+              that.$message({
+                message: res.error.message,
+                type: 'error',
+              })
+            }
+          }, (mock) => {
+            that.loading = false
             that.$message({
-              type: 'success',
-              message: '审核成功!',
-            })
-            that.getCommissionClear();
-          } else {
-            that.$message({
-              message: res.error.message,
+              message: '系统繁忙，请稍后再试！',
               type: 'error',
             })
-          }
-        }, (mock) => {
-          that.loading = false
-          that.$message({
-            message: '系统繁忙，请稍后再试！',
-            type: 'error',
           })
-        })
         }).catch(() => {})
       },
-      auditPay(){
-        var that = this;
-        if(that.multipleSelection.length === 0){
+      auditPay () {
+        var that = this
+        if (that.multipleSelection.length === 0) {
           return
         }
         this.$confirm('确认付款?', '提示', {
           type: 'warning',
         }).then(() => {
-        API.financial.auditPay({ids:that.multipleSelection.map(item => item.id).join() }, (res) => {
-          that.loading = false
-          if (res.status) {
+          API.financial.auditPay({ids: that.multipleSelection.map(item => item.id).join()}, (res) => {
+            that.loading = false
+            if (res.status) {
+              that.$message({
+                type: 'success',
+                message: '付款成功!',
+              })
+              that.getCommissionClear()
+            } else {
+              that.$message({
+                message: res.error.message,
+                type: 'error',
+              })
+            }
+          }, (mock) => {
+            that.loading = false
             that.$message({
-              type: 'success',
-              message: '付款成功!',
-            })
-            that.getCommissionClear();
-          } else {
-            that.$message({
-              message: res.error.message,
+              message: '系统繁忙，请稍后再试！',
               type: 'error',
             })
-          }
-        }, (mock) => {
-          that.loading = false
-          that.$message({
-            message: '系统繁忙，请稍后再试！',
-            type: 'error',
           })
-        })
-      }).catch(() => {})
+        }).catch(() => {})
       },
       handleSelectionChange (val) {
         this.multipleSelection = val
       },
-      saleCommission(row){
+      saleCommission (row) {
         var that = this
         that.$vDialog.modal(spendingDetail, {
           title: '管理佣金返佣详情',
@@ -383,34 +381,37 @@
         that.defaultListParams = {
           page: that.currentPage - 1,
           pageSize: that.pagesOptions.pageSize,
-          paymentMonth: that.searchForm.paymentMonth===null?"":(that.searchForm.paymentMonth.getFullYear()+""+('00'+(1+that.searchForm.paymentMonth.getMonth())).slice(-2)),
-          paymentState: that.searchForm.paymentState
+          paymentMonth: that.searchForm.paymentMonth === null ? null : (that.searchForm.paymentMonth.getFullYear() +
+            '' + ('00' + (1 + that.searchForm.paymentMonth.getMonth())).slice(-2)),
+          paymentState: that.searchForm.paymentState,
         }
-        API.financial.queryPaymentList(Object.assign({}, that.defaultListParams ,  this.sortObj, this.advancedSearch), (res) => {
-          that.loading = false
-          if (res.status) {
-            that.tableData = res.data.content
-            that.totle = res.data.totalElements
-          } else {
+        API.financial.queryPaymentList(Object.assign({}, that.defaultListParams, this.sortObj, this.advancedSearch),
+          (res) => {
+            that.loading = false
+            if (res.status) {
+              that.tableData = res.data.content
+              that.totle = res.data.totalElements
+            } else {
+              Message({
+                message: res.error.message,
+                type: 'error',
+              })
+            }
+          }, (mock) => {
+            that.loading = false
             Message({
-              message: res.error.message,
+              message: '系统繁忙，请稍后再试！',
               type: 'error',
             })
-          }
-        }, (mock) => {
-          that.loading = false
-          Message({
-            message: '系统繁忙，请稍后再试！',
-            type: 'error',
           })
-        })
       },
 
       handleSizeChange (val) {
 
       },
       handleCurrentChange (val) {
-        this.currentPage = val;
+        this.currentPage = val
+        this.getCommissionClear()
       },
       addHandle () {
         // alert('add btn')
@@ -419,18 +420,20 @@
         API.organization.queryAllList(pa, (data) => {
           this.organizationOptions = data.data
         })
-      }
+      },
     },
   }
 </script>
 
 <style scoped lang="scss" rel="stylesheet/scss">
   @import "../../../styles/common";
+
   .link {
     color: #00A7FE;
     text-decoration: underline;
     cursor: pointer;
   }
+
   .button {
     padding: 5px 10px;
     color: #fff;
