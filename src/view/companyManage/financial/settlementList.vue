@@ -60,6 +60,7 @@
           align="center"
           prop="orderId"
           label="订单号"
+          width="120"
           sortable="custom"
           show-overflow-tooltip>
         </el-table-column>
@@ -77,6 +78,7 @@
           align="center"
           prop="customerName"
           label="订单客户"
+          width="100"
           sortable="custom"
           show-overflow-tooltip>
         </el-table-column>
@@ -86,6 +88,7 @@
           prop="productName"
           label="销售商品"
           sortable="custom"
+          width="100"
           show-overflow-tooltip
         >
         </el-table-column>
@@ -95,6 +98,7 @@
           sortable="custom"
           prop="netReceipts"
           label="回款金额"
+          width="100"
           show-overflow-tooltip
         >
         </el-table-column>
@@ -108,6 +112,7 @@
             prop="totalAmount"
             sortable="custom"
             label="合计收支"
+            width="100"
           >
           </el-table-column>
 
@@ -115,6 +120,7 @@
             align="center"
             label="签约主体"
             sortable="custom"
+            width="100"
             prop="contractSubjectName"
             show-overflow-tooltip
           >
@@ -122,6 +128,7 @@
           <el-table-column
             align="center"
             label="签约金额"
+            width="100"
             sortable="custom"
             prop="contractSubjectAmount"
             show-overflow-tooltip
@@ -132,6 +139,7 @@
             sortable="custom"
             prop="saleSubjectName"
             label="销售主体"
+            width="100"
             show-overflow-tooltip
           >
           </el-table-column>
@@ -141,6 +149,7 @@
             sortable="custom"
             prop="serviceSubjectName"
             label="服务主体"
+            width="100"
             show-overflow-tooltip
           >
           </el-table-column>
@@ -150,6 +159,7 @@
             sortable="custom"
             prop="rebateSubjectName"
             label="返佣主体"
+            width="100"
             show-overflow-tooltip
           >
           </el-table-column>
@@ -165,6 +175,7 @@
             align="center"
             prop="saleCommission"
             sortable="custom"
+            width="100"
             label="销售佣金"
           >
             <template slot-scope="scope">
@@ -188,6 +199,7 @@
           <el-table-column
             align="center"
             label="服务佣金"
+            width="100"
             prop="serviceCommission"
             sortable="custom"
           >
@@ -217,6 +229,7 @@
           label="回款审核时间"
           prop="refundAuditTime"
           sortable="custom"
+          width="150"
           show-overflow-tooltip>
           <template slot-scope="scope">
             <span>{{ scope.row.refundAuditTime && $moment(scope.row.refundAuditTime).format('YYYY-MM-DD HH:mm:ss')}}</span>
@@ -226,6 +239,7 @@
           align="center"
           label="结算生成时间"
           prop="created"
+          width="150"
           sortable="custom"
           show-overflow-tooltip>
           <template slot-scope="scope">
@@ -236,6 +250,7 @@
           align="center"
           label="结算审核时间"
           prop="auditDate"
+          width="150"
           sortable="custom"
           show-overflow-tooltip>
           <template slot-scope="scope">

@@ -178,8 +178,8 @@
             action: 'update',
           },
           callback: function (data) {
-            that.getCodeConfig(that.roleDefaultIndex)
             that.$refs.multipleTable.clearSelection()
+            that.getCodeConfig(that.roleDefaultIndex)
           },
         })
       },

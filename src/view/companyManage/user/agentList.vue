@@ -94,6 +94,7 @@
           align="center"
           sortable="custom"
           label="代理商号"
+          width="100"
           prop="jobNo"
         >
         </el-table-column>
@@ -166,6 +167,7 @@
           show-overflow-tooltip
           align="center"
           prop=""
+          width="100"
           label="部门销售助理"
         >
           <template slot-scope="scope">
@@ -186,6 +188,7 @@
           align="center"
           prop="birthday"
           label="出生日期"
+          width="100"
           sortable="custom"
         >
           <template slot-scope="scope">

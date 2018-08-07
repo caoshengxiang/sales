@@ -103,6 +103,7 @@
           align="center"
           prop="mobilePhone"
           label="手机号"
+          width="100"
           sortable="custom"
         >
         </el-table-column>
@@ -162,6 +163,7 @@
           show-overflow-tooltip
           align="center"
           prop=""
+          width="100"
           label="部门销售助理"
         >
           <template slot-scope="scope">
@@ -175,6 +177,7 @@
           align="center"
           prop="birthday"
           label="出生日期"
+          width="100"
           sortable="custom"
         >
           <template slot-scope="scope">

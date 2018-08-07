@@ -86,6 +86,43 @@
             </el-form-item>
           </el-col>
         </el-row>
+        <el-row v-if="type===1">
+          <el-col :span="8"
+                  width="1">
+            <el-form-item label="返佣月份：">
+              <el-date-picker
+                v-model="searchForm.paymentMonthStart"
+                type="month"
+                placeholder="选择开始月份"
+                :editable="false"
+                format="yyyyMM">
+              </el-date-picker>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="至：">
+              <el-date-picker
+                v-model="searchForm.paymentMonthEnd"
+                type="month"
+                placeholder="选择结束月份"
+                :editable="false"
+                format="yyyyMM">
+              </el-date-picker>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row  v-if="type===1">
+          <el-col :span="8" >
+            <el-form-item label="返佣合计金额：">
+              <el-input type="text" v-model="searchForm.totalAmountStart"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8" >
+            <el-form-item  label="至：">
+              <el-input type="text" v-model="searchForm.totalAmountEnd"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button class="cancel-button" @click="$vDialog.close({type: 'cancel'})">取 消</el-button>
@@ -154,7 +191,12 @@
           netReceiptsStart:null,
           netReceiptsEnd:null,
           rebateUserName:null,
-          paymentState:null
+          paymentState:null,
+          totalAmountStart:null,
+          totalAmountEnd:null,
+          paymentMonthStart:null,
+          paymentMonthEnd:null
+
         },
         organizationOptions: [], // 组织列表
         timeIntervalRefundDate: '',
