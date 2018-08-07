@@ -34,7 +34,7 @@ $axios.interceptors.request.use((config) => {
 // 添加一个返回拦截器
 $axios.interceptors.response.use((response) => {
   // 对返回的数据进行一些处理
-  console.log(response)
+  // console.log(response)
   if (response.data.status === false) { // 后台返回错误
     if (response.data.error) {
       setTimeout(() => {

@@ -512,7 +512,7 @@
           }
           return
         }
-        this.$confirm('确定禁用当前选中所有用户, 是否继续?', '提示', {
+        this.$confirm(`确定${type === 0 ? '禁用' : '启用'}当前选中所有用户, 是否继续?`, '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning',

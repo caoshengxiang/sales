@@ -8,6 +8,7 @@ export default {
     commit('mut_userTotal', data.totalElements)
   },
   ac_userDetail ({commit}, data) {
+    console.log(data)
     commit('mut_userDetail', data)
   }
 }

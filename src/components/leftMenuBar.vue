@@ -7,13 +7,13 @@
             borderColor: theme[themeIndex].leftMenuBarBorderButtonColor
      }">
       <div class="u-head">
-        <img v-if="user.avatar" :src="user.avatar" alt="" style="width: 50px;height: 50px;border-radius: 50px;">
+        <img v-if="currentUser.avatar" :src="currentUser.avatar" alt="" style="width: 50px;height: 50px;border-radius: 50px;">
         <img v-else src="../assets/icon/touxiang2.png" alt="">
       </div>
       <div class="u-text">
         <h4 class="username" :style="{color: theme[themeIndex].leftMenuBarUserTextColor}">
-          <el-tooltip class="item" effect="dark" :content="user.name" placement="right">
-            <span>{{user.name}}</span>
+          <el-tooltip class="item" effect="dark" :content="currentUser.name" placement="right">
+            <span>{{currentUser.name}}</span>
           </el-tooltip>
         </h4>
       </div>
@@ -219,7 +219,7 @@
         'themeIndex',
       ]),
       ...mapState([
-        'user',
+        'currentUser',
         'userHead',
       ]),
       serverUrl () {
@@ -229,13 +229,13 @@
     created () {
       this.userInfo = utils.loginExamine(this)
       this.menus = this.userInfo.menus
-      this.ac_user(this.userInfo)
+      this.ac_currentUser(this.userInfo)
       // console.log('tetssss', this.listPermissions(this.menus, 'salerHome')) // 测试权限方法
       this.defaultActiveIndex = this.$route.name // 首次进入，或刷新菜单获取active【注意：defaultActiveIndex是path不是name,所以定义路由的时候path名和name名写成一样的】
     },
     methods: {
       ...mapActions([
-        'ac_user',
+        'ac_currentUser',
       ]),
       handleOpen (key, keyPath) {
         console.log(key, keyPath)

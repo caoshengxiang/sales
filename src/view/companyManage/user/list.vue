@@ -499,13 +499,14 @@
       disableHandle (type) {
         if (this.disableUserHandle && this.enableUserHandle) {
           if (type === 0) {
-            this.$message.info('选项中包含禁用用户！')
-          } else if (type === 1) {
             this.$message.info('选项中包含有效用户！')
+          } else if (type === 1) {
+            this.$message.info('选项中包含禁用用户！')
           }
           return
         }
-        this.$confirm('确定禁用当前选中所有用户, 是否继续?', '提示', {
+
+        this.$confirm(`确定${type === 0 ? '禁用' : '启用'}当前选中所有用户, 是否继续?`, '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning',

@@ -126,7 +126,7 @@
     },
     computed: {
       ...mapState([
-        'user',
+        'currentUser',
       ]),
     },
     watch: {
@@ -153,7 +153,7 @@
     },
     methods: {
       ...mapActions([
-        'ac_user',
+        'ac_currentUser',
       ]),
       // 设置cookie
       /* eslint-disable */
@@ -204,7 +204,7 @@
                 webStorage.setItem('userInfo', res.data)
                 sessionStorage.setItem('HASLG', 'T')
                 this.getClient()
-                this.ac_user(res.data)
+                this.ac_currentUser(res.data)
                 if (this.client === 1) {
                   this.$router.push({name: 'saleHome', params: {end: this.clientPathParam}})
                 } else {

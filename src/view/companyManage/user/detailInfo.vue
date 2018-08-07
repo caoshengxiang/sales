@@ -129,11 +129,12 @@
         dataLoading: false,
         tapOption: '',
         activeViewName: '',
+        userDetail: {},
       }
     },
     computed: {
       ...mapState('user', [
-        'userDetail',
+        // 'userDetail',
       ]),
     },
     watch: {
@@ -143,16 +144,16 @@
     },
     components: {},
     methods: {
-      ...mapActions('user', [
-        'ac_userDetail',
-      ]),
+      // ...mapActions('user', [ // 模块名称重名，导致难调错误
+      // 'ac_userDetail',
+      // ]),
       getuserDetail () {
         this.dataLoading = true
         API.user.userDetail({id: this.$route.query.userId}, (data) => {
-          this.ac_userDetail(data.data)
+          this.userDetail = data.data
           this.dataLoading = false
         }, (mock) => {
-          this.ac_userDetail(mock.data)
+          this.userDetail = mock.data
           this.dataLoading = false
         })
       },

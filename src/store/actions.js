@@ -3,7 +3,7 @@
  */
 
 export default {
-  ac_user ({commit}, data) {
-    commit('mut_user', data)
+  ac_currentUser ({commit}, data) {
+    commit('mut_currentUser', data)
   },
 }
