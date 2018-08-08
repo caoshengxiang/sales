@@ -221,8 +221,14 @@
             as[key] = this.advancedSearch[key]
           }
         }
+        let dlp = {}
+        for (let key in this.defaultListParams) { // 去除分页
+          if (key !== 'page' && key !== 'pageSize') {
+            dlp[key] = this.defaultListParams[key]
+          }
+        }
         let link = document.createElement('a') // 创建事件对象
-        let query = QS.stringify(Object.assign({}, this.defaultListParams, this.sortObj, null,
+        let query = QS.stringify(Object.assign({}, dlp, this.sortObj, null,
           {authKey: webStorage.getItem('userInfo').authKey}))
         link.setAttribute('href', serverUrl + '/operateLog/export?' + query)
         link.setAttribute('download', '导出结算佣金')

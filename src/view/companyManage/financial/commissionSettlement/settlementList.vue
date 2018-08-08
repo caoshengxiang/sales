@@ -371,8 +371,14 @@
             as[key] = this.advancedSearch[key]
           }
         }
+        let dlp = {}
+        for (let key in this.defaultListParams) { // 去除分页
+          if (key !== 'page' && key !== 'pageSize') {
+            dlp[key] = this.defaultListParams[key]
+          }
+        }
         let link = document.createElement('a') // 创建事件对象
-        let query = QS.stringify(Object.assign({}, this.defaultListParams, this.sortObj, as,
+        let query = QS.stringify(Object.assign({}, dlp, this.sortObj, as,
           {authKey: webStorage.getItem('userInfo').authKey}))
         // console.log('下载参数：', query)
         // alert(query)
