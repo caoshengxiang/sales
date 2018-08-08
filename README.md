@@ -29,6 +29,15 @@
 * [sass](https://www.sass.hk/)
 * eslint (standard风格)
 
+## 分支
+
+* master 主分支  一期项目
+* dev1 一期维护
+* dev2 二期开发
+* prod 生产
+
+> 工作流程：一期的维护在dev1分支， 合并到dev2分支。二期的开发在dev2分支。
+
 ## 项目运行
 
 ``` bash
