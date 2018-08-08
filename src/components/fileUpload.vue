@@ -104,6 +104,7 @@
 
 <script>
   // import { Message } from 'element-ui'
+  import { serverUrl } from '../utils/const'
 
   export default {
     data () {
@@ -113,10 +114,16 @@
         // 上传文件配置属性
         uploadConfig: {
           loading: false,
+          /*
+          * 注意项目里面不能定义这种，会随环境变化而变化的变量【别人打包时不知道需要修改文件内部的变量，这样的修改很繁琐，容易遗留，不容易排错等问题】
+          * 统一定义在const.js
+          * 服务器地址变量是有统一定义，利用用webpack 打包时自动传入不需要在打包时修改该变量
+          * 封装组件，不想依赖外部文件，建议将prefixServerFileUrl 通过prop传入
+          * */
 //        prefixServerFileUrl:'http://precision.dcstar-inc.com/files',
-          prefixServerFileUrl: 'http://sales.dcstar-inc.com/sales/file',
+          prefixServerFileUrl: serverUrl + '/file',
 //        uploadFileApiUrl:'http://precision.dcstar-inc.com/precision/file',
-          uploadFileApiUrl: 'http://sales.dcstar-inc.com/sales/file',
+          uploadFileApiUrl: serverUrl + '/file',
           previewImageUrl: '',
           succeedFileList: [],
           dialogVisible: false,
