@@ -13,9 +13,9 @@
     <!--控制栏-->
     <div class="com-bar">
       <div class="com-bar-left">
-      <!--  <com-button buttonType="delete" icon="el-icon-delete" :disabled="this.multipleSelection.length <= 0"
-                    @click="deleteHandle">刪除
-        </com-button>-->
+        <!--  <com-button buttonType="delete" icon="el-icon-delete" :disabled="this.multipleSelection.length <= 0"
+                      @click="deleteHandle">刪除
+          </com-button>-->
         <com-button buttonType="add" icon="el-icon-plus" @click="add">新增</com-button>
         <com-button buttonType="grey" icon="el-icon-edit" :disabled="this.multipleSelection.length !== 1"
                     @click="modifyHandle">修改
@@ -36,27 +36,27 @@
         <com-button buttonType="search" @click="searchHandle">搜索</com-button>
         <com-button buttonType="search" @click="advancedSearchHandle" style="">高级搜索</com-button>
       </div>
-        <div class="com-bar-right" style="float: right">
-          <el-select v-model.number="form.organizationId" @change="selectedOptionsHandleChange" placeholder="请选择人员组织"
-                     style="width: 140px">
-            <el-option
-              v-for="item in allorganization"
-              :key="item.id"
-              :label="item.name"
-              :value="item.id"
-            >
-            </el-option>
-          </el-select>
-       <!-- <el-cascader
-          placeholder="请选择人员部门"
-          :change-on-select="true"
-          :options="alldepartments"
-          v-model="selectedOptions"
-          :props="props"
-          @change="selecteddptHandleChange"
-          style="width: 140px"
-        >
-        </el-cascader>-->
+      <div class="com-bar-right" style="float: right">
+        <el-select v-model.number="form.organizationId" @change="selectedOptionsHandleChange" placeholder="请选择人员组织"
+                   style="width: 140px">
+          <el-option
+            v-for="item in allorganization"
+            :key="item.id"
+            :label="item.name"
+            :value="item.id"
+          >
+          </el-option>
+        </el-select>
+        <!-- <el-cascader
+           placeholder="请选择人员部门"
+           :change-on-select="true"
+           :options="alldepartments"
+           v-model="selectedOptions"
+           :props="props"
+           @change="selecteddptHandleChange"
+           style="width: 140px"
+         >
+         </el-cascader>-->
       </div>
     </div>
     <!--详细-->
@@ -231,7 +231,7 @@
     data () {
       return {
         sortObj: null, // 排序
-        advancedSearch:null, // 高级搜索
+        advancedSearch: null, // 高级搜索
         loading: false,
         dataLoading: true,
         addDialogOpen: false, // 新增弹窗
@@ -253,10 +253,10 @@
           departmentId: '',
           organizationId: '',
         },
-        userTotal:0,
-        userList:null,
+        userTotal: 0,
+        userList: null,
         disableUserHandle: false,
-        enableUserHandle: false
+        enableUserHandle: false,
       }
     },
     computed: {
@@ -282,12 +282,12 @@
             this.disableUserHandle = true
           }
         })
-      }
+      },
     },
     components: {
       comButton,
       addDialog,
-      advancedSearch
+      advancedSearch,
     },
     props: ['params'],
     created () {
@@ -306,16 +306,16 @@
       })
     },
     methods: {
-    sortChangeHandle (sortObj) {
-      let order = null
-      if (sortObj.order === 'ascending') {
-        order = 'asc'
-      } else if (sortObj.order === 'descending') {
-        order = 'desc'
-      }
-      this.sortObj = {sort: underscoreName(sortObj.prop) + ',' + order}
-      this.getuserList()
-    },
+      sortChangeHandle (sortObj) {
+        let order = null
+        if (sortObj.order === 'ascending') {
+          order = 'asc'
+        } else if (sortObj.order === 'descending') {
+          order = 'desc'
+        }
+        this.sortObj = {sort: underscoreName(sortObj.prop) + ',' + order}
+        this.getuserList()
+      },
       advancedSearchHandle () {
         this.$vDialog.modal(advancedSearch, {
           title: '高级搜索',
@@ -324,7 +324,7 @@
           params: {
             salesState: this.salesState,
             demandSource: this.demandSource,
-            type:0
+            type: 0,
           },
           callback: (data) => {
             if (data.type === 'search') {
@@ -403,9 +403,9 @@
       selsChange (sels) {
         this.sels = sels
       },
-      delGroup () {
-        var ids = this.sels.map(item => item.id).join() // 获取所有选中行的id组成的字符串，以逗号分隔
-      },
+      // delGroup () { // 未使用
+      //   var ids = this.sels.map(item => item.id).join() // 获取所有选中行的id组成的字符串，以逗号分隔
+      // },
       ...mapActions('user', [
         'ac_userList',
       ]),

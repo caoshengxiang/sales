@@ -252,10 +252,10 @@
           } else if (type === 3) {
             this.industryList = data.data
           } else if (type === 5) {
-            let arr = data.data.map((item) => {
-              item.children = []
-              return item
-            })
+            // let arr = data.data.map((item) => {
+            //   item.children = []
+            //   return item
+            // })
             if (this.chanceSourceType.length === 0) {
               // this.chanceSourceType = arr
               // 客户公池中列表及详情页面中的新增弹框均固定为调取公司资源，

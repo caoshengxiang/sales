@@ -149,6 +149,7 @@
   @import "../../../styles/common";
   @import "../../../styles/sprites.css";
   @import "../../../../static/iconFont/iconfont.css";
+
   .sale-home {
   }
 

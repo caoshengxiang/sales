@@ -96,13 +96,13 @@
   import API from '../../../../utils/api'
   import add from './add'
   import { Message } from 'element-ui'
-  import { mapState, mapActions } from 'vuex'
+  import { mapState } from 'vuex'
 
   export default {
     name: 'roleList',
     data () {
       return {
-        totles:0,
+        totles: 0,
         loading: false,
         roleList: [],
         roleDefaultIndex: '1',

@@ -40,14 +40,12 @@
             >
             </el-table-column>
 
-
             <el-table-column
               align="center"
               label="工作人员"
               prop="demandWorkerName"
             >
             </el-table-column>
-
 
             <el-table-column
               align="center"
@@ -70,14 +68,12 @@
             >
             </el-table-column>
 
-
             <el-table-column
               align="center"
               prop="followingWorkerName"
               label="工作人员"
             >
             </el-table-column>
-
 
             <el-table-column
               align="center"
@@ -86,23 +82,19 @@
             >
             </el-table-column>
 
-
           </el-table-column>
 
           <el-table-column
             align="center"
             label="销售咨询"
           >
-
-
             <el-table-column
               align="center"
               label="返佣对象"
               prop="counselorRebateSubjectName"
             >
-            >
+              >
             </el-table-column>
-
 
             <el-table-column
               align="center"
@@ -110,7 +102,6 @@
               prop="counselorWorkerName"
             >
             </el-table-column>
-
 
             <el-table-column
               align="center"
@@ -130,13 +121,13 @@
 <script>
   import comButton from '../../../../components/button/comButton'
   import API from '../../../../utils/api'
-  import { mapState, mapActions } from 'vuex'
+  import { mapState } from 'vuex'
 
   export default {
     name: 'list',
     data () {
       return {
-        tableData:[]
+        tableData: [],
       }
     },
     computed: {
@@ -156,7 +147,7 @@
     },
     props: ['params'],
     created () {
-      var that=this
+      var that = this
       let param = {
         clearId: that.params.id,
         type: 1,
@@ -179,8 +170,7 @@
         })
       })
     },
-    methods: {
-    },
+    methods: {},
   }
 </script>
 

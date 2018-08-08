@@ -42,5 +42,5 @@
 </script>
 
 <style scoped lang="scss" rel="stylesheet/scss">
-@import "../../../styles/common";
+  @import "../../../styles/common";
 </style>

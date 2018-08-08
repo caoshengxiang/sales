@@ -69,7 +69,7 @@
       init () {
         var that = this
         this.loading = true
-        API.baseSetting.getCodeConfig({type: 5,pCode: 0}, function (res) {
+        API.baseSetting.getCodeConfig({type: 5, pCode: 0}, function (res) {
           that.loading = false
           if (res.status) {
             that.list = res.data
@@ -167,7 +167,7 @@
           return
         }
         this.loading = true
-        API.baseSetting.getCodeConfig({pCode: node.data.id,type:5}, (res) => {
+        API.baseSetting.getCodeConfig({pCode: node.data.id, type: 5}, (res) => {
           that.loading = false
           if (res.status) {
             resolve(res.data)

@@ -40,14 +40,12 @@
             >
             </el-table-column>
 
-
             <el-table-column
               align="center"
               label="工作人员"
               prop="vpWorkerName"
             >
             </el-table-column>
-
 
             <el-table-column
               align="center"
@@ -70,14 +68,12 @@
             >
             </el-table-column>
 
-
             <el-table-column
               align="center"
               prop="zoneDirectorWorkerName"
               label="工作人员"
             >
             </el-table-column>
-
 
             <el-table-column
               align="center"
@@ -86,14 +82,12 @@
             >
             </el-table-column>
 
-
           </el-table-column>
 
           <el-table-column
             align="center"
             label="税务管家"
           >
-
 
             <el-table-column
               align="center"
@@ -103,14 +97,12 @@
               >
             </el-table-column>
 
-
             <el-table-column
               align="center"
               label="工作人员"
               prop="regionalManagerWorkerName"
             >
             </el-table-column>
-
 
             <el-table-column
               align="center"
@@ -126,7 +118,6 @@
             label="内控管家"
           >
 
-
             <el-table-column
               align="center"
               label="返佣对象"
@@ -135,14 +126,12 @@
               >
             </el-table-column>
 
-
             <el-table-column
               align="center"
               label="工作人员"
               prop="assistantWorkerName"
             >
             </el-table-column>
-
 
             <el-table-column
               align="center"
@@ -158,7 +147,6 @@
             label="金融管家"
           >
 
-
             <el-table-column
               align="center"
               label="返佣对象"
@@ -167,14 +155,12 @@
               >
             </el-table-column>
 
-
             <el-table-column
               align="center"
               label="工作人员"
               prop="trainerWorkerName"
             >
             </el-table-column>
-
 
             <el-table-column
               align="center"
@@ -194,13 +180,13 @@
 <script>
   import comButton from '../../../../components/button/comButton'
   import API from '../../../../utils/api'
-  import { mapState, mapActions } from 'vuex'
+  import { mapState } from 'vuex'
 
   export default {
     name: 'list',
     data () {
       return {
-        tableData:[]
+        tableData: [],
       }
     },
     computed: {
@@ -220,7 +206,7 @@
     },
     props: ['params'],
     created () {
-      var that=this
+      var that = this
       let param = {
         clearId: that.params.id,
         type: 5,
@@ -243,8 +229,7 @@
         })
       })
     },
-    methods: {
-    },
+    methods: {},
   }
 </script>
 

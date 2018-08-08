@@ -94,7 +94,9 @@
             prop="operateTime"
             label="操作时间"
           >
-            <template slot-scope="scope">{{scope.row.operateTime && $moment(scope.row.operateTime).format('YYYY-MM-DD HH:mm:ss')}}    </template>
+            <template slot-scope="scope">
+              {{scope.row.operateTime && $moment(scope.row.operateTime).format('YYYY-MM-DD HH:mm:ss')}}
+            </template>
           </el-table-column>
 
           <el-table-column
@@ -138,19 +140,19 @@
     name: 'list',
     data () {
       return {
-        sortObj: {sort: "operate_time,desc"}, // 排序
+        sortObj: {sort: 'operate_time,desc'}, // 排序
         currentPage: 1,
         tableData: [],
         defaultListParams: { // 默认顾客列表请求参数
           page: null,
-          pageSize: null
+          pageSize: null,
         },
-        allorganization:[] ,
+        allorganization: [],
         form: {
-          organizationIds:''
+          organizationIds: '',
         },
         total: 0,
-        advancedSearch:null, // 高级搜索
+        advancedSearch: null, // 高级搜索
       }
     },
     computed: {
@@ -160,17 +162,17 @@
     },
     components: {
       comButton,
-      advancedSearch
+      advancedSearch,
     },
     created () {
       var that = this
-      let   params = {
-          page: 1,
-          pageSize: 999,
-          pid: 1,
-          type: 1,
-          level:2
-        }
+      let params = {
+        page: 1,
+        pageSize: 999,
+        pid: 1,
+        type: 1,
+        level: 2,
+      }
       API.organization.queryAllList(params, (res) => {
         this.allorganization = res.data
       }, (mock) => {
@@ -203,7 +205,7 @@
           params: {
             salesState: this.salesState,
             demandSource: this.demandSource,
-            type:0
+            type: 0,
           },
           callback: (data) => {
             if (data.type === 'search') {
@@ -237,7 +239,7 @@
           null) // 触发事件
         link.dispatchEvent(event)
       },
-      selectedOptionsHandleChange(){
+      selectedOptionsHandleChange () {
         var that = this
         that.$options.methods.init.bind(that)()
       },
@@ -245,15 +247,15 @@
         this.defaultListParams = {
           page: this.currentPage - 1,
           pageSize: this.pagesOptions.pageSize,
-          organizationId: this.form.organizationIds
+          organizationId: this.form.organizationIds,
         }
       },
       init () {
-        var that = this
+        // var that = this
         this.loading = true
         this.getQueryParams()
         this.dataLoading = true
-        API.syslog.logList(Object.assign({}, this.defaultListParams,  this.sortObj, this.advancedSearch),
+        API.syslog.logList(Object.assign({}, this.defaultListParams, this.sortObj, this.advancedSearch),
           da => {
             this.tableData = da.data.content
             this.total = da.data.totalElements

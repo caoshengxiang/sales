@@ -74,11 +74,13 @@
                 </td>
                 <td class="td-title">培训师</td>
                 <td>
-                  <span v-for="(u, index) in userDetail.trainers" :key="index"><i v-if="index > 0">、</i>{{u.name}}</span>
+                  <span v-for="(u, index) in userDetail.trainers" :key="index"><i
+                    v-if="index > 0">、</i>{{u.name}}</span>
                 </td>
                 <td class="td-title">销售助理</td>
                 <td>
-                  <span v-for="(u, index) in userDetail.assistants" :key="index"><i v-if="index > 0">、</i>{{u.name}}</span>
+                  <span v-for="(u, index) in userDetail.assistants" :key="index"><i
+                    v-if="index > 0">、</i>{{u.name}}</span>
                 </td>
               </tr>
               <tr>
@@ -120,7 +122,7 @@
 <script>
   // import comButton from '../../../components/button/comButton'
   import API from '../../../utils/api'
-  import { mapState, mapActions } from 'vuex'
+  import { mapState } from 'vuex'
 
   export default {
     name: 'detailInfo',

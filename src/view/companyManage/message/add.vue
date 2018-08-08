@@ -15,7 +15,7 @@
             <td class="td-title">请选择接收角色</td>
             <td class="td-text">
               <el-form-item prop="businessSystems">
-                <el-select  v-model="form.roleIds" multiple placeholder="请选择接收角色">
+                <el-select v-model="form.roleIds" multiple placeholder="请选择接收角色">
                   <el-option
                     v-for="item in allroles"
                     :key="item.id"
@@ -30,7 +30,7 @@
             <td class="td-title">请选择接收组织</td>
             <td class="td-text">
               <el-form-item prop="bilities">
-                <el-select v-model="form.organizationIds"  multiple @change="selectedOptionsHandleChange"
+                <el-select v-model="form.organizationIds" multiple @change="selectedOptionsHandleChange"
                            placeholder="请选择接收组织">
                   <el-option
                     v-for="item in allorganization"
@@ -78,17 +78,18 @@
 </template>
 <script>
   import API from '../../../utils/api'
-  import { Message } from 'element-ui'
+  // import { Message } from 'element-ui'
   import fileUpload from '../../../components/fileUpload'
+
   export default {
     data () {
       return {
         loading: false,
         isFormDisabled: false,
         form: {
-          organizationIds:[],
-          roleIds:[],
-          msgType:2
+          organizationIds: [],
+          roleIds: [],
+          msgType: 2,
         },
         businessSystemsOptions: [],
         roleBilitysOptions: [],
@@ -99,13 +100,13 @@
         },
         businessSystemList: [],
         bilityList: [],
-        imgurl:'',
+        imgurl: '',
         allroles: [],
       }
     },
     props: ['params'],
     components: {
-      fileUpload
+      fileUpload,
     },
     created () {
       var that = this
@@ -124,7 +125,7 @@
         pageSize: 999,
         pid: 1,
         type: 1,
-        level:2
+        level: 2,
       }
       API.organization.queryAllList(params, (res) => {
         this.allorganization = res.data
@@ -132,15 +133,15 @@
       })
     },
     methods: {
-      save(){
+      save () {
         var that = this
         console.log(that.$refs.uploadControl.getFileListStr())
 
-        that.form.attachments =[]
-        var obj={}
-        if(that.$refs.uploadControl.getFileListStr().length >0) {
-          obj.name=that.$refs.uploadControl.getFileListStr()[0].name
-          obj.path=that.$refs.uploadControl.getFileListStr()[0].path
+        that.form.attachments = []
+        var obj = {}
+        if (that.$refs.uploadControl.getFileListStr().length > 0) {
+          obj.name = that.$refs.uploadControl.getFileListStr()[0].name
+          obj.path = that.$refs.uploadControl.getFileListStr()[0].path
           that.form.attachments.push(obj)
         }
         API.message.addMessage(this.form, (res) => {
@@ -151,8 +152,8 @@
           this.$vDialog.close()
         }, (mock) => {
         })
-      }
-    }
+      },
+    },
   }
 </script>
 

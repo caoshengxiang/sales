@@ -26,7 +26,7 @@
           </el-form-item>
           <el-form-item>
             <el-select v-model="searchForm.clearState" placeholder="请选择结算状态">
-              <el-option v-for="item in clearState"  :key="item.type" :label="item.value" :value="item.type"></el-option>
+              <el-option v-for="item in clearState" :key="item.type" :label="item.value" :value="item.type"></el-option>
             </el-select>
           </el-form-item>
           <el-form-item>
@@ -166,7 +166,6 @@
 
         </el-table-column>
 
-
         <el-table-column
           align="center"
           label="销售佣金"
@@ -295,19 +294,19 @@
     data () {
       return {
         sortObj: null, // 排序
-        advancedSearch:null, // 高级搜索
-        totle:0,
+        advancedSearch: null, // 高级搜索
+        totle: 0,
         clearState: [ // 订单状态
           {
             type: 1,
-            value: '待审核'
+            value: '待审核',
           }, {
             type: 2,
-            value: '已作废'
+            value: '已作废',
           }, {
             type: 3,
-            value: '已审核'
-          }
+            value: '已审核',
+          },
         ],
         organizationOptions: [],
         tableData: [
@@ -317,30 +316,30 @@
             date: '2016-05-03',
             name: '王小虎',
             address: '上海市普陀区金沙江路 1518 弄',
-            status: 1
+            status: 1,
           }, {
             customerName: '成都凡特塞科技有限公司',
             businessLicense: '',
             date: '2016-05-03',
             name: '王小虎',
             address: '上海市普陀区金沙江路 1518 弄',
-            status: 2
+            status: 2,
           }, {
             customerName: '成都凡特塞科技有限公司',
             businessLicense: '',
             date: '2016-05-03',
             name: '王小虎',
             address: '上海市普陀区金沙江路 1518 弄',
-            status: 3
+            status: 3,
           }],
         multipleSelection: [],
         currentPage: 1,
-        searchForm:{
-          organizationId: "",
-          clearMonth:null,
-          clearState:null
+        searchForm: {
+          organizationId: '',
+          clearMonth: null,
+          clearState: null,
         },
-        defaultListParams:null
+        defaultListParams: null,
       }
     },
     computed: {
@@ -355,14 +354,13 @@
       managementCommission,
       serviceReward,
       serviceAllowance,
-      advancedSearch
+      advancedSearch,
     },
-  created(){
-    var that = this;
-    that.getCommissionClear(); // 查询列表
-    that.getOrganization({pid: 1})
-
-  },
+    created () {
+      var that = this
+      that.getCommissionClear() // 查询列表
+      that.getOrganization({pid: 1})
+    },
     methods: {
       excelExport () { // 导出
         let as = {}
@@ -407,7 +405,7 @@
           params: {
             salesState: this.salesState,
             demandSource: this.demandSource,
-            type:0
+            type: 0,
           },
           callback: (data) => {
             if (data.type === 'search') {
@@ -418,57 +416,56 @@
           },
         })
       },
-      auditCheck(){
-        var that = this;
-        if(that.multipleSelection.length === 0){
+      auditCheck () {
+        var that = this
+        if (that.multipleSelection.length === 0) {
           return
         }
 
-        API.financial.audit({ids:that.multipleSelection.map(item => item.id).join() }, (res) => {
-            this.$confirm('确认审核?', '提示', {
-              type: 'warning',
-            }).then(() => {
-          that.loading = false
-          if (res.status) {
+        API.financial.audit({ids: that.multipleSelection.map(item => item.id).join()}, (res) => {
+          this.$confirm('确认审核?', '提示', {
+            type: 'warning',
+          }).then(() => {
+            that.loading = false
+            if (res.status) {
+              that.$message({
+                type: 'success',
+                message: '审核成功!',
+              })
+              that.getCommissionClear()
+            } else {
+              that.$message({
+                message: res.error.message,
+                type: 'error',
+              })
+            }
+          }, (mock) => {
+            that.loading = false
             that.$message({
-              type: 'success',
-              message: '审核成功!',
-            })
-            that.getCommissionClear();
-          } else {
-            that.$message({
-              message: res.error.message,
+              message: '系统繁忙，请稍后再试！',
               type: 'error',
             })
-          }
-        }, (mock) => {
-          that.loading = false
-          that.$message({
-            message: '系统繁忙，请稍后再试！',
-            type: 'error',
           })
-        })
         }).catch(() => {})
       },
       handleSelectionChange (val) {
         this.multipleSelection = val
       },
-      saleCommission(row,type){
+      saleCommission (row, type) {
         var that = this
-        if(type === 1){
-          that.openSaleCommission(row.id);
-        } else if(type === 2){
-          that.openManagementCommission(row.id);
-        } else if(type === 3){
-          that.openServiceCommission(row.id);
-        } else if(type === 4) {
-          that.openServiceReward(row.id);
-        }
-         else if(type === 5){
-          that.openServiceAllowance(row.id);
+        if (type === 1) {
+          that.openSaleCommission(row.id)
+        } else if (type === 2) {
+          that.openManagementCommission(row.id)
+        } else if (type === 3) {
+          that.openServiceCommission(row.id)
+        } else if (type === 4) {
+          that.openServiceReward(row.id)
+        } else if (type === 5) {
+          that.openServiceAllowance(row.id)
         }
       },
-      openManagementCommission(id){
+      openManagementCommission (id) {
         var that = this
         that.$vDialog.modal(managementCommission, {
           title: '管理佣金返佣详情',
@@ -481,7 +478,7 @@
           },
         })
       },
-      openServiceAllowance(id){
+      openServiceAllowance (id) {
         var that = this
         that.$vDialog.modal(serviceAllowance, {
           title: '服务补贴返佣详情',
@@ -494,7 +491,7 @@
           },
         })
       },
-      openServiceCommission(id){
+      openServiceCommission (id) {
         var that = this
         that.$vDialog.modal(serviceCommission, {
           title: '服务佣金返佣详情',
@@ -507,7 +504,7 @@
           },
         })
       },
-      openServiceReward(id){
+      openServiceReward (id) {
         var that = this
         that.$vDialog.modal(serviceReward, {
           title: '服务奖励返佣详情',
@@ -520,7 +517,7 @@
           },
         })
       },
-      openSaleCommission(id){
+      openSaleCommission (id) {
         var that = this
         that.$vDialog.modal(commissionDetail, {
           title: '销售佣金返佣详情',
@@ -536,11 +533,12 @@
       getCommissionClear () {
         var that = this
         that.loading = true
-        that.defaultListParams= {
+        that.defaultListParams = {
           page: that.currentPage - 1,
           pageSize: that.pagesOptions.pageSize,
-          clearMonth: that.searchForm.clearMonth===null?"":(that.searchForm.clearMonth.getFullYear()+""+('00'+(1+that.searchForm.clearMonth.getMonth())).slice(-2)),
-          clearState: that.searchForm.clearState
+          clearMonth: that.searchForm.clearMonth === null ? '' : (that.searchForm.clearMonth.getFullYear() + '' +
+            ('00' + (1 + that.searchForm.clearMonth.getMonth())).slice(-2)),
+          clearState: that.searchForm.clearState,
         }
         API.financial.queryList(Object.assign({}, that.defaultListParams, this.sortObj, this.advancedSearch), (res) => {
           that.loading = false
@@ -576,18 +574,20 @@
         API.organization.queryAllList(pa, (data) => {
           this.organizationOptions = data.data
         })
-      }
+      },
     },
   }
 </script>
 
 <style scoped lang="scss" rel="stylesheet/scss">
   @import "../../../../styles/common";
+
   .link {
     color: #00A7FE;
     text-decoration: underline;
     cursor: pointer;
   }
+
   .button {
     padding: 5px 10px;
     color: #fff;

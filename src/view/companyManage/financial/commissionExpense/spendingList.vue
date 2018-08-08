@@ -299,10 +299,16 @@
             if (data.type === 'search') {
               this.advancedSearch = data.params
               console.log(this.advancedSearch)
-              this.advancedSearch.paymentMonthStart = this.advancedSearch.paymentMonthStart===null?"":(this.advancedSearch.paymentMonthStart.getFullYear()+""+('00'+(1+this.advancedSearch.paymentMonthStart.getMonth())).slice(-2))
+              this.advancedSearch.paymentMonthStart = this.advancedSearch.paymentMonthStart === null
+                ? ''
+                : (this.advancedSearch.paymentMonthStart.getFullYear() + '' +
+                  ('00' + (1 + this.advancedSearch.paymentMonthStart.getMonth())).slice(-2))
 
-              this.advancedSearch.paymentMonthEnd = this.advancedSearch.paymentMonthEnd===null?"":(this.advancedSearch.paymentMonthEnd.getFullYear()+""+('00'+(1+this.advancedSearch.paymentMonthEnd.getMonth())).slice(-2))
-                alert(this.advancedSearch.paymentMonthEnd)
+              this.advancedSearch.paymentMonthEnd = this.advancedSearch.paymentMonthEnd === null
+                ? ''
+                : (this.advancedSearch.paymentMonthEnd.getFullYear() + '' +
+                  ('00' + (1 + this.advancedSearch.paymentMonthEnd.getMonth())).slice(-2))
+              alert(this.advancedSearch.paymentMonthEnd)
               this.getCommissionClear()
             }
           },

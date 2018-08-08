@@ -36,7 +36,7 @@
           show-overflow-tooltip>
 
           <template slot-scope="scope">
-           {{ scope.row.specificationName}}({{ scope.row.quantity }})
+            {{ scope.row.specificationName}}({{ scope.row.quantity }})
           </template>
         </el-table-column>
 
@@ -88,7 +88,7 @@
           label="是否续费"
           show-overflow-tooltip>
           <template slot-scope="scope">
-            {{ scope.row.isRenew == 1?"是":"否" }}
+            {{ scope.row.isRenew == 1?'是':'否' }}
           </template>
         </el-table-column>
 
@@ -115,7 +115,7 @@
           label="销售跟进"
           show-overflow-tooltip>
           <template slot-scope="scope">
-          {{ scope.row.followingAmount }}({{ scope.row.followingPeriod }}/{{ scope.row.followingPeriodTotal }}期)
+            {{ scope.row.followingAmount }}({{ scope.row.followingPeriod }}/{{ scope.row.followingPeriodTotal }}期)
           </template>
         </el-table-column>
         <el-table-column
@@ -140,7 +140,8 @@
           label="大区总监"
           show-overflow-tooltip>
           <template slot-scope="scope">
-            {{ scope.row.zoneDirectorAmount }}({{ scope.row.zoneDirectorPeriod }}/{{ scope.row.zoneDirectorPeriodTotal }}期)
+            {{ scope.row.zoneDirectorAmount }}({{ scope.row.zoneDirectorPeriod }}/{{ scope.row.zoneDirectorPeriodTotal
+            }}期)
           </template>
         </el-table-column>
         <el-table-column
@@ -148,7 +149,8 @@
           label="区域经理"
           show-overflow-tooltip>
           <template slot-scope="scope">
-            {{ scope.row.regionalManagerAmount }}({{ scope.row.regionalManagerPeriod }}/{{ scope.row.regionalManagerPeriodTotal }}期)
+            {{ scope.row.regionalManagerAmount }}({{ scope.row.regionalManagerPeriod }}/{{
+            scope.row.regionalManagerPeriodTotal }}期)
           </template>
         </el-table-column>
         <el-table-column
@@ -182,7 +184,8 @@
           label="服务补贴"
           show-overflow-tooltip>
           <template slot-scope="scope">
-            {{ scope.row.serviceAllowance }}({{ scope.row.serviceAllowancePeriod }}/{{ scope.row.serviceAllowancePeriodTotal }}期)
+            {{ scope.row.serviceAllowance }}({{ scope.row.serviceAllowancePeriod }}/{{
+            scope.row.serviceAllowancePeriodTotal }}期)
           </template>
         </el-table-column>
 
@@ -191,7 +194,8 @@
           label="服务佣金"
           show-overflow-tooltip>
           <template slot-scope="scope">
-            {{ scope.row.serviceCommission }}({{ scope.row.serviceCommissionPeriod }}/{{ scope.row.serviceCommissionPeriodTotal }}期)
+            {{ scope.row.serviceCommission }}({{ scope.row.serviceCommissionPeriod }}/{{
+            scope.row.serviceCommissionPeriodTotal }}期)
           </template>
         </el-table-column>
 
@@ -209,8 +213,8 @@
 <script>
   import comButton from '../../../../components/button/comButton'
   import API from '../../../../utils/api'
-  import { mapState, mapActions } from 'vuex'
-  import { underscoreName } from '../../../../utils/utils'
+  import { mapState } from 'vuex'
+  // import { underscoreName } from '../../../../utils/utils'
 
   export default {
     name: 'list',
@@ -219,16 +223,16 @@
         clearState: [ // 订单状态
           {
             type: 1,
-            value: '待审核'
+            value: '待审核',
           }, {
             type: 2,
-            value: '已作废'
+            value: '已作废',
           }, {
             type: 3,
-            value: '已审核'
-          }
+            value: '已审核',
+          },
         ],
-        tableData:[]
+        tableData: [],
       }
     },
     computed: {
@@ -248,7 +252,7 @@
     },
     props: ['params'],
     created () {
-      var that=this
+      var that = this
       let param = {
         id: that.params.id,
       }
@@ -270,8 +274,7 @@
         })
       })
     },
-    methods: {
-    },
+    methods: {},
   }
 </script>
 

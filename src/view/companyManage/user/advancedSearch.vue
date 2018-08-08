@@ -9,12 +9,12 @@
             </el-form-item>
           </el-col>
           <el-col :span="8" v-if="type===0">
-            <el-form-item label="员工号：" >
+            <el-form-item label="员工号：">
               <el-input type="text" v-model="searchForm.jobNo"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8" v-if="type===1">
-            <el-form-item label="代理商号：" >
+            <el-form-item label="代理商号：">
               <el-input type="text" v-model="searchForm.agentNo"></el-input>
             </el-form-item>
           </el-col>
@@ -33,8 +33,8 @@
               <el-input type="text" v-model="searchForm.mobilePhone"></el-input>
             </el-form-item>
           </el-col>
-        <!--</el-row>-->
-        <!--<el-row class="el-row-cla">-->
+          <!--</el-row>-->
+          <!--<el-row class="el-row-cla">-->
           <el-col :span="8">
             <el-form-item label="部门：">
               <el-input type="text" v-model="searchForm.departmentName"></el-input>
@@ -65,7 +65,8 @@
 
           <el-col :span="8" v-if="type===0">
             <el-form-item label="用户组织：">
-              <el-select v-model.number="searchForm.organizationId" @change="selectedOptionsHandleChange" placeholder="请选择人员组织"
+              <el-select v-model.number="searchForm.organizationId" @change="selectedOptionsHandleChange"
+                         placeholder="请选择人员组织"
                          style="width: 140px">
                 <el-option
                   v-for="item in organizationOptions"
@@ -79,18 +80,18 @@
             </el-form-item>
           </el-col>
 
-          <el-col :span="8"  v-if="type===0">
-          <el-form-item  label="用户性别：">
-            <el-select v-model.number="searchForm.sex" placeholder="请选择员工性别">
-              <el-option label="男" value="男"></el-option>
-              <el-option label="女" value="女"></el-option>
-            </el-select>
-          </el-form-item>
+          <el-col :span="8" v-if="type===0">
+            <el-form-item label="用户性别：">
+              <el-select v-model.number="searchForm.sex" placeholder="请选择员工性别">
+                <el-option label="男" value="男"></el-option>
+                <el-option label="女" value="女"></el-option>
+              </el-select>
+            </el-form-item>
           </el-col>
         </el-row>
         <el-row>
-          <el-col :span="8"  v-if="type===1">
-            <el-form-item  label="用户性别：">
+          <el-col :span="8" v-if="type===1">
+            <el-form-item label="用户性别：">
               <el-select v-model.number="searchForm.sex" placeholder="请选择员工性别">
                 <el-option label="男" value="男"></el-option>
                 <el-option label="女" value="女"></el-option>
@@ -98,15 +99,15 @@
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item  label="用户角色：">
-            <el-select v-model="searchForm.roleId"  placeholder="请选择角色职能">
-              <el-option
-                v-for="item in allroles"
-                :key="item.id"
-                :label="item.name"
-                :value="item.id">
-              </el-option>
-            </el-select>
+            <el-form-item label="用户角色：">
+              <el-select v-model="searchForm.roleId" placeholder="请选择角色职能">
+                <el-option
+                  v-for="item in allroles"
+                  :key="item.id"
+                  :label="item.name"
+                  :value="item.id">
+                </el-option>
+              </el-select>
             </el-form-item>
 
           </el-col>
@@ -131,7 +132,7 @@
         <el-button class="cancel-button" @click="$vDialog.close({type: 'cancel'})">取 消</el-button>
         <el-button class="save-button" @click="saveSubmitForm">确 定</el-button>
       </div>
-      <div class="com-bar-right" ><!--后端-->
+      <div class="com-bar-right"><!--后端-->
         <!--<com-button buttonType="search" @click="searchHandle">搜索</com-button>-->
       </div>
     </div>
@@ -151,27 +152,27 @@
         customerSourceType: [], // 客户来源
         customerState: [], // 客户状态
         searchForm: { // 表单
-          mobilePhone:null,
-          jobNo:null,
+          mobilePhone: null,
+          jobNo: null,
           name: null,
           organizationId: null,
-          roleId:null,
+          roleId: null,
           birthdayStart: null,
           birthdayEnd: null,
-          departmentName:null,
-          head:null,
-          assistant:null,
-          trainer:null,
-          sex:null,
-          agentNo:null,
-          wx:null,
+          departmentName: null,
+          head: null,
+          assistant: null,
+          trainer: null,
+          sex: null,
+          agentNo: null,
+          wx: null,
         },
         organizationOptions: [], // 组织列表
         timeIntervalRefundDate: '',
         timeIntervalAuditTime: '',
-        allroles:[],
+        allroles: [],
         birthday: '',
-        type:0
+        type: 0,
       }
     },
     props: ['params'],

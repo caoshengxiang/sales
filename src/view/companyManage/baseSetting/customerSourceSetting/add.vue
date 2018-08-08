@@ -74,7 +74,7 @@
       },
       save (formName) {
         var that = this
-        that.form.type=5
+        that.form.type = 5
         that.$refs[formName].validate((valid) => {
           if (valid) {
             switch (that.params.action) {
@@ -99,11 +99,11 @@
                 break
               case 'update':
                 that.loading = true
-                let param = {
-                  codeName: that.form.codeName,
-                  type: 5,
-                  id: that.form.id,
-                }
+                // let param = { // 未使用
+                //   codeName: that.form.codeName,
+                //   type: 5,
+                //   id: that.form.id,
+                // }
                 API.baseSetting.edit(that.form, function (resData) {
                   that.loading = false
                   if (resData.status) {

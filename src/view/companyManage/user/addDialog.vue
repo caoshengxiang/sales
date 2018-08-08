@@ -31,7 +31,8 @@
             <td class="td-title">人员组织</td>
             <td class="td-text">
               <el-form-item prop="organizationId">
-                <el-select v-model.number="form.organizationId" :disabled="update === 'update' ?true:false"  @change="selectedOptionsHandleChange"
+                <el-select v-model.number="form.organizationId" :disabled="update === 'update' ?true:false"
+                           @change="selectedOptionsHandleChange"
                            placeholder="请选择人员组织">
                   <el-option
                     v-for="item in allorganization"
@@ -66,7 +67,8 @@
             <td class="td-text">
               <!--<input type="text">-->
               <el-form-item prop="roles">
-                <el-select :disabled="update === 'update' ?true:false"  v-model="choseroles" multiple placeholder="请选择人员角色">
+                <el-select :disabled="update === 'update' ?true:false" v-model="choseroles" multiple
+                           placeholder="请选择人员角色">
                   <el-option
                     v-for="item in allroles"
                     :key="item.id"
@@ -165,7 +167,7 @@
         alldepartments: [],
         choseroles: [],
         type: '',
-        update:false
+        update: false,
       }
     },
     props: ['params'],

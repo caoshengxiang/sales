@@ -125,7 +125,7 @@
       getData () {
         API.home.saleFunnel({type: this.type}, da => {
           let testData = da.data
-          let showData = []
+          // let showData = []
           testData.forEach(item => {
             if (item.stage === 1) {
               this.funnelOption.series[0].data[0] = {

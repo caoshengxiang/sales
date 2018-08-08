@@ -39,7 +39,7 @@
           width="200"
         >
           <template slot-scope="scope">
-            <span :class="{'read-message': scope.row.read}">{{ scope.row.msgType==1?"系统消息":"平台消息" }}</span>
+            <span :class="{'read-message': scope.row.read}">{{ scope.row.msgType==1?'系统消息':'平台消息' }}</span>
           </template>
         </el-table-column>
         <el-table-column
@@ -97,11 +97,11 @@
         currentPage: 1,
         defaultListParams: { // 默认顾客列表请求参数
           page: null,
-          pageSize: null
+          pageSize: null,
         },
-        total:0,
+        total: 0,
         multipleSelection: [],
-        advancedSearch:null, // 高级搜索
+        advancedSearch: null, // 高级搜索
       }
     },
     computed: {
@@ -111,7 +111,7 @@
     },
     components: {
       comButton,
-      advancedSearch
+      advancedSearch,
     },
     created () {
       var that = this
@@ -136,7 +136,7 @@
           params: {
             salesState: this.salesState,
             demandSource: this.demandSource,
-            type:0
+            type: 0,
           },
           callback: (data) => {
             if (data.type === 'search') {
@@ -147,7 +147,7 @@
         })
       },
       init () {
-        var that = this
+        // var that = this
         this.loading = true
         this.getQueryParams()
         this.dataLoading = true

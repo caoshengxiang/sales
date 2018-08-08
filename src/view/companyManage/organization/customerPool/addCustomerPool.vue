@@ -2,9 +2,9 @@
   <div class="com-dialog-container" v-loading="loading">
     <div class="com-dialog">
       <el-form label-position="left" :model="form" ref="form" :rules="rules" label-width="140px">
-          <el-form-item prop="name" label="请输入分组名称">
-            <el-input type="text" v-model="form.name" placeholder="请输入分组名称"></el-input>
-          </el-form-item>
+        <el-form-item prop="name" label="请输入分组名称">
+          <el-input type="text" v-model="form.name" placeholder="请输入分组名称"></el-input>
+        </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button class="cancel-button" @click="closeDialog">取 消</el-button>
@@ -23,20 +23,20 @@
       return {
         loading: false,
         form: {
-          name: ''
+          name: '',
         },
         rules: {
           name: [
-            {required: true, message: '请输入名称', trigger: 'blur'}
-          ]
+            {required: true, message: '请输入名称', trigger: 'blur'},
+          ],
         },
         type: 'add',
       }
     },
     computed: {
       ...mapState('constData', [
-        'organizationType'
-      ])
+        'organizationType',
+      ]),
     },
     props: ['params'],
     methods: {
@@ -50,16 +50,17 @@
             switch (that.params.type) {
               case 'add':
                 that.loading = true
-                API.customerSea.add(Object.assign({}, that.form, {organizationId: that.params.organizationId}), (resData) => {
-                  that.loading = false
-                  if (resData.status) {
-                    Message({
-                      message: '新增成功！',
-                      type: 'success'
-                    })
-                    that.$vDialog.close() // 关闭弹窗
-                  }
-                })
+                API.customerSea.add(Object.assign({}, that.form, {organizationId: that.params.organizationId}),
+                  (resData) => {
+                    that.loading = false
+                    if (resData.status) {
+                      Message({
+                        message: '新增成功！',
+                        type: 'success',
+                      })
+                      that.$vDialog.close() // 关闭弹窗
+                    }
+                  })
                 break
               case 'edit':
                 that.loading = true
@@ -68,7 +69,7 @@
                   if (resData.status) {
                     Message({
                       message: '修改成功！',
-                      type: 'success'
+                      type: 'success',
                     })
                     that.$vDialog.close() // 关闭弹窗
                   }
@@ -90,17 +91,17 @@
           } else {
             Message({
               message: res.error.message,
-              type: 'error'
+              type: 'error',
             })
           }
         }, function () {
           that.loading = false
           Message({
             message: '系统繁忙，请稍后再试1！',
-            type: 'error'
+            type: 'error',
           })
         })
-      }
+      },
     },
     created () {
       if (this.params.type === 'edit') {

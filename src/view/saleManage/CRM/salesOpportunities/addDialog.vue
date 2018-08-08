@@ -256,10 +256,10 @@
           } else if (type === 3) {
             this.industryList = data.data
           } else if (type === 5) {
-            let arr = data.data.map((item) => {
-              item.children = []
-              return item
-            })
+            // let arr = data.data.map((item) => {
+            //   item.children = []
+            //   return item
+            // })
             if (this.params.detail) {
               // alert('确认需求')
             } else {

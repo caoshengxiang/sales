@@ -13,14 +13,14 @@
     <!--控制栏-->
     <div class="com-bar">
       <div class="com-bar-left">
-      <!--  <com-button buttonType="delete" icon="el-icon-delete" :disabled="this.multipleSelection.length <= 0"
-                    @click="deleteHandle">刪除
-        </com-button>-->
+        <!--  <com-button buttonType="delete" icon="el-icon-delete" :disabled="this.multipleSelection.length <= 0"
+                      @click="deleteHandle">刪除
+          </com-button>-->
         <com-button buttonType="grey" icon="el-icon-edit" :disabled="this.multipleSelection.length !== 1"
                     @click="modifyHandle">修改
         </com-button>
         <!--<com-button buttonType="grey" icon="el-icon-remove-outline" :disabled="this.multipleSelection.length <= 0"-->
-                    <!--@click="disableHandle">禁用-->
+        <!--@click="disableHandle">禁用-->
         <!--</com-button>-->
         <com-button buttonType="grey" icon="el-icon-remove-outline"
                     :disabled="this.multipleSelection.length <= 0 || disableUserHandle"
@@ -39,7 +39,7 @@
         <com-button buttonType="search" @click="advancedSearchHandle" style="">高级搜索</com-button>
       </div>
       <div class="com-bar-right" style="float: right">
-        <el-select v-model.number="form.organizationId"  placeholder="请选择代理商组织">
+        <el-select v-model.number="form.organizationId" placeholder="请选择代理商组织">
           <el-option
             v-for="item in allorganization"
             :key="item.id"
@@ -48,15 +48,15 @@
           >
           </el-option>
         </el-select>
-    <!--    <el-cascader
-          placeholder="请选择代理商部门"
-          :change-on-select="true"
-          :options="alldepartments"
-          v-model="selectedOptions"
-          :props="props"
-          @change="selecteddptHandleChange"
-        >
-        </el-cascader>-->
+        <!--    <el-cascader
+              placeholder="请选择代理商部门"
+              :change-on-select="true"
+              :options="alldepartments"
+              v-model="selectedOptions"
+              :props="props"
+              @change="selecteddptHandleChange"
+            >
+            </el-cascader>-->
       </div>
     </div>
     <!--详细-->
@@ -235,7 +235,7 @@
     data () {
       return {
         sortObj: null, // 排序
-        advancedSearch:null, // 高级搜索
+        advancedSearch: null, // 高级搜索
         loading: false,
         dataLoading: true,
         addDialogOpen: false, // 新增弹窗
@@ -255,13 +255,13 @@
         },
         form: { // 添加用户表单
           departmentId: '',
-          organizationId:'',
+          organizationId: '',
         },
-        disabled:true,
-        userTotal:0,
-        userList:null,
+        disabled: true,
+        userTotal: 0,
+        userList: null,
         disableUserHandle: false,
-        enableUserHandle: false
+        enableUserHandle: false,
       }
     },
     computed: {
@@ -271,8 +271,7 @@
         'usertate',
         'pagesOptions',
       ]),
-      ...mapState('user', [
-      ]),
+      ...mapState('user', []),
     },
     watch: {
       multipleSelection (va) {
@@ -286,12 +285,12 @@
             this.disableUserHandle = true
           }
         })
-      }
+      },
     },
     components: {
       comButton,
       addDialog,
-      advancedSearch
+      advancedSearch,
     },
     props: ['params'],
     created () {
@@ -299,12 +298,12 @@
       let params = {
         page: 1,
         pageSize: 999,
-        pid:8,
+        pid: 8,
         type: 1,
       }
       API.organization.queryAllList(params, (res) => {
         this.allorganization = res.data
-       // this.selectedOptionsHandleChange()
+        // this.selectedOptionsHandleChange()
       }, (mock) => {
         this.alldepartments = mock.data
         this.dataLoading = false
@@ -329,7 +328,7 @@
           params: {
             salesState: this.salesState,
             demandSource: this.demandSource,
-            type:1
+            type: 1,
           },
           callback: (data) => {
             if (data.type === 'search') {
@@ -414,10 +413,9 @@
         var ids = this.sels.map(item => item.id).join() // 获取所有选中行的id组成的字符串，以逗号分隔
         // alert(ids)
       },
-      ...mapActions('user', [
-      ]),
+      ...mapActions('user', []),
       getuserList (page, pageSize, type) { // 获取列表数据
-        var that= this
+        var that = this
         let param = {
           page: that.currentPage - 1,
           pageSize: that.pagesOptions.pageSize,
@@ -471,7 +469,7 @@
           },
           callback: function (data) {
             that.searchHandle()
-            that.$refs.multipleTable.clearSelection();
+            that.$refs.multipleTable.clearSelection()
           },
         })
       },

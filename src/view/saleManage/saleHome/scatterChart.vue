@@ -103,7 +103,7 @@
         API.home.recentChance({}, da => {
           let testData = da.data
           let showData = []
-          let date = []
+          // let date = []
           testData.forEach((item, index) => {
             // date.push(item.productName)
             showData.push([index + 1, item.amount, this.$moment(item.billDate).format('YYYY-MM-DD'), item.productName])

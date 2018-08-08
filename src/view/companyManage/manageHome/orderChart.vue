@@ -20,7 +20,8 @@
       <div class="col-box col-box-report">
         <ul class="report-ul" v-if="chartRadio === 1">
           <li>
-            <p class="data">{{orderStat.currentYearOrderQuantity}} <span class="money">销售额：￥{{orderStat.currentYearOrderAmount}}</span></p>
+            <p class="data">{{orderStat.currentYearOrderQuantity}} <span class="money">销售额：￥{{orderStat.currentYearOrderAmount}}</span>
+            </p>
             <p class="detail"><span class="tip">本年累计新增订单</span>
               <span class="percent percent-plus" v-if="orderStat.yearQuantityChangeRate > 0">
                 <i class="iconfont icon-top"></i>{{orderStat.yearQuantityChangeRate}}%
@@ -34,7 +35,8 @@
             </p>
           </li>
           <li>
-            <p class="data">{{orderStat.currentMonthOrderQuantity}} <span class="money">销售额：￥{{orderStat.currentMonthOrderAmount}}</span></p>
+            <p class="data">{{orderStat.currentMonthOrderQuantity}} <span class="money">销售额：￥{{orderStat.currentMonthOrderAmount}}</span>
+            </p>
             <p class="detail"><span class="tip">本月累计新增订单</span>
               <span class="percent percent-plus" v-if="orderStat.monthQuantityChangeRate > 0">
                 <i class="iconfont icon-top"></i>{{orderStat.monthQuantityChangeRate}}%
@@ -48,7 +50,8 @@
             </p>
           </li>
           <li>
-            <p class="data">{{orderStat.currentWeekOrderQuantity}} <span class="money">销售额：￥{{orderStat.currentWeekOrderAmount}}</span></p>
+            <p class="data">{{orderStat.currentWeekOrderQuantity}} <span class="money">销售额：￥{{orderStat.currentWeekOrderAmount}}</span>
+            </p>
             <p class="detail"><span class="tip">本周累计新增订单</span>
               <span class="percent percent-plus" v-if="orderStat.weekQuantityChangeRate > 0">
                 <i class="iconfont icon-top"></i>{{orderStat.weekQuantityChangeRate}}%
@@ -64,7 +67,8 @@
         </ul>
         <ul class="report-ul" v-if="chartRadio === 2">
           <li>
-            <p class="data">￥{{orderStat.currentYearOrderAmount}} <span class="money">订单数：{{orderStat.currentYearOrderQuantity}}</span></p>
+            <p class="data">￥{{orderStat.currentYearOrderAmount}} <span class="money">订单数：{{orderStat.currentYearOrderQuantity}}</span>
+            </p>
             <p class="detail"><span class="tip">本年累计新增销售额</span>
               <span class="percent percent-plus" v-if="orderStat.yearAmountChangeRate > 0">
                 <i class="iconfont icon-top"></i><span class="num">{{orderStat.yearAmountChangeRate}}%</span>
@@ -78,7 +82,8 @@
             </p>
           </li>
           <li>
-            <p class="data">￥{{orderStat.currentMonthOrderAmount}} <span class="money">订单数：{{orderStat.currentMonthOrderQuantity}}</span></p>
+            <p class="data">￥{{orderStat.currentMonthOrderAmount}} <span class="money">订单数：{{orderStat.currentMonthOrderQuantity}}</span>
+            </p>
             <p class="detail"><span class="tip">本月累计新增销售额</span>
               <span class="percent percent-plus" v-if="orderStat.monthAmountChangeRate > 0">
                 <i class="iconfont icon-top"></i><span class="num">{{orderStat.monthAmountChangeRate}}%</span>
@@ -92,7 +97,8 @@
             </p>
           </li>
           <li>
-            <p class="data">￥{{orderStat.currentWeekOrderAmount}} <span class="money">订单数：{{orderStat.currentWeekOrderQuantity}}</span></p>
+            <p class="data">￥{{orderStat.currentWeekOrderAmount}} <span class="money">订单数：{{orderStat.currentWeekOrderQuantity}}</span>
+            </p>
             <p class="detail"><span class="tip">本周累计新增销售额</span>
               <span class="percent percent-plus" v-if="orderStat.weekAmountChangeRate > 0">
                 <i class="iconfont icon-top"></i><span class="num">{{orderStat.weekAmountChangeRate}}%</span>
