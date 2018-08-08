@@ -34,46 +34,62 @@
         <i class="iconfont icon-home"></i>
         <span slot="title">管理中心</span>
       </el-menu-item>
-      <el-menu-item index="customersList" v-if="listPermissions(menus, 'customer')">
+      <el-submenu index="CRM"> <!--todo 判断子菜单-->
         <template slot="title">
-          <i class="iconfont icon-kehu"></i>
-          <span slot="title">客户</span>
+          <i class="iconfont icon-lvzhou_shebeipeizhi"></i>
+          <span>CRM管理</span>
         </template>
-      </el-menu-item>
-      <el-menu-item index="contactsList" v-if="listPermissions(menus, 'contacts')">
-        <template slot="title">
-          <i class="iconfont icon-qunzu"></i>
-          <span slot="title">联系人</span>
-        </template>
-      </el-menu-item>
-      <el-menu-item index="salesOpportunitiesList" v-if="listPermissions(menus, 'salerChance')">
-        <template slot="title">
-          <i class="iconfont icon-jihui"></i>
-          <span slot="title">销售机会</span>
-        </template>
-      </el-menu-item>
-      <el-menu-item index="salesOrdersList" v-if="listPermissions(menus, 'salerOrder')">
-        <template slot="title">
-          <i class="iconfont icon-myorder"></i>
-          <span slot="title">销售订单</span>
-        </template>
-      </el-menu-item>
-      <el-menu-item index="orderRecordsList" v-if="listPermissions(menus, 'followOrder')">
-        <i class="iconfont icon-jilu2"></i>
-        <span slot="title">跟单记录</span>
-      </el-menu-item>
-      <el-menu-item index="returnRecordList" v-if="listPermissions(menus, 'refund')">
-        <i class="iconfont icon-shijian-tianchong"></i>
-        <span slot="title">回款记录</span>
-      </el-menu-item>
+        <el-menu-item-group>
+          <!--<template slot="title">分组一</template>-->
+          <el-menu-item index="customersList" v-if="listPermissions(menus, 'customer')">客户管理</el-menu-item>
+          <el-menu-item index="contactsList" v-if="listPermissions(menus, 'contacts')">联系人管理</el-menu-item>
+          <el-menu-item index="salesOpportunitiesList" v-if="listPermissions(menus, 'salerChance')">销售机会管理</el-menu-item>
+          <el-menu-item index="salesOrdersList" v-if="listPermissions(menus, 'salerOrder')">销售订单管理</el-menu-item>
+          <el-menu-item index="orderRecordsList" v-if="listPermissions(menus, 'followOrder')">跟单记录管理</el-menu-item>
+          <el-menu-item index="customersHighSeasList" v-if="listPermissions(menus, 'customerSea')">客户公海管理</el-menu-item>
+          <el-menu-item index="returnRecordList" v-if="listPermissions(menus, 'refund')">回款记录管理</el-menu-item>
+        </el-menu-item-group>
+      </el-submenu>
+      <!--<el-menu-item index="customersList" v-if="listPermissions(menus, 'customer')">-->
+      <!--<template slot="title">-->
+      <!--<i class="iconfont icon-kehu"></i>-->
+      <!--<span slot="title">客户</span>-->
+      <!--</template>-->
+      <!--</el-menu-item>-->
+      <!--<el-menu-item index="contactsList" v-if="listPermissions(menus, 'contacts')">-->
+      <!--<template slot="title">-->
+      <!--<i class="iconfont icon-qunzu"></i>-->
+      <!--<span slot="title">联系人</span>-->
+      <!--</template>-->
+      <!--</el-menu-item>-->
+      <!--<el-menu-item index="salesOpportunitiesList" v-if="listPermissions(menus, 'salerChance')">-->
+      <!--<template slot="title">-->
+      <!--<i class="iconfont icon-jihui"></i>-->
+      <!--<span slot="title">销售机会</span>-->
+      <!--</template>-->
+      <!--</el-menu-item>-->
+      <!--<el-menu-item index="salesOrdersList" v-if="listPermissions(menus, 'salerOrder')">-->
+      <!--<template slot="title">-->
+      <!--<i class="iconfont icon-myorder"></i>-->
+      <!--<span slot="title">销售订单</span>-->
+      <!--</template>-->
+      <!--</el-menu-item>-->
+      <!--<el-menu-item index="orderRecordsList" v-if="listPermissions(menus, 'followOrder')">-->
+      <!--<i class="iconfont icon-jilu2"></i>-->
+      <!--<span slot="title">跟单记录</span>-->
+      <!--</el-menu-item>-->
+      <!--<el-menu-item index="returnRecordList" v-if="listPermissions(menus, 'refund')">-->
+      <!--<i class="iconfont icon-shijian-tianchong"></i>-->
+      <!--<span slot="title">回款记录</span>-->
+      <!--</el-menu-item>-->
       <el-menu-item index="rebateRecordsList" v-if="listPermissions(menus, 'commission')">
         <i class="iconfont icon-ai-wallet"></i>
         <span slot="title">返佣记录</span>
       </el-menu-item>
-      <el-menu-item index="customersHighSeasList" v-if="listPermissions(menus, 'customerSea')">
-        <i class="iconfont icon-ene_mon_mes_sta"></i>
-        <span slot="title">客户公海</span>
-      </el-menu-item>
+      <!--<el-menu-item index="customersHighSeasList" v-if="listPermissions(menus, 'customerSea')">-->
+      <!--<i class="iconfont icon-ene_mon_mes_sta"></i>-->
+      <!--<span slot="title">客户公海</span>-->
+      <!--</el-menu-item>-->
       <el-menu-item index="taskApprovalList" v-if="listPermissions(menus, 'approval')">
         <i class="iconfont icon-shenpi"></i>
         <span slot="title">任务审批</span>
