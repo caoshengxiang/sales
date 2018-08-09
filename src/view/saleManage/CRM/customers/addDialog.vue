@@ -137,7 +137,7 @@
 </template>
 
 <script>
-  import addContact from '../contacts/addDialog'
+  import addContactDialog from '../contacts/addDialog'
   import API from '../../../../utils/api'
   import { chartLengthRule } from '../../../../utils/const'
 
@@ -302,7 +302,7 @@
         })
       },
       saveAndAddContact () {
-        this.$vDialog.modal(addContact, {
+        this.$vDialog.modal(addContactDialog, {
           title: '新增联系人',
           width: 900,
           height: 460,

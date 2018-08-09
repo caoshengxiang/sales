@@ -270,8 +270,7 @@ export default {
       })
     },
     editCustomer (params, success, error) { // 客户池新增客户。公海
-      let p = Object.assign({}, params.body, params.query) // body参数需要加一个source来源属性
-      $axios.post('customerSea/editCustomer', p).then((res) => {
+      $axios.put('customerSea/customer/' + params.path, params.body).then(res => {
         success && success(res.data)
       }).catch((err) => {
         error && error(err)
@@ -284,7 +283,7 @@ export default {
         error && error(err)
       })
     },
-    edit (params, success, error) { //
+    edit (params, success, error) { // 客户池编辑
       $axios.put('customerSea/' + params.path, params.body).then((res) => {
         success && success(res.data)
       }).catch((err) => {
