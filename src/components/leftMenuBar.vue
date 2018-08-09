@@ -56,7 +56,7 @@
           <span>PMS管理</span>
         </template>
         <el-menu-item-group>
-          <el-menu-item index="serviceManagerList" >服务管家管理</el-menu-item>
+          <el-menu-item index="serviceHousekeeperList" >服务管家管理</el-menu-item>
           <el-menu-item index="serviceOrderList" >服务订单管理</el-menu-item>
           <el-menu-item index="serviceWorkOrderList" >服务工单管理</el-menu-item>
           <el-menu-item index="customerBill" >客户票据管理</el-menu-item>
@@ -91,7 +91,7 @@
         </template>
         <el-menu-item-group>
           <el-menu-item index="taskApprovalList" v-if="listPermissions(menus, 'approval')">业务审批管理</el-menu-item>
-          <el-menu-item index="HousekeeperEnter" >管家入驻管理</el-menu-item>
+          <el-menu-item index="housekeeperEnterList" >管家入驻管理</el-menu-item>
         </el-menu-item-group>
       </el-submenu>
       <el-submenu index="statistical"> <!--todo 加权限-->

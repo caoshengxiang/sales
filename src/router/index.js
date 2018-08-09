@@ -85,6 +85,9 @@ const taskApprovalList = resolve => require.ensure([],
 const taskApprovalDetail = resolve => require.ensure([],
   () => resolve(require('../view/saleManage/taskApproval/approval/detailInfo')),
   'taskApproval')
+const housekeeperEnterList = resolve => require.ensure([],
+  () => resolve(require('../view/saleManage/taskApproval/housekeeper/list')),
+  'housekeeperEnterList')
 // 个人信息
 const personal = resolve => require.ensure([],
   () => resolve(require('../view/saleManage/personalCenter/personal')),
@@ -93,7 +96,50 @@ const personal = resolve => require.ensure([],
 const todoItemList = resolve => require.ensure([],
   () => resolve(require('../view/saleManage/todoItem/list')),
   'todoItemList')
+// PMS 服务管家管理
+const serviceHousekeeperList = resolve => require.ensure([],
+  () => resolve(require('../view/saleManage/PMS/serviceHousekeeperList/list')),
+  'serviceHousekeeperList')
 
+// PMS 服务订单管理
+const serviceOrderList = resolve => require.ensure([],
+  () => resolve(require('../view/saleManage/PMS/serviceOrderList/list')),
+  'serviceOrderList')
+// PMS 服务票据管理
+const customerBill = resolve => require.ensure([],
+  () => resolve(require('../view/saleManage/PMS/customerBill/list')),
+  'customerBill')
+// PMS 服务客户管理
+const serviceCustomer = resolve => require.ensure([],
+  () => resolve(require('../view/saleManage/PMS/serviceCustomer/list')),
+  'serviceCustomer')
+// PMS 服务工单管理
+const serviceWorkOrderList = resolve => require.ensure([],
+  () => resolve(require('../view/saleManage/PMS/serviceWorkOrderList/list')),
+  'serviceWorkOrderList')
+
+// CSM 服务投诉管理
+const serviceComplaint = resolve => require.ensure([],
+  () => resolve(require('../view/saleManage/CSM/serviceComplaint/list')),
+  'serviceComplaint')
+// CSM 服务回访管理
+const serviceReturnVisit = resolve => require.ensure([],
+  () => resolve(require('../view/saleManage/CSM/serviceReturnVisit/list')),
+  'serviceReturnVisit')
+// CSM 服务抽查管理
+const serviceSpotCheck = resolve => require.ensure([],
+  () => resolve(require('../view/saleManage/CSM/serviceSpotCheck/list')),
+  'serviceSpotCheck')
+// CSM 服务意见管理
+const customerComments = resolve => require.ensure([],
+  () => resolve(require('../view/saleManage/CSM/customerComments/list')),
+  'customerComments')
+
+// 销售前端 end
+// 销售前端 end
+// 销售前端 end
+// 销售前端 end
+// 销售前端 end
 // 销售前端 end
 
 // 企业管理 start
@@ -432,6 +478,78 @@ const router = new Router({
             pos: [{name: '销售管理系统', toName: 'saleHome'}, {name: '代办事项'}],
           },
         }, {
+          path: 'serviceHousekeeperList',
+          name: 'serviceHousekeeperList',
+          component: serviceHousekeeperList,
+          meta: {
+            title: '服务管家管理',
+            pos: [{name: '销售管理系统', toName: 'saleHome'}, {name: 'PMS管理'}, {name: '服务管家管理'}],
+          },
+        }, {
+          path: 'serviceOrderList',
+          name: 'serviceOrderList',
+          component: serviceOrderList,
+          meta: {
+            title: '服务订单管理',
+            pos: [{name: '销售管理系统', toName: 'saleHome'}, {name: 'PMS管理'}, {name: '服务订单管理'}],
+          },
+        }, {
+          path: 'serviceWorkOrderList',
+          name: 'serviceWorkOrderList',
+          component: serviceWorkOrderList,
+          meta: {
+            title: '服务工单管理',
+            pos: [{name: '销售管理系统', toName: 'saleHome'}, {name: 'PMS管理'}, {name: '服务工单管理'}],
+          },
+        }, {
+          path: 'customerBill',
+          name: 'customerBill',
+          component: customerBill,
+          meta: {
+            title: '客户票据管理',
+            pos: [{name: '销售管理系统', toName: 'saleHome'}, {name: 'PMS管理'}, {name: '客户票据管理'}],
+          },
+        }, {
+          path: 'serviceCustomer',
+          name: 'serviceCustomer',
+          component: serviceCustomer,
+          meta: {
+            title: '服务客户管理',
+            pos: [{name: '销售管理系统', toName: 'saleHome'}, {name: 'PMS管理'}, {name: '服务客户管理'}],
+          },
+        }, {
+          path: 'serviceComplaint',
+          name: 'serviceComplaint',
+          component: serviceComplaint,
+          meta: {
+            title: '服务投诉管理',
+            pos: [{name: '销售管理系统', toName: 'saleHome'}, {name: 'CSM管理'}, {name: '服务投诉管理'}],
+          },
+        }, {
+          path: 'serviceReturnVisit',
+          name: 'serviceReturnVisit',
+          component: serviceReturnVisit,
+          meta: {
+            title: '服务回访管理',
+            pos: [{name: '销售管理系统', toName: 'saleHome'}, {name: 'CSM管理'}, {name: '服务回访管理'}],
+          },
+        }, {
+          path: 'serviceSpotCheck',
+          name: 'serviceSpotCheck',
+          component: serviceSpotCheck,
+          meta: {
+            title: '服务抽查管理',
+            pos: [{name: '销售管理系统', toName: 'saleHome'}, {name: 'CSM管理'}, {name: '服务抽查管理'}],
+          },
+        }, {
+          path: 'customerComments',
+          name: 'customerComments',
+          component: customerComments,
+          meta: {
+            title: '客户意见管理',
+            pos: [{name: '销售管理系统', toName: 'saleHome'}, {name: 'CSM管理'}, {name: '客户意见管理'}],
+          },
+        }, {
           path: 'taskApprovalDetail',
           name: 'taskApprovalDetail',
           component: taskApprovalDetail,
@@ -441,6 +559,17 @@ const router = new Router({
               {name: '销售管理系统', toName: 'saleHome'},
               {name: '工作任务', toName: 'taskApprovalList'},
               {name: '任务详情'}],
+          },
+        }, {
+          path: 'housekeeperEnterList',
+          name: 'housekeeperEnterList',
+          component: housekeeperEnterList,
+          meta: {
+            title: '管家入驻',
+            pos: [
+              {name: '销售管理系统', toName: 'saleHome'},
+              {name: '业务审批'},
+              {name: '管家入驻管理'}],
           },
         }, {
           path: 'personal',

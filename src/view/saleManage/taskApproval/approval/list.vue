@@ -3,12 +3,12 @@
     <!--头部-->
     <div class="com-head">
       <el-breadcrumb separator-class="el-icon-arrow-right">
-        <el-breadcrumb-item v-for="item in $route.meta.pos" :key="item.name" :to="{name: item.toName}">{{item.name}}
+        <el-breadcrumb-item v-for="(item, index) in $route.meta.pos" :key="index" :to="{name: item.toName}">{{item.name}}
         </el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <!--控制栏-->
-    <div class="com-bar" style="height: 64px">
+    <div class="com-bar">
       <div class="com-bar-left">
       </div>
       <div class="com-bar-right">
