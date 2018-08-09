@@ -123,9 +123,10 @@
 </template>
 
 <script>
-  import addContact from '../contacts/addDialog'
+  import addContact from './addContactDialog'
   import API from '../../../../utils/api'
   import { chartLengthRule } from '../../../../utils/const'
+  import webStorage from 'webStorage'
 
   export default {
     name: 'addDialog',
@@ -260,7 +261,7 @@
                 }
               })
             } else {
-              API.customer.edit({
+              API.customerSea.editCustomer({
                 path: this.addForm.id,
                 body: this.addForm,
               }, (data) => {
@@ -292,7 +293,7 @@
           width: 900,
           height: 460,
           params: {
-            // id: '123456',
+            addCustomersAndAddContact_customerName: this.addForm.name,
           },
           callback (data) {
             if (data.type === 'save') {}
