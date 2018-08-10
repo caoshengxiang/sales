@@ -230,7 +230,7 @@
         })
       },
       getChanceList (customerId) { // 签单客户对应的机会中【需过滤：操作人为销售机会的销售跟进人[更进人就是销售人]的销售机会列表】
-        API.salesOpportunities.list({customerId: customerId, pageSize: 10000}, (da) => {
+        API.salesOpportunities.list({customerId: customerId, pageSize: 10000, stage: -2}, (da) => {
           this.chanceList = da.data.content
           let userId = webStorage.getItem('userInfo').id
           this.chanceList = this.chanceList.filter(item => {

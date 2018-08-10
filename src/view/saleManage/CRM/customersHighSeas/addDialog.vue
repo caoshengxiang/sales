@@ -324,15 +324,33 @@
               // 客户公池中列表及详情页面中的新增弹框均固定为调取公司资源，
               // 其他模块中新增调取销售自建，
               // 金钥匙微信端调取代理商并不让用户填写直接把字段传后台
-              this.customerSourceType = [
-                { // 公司资源
-                  codeName: this.params.topSource[2].name,
-                  id: this.params.topSource[2].value,
-                  children: [],
-                }]
-              // this.selectedBindValue.push(this.params.topSource[2].value)
-              this.customerSourceArr.push(this.params.topSource[2].value)
-              this.customerSourceChangeHandle([this.params.topSource[2].value]) // 默认获取第二级
+              if (this.params.detail) { // 编辑, 使用原来的来源提交
+                // let arr = this.params.detail.customerSource.split('-')
+                // this.customerSourceArr = arr.map(item => {
+                //   return parseInt(item, 10)
+                // })
+                // this.params.topSource.forEach(item => {
+                //   if (item.value === this.customerSourceArr[0]) { // 顶级来源
+                //     this.customerSourceType = [
+                //       { // 销售自建
+                //         codeName: this.item.name,
+                //         id: this.item.value,
+                //         children: [],
+                //       }]
+                //     this.customerSourceChangeHandle([this.item.value]) // 默认获取第二级
+                //   }
+                // })
+              } else { // 新增
+                this.customerSourceType = [
+                  { // 公司资源
+                    codeName: this.params.topSource[2].name,
+                    id: this.params.topSource[2].value,
+                    children: [],
+                  }]
+                // this.selectedBindValue.push(this.params.topSource[2].value)
+                this.customerSourceArr.push(this.params.topSource[2].value)
+                this.customerSourceChangeHandle([this.params.topSource[2].value]) // 默认获取第二级
+              }
             }
           }
         })

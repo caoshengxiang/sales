@@ -97,7 +97,7 @@
         label="需求录入"
         show-overflow-tooltip
       >
-        <template slot-scope="scope"><span v-if="scope.row.demandAmount">{{scope.row.demandAmount}}&nbsp;({{scope.row.demandPeriod}}/{{scope.row.demandPeriodTotal}}期)</span></template>
+        <template slot-scope="scope"><span v-if="scope.row.demandAmount !== null">{{scope.row.demandAmount}}&nbsp;({{scope.row.demandPeriod}}/{{scope.row.demandPeriodTotal}}期)</span></template>
       </el-table-column>
       <el-table-column
         align="center"
@@ -105,7 +105,7 @@
         label="销售跟进"
         show-overflow-tooltip
       >
-        <template slot-scope="scope"><span v-if="scope.row.followingAmount">{{scope.row.followingAmount}}&nbsp;({{scope.row.followingPeriod}}/{{scope.row.followingPeriodTotal}}期)</span></template>
+        <template slot-scope="scope"><span v-if="scope.row.followingAmount !== null">{{scope.row.followingAmount}}&nbsp;({{scope.row.followingPeriod}}/{{scope.row.followingPeriodTotal}}期)</span></template>
       </el-table-column>
       <el-table-column
         align="center"
@@ -113,7 +113,7 @@
         label="销售咨询"
         show-overflow-tooltip
       >
-        <template slot-scope="scope"><span v-if="scope.row.counselorAmount">{{scope.row.counselorAmount}}&nbsp;({{scope.row.counselorPeriod}}/{{scope.row.counselorPeriodTotal}}期)</span></template>
+        <template slot-scope="scope"><span v-if="scope.row.counselorAmount !== null">{{scope.row.counselorAmount}}&nbsp;({{scope.row.counselorPeriod}}/{{scope.row.counselorPeriodTotal}}期)</span></template>
       </el-table-column>
       <el-table-column
         align="center"
@@ -121,7 +121,7 @@
         label="营销副总"
         show-overflow-tooltip
       >
-        <template slot-scope="scope"><span v-if="scope.row.vpAmount">{{scope.row.vpAmount}}&nbsp;({{scope.row.vpPeriod}}/{{scope.row.vpPeriodTotal}}期)</span>
+        <template slot-scope="scope"><span v-if="scope.row.vpAmount !== null">{{scope.row.vpAmount}}&nbsp;({{scope.row.vpPeriod}}/{{scope.row.vpPeriodTotal}}期)</span>
         </template>
       </el-table-column>
       <el-table-column
@@ -130,7 +130,7 @@
         label="大区总监"
         show-overflow-tooltip
       >
-        <template slot-scope="scope"><span v-if="scope.row.zoneDirectorAmount">{{scope.row.zoneDirectorAmount}}&nbsp;({{scope.row.zoneDirectorPeriod}}/{{scope.row.zoneDirectorPeriodTotal}})期</span></template>
+        <template slot-scope="scope"><span v-if="scope.row.zoneDirectorAmount !== null">{{scope.row.zoneDirectorAmount}}&nbsp;({{scope.row.zoneDirectorPeriod}}/{{scope.row.zoneDirectorPeriodTotal}})期</span></template>
       </el-table-column>
       <el-table-column
         align="center"
@@ -138,7 +138,7 @@
         label="区域经理"
         show-overflow-tooltip
       >
-        <template slot-scope="scope"><span v-if="scope.row.regionalManagerAmount">{{scope.row.regionalManagerAmount}}&nbsp;({{scope.row.regionalManagerPeriod}}/{{scope.row.regionalManagerPeriodTotal}}期)</span></template>
+        <template slot-scope="scope"><span v-if="scope.row.regionalManagerAmount !== null">{{scope.row.regionalManagerAmount}}&nbsp;({{scope.row.regionalManagerPeriod}}/{{scope.row.regionalManagerPeriodTotal}}期)</span></template>
       </el-table-column>
       <el-table-column
         align="center"
@@ -146,7 +146,7 @@
         label="销售助理"
         show-overflow-tooltip
       >
-        <template slot-scope="scope"><span v-if="scope.row.assistantAmount">{{scope.row.assistantAmount}}&nbsp;({{scope.row.assistantPeriod}}/{{scope.row.assistantPeriodTotal}}期)</span></template>
+        <template slot-scope="scope"><span v-if="scope.row.assistantAmount !== null">{{scope.row.assistantAmount}}&nbsp;({{scope.row.assistantPeriod}}/{{scope.row.assistantPeriodTotal}}期)</span></template>
       </el-table-column>
       <el-table-column
         align="center"
@@ -154,7 +154,7 @@
         label="培训师"
         show-overflow-tooltip
       >
-        <template slot-scope="scope"><span v-if="scope.row.trainerAmount">{{scope.row.trainerAmount}}&nbsp;({{scope.row.trainerPeriod}}/{{scope.row.trainerPeriodTotal}}期)</span></template>
+        <template slot-scope="scope"><span v-if="scope.row.trainerAmount !== null">{{scope.row.trainerAmount}}&nbsp;({{scope.row.trainerPeriod}}/{{scope.row.trainerPeriodTotal}}期)</span></template>
       </el-table-column>
       <el-table-column
         align="center"
@@ -162,7 +162,7 @@
         label="服务奖励"
         show-overflow-tooltip
       >
-        <template slot-scope="scope"><span v-if="scope.row.serviceReward">{{scope.row.serviceReward}}&nbsp;({{scope.row.serviceRewardPeriod}}/{{scope.row.serviceRewardPeriodTotal}}期)</span>
+        <template slot-scope="scope"><span v-if="scope.row.serviceReward !== null">{{scope.row.serviceReward}}&nbsp;({{scope.row.serviceRewardPeriod}}/{{scope.row.serviceRewardPeriodTotal}}期)</span>
         </template>
       </el-table-column>
       <el-table-column
@@ -171,7 +171,7 @@
         label="服务补贴"
         show-overflow-tooltip
       >
-        <template slot-scope="scope"><span v-if="scope.row.serviceAllowance">{{scope.row.serviceAllowance}}&nbsp;({{scope.row.serviceAllowancePeriod}}/{{scope.row.serviceAllowancePeriodTotal}}期)</span>
+        <template slot-scope="scope"><span v-if="scope.row.serviceAllowance !== null">{{scope.row.serviceAllowance}}&nbsp;({{scope.row.serviceAllowancePeriod}}/{{scope.row.serviceAllowancePeriodTotal}}期)</span>
         </template>
       </el-table-column>
       <el-table-column
@@ -180,7 +180,7 @@
         label="服务佣金"
         show-overflow-tooltip
       >
-        <template slot-scope="scope"><span v-if="scope.row.serviceCommission">{{scope.row.serviceCommission}}&nbsp;({{scope.row.demandPeriod}}/{{scope.row.demandPeriodTotal}}期)</span>
+        <template slot-scope="scope"><span v-if="scope.row.serviceCommission !== null">{{scope.row.serviceCommission}}&nbsp;({{scope.row.demandPeriod}}/{{scope.row.demandPeriodTotal}}期)</span>
         </template>
       </el-table-column>
       <el-table-column
