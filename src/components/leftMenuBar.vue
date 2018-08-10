@@ -60,7 +60,6 @@
           <el-menu-item index="serviceOrderList" >服务订单管理</el-menu-item>
           <el-menu-item index="serviceWorkOrderList" >服务工单管理</el-menu-item>
           <el-menu-item index="customerBill" >客户票据管理</el-menu-item>
-          <el-menu-item index="serviceCustomer" >服务客户管理</el-menu-item>
         </el-menu-item-group>
       </el-submenu>
       <el-submenu index="CSM"> <!--todo 加权限-->
@@ -69,6 +68,7 @@
           <span>CSM管理</span>
         </template>
         <el-menu-item-group>
+          <el-menu-item index="serviceCustomer" >服务客户管理</el-menu-item>
           <el-menu-item index="serviceComplaint" >服务投诉管理</el-menu-item>
           <el-menu-item index="serviceReturnVisit" >服务回访管理</el-menu-item>
           <el-menu-item index="serviceSpotCheck" >服务抽查管理</el-menu-item>

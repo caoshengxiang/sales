@@ -11,8 +11,10 @@
     <!--控制栏-->
     <div class="com-bar">
       <div class="com-bar-left">
+        <com-button buttonType="add" icon="el-icon-plus">删除认证</com-button>
       </div>
       <div class="com-bar-right">
+
       </div>
     </div>
     <!--详细-->
@@ -37,31 +39,13 @@
             align="center"
             sortable="custom"
             prop="test"
-            label="订单单号"
+            label="第三方用户账号"
             width="160"
             show-overflow-tooltip
           >
             <template slot-scope="scope">
               <a class="col-link">{{ scope.row.test }}</a>
             </template>
-          </el-table-column>
-          <el-table-column
-            align="center"
-            sortable="custom"
-            prop="test"
-            label="派单状态"
-            width="160"
-            show-overflow-tooltip
-          >
-          </el-table-column>
-          <el-table-column
-            align="center"
-            sortable="custom"
-            prop="test"
-            label="订单状态"
-            width="160"
-            show-overflow-tooltip
-          >
           </el-table-column>
           <el-table-column
             align="center"
@@ -71,16 +55,12 @@
             width="160"
             show-overflow-tooltip
           >
-            <template slot-scope="scope">
-              <a class="col-link">{{ scope.row.test }}</a>&nbsp;&nbsp;
-              <a class="col-link">{{ scope.row.test }}</a>
-            </template>
           </el-table-column>
           <el-table-column
             align="center"
             sortable="custom"
             prop="test"
-            label="评价状态"
+            label="管家类型"
             width="160"
             show-overflow-tooltip
           >
@@ -89,7 +69,7 @@
             align="center"
             sortable="custom"
             prop="test"
-            label="服务客户"
+            label="联系电话"
             width="160"
             show-overflow-tooltip
           >
@@ -98,7 +78,7 @@
             align="center"
             sortable="custom"
             prop="test"
-            label="客户联系人"
+            label="管家类别"
             width="160"
             show-overflow-tooltip
           >
@@ -107,7 +87,7 @@
             align="center"
             sortable="custom"
             prop="test"
-            label="服务商品"
+            label="服务商主体"
             width="160"
             show-overflow-tooltip
           >
@@ -116,7 +96,7 @@
             align="center"
             sortable="custom"
             prop="test"
-            label="服务所在地"
+            label="服务地区"
             width="160"
             show-overflow-tooltip
           >
@@ -125,7 +105,7 @@
             align="center"
             sortable="custom"
             prop="test"
-            label="服务规格"
+            label="可服务商品"
             width="160"
             show-overflow-tooltip
           >
@@ -134,7 +114,7 @@
             align="center"
             sortable="custom"
             prop="test"
-            label="签约金额"
+            label="申请日期"
             width="160"
             show-overflow-tooltip
           >
@@ -143,34 +123,7 @@
             align="center"
             sortable="custom"
             prop="test"
-            label="签约时间"
-            width="160"
-            show-overflow-tooltip
-          >
-          </el-table-column>
-          <el-table-column
-            align="center"
-            sortable="custom"
-            prop="test"
-            label="签约性质"
-            width="160"
-            show-overflow-tooltip
-          >
-          </el-table-column>
-          <el-table-column
-            align="center"
-            sortable="custom"
-            prop="test"
-            label="签约主体"
-            width="160"
-            show-overflow-tooltip
-          >
-          </el-table-column>
-          <el-table-column
-            align="center"
-            sortable="custom"
-            prop="test"
-            label="生成服务时间"
+            label="审核状态"
             width="160"
             show-overflow-tooltip
           >
@@ -196,8 +149,9 @@
 </template>
 
 <script>
-  import { mapState } from 'vuex'
   import { underscoreName } from '../../../../utils/utils'
+  import comButton from '../../../../components/button/comButton'
+  import { mapState } from 'vuex'
 
   export default {
     name: 'list',
@@ -224,6 +178,9 @@
       ...mapState('constData', [
         'pagesOptions',
       ]),
+    },
+    components: {
+      comButton,
     },
     methods: {
       handleSizeChange (val) {

@@ -3,7 +3,8 @@
     <!--头部-->
     <div class="com-head">
       <el-breadcrumb separator-class="el-icon-arrow-right">
-        <el-breadcrumb-item v-for="(item, index) in $route.meta.pos" :key="index" :to="{name: item.toName}">{{item.name}}
+        <el-breadcrumb-item v-for="(item, index) in $route.meta.pos" :key="index" :to="{name: item.toName}">
+          {{item.name}}
         </el-breadcrumb-item>
       </el-breadcrumb>
     </div>
@@ -12,12 +13,130 @@
       <div class="com-bar-left">
       </div>
       <div class="com-bar-right">
-
       </div>
     </div>
     <!--详细-->
     <div class="com-box com-box-padding com-list-box">
-      <div></div>
+      <div>
+        <el-table
+          ref="multipleTable"
+          border
+          stripe
+          :data="tableData"
+          tooltip-effect="dark"
+          @sort-change="sortChangeHandle"
+          @selection-change="handleSelectionChange"
+        >
+          <el-table-column
+            fixed
+            type="selection"
+            align="center"
+            width="40">
+          </el-table-column>
+          <el-table-column
+            align="center"
+            sortable="custom"
+            prop="test"
+            label="回访单号"
+            width="160"
+            show-overflow-tooltip
+          >
+            <template slot-scope="scope">
+              <a class="col-link">{{ scope.row.test }}</a>
+            </template>
+          </el-table-column>
+          <el-table-column
+            align="center"
+            sortable="custom"
+            prop="test"
+            label="服务回访客户"
+            width="160"
+            show-overflow-tooltip
+          >
+          </el-table-column>
+          <el-table-column
+            align="center"
+            sortable="custom"
+            prop="test"
+            label="客户联系人"
+            width="160"
+            show-overflow-tooltip
+          >
+          </el-table-column>
+          <el-table-column
+            align="center"
+            sortable="custom"
+            prop="test"
+            label="订单单号"
+            width="160"
+            show-overflow-tooltip
+          >
+          </el-table-column>
+          <el-table-column
+            align="center"
+            sortable="custom"
+            prop="test"
+            label="服务商品"
+            width="160"
+            show-overflow-tooltip
+          >
+          </el-table-column>
+          <el-table-column
+            align="center"
+            sortable="custom"
+            prop="test"
+            label="服务管家"
+            width="160"
+            show-overflow-tooltip
+          >
+          </el-table-column>
+          <el-table-column
+            align="center"
+            sortable="custom"
+            prop="test"
+            label="管家类型"
+            width="160"
+            show-overflow-tooltip
+          >
+          </el-table-column>
+          <el-table-column
+            align="center"
+            sortable="custom"
+            prop="test"
+            label="回访类型"
+            width="160"
+            show-overflow-tooltip
+          >
+          </el-table-column>
+          <el-table-column
+            align="center"
+            sortable="custom"
+            prop="test"
+            label="回访状态"
+            width="160"
+            show-overflow-tooltip
+          >
+          </el-table-column>
+          <el-table-column
+            align="center"
+            sortable="custom"
+            prop="test"
+            label="回访客服"
+            width="160"
+            show-overflow-tooltip
+          >
+          </el-table-column>
+          <el-table-column
+            align="center"
+            sortable="custom"
+            prop="test"
+            label="回访派单时间"
+            width="160"
+            show-overflow-tooltip
+          >
+          </el-table-column>
+        </el-table>
+      </div>
 
       <!--分页-->
       <div class="com-pages-box">
@@ -38,11 +157,27 @@
 
 <script>
   import { mapState } from 'vuex'
+  import { underscoreName } from '../../../../utils/utils'
+
   export default {
     name: 'list',
     data () {
       return {
-        currentPage: 0
+        currentPage: 0,
+        defaultListParams: { // 默认顾客列表请求参数
+          page: null,
+          pageSize: null,
+          type: null,
+          customerId: null,
+          organizationId: null,
+        },
+        sortObj: {sort: 'created,desc'}, // 排序
+        advancedSearch: {}, // 高级搜索
+        tableData: [
+          {
+            test: 'test Data',
+          }],
+        multipleSelection: [],
       }
     },
     computed: {
@@ -58,7 +193,20 @@
         console.log(`当前页: ${val}`)
         this.currentPage = val
       },
-    }
+      handleSelectionChange (val) {
+        this.multipleSelection = val
+      },
+      sortChangeHandle (sortObj) {
+        let order = null
+        if (sortObj.order === 'ascending') {
+          order = 'asc'
+        } else if (sortObj.order === 'descending') {
+          order = 'desc'
+        }
+        this.sortObj = {sort: underscoreName(sortObj.prop) + ',' + order}
+        // this.getCustomerList()
+      },
+    },
   }
 </script>
 

@@ -86,7 +86,7 @@ const taskApprovalDetail = resolve => require.ensure([],
   () => resolve(require('../view/saleManage/taskApproval/approval/detailInfo')),
   'taskApproval')
 const housekeeperEnterList = resolve => require.ensure([],
-  () => resolve(require('../view/saleManage/taskApproval/housekeeper/list')),
+  () => resolve(require('../view/saleManage/taskApproval/housekeeperEnter/list')),
   'housekeeperEnterList')
 // 个人信息
 const personal = resolve => require.ensure([],
@@ -111,7 +111,7 @@ const customerBill = resolve => require.ensure([],
   'customerBill')
 // PMS 服务客户管理
 const serviceCustomer = resolve => require.ensure([],
-  () => resolve(require('../view/saleManage/PMS/serviceCustomer/list')),
+  () => resolve(require('../view/saleManage/CSM/serviceCustomer/list')),
   'serviceCustomer')
 // PMS 服务工单管理
 const serviceWorkOrderList = resolve => require.ensure([],

@@ -37,7 +37,7 @@
             align="center"
             sortable="custom"
             prop="test"
-            label="订单单号"
+            label="服务客户名称"
             width="160"
             show-overflow-tooltip
           >
@@ -49,7 +49,7 @@
             align="center"
             sortable="custom"
             prop="test"
-            label="派单状态"
+            label="营业执照"
             width="160"
             show-overflow-tooltip
           >
@@ -58,7 +58,7 @@
             align="center"
             sortable="custom"
             prop="test"
-            label="订单状态"
+            label="公司形式"
             width="160"
             show-overflow-tooltip
           >
@@ -67,20 +67,7 @@
             align="center"
             sortable="custom"
             prop="test"
-            label="服务管家"
-            width="160"
-            show-overflow-tooltip
-          >
-            <template slot-scope="scope">
-              <a class="col-link">{{ scope.row.test }}</a>&nbsp;&nbsp;
-              <a class="col-link">{{ scope.row.test }}</a>
-            </template>
-          </el-table-column>
-          <el-table-column
-            align="center"
-            sortable="custom"
-            prop="test"
-            label="评价状态"
+            label="注册时间"
             width="160"
             show-overflow-tooltip
           >
@@ -89,7 +76,7 @@
             align="center"
             sortable="custom"
             prop="test"
-            label="服务客户"
+            label="法人代表"
             width="160"
             show-overflow-tooltip
           >
@@ -98,7 +85,7 @@
             align="center"
             sortable="custom"
             prop="test"
-            label="客户联系人"
+            label="注册资本"
             width="160"
             show-overflow-tooltip
           >
@@ -107,7 +94,7 @@
             align="center"
             sortable="custom"
             prop="test"
-            label="服务商品"
+            label="企业类型"
             width="160"
             show-overflow-tooltip
           >
@@ -116,7 +103,7 @@
             align="center"
             sortable="custom"
             prop="test"
-            label="服务所在地"
+            label="营业期限"
             width="160"
             show-overflow-tooltip
           >
@@ -125,7 +112,7 @@
             align="center"
             sortable="custom"
             prop="test"
-            label="服务规格"
+            label="客户行业"
             width="160"
             show-overflow-tooltip
           >
@@ -134,7 +121,7 @@
             align="center"
             sortable="custom"
             prop="test"
-            label="签约金额"
+            label="注册地区"
             width="160"
             show-overflow-tooltip
           >
@@ -143,7 +130,7 @@
             align="center"
             sortable="custom"
             prop="test"
-            label="签约时间"
+            label="国税主管税务机关"
             width="160"
             show-overflow-tooltip
           >
@@ -152,7 +139,7 @@
             align="center"
             sortable="custom"
             prop="test"
-            label="签约性质"
+            label="地税主管税务机关"
             width="160"
             show-overflow-tooltip
           >
@@ -161,7 +148,7 @@
             align="center"
             sortable="custom"
             prop="test"
-            label="签约主体"
+            label="联系人数量"
             width="160"
             show-overflow-tooltip
           >
@@ -170,7 +157,214 @@
             align="center"
             sortable="custom"
             prop="test"
-            label="生成服务时间"
+            label="分子机构数量"
+            width="160"
+            show-overflow-tooltip
+          >
+          </el-table-column>
+          <el-table-column
+            align="center"
+            sortable="custom"
+            prop="test"
+            label="固定资产项"
+            width="160"
+            show-overflow-tooltip
+          >
+          </el-table-column>
+          <el-table-column
+            align="center"
+            sortable="custom"
+            prop="test"
+            label="产品数量"
+            width="160"
+            show-overflow-tooltip
+          >
+          </el-table-column>
+          <el-table-column
+            align="center"
+            sortable="custom"
+            prop="test"
+            label="员工数量"
+            width="160"
+            show-overflow-tooltip
+          >
+          </el-table-column>
+          <el-table-column
+            align="center"
+            sortable="custom"
+            prop="test"
+            label="党员数量"
+            width="160"
+            show-overflow-tooltip
+          >
+          </el-table-column>
+          <el-table-column
+            align="center"
+            sortable="custom"
+            prop="test"
+            label="融资历史"
+            width="160"
+            show-overflow-tooltip
+          >
+          </el-table-column>
+          <el-table-column
+            align="center"
+            sortable="custom"
+            prop="test"
+            label="投资事件"
+            width="160"
+            show-overflow-tooltip
+          >
+          </el-table-column>
+          <el-table-column
+            align="center"
+            sortable="custom"
+            prop="test"
+            label="资质证书数量"
+            width="160"
+            show-overflow-tooltip
+          >
+          </el-table-column>
+          <el-table-column
+            align="center"
+            sortable="custom"
+            prop="test"
+            label="银行信用级别"
+            width="160"
+            show-overflow-tooltip
+          >
+          </el-table-column>
+          <el-table-column
+            align="center"
+            sortable="custom"
+            prop="test"
+            label="税务等级"
+            width="160"
+            show-overflow-tooltip
+          >
+          </el-table-column>
+          <el-table-column
+            align="center"
+            sortable="custom"
+            prop="test"
+            label="税务稽查"
+            width="160"
+            show-overflow-tooltip
+          >
+          </el-table-column>
+          <el-table-column
+            align="center"
+            sortable="custom"
+            prop="test"
+            label="政府补贴"
+            width="160"
+            show-overflow-tooltip
+          >
+          </el-table-column>
+          <el-table-column
+            align="center"
+            sortable="custom"
+            prop="test"
+            label="法律诉讼"
+            width="160"
+            show-overflow-tooltip
+          >
+          </el-table-column>
+          <el-table-column
+            align="center"
+            sortable="custom"
+            prop="test"
+            label="失信信息"
+            width="160"
+            show-overflow-tooltip
+          >
+          </el-table-column>
+          <el-table-column
+            align="center"
+            sortable="custom"
+            prop="test"
+            label="被执行人信息"
+            width="160"
+            show-overflow-tooltip
+          >
+          </el-table-column>
+          <el-table-column
+            align="center"
+            sortable="custom"
+            prop="test"
+            label="行政处罚"
+            width="160"
+            show-overflow-tooltip
+          >
+          </el-table-column>
+          <el-table-column
+            align="center"
+            sortable="custom"
+            prop="test"
+            label="股权出资"
+            width="160"
+            show-overflow-tooltip
+          >
+          </el-table-column>
+          <el-table-column
+            align="center"
+            sortable="custom"
+            prop="test"
+            label="动产抵押"
+            width="160"
+            show-overflow-tooltip
+          >
+          </el-table-column>
+          <el-table-column
+            align="center"
+            sortable="custom"
+            prop="test"
+            label="欠税公告"
+            width="160"
+            show-overflow-tooltip
+          >
+          </el-table-column>
+          <el-table-column
+            align="center"
+            sortable="custom"
+            prop="test"
+            label="司法拍卖"
+            width="160"
+            show-overflow-tooltip
+          >
+          </el-table-column>
+          <el-table-column
+            align="center"
+            sortable="custom"
+            prop="test"
+            label="商标"
+            width="160"
+            show-overflow-tooltip
+          >
+          </el-table-column>
+          <el-table-column
+            align="center"
+            sortable="custom"
+            prop="test"
+            label="专利"
+            width="160"
+            show-overflow-tooltip
+          >
+          </el-table-column>
+          <el-table-column
+            align="center"
+            sortable="custom"
+            prop="test"
+            label="软件著作权"
+            width="160"
+            show-overflow-tooltip
+          >
+          </el-table-column>
+          <el-table-column
+            align="center"
+            sortable="custom"
+            prop="test"
+            label="作品著作权"
             width="160"
             show-overflow-tooltip
           >
