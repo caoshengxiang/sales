@@ -126,6 +126,13 @@
         API.home.saleFunnel({type: this.type}, da => {
           let testData = da.data
           // let showData = []
+          this.funnelOption.series[0].data = [
+            {value: 20, name: '客户签单', amount: '金额: 0', quantity: '数量: 0'},
+            {value: 40, name: '预定下单', amount: '金额: 0', quantity: '数量: 0'},
+            {value: 60, name: '需求确定', amount: '金额: 0', quantity: '数量: 0'},
+            {value: 80, name: '销售跟单', amount: '金额: 0', quantity: '数量: 0'},
+            {value: 100, name: '初步接洽', amount: '金额: 0', quantity: '数量: 0'},
+          ]
           testData.forEach(item => {
             if (item.stage === 1) {
               this.funnelOption.series[0].data[0] = {
