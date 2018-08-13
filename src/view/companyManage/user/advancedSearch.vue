@@ -116,7 +116,7 @@
             <el-form-item label="出生日期：">
               <el-date-picker
                 v-model="birthday"
-                value-format="yyyy-MM-dd HH:mm:ss"
+                value-format="timestamp"
                 type="daterange"
                 @change="timeIntervalHandle"
                 :unlink-panels="true"
@@ -130,6 +130,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button class="cancel-button" @click="$vDialog.close({type: 'cancel'})">取 消</el-button>
+        <el-button class="cancel-button" @click="clearForm">清 除</el-button>
         <el-button class="save-button" @click="saveSubmitForm">确 定</el-button>
       </div>
       <div class="com-bar-right"><!--后端-->
@@ -178,8 +179,8 @@
     props: ['params'],
     methods: {
       timeIntervalHandle (value) {
-        this.searchForm.birthdayStart = Number(new Date(value[0])) || ''
-        this.searchForm.birthdayEnd = Number(new Date(value[1])) || ''
+        this.searchForm.birthdayStart = value[0] || ''
+        this.searchForm.birthdayEnd = value[1] || ''
       },
       selectedOptionsHandleChange (value) {
         var that = this
@@ -190,6 +191,10 @@
         API.organization.queryAllList(pa, (data) => {
           this.organizationOptions = data.data
         })
+      },
+      clearForm () {
+        this.searchForm = {}
+        this.birthday = []
       },
       saveSubmitForm () {
         this.$vDialog.close({type: 'search', params: this.searchForm})
@@ -226,7 +231,10 @@
         that.allroles = mock.data
         that.dataLoading = false
       })
-
+      this.searchForm = this.params.preAdvancedSearch
+      if (this.searchForm.birthdayStart) { // 日期
+        this.birthday = [this.searchForm.birthdayStart, this.searchForm.birthdayEnd]
+      }
       this.type = this.params.type
     },
   }

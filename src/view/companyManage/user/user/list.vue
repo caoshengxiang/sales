@@ -5,9 +5,9 @@
     <!--头部-->
     <div class="com-head">
       <el-breadcrumb separator-class="el-icon-arrow-right">
-        <el-breadcrumb-item :to="{ name: 'companyManageHome' }">管理系统</el-breadcrumb-item>
+        <el-breadcrumb-item :to="{ name: 'saleHome' }">管理系统</el-breadcrumb-item>
         <el-breadcrumb-item>用户管理</el-breadcrumb-item>
-        <el-breadcrumb-item>代理商组织</el-breadcrumb-item>
+        <el-breadcrumb-item>用户管理</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <!--控制栏-->
@@ -16,12 +16,10 @@
         <!--  <com-button buttonType="delete" icon="el-icon-delete" :disabled="this.multipleSelection.length <= 0"
                       @click="deleteHandle">刪除
           </com-button>-->
+        <com-button buttonType="add" icon="el-icon-plus" @click="add">新增</com-button>
         <com-button buttonType="grey" icon="el-icon-edit" :disabled="this.multipleSelection.length !== 1"
                     @click="modifyHandle">修改
         </com-button>
-        <!--<com-button buttonType="grey" icon="el-icon-remove-outline" :disabled="this.multipleSelection.length <= 0"-->
-        <!--@click="disableHandle">禁用-->
-        <!--</com-button>-->
         <com-button buttonType="grey" icon="el-icon-remove-outline"
                     :disabled="this.multipleSelection.length <= 0 || disableUserHandle"
                     @click="disableHandle(0)">禁用
@@ -39,7 +37,8 @@
         <com-button buttonType="search" @click="advancedSearchHandle" style="">高级搜索</com-button>
       </div>
       <div class="com-bar-right" style="float: right">
-        <el-select v-model.number="form.organizationId" placeholder="请选择代理商组织">
+        <el-select v-model.number="form.organizationId" @change="selectedOptionsHandleChange" placeholder="请选择人员组织"
+                   style="width: 140px">
           <el-option
             v-for="item in allorganization"
             :key="item.id"
@@ -48,15 +47,16 @@
           >
           </el-option>
         </el-select>
-        <!--    <el-cascader
-              placeholder="请选择代理商部门"
-              :change-on-select="true"
-              :options="alldepartments"
-              v-model="selectedOptions"
-              :props="props"
-              @change="selecteddptHandleChange"
-            >
-            </el-cascader>-->
+        <!-- <el-cascader
+           placeholder="请选择人员部门"
+           :change-on-select="true"
+           :options="alldepartments"
+           v-model="selectedOptions"
+           :props="props"
+           @change="selecteddptHandleChange"
+           style="width: 140px"
+         >
+         </el-cascader>-->
       </div>
     </div>
     <!--详细-->
@@ -64,6 +64,7 @@
       <el-table
         ref="multipleTable"
         border
+        stripe
         :data="userList"
         tooltip-effect="dark"
         style="width: 100%"
@@ -81,8 +82,8 @@
           align="center"
           label="姓名"
           prop="name"
-          width="200"
           sortable="custom"
+          width="200"
           show-overflow-tooltip
         >
           <template slot-scope="scope">
@@ -92,9 +93,8 @@
         <el-table-column
           show-overflow-tooltip
           align="center"
+          label="工号"
           sortable="custom"
-          label="代理商号"
-          width="100"
           prop="jobNo"
         >
         </el-table-column>
@@ -103,13 +103,8 @@
           align="center"
           prop="mobilePhone"
           label="手机号"
-        >
-        </el-table-column>
-        <el-table-column
-          show-overflow-tooltip
-          align="center"
-          prop="wx"
-          label="微信号"
+          width="100"
+          sortable="custom"
         >
         </el-table-column>
         <el-table-column
@@ -117,6 +112,7 @@
           align="center"
           prop="organizationName"
           label="组织"
+          sortable="custom"
         >
         </el-table-column>
         <el-table-column
@@ -179,13 +175,6 @@
         <el-table-column
           show-overflow-tooltip
           align="center"
-          prop="sex"
-          label="性别"
-        >
-        </el-table-column>
-        <el-table-column
-          show-overflow-tooltip
-          align="center"
           prop="birthday"
           label="出生日期"
           width="100"
@@ -194,6 +183,13 @@
           <template slot-scope="scope">
             {{scope.row.birthday && $moment(scope.row.birthday).format('YYYY-MM-DD')}}
           </template>
+        </el-table-column>
+        <el-table-column
+          show-overflow-tooltip
+          align="center"
+          prop="sex"
+          label="性别"
+        >
         </el-table-column>
         <el-table-column
           show-overflow-tooltip
@@ -223,19 +219,19 @@
 </template>
 
 <script>
-  import comButton from '../../../components/button/comButton'
-  import API from '../../../utils/api'
+  import comButton from '../../../../components/button/comButton'
+  import API from '../../../../utils/api'
   import { mapState, mapActions } from 'vuex'
-  import addDialog from './addDialog'
-  import advancedSearch from './advancedSearch'
-  import { underscoreName } from '../../../utils/utils'
+  import addDialog from '../addDialog'
+  import advancedSearch from '../advancedSearch'
+  import { underscoreName } from '../../../../utils/utils'
 
   export default {
     name: 'list',
     data () {
       return {
         sortObj: null, // 排序
-        advancedSearch: null, // 高级搜索
+        advancedSearch: {}, // 高级搜索
         loading: false,
         dataLoading: true,
         addDialogOpen: false, // 新增弹窗
@@ -257,7 +253,6 @@
           departmentId: '',
           organizationId: '',
         },
-        disabled: true,
         userTotal: 0,
         userList: null,
         disableUserHandle: false,
@@ -271,7 +266,9 @@
         'usertate',
         'pagesOptions',
       ]),
-      ...mapState('user', []),
+      // ...mapState('user', [ // 报错 "userTotal" is already defined in data.
+      //   'userTotal',
+      // ]),
     },
     watch: {
       multipleSelection (va) {
@@ -298,12 +295,11 @@
       let params = {
         page: 1,
         pageSize: 999,
-        pid: 8,
+        pid: 1,
         type: 1,
       }
       API.organization.queryAllList(params, (res) => {
         this.allorganization = res.data
-        // this.selectedOptionsHandleChange()
       }, (mock) => {
         this.alldepartments = mock.data
         this.dataLoading = false
@@ -328,7 +324,8 @@
           params: {
             salesState: this.salesState,
             demandSource: this.demandSource,
-            type: 1,
+            type: 0,
+            preAdvancedSearch: this.advancedSearch,
           },
           callback: (data) => {
             if (data.type === 'search') {
@@ -338,6 +335,9 @@
             }
           },
         })
+      },
+      selecteddptHandleChange (value) {
+        this.form.departmentId = value[value.length - 1] // 取当前选中的部门
       },
       fmtNumColumn (row, column, cellValue) {
         if (cellValue === 1) {
@@ -350,17 +350,14 @@
           return '禁用'
         }
       },
-      selecteddptHandleChange (value) {
-        this.form.departmentId = value[value.length - 1] // 取当前选中的部门
-      },
-      selectedOptionsHandleChange () {
+      selectedOptionsHandleChange (value) {
         var that = this
         // this.form.organizationId =value[value.length -1] // 取当前选中的组织
         let depparams = {
           page: 1,
           pageSize: 999,
         }
-        depparams.id = that.form.organizationId
+        depparams.id = value
         depparams.type = 2 // 查询出部门
         API.organization.queryList(depparams, (res) => {
           that.alldepartments = res.data
@@ -406,20 +403,19 @@
       },
       selsChange (sels) {
         this.sels = sels
-        // alert(this.sels)
       },
-      delGroup () {
-        // eslint-disable-next-line
-        var ids = this.sels.map(item => item.id).join() // 获取所有选中行的id组成的字符串，以逗号分隔
-        // alert(ids)
-      },
-      ...mapActions('user', []),
-      getuserList (page, pageSize, type) { // 获取列表数据
+      // delGroup () { // 未使用
+      //   var ids = this.sels.map(item => item.id).join() // 获取所有选中行的id组成的字符串，以逗号分隔
+      // },
+      ...mapActions('user', [
+        'ac_userList',
+      ]),
+      getuserList () { // 获取列表数据
         var that = this
         let param = {
           page: that.currentPage - 1,
           pageSize: that.pagesOptions.pageSize,
-          type: 2, // 查询员工
+          type: 1, // 查询员工
           departmentId: that.form.departmentId,
           organizationId: that.form.organizationId,
         }
@@ -465,7 +461,7 @@
           params: {
             id: that.multipleSelection.map(item => item.id).join(),
             store: that.$store, // 弹窗组件如果需要用到vuex，必须传值过去赋值
-            action: 'update',
+            action: 'add',
           },
           callback: function (data) {
             that.searchHandle()
@@ -507,12 +503,13 @@
       disableHandle (type) {
         if (this.disableUserHandle && this.enableUserHandle) {
           if (type === 0) {
-            this.$message.info('选项中包含禁用用户！')
-          } else if (type === 1) {
             this.$message.info('选项中包含有效用户！')
+          } else if (type === 1) {
+            this.$message.info('选项中包含禁用用户！')
           }
           return
         }
+
         this.$confirm(`确定${type === 0 ? '禁用' : '启用'}当前选中所有用户, 是否继续?`, '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
@@ -581,5 +578,5 @@
 </script>
 
 <style scoped lang="scss" rel="stylesheet/scss">
-  @import "../../../styles/common";
+  @import "../../../../styles/common";
 </style>

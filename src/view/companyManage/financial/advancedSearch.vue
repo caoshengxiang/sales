@@ -95,9 +95,10 @@
               <el-date-picker
                 v-model="searchForm.paymentMonthStart"
                 type="month"
+                value-format="yyyyMM"
                 placeholder="选择开始月份"
                 :editable="false"
-                format="yyyyMM">
+                >
               </el-date-picker>
             </el-form-item>
           </el-col>
@@ -106,9 +107,10 @@
               <el-date-picker
                 v-model="searchForm.paymentMonthEnd"
                 type="month"
+                value-format="yyyyMM"
                 placeholder="选择结束月份"
                 :editable="false"
-                format="yyyyMM">
+                >
               </el-date-picker>
             </el-form-item>
           </el-col>
@@ -128,6 +130,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button class="cancel-button" @click="$vDialog.close({type: 'cancel'})">取 消</el-button>
+        <el-button class="cancel-button" @click="clearForm">清 除</el-button>
         <el-button class="save-button" @click="saveSubmitForm">确 定</el-button>
       </div>
       <div class="com-bar-right"><!--后端-->
@@ -224,6 +227,9 @@
           this.organizationOptions = data.data
         })
       },
+      clearForm () {
+        this.searchForm = {}
+      },
       saveSubmitForm () {
         this.$vDialog.close({type: 'search', params: this.searchForm})
       },
@@ -261,6 +267,7 @@
       })
 
       this.type = this.params.type
+      this.searchForm = this.params.preAdvancedSearch
     },
   }
 </script>

@@ -186,7 +186,7 @@
     data () {
       return {
         sortObj: null, // 排序
-        advancedSearch: null, // 高级搜索
+        advancedSearch: {}, // 高级搜索
         totle: 0,
         paymentState: [ // 订单状态
           {
@@ -294,21 +294,22 @@
             salesState: this.salesState,
             demandSource: this.demandSource,
             type: 1,
+            preAdvancedSearch: this.advancedSearch,
           },
           callback: (data) => {
             if (data.type === 'search') {
               this.advancedSearch = data.params
               console.log(this.advancedSearch)
-              this.advancedSearch.paymentMonthStart = this.advancedSearch.paymentMonthStart === null
-                ? ''
-                : (this.advancedSearch.paymentMonthStart.getFullYear() + '' +
-                  ('00' + (1 + this.advancedSearch.paymentMonthStart.getMonth())).slice(-2))
-
-              this.advancedSearch.paymentMonthEnd = this.advancedSearch.paymentMonthEnd === null
-                ? ''
-                : (this.advancedSearch.paymentMonthEnd.getFullYear() + '' +
-                  ('00' + (1 + this.advancedSearch.paymentMonthEnd.getMonth())).slice(-2))
-              alert(this.advancedSearch.paymentMonthEnd)
+              // this.advancedSearch.paymentMonthStart = !this.advancedSearch.paymentMonthStart
+              //   ? null
+              //   : (this.advancedSearch.paymentMonthStart.getFullYear() + '' +
+              //     ('00' + (1 + this.advancedSearch.paymentMonthStart.getMonth())).slice(-2))
+              //
+              // this.advancedSearch.paymentMonthEnd = !this.advancedSearch.paymentMonthEnd
+              //   ? null
+              //   : (this.advancedSearch.paymentMonthEnd.getFullYear() + '' +
+              //     ('00' + (1 + this.advancedSearch.paymentMonthEnd.getMonth())).slice(-2))
+              // alert(this.advancedSearch.paymentMonthEnd)
               this.getCommissionClear()
             }
           },

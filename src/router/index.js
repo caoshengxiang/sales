@@ -104,13 +104,13 @@ const companyManageHome = resolve => require.ensure([],
 
 // 用户管理
 const userList = resolve => require.ensure([],
-  () => resolve(require('../view/companyManage/user/list')), 'user')
+  () => resolve(require('../view/companyManage/user/user/list')), 'user')
 const userDetail = resolve => require.ensure([],
   () => resolve(require('../view/companyManage/user/detailInfo')), 'user')
 
 // 代理商管理
 const agentList = resolve => require.ensure([],
-  () => resolve(require('../view/companyManage/user/agentList')), 'user')
+  () => resolve(require('../view/companyManage/user/agent/agentList')), 'user')
 
 // 角色管理
 const roleList = resolve => require.ensure([],

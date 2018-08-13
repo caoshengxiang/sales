@@ -152,7 +152,7 @@
           organizationIds: '',
         },
         total: 0,
-        advancedSearch: null, // 高级搜索
+        advancedSearch: {}, // 高级搜索
       }
     },
     computed: {
@@ -206,6 +206,7 @@
             salesState: this.salesState,
             demandSource: this.demandSource,
             type: 0,
+            preAdvancedSearch: this.advancedSearch,
           },
           callback: (data) => {
             if (data.type === 'search') {
