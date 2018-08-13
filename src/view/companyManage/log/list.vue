@@ -230,7 +230,7 @@
           }
         }
         let link = document.createElement('a') // 创建事件对象
-        let query = QS.stringify(Object.assign({}, dlp, this.sortObj, null,
+        let query = QS.stringify(Object.assign({}, dlp, this.sortObj, as,
           {authKey: webStorage.getItem('userInfo').authKey}))
         link.setAttribute('href', serverUrl + '/operateLog/export?' + query)
         link.setAttribute('download', '导出结算佣金')
