@@ -47,6 +47,7 @@
           </el-option>
         </el-select>
         <!--<com-button buttonType="search" @click="searchHandle">搜索</com-button>-->
+        <com-button buttonType="search" @click="advancedSearchHandle" style="">高级搜索</com-button>
       </div>
     </div>
     <!--详细-->
