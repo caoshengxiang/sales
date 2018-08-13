@@ -25,8 +25,8 @@
           [期望]
           销售机会模块列表中“转移”按钮与销售机会详情里面“转移”按钮隐藏-->
         <!--<com-button buttonType="orange" @click="operateOptions('move')"-->
-                    <!--:disabled="multipleSelection.length <= 0"><i class="el-icon-sort"-->
-                                                                 <!--style="transform: rotate(90deg)"></i> 转移-->
+        <!--:disabled="multipleSelection.length <= 0"><i class="el-icon-sort"-->
+        <!--style="transform: rotate(90deg)"></i> 转移-->
         <!--</com-button>-->
       </div>
       <div class="com-bar-right" v-if="themeIndex === 0"><!--前端-->
@@ -55,6 +55,7 @@
           </el-option>
         </el-select>
         <!--<com-button buttonType="search" @click="searchHandle">搜索</com-button>-->
+        <com-button buttonType="search" @click="advancedSearchHandle" style="">高级搜索</com-button>
       </div>
     </div>
     <!--详细-->
@@ -157,8 +158,8 @@
           width="160"
           show-overflow-tooltip>
           <!--<template slot-scope="scope">-->
-            <!--<span v-for="item in demandSource" :key="item.type"-->
-                  <!--v-if="item.type === scope.row.source">{{item.value}}</span>-->
+          <!--<span v-for="item in demandSource" :key="item.type"-->
+          <!--v-if="item.type === scope.row.source">{{item.value}}</span>-->
           <!--</template>-->
         </el-table-column>
         <el-table-column
@@ -361,13 +362,23 @@
       getSalesOpportunititeisList () { // 获取列表
         this.dataLoading = true
         this.getQueryParams()
-        API.salesOpportunities.list(Object.assign({}, this.defaultListParams, this.sortObj, this.advancedSearch),
-          (data) => {
-            this.ac_salesOpportunitiesList(data.data)
-            setTimeout(() => {
-              this.dataLoading = false
-            }, 500)
-          })
+        if (this.themeIndex === 0) {
+          API.salesOpportunities.list(Object.assign({}, this.defaultListParams, this.sortObj, this.advancedSearch),
+            (data) => {
+              this.ac_salesOpportunitiesList(data.data)
+              setTimeout(() => {
+                this.dataLoading = false
+              }, 500)
+            })
+        } else if (this.themeIndex === 1) {
+          API.salesOpportunities.listAdmin(Object.assign({}, this.defaultListParams, this.sortObj, this.advancedSearch),
+            (data) => {
+              this.ac_salesOpportunitiesList(data.data)
+              setTimeout(() => {
+                this.dataLoading = false
+              }, 500)
+            })
+        }
       },
       handleSizeChange (val) {
         console.log(`每页 ${val} 条`)
@@ -379,10 +390,18 @@
         this.getSalesOpportunititeisList()
       },
       handleRouter (name, id) {
-        this.$router.push({name: 'salesOpportunitiesDetail', query: {view: name, id: id}, params: {end: this.themeIndex === 0 ? 'FE' : 'ME'}})
+        this.$router.push({
+          name: 'salesOpportunitiesDetail',
+          query: {view: name, id: id},
+          params: {end: this.themeIndex === 0 ? 'FE' : 'ME'},
+        })
       },
       handleRouter2 (name, id) {
-        this.$router.push({name: 'customersDetail', query: {view: name, customerId: id}, params: {end: this.themeIndex === 0 ? 'FE' : 'ME'}})
+        this.$router.push({
+          name: 'customersDetail',
+          query: {view: name, customerId: id},
+          params: {end: this.themeIndex === 0 ? 'FE' : 'ME'},
+        })
       },
       searchHandle () {
         this.getSalesOpportunititeisList()
@@ -406,7 +425,7 @@
           params: {
             salesState: this.salesState,
             demandSource: this.demandSource,
-            preAdvancedSearch: this.advancedSearch
+            preAdvancedSearch: this.advancedSearch,
           },
           callback: (data) => {
             if (data.type === 'search') {

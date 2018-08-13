@@ -176,6 +176,15 @@ export default {
         error && error(err)
       })
     },
+    listAdmin (params, success, error) { // 客户列表,后端
+      $axios.get('customer/admin', {
+        params: params,
+      }).then((res) => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+    },
     seaList (params, success, error) { // 客户公海列表
       $axios.get('customer/sea/list', {
         params: params,
@@ -411,6 +420,17 @@ export default {
         error && error(err)
       })
     },
+    listAdmin (params, success, error) { // 联系人列表, 后台
+      $axios({
+        method: 'get',
+        url: '/customerContacter/admin',
+        params: params,
+      }).then(res => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+    },
     detail (params, success, error) { // 联系人详细
       $axios({
         method: 'get',
@@ -461,6 +481,17 @@ export default {
       $axios({
         method: 'get',
         url: '/salerChance',
+        params: params,
+      }).then(res => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+    },
+    listAdmin (params, success, error) { // 销售机会列表
+      $axios({
+        method: 'get',
+        url: '/salerChance/admin',
         params: params,
       }).then(res => {
         success && success(res.data)
@@ -548,6 +579,17 @@ export default {
       $axios({
         method: 'get',
         url: '/salerOrder',
+        params: params,
+      }).then(res => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+    },
+    listAdmin (params, success, error) { // 列表
+      $axios({
+        method: 'get',
+        url: '/salerOrder/admin',
         params: params,
       }).then(res => {
         success && success(res.data)

@@ -294,7 +294,7 @@
     data () {
       return {
         sortObj: null, // 排序
-        advancedSearch: null, // 高级搜索
+        advancedSearch: {}, // 高级搜索
         totle: 0,
         clearState: [ // 订单状态
           {
@@ -406,6 +406,7 @@
             salesState: this.salesState,
             demandSource: this.demandSource,
             type: 0,
+            preAdvancedSearch: this.advancedSearch,
           },
           callback: (data) => {
             if (data.type === 'search') {

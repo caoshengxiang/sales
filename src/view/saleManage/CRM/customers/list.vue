@@ -51,6 +51,7 @@
           </el-option>
         </el-select>
         <!--<com-button buttonType="search" @click="searchHandle">搜索</com-button>-->
+        <com-button buttonType="search" @click="advancedSearchHandle" style="">高级搜索</com-button>
       </div>
     </div>
     <!--详细-->
@@ -284,16 +285,22 @@
       getCustomerList () { // 获取列表数据
         this.getQueryParams()
         this.dataLoading = true
-        API.customer.list(Object.assign({}, this.defaultListParams, this.sortObj, this.advancedSearch), (res) => {
-          this.ac_customerList(res.data)
-          setTimeout(() => {
-            this.dataLoading = false
-          }, 300)
-        }, () => {
-          // setTimeout(() => {
-          //   this.dataLoading = false
-          // }, 300)
-        })
+        if (this.themeIndex === 0) {
+          API.customer.list(Object.assign({}, this.defaultListParams, this.sortObj, this.advancedSearch), (res) => {
+            this.ac_customerList(res.data)
+            setTimeout(() => {
+              this.dataLoading = false
+            }, 300)
+          })
+        } else if (this.themeIndex === 1) {
+          API.customer.listAdmin(Object.assign({}, this.defaultListParams, this.sortObj, this.advancedSearch),
+            (res) => {
+              this.ac_customerList(res.data)
+              setTimeout(() => {
+                this.dataLoading = false
+              }, 300)
+            })
+        }
       },
       searchHandle () {
         this.currentPage = 1
@@ -318,7 +325,7 @@
           params: {
             customerSourceType: this.customerSourceType,
             customerState: this.customerState,
-            preAdvancedSearch: this.advancedSearch
+            preAdvancedSearch: this.advancedSearch,
           },
           callback: (data) => {
             if (data.type === 'search') {
@@ -340,7 +347,11 @@
         this.getCustomerList()
       },
       handleRouter (name, id) {
-        this.$router.push({name: 'customersDetail', query: {view: name, customerId: id}, params: {end: this.themeIndex === 0 ? 'FE' : 'ME'}})
+        this.$router.push({
+          name: 'customersDetail',
+          query: {view: name, customerId: id},
+          params: {end: this.themeIndex === 0 ? 'FE' : 'ME'},
+        })
       },
       addHandle () {
         let that = this
