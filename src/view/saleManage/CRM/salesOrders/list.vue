@@ -400,13 +400,23 @@
       getSalesOrderList () {
         this.dataLoading = true
         this.getQueryParams()
-        API.salesOrder.list(Object.assign({}, this.defaultListParams, this.sortObj, this.advancedSearch), (data) => {
-          this.tableData = data.data.content
-          this.tableDataTotal = data.data.totalElements
-          setInterval(() => {
-            this.dataLoading = false
-          }, 500)
-        })
+        if (this.themeIndex === 0) {
+          API.salesOrder.list(Object.assign({}, this.defaultListParams, this.sortObj, this.advancedSearch), (data) => {
+            this.tableData = data.data.content
+            this.tableDataTotal = data.data.totalElements
+            setInterval(() => {
+              this.dataLoading = false
+            }, 500)
+          })
+        } else if (this.themeIndex === 1) {
+          API.salesOrder.listAdmin(Object.assign({}, this.defaultListParams, this.sortObj, this.advancedSearch), (data) => {
+            this.tableData = data.data.content
+            this.tableDataTotal = data.data.totalElements
+            setInterval(() => {
+              this.dataLoading = false
+            }, 500)
+          })
+        }
       },
       getQueryParams () { // 请求参数配置
         this.customerId = this.$route.query.customerId

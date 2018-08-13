@@ -315,14 +315,25 @@
       getContactsList () {
         this.dataLoading = true
         this.getQueryParams()
-        API.contacts.list(Object.assign({}, this.defaultListParams, this.sortObj, this.advancedSearch), (data) => {
-          this.ac_contactsList(data.data)
-          setTimeout(() => {
-            this.dataLoading = false
-          }, 500)
-        }, (err) => {
-          console.error(err)
-        })
+        if (this.themeIndex === 0) {
+          API.contacts.list(Object.assign({}, this.defaultListParams, this.sortObj, this.advancedSearch), (data) => {
+            this.ac_contactsList(data.data)
+            setTimeout(() => {
+              this.dataLoading = false
+            }, 500)
+          }, (err) => {
+            console.error(err)
+          })
+        } else if (this.themeIndex === 1) {
+          API.contacts.listAdmin(Object.assign({}, this.defaultListParams, this.sortObj, this.advancedSearch), (data) => {
+            this.ac_contactsList(data.data)
+            setTimeout(() => {
+              this.dataLoading = false
+            }, 500)
+          }, (err) => {
+            console.error(err)
+          })
+        }
       },
       searchHandle () {
         this.getContactsList()
