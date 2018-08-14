@@ -81,8 +81,8 @@
                 <td>{{customerDetail.level}}</td>
               </tr>
               <tr>
-                <td class="td-title">客户简称</td>
-                <td>{{customerDetail.shortName}}</td>
+                <td class="td-title">客户联系人</td>
+                <td>{{customerDetail.contactName}}</td>
                 <td class="td-title">客户行业</td>
                 <td>{{customerDetail.industry}}</td>
                 <td class="td-title">联系电话</td>
@@ -374,7 +374,7 @@
           <div v-if="salesOpportunitiesDetail.team && !salesOpportunitiesDetail.team.counselorId && isChangeFollower"
                class="btn-item-1" @click="operateOptions('apply')">申请咨询师协同
           </div>
-          <div v-if="salesOpportunitiesDetail.team && salesOpportunitiesDetail.team.counselorId && isChangeFollower" class="btn-item-2" @click="operateOptions('exit')">咨询师主动退出</div>
+          <div v-if="salesOpportunitiesDetail.team && salesOpportunitiesDetail.team.counselorId && isChanceCounselor" class="btn-item-2" @click="operateOptions('exit')">咨询师主动退出</div>
           <div v-if="salesOpportunitiesDetail.team && salesOpportunitiesDetail.team.counselorId && isChangeFollower" class="btn-item-3" @click="operateOptions('replace')">申请替换咨询师</div>
         </div>
       </div>
@@ -414,6 +414,7 @@
         userInfo: '',
         isChangeFollower: true, // 当前用户是机会的更进人
         isChanceCreater: true, // 当前用户是机会的创建人，
+        isChanceCounselor: true, // 当前用户是机会的咨询师
         customerDetail: {}, // 客户详细
       }
     },
@@ -583,6 +584,9 @@
           }
           if (this.userInfo.id !== this.salesOpportunitiesDetail.team.creator) { // 判断机会的创建人
             this.isChanceCreater = false
+          }
+          if (this.userInfo.id !== this.salesOpportunitiesDetail.team.counselorId) { // 判断机会的创建人
+            this.isChanceCounselor = false
           }
         })
       },
