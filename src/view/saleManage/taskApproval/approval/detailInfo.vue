@@ -55,8 +55,8 @@
             <td>{{customerDetail.level}}</td>
           </tr>
           <tr>
-            <td class="td-title">客户简称</td>
-            <td>{{customerDetail.shortName}}</td>
+            <td class="td-title">客户联系人</td>
+            <td>{{customerDetail.contactName}}</td>
             <td class="td-title">客户行业</td>
             <td>{{customerDetail.industry}}</td>
             <td class="td-title">联系电话</td>

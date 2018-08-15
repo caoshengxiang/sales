@@ -29,10 +29,10 @@
             </td>
           </tr>
           <tr>
-            <td class="td-title">客户简称</td>
+            <td class="td-title">公司网站</td>
             <td class="td-text">
-              <el-form-item prop="shortName">
-                <el-input type="text" v-model="addForm.shortName"></el-input>
+              <el-form-item prop="website">
+                <el-input type="text" v-model="addForm.website"></el-input>
               </el-form-item>
             </td>
             <td class="td-title">客户行业</td>
@@ -57,10 +57,10 @@
             </td>
           </tr>
           <tr>
-            <td class="td-title">公司网站</td>
+            <td class="td-title">客户联系人</td>
             <td class="td-text">
-              <el-form-item prop="website">
-                <el-input type="text" v-model="addForm.website"></el-input>
+              <el-form-item prop="contactName">
+                <el-input type="text" v-model="addForm.contactName"></el-input>
               </el-form-item>
             </td>
             <td class="td-title">联系电话</td>
@@ -138,7 +138,7 @@
           name: '',
           businessLicense: '',
           level: '',
-          shortName: '',
+          contactName: '',
           industry: '',
           provinceId: '',
           cityId: '',
@@ -166,8 +166,8 @@
           level: [
             // {required: true, message: '请选择客户等级', trigger: 'change'},
           ],
-          shortName: [
-            // {required: true, message: '请输入客户简称', trigger: 'blur'},
+          contactName: [
+            // {required: true, message: '请输入客户联系人', trigger: 'blur'},
             {max: 30, message: '长度为 30 个字符以内', trigger: 'blur'},
           ],
           industry: [
