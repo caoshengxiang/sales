@@ -27,38 +27,28 @@
           @sort-change="sortChangeHandle"
           @selection-change="handleSelectionChange"
         >
-          <el-table-column
-            fixed
-            type="selection"
-            align="center"
-            width="40">
-          </el-table-column>
+          <!--<el-table-column-->
+            <!--fixed-->
+            <!--type="selection"-->
+            <!--align="center"-->
+            <!--width="40">-->
+          <!--</el-table-column>-->
           <el-table-column
             align="center"
             sortable="custom"
             prop="test"
-            label="来自回访单号"
-            width="160"
+            label="客服"
             show-overflow-tooltip
           >
-            <template slot-scope="scope">
-              <a class="col-link">{{ scope.row.test }}</a>
-            </template>
+            <!--<template slot-scope="scope">-->
+              <!--<a class="col-link">{{ scope.row.test }}</a>-->
+            <!--</template>-->
           </el-table-column>
           <el-table-column
             align="center"
             sortable="custom"
             prop="test"
-            label="来自客户"
-            width="160"
-            show-overflow-tooltip
-          >
-          </el-table-column>
-          <el-table-column
-            align="center"
-            sortable="custom"
-            prop="test"
-            label="来自订单"
+            label="分配回访客户量"
             width="160"
             show-overflow-tooltip
           >
@@ -67,7 +57,7 @@
             align="center"
             sortable="custom"
             prop="test"
-            label="回访类型"
+            label="成功回访客户量"
             width="160"
             show-overflow-tooltip
           >
@@ -76,7 +66,7 @@
             align="center"
             sortable="custom"
             prop="test"
-            label="意见类型"
+            label="拒绝回访客户量"
             width="160"
             show-overflow-tooltip
           >
@@ -85,7 +75,40 @@
             align="center"
             sortable="custom"
             prop="test"
-            label="意见内容"
+            label="待再回访客户量"
+            width="160"
+            show-overflow-tooltip
+          >
+          </el-table-column>
+          <el-table-column
+            align="center"
+            sortable="custom"
+            prop="test"
+            label="未回访客户量"
+            show-overflow-tooltip
+          >
+          </el-table-column>
+          <el-table-column
+            align="center"
+            sortable="custom"
+            prop="test"
+            label="分配抽查客户量"
+            show-overflow-tooltip
+          >
+          </el-table-column>
+          <el-table-column
+            align="center"
+            sortable="custom"
+            prop="test"
+            label="已抽查客户量"
+            show-overflow-tooltip
+          >
+          </el-table-column>
+          <el-table-column
+            align="center"
+            sortable="custom"
+            prop="test"
+            label="待抽查客户量"
             show-overflow-tooltip
           >
           </el-table-column>

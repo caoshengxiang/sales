@@ -134,6 +134,40 @@ const serviceSpotCheck = resolve => require.ensure([],
 const customerComments = resolve => require.ensure([],
   () => resolve(require('../view/saleManage/CSM/customerComments/list')),
   'customerComments')
+// 统计
+// 统计
+// 客户任务统计
+const serviceTaskSta = resolve => require.ensure([],
+  () => resolve(require('../view/saleManage/statisticalAnalysis/serviceTask/list')),
+  'serviceTaskSta')
+// 客服任务统计
+const customerServiceTaskSta = resolve => require.ensure([],
+  () => resolve(require('../view/saleManage/statisticalAnalysis/customerServiceTask/list')),
+  'customerServiceTaskSta')
+// 服务客户统计
+const serviceCustomerSta = resolve => require.ensure([],
+  () => resolve(require('../view/saleManage/statisticalAnalysis/serviceCustomer/list')),
+  'serviceCustomerSta')
+// 服务票据统计
+const serviceBillSta = resolve => require.ensure([],
+  () => resolve(require('../view/saleManage/statisticalAnalysis/serviceBill/list')),
+  'serviceBillSta')
+// 拒单退单统计
+const refundOrderSta = resolve => require.ensure([],
+  () => resolve(require('../view/saleManage/statisticalAnalysis/refundOrder/list')),
+  'refundOrderSta')
+// 客户投诉统计
+const customerComplaintSta = resolve => require.ensure([],
+  () => resolve(require('../view/saleManage/statisticalAnalysis/customerComplaint/list')),
+  'customerComplaintSta')
+// 客户评价统计
+const customerCommentsSta = resolve => require.ensure([],
+  () => resolve(require('../view/saleManage/statisticalAnalysis/customerComments/list')),
+  'customerCommentsSta')
+// 客户意见统计
+const customerOpinionSta = resolve => require.ensure([],
+  () => resolve(require('../view/saleManage/statisticalAnalysis/customerOpinion/list')),
+  'customerOpinionSta')
 
 // 销售前端 end
 // 销售前端 end
@@ -579,7 +613,74 @@ const router = new Router({
             title: '个人信息',
             pos: [{name: '销售管理系统', toName: 'saleHome'}, {name: '个人信息'}],
           },
+        }, {
+          path: 'serviceTaskSta',
+          name: 'serviceTaskSta',
+          component: serviceTaskSta,
+          meta: {
+            title: '服务任务统计',
+            pos: [{name: '销售管理系统', toName: 'saleHome'}, {name: '统计分析'}, {name: '服务任务统计'}],
+          },
+        }, {
+          path: 'customerServiceTaskSta',
+          name: 'customerServiceTaskSta',
+          component: customerServiceTaskSta,
+          meta: {
+            title: '客服任务统计',
+            pos: [{name: '销售管理系统', toName: 'saleHome'}, {name: '统计分析'}, {name: '客服任务统计'}],
+          },
+        }, {
+          path: 'serviceCustomerSta',
+          name: 'serviceCustomerSta',
+          component: serviceCustomerSta,
+          meta: {
+            title: '客户任务统计',
+            pos: [{name: '销售管理系统', toName: 'saleHome'}, {name: '统计分析'}, {name: '客户任务统计'}],
+          },
+        }, {
+          path: 'serviceBillSta',
+          name: 'serviceBillSta',
+          component: serviceBillSta,
+          meta: {
+            title: '服务票据统计',
+            pos: [{name: '销售管理系统', toName: 'saleHome'}, {name: '统计分析'}, {name: '服务票据统计'}],
+          },
+        }, {
+          path: 'refundOrderSta',
+          name: 'refundOrderSta',
+          component: refundOrderSta,
+          meta: {
+            title: '退单拒单统计',
+            pos: [{name: '销售管理系统', toName: 'saleHome'}, {name: '统计分析'}, {name: '退单拒单统计'}],
+          },
+        }, {
+          path: 'customerComplaintSta',
+          name: 'customerComplaintSta',
+          component: customerComplaintSta,
+          meta: {
+            title: '客户投诉统计',
+            pos: [{name: '销售管理系统', toName: 'saleHome'}, {name: '统计分析'}, {name: '客户投诉统计'}],
+          },
+        }, {
+          path: 'customerCommentsSta',
+          name: 'customerCommentsSta',
+          component: customerCommentsSta,
+          meta: {
+            title: '客户评价统计',
+            pos: [{name: '销售管理系统', toName: 'saleHome'}, {name: '统计分析'}, {name: '客户评价统计'}],
+          },
+        }, {
+          path: 'customerOpinionSta',
+          name: 'customerOpinionSta',
+          component: customerOpinionSta,
+          meta: {
+            title: '客户意见统计',
+            pos: [{name: '销售管理系统', toName: 'saleHome'}, {name: '统计分析'}, {name: '客户意见统计'}],
+          },
         },
+        // 企业管理
+        // 企业管理
+        // 企业管理
         // 企业管理
         {
           path: 'companyManageHome',

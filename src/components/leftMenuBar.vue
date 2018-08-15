@@ -100,14 +100,14 @@
           <span>统计分析</span>
         </template>
         <el-menu-item-group>
-          <el-menu-item index="serviceTask" >服务任务统计</el-menu-item>
-          <el-menu-item index="serviceCustomer" >服务客户统计</el-menu-item>
-          <el-menu-item index="serviceBill" >服务票据统计</el-menu-item>
-          <el-menu-item index="refundOrder" >退单拒单统计</el-menu-item>
-          <el-menu-item index="customerComplaint" >客户投诉统计</el-menu-item>
-          <el-menu-item index="customerComments" >客户评价统计</el-menu-item>
-          <el-menu-item index="customerOpinion" >客户意见统计</el-menu-item>
-          <el-menu-item index="customerServiceTask" >客服任务统计</el-menu-item>
+          <el-menu-item index="serviceTaskSta" >服务任务统计</el-menu-item>
+          <el-menu-item index="customerServiceTaskSta" >客服任务统计</el-menu-item>
+          <el-menu-item index="serviceCustomerSta" >服务客户统计</el-menu-item>
+          <el-menu-item index="serviceBillSta" >服务票据统计</el-menu-item>
+          <el-menu-item index="refundOrderSta" >退单拒单统计</el-menu-item>
+          <el-menu-item index="customerComplaintSta" >客户投诉统计</el-menu-item>
+          <el-menu-item index="customerCommentsSta" >客户评价统计</el-menu-item>
+          <el-menu-item index="customerOpinionSta" >客户意见统计</el-menu-item>
         </el-menu-item-group>
       </el-submenu>
       <!--前端 菜单 end-->

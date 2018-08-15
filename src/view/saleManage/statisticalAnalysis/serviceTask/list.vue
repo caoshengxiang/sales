@@ -1,3 +1,4 @@
+<!--服务任务-->
 <template>
   <div class="com-container">
     <!--头部-->
@@ -27,12 +28,12 @@
           @sort-change="sortChangeHandle"
           @selection-change="handleSelectionChange"
         >
-          <el-table-column
-            fixed
-            type="selection"
-            align="center"
-            width="40">
-          </el-table-column>
+          <!--<el-table-column-->
+            <!--fixed-->
+            <!--type="selection"-->
+            <!--align="center"-->
+            <!--width="40">-->
+          <!--</el-table-column>-->
           <el-table-column
             align="center"
             sortable="custom"
@@ -41,15 +42,15 @@
             width="160"
             show-overflow-tooltip
           >
-            <template slot-scope="scope">
-              <a class="col-link">{{ scope.row.test }}</a>
-            </template>
+            <!--<template slot-scope="scope">-->
+              <!--<a class="col-link">{{ scope.row.test }}</a>-->
+            <!--</template>-->
           </el-table-column>
           <el-table-column
             align="center"
             sortable="custom"
             prop="test"
-            label="来自客户"
+            label="服务管家"
             width="160"
             show-overflow-tooltip
           >
@@ -58,7 +59,7 @@
             align="center"
             sortable="custom"
             prop="test"
-            label="来自订单"
+            label="全部任务数量"
             width="160"
             show-overflow-tooltip
           >
@@ -76,7 +77,7 @@
             align="center"
             sortable="custom"
             prop="test"
-            label="意见类型"
+            label="进行中的任务数"
             width="160"
             show-overflow-tooltip
           >
@@ -85,7 +86,23 @@
             align="center"
             sortable="custom"
             prop="test"
-            label="意见内容"
+            label="正常完成工作数"
+            show-overflow-tooltip
+          >
+          </el-table-column>
+          <el-table-column
+            align="center"
+            sortable="custom"
+            prop="test"
+            label="超期完成的任务数"
+            show-overflow-tooltip
+          >
+          </el-table-column>
+          <el-table-column
+            align="center"
+            sortable="custom"
+            prop="test"
+            label="超期未完成的任务数"
             show-overflow-tooltip
           >
           </el-table-column>

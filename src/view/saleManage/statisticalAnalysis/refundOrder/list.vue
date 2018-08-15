@@ -27,39 +27,28 @@
           @sort-change="sortChangeHandle"
           @selection-change="handleSelectionChange"
         >
-          <el-table-column
-            fixed
-            type="selection"
-            align="center"
-            width="40">
-          </el-table-column>
+          <!--<el-table-column-->
+            <!--fixed-->
+            <!--type="selection"-->
+            <!--align="center"-->
+            <!--width="40">-->
+          <!--</el-table-column>-->
           <el-table-column
             align="center"
             sortable="custom"
             prop="test"
-            label="来自回访单号"
-            width="160"
+            label="服务管家"
             show-overflow-tooltip
           >
-            <template slot-scope="scope">
-              <a class="col-link">{{ scope.row.test }}</a>
-            </template>
+            <!--<template slot-scope="scope">-->
+              <!--<a class="col-link">{{ scope.row.test }}</a>-->
+            <!--</template>-->
           </el-table-column>
           <el-table-column
             align="center"
             sortable="custom"
             prop="test"
-            label="来自客户"
-            width="160"
-            show-overflow-tooltip
-          >
-          </el-table-column>
-          <el-table-column
-            align="center"
-            sortable="custom"
-            prop="test"
-            label="来自订单"
-            width="160"
+            label="派单数量"
             show-overflow-tooltip
           >
           </el-table-column>
@@ -67,8 +56,7 @@
             align="center"
             sortable="custom"
             prop="test"
-            label="回访类型"
-            width="160"
+            label="拒单数量"
             show-overflow-tooltip
           >
           </el-table-column>
@@ -76,8 +64,7 @@
             align="center"
             sortable="custom"
             prop="test"
-            label="意见类型"
-            width="160"
+            label="退单数量"
             show-overflow-tooltip
           >
           </el-table-column>
@@ -85,7 +72,15 @@
             align="center"
             sortable="custom"
             prop="test"
-            label="意见内容"
+            label="服务开始前退单"
+            show-overflow-tooltip
+          >
+          </el-table-column>
+          <el-table-column
+            align="center"
+            sortable="custom"
+            prop="test"
+            label="服务中退单"
             show-overflow-tooltip
           >
           </el-table-column>
