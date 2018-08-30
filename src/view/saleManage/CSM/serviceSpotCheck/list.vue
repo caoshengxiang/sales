@@ -42,7 +42,7 @@
             show-overflow-tooltip
           >
             <template slot-scope="scope">
-              <a class="col-link">{{ scope.row.test }}</a>
+              <router-link class="col-link" :to="{name: 'serviceSpotCheckDetail', query: {id: scope.row.test}}">{{ scope.row.test }}</router-link>
             </template>
           </el-table-column>
           <el-table-column

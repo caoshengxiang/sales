@@ -44,71 +44,15 @@
     <!--详细-->
     <div class="com-box detail-info-box">
       <div class="com-box-padding">
-        <p class="table-title">管家基本信息</p>
+        <p class="table-title">客户基本信息</p>
         <table class="detail-table">
           <tr>
-            <td class="td-title">平台用户名</td>
+            <td class="td-title">公司名称</td>
             <td>todo</td>
-            <td class="td-title">联系姓名</td>
+            <td class="td-title">营业执照</td>
             <td>todo</td>
-            <td class="td-title">联系电话</td>
+            <td class="td-title">客户级别</td>
             <td>todo</td>
-          </tr>
-          <tr>
-            <td class="td-title">民族</td>
-            <td>todo</td>
-            <td class="td-title">性别</td>
-            <td>todo</td>
-            <td class="td-title">出生日期</td>
-            <td>todo</td>
-          </tr>
-          <tr>
-            <td class="td-title">居民身份证</td>
-            <td colspan="5">todo</td>
-          </tr>
-          <tr>
-            <td class="td-title">工作单位</td>
-            <td>todo</td>
-            <td class="td-title">工作部门</td>
-            <td>todo</td>
-            <td class="td-title">工作职责</td>
-            <td>todo</td>
-          </tr>
-          <tr>
-            <td class="td-title">职称</td>
-            <td>todo</td>
-            <td class="td-title">从年？？？？年限</td>
-            <td>todo</td>
-            <td class="td-title"></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td class="td-title">最高学历</td>
-            <td>todo</td>
-            <td class="td-title">毕业院校</td>
-            <td>todo</td>
-            <td class="td-title">专业</td>
-            <td>todo</td>
-          </tr>
-          <tr>
-            <td class="td-title">专业资质证书</td>
-            <td colspan="5">todo</td>
-          </tr>
-          <tr>
-            <td class="td-title">职称证明</td>
-            <td>todo</td>
-            <td class="td-title">学历证明</td>
-            <td>todo</td>
-            <td class="td-title">资质证明</td>
-            <td>todo</td>
-          </tr>
-          <tr>
-            <td class="td-title">现从事专业及研究方向</td>
-            <td colspan="5">todo</td>
-          </tr>
-          <tr>
-            <td class="td-title">社会重要职务</td>
-            <td colspan="5">todo</td>
           </tr>
         </table>
       </div>
