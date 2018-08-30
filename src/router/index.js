@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-// import HelloWorld from '@/components/HelloWorld'
+import HelloWorld from '@/components/HelloWorld'
 
 // 登录，重置
 const signIn = resolve => require.ensure([],
@@ -281,6 +281,10 @@ const router = new Router({
         title: '404',
         pos: [{name: '404'}],
       },
+    }, {
+      path: '/test',
+      name: 'HelloWorld',
+      component: HelloWorld,
     }, {
       path: '/FE/signIn',
       name: 'signIn',

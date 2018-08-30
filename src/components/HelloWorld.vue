@@ -14,17 +14,35 @@
       <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">上传到服务器</el-button>
       <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
     </el-upload>
+
+    <h3 style="color: #f06b78">二维码：</h3>
+    <vue-qr
+      :logoSrc="config.logo"
+      :text="config.value+'?test=123'"
+      :size="200"
+      :margin="0"
+      :callback="test"
+      qid="testid"></vue-qr>
   </div>
 </template>
 
 <script>
+  import VueQr from 'vue-qr'
+  import bgSrc from '../assets/icon/company.png'
   export default {
     name: 'HelloWorld',
     data () {
       return {
         fileList: [],
+        config: {
+          value: 'http://www.baidu.com', // 显示的值、跳转的地址(要加http)
+          logo: 'static/favicon.ico', // 中间logo的地址
+          bgSrc: bgSrc
+        },
+        dataUrl: '',
       }
     },
+    components: {VueQr},
     methods: {
       submitUpload () {
         this.$refs.upload.submit()
@@ -35,6 +53,10 @@
       handlePreview (file) {
         console.log(file)
       },
+      test (dataUrl, id) {
+        console.log(dataUrl, id)
+        this.dataUrl = dataUrl
+      }
     },
     mounted () {},
   }

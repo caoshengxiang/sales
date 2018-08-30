@@ -63,7 +63,7 @@
                 <el-input type="text" v-model="addForm.contactName"></el-input>
               </el-form-item>
             </td>
-            <td class="td-title">联系电话</td>
+            <td class="td-title">客户电话</td>
             <td class="td-text">
               <el-form-item prop="phone">
                 <el-input type="text" v-model="addForm.phone"></el-input>
