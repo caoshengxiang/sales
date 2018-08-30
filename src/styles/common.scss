@@ -168,6 +168,7 @@
   /*内容区*/
   .com-box-padding {
     padding-top: $page-base-padding;
+    width: 100%;
   }
 
   .com-box {
@@ -182,6 +183,9 @@
     .col-link {
       color: $font-color-4;
       cursor: pointer;
+      a {
+        color: $font-color-4;
+      }
     }
     .table-title {
       padding: 10px 0;

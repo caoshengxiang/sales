@@ -44,7 +44,7 @@
             show-overflow-tooltip
           >
             <template slot-scope="scope">
-              <a class="col-link">{{ scope.row.test }}</a>
+              <a class="col-link"><router-link :to="{name: 'housekeeperEnterDetail', query: {id: scope.row.test}}">{{ scope.row.test }}</router-link></a>
             </template>
           </el-table-column>
           <el-table-column
@@ -115,15 +115,6 @@
             sortable="custom"
             prop="test"
             label="申请日期"
-            width="160"
-            show-overflow-tooltip
-          >
-          </el-table-column>
-          <el-table-column
-            align="center"
-            sortable="custom"
-            prop="test"
-            label="审核状态"
             width="160"
             show-overflow-tooltip
           >

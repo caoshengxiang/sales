@@ -87,7 +87,11 @@ const taskApprovalDetail = resolve => require.ensure([],
   'taskApproval')
 const housekeeperEnterList = resolve => require.ensure([],
   () => resolve(require('../view/saleManage/taskApproval/housekeeperEnter/list')),
-  'housekeeperEnterList')
+  'housekeeperEnter')
+const housekeeperEnterDetail = resolve => require.ensure([],
+  () => resolve(require('../view/saleManage/taskApproval/housekeeperEnter/detail')),
+  'housekeeperEnter')
+
 // 个人信息
 const personal = resolve => require.ensure([],
   () => resolve(require('../view/saleManage/personalCenter/personal')),
@@ -608,6 +612,17 @@ const router = new Router({
               {name: '销售管理系统', toName: 'saleHome'},
               {name: '业务审批'},
               {name: '管家入驻管理'}],
+          },
+        }, {
+          path: 'housekeeperEnterDetail',
+          name: 'housekeeperEnterDetail',
+          component: housekeeperEnterDetail,
+          meta: {
+            title: '管家入驻',
+            pos: [
+              {name: '销售管理系统', toName: 'saleHome'},
+              {name: '业务审批'},
+              {name: '管家入驻详情'}],
           },
         }, {
           path: 'personal',
