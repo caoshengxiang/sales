@@ -23,6 +23,16 @@
       :margin="0"
       :callback="test"
       qid="testid"></vue-qr>
+
+    <h3>在img标签添加preview属性 preview值相同即表示为同一组</h3>
+    <div style="position: relative;display: inline-block">
+      <span>查看大图 查看大图</span>
+      <div style="position: absolute; top: 0;width: 100%;height: 100%;opacity: 0;overflow: hidden;">
+        <img src="../../static/images/wave-bot.png" style="width: 150px;" preview="0" preview-text="描述文字">
+        <img src="../../static/images/wave-bot-2.png" style="width: 150px;" preview="0" preview-text="描述文字">
+      </div>
+    </div>
+
   </div>
 </template>
 
@@ -67,4 +77,5 @@
   @import "../styles/sprites.css";
   @import '../element_ui/element-variables';
   @import '../element_ui/element';
+  @import "../styles/common";
 </style>

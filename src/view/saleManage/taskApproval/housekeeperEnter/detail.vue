@@ -110,13 +110,79 @@
             <td class="td-title">社会重要职务</td>
             <td colspan="5">todo</td>
           </tr>
+          <tr>
+            <td class="td-title">个人简介</td>
+            <td colspan="5">todo</td>
+          </tr>
         </table>
+        <div class="bar-tips-box">
+          <p class="review"> 资料审核不通过：因为资料不清除 2018.02.02 12:12</p>
+        </div>
+
+        <p class="table-title">管家面签信息</p>
+        <table class="detail-table">
+          <tr>
+            <td class="td-title">面签形象照</td>
+            <td colspan="5">
+              <photo-view :photo-data="{
+                text: '点击查看大图',
+                images: [
+                  {url: '../../../../../static/images/wave-bot.png', previewText: '描述文字1'},
+                  {url: '../../../../../static/images/wave-bot-2.png', previewText: '描述文字2'},
+                ]}"></photo-view>
+            </td>
+          </tr>
+          <tr>
+            <td class="td-title">面签评价</td>
+            <td colspan="5">todo</td>
+          </tr>
+        </table>
+        <div class="bar-tips-box">
+          <p class="review"> 面签通过：2018.02.02 12:12</p>
+        </div>
+
+        <p class="table-title">保证金缴纳信息</p>
+        <table class="detail-table">
+          <tr>
+            <td class="td-title">保证金定缴额</td>
+            <td>todo</td>
+            <td class="td-title">纳税状态</td>
+            <td>todo</td>
+            <td class="td-title">审核状态</td>
+            <td>todo</td>
+          </tr>
+          <tr>
+            <td class="td-title">缴纳凭证</td>
+            <td colspan="5">
+              <div>
+                <photo-view :photo-data="{
+                text: '点击查看大图',
+                images: [
+                  {url: '../../../../../static/images/wave-bot.png', previewText: '描述文字1'},
+                  {url: '../../../../../static/images/wave-bot-2.png', previewText: '描述文字2'},
+                ]}"></photo-view>
+              </div>
+              <div>
+                <photo-view :photo-data="{
+                text: '点击查看大图',
+                images: [
+                  {url: '../../../../../static/images/wave-bot.png', previewText: '描述文字1'},
+                  {url: '../../../../../static/images/wave-bot-2.png', previewText: '描述文字2'},
+                ]}"></photo-view>
+              </div>
+            </td>
+          </tr>
+        </table>
+        <div class="bar-tips-box">
+          <p class="review"> 保证金缴纳审核通过：2018.02.02 12:12</p>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+  import photoView from '../../../../components/photo/photoView'
   export default {
     name: 'detail',
     data () {
@@ -132,6 +198,9 @@
         ]
       }
     },
+    components: {
+      photoView,
+    },
     methods: {
       operateOptions () {
       },
@@ -142,4 +211,23 @@
 
 <style scoped lang="scss" rel="stylesheet/scss">
   @import "../../../../styles/common";
+  .bar-tips-box {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    .modify {
+      color: #333E48;
+      background-color: #FCFCFC;
+      border: 1px solid #DDDDDD;
+      padding: 5px;
+      font-size: 12px;
+    }
+    .review {
+      color: #FF7700;
+      background-color: #FFFCF6;
+      border: 1px solid #F0D3B9;
+      margin-top: 10px;
+      padding: 5px;
+      font-size: 12px;
+    }
+  }
 </style>

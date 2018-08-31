@@ -12,7 +12,7 @@
 // 文字单行显示,注意顺序
 .com-a-line {
   overflow: hidden;
-  text-overflow:ellipsis;
+  text-overflow: ellipsis;
   white-space: nowrap;
 }
 
@@ -31,6 +31,13 @@
   width: 100%;
   //height: 0px;
   border-bottom: 1px dashed #ccc;
+}
+
+.com-a-link {
+  color: $font-color-4;
+  margin-left: 10px;
+  margin-right: 10px;
+  cursor: pointer;
 }
 
 // 标题样式
@@ -62,7 +69,6 @@
     margin-top: $page-base-padding;
   }
 }
-
 
 /* 路由部分 公用样式 */
 .com-container {
@@ -158,7 +164,7 @@
       }
     }
 
-    &:after{
+    &:after {
       content: '';
       display: block;
       height: 6px;
@@ -293,14 +299,14 @@
             background-color: #fff7ef;
             //color: #FF7700;
             //font-size: 12px;
-            @include font-style($font-color-5 ,$font-size-small-extra-extra);
+            @include font-style($font-color-5, $font-size-small-extra-extra);
             @extend .post-tag;
           }
           .post-tag-2 {
             background-color: #E1F5FF;
             //font-size: 12px;
             //color: #1E88E5;
-            @include font-style($font-color-4 ,$font-size-small-extra-extra);
+            @include font-style($font-color-4, $font-size-small-extra-extra);
             @extend .post-tag;
           }
         }
@@ -333,6 +339,9 @@
       background-color: $color-2;
       width: 120px;
     }
+    .td-center {
+      text-align: center;
+    }
     .td-text {
 
     }
@@ -359,13 +368,13 @@
   }
 }
 
-
 /*弹窗部分*/
-.com-dialog-container{
+.com-dialog-container {
   padding: 30px 20px;
   color: #606266;
   font-size: 14px;
 }
+
 .com-dialog {
   .com-dialog-table {
     width: 100%;
@@ -413,6 +422,24 @@
         background-color: $color-1;
         color: #fff;
       }
+    }
+  }
+}
+
+.com-icon-text-box {
+  display: flex;
+  align-items: center;
+  margin: 10px 20px;
+  &.com-icon-text-h {
+    float: left;
+    .com-icon-t {
+      margin-left: 5px;
+      display: inline-block;
+      width: 80px;
+      text-align: center;
+    }
+    &:after {
+      clear: both;
     }
   }
 }

@@ -37,18 +37,192 @@
             <p class="table-title">服务订单信息</p>
             <table class="detail-table">
               <tr>
-                <td class="td-title">公司名称</td>
+                <td rowspan="4" class="td-center">订单基本信息</td>
+              </tr>
+              <tr>
+                <td class="td-title">订单号</td>
                 <td></td>
-                <td class="td-title">营业执照</td>
+                <td class="td-title">订单状态</td>
                 <td></td>
-                <td class="td-title">客户级别</td>
+                <td class="td-title">服务类型</td>
                 <td></td>
+              </tr>
+              <tr>
+                <td class="td-title">下单时间</td>
+                <td></td>
+                <td class="td-title">服务客户</td>
+                <td></td>
+                <td class="td-title">联系人</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td class="td-title">购买商品</td>
+                <td></td>
+                <td class="td-title">商品规格</td>
+                <td></td>
+                <td class="td-title">购买数量</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td rowspan="5" class="td-center">订单发票信息</td>
+              </tr>
+              <tr>
+                <td class="td-title">订单金额</td>
+                <td></td>
+                <td class="td-title">订单优惠</td>
+                <td></td>
+                <td class="td-title">订单实付</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td class="td-title">发票类型</td>
+                <td></td>
+                <td class="td-title">开票单位</td>
+                <td></td>
+                <td class="td-title">纳税识别号</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td class="td-title">开户行信息</td>
+                <td></td>
+                <td class="td-title">银行账号</td>
+                <td></td>
+                <td class="td-title"></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td class="td-title">发票邮寄地址</td>
+                <td colspan="5"></td>
+              </tr>
+              <tr>
+                <td class="td-center" rowspan="3">订单其他信息</td>
+              </tr>
+              <tr>
+                <td class="td-title">预约服务时间</td>
+                <td colspan="5"></td>
+              </tr>
+              <tr>
+                <td class="td-title">订单备注</td>
+                <td colspan="5"></td>
+              </tr>
+            </table>
+
+            <p class="table-title">服务派单</p>
+            <table class="detail-table">
+              <tr>
+                <td class="td-title">管家类型</td>
+                <td class="td-title">服务管家</td>
+                <td class="td-title">服务主体</td>
+                <td class="td-title">派单单号</td>
+                <td class="td-title">派单时间</td>
+              </tr>
+              <tr>
+                <td class="td-center">todo</td>
+                <td class="td-center"></td>
+                <td class="td-center"></td>
+                <td class="td-center"></td>
+                <td class="td-center"></td>
               </tr>
             </table>
           </el-tab-pane>
           <el-tab-pane label="订单相关信息" name="related">
+            <p class="table-title">服务客户</p>
+            <table class="detail-table">
+              <tr>
+                <td class="td-title">服务客户名称</td>
+                <td class="td-title">统一信用码</td>
+                <td class="td-title">注册资本金</td>
+                <td class="td-title">所属行业</td>
+                <td class="td-title">企业联系人及电话</td>
+              </tr>
+            </table>
+
+            <p class="table-title">客满相关 <span>（2）</span></p>
+            <table class="detail-table">
+              <tr>
+                <td class="td-title">单号</td>
+                <td class="td-title">客满项目名称</td>
+                <td class="td-title">状态</td>
+                <td class="td-title">客服人员</td>
+                <td class="td-title">生成时间</td>
+              </tr>
+            </table>
+
+            <p class="table-title">客户历史订单 <span>（2）</span></p>
+            <table class="detail-table">
+              <tr>
+                <td class="td-title">订单号</td>
+                <td class="td-title">订单状态</td>
+                <td class="td-title">商品名称</td>
+                <td class="td-title">服务派单时间</td>
+                <td class="td-title">服务完成时间</td>
+              </tr>
+            </table>
           </el-tab-pane>
           <el-tab-pane label="订单加工信息" name="operate">
+            <table class="detail-table">
+              <tr>
+                <td style="height: 50px;" class="td-center">外勤服务[张三]</td>
+                <td colspan="5">
+                  <icon-text icon="el-icon-picture" text="首次电话沟通" status="1"></icon-text>
+                  <icon-text icon="el-icon-picture" text="首次上门沟通" status="1"></icon-text>
+                  <icon-text icon="el-icon-picture" text="录入客户资料" status="1"></icon-text>
+                  <icon-text icon="el-icon-picture" text="装订凭证" status="1"></icon-text>
+                </td>
+              </tr>
+              <tr>
+                <td style="height: 50px;" class="td-center">财务记账[张三]</td>
+                <td colspan="5">
+                  <icon-text icon="el-icon-picture" text="客户资料审核" status="1"></icon-text>
+                  <icon-text icon="el-icon-picture" text="客户票据审核" status="1"></icon-text>
+                  <icon-text icon="el-icon-picture" text="记账日常告知" status="1"></icon-text>
+                  <icon-text icon="el-icon-picture" text="出具财务报表" status="1"></icon-text>
+                </td>
+              </tr>
+              <tr>
+                <td style="height: 50px;" class="td-center">财务申报[张三]</td>
+                <td colspan="5">
+                  <icon-text icon="el-icon-picture" text="税前沟通" status="1"></icon-text>
+                  <icon-text icon="el-icon-picture" text="纳税申报" status="1"></icon-text>
+                  <icon-text icon="el-icon-picture" text="纳税异常提醒" status="1"></icon-text>
+                </td>
+              </tr>
+              <tr>
+                <td style="height: 50px;" class="td-center">财务内控[张三]</td>
+                <td colspan="5">
+                  <icon-text icon="el-icon-picture" text="财务内控分析" status="1"></icon-text>
+                  <icon-text icon="el-icon-picture" text="财务内控构建指导" status="1"></icon-text>
+                </td>
+              </tr>
+              <tr>
+                <td style="height: 50px;" class="td-center">税收风控[张三]</td>
+                <td colspan="5">
+                  <icon-text icon="el-icon-picture" text="增值税发票风险管理指导" status="1"></icon-text>
+                  <icon-text icon="el-icon-picture" text="税收优惠政策辅导" status="1"></icon-text>
+                  <icon-text icon="el-icon-picture" text="税收问题提醒" status="1"></icon-text>
+                  <icon-text icon="el-icon-picture" text="税收分控方案设计" status="1"></icon-text>
+                  <icon-text icon="el-icon-picture" text="纳税信用等级维护指导" status="1"></icon-text>
+                  <icon-text icon="el-icon-picture" text="财税专家“一对一”咨询" status="1"></icon-text>
+                  <icon-text icon="el-icon-picture" text="税务危机应对参与" status="1"></icon-text>
+                  <icon-text icon="el-icon-picture" text="税收策划指导" status="1"></icon-text>
+                </td>
+              </tr>
+              <tr>
+                <td style="height: 50px;" class="td-center">金融服务[张三]</td>
+                <td colspan="5">
+                  <icon-text icon="el-icon-picture" text="融资需求分析" status="1"></icon-text>
+                  <icon-text icon="el-icon-picture" text="融资对接指导" status="1"></icon-text>
+                  <icon-text icon="el-icon-picture" text="政府扶持资金规话" status="1"></icon-text>
+                </td>
+              </tr>
+              <tr>
+                <td style="height: 50px;" class="td-center">其他单项服务（产品名）[张三]</td>
+                <td colspan="5">
+                  <icon-text icon="el-icon-picture" text="开始服务" status="1"></icon-text>
+                  <icon-text icon="el-icon-picture" text="完成服务" status="1"></icon-text>
+                </td>
+              </tr>
+            </table>
           </el-tab-pane>
         </el-tabs>
       </div>
@@ -57,6 +231,7 @@
 </template>
 
 <script>
+  import iconText from '../../../../components/iconText/iconText'
   export default {
     name: 'detail',
     data () {
@@ -65,10 +240,16 @@
         activeViewName: 'order'
       }
     },
+    components: {
+      iconText,
+    },
     methods: {
       operateOptions () {
       },
       stepClickHandle () {},
+      handleTabsClick (tab, event) {
+        console.log(tab.name)
+      },
     },
   }
 </script>
