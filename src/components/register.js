@@ -14,9 +14,13 @@ import vueXlsxTable from 'vue-xlsx-table'
 import preview from 'vue-photo-preview'
 import 'vue-photo-preview/dist/skin.css'
 
+// 拖拽排序
+import vueDND from 'awe-dnd'
+
 Vue.use(AreaSelect)
 Vue.use(vDialogs)
 Vue.use(vueXlsxTable, {rABS: false}) // 浏览器的FileReader API 有两个方法可以读取本地文件 readAsBinaryString 和 readAsArrayBuffer, 默认rABS为false，也就是使用readAsArrayBuffer
 Vue.prototype.$echarts = echarts
 Vue.prototype.$moment = moment
 Vue.use(preview)
+Vue.use(vueDND)

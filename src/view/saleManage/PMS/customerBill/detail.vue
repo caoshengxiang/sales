@@ -43,9 +43,16 @@
 
         <!--图片，排序-->
         <div class="imgs-box">
-            <div class="imgs-box-item" v-for="i in 10" :key="i">
-              <img src="../../../../../static/images/wave-bot-2.png" alt="">
-              <p>图片名称</p>
+            <div class="imgs-box-item" v-for="(bill, index) in bills" :key="index"
+                 v-dragging="{ item: bill, list: bills, group: 'customerBill' }">
+              <photo-view :photo-data="{
+                text: '',
+                images: [
+                  {url: bill.image, previewText: bill.text},
+                ]}">
+                <img :src="bill.image" alt="">
+              </photo-view>
+              <p>{{bill.text}}</p>
             </div>
         </div>
         <!--操纵-->
@@ -74,12 +81,37 @@
 </template>
 
 <script>
+  import photoView from '../../../../components/photo/photoView'
   export default {
     name: 'detail',
     data () {
       return {
         dataLoading: false,
+        bills: [
+          {
+            image: '../../../../../static/images/wave-bot-2.png',
+            text: '图片描述1',
+            id: 1,
+          },
+          {
+            image: '../../../../../static/images/wave-bot.png',
+            text: '图片描述2',
+            id: 2,
+          },
+          {
+            image: '../../../../../static/images/wave-mid.png',
+            text: '图片描述3',
+            id: 3,
+          }, {
+            image: '../../../../../static/images/wave-mid-2.png',
+            text: '图片描述4',
+            id: 4,
+          },
+        ]
       }
+    },
+    components: {
+      photoView,
     },
     methods: {
       operateOptions () {
@@ -126,6 +158,7 @@
   }
   .box-card {
     margin-top: 50px;
+    margin-bottom: 50px;
     .text {
       color: #728395;
     }

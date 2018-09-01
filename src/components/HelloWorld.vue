@@ -33,12 +33,22 @@
       </div>
     </div>
 
+    <h3>排序</h3>
+    <div class="color-list">
+      <div
+        class="color-item"
+        v-for="color in colors" v-dragging="{ item: color, list: colors, group: 'color' }"
+        :key="color.text"
+      >{{color.text}}
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
   import VueQr from 'vue-qr'
   import bgSrc from '../assets/icon/company.png'
+
   export default {
     name: 'HelloWorld',
     data () {
@@ -47,9 +57,29 @@
         config: {
           value: 'http://www.baidu.com', // 显示的值、跳转的地址(要加http)
           logo: 'static/favicon.ico', // 中间logo的地址
-          bgSrc: bgSrc
+          bgSrc: bgSrc,
         },
         dataUrl: '',
+        colors: [
+          {
+            text: 'Aquamarine',
+          }, {
+            text: 'Hotpink',
+          }, {
+            text: 'Gold',
+          }, {
+            text: 'Crimson',
+          }, {
+            text: 'Blueviolet',
+          }, {
+            text: 'Lightblue',
+          }, {
+            text: 'Cornflowerblue',
+          }, {
+            text: 'Skyblue',
+          }, {
+            text: 'Burlywood',
+          }],
       }
     },
     components: {VueQr},
@@ -66,9 +96,19 @@
       test (dataUrl, id) {
         console.log(dataUrl, id)
         this.dataUrl = dataUrl
-      }
+      },
     },
-    mounted () {},
+    mounted () {
+      this.$dragging.$on('dragged', ({ value }) => {
+        // console.log(value.item)
+        // console.log(value.list)
+        // console.log(value.otherData)
+        console.log(value)
+      })
+      this.$dragging.$on('dragend', (value) => {
+        console.log(value)
+      })
+    },
   }
 </script>
 

@@ -1,8 +1,9 @@
 <template>
   <div style="position: relative;display: inline-block">
     <span class="com-a-link">{{photoData.text}}</span>
+    <slot></slot>
     <div style="position: absolute; top: 0;width: 100%;height: 100%;opacity: 0;overflow: hidden;">
-      <img v-for="(item, index) in photoData.images" :key="index" :src="item.url" style="width: 150px;" :preview="previewVal" :preview-text="item.previewText">
+      <img v-for="(item, index) in photoData.images" :key="index" :src="item.url" style="width: 100%;height: 100%;" :preview="previewVal" :preview-text="item.previewText">
     </div>
   </div>
 </template>

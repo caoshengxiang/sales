@@ -22,6 +22,7 @@
     "build:dll": "webpack --config build/webpack.dll.conf.js"
   },
   "dependencies": {
+    "awe-dnd": "^0.3.1",
     "axios": "^0.18.0",
     "echarts": "^4.1.0",
     "element-ui": "^2.3.4",
