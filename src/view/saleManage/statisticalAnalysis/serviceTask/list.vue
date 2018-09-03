@@ -12,8 +12,67 @@
     <!--控制栏-->
     <div class="com-bar">
       <div class="com-bar-left">
+        <span>统计时间: </span>
+        <el-date-picker
+          v-model="value1"
+          type="date"
+          placeholder="选择日期">
+        </el-date-picker>
       </div>
       <div class="com-bar-right">
+        <el-button>打印</el-button>
+        <el-button>导出</el-button>
+      </div>
+      <div>
+        <el-table
+          ref="multipleTable2"
+          border
+          :data="tableData"
+          tooltip-effect="dark"
+        >
+          <el-table-column
+            align="center"
+            prop="test"
+            label="名称"
+            show-overflow-tooltip
+          >
+          </el-table-column>
+          <el-table-column
+            align="center"
+            prop="test"
+            label="全部任务数量"
+            show-overflow-tooltip
+          >
+          </el-table-column>
+          <el-table-column
+            align="center"
+            prop="test"
+            label="进行中得任务数"
+            show-overflow-tooltip
+          >
+          </el-table-column>
+          <el-table-column
+            align="center"
+            prop="test"
+            label="正常完成工作数"
+            show-overflow-tooltip
+          >
+          </el-table-column>
+          <el-table-column
+            align="center"
+            prop="test"
+            label="超期完成得任务数"
+            show-overflow-tooltip
+          >
+          </el-table-column>
+          <el-table-column
+            align="center"
+            prop="test"
+            label="超期未完成得任务数"
+            show-overflow-tooltip
+          >
+          </el-table-column>
+        </el-table>
       </div>
     </div>
     <!--详细-->
@@ -28,12 +87,6 @@
           @sort-change="sortChangeHandle"
           @selection-change="handleSelectionChange"
         >
-          <!--<el-table-column-->
-            <!--fixed-->
-            <!--type="selection"-->
-            <!--align="center"-->
-            <!--width="40">-->
-          <!--</el-table-column>-->
           <el-table-column
             align="center"
             sortable="custom"
@@ -42,9 +95,6 @@
             width="160"
             show-overflow-tooltip
           >
-            <!--<template slot-scope="scope">-->
-              <!--<a class="col-link">{{ scope.row.test }}</a>-->
-            <!--</template>-->
           </el-table-column>
           <el-table-column
             align="center"
@@ -149,6 +199,7 @@
             test: 'test Data',
           }],
         multipleSelection: [],
+        value1: '',
       }
     },
     computed: {

@@ -11,8 +11,29 @@
     <!--控制栏-->
     <div class="com-bar">
       <div class="com-bar-left">
+        <span>服务年度</span>
+        <el-select v-model="value" placeholder="请选择" style="width: 100px;">
+          <el-option
+            v-for="item in yearOptions"
+            :key="item"
+            :label="item"
+            :value="item">
+          </el-option>
+        </el-select>
+        <span>服务月度</span>
+        <el-select v-model="value2" placeholder="请选择" style="width: 100px;">
+          <el-option
+            v-for="item in monthOptions"
+            :key="item"
+            :label="item"
+            :value="item">
+          </el-option>
+        </el-select>
+        <el-button>查询</el-button>
       </div>
       <div class="com-bar-right">
+        <el-button>打印</el-button>
+        <el-button>导出</el-button>
       </div>
     </div>
     <!--详细-->
@@ -27,12 +48,6 @@
           @sort-change="sortChangeHandle"
           @selection-change="handleSelectionChange"
         >
-          <!--<el-table-column-->
-            <!--fixed-->
-            <!--type="selection"-->
-            <!--align="center"-->
-            <!--width="40">-->
-          <!--</el-table-column>-->
           <el-table-column
             align="center"
             sortable="custom"
@@ -40,9 +55,6 @@
             label="服务客户名称"
             show-overflow-tooltip
           >
-            <!--<template slot-scope="scope">-->
-              <!--<a class="col-link">{{ scope.row.test }}</a>-->
-            <!--</template>-->
           </el-table-column>
           <el-table-column
             align="center"
@@ -65,14 +77,6 @@
             sortable="custom"
             prop="test"
             label="票据未通过数量"
-            show-overflow-tooltip
-          >
-          </el-table-column>
-          <el-table-column
-            align="center"
-            sortable="custom"
-            prop="test"
-            label="意见类型"
             show-overflow-tooltip
           >
           </el-table-column>
@@ -119,12 +123,26 @@
             test: 'test Data',
           }],
         multipleSelection: [],
+        value: '',
+        value2: '',
       }
     },
     computed: {
       ...mapState('constData', [
         'pagesOptions',
       ]),
+      yearOptions () {
+        let y = new Date().getFullYear()
+        let interval = 20
+        let arr = []
+        for (let i = y - interval; i <= y; i++) {
+          arr.push(i)
+        }
+        return arr
+      },
+      monthOptions () {
+        return ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12']
+      },
     },
     methods: {
       handleSizeChange (val) {

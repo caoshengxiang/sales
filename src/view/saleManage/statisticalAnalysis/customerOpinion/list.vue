@@ -11,12 +11,33 @@
     <!--控制栏-->
     <div class="com-bar">
       <div class="com-bar-left">
+        <span>统计时间: </span>
+        <el-date-picker
+          v-model="value1"
+          type="date"
+          placeholder="选择日期">
+        </el-date-picker>
       </div>
       <div class="com-bar-right">
+        <el-button>打印</el-button>
+        <el-button>导出</el-button>
       </div>
     </div>
     <!--详细-->
     <div class="com-box com-box-padding com-list-box">
+      <div class="home-row">
+        <el-row>
+          <el-col :span="12">
+            <div class="col-box">
+              <pie-opinion></pie-opinion>
+            </div>
+          </el-col>
+          <el-col :span="12" class="l-border-6">
+            <div class="col-box">
+            </div>
+          </el-col>
+        </el-row>
+      </div>
     </div>
   </div>
 </template>
@@ -24,6 +45,7 @@
 <script>
   import { mapState } from 'vuex'
   import { underscoreName } from '../../../../utils/utils'
+  import PieOpinion from './pieOpinion'
 
   export default {
     name: 'list',
@@ -44,12 +66,16 @@
             test: 'test Data',
           }],
         multipleSelection: [],
+        value1: '',
       }
     },
     computed: {
       ...mapState('constData', [
         'pagesOptions',
       ]),
+    },
+    components: {
+      PieOpinion
     },
     methods: {
       handleSizeChange (val) {

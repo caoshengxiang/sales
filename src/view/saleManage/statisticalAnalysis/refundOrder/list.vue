@@ -11,8 +11,53 @@
     <!--控制栏-->
     <div class="com-bar">
       <div class="com-bar-left">
+        <span>统计时间: </span>
+        <el-date-picker
+          v-model="value1"
+          type="date"
+          placeholder="选择日期">
+        </el-date-picker>
       </div>
       <div class="com-bar-right">
+        <el-button>打印</el-button>
+        <el-button>导出</el-button>
+      </div>
+      <div>
+        <el-table
+          ref="multipleTable2"
+          border
+          :data="tableData"
+          tooltip-effect="dark"
+        >
+          <el-table-column
+            align="center"
+            prop="test"
+            label="统计名称"
+            show-overflow-tooltip
+          >
+          </el-table-column>
+          <el-table-column
+            align="center"
+            prop="test"
+            label="派单数量"
+            show-overflow-tooltip
+          >
+          </el-table-column>
+          <el-table-column
+            align="center"
+            prop="test"
+            label="拒单数量"
+            show-overflow-tooltip
+          >
+          </el-table-column>
+          <el-table-column
+            align="center"
+            prop="test"
+            label="退单数量"
+            show-overflow-tooltip
+          >
+          </el-table-column>
+        </el-table>
       </div>
     </div>
     <!--详细-->
@@ -27,28 +72,21 @@
           @sort-change="sortChangeHandle"
           @selection-change="handleSelectionChange"
         >
-          <!--<el-table-column-->
-            <!--fixed-->
-            <!--type="selection"-->
-            <!--align="center"-->
-            <!--width="40">-->
-          <!--</el-table-column>-->
           <el-table-column
             align="center"
             sortable="custom"
             prop="test"
             label="服务管家"
+            width="160"
             show-overflow-tooltip
           >
-            <!--<template slot-scope="scope">-->
-              <!--<a class="col-link">{{ scope.row.test }}</a>-->
-            <!--</template>-->
           </el-table-column>
           <el-table-column
             align="center"
             sortable="custom"
             prop="test"
             label="派单数量"
+            width="160"
             show-overflow-tooltip
           >
           </el-table-column>
@@ -57,6 +95,7 @@
             sortable="custom"
             prop="test"
             label="拒单数量"
+            width="160"
             show-overflow-tooltip
           >
           </el-table-column>
@@ -65,6 +104,7 @@
             sortable="custom"
             prop="test"
             label="退单数量"
+            width="160"
             show-overflow-tooltip
           >
           </el-table-column>
@@ -73,6 +113,7 @@
             sortable="custom"
             prop="test"
             label="服务开始前退单"
+            width="160"
             show-overflow-tooltip
           >
           </el-table-column>
@@ -127,6 +168,7 @@
             test: 'test Data',
           }],
         multipleSelection: [],
+        value1: '',
       }
     },
     computed: {

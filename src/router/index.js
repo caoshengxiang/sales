@@ -179,7 +179,7 @@ const serviceCustomerSta = resolve => require.ensure([],
   'serviceCustomerSta')
 // 服务票据统计
 const serviceBillSta = resolve => require.ensure([],
-  () => resolve(require('../view/saleManage/statisticalAnalysis/serviceBill/list')),
+  () => resolve(require('../view/saleManage/statisticalAnalysis/customerBill/list')),
   'serviceBillSta')
 // 拒单退单统计
 const refundOrderSta = resolve => require.ensure([],

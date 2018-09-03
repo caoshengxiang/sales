@@ -27,12 +27,6 @@
           @sort-change="sortChangeHandle"
           @selection-change="handleSelectionChange"
         >
-          <!--<el-table-column-->
-            <!--fixed-->
-            <!--type="selection"-->
-            <!--align="center"-->
-            <!--width="40">-->
-          <!--</el-table-column>-->
           <el-table-column
             align="center"
             sortable="custom"
@@ -40,9 +34,6 @@
             label="服务客户名称"
             show-overflow-tooltip
           >
-            <!--<template slot-scope="scope">-->
-              <!--<a class="col-link">{{ scope.row.test }}</a>-->
-            <!--</template>-->
           </el-table-column>
           <el-table-column
             align="center"
@@ -57,6 +48,14 @@
             sortable="custom"
             prop="test"
             label="注册资本金"
+            show-overflow-tooltip
+          >
+          </el-table-column>
+          <el-table-column
+            align="center"
+            sortable="custom"
+            prop="test"
+            label="所属行业"
             show-overflow-tooltip
           >
           </el-table-column>
@@ -127,6 +126,7 @@
             test: 'test Data',
           }],
         multipleSelection: [],
+        time: '',
       }
     },
     computed: {

@@ -11,8 +11,95 @@
     <!--控制栏-->
     <div class="com-bar">
       <div class="com-bar-left">
+        <span>统计时间</span>
+        <el-date-picker
+          v-model="time"
+          type="datetimerange"
+          value-format="yyyy-MM-dd HH:mm:ss"
+          @change="timeIntervalHandle"
+          :unlink-panels="true"
+          :default-value="lastMonthDate()"
+          range-separator="至"
+          start-placeholder="开始日期"
+          end-placeholder="结束日期">
+        </el-date-picker>
+        <el-button>查询</el-button>
       </div>
       <div class="com-bar-right">
+        <el-button>打印</el-button>
+        <el-button>导出</el-button>
+      </div>
+      <div>
+        <el-table
+          ref="multipleTable2"
+          border
+          :data="tableData"
+          tooltip-effect="dark"
+        >
+          <el-table-column
+            align="center"
+            prop="test"
+            label="名称"
+            show-overflow-tooltip
+          >
+          </el-table-column>
+          <el-table-column
+            align="center"
+            prop="test"
+            label="分配回访客户量"
+            show-overflow-tooltip
+          >
+          </el-table-column>
+          <el-table-column
+            align="center"
+            prop="test"
+            label="成功回访客户量"
+            show-overflow-tooltip
+          >
+          </el-table-column>
+          <el-table-column
+            align="center"
+            prop="test"
+            label="拒绝回访客户量"
+            show-overflow-tooltip
+          >
+          </el-table-column>
+          <el-table-column
+            align="center"
+            prop="test"
+            label="待再回访客户量"
+            show-overflow-tooltip
+          >
+          </el-table-column>
+          <el-table-column
+            align="center"
+            prop="test"
+            label="未回访客户量"
+            show-overflow-tooltip
+          >
+          </el-table-column>
+          <el-table-column
+            align="center"
+            prop="test"
+            label="分配抽查客户量"
+            show-overflow-tooltip
+          >
+          </el-table-column>
+          <el-table-column
+            align="center"
+            prop="test"
+            label="已抽查客户量"
+            show-overflow-tooltip
+          >
+          </el-table-column>
+          <el-table-column
+            align="center"
+            prop="test"
+            label="待抽查客户量"
+            show-overflow-tooltip
+          >
+          </el-table-column>
+        </el-table>
       </div>
     </div>
     <!--详细-->
@@ -27,12 +114,6 @@
           @sort-change="sortChangeHandle"
           @selection-change="handleSelectionChange"
         >
-          <!--<el-table-column-->
-            <!--fixed-->
-            <!--type="selection"-->
-            <!--align="center"-->
-            <!--width="40">-->
-          <!--</el-table-column>-->
           <el-table-column
             align="center"
             sortable="custom"
@@ -40,16 +121,12 @@
             label="客服"
             show-overflow-tooltip
           >
-            <!--<template slot-scope="scope">-->
-              <!--<a class="col-link">{{ scope.row.test }}</a>-->
-            <!--</template>-->
           </el-table-column>
           <el-table-column
             align="center"
             sortable="custom"
             prop="test"
             label="分配回访客户量"
-            width="160"
             show-overflow-tooltip
           >
           </el-table-column>
@@ -58,7 +135,6 @@
             sortable="custom"
             prop="test"
             label="成功回访客户量"
-            width="160"
             show-overflow-tooltip
           >
           </el-table-column>
@@ -67,7 +143,6 @@
             sortable="custom"
             prop="test"
             label="拒绝回访客户量"
-            width="160"
             show-overflow-tooltip
           >
           </el-table-column>
@@ -75,8 +150,7 @@
             align="center"
             sortable="custom"
             prop="test"
-            label="待再回访客户量"
-            width="160"
+            label="待在回访客户量"
             show-overflow-tooltip
           >
           </el-table-column>
@@ -134,7 +208,7 @@
 
 <script>
   import { mapState } from 'vuex'
-  import { underscoreName } from '../../../../utils/utils'
+  import { underscoreName, lastMonthDate } from '../../../../utils/utils'
 
   export default {
     name: 'list',
@@ -155,6 +229,7 @@
             test: 'test Data',
           }],
         multipleSelection: [],
+        time: '',
       }
     },
     computed: {
@@ -163,6 +238,13 @@
       ]),
     },
     methods: {
+      lastMonthDate () {
+        return lastMonthDate()
+      },
+      timeIntervalHandle (value) {
+        // this.searchForm.startDate = value[0] || ''
+        // this.searchForm.endDate = value[1] || ''
+      },
       handleSizeChange (val) {
         console.log(`每页 ${val} 条`)
       },
