@@ -105,7 +105,7 @@ const serviceHousekeeperList = resolve => require.ensure([],
   () => resolve(require('../view/saleManage/PMS/serviceHousekeeperList/list')),
   'serviceHousekeeperList')
 const serviceHousekeeperDetail = resolve => require.ensure([],
-  () => resolve(require('../view/saleManage/PMS/serviceHousekeeperList/detail')),
+  () => resolve(require('../view/saleManage/PMS/serviceHousekeeperList/ditail')),
   'serviceHousekeeperList')
 
 // PMS 服务订单管理

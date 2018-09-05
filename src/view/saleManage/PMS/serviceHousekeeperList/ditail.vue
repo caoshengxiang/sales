@@ -25,11 +25,11 @@
       </div>
       <div class="com-info-right">
         <ul class="com-info-op-group">
-          <li @click="operateOptions('delete')">编辑</li>
+          <li @click="editHandle">编辑</li>
         </ul>
       </div>
       <div class="bar-tips-box">
-        <p class="modify"> 提示：2018年07.24日进行了服务管家基本信息修改<a class="com-a-link">点击可查看</a></p>
+        <p class="modify"> 提示：2018年07.24日进行了服务管家基本信息修改<a class="com-a-link" @click="historyHandle">点击可查看</a></p>
         <p class="review"> 提示：修改资料已被拒绝，拒绝原因为：薪资资料与资质资料不统一。</p>
       </div>
     </div>
@@ -135,6 +135,8 @@
 
 <script>
   import photoView from '../../../../components/photo/photoView'
+  import historyDialog from './historyDialog'
+  import editDialog from './editDialog'
 
   export default {
     name: 'detail',
@@ -159,6 +161,32 @@
       operateOptions () {
       },
       stepClickHandle () {},
+      historyHandle () {
+        this.$vDialog.modal(historyDialog, {
+          title: '查看管家信息',
+          width: 1100,
+          height: 600,
+          params: {
+          },
+          callback (data) {
+            if (data.type === 'save') {
+            }
+          },
+        })
+      },
+      editHandle () {
+        this.$vDialog.modal(editDialog, {
+          title: '编辑管家信息',
+          width: 1100,
+          height: 600,
+          params: {
+          },
+          callback (data) {
+            if (data.type === 'save') {
+            }
+          },
+        })
+      },
     },
     created () {
       setTimeout(() => {

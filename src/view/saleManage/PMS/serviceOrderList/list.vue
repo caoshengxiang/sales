@@ -11,6 +11,7 @@
     <!--控制栏-->
     <div class="com-bar">
       <div class="com-bar-left">
+        <com-button buttonType="add" icon="el-icon-plus" @click="orderHandle">派单</com-button>
       </div>
       <div class="com-bar-right">
       </div>
@@ -226,6 +227,8 @@
       ]),
     },
     methods: {
+      orderHandle () {
+      },
       handleSizeChange (val) {
         console.log(`每页 ${val} 条`)
       },
