@@ -105,7 +105,19 @@
           <el-menu-item index="serviceCustomerSta" >服务客户统计</el-menu-item>
           <el-menu-item index="serviceBillSta" >服务票据统计</el-menu-item>
           <el-menu-item index="refundOrderSta" >退单拒单统计</el-menu-item>
-          <el-menu-item index="customerComplaintSta" >客户投诉统计</el-menu-item>
+          <el-menu-item index="salesOpportunitiesListSeas" v-if="listPermissions(menus, 'customerSea')"> <!--todo 新增-->
+        <i class="iconfont icon-ene_mon_mes_sta"></i>
+        <span slot="title">机会公海</span>
+      </el-menu-item>
+      <el-menu-item index="meetingActivity" v-if="listPermissions(menus, 'customerSea')"> <!--todo 新增-->
+        <i class="iconfont icon-ene_mon_mes_sta"></i>
+        <span slot="title">会议活动管理</span>
+      </el-menu-item>
+      <el-menu-item index="agentRecommendation" v-if="listPermissions(menus, 'customerSea')"> <!--todo 新增-->
+        <i class="iconfont icon-ene_mon_mes_sta"></i>
+        <span slot="title">代理培育管理</span>
+      </el-menu-item>
+      <el-menu-item index="customerComplaintSta" >客户投诉统计</el-menu-item>
           <el-menu-item index="customerCommentsSta" >客户评价统计</el-menu-item>
           <el-menu-item index="customerOpinionSta" >客户意见统计</el-menu-item>
         </el-menu-item-group>
@@ -114,7 +126,6 @@
       <!--前端 菜单 end-->
       <!--前端 菜单 end-->
       <!--前端 菜单 end-->
-
       <!--后端菜单-->
       <!--后端菜单-->
       <!--<el-menu-item index="companyManageHome" v-if="listPermissions(menus, 'adminHome')">--><!--去掉两个首页的权限控制-->

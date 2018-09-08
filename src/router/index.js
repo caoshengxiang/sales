@@ -44,6 +44,13 @@ const salesOpportunitiesList = resolve => require.ensure([],
 const salesOpportunitiesDetail = resolve => require.ensure([],
   () => resolve(require('../view/saleManage/CRM/salesOpportunities/detailInfo')),
   'salesOpportunities')
+// 销售机会
+const salesOpportunitiesListSeas = resolve => require.ensure([],
+  () => resolve(require('../view/saleManage/CRM/salesOpportunitiesSeas/list')),
+  'salesOpportunities')
+const salesOpportunitiesDetailSeas = resolve => require.ensure([],
+  () => resolve(require('../view/saleManage/CRM/salesOpportunitiesSeas/detailInfo')),
+  'salesOpportunities')
 // 销售订单
 const salesOrdersList = resolve => require.ensure([],
   () => resolve(require('../view/saleManage/CRM/salesOrders/list')), 'salesOrders')
@@ -70,6 +77,14 @@ const customersHighSeasList = resolve => require.ensure([],
 const customersHighSeasDetail = resolve => require.ensure([],
   () => resolve(require('../view/saleManage/CRM/customersHighSeas/detailInfo')),
   'customersHighSeas')
+// 代理推荐
+const agentRecommendation = resolve => require.ensure([],
+  () => resolve(require('../view/saleManage/CRM/agentRecommendation/list')),
+  'agentRecommendation')
+// 活动会议
+const meetingActivity = resolve => require.ensure([],
+  () => resolve(require('../view/saleManage/CRM/meetingActivity/list')),
+  'meetingActivity')
 
 // 消息
 const messageList = resolve => require.ensure([],
@@ -438,6 +453,30 @@ const router = new Router({
               {name: '销售机会详情'}],
           },
         }, {
+          path: 'salesOpportunitiesListSeas',
+          name: 'salesOpportunitiesListSeas',
+          component: salesOpportunitiesListSeas,
+          meta: {
+            title: '销售机会',
+            pos: [{name: '销售管理系统', toName: 'saleHome'}, {name: '销售机会公海'}],
+            pos2: [{name: '管理系统', toName: 'companyManageHome'}, {name: '销售机会公海'}],
+          },
+        }, {
+          path: 'salesOpportunitiesDetailSeas',
+          name: 'salesOpportunitiesDetailSeas',
+          component: salesOpportunitiesDetailSeas,
+          meta: {
+            title: '销售机会详情',
+            pos: [
+              {name: '销售管理系统', toName: 'saleHome'},
+              {name: '销售机会公海', toName: 'salesOpportunitiesListSeas'},
+              {name: '销售机会详情'}],
+            pos2: [
+              {name: '管理系统', toName: 'companyManageHome'},
+              {name: '销售机会公海', toName: 'salesOpportunitiesListSeas'},
+              {name: '销售机会详情'}],
+          },
+        }, {
           path: 'salesOrdersList',
           name: 'salesOrdersList',
           component: salesOrdersList,
@@ -508,6 +547,28 @@ const router = new Router({
               {name: '管理系统', toName: 'companyManageHome'},
               {name: '客户公海', toName: 'customersHighSeasList'},
               {name: '客户公海详情'}],
+          },
+        }, {
+          path: 'agentRecommendation',
+          name: 'agentRecommendation',
+          component: agentRecommendation,
+          meta: {
+            title: '代理推荐管理',
+            pos: [
+              {name: '销售管理系统', toName: 'saleHome'},
+              {name: 'CRM管理'},
+              {name: '代理推荐管理'}],
+          },
+        }, {
+          path: 'meetingActivity',
+          name: 'meetingActivity',
+          component: meetingActivity,
+          meta: {
+            title: '会议活动管理',
+            pos: [
+              {name: '销售管理系统', toName: 'saleHome'},
+              {name: 'CRM管理'},
+              {name: '会议活动管理'}],
           },
         }, {
           path: 'messageList',

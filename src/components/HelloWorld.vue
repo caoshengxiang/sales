@@ -15,6 +15,7 @@
       <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
     </el-upload>
 
+
     <h3 style="color: #f06b78">二维码：</h3>
     <vue-qr
       :logoSrc="config.logo"
@@ -48,6 +49,8 @@
 <script>
   import VueQr from 'vue-qr'
   import bgSrc from '../assets/icon/company.png'
+  import html2canvas from 'html2canvas'
+
 
   export default {
     name: 'HelloWorld',
@@ -96,6 +99,16 @@
       test (dataUrl, id) {
         console.log(dataUrl, id)
         this.dataUrl = dataUrl
+      },
+      },
+      downDiv () {
+        html2canvas(document.querySelector('#downDiv')).then(canvas => {
+          // document.body.appendChild(canvas)
+          var a = document.createElement('a')
+          a.href = canvas.toDataURL('image/png') // 将画布内的信息导出为png图片数据
+          a.download = '哈哈' // 设定下载名称
+          a.click() // 点击触发下载
+        })
       },
     },
     mounted () {
