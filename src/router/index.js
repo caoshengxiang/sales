@@ -44,6 +44,13 @@ const salesOpportunitiesList = resolve => require.ensure([],
 const salesOpportunitiesDetail = resolve => require.ensure([],
   () => resolve(require('../view/saleManage/CRM/salesOpportunities/detailInfo')),
   'salesOpportunities')
+// 销售机会
+const salesOpportunitiesListSeas = resolve => require.ensure([],
+  () => resolve(require('../view/saleManage/CRM/salesOpportunitiesSeas/list')),
+  'salesOpportunities')
+const salesOpportunitiesDetailSeas = resolve => require.ensure([],
+  () => resolve(require('../view/saleManage/CRM/salesOpportunitiesSeas/detailInfo')),
+  'salesOpportunities')
 // 销售订单
 const salesOrdersList = resolve => require.ensure([],
   () => resolve(require('../view/saleManage/CRM/salesOrders/list')), 'salesOrders')
@@ -326,6 +333,30 @@ const router = new Router({
             pos2: [
               {name: '管理系统', toName: 'companyManageHome'},
               {name: '销售机会', toName: 'salesOpportunitiesList'},
+              {name: '销售机会详情'}],
+          },
+        }, {
+          path: 'salesOpportunitiesListSeas',
+          name: 'salesOpportunitiesListSeas',
+          component: salesOpportunitiesListSeas,
+          meta: {
+            title: '销售机会',
+            pos: [{name: '销售管理系统', toName: 'saleHome'}, {name: '销售机会公池'}],
+            pos2: [{name: '管理系统', toName: 'companyManageHome'}, {name: '销售机会公池'}],
+          },
+        }, {
+          path: 'salesOpportunitiesDetailSeas',
+          name: 'salesOpportunitiesDetailSeas',
+          component: salesOpportunitiesDetailSeas,
+          meta: {
+            title: '销售机会详情',
+            pos: [
+              {name: '销售管理系统', toName: 'saleHome'},
+              {name: '销售机会公池', toName: 'salesOpportunitiesListSeas'},
+              {name: '销售机会详情'}],
+            pos2: [
+              {name: '管理系统', toName: 'companyManageHome'},
+              {name: '销售机会公池', toName: 'salesOpportunitiesListSeas'},
               {name: '销售机会详情'}],
           },
         }, {
