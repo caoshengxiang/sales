@@ -142,9 +142,11 @@ npm test
 ### 组件内不能覆盖element-ui样式
 ```
 import 'element-ui/lib/theme-chalk/index.css'
-import './element.css' // 自定义样式覆盖element-ui 默认并且不能修改的样式
+import './element.css' // 自定义样式覆盖element-ui
 ```
 >将要覆盖的样式，在import element样式之后引入，如上。css 写在element.css中
+
+另外，组件中style不要使用scope, 不会用于子组件。要在外层包裹已成class,否则会用于所有
 
 ### 自动打开浏览器
 
@@ -262,13 +264,6 @@ undefined
             index: ["babel-polyfill", path.join(__dirname + '/../src/index.js')] // 解决IE不兼容【IE报vuex requires a Promise polyfill in this browser问题解决】
     },
 ```
-
-### 组件内不能覆盖element-ui样式
-```
-import 'element-ui/lib/theme-chalk/index.css'
-import './element.css' // 自定义样式覆盖element-ui 默认并且不能修改的样式
-```
->将要覆盖的样式，在import element样式之后引入，如上。css 写在element.css中
 
 ### 使用webstorm【crl+shift+l】eslint报错
 
