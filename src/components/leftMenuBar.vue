@@ -43,11 +43,16 @@
         <el-menu-item-group>
           <el-menu-item index="customersList" v-if="listPermissions(menus, 'customer')">客户管理</el-menu-item>
           <el-menu-item index="contactsList" v-if="listPermissions(menus, 'contacts')">联系人管理</el-menu-item>
-          <el-menu-item index="salesOpportunitiesList" v-if="listPermissions(menus, 'salerChance')">销售机会管理</el-menu-item>
+          <el-menu-item index="salesOpportunitiesList" v-if="listPermissions(menus, 'salerChance')">销售机会管理
+          </el-menu-item>
           <el-menu-item index="salesOrdersList" v-if="listPermissions(menus, 'salerOrder')">销售订单管理</el-menu-item>
           <el-menu-item index="orderRecordsList" v-if="listPermissions(menus, 'followOrder')">跟单记录管理</el-menu-item>
           <el-menu-item index="customersHighSeasList" v-if="listPermissions(menus, 'customerSea')">客户公海管理</el-menu-item>
           <el-menu-item index="returnRecordList" v-if="listPermissions(menus, 'refund')">回款记录管理</el-menu-item>
+          <el-menu-item index="salesOpportunitiesListSeas" v-if="listPermissions(menus, 'customerSea')">机会公海管理</el-menu-item><!--todo-->
+          <el-menu-item index="meetingActivity" v-if="listPermissions(menus, 'customerSea')"><span slot="title">会议活动管理</span></el-menu-item> <!--todo-->
+          <el-menu-item index="agentRecommendation" v-if="listPermissions(menus, 'customerSea')"><span slot="title">代理培育管理</span> <!--todo-->
+          </el-menu-item>
         </el-menu-item-group>
       </el-submenu>
       <el-submenu index="PMS"> <!--todo 加权限-->
@@ -56,10 +61,10 @@
           <span>PMS管理</span>
         </template>
         <el-menu-item-group>
-          <el-menu-item index="serviceHousekeeperList" >服务管家管理</el-menu-item>
-          <el-menu-item index="serviceOrderList" >服务订单管理</el-menu-item>
-          <el-menu-item index="serviceWorkOrderList" >服务工单管理</el-menu-item>
-          <el-menu-item index="customerBill" >客户票据管理</el-menu-item>
+          <el-menu-item index="serviceHousekeeperList">服务管家管理</el-menu-item>
+          <el-menu-item index="serviceOrderList">服务订单管理</el-menu-item>
+          <el-menu-item index="serviceWorkOrderList">服务工单管理</el-menu-item>
+          <el-menu-item index="customerBill">客户票据管理</el-menu-item>
         </el-menu-item-group>
       </el-submenu>
       <el-submenu index="CSM"> <!--todo 加权限-->
@@ -68,11 +73,11 @@
           <span>CSM管理</span>
         </template>
         <el-menu-item-group>
-          <el-menu-item index="serviceCustomer" >服务客户管理</el-menu-item>
-          <el-menu-item index="serviceComplaint" >服务投诉管理</el-menu-item>
-          <el-menu-item index="serviceReturnVisit" >服务回访管理</el-menu-item>
-          <el-menu-item index="serviceSpotCheck" >服务抽查管理</el-menu-item>
-          <el-menu-item index="customerComments" >客户意见管理</el-menu-item>
+          <el-menu-item index="serviceCustomer">服务客户管理</el-menu-item>
+          <el-menu-item index="serviceComplaint">服务投诉管理</el-menu-item>
+          <el-menu-item index="serviceReturnVisit">服务回访管理</el-menu-item>
+          <el-menu-item index="serviceSpotCheck">服务抽查管理</el-menu-item>
+          <el-menu-item index="customerComments">客户意见管理</el-menu-item>
         </el-menu-item-group>
       </el-submenu>
       <el-submenu index="financial"> <!--todo 加权限-->
@@ -91,7 +96,7 @@
         </template>
         <el-menu-item-group>
           <el-menu-item index="taskApprovalList" v-if="listPermissions(menus, 'approval')">业务审批管理</el-menu-item>
-          <el-menu-item index="housekeeperEnterList" >管家入驻管理</el-menu-item>
+          <el-menu-item index="housekeeperEnterList">管家入驻管理</el-menu-item>
         </el-menu-item-group>
       </el-submenu>
       <el-submenu index="statistical"> <!--todo 加权限-->
@@ -100,26 +105,14 @@
           <span>统计分析</span>
         </template>
         <el-menu-item-group>
-          <el-menu-item index="serviceTaskSta" >服务任务统计</el-menu-item>
-          <el-menu-item index="customerServiceTaskSta" >客服任务统计</el-menu-item>
-          <el-menu-item index="serviceCustomerSta" >服务客户统计</el-menu-item>
-          <el-menu-item index="serviceBillSta" >服务票据统计</el-menu-item>
-          <el-menu-item index="refundOrderSta" >退单拒单统计</el-menu-item>
-          <el-menu-item index="salesOpportunitiesListSeas" v-if="listPermissions(menus, 'customerSea')"> <!--todo 新增-->
-        <i class="iconfont icon-ene_mon_mes_sta"></i>
-        <span slot="title">机会公海</span>
-      </el-menu-item>
-      <el-menu-item index="meetingActivity" v-if="listPermissions(menus, 'customerSea')"> <!--todo 新增-->
-        <i class="iconfont icon-ene_mon_mes_sta"></i>
-        <span slot="title">会议活动管理</span>
-      </el-menu-item>
-      <el-menu-item index="agentRecommendation" v-if="listPermissions(menus, 'customerSea')"> <!--todo 新增-->
-        <i class="iconfont icon-ene_mon_mes_sta"></i>
-        <span slot="title">代理培育管理</span>
-      </el-menu-item>
-      <el-menu-item index="customerComplaintSta" >客户投诉统计</el-menu-item>
-          <el-menu-item index="customerCommentsSta" >客户评价统计</el-menu-item>
-          <el-menu-item index="customerOpinionSta" >客户意见统计</el-menu-item>
+          <el-menu-item index="serviceTaskSta">服务任务统计</el-menu-item>
+          <el-menu-item index="customerServiceTaskSta">客服任务统计</el-menu-item>
+          <el-menu-item index="serviceCustomerSta">服务客户统计</el-menu-item>
+          <el-menu-item index="serviceBillSta">服务票据统计</el-menu-item>
+          <el-menu-item index="refundOrderSta">退单拒单统计</el-menu-item>
+          <el-menu-item index="customerComplaintSta">客户投诉统计</el-menu-item>
+          <el-menu-item index="customerCommentsSta">客户评价统计</el-menu-item>
+          <el-menu-item index="customerOpinionSta">客户意见统计</el-menu-item>
         </el-menu-item-group>
       </el-submenu>
       <!--前端 菜单 end-->
