@@ -16,18 +16,17 @@
     <!--控制栏-->
     <div class="com-bar">
       <div class="com-bar-left">
-        <com-button buttonType="delete" icon="el-icon-delete" @click="operateOptions('delete')"
-                    :disabled="multipleSelection.length <= 0">删除
-        </com-button>
         <com-button buttonType="add" icon="el-icon-plus" @click="operateOptions('add')">新增</com-button>
-        <!-- 销售机会模块列表中“转移”按钮与销售机会详情里面“转移”按钮隐藏
-          业务模式发生变化，同一客户（含该客户的销售机会）同一时间在同一分子公司只能存在一个销售跟进人员，为了避免同一客户多个销售机会被多个用户跟进，故需要隐藏销售机会“转移”功能
-          [期望]
-          销售机会模块列表中“转移”按钮与销售机会详情里面“转移”按钮隐藏-->
-        <!--<com-button buttonType="orange" @click="operateOptions('move')"-->
-        <!--:disabled="multipleSelection.length <= 0"><i class="el-icon-sort"-->
-        <!--style="transform: rotate(90deg)"></i> 转移-->
-        <!--</com-button>-->
+        <com-button buttonType="orange" @click="operateOptions('assign')"
+                    :disabled="multipleSelection.length !== 1"><i class="el-icon-sort"
+                                                                  style="transform: rotate(90deg)"></i> 分配
+        </com-button>
+        <com-button buttonType="backHighSeas" icon="el-icon-upload2" @click="operateOptions('gain')"
+                    :disabled="multipleSelection.length <= 0">捞取
+        </com-button>
+        <com-button buttonType="theme" icon="el-icon-refresh" @click="operateOptions('group')"
+                    :disabled="multipleSelection.length <= 0">改变分组
+        </com-button>
       </div>
       <div class="com-bar-right" v-if="themeIndex === 0"><!--前端-->
         <el-select v-model="salesOpportunitiesOptionsType" placeholder="请选择" class="com-el-select">
@@ -56,6 +55,13 @@
         </el-select>
         <!--<com-button buttonType="search" @click="searchHandle">搜索</com-button>-->
         <com-button buttonType="search" @click="advancedSearchHandle" style="">高级搜索</com-button>
+        <com-button buttonType="export" icon="el-icon-download" @click="excelExport">导入模板下载</com-button>
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        <com-button buttonType="import" style="position: relative;overflow: hidden;">
+          <input @change="fileUploadHandle" type="file"
+                 style="position: absolute;top: 0;left: 0; right: 0;bottom: 0;opacity: 0;">
+          导入
+        </com-button>
       </div>
     </div>
     <!--详细-->
@@ -75,17 +81,17 @@
           align="center"
           width="40">
         </el-table-column>
-        <el-table-column
-          align="center"
-          sortable="custom"
-          label="客户名称"
-          prop="customerName"
-          show-overflow-tooltip
-          width="160">
-          <template slot-scope="scope">
-            <a class="col-link" @click="handleRouter2('detail', scope.row.customerId)">{{ scope.row.customerName }}</a>
-          </template>
-        </el-table-column>
+        <!--<el-table-column-->
+          <!--align="center"-->
+          <!--sortable="custom"-->
+          <!--label="客户名称"-->
+          <!--prop="customerName"-->
+          <!--show-overflow-tooltip-->
+          <!--width="160">-->
+          <!--<template slot-scope="scope">-->
+            <!--<a class="col-link" @click="handleRouter2('detail', scope.row.customerId)">{{ scope.row.customerName }}</a>-->
+          <!--</template>-->
+        <!--</el-table-column>-->
         <el-table-column
           align="center"
           sortable="custom"
@@ -99,14 +105,13 @@
               '无名'}}</a>
           </template>
         </el-table-column>
-        <!--要求去掉了列表的联系人-->
-        <!--<el-table-column
+        <el-table-column
           align="center"
-          prop="contacterName"
-          label="联系人"
+          prop="returnNum"
+          label="退回次数"
           width="160"
           show-overflow-tooltip>
-          </el-table-column>-->
+          </el-table-column>
         <el-table-column
           align="center"
           sortable="custom"
@@ -243,6 +248,8 @@
   import moveDialog from './moveDialog'
   import { arrToStr, underscoreName } from '../../../../utils/utils'
   import advancedSearch from './advancedSearch'
+  import assignDialog from './assignDialog'
+  import groupDialog from './groupDialog'
 
   export default {
     name: 'list',
@@ -308,38 +315,38 @@
               },
             })
             break
-          case 'move':
-            this.$vDialog.modal(moveDialog, {
-              title: '转移销售机会',
+          case 'assign':
+            this.$vDialog.modal(assignDialog, {
+              title: '分配',
               width: 500,
-              height: 240,
+              height: 230,
               params: {
-                multipleSelection: this.multipleSelection,
+                customerIds: arrToStr(this.multipleSelection, 'id'),
               },
               callback (data) {
                 if (data.type === 'save') {
-                  that.getSalesOpportunititeisList()
+                  that.getCustomersSeaList()
                 }
               },
             })
             break
-          case 'delete':
-            this.$confirm('确定删除销售机会, 是否继续?', '提示', {
+          case 'gain':
+            this.$confirm('确定捞取, 是否继续?', '提示', {
               confirmButtonText: '确定',
               cancelButtonText: '取消',
               type: 'warning',
             }).then(() => {
               this.dataLoading = true
-              API.salesOpportunities.batchDelete({salerChanceIds: arrToStr(this.multipleSelection, 'id')}, (data) => {
+              API.customerSea.fish({customerIds: arrToStr(this.multipleSelection, 'id')}, (data) => {
                 if (data.status) {
                   if (data.data.fail > 0) {
                     this.$message.warning(`成功${data.data.success}, 失败${data.data.fail}, 失败原因：${data.data.errorMessage}`)
                   } else {
                     this.$message.success(`成功${data.data.success},失败${data.data.fail}`)
                   }
+                  this.getCustomersSeaList()
                   setTimeout(() => {
                     this.dataLoading = false
-                    this.getSalesOpportunititeisList()
                   }, 500)
                 } else {
                   setTimeout(() => {
@@ -350,8 +357,23 @@
             }).catch(() => {
               this.$message({
                 type: 'info',
-                message: '已取消删除',
+                message: '已取消捞取',
               })
+            })
+            break
+          case 'group':
+            this.$vDialog.modal(groupDialog, {
+              title: '改变分组',
+              width: 500,
+              height: 240,
+              params: {
+                customerIds: arrToStr(this.multipleSelection, 'id'),
+              },
+              callback (data) {
+                if (data.type === 'save') {
+                  that.getCustomersSeaList()
+                }
+              },
             })
             break
         }
@@ -451,6 +473,36 @@
       getOrganization (pa) {
         API.organization.queryAllList(pa, (data) => {
           this.organizationOptions = data.data
+        })
+      },
+      excelExport () { // 模板下载
+        let link = document.createElement('a') // 创建事件对象
+        let query = QS.stringify(Object.assign({}, {authKey: webStorage.getItem('userInfo').authKey}))
+        // console.log('下载参数：', query)
+        link.setAttribute('href', serverUrl + '/customerSea/template/customer/download?' + query)
+        link.setAttribute('download', '跟单记录导出')
+        let event = document.createEvent('MouseEvents') // 初始化事件对象
+        event.initMouseEvent('click', true, true, document.defaultView, 0, 0, 0, 0, 0, false, false, false, false, 0,
+          null) // 触发事件
+        link.dispatchEvent(event)
+      },
+      fileUploadHandle (e) {
+        let files = e.target.files || e.dataTransfer.files
+        let formData = new FormData()
+        formData.append('filename', files[0].name)
+        formData.append('file', files[0])
+        API.customerSea.seaImport(formData, up => {
+          if (up.status) {
+            this.$alert(`成功：${up.data.success},\n失败：${up.data.fail},\n错误日志: ${up.data.errorMessage}`, '导入日志', {
+              confirmButtonText: '确定',
+              callback: action => {
+                // this.$message({
+                //   type: 'info',
+                //   message: `action: ${ action }`,
+                // })
+              },
+            })
+          }
         })
       },
     },

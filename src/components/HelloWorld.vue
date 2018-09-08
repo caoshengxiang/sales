@@ -15,20 +15,28 @@
       <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
     </el-upload>
 
-    <h3 style="color: #f06b78">二维码：</h3>
-    <vue-qr
-      :logoSrc="config.logo"
-      :text="config.value+'?test=123'"
-      :size="200"
-      :margin="0"
-      :callback="test"
-      qid="testid"></vue-qr>
+    <div id="downDiv">
+      <h3 style="color: #f06b78">二维码：</h3>
+      <vue-qr
+        :logoSrc="config.logo"
+        :text="config.value+'?test=123'"
+        :size="200"
+        :margin="0"
+        :callback="test"
+        qid="testid"></vue-qr>
+    </div>
+
+    <h3>下载div</h3>
+    <button @click="downDiv">下载div</button>
+
   </div>
 </template>
 
 <script>
   import VueQr from 'vue-qr'
   import bgSrc from '../assets/icon/company.png'
+  import html2canvas from 'html2canvas'
+
   export default {
     name: 'HelloWorld',
     data () {
@@ -37,7 +45,7 @@
         config: {
           value: 'http://www.baidu.com', // 显示的值、跳转的地址(要加http)
           logo: 'static/favicon.ico', // 中间logo的地址
-          bgSrc: bgSrc
+          bgSrc: bgSrc,
         },
         dataUrl: '',
       }
@@ -56,7 +64,16 @@
       test (dataUrl, id) {
         console.log(dataUrl, id)
         this.dataUrl = dataUrl
-      }
+      },
+      downDiv () {
+        html2canvas(document.querySelector('#downDiv')).then(canvas => {
+          // document.body.appendChild(canvas)
+          var a = document.createElement('a')
+          a.href = canvas.toDataURL('image/png') // 将画布内的信息导出为png图片数据
+          a.download = '哈哈' // 设定下载名称
+          a.click() // 点击触发下载
+        })
+      },
     },
     mounted () {},
   }

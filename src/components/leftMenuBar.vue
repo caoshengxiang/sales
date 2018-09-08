@@ -74,6 +74,18 @@
         <i class="iconfont icon-ene_mon_mes_sta"></i>
         <span slot="title">客户公海</span>
       </el-menu-item>
+      <el-menu-item index="salesOpportunitiesListSeas" v-if="listPermissions(menus, 'customerSea')"> <!--todo 新增-->
+        <i class="iconfont icon-ene_mon_mes_sta"></i>
+        <span slot="title">机会公海</span>
+      </el-menu-item>
+      <el-menu-item index="meetingActivity" v-if="listPermissions(menus, 'customerSea')"> <!--todo 新增-->
+        <i class="iconfont icon-ene_mon_mes_sta"></i>
+        <span slot="title">会议活动管理</span>
+      </el-menu-item>
+      <el-menu-item index="agentRecommendation" v-if="listPermissions(menus, 'customerSea')"> <!--todo 新增-->
+        <i class="iconfont icon-ene_mon_mes_sta"></i>
+        <span slot="title">代理培育管理</span>
+      </el-menu-item>
       <el-menu-item index="taskApprovalList" v-if="listPermissions(menus, 'approval')">
         <i class="iconfont icon-shenpi"></i>
         <span slot="title">任务审批</span>

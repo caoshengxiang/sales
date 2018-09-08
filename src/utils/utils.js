@@ -274,3 +274,19 @@ export function lastMonthDate () {
   console.log(date)
   return new Date(date)
 }
+
+/*
+* 文件下载
+* @method isJsonObj
+* @param o {all} 判断的对象
+* */
+export function fileDown (url, filename) {
+  let link = document.createElement('a') // 创建事件对象
+  link.setAttribute('href', url)
+  link.setAttribute('download', filename || null)
+  let event = document.createEvent('MouseEvents') // 初始化事件对象
+  event.initMouseEvent('click', true, true, document.defaultView, 0, 0, 0, 0, 0,
+    false, false, false, false, 0,
+    null) // 触发事件
+  link.dispatchEvent(event)
+}
