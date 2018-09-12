@@ -31,90 +31,92 @@
       :background-color="theme[themeIndex].leftMenuBarBg"
       :active-text-color="theme[themeIndex].leftMenuBarActiveColor">
       <!--<el-menu-item index="saleHome" v-if="listPermissions(menus, 'salerHome')">--><!--去掉两个首页的权限控制-->
-      <el-menu-item index="saleHome" v-if="themeIndex === 0">
-        <i class="iconfont icon-home"></i>
-        <span slot="title">管理中心</span>
-      </el-menu-item>
-      <el-submenu index="CRM"> <!--todo 加权限-->
-        <template slot="title">
-          <i class="iconfont icon-lvzhou_shebeipeizhi"></i>
-          <span>CRM管理</span>
-        </template>
-        <el-menu-item-group>
-          <el-menu-item index="customersList" v-if="listPermissions(menus, 'customer')">客户管理</el-menu-item>
-          <el-menu-item index="contactsList" v-if="listPermissions(menus, 'contacts')">联系人管理</el-menu-item>
-          <el-menu-item index="salesOpportunitiesList" v-if="listPermissions(menus, 'salerChance')">销售机会管理
-          </el-menu-item>
-          <el-menu-item index="salesOrdersList" v-if="listPermissions(menus, 'salerOrder')">销售订单管理</el-menu-item>
-          <el-menu-item index="orderRecordsList" v-if="listPermissions(menus, 'followOrder')">跟单记录管理</el-menu-item>
-          <el-menu-item index="customersHighSeasList" v-if="listPermissions(menus, 'customerSea')">客户公海管理</el-menu-item>
-          <el-menu-item index="returnRecordList" v-if="listPermissions(menus, 'refund')">回款记录管理</el-menu-item>
-          <el-menu-item index="salesOpportunitiesListSeas" v-if="listPermissions(menus, 'customerSea')">机会公海管理</el-menu-item><!--todo-->
-          <el-menu-item index="meetingActivity" v-if="listPermissions(menus, 'customerSea')"><span slot="title">会议活动管理</span></el-menu-item> <!--todo-->
-          <el-menu-item index="agentRecommendation" v-if="listPermissions(menus, 'customerSea')"><span slot="title">代理培育管理</span> <!--todo-->
-          </el-menu-item>
-        </el-menu-item-group>
-      </el-submenu>
-      <el-submenu index="PMS"> <!--todo 加权限-->
-        <template slot="title">
-          <i class="iconfont icon-lvzhou_shebeipeizhi"></i>
-          <span>PMS管理</span>
-        </template>
-        <el-menu-item-group>
-          <el-menu-item index="serviceHousekeeperList">服务管家管理</el-menu-item>
-          <el-menu-item index="serviceOrderList">服务订单管理</el-menu-item>
-          <el-menu-item index="serviceWorkOrderList">服务工单管理</el-menu-item>
-          <el-menu-item index="customerBill">客户票据管理</el-menu-item>
-        </el-menu-item-group>
-      </el-submenu>
-      <el-submenu index="CSM"> <!--todo 加权限-->
-        <template slot="title">
-          <i class="iconfont icon-lvzhou_shebeipeizhi"></i>
-          <span>CSM管理</span>
-        </template>
-        <el-menu-item-group>
-          <el-menu-item index="serviceCustomer">服务客户管理</el-menu-item>
-          <el-menu-item index="serviceComplaint">服务投诉管理</el-menu-item>
-          <el-menu-item index="serviceReturnVisit">服务回访管理</el-menu-item>
-          <el-menu-item index="serviceSpotCheck">服务抽查管理</el-menu-item>
-          <el-menu-item index="customerComments">客户意见管理</el-menu-item>
-        </el-menu-item-group>
-      </el-submenu>
-      <el-submenu index="financial"> <!--todo 加权限-->
-        <template slot="title">
-          <i class="iconfont icon-ai-wallet"></i>
-          <span>财务管理</span>
-        </template>
-        <el-menu-item-group>
-          <el-menu-item index="rebateRecordsList" v-if="listPermissions(menus, 'commission')">财务佣金管理</el-menu-item>
-        </el-menu-item-group>
-      </el-submenu>
-      <el-submenu index="task"> <!--todo 加权限-->
-        <template slot="title">
-          <i class="iconfont icon-shenpi"></i>
-          <span>业务审批</span>
-        </template>
-        <el-menu-item-group>
-          <el-menu-item index="taskApprovalList" v-if="listPermissions(menus, 'approval')">业务审批管理</el-menu-item>
-          <el-menu-item index="housekeeperEnterList">管家入驻管理</el-menu-item>
-        </el-menu-item-group>
-      </el-submenu>
-      <el-submenu index="statistical"> <!--todo 加权限-->
-        <template slot="title">
-          <i class="iconfont icon-lvzhou_shebeipeizhi"></i>
-          <span>统计分析</span>
-        </template>
-        <el-menu-item-group>
-          <el-menu-item index="serviceTaskSta">服务任务统计</el-menu-item>
-          <el-menu-item index="customerServiceTaskSta">客服任务统计</el-menu-item>
-          <el-menu-item index="serviceCustomerSta">服务客户统计</el-menu-item>
-          <el-menu-item index="serviceBillSta">服务票据统计</el-menu-item>
-          <el-menu-item index="refundOrderSta">退单拒单统计</el-menu-item>
-          <el-menu-item index="customerComplaintSta">客户投诉统计</el-menu-item>
-          <el-menu-item index="customerCommentsSta">客户评价统计</el-menu-item>
-          <el-menu-item index="customerOpinionSta">客户意见统计</el-menu-item>
-        </el-menu-item-group>
-      </el-submenu>
+      <div v-if="themeIndex === 0">
+        <el-menu-item index="saleHome" v-if="themeIndex === 0">
+          <i class="iconfont icon-home"></i>
+          <span slot="title">管理中心</span>
+        </el-menu-item>
+        <el-submenu index="CRM"> <!--todo 加权限-->
+          <template slot="title">
+            <i class="iconfont icon-lvzhou_shebeipeizhi"></i>
+            <span>CRM管理</span>
+          </template>
+          <el-menu-item-group>
+            <el-menu-item index="customersList" v-if="listPermissions(menus, 'customer')">客户管理</el-menu-item>
+            <el-menu-item index="contactsList" v-if="listPermissions(menus, 'contacts')">联系人管理</el-menu-item>
+            <el-menu-item index="salesOpportunitiesList" v-if="listPermissions(menus, 'salerChance')">销售机会管理
+            </el-menu-item>
+            <el-menu-item index="salesOrdersList" v-if="listPermissions(menus, 'salerOrder')">销售订单管理</el-menu-item>
+            <el-menu-item index="orderRecordsList" v-if="listPermissions(menus, 'followOrder')">跟单记录管理</el-menu-item>
+            <el-menu-item index="customersHighSeasList" v-if="listPermissions(menus, 'customerSea')">客户公海管理</el-menu-item>
+            <el-menu-item index="returnRecordList" v-if="listPermissions(menus, 'refund')">回款记录管理</el-menu-item>
+            <el-menu-item index="salesOpportunitiesListSeas" v-if="listPermissions(menus, 'customerSea')">机会公海管理</el-menu-item><!--todo-->
+            <el-menu-item index="meetingActivity" v-if="listPermissions(menus, 'customerSea')"><span slot="title">会议活动管理</span></el-menu-item> <!--todo-->
+            <el-menu-item index="agentRecommendation" v-if="listPermissions(menus, 'customerSea')"><span slot="title">代理培育管理</span> <!--todo-->
+            </el-menu-item>
+          </el-menu-item-group>
+        </el-submenu>
+        <!--<el-submenu index="PMS"> &lt;!&ndash;todo 加权限&ndash;&gt;
+          <template slot="title">
+            <i class="iconfont icon-lvzhou_shebeipeizhi"></i>
+            <span>PMS管理</span>
+          </template>
+          <el-menu-item-group>
+            <el-menu-item index="serviceHousekeeperList">服务管家管理</el-menu-item>
+            <el-menu-item index="serviceOrderList">服务订单管理</el-menu-item>
+            <el-menu-item index="serviceWorkOrderList">服务工单管理</el-menu-item>
+            <el-menu-item index="customerBill">客户票据管理</el-menu-item>
+          </el-menu-item-group>
+        </el-submenu>-->
+        <!--<el-submenu index="CSM"> &lt;!&ndash;todo 加权限&ndash;&gt;
+          <template slot="title">
+            <i class="iconfont icon-lvzhou_shebeipeizhi"></i>
+            <span>CSM管理</span>
+          </template>
+          <el-menu-item-group>
+            <el-menu-item index="serviceCustomer">服务客户管理</el-menu-item>
+            <el-menu-item index="serviceComplaint">服务投诉管理</el-menu-item>
+            <el-menu-item index="serviceReturnVisit">服务回访管理</el-menu-item>
+            <el-menu-item index="serviceSpotCheck">服务抽查管理</el-menu-item>
+            <el-menu-item index="customerComments">客户意见管理</el-menu-item>
+          </el-menu-item-group>
+        </el-submenu>-->
+        <el-submenu index="financial"> <!--todo 加权限-->
+          <template slot="title">
+            <i class="iconfont icon-ai-wallet"></i>
+            <span>财务管理</span>
+          </template>
+          <el-menu-item-group>
+            <el-menu-item index="rebateRecordsList" v-if="listPermissions(menus, 'commission')">财务佣金管理</el-menu-item>
+          </el-menu-item-group>
+        </el-submenu>
+        <el-submenu index="task"> <!--todo 加权限-->
+          <template slot="title">
+            <i class="iconfont icon-shenpi"></i>
+            <span>业务审批</span>
+          </template>
+          <!--<el-menu-item-group>
+            <el-menu-item index="taskApprovalList" v-if="listPermissions(menus, 'approval')">业务审批管理</el-menu-item>
+            <el-menu-item index="housekeeperEnterList">管家入驻管理</el-menu-item>
+          </el-menu-item-group>-->
+        </el-submenu>
+        <!-- <el-submenu index="statistical"> &lt;!&ndash;todo 加权限&ndash;&gt;
+           <template slot="title">
+             <i class="iconfont icon-lvzhou_shebeipeizhi"></i>
+             <span>统计分析</span>
+           </template>
+           <el-menu-item-group>
+             <el-menu-item index="serviceTaskSta">服务任务统计</el-menu-item>
+             <el-menu-item index="customerServiceTaskSta">客服任务统计</el-menu-item>
+             <el-menu-item index="serviceCustomerSta">服务客户统计</el-menu-item>
+             <el-menu-item index="serviceBillSta">服务票据统计</el-menu-item>
+             <el-menu-item index="refundOrderSta">退单拒单统计</el-menu-item>
+             <el-menu-item index="customerComplaintSta">客户投诉统计</el-menu-item>
+             <el-menu-item index="customerCommentsSta">客户评价统计</el-menu-item>
+             <el-menu-item index="customerOpinionSta">客户意见统计</el-menu-item>
+           </el-menu-item-group>
+         </el-submenu>-->
+      </div>
       <!--前端 菜单 end-->
       <!--前端 菜单 end-->
       <!--前端 菜单 end-->
@@ -122,109 +124,111 @@
       <!--后端菜单-->
       <!--后端菜单-->
       <!--<el-menu-item index="companyManageHome" v-if="listPermissions(menus, 'adminHome')">--><!--去掉两个首页的权限控制-->
-      <el-menu-item index="companyManageHome" v-if="themeIndex === 1">
-        <i class="iconfont icon-home"></i>
-        <span slot="title">首页</span>
-      </el-menu-item>
-      <el-submenu index="user" v-if="listPermissions(menus, 'userManagement')">
-        <template slot="title">
-          <i class="iconfont icon-kehu"></i>
-          <span>用戶管理</span>
-        </template>
-        <el-menu-item-group>
-          <!--<template slot="title">分组一</template>-->
-          <el-menu-item index="userList" v-if="listPermissions(menus, 'userManagementSub')">用戶管理</el-menu-item>
-          <el-menu-item index="roleList" v-if="listPermissions(menus, 'roleManagement')">角色管理</el-menu-item>
-          <el-menu-item index="agentList" v-if="listPermissions(menus, 'agentManagement')">代理商管理</el-menu-item>
-        </el-menu-item-group>
-      </el-submenu>
-      <el-submenu index="organization" v-if="listPermissions(menus, 'orgManagement')">
-        <template slot="title">
-          <i class="iconfont icon-qunzu"></i>
-          <span>组织管理</span>
-        </template>
-        <el-menu-item-group>
-          <!--<template slot="title">分组一</template>-->
-          <el-menu-item index="organizationList" v-if="listPermissions(menus, 'orgManagementSub')">组织管理</el-menu-item>
-          <el-menu-item index="customerPool" v-if="listPermissions(menus, 'customerPool')">客户池管理</el-menu-item>
-          <el-menu-item index="organizationProductSetting" v-if="listPermissions(menus, 'orgGoodsConfig')">组织商品配置
-          </el-menu-item>
-        </el-menu-item-group>
-      </el-submenu>
-      <el-submenu index="financial" v-if="listPermissions(menus, 'financialManagement')">
-        <template slot="title">
-          <i class="iconfont icon-caiwu"></i>
-          <span>财务管理</span>
-        </template>
-        <el-menu-item-group>
-          <!--<template slot="title">分组一</template>-->
-          <el-menu-item index="settlementList" v-if="listPermissions(menus, 'commissionClear')">佣金结算管理</el-menu-item>
-          <el-menu-item index="spendingList" v-if="listPermissions(menus, 'commissionExpenses')">佣金支出管理</el-menu-item>
-        </el-menu-item-group>
-      </el-submenu>
-      <el-submenu index="meMessageList" v-if="listPermissions(menus, 'message')">
-        <template slot="title">
-          <i class="iconfont icon-xiaoxitongzhi"></i>
-          <span>消息通知</span>
-        </template>
-        <el-menu-item-group>
-          <!--<template slot="title">分组一</template>-->
-          <el-menu-item index="meMessageList" v-if="listPermissions(menus, 'messageHistory')">消息通知</el-menu-item>
-        </el-menu-item-group>
-      </el-submenu>
-      <el-submenu index="customerAreaSetting" v-if="listPermissions(menus, 'configManagement')">
-        <template slot="title">
-          <i class="iconfont icon-lvzhou_shebeipeizhi"></i>
-          <span>配置管理</span>
-        </template>
-        <el-menu-item-group>
-          <!--<template slot="title">分组一</template>-->
-          <el-menu-item index="siteList" v-if="listPermissions(menus, 'siteOnOff')">站点开关</el-menu-item>
-          <el-menu-item index="customerAreaSetting">客户地区</el-menu-item>
-          <el-menu-item index="customerSource">客户源管理</el-menu-item>
-          <el-menu-item index="baseSettingList" v-if="listPermissions(menus, 'paramConfig')">参数配置</el-menu-item>
-          <el-menu-item index="settlementRulesList" v-if="listPermissions(menus, 'commissionConfig')">返佣规则
-          </el-menu-item>
-          <el-menu-item index="productType" v-if="listPermissions(menus, 'orgGoodsConfig')">服务商品配置</el-menu-item>
+      <div v-if="themeIndex === 1">
+        <el-menu-item index="companyManageHome">
+          <i class="iconfont icon-home"></i>
+          <span slot="title">首页</span>
+        </el-menu-item>
+        <el-submenu index="user" v-if="listPermissions(menus, 'userManagement')">
+          <template slot="title">
+            <i class="iconfont icon-kehu"></i>
+            <span>用戶管理</span>
+          </template>
+          <el-menu-item-group>
+            <!--<template slot="title">分组一</template>-->
+            <el-menu-item index="userList" v-if="listPermissions(menus, 'userManagementSub')">用戶管理</el-menu-item>
+            <el-menu-item index="roleList" v-if="listPermissions(menus, 'roleManagement')">角色管理</el-menu-item>
+            <el-menu-item index="agentList" v-if="listPermissions(menus, 'agentManagement')">代理商管理</el-menu-item>
+          </el-menu-item-group>
+        </el-submenu>
+        <el-submenu index="organization" v-if="listPermissions(menus, 'orgManagement')">
+          <template slot="title">
+            <i class="iconfont icon-qunzu"></i>
+            <span>组织管理</span>
+          </template>
+          <el-menu-item-group>
+            <!--<template slot="title">分组一</template>-->
+            <el-menu-item index="organizationList" v-if="listPermissions(menus, 'orgManagementSub')">组织管理</el-menu-item>
+            <el-menu-item index="customerPool" v-if="listPermissions(menus, 'customerPool')">客户池管理</el-menu-item>
+            <el-menu-item index="organizationProductSetting" v-if="listPermissions(menus, 'orgGoodsConfig')">组织商品配置
+            </el-menu-item>
+          </el-menu-item-group>
+        </el-submenu>
+        <el-submenu index="financial" v-if="listPermissions(menus, 'financialManagement')">
+          <template slot="title">
+            <i class="iconfont icon-caiwu"></i>
+            <span>财务管理</span>
+          </template>
+          <el-menu-item-group>
+            <!--<template slot="title">分组一</template>-->
+            <el-menu-item index="settlementList" v-if="listPermissions(menus, 'commissionClear')">佣金结算管理</el-menu-item>
+            <el-menu-item index="spendingList" v-if="listPermissions(menus, 'commissionExpenses')">佣金支出管理</el-menu-item>
+          </el-menu-item-group>
+        </el-submenu>
+        <el-submenu index="meMessageList" v-if="listPermissions(menus, 'message')">
+          <template slot="title">
+            <i class="iconfont icon-xiaoxitongzhi"></i>
+            <span>消息通知</span>
+          </template>
+          <el-menu-item-group>
+            <!--<template slot="title">分组一</template>-->
+            <el-menu-item index="meMessageList" v-if="listPermissions(menus, 'messageHistory')">消息通知</el-menu-item>
+          </el-menu-item-group>
+        </el-submenu>
+        <el-submenu index="customerAreaSetting" v-if="listPermissions(menus, 'configManagement')">
+          <template slot="title">
+            <i class="iconfont icon-lvzhou_shebeipeizhi"></i>
+            <span>配置管理</span>
+          </template>
+          <el-menu-item-group>
+            <!--<template slot="title">分组一</template>-->
+            <el-menu-item index="siteList" v-if="listPermissions(menus, 'siteOnOff')">站点开关</el-menu-item>
+            <el-menu-item index="customerAreaSetting">客户地区</el-menu-item>
+            <el-menu-item index="customerSource">客户源管理</el-menu-item>
+            <el-menu-item index="baseSettingList" v-if="listPermissions(menus, 'paramConfig')">参数配置</el-menu-item>
+            <el-menu-item index="settlementRulesList" v-if="listPermissions(menus, 'commissionConfig')">返佣规则
+            </el-menu-item>
+            <el-menu-item index="productType" v-if="listPermissions(menus, 'orgGoodsConfig')">商品类型设置</el-menu-item>
 
-        </el-menu-item-group>
-      </el-submenu>
-      <el-submenu index="todo-300" v-if="listPermissions(menus, 'statistics')">
-        <template slot="title">
-          <i class="iconfont icon-ene_mon_mes_sta"></i>
-          <span>统计分析</span>
-        </template>
-        <el-menu-item-group>
-          <!--<template slot="title">分组一</template>-->
-          <el-menu-item index="todo-1" v-if="listPermissions(menus, 'statistics')">统计分析</el-menu-item>
-        </el-menu-item-group>
-      </el-submenu>
-      <el-submenu index="log" v-if="listPermissions(menus, 'logManagement')">
-        <template slot="title">
-          <i class="iconfont icon-rizhi"></i>
-          <span>日志管理</span>
-        </template>
-        <el-menu-item-group>
-          <!--<template slot="title">分组一</template>-->
-          <el-menu-item index="loglist" v-if="listPermissions(menus, 'logManagement')">日志管理</el-menu-item>
-        </el-menu-item-group>
-      </el-submenu>
-      <el-submenu index="crm" v-if="listPermissions(menus, 'crmManagement')">
-        <template slot="title">
-          <i class="iconfont icon-webicon319" style="transform: scale(1.1)"></i>
-          <span>CRM管理</span>
-        </template>
-        <el-menu-item-group>
-          <el-menu-item index="customersList" v-if="listPermissions(menus, 'customerManagement')">客户管理</el-menu-item>
-          <el-menu-item index="contactsList" v-if="listPermissions(menus, 'contactManagement')">联系人管理</el-menu-item>
-          <el-menu-item index="salesOpportunitiesList" v-if="listPermissions(menus, 'salerChanceManagement')">销售机会管理
-          </el-menu-item>
-          <el-menu-item index="salesOrdersList" v-if="listPermissions(menus, 'salerOrderManagement')">销售订单管理
-          </el-menu-item>
-          <el-menu-item index="customersHighSeasList" v-if="listPermissions(menus, 'customerSeaManagement')">客户公海管理
-          </el-menu-item>
-        </el-menu-item-group>
-      </el-submenu>
+          </el-menu-item-group>
+        </el-submenu>
+        <el-submenu index="todo-300" v-if="listPermissions(menus, 'statistics')">
+          <template slot="title">
+            <i class="iconfont icon-ene_mon_mes_sta"></i>
+            <span>统计分析</span>
+          </template>
+          <el-menu-item-group>
+            <!--<template slot="title">分组一</template>-->
+            <el-menu-item index="todo-1" v-if="listPermissions(menus, 'statistics')">统计分析</el-menu-item>
+          </el-menu-item-group>
+        </el-submenu>
+        <el-submenu index="log" v-if="listPermissions(menus, 'logManagement')">
+          <template slot="title">
+            <i class="iconfont icon-rizhi"></i>
+            <span>日志管理</span>
+          </template>
+          <el-menu-item-group>
+            <!--<template slot="title">分组一</template>-->
+            <el-menu-item index="loglist" v-if="listPermissions(menus, 'logManagement')">日志管理</el-menu-item>
+          </el-menu-item-group>
+        </el-submenu>
+        <el-submenu index="crm" v-if="listPermissions(menus, 'crmManagement')">
+          <template slot="title">
+            <i class="iconfont icon-webicon319" style="transform: scale(1.1)"></i>
+            <span>CRM管理</span>
+          </template>
+          <el-menu-item-group>
+            <el-menu-item index="customersList" v-if="listPermissions(menus, 'customerManagement')">客户管理</el-menu-item>
+            <el-menu-item index="contactsList" v-if="listPermissions(menus, 'contactManagement')">联系人管理</el-menu-item>
+            <el-menu-item index="salesOpportunitiesList" v-if="listPermissions(menus, 'salerChanceManagement')">销售机会管理
+            </el-menu-item>
+            <el-menu-item index="salesOrdersList" v-if="listPermissions(menus, 'salerOrderManagement')">销售订单管理
+            </el-menu-item>
+            <el-menu-item index="customersHighSeasList" v-if="listPermissions(menus, 'customerSeaManagement')">客户公海管理
+            </el-menu-item>
+          </el-menu-item-group>
+        </el-submenu>
+      </div>
     </el-menu>
   </div>
 </template>
