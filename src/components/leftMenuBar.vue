@@ -185,7 +185,7 @@
           <el-menu-item index="baseSettingList" v-if="listPermissions(menus, 'paramConfig')">参数配置</el-menu-item>
           <el-menu-item index="settlementRulesList" v-if="listPermissions(menus, 'commissionConfig')">返佣规则
           </el-menu-item>
-          <el-menu-item index="productType" v-if="listPermissions(menus, 'orgGoodsConfig')">商品类型设置</el-menu-item>
+          <el-menu-item index="productType" v-if="listPermissions(menus, 'orgGoodsConfig')">服务商品配置</el-menu-item>
 
         </el-menu-item-group>
       </el-submenu>

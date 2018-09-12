@@ -45,29 +45,29 @@ export default {
       },
       {
         type: 2,
-        value: '客户池模块'
-      }
+        value: '客户池模块',
+      },
     ],
     salesOpportunitiesOptions: [
       {
         type: null,
-        value: '全部销售机会'
+        value: '全部销售机会',
       },
       {
         type: 1, // 注意： 首页有直接使用 1这个值
-        value: '我创建的销售机会'
+        value: '我创建的销售机会',
       },
       {
         type: 2,
-        value: '我跟进的销售机会'
+        value: '我跟进的销售机会',
       },
       {
         type: 3,
-        value: '我参与的销售机会'
+        value: '我参与的销售机会',
       }, {
         type: 4,
-        value: '我下属跟进的销售机会'
-      }
+        value: '我下属跟进的销售机会',
+      },
     ],
     customerState: [ // 客户状态
       {
@@ -76,7 +76,7 @@ export default {
       }, {
         type: 2,
         value: '已领取',
-      }
+      },
     ],
     contactsTypeOptions: [ // 联系人类型选择
       {
@@ -161,19 +161,19 @@ export default {
     orderState: [ // 订单状态
       {
         type: 1,
-        value: '待支付'
+        value: '待支付',
       }, {
         type: 2,
-        value: '已支付'
+        value: '已支付',
       }, { // 订单【续费判单】直接用了
         type: 3,
-        value: '服务中'
+        value: '服务中',
       }, { // 订单【续费判单】直接用了
         type: 4,
-        value: '已完成'
+        value: '已完成',
       }, {
         type: 5,
-        value: '已取消'
+        value: '已取消',
       }, { // 因为APP订单预览有个进度条，所以6改为了0
         type: 0, // 注意：修改值得时候注意有页面直接使用了0这个值【订单详细，APP订单预览】
         value: '预下单',
@@ -182,14 +182,14 @@ export default {
     orderSource: [ // 订单来源
       {
         type: 1,
-        value: '销售自建'
+        value: '销售自建',
       }, {
         type: 2,
-        value: '代理商'
+        value: '代理商',
       }, {
         type: 3,
-        value: '公司资源'
-      }
+        value: '公司资源',
+      },
     ],
     themeIndex: 0, // 主题数组索引，默认为0销售前端
     theme: [ // 主题颜色
@@ -256,7 +256,7 @@ export default {
       {
         value: 900,
         name: '普通职能',
-      }
+      },
     ],
     // 角色系统
     businessSystems: [
@@ -275,7 +275,7 @@ export default {
       {
         value: 400,
         name: '客满系统',
-      }
+      },
     ],
     // 组织类型
     organizationType: [
@@ -286,7 +286,7 @@ export default {
       {
         value: 2,
         name: '部门',
-      }
+      },
     ],
     // 顶级来源
     topSource: [
@@ -298,9 +298,151 @@ export default {
         value: 102,
       }, {
         name: '公司资源',
-        value: 103
+        value: 103,
+      },
+    ],
+    menusObj: {
+      userM: {
+        name: '用户管理',
+        value: 'userManagementSub',
+        children: [
+          {name: '角色管理', value: 'userManagementSub'},
+          {name: '用户管理', value: 'userManagementSub'},
+          {name: '代理商管理', value: 'userManagementSub'},
+        ],
+      },
+      organizationM: {
+        name: '组织管理',
+        value: 'userManagementSub',
+        children: [
+          {name: '组织管理', value: 'userManagementSub'},
+          {name: '客户池管理', value: 'userManagementSub'},
+          {name: '组织商品配置', value: 'userManagementSub'},
+        ],
+      },
+      baseConfigM: {
+        name: '配置管理',
+        value: 'userManagementSub',
+        children: [
+          {name: '站点开关', value: 'userManagementSub'},
+          {name: '系统参数配置', value: 'userManagementSub'},
+          {name: '返佣配置', value: 'userManagementSub'},
+          {name: '服务内容配置', value: 'userManagementSub'},
+          {name: '服务商品配置', value: 'userManagementSub'},
+        ],
+      },
+      financialM: {
+        name: '财务管理',
+        value: 'userManagementSub',
+        children: [
+          {name: '回款结算管理', value: 'userManagementSub'},
+          {name: '佣金结算管理', value: 'userManagementSub'},
+          {name: '服务佣金结算管理', value: ''},
+          {name: '财务支出管理', value: 'userManagementSub'},
+        ],
+      },
+      messageM: {
+        name: '消息通知',
+        value: 'userManagementSub',
+        children: [
+          {name: '历史消息记录', value: 'userManagementSub'},
+        ],
+      },
+      logM: {
+        name: '日志管理',
+        value: 'userManagementSub',
+        children: [
+          {name: '日志管理', value: 'userManagementSub'},
+        ],
+      },
+      // 前端
+      messageFE: {
+        name: '消息通知',
+        value: 'userManagementSub',
+        children: [
+          {name: '历史消息记录', value: 'userManagementSub'},
+        ],
+      },
+      todoItemFE: {
+        name: ' 代办事项',
+        value: 'userManagementSub',
+        children: [],
+      },
+      personalFE: {
+        name: '个人设置',
+        value: 'userManagementSub',
+        children: [
+          {name: '个人信息管理', value: 'userManagementSub'},
+        ],
+      },
+      taskApprovalFE: {
+        name: '业务审批',
+        value: 'userManagementSub',
+        children: [
+          {name: '业务审批管理', value: 'userManagementSub'},
+          {name: '管家入驻管理', value: 'userManagementSub'},
+        ],
+      },
+      CRM: {
+        name: 'CRM管理',
+        value: 'userManagementSub',
+        children: [
+          {name: '客户管理', value: 'userManagementSub'},
+          {name: '客户公海管理', value: 'userManagementSub'},
+          {name: '联系人管理', value: 'userManagementSub'},
+          {name: '销售机会管理', value: 'userManagementSub'},
+          {name: '机会公海管理', value: 'userManagementSub'},
+          {name: '销售订单管理', value: 'userManagementSub'},
+          {name: '会议活动管理', value: 'userManagementSub'},
+          {name: '跟单记录管理', value: 'userManagementSub'},
+          {name: '销售回款管理', value: 'userManagementSub'},
+          {name: '代理培育管理', value: 'userManagementSub'},
+        ],
+      },
+      PMS: {
+        name: 'PMS管理',
+        value: 'userManagementSub',
+        children: [
+          {name: '服务管家管理', value: 'userManagementSub'},
+          {name: '服务订单管理', value: 'userManagementSub'},
+          {name: '服务工单管理', value: 'userManagementSub'},
+          {name: '客户票据管理', value: 'userManagementSub'},
+        ],
+      },
+      CSM: {
+        name: 'CSM管理',
+        value: 'userManagementSub',
+        children: [
+          {name: '服务客户管理', value: 'userManagementSub'},
+          {name: '服务投诉管理', value: 'userManagementSub'},
+          {name: '服务回访管理', value: 'userManagementSub'},
+          {name: '服务抽查管理', value: 'userManagementSub'},
+          {name: '服务抽查管理', value: 'userManagementSub'},
+          {name: '客户意见管理', value: 'userManagementSub'},
+        ],
+      },
+      financialFE: {
+        name: '财务管理',
+        value: 'userManagementSub',
+        children: [
+          {name: '财务佣金管理', value: 'userManagementSub'},
+        ],
+      },
+      ataAnaFE: {
+        name: '统计分析',
+        value: 'userManagementSub',
+        children: [
+          {name: '服务任务统计', value: 'userManagementSub'},
+          {name: '客服任务统计', value: 'userManagementSub'},
+          {name: '服务客户统计', value: 'userManagementSub'},
+          {name: '客户票据统计', value: 'userManagementSub'},
+          {name: '退单拒单统计', value: 'userManagementSub'},
+          {name: '客户投诉统计', value: 'userManagementSub'},
+          {name: '客户评价统计', value: 'userManagementSub'},
+          {name: '客户意见统计', value: 'userManagementSub'},
+        ],
       }
-    ]
+    },
   },
   // getters,
   // actions,

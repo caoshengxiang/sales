@@ -286,7 +286,7 @@ const organizationProductSetting = resolve => require.ensure([],
 // 商品类型设置
 const productType = resolve => require.ensure([],
   () => resolve(
-    require('../view/companyManage/organization/organizationProductSetting/productType')),
+    require('../view/companyManage/baseSetting/serviceProductConfig/productType')),
   'productType')
 
 // 消息通知管理(ME)
@@ -972,17 +972,17 @@ const router = new Router({
               {name: '组织商品配置'}],
           },
         },
-        // 企业管理 -- 商品类型设置
+        // 企业管理 -- 服务商品配置
         {
           path: 'productType',
           name: 'productType',
           component: productType,
           meta: {
-            title: '组织商品配置',
+            title: '服务商品配置',
             pos: [
               {name: '管理系统', toName: 'companyManageHome'},
               {name: '组织管理'},
-              {name: '组织商品配置'}],
+              {name: '服务商品配置'}],
           },
         },
         // 配置管理 -- 参数设置
