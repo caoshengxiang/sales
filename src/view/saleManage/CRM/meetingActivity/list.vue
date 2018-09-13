@@ -53,12 +53,12 @@
           show-overflow-tooltip
           align="center"
           sortable="custom"
-          prop="contacterName"
+          prop="name"
           label="活动名称"
           width="200"
         >
           <template slot-scope="scope">
-            <a class="col-link" @click="handleRouter('detail', scope.row.id)">{{ scope.row.contacterName }}</a>
+            <a class="col-link" @click="handleRouter('detail', scope.row.id)">{{ scope.row.name }}</a>
           </template>
         </el-table-column>
         <el-table-column
@@ -179,8 +179,10 @@
         },
         sortObj: {sort: 'created,desc'}, // 排序
         advancedSearch: {}, // 高级搜索
-        tableData: [],
-        tableDataTotal: 0,
+        tableData: [
+          {name: 'test', id: 1}
+        ],
+        tableDataTotal: 1,
       }
     },
     computed: {
@@ -229,8 +231,8 @@
       },
       handleRouter (name, id) {
         this.$router.push({
-          name: 'contactsDetail',
-          query: {view: name, contactsId: id},
+          name: 'meetingActivityDetail',
+          query: {view: name, id: id},
           params: {end: this.themeIndex === 0 ? 'FE' : 'ME'},
         })
       },

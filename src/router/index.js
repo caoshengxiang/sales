@@ -85,6 +85,10 @@ const agentRecommendation = resolve => require.ensure([],
 const meetingActivity = resolve => require.ensure([],
   () => resolve(require('../view/saleManage/CRM/meetingActivity/list')),
   'meetingActivity')
+// 活动会议详细
+const meetingActivityDetail = resolve => require.ensure([],
+  () => resolve(require('../view/saleManage/CRM/meetingActivity/detailInfo')),
+  'meetingActivity')
 
 // 消息
 const messageList = resolve => require.ensure([],
@@ -454,6 +458,17 @@ const router = new Router({
           path: 'meetingActivity',
           name: 'meetingActivity',
           component: meetingActivity,
+          meta: {
+            title: '会议活动管理',
+            pos: [
+              {name: '销售管理系统', toName: 'saleHome'},
+              {name: 'CRM管理'},
+              {name: '会议活动管理'}],
+          },
+        }, {
+          path: 'meetingActivityDetail',
+          name: 'meetingActivityDetail',
+          component: meetingActivityDetail,
           meta: {
             title: '会议活动管理',
             pos: [
