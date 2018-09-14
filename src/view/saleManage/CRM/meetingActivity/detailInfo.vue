@@ -16,12 +16,22 @@
     <!--控制栏-->
     <div class="com-bar">
       <div class="com-info-left">
-        <img class="com-info-img" src="../../../../assets/icon/company.png" alt="">
+        <!--<img class="com-info-img" src="../../../../assets/icon/company.png" alt="">-->
+        <div class="com-info-img">
+          <vue-qr
+            @click.native="dialogVisible=true"
+            :logoSrc="config.logo"
+            :text="config.value"
+            :size="60"
+            :margin="0"
+            :callback="agentRecCallback"
+            qid="activity-1"></vue-qr>
+        </div>
         <div class="com-info-text">
           <h3>四川省万企帮扶计划</h3>
           <p>
             <span class="com-d-item">负责部门: <span></span></span>
-            <span class="com-d-item">负责人: <span>}</span></span>
+            <span class="com-d-item">负责人: <span></span></span>
             <span class="com-d-item">创建日期: <span>{{detailInfo.created && $moment(detailInfo.created).format('YYYY-MM-DD HH:mm:ss')}}</span></span>
           </p>
         </div>
@@ -42,24 +52,32 @@
             <p class="table-title">客户基本信息</p>
             <table class="detail-table">
               <tr>
+                <td class="td-title">活动名称</td>
+                <td colspan="5">{{detailInfo.meetingName}}</td>
+              </tr>
+              <tr>
                 <td class="td-title">活动时间</td>
-                <td>{{detailInfo.customerName}}</td>
+                <td>
+                  {{ detailInfo.meetingTimeStart && $moment(detailInfo.meetingTimeStart).format('YYYY-MM-DD HH:mm') }}
+                  -
+                  {{ detailInfo.meetingTimeEnd && $moment(detailInfo.meetingTimeEnd).format('YYYY-MM-DD HH:mm') }}
+                </td>
                 <td class="td-title">活动经费</td>
-                <td>{{detailInfo.department}}</td>
+                <td>{{detailInfo.meetingMoney}}</td>
                 <td class="td-title">活动人数</td>
-                <td>{{detailInfo.position}}</td>
+                <td>{{detailInfo.personCount}}</td>
               </tr>
               <tr>
                 <td class="td-title">主办单位</td>
-                <td colspan="5">{{detailInfo.mail}}</td>
+                <td colspan="5">{{detailInfo.hostUnit}}</td>
               </tr>
               <tr>
                 <td class="td-title">承办单位</td>
-                <td colspan="5">{{detailInfo.address}}</td>
+                <td colspan="5">{{detailInfo.organizer}}</td>
               </tr>
               <tr>
                 <td class="td-title">协办单位</td>
-                <td colspan="5">{{detailInfo.address}}</td>
+                <td colspan="5">{{detailInfo.coOrganizer}}</td>
               </tr>
               <tr>
                 <td class="td-title">活动地址</td>
@@ -67,7 +85,7 @@
               </tr>
               <tr>
                 <td class="td-title">活动简介</td>
-                <td colspan="5">{{detailInfo.remark}}</td>
+                <td colspan="5">{{detailInfo.meetingDesc}}</td>
               </tr>
             </table>
 
@@ -78,7 +96,7 @@
                 <td class="td-title">操作人</td>
                 <td class="td-title">操作时间</td>
               </tr>
-              <tr v-for="(item, index) in detailInfo.operateLogList" :key="index">
+              <tr v-for="(item, index) in operateLogList" :key="index">
                 <td colspan="5">{{item.detail}}</td>
                 <td>{{item.userName}}</td>
                 <td>{{item.operateTime && $moment(item.operateTime).format('YYYY-MM-DD HH:mm:ss')}}</td>
@@ -92,18 +110,21 @@
             </div>
             <el-row>
               <el-col :span="8" style="text-align: center;padding: 10px;"
-                      v-for="i in 10" :key="i">
-                <div class="head">
-                  <img style="width: 58px;height: 58px;border-radius: 100%;" v-if="detailInfo.team"
-                       :src="detailInfo.team.avatar" alt="">
+                      v-for="item in managerList" :key="item.id">
+                <div class="head" @click="showManagerCode(item)">
+                  <img style="width: 58px;height: 58px;border-radius: 100%;"
+                       v-if="item.avatar"
+                       :src="item.avatar" alt="">
                   <img v-else src="../../../../assets/icon/headDefault.png" alt="">
                 </div>
                 <div class="text">
-                  <p>张三</p>
+                  <p>{{item.managerName}}</p>
                 </div>
               </el-col>
             </el-row>
-            <el-button style="border-color: #4BCF99;color: #4BCF99;width: 80%;margin-left: 40px;margin-top: 30px;">商务管家管理</el-button>
+            <el-button style="border-color: #4BCF99;color: #4BCF99;width: 80%;margin-left: 40px;margin-top: 30px;">
+              商务管家管理
+            </el-button>
           </div>
         </div>
       </el-tab-pane>
@@ -118,7 +139,7 @@
             tooltip-effect="dark"
             style="width: 100%"
             @sort-change="sortChangeHandle"
-            >
+          >
             <el-table-column
               align="center"
               sortable="custom"
@@ -127,7 +148,8 @@
               show-overflow-tooltip
               width="160">
               <template slot-scope="scope">
-                <a class="col-link" @click="handleRouter2('detail', scope.row.customerId)">{{ scope.row.customerName }}</a>
+                <a class="col-link" @click="handleRouter2('detail', scope.row.customerId)">{{ scope.row.customerName
+                  }}</a>
               </template>
             </el-table-column>
             <el-table-column
@@ -170,7 +192,8 @@
               width="160"
               show-overflow-tooltip>
               <template slot-scope="scope">
-                <span v-for="item in salesState" :key="item.type" v-if="item.type === scope.row.stage">{{item.value}}</span>
+                <span v-for="item in salesState" :key="item.type"
+                      v-if="item.type === scope.row.stage">{{item.value}}</span>
                 <!--<span v-if="scope.row.stage === -1">输单</span>-->
               </template>
             </el-table-column>
@@ -266,26 +289,96 @@
         </div>
       </el-tab-pane>
     </el-tabs>
+
+    <!--二维码大图-->
+    <el-dialog
+      title="活动二维码"
+      :visible.sync="dialogVisible"
+      width="30%"
+     >
+      <div ref="downloadCode" style="text-align: center">
+        <p class="title">活动名称名称</p>
+        <div style="min-height: 200px;margin: 20px;padding: 20px;">
+          <vue-qr
+            :logoSrc="config.logo"
+            :text="config.value"
+            :size="200"
+            :margin="0"
+            :callback="agentRecCallback"
+            qid="activity-2"></vue-qr>
+        </div>
+        <p class="name">活动的专属二维码录入销售机会</p>
+      </div>
+      <span slot="footer" class="dialog-footer">
+    <el-button @click="dialogVisible = false">取 消</el-button>
+    <el-button type="primary" v-if="codeImgBase64" @click="downloadCodeHandle">下载二维码</el-button>
+  </span>
+    </el-dialog>
+    <!--二维码-管家-->
+    <el-dialog
+      title="活动二维码"
+      :visible.sync="dialogVisible2"
+      width="800px"
+    >
+      <div style="color: #4F5F6F;">
+        <div ref="downloadCodeManager" style="display: flex;margin:20px;padding: 20px;border: 1px solid #ddd;">
+          <div style="min-height: 200px;margin-right: 20px;">
+            <vue-qr
+              :logoSrc="config.logo"
+              :text="config.value"
+              :size="200"
+              :margin="10"
+              :callback="agentRecCallback"
+              qid="manager-2"></vue-qr>
+          </div>
+          <div>
+            <div style="margin-bottom: 20px;">
+              <span style="font-size: 18px;font-weight: bold;margin-right: 10px;">名称</span>
+              <span>商务管家</span>
+              <span>、活动负责人</span>
+            </div>
+            <div>
+              <p style="margin-bottom:10px;">使用方法</p>
+              <p>
+                使用方法使用方法使用方法使用方法使用方法使用方法使用方法使用方法使用方法使方法使用方法使用方法使用方法使用方法使用方法使用方法使用方法
+                使用方法使用方法使用方法使用方法使用方法
+                使用方法使用方法使用方法使用方法使用方法
+                使用方法使用方法使用方法使用方法使用方法
+              </p>
+            </div>
+          </div>
+      </div>
+      </div>
+      <span slot="footer" class="dialog-footer">
+    <el-button @click="dialogVisible2 = false">取 消</el-button>
+    <el-button type="primary" v-if="codeImgBase64" @click="downloadCodeHandle2">下载二维码</el-button>
+  </span>
+    </el-dialog>
   </div>
 </template>
 
 <script>
   import comButton from '../../../../components/button/comButton'
-  // import API from '../../../../utils/api'
+  import API from '../../../../utils/api'
   import { mapState } from 'vuex'
   import webStorage from 'webStorage'
   import { underscoreName } from '../../../../utils/utils'
+  import VueQr from 'vue-qr'
+  import html2canvas from 'html2canvas'
 
   export default {
     name: 'detailInfo',
     data () {
       return {
+        dialogVisible: false,
+        dialogVisible2: false,
         dataLoading: false,
         activeViewName: '',
+        detailInfo: {},
+        operateLogList: [],
         salesOpportunitiesList: [],
         salesOpportunitiesTotal: 0,
         currentPage: 1,
-        detailInfo: {},
         sortObj: {sort: 'created,desc'}, // 排序
         defaultListParams: { // 默认顾客列表请求参数
           page: null,
@@ -294,6 +387,13 @@
           customerId: null,
           organizationId: null,
         },
+        managerList: [],
+        config: {
+          value: 'http://www.baidu.com', // 显示的值、跳转的地址(要加http)
+          logo: 'static/favicon.ico', // 中间logo的地址
+        },
+        codeImgBase64: '',
+        managerCodeDetail: {}, // 管家详细
       }
     },
     computed: {
@@ -313,6 +413,7 @@
     },
     components: {
       comButton,
+      VueQr,
     },
     methods: {
       handleTabsClick (tab, event) {
@@ -323,34 +424,67 @@
           query: {view: tab.name, id: this.$route.query.id},
         })
       },
+      getDetail () {
+        this.dataLoading = true
+        API.activity.detail(this.$route.query.id, (data) => {
+          setTimeout(() => {
+            this.detailInfo = data.data
+            this.dataLoading = false
+            // this.getSalesOpportunititeisList()
+            this.getMannerList(this.detailInfo.id)
+            this.getLog(this.detailInfo.id)
+          }, 500)
+        }, (data) => {
+          setTimeout(() => {
+            this.detailInfo = data.data
+            this.dataLoading = false
+            // this.getSalesOpportunititeisList()
+            this.getMannerList(this.detailInfo.id)
+            this.getLog(this.detailInfo.id)
+          }, 500)
+        })
+      },
+      getLog (id) {
+        API.activity.log({id: id}, (data) => {
+          this.operateLogList = data.data
+        }, (data) => {
+          this.operateLogList = data.data
+        })
+      },
+      getMannerList (id) {
+        API.activity.managerList(id, (data) => {
+          this.managerList = data.data
+        }, (data) => {
+          this.managerList = data.data
+        })
+      },
+      getSalesOpportunititeisList () { // 获取列表 todo
+        this.dataLoading = true
+        this.getQueryParams()
+        API.activity.chance(Object.assign({}, this.defaultListParams, this.sortObj),
+          (data) => {
+            this.salesOpportunitiesList = data.data.content
+            this.salesOpportunitiesTotal = data.data.totalElements
+            setTimeout(() => {
+              this.dataLoading = false
+            }, 500)
+          })
+      },
+      sortChangeHandle (sortObj) { // todo
+        // console.log(sortObj)
+        let order = null
+        if (sortObj.order === 'ascending') {
+          order = 'asc'
+        } else if (sortObj.order === 'descending') {
+          order = 'desc'
+        }
+        this.sortObj = {sort: underscoreName(sortObj.prop) + ',' + order}
+        this.getSalesOpportunititeisList()
+      },
       operateOptions (option) {
         switch (option) {
           case 'edit':
             break
-        }
-      },
-      getContactsDetail () {
-        // this.dataLoading = true
-        // API.contacts.detail(this.$route.query.contactsId, (data) => {
-        //   setTimeout(() => {
-        //     this.ac_detailInfo(data.data)
-        //     this.getChanceList(data.data.customerId)
-        //     this.getOrderList(data.data.customerId)
-        //     this.dataLoading = false
-        //   }, 500)
-        // })
-      },
-      getChanceList (customerId) {
-        // API.salesOpportunities.listNoAuth({customerId: customerId, pageSize: 10000, page: 0, sort: 'created,desc'}, (da) => {
-        //   this.chanceList = da.data.content
-        //   this.chanceTotal = da.data.totalElements
-        // })
-      },
-      handleRoute (list) {
-        switch (list) {
-          // case 'contact':
-          //   this.$router.push({name: 'contactsList', query: {customerId: this.detailInfo.customerId}})
-          //   break
         }
       },
       quickOperation (op, id, obj) {
@@ -389,28 +523,12 @@
       handleCurrentChange (val) {
         this.currentPage = val
       },
-      sortChangeHandle (sortObj) {
-        // console.log(sortObj)
-        let order = null
-        if (sortObj.order === 'ascending') {
-          order = 'asc'
-        } else if (sortObj.order === 'descending') {
-          order = 'desc'
+      handleRoute (list) {
+        switch (list) {
+          // case 'contact':
+          //   this.$router.push({name: 'contactsList', query: {customerId: this.detailInfo.customerId}})
+          //   break
         }
-        this.sortObj = {sort: underscoreName(sortObj.prop) + ',' + order}
-        this.getSalesOpportunititeisList()
-      },
-      getSalesOpportunititeisList () { // 获取列表
-        this.dataLoading = true
-        this.getQueryParams()
-        API.salesOpportunities.list(Object.assign({}, this.defaultListParams, this.sortObj),
-          (data) => {
-            this.salesOpportunitiesList = data.data.content
-            this.salesOpportunitiesTotal = data.data.totalElements
-            setTimeout(() => {
-              this.dataLoading = false
-            }, 500)
-          })
       },
       handleRouter (name, id) {
         this.$router.push({
@@ -426,10 +544,35 @@
           params: {end: this.themeIndex === 0 ? 'FE' : 'ME'},
         })
       },
+      agentRecCallback (codeImgBase64) {
+        this.codeImgBase64 = codeImgBase64
+      },
+      downloadCodeHandle () {
+        html2canvas(this.$refs.downloadCode).then(canvas => {
+          // document.body.appendChild(canvas)
+          var a = document.createElement('a')
+          a.href = canvas.toDataURL('image/png') // 将画布内的信息导出为png图片数据
+          a.download = '活动二维码' // 设定下载名称
+          a.click() // 点击触发下载
+        })
+      },
+      downloadCodeHandle2 () {
+        html2canvas(this.$refs.downloadCodeManager).then(canvas => {
+          // document.body.appendChild(canvas)
+          var a = document.createElement('a')
+          a.href = canvas.toDataURL('image/png') // 将画布内的信息导出为png图片数据
+          a.download = '管家二维码' // 设定下载名称
+          a.click() // 点击触发下载
+        })
+      },
+      showManagerCode (item) {
+        this.dialogVisible2 = true
+        this.managerCodeDetail = item
+      }
     },
     created () {
       this.activeViewName = this.$route.query.view
-      this.getContactsDetail()
+      this.getDetail()
     },
   }
 </script>

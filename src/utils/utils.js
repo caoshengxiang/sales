@@ -254,7 +254,7 @@ export function camelName () {
 * 上个月1号日期
 *
 * */
-export function lastMonthDate () {
+export function lastMonthDate () { // 上个月1号
   var Nowdate = new Date()
   var vYear = Nowdate.getFullYear()
   var vMon = Nowdate.getMonth() + 1

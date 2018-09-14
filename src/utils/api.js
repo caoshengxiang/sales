@@ -36,6 +36,315 @@ export default {
       })
     },
   },
+  activity: {
+    list (params, success, error) { // 活动列表 todo 假数据
+      // console.log(params)
+      $axios.post('meetingSale/searchOrQueryMeeting', null,
+        {params: params}).then((res) => {
+        success && success(res.data)
+      }).catch((err) => {
+        let mockData = {
+          'data': {
+            'content': [
+              {
+                'address': null,
+                'coOrganizer': null,
+                'created': 1536822048000,
+                'hostUnit': null,
+                'id': 7,
+                'intentCustomerCount': 0,
+                'intentCustomerCountEnd': null,
+                'intentCustomerCountStart': null,
+                'managerIds': null,
+                'meetingCreatorDepartmentId': 53,
+                'meetingCreatorDepartmentName': null,
+                'meetingCreatorId': 130,
+                'meetingCreatorName': 'lq',
+                'meetingDesc': null,
+                'meetingMoney': null,
+                'meetingMoneyEnd': null,
+                'meetingMoneyStart': null,
+                'meetingName': '212',
+                'meetingSaleUrl': null,
+                'meetingTimeEnd': 1536820484000,
+                'meetingTimeStart': 1536575722000,
+                'modified': 1536822048000,
+                'names': [],
+                'organizer': null,
+                'personCount': null,
+                'personCountEnd': null,
+                'personCountStart': null,
+                'state': 3,
+                'stateName': null,
+                'status': 1,
+                'subIds': [],
+                'urls': [],
+              },
+              {
+                'address': '四川大学',
+                'coOrganizer': null,
+                'created': 1536820505000,
+                'hostUnit': null,
+                'id': 20,
+                'intentCustomerCount': 0,
+                'intentCustomerCountEnd': null,
+                'intentCustomerCountStart': null,
+                'managerIds': null,
+                'meetingCreatorDepartmentId': 53,
+                'meetingCreatorDepartmentName': null,
+                'meetingCreatorId': 130,
+                'meetingCreatorName': 'lq',
+                'meetingDesc': null,
+                'meetingMoney': 1211,
+                'meetingMoneyEnd': null,
+                'meetingMoneyStart': null,
+                'meetingName': '会销',
+                'meetingSaleUrl': null,
+                'meetingTimeEnd': 1536820504000,
+                'meetingTimeStart': 1544587932000,
+                'modified': 1536820505000,
+                'names': [],
+                'organizer': null,
+                'personCount': null,
+                'personCountEnd': null,
+                'personCountStart': null,
+                'state': 1,
+                'stateName': null,
+                'status': 1,
+                'subIds': [],
+                'urls': [],
+              },
+              {
+                'address': null,
+                'coOrganizer': null,
+                'created': 1536820502000,
+                'hostUnit': null,
+                'id': 14,
+                'intentCustomerCount': 0,
+                'intentCustomerCountEnd': null,
+                'intentCustomerCountStart': null,
+                'managerIds': null,
+                'meetingCreatorDepartmentId': 53,
+                'meetingCreatorDepartmentName': null,
+                'meetingCreatorId': 130,
+                'meetingCreatorName': 'lq',
+                'meetingDesc': null,
+                'meetingMoney': null,
+                'meetingMoneyEnd': null,
+                'meetingMoneyStart': null,
+                'meetingName': '第3测试21',
+                'meetingSaleUrl': null,
+                'meetingTimeEnd': 1536820502000,
+                'meetingTimeStart': null,
+                'modified': 1536820502000,
+                'names': [],
+                'organizer': null,
+                'personCount': null,
+                'personCountEnd': null,
+                'personCountStart': null,
+                'state': 1,
+                'stateName': null,
+                'status': 1,
+                'subIds': [],
+                'urls': [],
+              },
+            ],
+            'first': true,
+            'last': false,
+            'number': 0,
+            'numberOfElements': 3,
+            'size': 3,
+            'sort': [
+              {
+                'ascending': false,
+                'direction': 'DESC',
+                'ignoreCase': false,
+                'nullHandling': 'NATIVE',
+                'property': 'created',
+              },
+            ],
+            'totalElements': 23,
+            'totalPages': 8,
+          },
+          'error': null,
+          'status': true,
+        }
+        console.log(err)
+        // error && error(err)
+        error && error(mockData)
+      })
+    },
+    detail (params, success, error) { // 活动详细 todo 假数据
+      // console.log(params)
+      $axios.get('meetingSale/detail/' + params).then((res) => {
+        success && success(res.data)
+      }).catch((err) => {
+        let mockData = {
+          'data': {
+            'address': null,
+            'coOrganizer': null,
+            'created': 1536313637000,
+            'hostUnit': null,
+            'id': 2,
+            'intentCustomerCount': null,
+            'intentCustomerCountEnd': null,
+            'intentCustomerCountStart': null,
+            'managerIds': '',
+            'meetingCreatorDepartmentId': null,
+            'meetingCreatorDepartmentName': null,
+            'meetingCreatorId': 10,
+            'meetingCreatorName': null,
+            'meetingDesc': null,
+            'meetingMoney': 2222,
+            'meetingMoneyEnd': null,
+            'meetingMoneyStart': null,
+            'meetingName': '测试活动',
+            'meetingSaleUrl': 'http://a.com?meetingId=2&meetingCreatorId=10',
+            'meetingTimeEnd': 1536313637000,
+            'meetingTimeStart': 1536313637000,
+            'modified': 1536313637000,
+            'organizer': null,
+            'personCount': 22,
+            'personCountEnd': null,
+            'personCountStart': null,
+            'state': 3,
+            'stateName': '已结束',
+            'status': 1,
+          },
+          'error': null,
+          'status': true,
+        }
+        console.log(err)
+        // error && error(err)
+        error && error(mockData)
+      })
+    },
+    log (params, success, error) { // 活动操作记录 todo 假数据
+      // console.log(params)
+      $axios.get('meetingSale/queryLog', {params: params}).then((res) => {
+        success && success(res.data)
+      }).catch((err) => {
+        let mockData = {
+          'data': [
+            {
+              'detail': '系统活动开始活动\'666\'',
+              'operateTime': 1536733201000,
+              'userName': '系统[ ]',
+            },
+            {
+              'detail': 'lq提前结束\'5454\'',
+              'operateTime': 1536734900000,
+              'userName': 'lq[15545975859]',
+            },
+          ],
+          'error': null,
+          'status': true,
+        }
+        console.log(err)
+        // error && error(err)
+        error && error(mockData)
+      })
+    },
+    chance (params, success, error) { // 活动列表 todo 假数据
+      // console.log(params)
+      $axios.post('meetingSale/searchOrQueryChanceOfMeeting', null,
+        {params: params}).then((res) => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+    },
+    managerList (params, success, error) { // 活动管家 todo 假数据
+      $axios.get('meetingSale/meetingManagerRel/list/' + params).then((res) => {
+        success && success(res.data)
+      }).catch((err) => {
+        let mockData = {
+          'data': [
+            {
+              'creatorId': 130,
+              'managerId': 130,
+              'managerName': 'lq',
+              'managerUrl': 'http://a.com?meetingId=15&meetingCreatorId=130&meetingManagerId=130',
+              'meetingId': 15,
+            },
+            {
+              'creatorId': 130,
+              'managerId': 134,
+              'managerName': 'll_销售',
+              'managerUrl': 'http://a.com?meetingId=15&meetingCreatorId=130&meetingManagerId=134',
+              'meetingId': 15,
+            },
+          ],
+          'error': null,
+          'status': true,
+        }
+        console.log(err)
+        // error && error(err)
+        error && error(mockData)
+      })
+    },
+    selectManagerList (params, success, error) { // 活动添加的管家列表 todo 假数据
+      $axios.get('meetingSale/meetingSaleOfManager/' + params).then((res) => {
+        success && success(res.data)
+      }).catch((err) => {
+        let mockData = {
+          'data': [
+            {
+              'creatorId': 130,
+              'managerId': 130,
+              'managerName': 'lq',
+              'managerUrl': 'http://a.com?meetingId=15&meetingCreatorId=130&meetingManagerId=130',
+              'meetingId': 15,
+            },
+            {
+              'creatorId': 130,
+              'managerId': 134,
+              'managerName': 'll_销售',
+              'managerUrl': 'http://a.com?meetingId=15&meetingCreatorId=130&meetingManagerId=134',
+              'meetingId': 15,
+            },
+          ],
+          'error': null,
+          'status': true,
+        }
+        console.log(err)
+        // error && error(err)
+        error && error(mockData)
+      })
+    },
+    add (params, success, error) { // 新增 todo 假数据
+      // console.log(params)
+      $axios.post('meetingSale/addMeeting', params).then((res) => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+    },
+    edit (params, success, error) { // 编辑 todo 假数据
+      // console.log(params)
+      $axios.put('meetingSale/' + params.id, params.body).then((res) => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+    },
+    end  (params, success, error) { // 新增 todo 假数据
+      // console.log(params)
+      $axios.post('meetingSale/meetingSaleBatchEnd', null, {params: params}).then((res) => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+    },
+    deleteActivity (params, success, error) { // 新增 todo 假数据
+      // console.log(params)
+      $axios.post('meetingSale/meetingSaleBatchDelete', null, {params: params}).then((res) => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+    },
+  },
   // 通用接口,管理配置
   common: {
     organizationGoodsConf (params, success, error) { // 组织商品配置下拉列表
@@ -279,7 +588,8 @@ export default {
       })
     },
     editCustomer (params, success, error) { // 客户池新增客户。公海
-      $axios.put('customerSea/customer/' + params.path, params.body).then(res => {
+      $axios.put('customerSea/customer/' + params.path,
+        params.body).then(res => {
         success && success(res.data)
       }).catch((err) => {
         error && error(err)
