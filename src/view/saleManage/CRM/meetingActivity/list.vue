@@ -110,7 +110,7 @@
         <el-table-column
           align="center"
           sortable="custom"
-          prop="sex"
+          prop="personCount"
           label="活动人数"
           width="160"
           show-overflow-tooltip>
@@ -118,7 +118,7 @@
         <el-table-column
           align="center"
           sortable="custom"
-          prop="personCount"
+          prop="intentCustomerCount"
           label="意向客户数"
           width="160"
           show-overflow-tooltip>
@@ -182,6 +182,7 @@
         defaultListParams: { // 默认顾客列表请求参数
           page: null,
           pageSize: null,
+          status: 1,
         },
         sortObj: {sort: 'created,desc'}, // 排序
         advancedSearch: {}, // 高级搜索
@@ -384,6 +385,7 @@
         this.defaultListParams = {
           page: this.currentPage - 1,
           pageSize: this.pagesOptions.pageSize,
+          status: 1,
         }
       },
       formatterHandleState (row, column, cellValue, index) {

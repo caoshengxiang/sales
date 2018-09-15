@@ -20,18 +20,23 @@
         <div class="com-info-img">
           <vue-qr
             @click.native="dialogVisible=true"
-            :logoSrc="config.logo"
-            :text="config.value"
+            :logoSrc="config1.logo"
+            :text="config1.value"
             :size="60"
             :margin="0"
             :callback="agentRecCallback"
             qid="activity-1"></vue-qr>
         </div>
         <div class="com-info-text">
-          <h3>四川省万企帮扶计划</h3>
+          <h3>{{detailInfo.meetingName}}
+            <span
+              style="font-size: 12px; color: #FF7700;padding: 3px 10px;border:1px solid #FF7700;margin-left: 20px;border-radius: 8px;">
+              {{detailInfo.stateName}}
+            </span>
+          </h3>
           <p>
-            <span class="com-d-item">负责部门: <span></span></span>
-            <span class="com-d-item">负责人: <span></span></span>
+            <span class="com-d-item">负责部门: <span>{{detailInfo.meetingCreatorDepartmentName}}</span></span>
+            <span class="com-d-item">负责人: <span>{{detailInfo.meetingCreatorName}}</span></span>
             <span class="com-d-item">创建日期: <span>{{detailInfo.created && $moment(detailInfo.created).format('YYYY-MM-DD HH:mm:ss')}}</span></span>
           </p>
         </div>
@@ -92,7 +97,7 @@
             <p class="table-title">活动操作记录</p>
             <table class="detail-table">
               <tr>
-                <td colspan="5" class="td-title">联系人操作记录</td>
+                <td colspan="5" class="td-title">活动操作记录</td>
                 <td class="td-title">操作人</td>
                 <td class="td-title">操作时间</td>
               </tr>
@@ -110,7 +115,7 @@
             </div>
             <el-row>
               <el-col :span="8" style="text-align: center;padding: 10px;"
-                      v-for="item in managerList" :key="item.id">
+                      v-for="item in managerList" :key="item.managerId">
                 <div class="head" @click="showManagerCode(item)">
                   <img style="width: 58px;height: 58px;border-radius: 100%;"
                        v-if="item.avatar"
@@ -118,11 +123,12 @@
                   <img v-else src="../../../../assets/icon/headDefault.png" alt="">
                 </div>
                 <div class="text">
-                  <p>{{item.managerName}}</p>
+                  <p>{{item.mangerName}}</p>
                 </div>
               </el-col>
             </el-row>
-            <el-button style="border-color: #4BCF99;color: #4BCF99;width: 80%;margin-left: 40px;margin-top: 30px;">
+            <el-button @click="operateOptions('addHousekeeper')"
+                       style="border-color: #4BCF99;color: #4BCF99;width: 80%;margin-left: 40px;margin-top: 30px;">
               商务管家管理
             </el-button>
           </div>
@@ -131,6 +137,7 @@
       <!---->
       <el-tab-pane label="活动需求信息" name="related">
         <div class="com-box com-box-padding com-list-box">
+          <el-button style="float: right;margin-bottom: 20px;">添加销售机会</el-button>
           <el-table
             ref="multipleTable"
             border
@@ -295,13 +302,13 @@
       title="活动二维码"
       :visible.sync="dialogVisible"
       width="30%"
-     >
+    >
       <div ref="downloadCode" style="text-align: center">
         <p class="title">活动名称名称</p>
         <div style="min-height: 200px;margin: 20px;padding: 20px;">
           <vue-qr
-            :logoSrc="config.logo"
-            :text="config.value"
+            :logoSrc="config1.logo"
+            :text="config1.value"
             :size="200"
             :margin="0"
             :callback="agentRecCallback"
@@ -333,9 +340,10 @@
           </div>
           <div>
             <div style="margin-bottom: 20px;">
-              <span style="font-size: 18px;font-weight: bold;margin-right: 10px;">名称</span>
-              <span>商务管家</span>
-              <span>、活动负责人</span>
+              <span
+                style="font-size: 18px;font-weight: bold;margin-right: 10px;">{{managerCodeDetail.mangerName}}</span>
+              <span v-if="managerCodeDetail.managerId">商务管家</span>
+              <span v-if="managerCodeDetail.meetingCreatorId">、活动负责人</span>
             </div>
             <div>
               <p style="margin-bottom:10px;">使用方法</p>
@@ -347,10 +355,11 @@
               </p>
             </div>
           </div>
-      </div>
+        </div>
       </div>
       <span slot="footer" class="dialog-footer">
     <el-button @click="dialogVisible2 = false">取 消</el-button>
+    <el-button @click="deleteHousekeeperHandle">移除管家</el-button>
     <el-button type="primary" v-if="codeImgBase64" @click="downloadCodeHandle2">下载二维码</el-button>
   </span>
     </el-dialog>
@@ -365,6 +374,10 @@
   import { underscoreName } from '../../../../utils/utils'
   import VueQr from 'vue-qr'
   import html2canvas from 'html2canvas'
+  import addDialog from './addDialog'
+  import addHousekeeper from './addHousekeeper'
+  import { activityCodePre } from '../../../../utils/const'
+  import Qs from 'qs'
 
   export default {
     name: 'detailInfo',
@@ -388,8 +401,12 @@
           organizationId: null,
         },
         managerList: [],
+        config1: {
+          value: '', // 显示的值、跳转的地址(要加http)
+          logo: 'static/favicon.ico', // 中间logo的地址
+        },
         config: {
-          value: 'http://www.baidu.com', // 显示的值、跳转的地址(要加http)
+          value: '', // 显示的值、跳转的地址(要加http)
           logo: 'static/favicon.ico', // 中间logo的地址
         },
         codeImgBase64: '',
@@ -433,6 +450,9 @@
             // this.getSalesOpportunititeisList()
             this.getMannerList(this.detailInfo.id)
             this.getLog(this.detailInfo.id)
+            this.config1.value = activityCodePre + Qs.stringify({ // 拼装活动二维码参数
+              meetingId: this.detailInfo.id,
+            })
           }, 500)
         }, (data) => {
           setTimeout(() => {
@@ -453,8 +473,6 @@
       },
       getMannerList (id) {
         API.activity.managerList(id, (data) => {
-          this.managerList = data.data
-        }, (data) => {
           this.managerList = data.data
         })
       },
@@ -481,23 +499,112 @@
         this.sortObj = {sort: underscoreName(sortObj.prop) + ',' + order}
         this.getSalesOpportunititeisList()
       },
-      operateOptions (option) {
-        switch (option) {
-          case 'edit':
-            break
-        }
+      editHandle () {
+        this.$vDialog.modal(addDialog, {
+          title: '新增活动',
+          width: 900,
+          height: 500,
+          params: {
+            detail: JSON.parse(JSON.stringify(this.detailInfo)),
+          },
+          callback: (data) => {
+            if (data.type === 'save') {
+              this.getDetail()
+            }
+          },
+        })
       },
-      quickOperation (op, id, obj) {
-        // eslint-disable-next-line
-        let deleteId = id || ''
-        switch (op) {
-          // case 'addContact':
-          //   break
-          case 'addChance':
+      endHandle () {
+        this.$confirm('确定结束会议活动, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning',
+        }).then(() => {
+          this.dataLoading = true
+          API.activity.end({ids: this.detailInfo.id}, (data) => {
+            if (data.status) {
+              if (data.data.fail > 0) {
+                this.$message.warning(`成功${data.data.success}, 失败${data.data.fail}, 失败原因：${data.data.errorMessage}`)
+              } else {
+                this.$message.success(`成功${data.data.success},失败${data.data.fail}`)
+              }
+              setTimeout(() => {
+                this.dataLoading = false
+                this.getDetail()
+              }, 500)
+            } else {
+              setTimeout(() => {
+                this.dataLoading = false
+              }, 500)
+            }
+          })
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消',
+          })
+        })
+      },
+      deleteHandle () {
+        this.$confirm('确定删除会议活动, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning',
+        }).then(() => {
+          this.dataLoading = true
+          API.activity.deleteActivity({ids: this.detailInfo.id}, (data) => {
+            if (data.status) {
+              if (data.data.fail > 0) {
+                this.$message.warning(`成功${data.data.success}, 失败${data.data.fail}, 失败原因：${data.data.errorMessage}`)
+              } else {
+                this.$message.success(`成功${data.data.success},失败${data.data.fail}`)
+              }
+              setTimeout(() => {
+                this.dataLoading = false
+                // this.getDetail()
+                this.$router.push({name: 'meetingActivity'})
+              }, 500)
+            } else {
+              setTimeout(() => {
+                this.dataLoading = false
+              }, 500)
+            }
+          })
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消',
+          })
+        })
+      },
+      addHousekeeperHandle () {
+        this.$vDialog.modal(addHousekeeper, {
+          title: '商务管家管理',
+          width: 500,
+          height: 300,
+          params: {
+            id: this.detailInfo.id,
+          },
+          callback: (data) => {
+            if (data.type === 'save') {
+              this.getMannerList(this.detailInfo.id)
+            }
+          },
+        })
+      },
+      operateOptions (type) {
+        switch (type) {
+          case 'edit':
+            this.editHandle()
             break
-          case 'addOrder':
+          case 'end':
+            this.endHandle()
             break
-          case 'reNew':
+          case 'delete':
+            this.deleteHandle()
+            break
+          case 'addHousekeeper':
+            this.addHousekeeperHandle()
             break
         }
       },
@@ -565,10 +672,37 @@
           a.click() // 点击触发下载
         })
       },
+      deleteHousekeeperHandle () {
+        this.$confirm('确定移除商务管家, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning',
+        }).then(() => {
+          API.activity.deleteHousekeeper({
+            id: this.detailInfo.id,
+            ids: this.managerCodeDetail.managerId
+          }, (da) => {
+            if (da.status) {
+              this.$message.success('移除成功!')
+              this.getMannerList(this.detailInfo.id)
+              this.dialogVisible2 = false
+            }
+          })
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消',
+          })
+        })
+      },
       showManagerCode (item) {
         this.dialogVisible2 = true
         this.managerCodeDetail = item
-      }
+        this.config.value = activityCodePre + Qs.stringify({ // 拼装活动管家二维码参数
+          meetingId: this.detailInfo.id,
+          meetingManagerId: item.meetingManagerId
+        })
+      },
     },
     created () {
       this.activeViewName = this.$route.query.view

@@ -136,8 +136,8 @@
           meetingCreatorDepartmentName: '',
           meetingCreatorName: '',
           address: '',
-          meetingTimeStart: '', // 活动开始时间
-          meetingTimeEnd: '',
+          meetingTimeStart2: '', // 活动开始时间
+          meetingTimeEnd2: '',
           meetingMoneyStart: '', // 最小经费
           meetingMoneyEnd: '',
           personCountStart: '', // 最小活动人数
@@ -158,8 +158,8 @@
         this.$vDialog.close({type: 'search', params: this.searchForm})
       },
       timeIntervalHandle (value) {
-        this.searchForm.meetingTimeStart = value[0] || ''
-        this.searchForm.meetingTimeEnd = value[1] || ''
+        this.searchForm.meetingTimeStart2 = value[0] || ''
+        this.searchForm.meetingTimeEnd2 = value[1] || ''
       },
       numberIntervalHandle (type, start, end) {
         if (type === 0) {
@@ -176,8 +176,8 @@
     },
     created () {
       this.searchForm = this.params.preAdvancedSearch
-      if (this.searchForm.meetingTimeStart) { // 日期
-        this.meetingTimeInterval = [this.searchForm.meetingTimeStart, this.searchForm.meetingTimeEnd]
+      if (this.searchForm.meetingTimeStart2) { // 日期
+        this.meetingTimeInterval = [this.searchForm.meetingTimeStart2, this.searchForm.meetingTimeEnd2]
       }
     },
   }

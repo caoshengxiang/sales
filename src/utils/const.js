@@ -8,6 +8,11 @@ export const externalAPI = process.env.API_EXTERNAL // APP 外部地址
 console.log(process.env.API_ROOT, 'test----环境地址')
 console.log(process.env.API_EXTERNAL, 'test APP----环境地址')
 
+// 二维码前缀
+// 二维码前缀
+// 二维码前缀,打包需要更改
+export const activityCodePre = 'http://192.168.0.109:8080/#/activityAddCustomer/index?'
+
 // 表单验证
 const validatePhone = (rule, value, callback) => { // 自定义规则验证手机号
   // let regPhone = /^1[3,4,5,7,8][0-9]{9}$/
