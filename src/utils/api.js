@@ -173,8 +173,8 @@ export default {
         error && error(err)
       })
     },
-    getSaleCommissionConfig (success, error) { // 查询佣金比例设置记录
-      $axios.get('saleCommissionConfig').then((res) => {
+    getSaleCommissionConfig (params, success, error) { // 查询佣金比例设置记录
+      $axios.get('saleCommissionConfig', {params: params}).then((res) => {
         success && success(res.data)
       }).catch((err) => {
         error && error(err)
