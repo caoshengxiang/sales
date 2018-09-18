@@ -70,7 +70,8 @@
                 </el-option>
               </el-select>
             </h3>
-            <table class="com-dialog-table">
+            <!--代理体系 start-->
+            <table class="com-dialog-table" v-if="billType === 1">
               <tr>
                 <th colspan="11" class="td-title">{{billTypeName}}</th>
               </tr>
@@ -98,7 +99,7 @@
               </tr>
               <tr><!--代理商下单 start-->
                 <td class="td-title" rowspan="12">年度产品(A类)</td>
-                <td rowspan="6">计时-几张托管类</td>
+                <td rowspan="6">计时-记账托管类</td>
                 <td>新签</td>
                 <td v-for="col in cptSaleCommissionConfig[0]" :key="col.id">
                   <el-input style="width: 72px" type="number" step="0.01" v-model.number="col.commissionPercent"
@@ -215,6 +216,90 @@
                 </td>
               </tr>
             </table>
+            <!--代理体系 end-->
+            <!--其他 start-->
+            <table class="com-dialog-table" v-if="billType !== 1">
+              <tr>
+                <th colspan="11" class="td-title">{{billTypeName}}</th>
+              </tr>
+              <tr>
+                <th rowspan="2" colspan="3" class="td-title out-td" style="width: 286px;padding: 0;">
+                  <div class="out">
+                    <div class="t-1">合作模式</div>
+                    <div class="t-line"></div>
+                    <div class="t-2">产品类别</div>
+                  </div>
+                </th>
+                <th colspan="3" class="td-title">销售佣金</th>
+                <th colspan="3" class="td-title">管理贴金</th>
+                <th colspan="2" class="td-title">培育佣金</th>
+              </tr>
+              <tr>
+                <td class="td-title">需求录入</td>
+                <td class="td-title">销售佣金</td>
+                <td class="td-title">销售咨询</td>
+                <td class="td-title">区域经理</td>
+                <td class="td-title">销售总监</td>
+                <td class="td-title">销售副总</td>
+                <td class="td-title">直接</td>
+                <td class="td-title">间接</td>
+              </tr>
+              <tr><!--代理商下单 start-->
+                <td class="td-title" rowspan="4">年度产品(A类)</td>
+                <td rowspan="2">计时-记账托管类</td>
+                <td>新签</td>
+                <td v-for="col in cptSaleCommissionConfig[0]" :key="col.id">
+                  <el-input style="width: 72px" type="number" step="0.01" v-model.number="col.commissionPercent"
+                            auto-complete="off"></el-input>
+                  %
+                </td>
+              </tr>
+              <tr>
+                <td>续费</td>
+                <td v-for="col in cptSaleCommissionConfig[1]" :key="col.id">
+                  <el-input style="width: 72px" type="number" step="0.01" v-model.number="col.commissionPercent"
+                            auto-complete="off"></el-input>
+                  %
+                </td>
+              </tr>
+              <tr>
+                <td rowspan="2">计时-非记账托管类</td>
+                <td>新签</td>
+                <td v-for="col in cptSaleCommissionConfig[2]" :key="col.id">
+                  <el-input style="width: 72px" type="number" step="0.01" v-model.number="col.commissionPercent"
+                            auto-complete="off"></el-input>
+                  %
+                </td>
+              </tr>
+              <tr>
+                <td>续费</td>
+                <td v-for="col in cptSaleCommissionConfig[3]" :key="col.id">
+                  <el-input style="width: 72px" type="number" step="0.01" v-model.number="col.commissionPercent"
+                            auto-complete="off"></el-input>
+                  %
+                </td>
+              </tr>
+              <tr>
+                <td class="td-title" rowspan="2">单次产品(B类)</td>
+                <td>B类标准化产品</td>
+                <td>新签</td>
+                <td v-for="col in cptSaleCommissionConfig[4]" :key="col.id">
+                  <el-input style="width: 72px" type="number" step="0.01" v-model.number="col.commissionPercent"
+                            auto-complete="off"></el-input>
+                  %
+                </td>
+              </tr>
+              <tr>
+                <td>B类标定制产品</td>
+                <td>新签</td>
+                <td v-for="col in cptSaleCommissionConfig[5]" :key="col.id">
+                  <el-input style="width: 72px" type="number" step="0.01" v-model.number="col.commissionPercent"
+                            auto-complete="off"></el-input>
+                  %
+                </td>
+              </tr>
+            </table>
+            <!--其他 end-->
             <div class="btn-group">
               <el-button @click="saveSaleCommissionConfig" type="primary" style="width: 100px">保存</el-button>
             </div>
@@ -316,19 +401,34 @@
           if (res.status) {
             this.saleCommissionConfig = res.data
             if (this.saleCommissionConfig.length) {
-              this.cptSaleCommissionConfig = [[], [], [], [], [], [], [], [], [], [], [], [], [], []] // 初始化
-              this.saleCommissionConfig.forEach(item => {
-                let y = null
-                let x = item.commissionDetail - 1
-                if (item.productType <= 2) { // 返回数据前两个有7个
-                  let bc = item.billCate >= 2 ? item.billCate - 1 : item.billCate // 没有返回billCate为2
-                  y = (item.productType - 1) * 6 + (bc - 1)
-                } else {
-                  y = 12 + item.productType - 3
-                }
-                // console.log(y, x)
-                this.cptSaleCommissionConfig[y][x] = item
-              })
+              if (this.billType === 1) { // 代理体系
+                this.cptSaleCommissionConfig = [[], [], [], [], [], [], [], [], [], [], [], [], [], []] // 初始化
+                this.saleCommissionConfig.forEach(item => {
+                  let y = null
+                  let x = item.commissionDetail - 1
+                  if (item.productType <= 2) { // 返回数据前两个有7个
+                    let bc = item.billCate >= 2 ? item.billCate - 1 : item.billCate // 没有返回billCate为2
+                    y = (item.productType - 1) * 6 + (bc - 1)
+                  } else {
+                    y = 12 + item.productType - 3
+                  }
+                  // console.log(y, x)
+                  this.cptSaleCommissionConfig[y][x] = item
+                })
+              } else { // 其他
+                this.cptSaleCommissionConfig = [[], [], [], [], [], []] // 初始化
+                this.saleCommissionConfig.forEach(item => {
+                  let y = null
+                  let x = item.commissionDetail - 1
+                  if (item.productType <= 2) { // 返回数据前两个有2个
+                    y = (item.productType - 1) * 2 + (item.billCate - 1)
+                  } else {
+                    y = 4 + item.productType - 3
+                  }
+                  // console.log(y, x)
+                  this.cptSaleCommissionConfig[y][x] = item
+                })
+              }
             }
           }
           this.dataLoading = false
