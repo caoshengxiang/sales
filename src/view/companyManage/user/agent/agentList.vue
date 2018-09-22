@@ -81,7 +81,7 @@
           align="center"
           label="姓名"
           prop="name"
-          width="200"
+          width="140"
           sortable="custom"
           show-overflow-tooltip
         >
@@ -94,7 +94,7 @@
           align="center"
           sortable="custom"
           label="代理商号"
-          width="100"
+          width="120"
           prop="jobNo"
         >
         </el-table-column>
@@ -103,6 +103,7 @@
           align="center"
           prop="mobilePhone"
           label="手机号"
+          width="140"
         >
         </el-table-column>
         <el-table-column
@@ -110,6 +111,7 @@
           align="center"
           prop="wx"
           label="微信号"
+          width="140"
         >
         </el-table-column>
         <el-table-column
@@ -117,6 +119,7 @@
           align="center"
           prop="organizationName"
           label="组织"
+          width="140"
         >
         </el-table-column>
         <el-table-column
@@ -124,6 +127,7 @@
           align="center"
           prop="departmentName"
           label="部门"
+          width="140"
         >
         </el-table-column>
         <el-table-column
@@ -132,6 +136,7 @@
           prop="roleName"
           label="角色"
           sortable="custom"
+          width="140"
         >
           <template slot-scope="scope">
             <span v-for="item in scope.row.roles"
@@ -142,8 +147,25 @@
         <el-table-column
           show-overflow-tooltip
           align="center"
-          prop=""
+          prop="departmentName"
+          label="直接培育人"
+          width="160"
+        >
+        </el-table-column>
+        <el-table-column
+          show-overflow-tooltip
+          align="center"
+          prop="indirectName"
+          label="间接培育人"
+          width="160"
+        >
+        </el-table-column>
+        <el-table-column
+          show-overflow-tooltip
+          align="center"
+          prop="directName"
           label="直接上级"
+          width="140"
         >
           <template slot-scope="scope">
             <span v-for="item in scope.row.heads"
@@ -156,7 +178,7 @@
           align="center"
           prop=""
           label="部门培训师"
-          width="160">
+          width="140">
           <template slot-scope="scope">
             <span v-for="item in scope.row.trainers"
                   :key="item.id"
@@ -167,7 +189,7 @@
           show-overflow-tooltip
           align="center"
           prop=""
-          width="100"
+          width="140"
           label="部门销售助理"
         >
           <template slot-scope="scope">
@@ -181,6 +203,7 @@
           align="center"
           prop="sex"
           label="性别"
+          width="80"
         >
         </el-table-column>
         <el-table-column
@@ -202,6 +225,7 @@
           sortable="custom"
           :formatter="fmtNumColumn"
           label="状态"
+          width="80"
         >
         </el-table-column>
       </el-table>

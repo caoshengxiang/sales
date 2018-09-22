@@ -8,21 +8,19 @@
               <el-input type="text" v-model="searchForm.name"></el-input>
             </el-form-item>
           </el-col>
+          <!--<el-col :span="8">-->
+          <!--<el-form-item label="营业执照：">-->
+          <!--<el-input type="text" v-model="searchForm.businessLicense"></el-input>-->
+          <!--</el-form-item>-->
+          <!--</el-col>-->
           <el-col :span="8">
-            <el-form-item label="联系电话：">
-              <el-input type="text" v-model="searchForm.phone"></el-input>
+            <el-form-item label="客户识别码：">
+              <el-input type="text" v-model="searchForm.cdKey"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item label="创建人：">
               <el-input type="text" v-model="searchForm.creatorName"></el-input>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="8">
-            <el-form-item label="最近跟进人：">
-              <el-input type="text" v-model="searchForm.latestFollowerName"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -32,21 +30,33 @@
         <!--<el-input type="text" v-model="searchForm.salerName"></el-input>-->
         <!--</el-form-item>-->
         <!--</el-col>-->
-        <!--<el-col :span="8">-->
-        <!--<el-form-item label="营业执照：">-->
-        <!--<el-input type="text" v-model="searchForm.businessLicense"></el-input>-->
-        <!--</el-form-item>-->
-        <!--</el-col>-->
         <!--</el-row>-->
         <el-row class="el-row-cla">
           <el-col :span="8">
             <el-form-item label="客户级别：">
               <el-select v-model="searchForm.level" placeholder="请选择客户级别">
-                <el-option v-for="item in levelList" :key="item.codeName" :label="item.codeName"
+                <el-option v-for="(item, index) in levelList" :key="index" :label="item.codeName"
                            :value="item.codeName"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
+          <el-col :span="8">
+            <el-form-item label="客户行业：">
+              <el-select v-model="searchForm.industry" placeholder="请选择客户行业">
+                <el-option v-for="(item, index) in industryList" :key="index" :label="item.codeName"
+                           :value="item.codeName"></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="客户地区：">
+              <AreaSelect ref="areaSe"
+                          @change="areaSelectedOptionsHandleChange"
+                          :selectLastLevelMode="true"></AreaSelect>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row class="el-row-cla">
           <el-col :span="8">
             <el-form-item label="所属公海：">
               <el-select v-model.number="searchForm.seaId" placeholder="请选择所属公海">
@@ -72,31 +82,29 @@
               </el-cascader>
             </el-form-item>
           </el-col>
+          <el-col :span="8">
+            <el-form-item label="状态：">
+              <el-select v-model="searchForm.state" placeholder="请选择状态">
+                <el-option v-for="item in customerState" :key="item.type" :label="item.value"
+                           :value="item.type"></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
         </el-row>
-        <el-row class="el-row-cla">
+        <el-row>
           <!--<el-col :span="8">-->
-          <!--<el-form-item label="客户行业：">-->
-          <!--<el-select v-model="searchForm.industry" placeholder="请选择客户行业">-->
-          <!--<el-option v-for="item in industryList" :key="item.codeName" :label="item.codeName"-->
-          <!--:value="item.codeName"></el-option>-->
-          <!--</el-select>-->
+          <!--<el-form-item label="联系电话：">-->
+          <!--<el-input type="text" v-model="searchForm.phone"></el-input>-->
           <!--</el-form-item>-->
           <!--</el-col>-->
-          <!--<el-col :span="8">-->
-          <!--<el-form-item label="客户地区：">-->
-          <!--<AreaSelect ref="areaSe"-->
-          <!--@change="areaSelectedOptionsHandleChange"-->
-          <!--:selectLastLevelMode="true"></AreaSelect>-->
-          <!--</el-form-item>-->
-          <!--</el-col>-->
-          <!--<el-col :span="8">-->
-          <!--<el-form-item label="状态：">-->
-          <!--<el-select v-model="searchForm.state" placeholder="请选择状态">-->
-          <!--<el-option v-for="item in customerState" :key="item.type" :label="item.value"-->
-          <!--:value="item.type"></el-option>-->
-          <!--</el-select>-->
-          <!--</el-form-item>-->
-          <!--</el-col>-->
+          <el-col :span="8">
+            <el-form-item label="客户类型：">
+              <el-select v-model="searchForm.cate" placeholder="请选择客户类型">
+                <el-option label="个人" :value="1"></el-option>
+                <el-option label="机构" :value="2"></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
         </el-row>
         <el-row class="el-row-cla">
           <el-col :span="24">
@@ -107,54 +115,12 @@
                 value-format="yyyy-MM-dd HH:mm:ss"
                 @change="timeIntervalHandle"
                 :unlink-panels="true"
+                :picker-options="pickerOptions"
                 :default-value="lastMonthDate()"
                 range-separator="至"
                 start-placeholder="开始日期"
                 end-placeholder="结束日期">
               </el-date-picker>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row class="el-row-cla">
-          <el-col :span="24">
-            <el-form-item label="动态时间：">
-              <el-date-picker
-                v-model="timeInterval2"
-                type="datetimerange"
-                value-format="yyyy-MM-dd HH:mm:ss"
-                @change="timeIntervalHandle2"
-                :unlink-panels="true"
-                :default-value="lastMonthDate()"
-                range-separator="至"
-                start-placeholder="开始日期"
-                end-placeholder="结束日期">
-              </el-date-picker>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row class="el-row-cla">
-          <el-col :span="24">
-            <el-form-item label="退回时间：">
-              <el-date-picker
-                v-model="timeInterval3"
-                type="datetimerange"
-                value-format="yyyy-MM-dd HH:mm:ss"
-                @change="timeIntervalHandle3"
-                :unlink-panels="true"
-                :default-value="lastMonthDate()"
-                range-separator="至"
-                start-placeholder="开始日期"
-                end-placeholder="结束日期">
-              </el-date-picker>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row class="el-row-cla">
-          <el-col :span="12">
-            <el-form-item label="退回次数：">
-              <el-input style="width: 100px" type="number" min="1" v-model="searchForm.startReturnTimes"></el-input>
-              <span>至</span>
-              <el-input style="width: 100px" type="number" min="1" v-model="searchForm.endReturnTimes"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -179,11 +145,11 @@
         industryList: [], // 行业
         levelList: [], // 级别
         seaList: [], // 公海
-        customerSourceType: [], // 客户来源
         customerState: [], // 客户状态
         searchForm: { // 表单
           name: null,
           businessLicense: null,
+          phone: null,
           creatorName: null,
           salerName: null,
           level: null,
@@ -195,18 +161,30 @@
           state: null,
           startDate: null,
           endDate: null,
+          cate: null,
+          cdKey: null,
         },
         timeInterval: [],
-        timeInterval2: [],
-        timeInterval3: [],
+        customerSourceType: [], // 客户来源
         customerSourceArr: [],
         props: {
           value: 'id',
           label: 'codeName',
         },
         targetObj: null,
-        selectLastLevelMode: true,
         selectedBindValue: [],
+        selectLastLevelMode: true,
+        pickerOptions: {
+          // disabledDate (t) {
+          //   let timestamp = Date.parse(t)
+          //   let targeTimestamp = new Date('2018-7-31')
+          //   if (timestamp > targeTimestamp) {
+          //     return true
+          //   } else {
+          //     return false
+          //   }
+          // }
+        }
       }
     },
     props: ['params'],
@@ -217,8 +195,6 @@
       clearForm () {
         this.searchForm = {}
         this.timeInterval = []
-        this.timeInterval2 = []
-        this.timeInterval3 = []
       },
       saveSubmitForm () {
         this.$vDialog.close({type: 'search', params: this.searchForm})
@@ -242,9 +218,9 @@
           }
         })
       },
-      customerSourceChange (va) {
-        this.searchForm.customerSource = va.join('-')
-      },
+      // customerSourceChange (va) {
+      //   this.searchForm.customerSource = va.join('-')
+      // },
       customerSourceChangeHandle (va) {
         this.getLastItem(this.customerSourceType, va, 'id')
         API.common.codeConfig({type: 5, pCode: va[va.length - 1]}, (data) => {
@@ -284,16 +260,8 @@
         this.searchForm.areaId = value[2] || ''
       },
       timeIntervalHandle (value) {
-        this.searchForm.startCreated = value[0] || ''
-        this.searchForm.endCreated = value[1] || ''
-      },
-      timeIntervalHandle2 (value) {
-        this.searchForm.startModified = value[0] || ''
-        this.searchForm.endModified = value[1] || ''
-      },
-      timeIntervalHandle3 (value) {
-        this.searchForm.startLatestReturnTime = value[0] || ''
-        this.searchForm.endLatestReturnTime = value[1] || ''
+        this.searchForm.startDate = value[0] || ''
+        this.searchForm.endDate = value[1] || ''
       },
     },
     created () {
@@ -304,14 +272,8 @@
       // this.customerSourceType = this.params.customerSourceType
       this.customerState = this.params.customerState
       this.searchForm = this.params.preAdvancedSearch
-      if (this.searchForm.startCreated) { // 日期
-        this.timeInterval = [this.searchForm.startCreated, this.searchForm.endCreated]
-      }
-      if (this.searchForm.startModified) { // 日期
-        this.timeInterval2 = [this.searchForm.startModified, this.searchForm.endModified]
-      }
-      if (this.searchForm.startLatestReturnTime) { // 日期
-        this.timeInterval3 = [this.searchForm.startLatestReturnTime, this.searchForm.endLatestReturnTime]
+      if (this.searchForm.startDate) { // 日期
+        this.timeInterval = [this.searchForm.startDate, this.searchForm.endDate]
       }
     },
   }

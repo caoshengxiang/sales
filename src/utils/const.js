@@ -12,6 +12,7 @@ console.log(process.env.API_EXTERNAL, 'test APP----环境地址')
 // 二维码前缀
 // 二维码前缀,打包需要更改
 export const activityCodePre = 'http://192.168.0.109:8080/#/activityAddCustomer/index?'
+export const agentRegister = 'http://192.168.0.109:8080/#/account/registe?'
 
 // 表单验证
 const validatePhone = (rule, value, callback) => { // 自定义规则验证手机号

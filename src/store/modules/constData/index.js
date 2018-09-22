@@ -299,7 +299,13 @@ export default {
       }, {
         name: '公司资源',
         value: 103,
-      },
+      }, {
+        name: '会议营销',
+        value: 109,
+      }, {
+        name: '自然客户',
+        value: 110,
+      }
     ],
     menusObj: {
       userM: {

@@ -157,12 +157,28 @@
         </el-table-column>
         <el-table-column
           align="center"
+          sortable="custom"
+          prop=""
+          label="签单类型"
+          width="160"
+          show-overflow-tooltip>
+        </el-table-column>
+        <el-table-column
+          align="center"
           prop="isRenew"
           sortable="custom"
           label="是否续费"
           width="160"
           show-overflow-tooltip>
           <template slot-scope="scope">{{scope.row.isRenew?'续费订单':'新签订单'}}</template>
+        </el-table-column>
+        <el-table-column
+          align="center"
+          sortable="custom"
+          prop=""
+          label="续费次数"
+          width="160"
+          show-overflow-tooltip>
         </el-table-column>
         <el-table-column
           align="center"

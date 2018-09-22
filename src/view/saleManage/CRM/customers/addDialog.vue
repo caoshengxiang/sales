@@ -4,17 +4,36 @@
       <el-form :model="addForm" ref="addForm" label-width="0px" :rules="rules">
         <table class="com-dialog-table">
           <tr>
-            <td class="td-title">公司名称</td>
+            <td class="td-title">客户类型</td>
+            <td class="td-text">
+              <el-form-item prop="cate">
+                <el-select v-model="addForm.cate" placeholder="请选择客户类型">
+                  <el-option label="个人" :value="1"></el-option>
+                  <el-option label="机构" :value="2"></el-option>
+                </el-select>
+              </el-form-item>
+            </td>
+            <td class="td-title">客户名称</td>
             <td class="td-text">
               <el-form-item prop="name">
                 <el-input type="text" v-model="addForm.name"></el-input>
               </el-form-item>
             </td>
 
-            <td class="td-title">营业执照</td>
+            <td class="td-title">证件号码</td>
             <td class="td-text">
-              <el-form-item prop="businessLicense">
-                <el-input type="text" v-model="addForm.businessLicense"></el-input>
+              <el-form-item prop="cdKey">
+                <el-input type="text" v-model="addForm.cdKey"></el-input>
+              </el-form-item>
+            </td>
+          </tr>
+          <tr>
+            <td class="td-title">所属公海</td>
+            <td class="td-text">
+              <el-form-item prop="seaId">
+                <el-select v-model.number="addForm.seaId" placeholder="请选择所属公海">
+                  <el-option v-for="item in seaList" :key="item.id" :label="item.name" :value="item.id"></el-option>
+                </el-select>
               </el-form-item>
             </td>
             <td class="td-title">客户级别</td>
@@ -27,14 +46,6 @@
                 </el-select>
               </el-form-item>
             </td>
-          </tr>
-          <tr>
-            <td class="td-title">公司网站</td>
-            <td class="td-text">
-              <el-form-item prop="website">
-                <el-input type="text" v-model="addForm.website"></el-input>
-              </el-form-item>
-            </td>
             <td class="td-title">客户行业</td>
             <td class="td-text">
               <!--<input type="text" v-model="addForm.industry">-->
@@ -45,50 +56,38 @@
                 </el-select>
               </el-form-item>
             </td>
+          </tr>
+          <tr>
             <td class="td-title">客户地区</td>
             <td class="td-text">
-              <!--<input type="text">-->
               <el-form-item prop="provinceId">
-                <!--<el-cascader
-                  placeholder="请选择客户地区"
-                  :options="areaOptionsData"
-                  v-model="areaSelectedOptions"
-                  @active-item-change="handleAreaItemChange"
-                  @change="areaSelectedOptionsHandleChange"
-                  :props="{
-                    value: 'id',
-                    label: 'name',
-                  }">
-                </el-cascader>-->
                 <AreaSelect ref="areaSe"
                             :area="(addForm.provinceName?addForm.provinceName:'') + ' ' + (addForm.cityName?addForm.cityName:'')  + ' ' + (addForm.areaName?addForm.areaName:'')"
                             @change="areaSelectedOptionsHandleChange"
                             :selectLastLevelMode="true"></AreaSelect>
               </el-form-item>
             </td>
-          </tr>
-          <tr>
-            <td class="td-title">客户联系人</td>
+            <td class="td-title">公司网站</td>
             <td class="td-text">
-              <el-form-item prop="contactName">
-                <el-input type="text" v-model="addForm.contactName"></el-input>
-              </el-form-item>
-            </td>
-            <td class="td-title">客户电话</td>
-            <td class="td-text">
-              <el-form-item prop="phone">
-                <el-input type="text" v-model="addForm.phone"></el-input>
-              </el-form-item>
-            </td>
-            <td class="td-title">所属公海</td>
-            <td class="td-text">
-              <el-form-item prop="seaId">
-                <el-select v-model.number="addForm.seaId" placeholder="请选择所属公海">
-                  <el-option v-for="item in seaList" :key="item.id" :label="item.name" :value="item.id"></el-option>
-                </el-select>
+              <el-form-item prop="website">
+                <el-input type="text" v-model="addForm.website"></el-input>
               </el-form-item>
             </td>
           </tr>
+          <!--<tr>-->
+            <!--<td class="td-title">客户联系人</td>-->
+            <!--<td class="td-text">-->
+              <!--<el-form-item prop="contactName">-->
+                <!--<el-input type="text" v-model="addForm.contactName"></el-input>-->
+              <!--</el-form-item>-->
+            <!--</td>-->
+            <!--<td class="td-title">客户电话</td>-->
+            <!--<td class="td-text">-->
+              <!--<el-form-item prop="phone">-->
+                <!--<el-input type="text" v-model="addForm.phone"></el-input>-->
+              <!--</el-form-item>-->
+            <!--</td>-->
+          <!--</tr>-->
           <tr>
             <td class="td-title">客户来源</td>
             <td class="td-text" colspan="5">
@@ -169,8 +168,16 @@
         levelList: [], // 级别
         seaList: [], // 公海
         rules: {
+          cate: [
+            {required: true, message: '请选择客户类型', trigger: 'change'},
+            {min: 1, max: 50, message: '长度为 50 个字符以内', trigger: 'blur'},
+          ],
           name: [
-            {required: true, message: '请输入公司名称', trigger: 'blur'},
+            {required: true, message: '请输入客户名称', trigger: 'blur'},
+            {min: 1, max: 50, message: '长度为 50 个字符以内', trigger: 'blur'},
+          ],
+          cdKey: [
+            {required: true, message: '请输入证件号码', trigger: 'blur'},
             {min: 1, max: 50, message: '长度为 50 个字符以内', trigger: 'blur'},
           ],
           businessLicense: [

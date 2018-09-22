@@ -48,7 +48,7 @@
         this.$refs[formName].validate((valid) => {
           if (valid) {
             this.dataLoading = true
-            API.salesOpportunities.discard({path: this.params.detail.id, body: this.moveCustomerForm}, (data) => {
+            API.salesOpportunitiesSea.discard({path: this.params.detail.id, body: this.moveCustomerForm}, (data) => {
               if (data.status) {
                 this.$message.success('输单成功!')
                 setTimeout(() => {

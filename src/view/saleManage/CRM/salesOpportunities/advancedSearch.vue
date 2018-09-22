@@ -20,13 +20,18 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <!--<el-row class="el-row-cla">-->
-        <!--<el-col :span="8">-->
-        <!--<el-form-item label="联系人：">-->
-        <!--<el-input type="text" v-model="searchForm.contacterName"></el-input>-->
-        <!--</el-form-item>-->
-        <!--</el-col>-->
-        <!--</el-row>-->
+        <el-row class="el-row-cla">
+          <el-col :span="8">
+            <el-form-item label="联系人：">
+              <el-input type="text" v-model="searchForm.contacter"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="联系电话：">
+              <el-input type="text" v-model="searchForm.contacterPhone"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
         <el-row class="el-row-cla">
           <el-col :span="8">
             <el-form-item label="销售阶段：">
@@ -49,6 +54,14 @@
                 :placeholder="searchForm.chanceSourceName"
               >
               </el-cascader>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item prop="provinceId" label="地区：">
+              <AreaSelect ref="areaSe"
+                          :area="(searchForm.provinceName?searchForm.provinceName:'') + ' ' + (searchForm.cityName?searchForm.cityName:'')  + ' ' + (searchForm.areaName?searchForm.areaName:'')"
+                          @change="areaSelectedOptionsHandleChange"
+                          :selectLastLevelMode="true"></AreaSelect>
             </el-form-item>
           </el-col>
         </el-row>
@@ -107,6 +120,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button class="cancel-button" @click="$vDialog.close({type: 'cancel'})">取 消</el-button>
+        <el-button class="cancel-button" @click="clearForm">清 除</el-button>
         <el-button class="save-button" @click="saveSubmitForm">确 定</el-button>
       </div>
     </div>
@@ -135,6 +149,8 @@
           endIntentBillAmount: null,
           startBillDate: null,
           endBillDate: null,
+          contactPhone: null,
+          contacter: null,
         },
         timeInterval: [],
         timeInterval2: [],
@@ -151,6 +167,15 @@
     },
     props: ['params'],
     methods: {
+      areaSelectedOptionsHandleChange (value) {
+        let name = this.$refs.areaSe.getSelectedName(value)
+        this.searchForm.provinceId = value[0] || ''
+        this.searchForm.cityId = value[1] || ''
+        this.searchForm.areaId = value[2] || ''
+        this.searchForm.provinceName = name[0] || ''
+        this.searchForm.cityName = name[1] || ''
+        this.searchForm.areaName = name[2] || ''
+      },
       lastMonthDate () {
         return lastMonthDate()
       },

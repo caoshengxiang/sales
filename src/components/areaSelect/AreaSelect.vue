@@ -22,6 +22,8 @@ area,预显示地址
       class="selectAreaModule"
       :placeholder="area"
       ref="areaSelectCtl"
+      :disabled="disabled"
+      style="width: 100%"
     ></el-cascader>
   </div>
 </template>
@@ -48,6 +50,10 @@ area,预显示地址
       area: {
         type: String,
         default: '',
+      },
+      disabled: {
+        type: Boolean,
+        default: false,
       },
     },
     data () {

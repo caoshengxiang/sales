@@ -17,13 +17,13 @@
     <div class="com-bar">
       <div class="com-bar-left">
         <com-button buttonType="add" icon="el-icon-plus" @click="operateOptions('add')">新增</com-button>
-        <com-button buttonType="orange" @click="operateOptions('assign')"
+        <!--<com-button buttonType="orange" @click="operateOptions('assign')"
                     :disabled="multipleSelection.length !== 1"><i class="el-icon-sort"
                                                                   style="transform: rotate(90deg)"></i> 分配
         </com-button>
         <com-button buttonType="backHighSeas" icon="el-icon-upload2" @click="operateOptions('gain')"
                     :disabled="multipleSelection.length <= 0">捞取
-        </com-button>
+        </com-button>-->
         <com-button buttonType="theme" icon="el-icon-refresh" @click="operateOptions('group')"
                     :disabled="multipleSelection.length <= 0">改变分组
         </com-button>
@@ -90,6 +90,26 @@
         <el-table-column
           show-overflow-tooltip
           align="center"
+          sortable="custom"
+          label="客户类型"
+          prop="cate"
+          width="160">
+          <template slot-scope="scope">
+            <span v-if="scope.row.cate === 1">个人</span>
+            <span v-if="scope.row.cate === 2">机构</span>
+          </template>
+        </el-table-column>
+        <el-table-column
+          show-overflow-tooltip
+          align="center"
+          sortable="custom"
+          label="客户识别码"
+          prop="cdKey"
+          width="160">
+        </el-table-column>
+        <el-table-column
+          show-overflow-tooltip
+          align="center"
           prop="customerSourceName"
           label="客户来源"
           width="120">
@@ -140,7 +160,7 @@
           align="center"
           sortable="custom"
           prop=""
-          label="销售机会（商品）"
+          label="无人跟进机会"
           width="160"
           show-overflow-tooltip>
           <template slot-scope="scope">
@@ -153,7 +173,7 @@
           align="center"
           sortable="custom"
           prop="latestReturnTime"
-          label="最近退回时间"
+          label="退回时间"
           width="120"
           show-overflow-tooltip>
           <template slot-scope="scope">
@@ -179,7 +199,7 @@
           align="center"
           sortable="custom"
           prop="returnTimes"
-          label="客户退回次数"
+          label="退回次数"
           width="140"
           show-overflow-tooltip>
         </el-table-column>

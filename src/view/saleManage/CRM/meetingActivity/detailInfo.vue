@@ -137,7 +137,7 @@
       <!---->
       <el-tab-pane label="活动需求信息" name="related">
         <div class="com-box com-box-padding com-list-box">
-          <el-button style="float: right;margin-bottom: 20px;">添加销售机会</el-button>
+          <el-button style="float: right;margin-bottom: 20px;" @click="addChanceHandle">添加销售机会</el-button>
           <el-table
             ref="multipleTable"
             border
@@ -304,7 +304,7 @@
       width="30%"
     >
       <div ref="downloadCode" style="text-align: center">
-        <p class="title">活动名称名称</p>
+        <p class="title">{{detailInfo.meetingName}}</p>
         <div style="min-height: 200px;margin: 20px;padding: 20px;">
           <vue-qr
             :logoSrc="config1.logo"
@@ -378,6 +378,7 @@
   import addHousekeeper from './addHousekeeper'
   import { activityCodePre } from '../../../../utils/const'
   import Qs from 'qs'
+  import addChance from './addChance'
 
   export default {
     name: 'detailInfo',
@@ -396,9 +397,9 @@
         defaultListParams: { // 默认顾客列表请求参数
           page: null,
           pageSize: null,
-          type: null,
-          customerId: null,
-          organizationId: null,
+          meetingId: null,
+          meetingSaleCreator: null,
+          meetingManagerId: null,
         },
         managerList: [],
         config1: {
@@ -447,7 +448,7 @@
           setTimeout(() => {
             this.detailInfo = data.data
             this.dataLoading = false
-            // this.getSalesOpportunititeisList()
+            this.getSalesOpportunititeisList()
             this.getMannerList(this.detailInfo.id)
             this.getLog(this.detailInfo.id)
             this.config1.value = activityCodePre + Qs.stringify({ // 拼装活动二维码参数
@@ -456,11 +457,11 @@
           }, 500)
         }, (data) => {
           setTimeout(() => {
-            this.detailInfo = data.data
-            this.dataLoading = false
+            // this.detailInfo = data.data
+            // this.dataLoading = false
             // this.getSalesOpportunititeisList()
-            this.getMannerList(this.detailInfo.id)
-            this.getLog(this.detailInfo.id)
+            // this.getMannerList(this.detailInfo.id)
+            // this.getLog(this.detailInfo.id)
           }, 500)
         })
       },
@@ -476,7 +477,16 @@
           this.managerList = data.data
         })
       },
-      getSalesOpportunititeisList () { // 获取列表 todo
+      getQueryParams () { // 请求参数配置
+        this.defaultListParams = {
+          page: this.currentPage - 1,
+          pageSize: this.pagesOptions.pageSize,
+          meetingId: this.detailInfo.id,
+          meetingSaleCreator: null,
+          meetingManagerId: null,
+        }
+      },
+      getSalesOpportunititeisList () { // 获取列表
         this.dataLoading = true
         this.getQueryParams()
         API.activity.chance(Object.assign({}, this.defaultListParams, this.sortObj),
@@ -488,7 +498,7 @@
             }, 500)
           })
       },
-      sortChangeHandle (sortObj) { // todo
+      sortChangeHandle (sortObj) {
         // console.log(sortObj)
         let order = null
         if (sortObj.order === 'ascending') {
@@ -561,7 +571,7 @@
               }
               setTimeout(() => {
                 this.dataLoading = false
-                // this.getDetail()
+                this.getDetail()
                 this.$router.push({name: 'meetingActivity'})
               }, 500)
             } else {
@@ -607,6 +617,23 @@
             this.addHousekeeperHandle()
             break
         }
+      },
+      addChanceHandle () {
+        this.$vDialog.modal(addChance, {
+          title: '新增销售机会',
+          width: 900,
+          height: 600,
+          params: {
+            salesState: this.salesState,
+            topSource: this.topSource, // 顶级客户来源
+            meetingId: this.detailInfo.id,
+          },
+          callback: (data) => {
+            if (data.type === 'save') {
+              this.getSalesOpportunititeisList()
+            }
+          },
+        })
       },
       currentUserIsTeamNum () { // 判断当前用户是否为团对成员
         let currentUserId = webStorage.getItem('userInfo').id

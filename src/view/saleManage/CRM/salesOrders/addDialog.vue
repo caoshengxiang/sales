@@ -19,10 +19,11 @@
             <td class="td-title">签单联系人</td>
             <td class="td-text">
               <el-form-item prop="contacterId">
-                <el-select style="width: 100%" v-model.number="addForm.contacterId" placeholder="请选择签单联系人">
-                  <el-option v-for="item in contactList" :key="item.id" :label="item.contacterName"
-                             :value="item.id"></el-option>
-                </el-select>
+                <!--<el-select style="width: 100%" v-model.number="addForm.contacterId" placeholder="请选择签单联系人">-->
+                  <!--<el-option v-for="item in contactList" :key="item.id" :label="item.contacterName"-->
+                             <!--:value="item.id"></el-option>-->
+                <!--</el-select>-->
+                  <el-input type="text" :disabled="true" :placeholder="'['+addForm.contacter+']'+addForm.contactPhone"></el-input>
               </el-form-item>
             </td>
           </tr>
@@ -81,8 +82,15 @@
                                  label="请输入购买数量"></el-input-number>
               </el-form-item>
             </td>
-            <td class="td-title"></td>
+            <td class="td-title">地区</td>
             <td class="td-text">
+              <el-form-item prop="provinceId">
+              <AreaSelect ref="areaSe"
+                          :disabled="(orderState===0 || addForm.chanceId || params.fromChance)?true:false"
+                          :area="(addForm.provinceName?addForm.provinceName:'') + ' ' + (addForm.cityName?addForm.cityName:'')  + ' ' + (addForm.areaName?addForm.areaName:'')"
+                          @change="areaSelectedOptionsHandleChange"
+                          :selectLastLevelMode="true"></AreaSelect>
+              </el-form-item>
             </td>
           </tr>
           <tr>
@@ -223,7 +231,7 @@
         })
       },
       getCustomersList () { // 当前登陆用户所有的拥有团队成员权限的客户信息
-        API.customer.teamAboutCustomerlist(data => {
+        API.customer.teamAboutCustomerlist(null, data => {
           if (data.status) {
             this.customersList = data.data
           }
@@ -277,6 +285,17 @@
           if (item.id === this.addForm.chanceId) {
             this.addForm.productId = item.intentProductId
             this.addForm.productName = item.intentProductName
+
+            this.addForm.provinceId = item.provinceId
+            this.addForm.cityId = item.cityId
+            this.addForm.areaId = item.areaId
+            this.addForm.provinceName = item.provinceName
+            this.addForm.cityName = item.cityName
+            this.addForm.areaName = item.areaName
+
+            this.addForm.contacter = item.contacter
+            this.addForm.contactPhone = item.contactPhone
+
             // 清除规格
             this.addForm.specificationId = ''
             this.addForm.specificationName = ''
@@ -399,6 +418,15 @@
             this.getLastItem(item.children, vals, key)
           }
         }
+      },
+      areaSelectedOptionsHandleChange (value) {
+        let name = this.$refs.areaSe.getSelectedName(value)
+        this.addForm.provinceId = value[0] || ''
+        this.addForm.cityId = value[1] || ''
+        this.addForm.areaId = value[2] || ''
+        this.addForm.provinceName = name[0] || ''
+        this.addForm.cityName = name[1] || ''
+        this.addForm.areaName = name[2] || ''
       },
     },
     created () {

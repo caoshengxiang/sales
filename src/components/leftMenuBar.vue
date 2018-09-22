@@ -150,8 +150,8 @@
             <!--<template slot="title">分组一</template>-->
             <el-menu-item index="organizationList" v-if="listPermissions(menus, 'orgManagementSub')">组织管理</el-menu-item>
             <el-menu-item index="customerPool" v-if="listPermissions(menus, 'customerPool')">客户池管理</el-menu-item>
-            <el-menu-item index="organizationProductSetting" v-if="listPermissions(menus, 'orgGoodsConfig')">组织商品配置
-            </el-menu-item>
+            <el-menu-item index="organizationProductSetting" v-if="listPermissions(menus, 'orgGoodsConfig')">组织商品配置</el-menu-item>
+            <el-menu-item index="chancePool" v-if="listPermissions(menus, 'customerPool')">机会池管理</el-menu-item><!--todo 权限-->
           </el-menu-item-group>
         </el-submenu>
         <el-submenu index="financial" v-if="listPermissions(menus, 'financialManagement')">

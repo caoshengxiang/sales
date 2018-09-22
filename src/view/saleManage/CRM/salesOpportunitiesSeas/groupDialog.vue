@@ -3,7 +3,7 @@
     <div class="com-dialog">
       <el-form :model="moveCustomerForm" :rules="rules" ref="moveCustomerForm" label-width="160px"
                class="demo-ruleForm">
-        <el-form-item label="移动客户至" prop="newSeaId">
+        <el-form-item label="移动至" prop="newSeaId">
           <el-select v-model="moveCustomerForm.newSeaId" placeholder="请选择分组">
             <el-option v-for="item in poolList" :key="item.id" :label="item.name" :value="item.id"></el-option>
           </el-select>
@@ -44,7 +44,7 @@
         this.$refs[formName].validate((valid) => {
           if (valid) {
             this.dataLoading = true
-            API.customerSea.regroup({customerIds: this.params.customerIds, newSeaId: this.moveCustomerForm.newSeaId},
+            API.salesOpportunitiesSea.regroup({chanceIds: this.params.chanceIds, newSeaId: this.moveCustomerForm.newSeaId},
               (data) => {
                 if (data.status) {
                   if (data.data.fail > 0) {

@@ -152,6 +152,10 @@ const organizationList = resolve => require.ensure([],
 const customerPool = resolve => require.ensure([],
   () => resolve(require('../view/companyManage/organization/customerPool/customerPool')),
   'organization')
+// 机会池管理
+const chancePool = resolve => require.ensure([],
+  () => resolve(require('../view/companyManage/organization/chancePool/chancePool')),
+  'organization')
 
 const baseSettingList = resolve => require.ensure([],
   () => resolve(require('../view/companyManage/baseSetting/paramsConfig/list')),
@@ -638,6 +642,19 @@ const router = new Router({
               {name: '管理系统', toName: 'companyManageHome'},
               {name: '组织管理'},
               {name: '客户池管理'}],
+          },
+        },
+        // 企业管理 -- 机会池管理
+        {
+          path: 'chancePool',
+          name: 'chancePool',
+          component: chancePool,
+          meta: {
+            title: '机会池管理',
+            pos: [
+              {name: '管理系统', toName: 'companyManageHome'},
+              {name: '组织管理'},
+              {name: '机会池管理'}],
           },
         },
         // 企业管理 -- 组织商品配置管理

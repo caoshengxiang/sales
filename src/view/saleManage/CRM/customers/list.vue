@@ -17,13 +17,13 @@
     <div class="com-bar">
       <div class="com-bar-left">
         <com-button buttonType="add" icon="el-icon-plus" @click="addHandle">新增</com-button>
-        <com-button buttonType="orange" @click="moveHandle"
-                    :disabled="multipleSelection.length !== 1"><i class="el-icon-sort"
-                                                                  style="transform: rotate(90deg)"></i> 转移
-        </com-button>
-        <com-button buttonType="backHighSeas" icon="el-icon-back" @click="returnHighSeaHandle"
-                    :disabled="multipleSelection.length !== 1">退回公海池
-        </com-button>
+        <!--<com-button buttonType="orange" @click="moveHandle"-->
+                    <!--:disabled="multipleSelection.length !== 1"><i class="el-icon-sort"-->
+                                                                  <!--style="transform: rotate(90deg)"></i> 转移-->
+        <!--</com-button>-->
+        <!--<com-button buttonType="backHighSeas" icon="el-icon-back" @click="returnHighSeaHandle"-->
+                    <!--:disabled="multipleSelection.length !== 1">退回公海池-->
+        <!--</com-button>-->
       </div>
       <div class="com-bar-right" v-if="themeIndex === 0"><!--前端-->
         <el-select v-model="customerType" placeholder="请选择" class="com-el-select">
@@ -88,8 +88,20 @@
           show-overflow-tooltip
           align="center"
           sortable="custom"
-          label="营业执照"
-          prop="businessLicense"
+          label="客户类型"
+          prop="cate"
+          width="160">
+          <template slot-scope="scope">
+            <span v-if="scope.row.cate === 1">个人</span>
+            <span v-if="scope.row.cate === 2">机构</span>
+          </template>
+        </el-table-column>
+        <el-table-column
+          show-overflow-tooltip
+          align="center"
+          sortable="custom"
+          label="客户识别码"
+          prop="cdKey"
           width="160">
         </el-table-column>
         <el-table-column
@@ -129,14 +141,14 @@
           label="客户网站"
           width="160">
         </el-table-column>
-        <el-table-column
-          show-overflow-tooltip
-          align="center"
-          sortable="custom"
-          prop="phone"
-          label="联系电话"
-          width="160">
-        </el-table-column>
+        <!--<el-table-column-->
+          <!--show-overflow-tooltip-->
+          <!--align="center"-->
+          <!--sortable="custom"-->
+          <!--prop="phone"-->
+          <!--label="联系电话"-->
+          <!--width="160">-->
+        <!--</el-table-column>-->
         <el-table-column
           show-overflow-tooltip
           align="center"

@@ -159,6 +159,15 @@
         </el-table-column>
         <el-table-column
           align="center"
+          prop=""
+          label="签单类型"
+          width="120"
+          sortable="custom"
+          show-overflow-tooltip
+        >
+        </el-table-column>
+        <el-table-column
+          align="center"
           prop="isRenew"
           label="是否续费"
           width="100"
@@ -167,7 +176,15 @@
         >
           <template slot-scope="scope">{{scope.row.isRenew?'是':'否'}}</template>
         </el-table-column>
-
+        <el-table-column
+          align="center"
+          prop="auditStatus"
+          label="续费次数"
+          width="120"
+          sortable="custom"
+          show-overflow-tooltip
+        >
+        </el-table-column>
         <el-table-column
           align="center"
           prop="rebateType"

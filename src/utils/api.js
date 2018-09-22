@@ -62,10 +62,26 @@ export default {
         error && error(err)
       })
     },
-    chance (params, success, error) { // 活动列表
+    chance (params, success, error) { // 活动下机会列表
       // console.log(params)
       $axios.post('meetingSale/searchOrQueryChanceOfMeeting', null,
         {params: params}).then((res) => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+    },
+    addChance (params, success, error) { // 添加机会
+      // console.log(params)
+      $axios.post('meetingSale/limit/addSaleChance', params).then((res) => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+    },
+    addChance2 (params, success, error) { // 添加机会
+      // console.log(params)
+      $axios.post('meetingSale/addSaleChance', params).then((res) => {
         success && success(res.data)
       }).catch((err) => {
         error && error(err)
@@ -292,8 +308,15 @@ export default {
         error && error(err)
       })
     },
-    teamAboutCustomerlist (success, error) { // 团队成员相关客户列表
-      $axios.get('customer/list').then((res) => {
+    teamAboutCustomerlist (params, success, error) { // 团队成员相关客户列表
+      $axios.get('customer/list', {params: params}).then((res) => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+    },
+    customerSearch (params, success, error) { // 客户搜索
+      $axios.get('customer/search', {params: params}).then((res) => {
         success && success(res.data)
       }).catch((err) => {
         error && error(err)
@@ -426,7 +449,7 @@ export default {
         error && error(err)
       })
     },
-    deleteSea (params, success, error) { // 分组
+    deleteSea (params, success, error) { // 删除
       $axios.delete('customerSea/' + params).then((res) => {
         success && success(res.data)
       }).catch((err) => {
@@ -598,6 +621,17 @@ export default {
         error && error(err)
       })
     },
+    seaList  (params, success, error) { // 公海机会列表
+      $axios({
+        method: 'get',
+        url: '/salerChance/sea/list',
+        params: params,
+      }).then(res => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+    },
     detail (params, success, error) { // 销售机会详细
       $axios({
         method: 'get',
@@ -655,6 +689,172 @@ export default {
     },
     counselorExit (params, success, error) { // 咨询师主动退出
       $axios.post('salerChance/counselorExit/' + params).then((res) => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+    },
+    returnSea (params, success, error) { // 咨询师主动退出
+      $axios.post('salerChance/return', params).then((res) => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+    },
+    bindCustomer (params, success, error) { // 咨询师主动退出
+      $axios.post('salerChance/bindCustomer', params).then((res) => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+    },
+  },
+  // 机会公池
+  salesOpportunitiesSea: {
+    list (params, success, error) { // 列表
+      $axios.get('chanceSea', {
+        params: {organizationId: params},
+      }).then((res) => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+    },
+    listAboutCustomer (success, error) { // 人员相关公海列表,客户
+      $axios.get('chanceSea/list').then((res) => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+    },
+    seaslist (success, error) { // 人员权限相关公海列表，客户公海
+      $axios.get('chanceSea/authRel/list').then((res) => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+    },
+    addCustomer (params, success, error) { // 客户池新增客户。公海
+      let p = Object.assign({}, params.body, params.query) // body参数需要加一个source来源属性
+      $axios.post('chanceSea/addCustomer', p).then((res) => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+    },
+    editCustomer (params, success, error) { // 客户池新增客户。公海
+      $axios.put('chanceSea/customer/' + params.path,
+        params.body).then(res => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+    },
+    add (params, success, error) { // add
+      $axios.post('chanceSea', params).then((res) => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+    },
+    edit (params, success, error) { // 客户池编辑
+      $axios.put('chanceSea/' + params.path, params.body).then((res) => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+    },
+    detail (params, success, error) { //
+      $axios.get('chanceSea/' + params).then((res) => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+    },
+    allocate (params, success, error) { // 分配
+      $axios.post('chanceSea/allocate', params).then((res) => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+    },
+    fish (params, success, error) { // 捞取
+      $axios.post('chanceSea/fish', params).then((res) => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+    },
+    regroup (params, success, error) { // 分组
+      $axios.post('chanceSea/regroup', params).then((res) => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+    },
+    deleteSea (params, success, error) { // 删除
+      $axios.delete('chanceSea/' + params).then((res) => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+    },
+    customerDetail (params, success, error) { // 客户池获取客户详情
+      $axios.get('chanceSea/customer/' + params).then((res) => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+    },
+    contactList (params, success, error) { // 客户池获取联系人列表
+      $axios.get('chanceSea/contacter', {
+        params: params,
+      }).then((res) => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+    },
+    chanceList (params, success, error) { // 客户池获取机会列表
+      $axios.get('chanceSea/salerChance', {
+        params: params,
+      }).then((res) => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+    },
+    orderList (params, success, error) { // 列表
+      // $axios({ // todo 需要修改
+      //   method: 'get',
+      //   url: '/salerOrder',
+      //   params: params,
+      // }).then(res => {
+      //   success && success(res.data)
+      // }).catch((err) => {
+      //   error && error(err)
+      // })
+    },
+    addContacter (params, success, error) { // 客户池新增联系人
+      $axios({
+        method: 'post',
+        url: 'chanceSea/addContacter',
+        data: params,
+      }).then(res => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+    },
+    addChance (params, success, error) {
+      $axios.post('chanceSea/addChance', params).then((res) => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+    },
+    seaImport (params, success, error) {
+      $axios.post('chanceSea/import', params).then(res => {
         success && success(res.data)
       }).catch((err) => {
         error && error(err)
@@ -853,8 +1053,8 @@ export default {
       }).then((res) => {
         success && success(res.data)
       }).catch(() => {
-        setTimeout(() => {
-          error && error(mockdata)
+        setTimeout((err) => {
+          error && error(err)
         }, 1000)
       })
     },
@@ -1152,8 +1352,8 @@ export default {
       }).then((res) => {
         success && success(res.data)
       }).catch(() => {
-        setTimeout(() => {
-          error && error(mockdata)
+        setTimeout((err) => {
+          error && error(err)
         }, 1000)
       })
     },
@@ -1164,8 +1364,8 @@ export default {
       }).then((res) => {
         success && success(res.data)
       }).catch(() => {
-        setTimeout(() => {
-          error && error(mockdata)
+        setTimeout((err) => {
+          error && error(err)
         }, 1000)
       })
     },
@@ -1177,8 +1377,8 @@ export default {
       }).then((res) => {
         success && success(res.data)
       }).catch(() => {
-        setTimeout(() => {
-          error && error(mockdata)
+        setTimeout((err) => {
+          error && error(err)
         }, 1000)
       })
     },
@@ -1221,8 +1421,8 @@ export default {
       }).then((res) => {
         success && success(res.data)
       }).catch(() => {
-        setTimeout(() => {
-          error && error(mockdata)
+        setTimeout((err) => {
+          error && error(err)
         }, 1000)
       })
     },
@@ -1243,8 +1443,8 @@ export default {
       }).then((res) => {
         success && success(res.data)
       }).catch(() => {
-        setTimeout(() => {
-          error && error(mockdata)
+        setTimeout((err) => {
+          error && error(err)
         }, 1000)
       })
     },
@@ -1256,8 +1456,8 @@ export default {
       }).then((res) => {
         success && success(res.data)
       }).catch(() => {
-        setTimeout(() => {
-          error && error(mockdata)
+        setTimeout((err) => {
+          error && error(err)
         }, 1000)
       })
     },
@@ -1265,8 +1465,8 @@ export default {
       $axios.get('codeConfig/settlement', {}).then((res) => {
         success && success(res.data)
       }).catch(() => {
-        setTimeout(() => {
-          error && error(mockdata)
+        setTimeout((err) => {
+          error && error(err)
         }, 1000)
       })
     },
@@ -1278,8 +1478,8 @@ export default {
       }).then((res) => {
         success && success(res.data)
       }).catch(() => {
-        setTimeout(() => {
-          error && error(mockdata)
+        setTimeout((err) => {
+          error && error(err)
         }, 1000)
       })
     },
@@ -1289,8 +1489,8 @@ export default {
       }).then((res) => {
         success && success(res.data)
       }).catch(() => {
-        setTimeout(() => {
-          error && error(mockdata)
+        setTimeout((err) => {
+          error && error(err)
         }, 1000)
       })
     },
@@ -1302,8 +1502,8 @@ export default {
       }).then((res) => {
         success && success(res.data)
       }).catch(() => {
-        setTimeout(() => {
-          error && error(mockdata)
+        setTimeout((err) => {
+          error && error(err)
         }, 1000)
       })
     },
@@ -1315,8 +1515,8 @@ export default {
       }).then((res) => {
         success && success(res.data)
       }).catch(() => {
-        setTimeout(() => {
-          error && error(mockdata)
+        setTimeout((err) => {
+          error && error(err)
         }, 1000)
       })
     },
@@ -1328,8 +1528,8 @@ export default {
       }).then((res) => {
         success && success(res.data)
       }).catch(() => {
-        setTimeout(() => {
-          error && error(mockdata)
+        setTimeout((err) => {
+          error && error(err)
         }, 1000)
       })
     },
@@ -1337,8 +1537,8 @@ export default {
       $axios.get('codeConfig/site', {}).then((res) => {
         success && success(res.data)
       }).catch(() => {
-        setTimeout(() => {
-          error && error(mockdata)
+        setTimeout((err) => {
+          error && error(err)
         }, 1000)
       })
     },
@@ -1350,8 +1550,8 @@ export default {
       }).then((res) => {
         success && success(res.data)
       }).catch(() => {
-        setTimeout(() => {
-          error && error(mockdata)
+        setTimeout((err) => {
+          error && error(err)
         }, 1000)
       })
     },
@@ -1610,8 +1810,8 @@ export default {
       }).then((res) => {
         success && success(res.data)
       }).catch(() => {
-        setTimeout(() => {
-          error && error(mockdata)
+        setTimeout((err) => {
+          error && error(err)
         }, 1000)
       })
     },
@@ -1689,4 +1889,24 @@ export default {
       })
     },
   },
+  agentDev: {
+    depts (params, success, error) {
+      $axios.get('foster/fosterPerson/depts', {
+        params: params,
+      }).then(res => {
+        success && success(res.data)
+      }).catch(err => {
+        error && error(err)
+      })
+    },
+    list (params, success, error) {
+      $axios.get('foster/fosterPerson', {
+        params: params,
+      }).then(res => {
+        success && success(res.data)
+      }).catch(err => {
+        error && error(err)
+      })
+    },
+  }
 }

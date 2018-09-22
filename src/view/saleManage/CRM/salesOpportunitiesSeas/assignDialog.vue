@@ -45,8 +45,8 @@
         this.$refs[formName].validate((valid) => {
           if (valid) {
             this.dataLoading = true
-            API.customerSea.allocate(
-              {customerIds: this.params.customerIds, newSalerId: this.moveCustomerForm.newSalerId}, (data) => {
+            API.salesOpportunitiesSea.allocate(
+              {chanceIds: this.params.chanceIds, newSalerId: this.moveCustomerForm.newSalerId}, (data) => {
                 if (data.status) {
                   if (data.data.fail > 0) {
                     this.$message.warning(`成功${data.data.success}, 失败${data.data.fail}, 失败原因：${data.data.errorMessage}`)
@@ -76,8 +76,8 @@
       },
     },
     created () {
-      this.getUserSearch(this.params.customerIds)
-      this.moveCustomerForm.customerIds = this.params.customerIds
+      this.getUserSearch(this.params.chanceIds)
+      this.moveCustomerForm.chanceIds = this.params.chanceIds
     },
   }
 </script>

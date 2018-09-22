@@ -34,21 +34,23 @@
         </div>
       </div>
       <div class="com-info-right">
-        <!--<el-radio-group v-model="tapOption">-->
-        <!--<el-radio-button class="btn-width" label="move">转移</el-radio-button>-->
-        <!--<el-radio-button class="btn-width" label="move">删除</el-radio-button>-->
-        <!--</el-radio-group>-->
         <ul class="com-info-op-group">
           <!--输单后隐藏删除以外得按钮-->
 
-         <!-- 销售机会模块列表中“转移”按钮与销售机会详情里面“转移”按钮隐藏
-          业务模式发生变化，同一客户（含该客户的销售机会）同一时间在同一分子公司只能存在一个销售跟进人员，为了避免同一客户多个销售机会被多个用户跟进，故需要隐藏销售机会“转移”功能
-          [期望]
-          销售机会模块列表中“转移”按钮与销售机会详情里面“转移”按钮隐藏-->
-          <!--<li class="op-active" v-if="salesOpportunitiesDetail.stage !== -1 && isChangeFollower"-->
-              <!--@click="operateOptions('move')">转移-->
-          <!--</li>-->
-          <li v-if="isChangeFollower" @click="operateOptions('delete')">删除</li>
+          <li class="op-active" v-if="salesOpportunitiesDetail.stage !== -1 && isChangeFollower && !salesOpportunitiesDetail.customerId"
+              @click="operateOptions('bind')">绑定客户
+          </li>
+          <li class="op-active" v-if="salesOpportunitiesDetail.stage !== -1 && isChangeFollower"
+              @click="operateOptions('return')">退回公海
+          </li>
+          <!-- 销售机会模块列表中“转移”按钮与销售机会详情里面“转移”按钮隐藏
+           业务模式发生变化，同一客户（含该客户的销售机会）同一时间在同一分子公司只能存在一个销售跟进人员，为了避免同一客户多个销售机会被多个用户跟进，故需要隐藏销售机会“转移”功能
+           [期望]
+           销售机会模块列表中“转移”按钮与销售机会详情里面“转移”按钮隐藏-->
+          <li class="op-active" v-if="salesOpportunitiesDetail.stage !== -1 && isChangeFollower"
+              @click="operateOptions('move')">转移
+          </li>
+          <li class="op-active" v-if="isChangeFollower" @click="operateOptions('delete')">删除</li>
         </ul>
       </div>
       <div class="step-box">
@@ -73,20 +75,23 @@
             <p class="table-title">客户基本信息</p>
             <table class="detail-table">
               <tr>
-                <td class="td-title">公司名称</td>
+                <td class="td-title">客户类型</td>
+                <td>
+                  <span v-if="customerDetail.cate === 1">个人</span>
+                  <span v-if="customerDetail.cate === 2">机构</span>
+                </td>
+                <td class="td-title">客户名称</td>
                 <td>{{customerDetail.name}}</td>
-                <td class="td-title">营业执照</td>
-                <td>{{customerDetail.businessLicense}}</td>
-                <td class="td-title">客户级别</td>
-                <td>{{customerDetail.level}}</td>
+                <td class="td-title">客户识别码</td>
+                <td>{{customerDetail.cdKey}}</td>
               </tr>
               <tr>
-                <td class="td-title">客户联系人</td>
-                <td>{{customerDetail.contactName}}</td>
+                <td class="td-title">所在公海</td>
+                <td>{{customerDetail.seaName}}</td>
+                <td class="td-title">客户级别</td>
+                <td>{{customerDetail.level}}</td>
                 <td class="td-title">客户行业</td>
                 <td>{{customerDetail.industry}}</td>
-                <td class="td-title">联系电话</td>
-                <td>{{customerDetail.phone}}</td>
               </tr>
               <tr>
                 <td class="td-title">所在地区</td>
@@ -96,8 +101,8 @@
                 </td>
                 <td class="td-title">公司网站</td>
                 <td>{{customerDetail.website}}</td>
-                <td class="td-title"></td>
-                <td></td>
+                <td class="td-title">联系电话</td>
+                <td>{{customerDetail.phone}}</td>
               </tr>
               <tr>
                 <td class="td-title">客户来源</td>
@@ -117,16 +122,16 @@
             <p class="table-title">销售机会基本信息</p>
             <table class="detail-table">
               <tr>
-                <!--<td class="td-title">客户名称</td>-->
-                <!--<td>{{salesOpportunitiesDetail.customerName}}</td>-->
-                <!--<td class="td-title">需求进度</td>-->
-                <!--<td>-->
-                  <!--<span v-for="item in salesState"-->
-                        <!--:key="item.type"-->
-                        <!--v-if="item.type === salesOpportunitiesDetail.stage">{{item.value}}&nbsp;{{item.percent}}</span>-->
-                <!--</td>-->
-                <!--<td class="td-title">实际签单金额</td>-->
-                <!--<td>{{salesOpportunitiesDetail.billAmount}}</td>-->
+                <td class="td-title">客户名称</td>
+                <td>{{salesOpportunitiesDetail.customerName}}</td>
+                <td class="td-title">客户联系人</td>
+                <td>{{salesOpportunitiesDetail.contacter}}</td>
+                <td class="td-title">需求进度</td>
+                <td>
+                  <span v-for="item in salesState"
+                        :key="item.type"
+                        v-if="item.type === salesOpportunitiesDetail.stage">{{item.value}}&nbsp;{{item.percent}}</span>
+                </td>
               </tr>
               <tr>
                 <td class="td-title">预计签单时间</td>
@@ -139,12 +144,12 @@
                 <td>{{salesOpportunitiesDetail.intentBillAmount}}</td>
               </tr>
               <tr>
-                <!--<td class="td-title">签单订单号</td>-->
-                <!--<td>{{salesOpportunitiesDetail.orderId}}</td>-->
-                <!--<td class="td-title">签单商品</td>-->
-                <!--<td>{{salesOpportunitiesDetail.productName}}</td>-->
-                <!--<td class="td-title"></td>-->
-                <!--<td></td>-->
+                <td class="td-title">签单订单号</td>
+                <td>{{salesOpportunitiesDetail.orderId}}</td>
+                <td class="td-title">签单商品</td>
+                <td>{{salesOpportunitiesDetail.productName}}</td>
+                <td class="td-title">实际签单金额</td>
+                <td>{{salesOpportunitiesDetail.billAmount}}</td>
               </tr>
               <tr>
                 <td class="td-title">销售机会备注</td>
@@ -177,28 +182,28 @@
             <p class="table-title">销售机会操作记录</p>
             <table class="detail-table">
               <!--<tr>-->
-                <!--<td class="td-title">销售机会创建时间</td>-->
-                <!--<td colspan="3">{{salesOpportunitiesDetail.created &&-->
-                  <!--$moment(salesOpportunitiesDetail.created).format('YYYY-MM-DD HH:mm:ss')}}-->
-                <!--</td>-->
-                <!--<td class="td-title">所有人</td>-->
-                <!--<td>{{salesOpportunitiesDetail.creatorName}}</td>-->
+              <!--<td class="td-title">销售机会创建时间</td>-->
+              <!--<td colspan="3">{{salesOpportunitiesDetail.created &&-->
+              <!--$moment(salesOpportunitiesDetail.created).format('YYYY-MM-DD HH:mm:ss')}}-->
+              <!--</td>-->
+              <!--<td class="td-title">所有人</td>-->
+              <!--<td>{{salesOpportunitiesDetail.creatorName}}</td>-->
               <!--</tr>-->
               <!--<tr>-->
-                <!--<td class="td-title">销售机会修改时间</td>-->
-                <!--<td colspan="3">{{salesOpportunitiesDetail.modified &&-->
-                  <!--$moment(salesOpportunitiesDetail.modified).format('YYYY-MM-DD HH:mm:ss')}}-->
-                <!--</td>-->
-                <!--<td class="td-title">修改人</td>-->
-                <!--<td>{{salesOpportunitiesDetail.modifierName}}</td>-->
+              <!--<td class="td-title">销售机会修改时间</td>-->
+              <!--<td colspan="3">{{salesOpportunitiesDetail.modified &&-->
+              <!--$moment(salesOpportunitiesDetail.modified).format('YYYY-MM-DD HH:mm:ss')}}-->
+              <!--</td>-->
+              <!--<td class="td-title">修改人</td>-->
+              <!--<td>{{salesOpportunitiesDetail.modifierName}}</td>-->
               <!--</tr>-->
               <!--<tr>-->
-                <!--<td class="td-title">销售机会活动时间</td>-->
-                <!--<td colspan="3">{{ salesOpportunitiesDetail.followDate &&-->
-                  <!--$moment(salesOpportunitiesDetail.followDate).format('YYYY-MM-DD HH:mm:ss')}}-->
-                <!--</td>-->
-                <!--<td class="td-title">跟进人</td>-->
-                <!--<td>{{salesOpportunitiesDetail.team.salerName}}</td>-->
+              <!--<td class="td-title">销售机会活动时间</td>-->
+              <!--<td colspan="3">{{ salesOpportunitiesDetail.followDate &&-->
+              <!--$moment(salesOpportunitiesDetail.followDate).format('YYYY-MM-DD HH:mm:ss')}}-->
+              <!--</td>-->
+              <!--<td class="td-title">跟进人</td>-->
+              <!--<td>{{salesOpportunitiesDetail.team.salerName}}</td>-->
               <!--</tr>-->
               <tr>
                 <td colspan="5" class="td-title">销售机会操作记录</td>
@@ -308,7 +313,9 @@
                   <!--1.订单中的商品为计时类商品；-->
                   <!--2.订单处于服务中或已完成状态。-->
                   <!--计费类型（TIMES计次，ANNUALLY包年） 包年就是计时商品-->
-                  <a v-if="salesOpportunitiesDetail.stage !== -1 && isChangeFollower && (item.orderState === 3 || item.orderState === 4) && item.billingType === 'ANNUALLY'" class="table-op" @click="quickOperation('reNew', item.id, item)">续费</a>
+                  <a
+                    v-if="salesOpportunitiesDetail.stage !== -1 && isChangeFollower && (item.orderState === 3 || item.orderState === 4) && item.billingType === 'ANNUALLY'"
+                    class="table-op" @click="quickOperation('reNew', item.id, item)">续费</a>
                   <!--<a v-if="true" class="table-op" @click="quickOperation('reNew', item.id, item)">续费</a>-->
                 </td>
               </tr>
@@ -370,12 +377,17 @@
         </ul>
         <!--输单后隐藏删除以外得按钮-->
         <!--当销售机会进入100%阶段后，咨询师相关的操作按钮作隐藏处理。包含“申请咨询师协同”“申请替换咨询师”“咨询师主动退出”-->
-        <div class="team-btn-group" v-if="salesOpportunitiesDetail.stage !== -1 && salesOpportunitiesDetail.stage !== 5">
+        <div class="team-btn-group"
+             v-if="salesOpportunitiesDetail.stage !== -1 && salesOpportunitiesDetail.stage !== 5">
           <div v-if="salesOpportunitiesDetail.team && !salesOpportunitiesDetail.team.counselorId && isChangeFollower"
                class="btn-item-1" @click="operateOptions('apply')">申请咨询师协同
           </div>
-          <div v-if="salesOpportunitiesDetail.team && salesOpportunitiesDetail.team.counselorId && isChanceCounselor" class="btn-item-2" @click="operateOptions('exit')">咨询师主动退出</div>
-          <div v-if="salesOpportunitiesDetail.team && salesOpportunitiesDetail.team.counselorId && isChangeFollower" class="btn-item-3" @click="operateOptions('replace')">申请替换咨询师</div>
+          <div v-if="salesOpportunitiesDetail.team && salesOpportunitiesDetail.team.counselorId && isChanceCounselor"
+               class="btn-item-2" @click="operateOptions('exit')">咨询师主动退出
+          </div>
+          <div v-if="salesOpportunitiesDetail.team && salesOpportunitiesDetail.team.counselorId && isChangeFollower"
+               class="btn-item-3" @click="operateOptions('replace')">申请替换咨询师
+          </div>
         </div>
       </div>
     </div>
@@ -447,7 +459,11 @@
       handleTabsClick (tab, event) {
         // console.log(tab.name)
         this.$router.push(
-          {name: 'salesOpportunitiesDetail', params: {end: this.themeIndex === 0 ? 'FE' : 'ME'}, query: {view: tab.name, id: this.$route.query.id}})
+          {
+            name: 'salesOpportunitiesDetail',
+            params: {end: this.themeIndex === 0 ? 'FE' : 'ME'},
+            query: {view: tab.name, id: this.$route.query.id},
+          })
       },
       operateOptions (op) {
         switch (op) {
@@ -550,6 +566,37 @@
               },
             })
             break
+          case 'return':
+            this.$confirm('确定退回机会公池, 是否继续?', '提示', {
+              confirmButtonText: '确定',
+              cancelButtonText: '取消',
+              type: 'warning',
+            }).then(() => {
+              this.dataLoading = true
+              API.salesOpportunities.returnSea({chanceIds: this.salesOpportunitiesDetail.id}, (data) => {
+                if (data.status) {
+                  if (data.data.fail > 0) {
+                    this.$message.warning(`成功${data.data.success}, 失败${data.data.fail}, 失败原因：${data.data.errorMessage}`)
+                  } else {
+                    this.$message.success(`成功${data.data.success},失败${data.data.fail}`)
+                  }
+                  setTimeout(() => {
+                    this.dataLoading = false
+                    this.getSalesOpportunitiesDetail()
+                  }, 500)
+                } else {
+                  setTimeout(() => {
+                    this.dataLoading = false
+                  }, 500)
+                }
+              })
+            }).catch(() => {
+              this.$message({
+                type: 'info',
+                message: '已取消删除',
+              })
+            })
+            break
         }
       },
       getTeamAndOwn () {
@@ -572,8 +619,10 @@
         this.dataLoading = true
         API.salesOpportunities.detail(this.$route.query.id, (data) => {
           this.ac_salesOpportunitiesDetail(data.data)
-          this.getContactList(data.data.customerId)
-          this.getCustomerDetail(data.data.customerId)
+          if (data.data.customerId) {
+            this.getContactList(data.data.customerId)
+            this.getCustomerDetail(data.data.customerId)
+          }
           this.getOrderRecordsList(data.data.id)
           this.getAppOrderList(data.data.id)
           setTimeout(() => {
@@ -632,11 +681,12 @@
               this.$vDialog.modal(addDialog, {
                 title: '确定销售需求',
                 width: 900,
-                height: 400,
+                height: 500,
                 params: {
                   salesState: this.salesState,
                   detail: JSON.parse(JSON.stringify(this.salesOpportunitiesDetail)),
                   topSource: this.topSource, // 顶级客户来源
+                  type: 'confirmation'
                 },
                 callback: (data) => {
                   if (data.type === 'save') {
@@ -714,19 +764,23 @@
         let that = this
         switch (op) {
           case 'addContact':
-            this.$vDialog.modal(addContactDialog, {
-              title: '新增联系人',
-              width: 900,
-              height: 460,
-              params: {
-                detailCustomersId: this.salesOpportunitiesDetail.customerId,
-              },
-              callback (data) {
-                if (data.type === 'save') {
-                  that.getContactList(that.salesOpportunitiesDetail.customerId)
-                }
-              },
-            })
+            if (this.salesOpportunitiesDetail.customerId) {
+              this.$vDialog.modal(addContactDialog, {
+                title: '新增联系人',
+                width: 900,
+                height: 460,
+                params: {
+                  detailCustomersId: this.salesOpportunitiesDetail.customerId,
+                },
+                callback (data) {
+                  if (data.type === 'save') {
+                    that.getContactList(that.salesOpportunitiesDetail.customerId)
+                  }
+                },
+              })
+            } else {
+              this.$message.warning('未绑定客户！')
+            }
             break
           case 'addRecord':
             this.$vDialog.modal(addOrderRecord, {
@@ -769,7 +823,7 @@
               params: {
                 orderDetail: obj,
                 topSource: this.topSource, // 顶级客户来源
-                isRenew: true
+                isRenew: true,
               },
               callback (data) {
                 if (data.type === 'save') {
