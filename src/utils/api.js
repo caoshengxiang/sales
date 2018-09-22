@@ -720,6 +720,13 @@ export default {
         error && error(err)
       })
     },
+    editChance (params, success, error) { // 列表
+      $axios.put('chanceSea/modifyChance/' + params.id, params).then((res) => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+    },
     listAboutCustomer (success, error) { // 人员相关公海列表,客户
       $axios.get('chanceSea/list').then((res) => {
         success && success(res.data)

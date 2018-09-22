@@ -44,7 +44,7 @@
           <!--<li class="op-active" v-if="salesOpportunitiesDetail.stage !== -1 && isChangeFollower"-->
               <!--@click="operateOptions('move')">转移-->
           <!--</li>-->
-          <li class="op-active" v-if="isChangeFollower && salesOpportunitiesDetail.stage === 1" @click="operateOptions('edit')">修改</li>
+          <li class="op-active" v-if="isChanceCreater" @click="operateOptions('edit')">修改</li>
           <li class="op-active" @click="operateOptions('assign')">分配</li>
           <li class="op-active" @click="operateOptions('gain')">捞取</li>
           <li class="op-active" @click="operateOptions('group')">改变分组</li>
@@ -462,15 +462,15 @@
             this.$vDialog.modal(addDialog, {
               title: '修改销售机会',
               width: 900,
-              height: 400,
+              height: 500,
               params: {
                 salesState: this.salesState,
                 topSource: this.topSource, // 顶级客户来源
-                detail: this.salesOpportunitiesDetail,
+                detail: JSON.parse(JSON.stringify(this.salesOpportunitiesDetail)),
               },
-              callback (data) {
+              callback: (data) => {
                 if (data.type === 'save') {
-                  that.getSalesOpportunititeisList()
+                  this.getSalesOpportunititeisList()
                 }
               },
             })

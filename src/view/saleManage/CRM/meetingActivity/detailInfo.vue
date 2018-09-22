@@ -212,6 +212,7 @@
               width="80"
               show-overflow-tooltip>
               <template slot-scope="scope">
+                {{scope.row.stage}}
             <span v-for="item in salesState" :key="item.type"
                   v-if="item.type === scope.row.stage">{{item.percent}}</span>
                 <!--<span v-if="scope.row.stage === -1">0%</span>-->
@@ -686,7 +687,7 @@
           // document.body.appendChild(canvas)
           var a = document.createElement('a')
           a.href = canvas.toDataURL('image/png') // 将画布内的信息导出为png图片数据
-          a.download = '活动二维码' // 设定下载名称
+          a.download = this.detailInfo.meetingName + '二维码' // 设定下载名称
           a.click() // 点击触发下载
         })
       },
@@ -695,7 +696,7 @@
           // document.body.appendChild(canvas)
           var a = document.createElement('a')
           a.href = canvas.toDataURL('image/png') // 将画布内的信息导出为png图片数据
-          a.download = '管家二维码' // 设定下载名称
+          a.download = this.detailInfo.meetingName + ',' + this.managerCodeDetail.mangerName + '二维码' // 设定下载名称
           a.click() // 点击触发下载
         })
       },

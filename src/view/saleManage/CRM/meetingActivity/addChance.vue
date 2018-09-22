@@ -176,7 +176,7 @@
         dataLoading: false,
         addForm: { // 添加表单
           customerId: '',
-          state: 2, // 阶段，默认
+          // state: 2, // 阶段，默认
           // intentProductCate: '2', // 分类，新需求没有这个
           // intentProductCateName: '2',
           intentProductId: '', // 商品

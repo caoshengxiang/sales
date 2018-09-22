@@ -182,7 +182,7 @@
           billDate: '',
           intentBillAmount: '',
           chanceRemark: '',
-          pageSource: 1, // 公海添加机会，传2. 其他传1
+          pageSource: 2, // 公海添加机会，传2. 其他传1
           chanceSource: '',
         },
         customersList: [],
@@ -253,9 +253,9 @@
           if (valid) {
             this.dataLoading = true
             if (this.params.detail) { // 编辑
-              API.salesOpportunitiesSea.confirm({path: this.addForm.id, body: this.addForm}, (data) => {
+              API.salesOpportunitiesSea.editChance(this.addForm, (data) => {
                 if (data.status) {
-                  this.$message.success('添加成功')
+                  this.$message.success('编辑成功')
                   setTimeout(() => {
                     this.dataLoading = false
                     this.$vDialog.close({type: 'save'})
