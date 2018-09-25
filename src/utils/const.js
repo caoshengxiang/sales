@@ -13,12 +13,12 @@ console.log(process.env.API_EXTERNAL, 'test APP----环境地址')
 * 二维码前缀,打包需要更改
 * */
 // 本地测试地址
-export const activityCodePre = 'http://192.168.0.109:8080/#/activityAddCustomer/index?'
-export const agentRegister = 'http://192.168.0.109:8080/#/account/registe?'
+// export const activityCodePre = 'http://192.168.0.109:8080/#/activityAddCustomer/index?'
+// export const agentRegister = 'http://192.168.0.109:8080/#/account/registe?'
 
 // 微信测试地址
-// export const activityCodePre = 'http://king.dcstar-inc.com/#/activityAddCustomer/index?'
-// export const agentRegister = 'http://king.dcstar-inc.com/#/account/registe?'
+export const activityCodePre = 'http://king.dcstar-inc.com/#/activityAddCustomer/index?'
+export const agentRegister = 'http://king.dcstar-inc.com/#/account/registe?'
 
 // 微信正式地址
 // export const activityCodePre = 'http://jys.zzcfo.cnm/#/activityAddCustomer/index?'
