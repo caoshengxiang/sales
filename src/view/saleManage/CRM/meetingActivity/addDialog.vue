@@ -30,13 +30,13 @@
             <td class="td-title">活动经费</td>
             <td>
               <el-form-item prop="meetingMoney">
-                <el-input type="text" v-model="addForm.meetingMoney"></el-input>
+                <el-input type="number" v-model="addForm.meetingMoney"></el-input>
               </el-form-item>
             </td>
             <td class="td-title">活动人数</td>
             <td>
               <el-form-item prop="personCount">
-                <el-input type="text" v-model="addForm.personCount"></el-input>
+                <el-input type="number" v-model="addForm.personCount"></el-input>
               </el-form-item>
             </td>
           </tr>

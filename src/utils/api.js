@@ -1054,6 +1054,16 @@ export default {
         error && error(err)
       })
     },
+    seaChanceFollowersList (params, success, error) { // 机会池池销售跟进员列表
+      // console.log(params)
+      $axios.get('user/chanceSea/followers', {
+        params: params,
+      }).then((res) => {
+        success && success(res.data)
+      }).catch(err => {
+        error && error(err)
+      })
+    },
     userList (params, success, error) { // 用户列表
       $axios.get('user', {
         params: params,
@@ -1908,6 +1918,15 @@ export default {
     },
     list (params, success, error) {
       $axios.get('foster/fosterPerson', {
+        params: params,
+      }).then(res => {
+        success && success(res.data)
+      }).catch(err => {
+        error && error(err)
+      })
+    },
+    type (params, success, error) {
+      $axios.get('foster/fosterPerson/getViews', {
         params: params,
       }).then(res => {
         success && success(res.data)

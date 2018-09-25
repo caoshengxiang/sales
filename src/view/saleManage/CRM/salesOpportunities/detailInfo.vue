@@ -101,7 +101,7 @@
                 </td>
                 <td class="td-title">公司网站</td>
                 <td>{{customerDetail.website}}</td>
-                <td class="td-title">联系电话</td>
+                <td class="td-title">客户电话</td>
                 <td>{{customerDetail.phone}}</td>
               </tr>
               <tr>

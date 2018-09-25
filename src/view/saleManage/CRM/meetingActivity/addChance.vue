@@ -117,18 +117,18 @@
               </el-form-item>
             </td>
           </tr>
-          <tr>
-            <td class="td-title">机会公海</td>
-            <td class="td-text">
-              <el-form-item prop="chanceSeaId">
-                <el-select v-model.number="addForm.chanceSeaId" placeholder="请选择机会公海" style="width: 100%;">
-                  <el-option v-for="item in seaList" :key="item.id" :label="item.name" :value="item.id"></el-option>
-                </el-select>
-              </el-form-item>
-            </td>
-            <td class="td-title"></td>
-            <td class="td-text"></td>
-          </tr>
+          <!--<tr>-->
+            <!--<td class="td-title">机会公海</td>-->
+            <!--<td class="td-text">-->
+              <!--<el-form-item prop="chanceSeaId">-->
+                <!--<el-select v-model.number="addForm.chanceSeaId" placeholder="请选择机会公海" style="width: 100%;">-->
+                  <!--<el-option v-for="item in seaList" :key="item.id" :label="item.name" :value="item.id"></el-option>-->
+                <!--</el-select>-->
+              <!--</el-form-item>-->
+            <!--</td>-->
+            <!--<td class="td-title"></td>-->
+            <!--<td class="td-text"></td>-->
+          <!--</tr>-->
           <tr>
             <td class="td-title">需求来源</td>
             <td class="td-text" colspan="3">

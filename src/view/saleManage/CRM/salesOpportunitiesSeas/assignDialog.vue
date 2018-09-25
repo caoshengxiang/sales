@@ -69,8 +69,8 @@
           }
         })
       },
-      getUserSearch (customerId) {
-        API.user.seaFollowersList({customerId: customerId}, (data) => {
+      getUserSearch (chanceId) {
+        API.user.seaChanceFollowersList({chanceId: chanceId}, (data) => {
           this.salerList = data.data
         })
       },

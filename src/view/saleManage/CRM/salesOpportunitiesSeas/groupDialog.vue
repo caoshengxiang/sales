@@ -69,7 +69,7 @@
         })
       },
       getPoolList () {
-        API.customerSea.listAboutCustomer((data) => {
+        API.salesOpportunitiesSea.listAboutCustomer((data) => {
           this.poolList = data.data
         })
       },

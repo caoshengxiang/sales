@@ -100,7 +100,7 @@
                 </td>
                 <td class="td-title">公司网站</td>
                 <td>{{customerDetail.website}}</td>
-                <td class="td-title">联系电话</td>
+                <td class="td-title">客户电话</td>
                 <td>{{customerDetail.phone}}</td>
               </tr>
               <tr>
@@ -470,7 +470,7 @@
               },
               callback: (data) => {
                 if (data.type === 'save') {
-                  this.getSalesOpportunititeisList()
+                  this.getSalesOpportunitiesDetail()
                 }
               },
             })
@@ -657,8 +657,10 @@
         this.dataLoading = true
         API.salesOpportunities.detail(this.$route.query.id, (data) => {
           this.ac_salesOpportunitiesDetail(data.data)
-          this.getContactList(data.data.customerId)
-          this.getCustomerDetail(data.data.customerId)
+          if (data.data.customerId) {
+            this.getContactList(data.data.customerId)
+            this.getCustomerDetail(data.data.customerId)
+          }
           this.getOrderRecordsList(data.data.id)
           this.getAppOrderList(data.data.id)
           setTimeout(() => {

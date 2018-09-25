@@ -18,8 +18,8 @@
       <div class="com-bar-right">
         <el-select @change="agentTypeChange" v-model="agentType" placeholder="请选择" class="com-el-select"
                    style="width: 150px">
-          <el-option label="组织" :value="3"></el-option>
-          <el-option label="部门" :value="2"></el-option>
+          <el-option label="组织" :value="3" v-if="agentTypeData === 3"></el-option>
+          <el-option label="部门" :value="2" v-if="agentTypeData >= 2"></el-option>
           <el-option label="个人" :value="1"></el-option>
         </el-select>
         <el-select @change="agentTypeOptionChange" v-model="agentTypeOption" placeholder="请选择" class="com-el-select"
@@ -51,7 +51,7 @@
                   :callback="agentRecCallback"
                   qid="agentRec"></vue-qr>
               </div>
-              <p class="name">{{otherData.directName}}</p>
+              <p class="name">{{otherData.directName || userInfo.name}}</p>
             </div>
             <p class="down-code">
               <!--<a v-if="codeImgBase64" :href="codeImgBase64" download="二维码">下载二维码</a>-->
@@ -63,11 +63,11 @@
             <table style="width: 100%">
               <tr class="detail-table">
                 <td class="td-title">直接培育人</td>
-                <td>{{otherData.directMoney}}</td>
+                <td style="text-align: center">￥{{otherData.directMoney || '0.00'}}</td>
               </tr>
               <tr class="detail-table">
                 <td class="td-title">间接培育人</td>
-                <td>{{otherData.indirectMoney}}</td>
+                <td style="text-align: center">￥{{otherData.indirectMoney || '0.00'}}</td>
               </tr>
             </table>
           </div>
@@ -139,6 +139,7 @@
       return {
         dataLoading: false,
         agentType: 3,
+        agentTypeData: null, // 接口返回
         agentTypeOption: null,
         agentTypeOptions: [],
         currentPage: 1,
@@ -221,6 +222,13 @@
           callback && callback(da.data[0].id)
         })
       },
+      getDeptsType (callback) {
+        API.agentDev.type(null, (da) => {
+          this.agentTypeData = da.data
+          this.agentType = da.data
+          callback && callback()
+        })
+      },
       searchHandle () {
         this.getList()
       },
@@ -254,9 +262,11 @@
     beforeCreate () {
     },
     created () {
-      this.getDepts(this.agentType, (id) => {
-        this.agentTypeOption = id
-        this.getList()
+      this.getDeptsType(() => {
+        this.getDepts(this.agentType, (id) => {
+          this.agentTypeOption = id
+          this.getList()
+        })
       })
     },
   }

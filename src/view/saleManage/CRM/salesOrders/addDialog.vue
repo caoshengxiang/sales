@@ -18,7 +18,7 @@
 
             <td class="td-title">签单联系人</td>
             <td class="td-text">
-              <el-form-item prop="contacterId">
+              <el-form-item>
                 <!--<el-select style="width: 100%" v-model.number="addForm.contacterId" placeholder="请选择签单联系人">-->
                   <!--<el-option v-for="item in contactList" :key="item.id" :label="item.contacterName"-->
                              <!--:value="item.id"></el-option>-->

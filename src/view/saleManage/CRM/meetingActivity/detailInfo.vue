@@ -118,8 +118,8 @@
                       v-for="item in managerList" :key="item.managerId">
                 <div class="head" @click="showManagerCode(item)">
                   <img style="width: 58px;height: 58px;border-radius: 100%;"
-                       v-if="item.avatar"
-                       :src="item.avatar" alt="">
+                       v-if="item.headUrl"
+                       :src="item.headUrl" alt="" :onerror="defaultHeadUrl">
                   <img v-else src="../../../../assets/icon/headDefault.png" alt="">
                 </div>
                 <div class="text">
@@ -385,6 +385,7 @@
     name: 'detailInfo',
     data () {
       return {
+        defaultHeadUrl: 'this.src="' + require('../../../../assets/icon/headDefault.png') + '"',
         dialogVisible: false,
         dialogVisible2: false,
         dataLoading: false,
