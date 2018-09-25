@@ -53,12 +53,12 @@
           show-overflow-tooltip
           align="center"
           sortable="custom"
-          prop="contacterName"
+          prop="meetingName"
           label="活动名称"
           width="200"
         >
           <template slot-scope="scope">
-            <a class="col-link" @click="handleRouter('detail', scope.row.id)">{{ scope.row.contacterName }}</a>
+            <a class="col-link" @click="handleRouter('detail', scope.row.id)">{{ scope.row.meetingName }}</a>
           </template>
         </el-table-column>
         <el-table-column
@@ -66,21 +66,22 @@
           align="center"
           sortable="custom"
           label="活动状态"
-          prop="customerName"
+          :formatter="formatterHandleState"
+          prop="state"
           width="180">
         </el-table-column>
         <el-table-column
           show-overflow-tooltip
           align="center"
           sortable="custom"
-          prop="phone"
+          prop="meetingCreatorDepartmentName"
           label="负责部门"
           width="160">
         </el-table-column>
         <el-table-column
           align="center"
           sortable="custom"
-          prop="department"
+          prop="meetingCreatorName"
           label="负责人"
           width="160"
           show-overflow-tooltip>
@@ -88,15 +89,20 @@
         <el-table-column
           align="center"
           sortable="custom"
-          prop="position"
+          prop="meetingTimeStart"
           label="活动时间"
           width="160"
           show-overflow-tooltip>
+          <template slot-scope="scope">
+            {{ scope.row.meetingTimeStart && $moment(scope.row.meetingTimeStart).format('YYYY-MM-DD HH:mm') }}
+            -
+            {{ scope.row.meetingTimeEnd && $moment(scope.row.meetingTimeEnd).format('YYYY-MM-DD HH:mm') }}
+          </template>
         </el-table-column>
         <el-table-column
           align="center"
           sortable="custom"
-          prop="birthday"
+          prop="meetingMoney"
           label="活动经费"
           width="140"
           show-overflow-tooltip>
@@ -104,7 +110,7 @@
         <el-table-column
           align="center"
           sortable="custom"
-          prop="sex"
+          prop="personCount"
           label="活动人数"
           width="160"
           show-overflow-tooltip>
@@ -112,7 +118,7 @@
         <el-table-column
           align="center"
           sortable="custom"
-          prop="bakPhone"
+          prop="intentCustomerCount"
           label="意向客户数"
           width="160"
           show-overflow-tooltip>
@@ -120,7 +126,7 @@
         <el-table-column
           align="center"
           sortable="custom"
-          prop="wx"
+          prop="hostUnit"
           label="主办单位"
           width="160"
           show-overflow-tooltip>
@@ -160,11 +166,11 @@
 
 <script>
   import comButton from '../../../../components/button/comButton'
-  import { mapState, mapActions } from 'vuex'
+  import { mapState } from 'vuex'
   import API from '../../../../utils/api'
   import addDialog from './addDialog'
   import advancedSearch from './advancedSearch'
-  import { underscoreName } from '../../../../utils/utils'
+  import { underscoreName, arrToStr } from '../../../../utils/utils'
 
   export default {
     name: 'list',
@@ -176,11 +182,12 @@
         defaultListParams: { // 默认顾客列表请求参数
           page: null,
           pageSize: null,
+          status: 1,
         },
         sortObj: {sort: 'created,desc'}, // 排序
         advancedSearch: {}, // 高级搜索
         tableData: [],
-        tableDataTotal: 0,
+        tableDataTotal: 1,
       }
     },
     computed: {
@@ -196,14 +203,11 @@
       addDialog,
     },
     methods: {
-      ...mapActions('contacts', [
-        'ac_contactsList',
-      ]),
       addHandle () {
         this.$vDialog.modal(addDialog, {
           title: '新增活动',
           width: 900,
-          height: 460,
+          height: 500,
           params: {},
           callback: (data) => {
             if (data.type === 'save') {
@@ -211,6 +215,99 @@
             }
           },
         })
+      },
+      editHandle () {
+        this.$vDialog.modal(addDialog, {
+          title: '新增活动',
+          width: 900,
+          height: 500,
+          params: {
+            detail: JSON.parse(JSON.stringify(this.multipleSelection[0])),
+          },
+          callback: (data) => {
+            if (data.type === 'save') {
+              this.getList()
+            }
+          },
+        })
+      },
+      endHandle () {
+        this.$confirm('确定结束会议活动, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning',
+        }).then(() => {
+          this.dataLoading = true
+          API.activity.end({ids: arrToStr(this.multipleSelection, 'id')}, (data) => {
+            if (data.status) {
+              if (data.data.fail > 0) {
+                this.$message.warning(`成功${data.data.success}, 失败${data.data.fail}, 失败原因：${data.data.errorMessage}`)
+              } else {
+                this.$message.success(`成功${data.data.success},失败${data.data.fail}`)
+              }
+              setTimeout(() => {
+                this.dataLoading = false
+                this.getList()
+              }, 500)
+            } else {
+              setTimeout(() => {
+                this.dataLoading = false
+              }, 500)
+            }
+          })
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消',
+          })
+        })
+      },
+      deleteHandle () {
+        this.$confirm('确定删除会议活动, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning',
+        }).then(() => {
+          this.dataLoading = true
+          API.activity.deleteActivity({ids: arrToStr(this.multipleSelection, 'id')}, (data) => {
+            if (data.status) {
+              if (data.data.fail > 0) {
+                this.$message.warning(`成功${data.data.success}, 失败${data.data.fail}, 失败原因：${data.data.errorMessage}`)
+              } else {
+                this.$message.success(`成功${data.data.success},失败${data.data.fail}`)
+              }
+              setTimeout(() => {
+                this.dataLoading = false
+                this.getList()
+              }, 500)
+            } else {
+              setTimeout(() => {
+                this.dataLoading = false
+              }, 500)
+            }
+          })
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消',
+          })
+        })
+      },
+      operateOptions (type) {
+        switch (type) {
+          case 'add':
+            this.addHandle()
+            break
+          case 'edit':
+            this.editHandle()
+            break
+          case 'end':
+            this.endHandle()
+            break
+          case 'delete':
+            this.deleteHandle()
+            break
+        }
       },
       moveHandle () {
         alert('move')
@@ -229,21 +326,27 @@
       },
       handleRouter (name, id) {
         this.$router.push({
-          name: 'contactsDetail',
-          query: {view: name, contactsId: id},
+          name: 'meetingActivityDetail',
+          query: {view: name, id: id},
           params: {end: this.themeIndex === 0 ? 'FE' : 'ME'},
         })
       },
       getList () {
         this.dataLoading = true
         this.getQueryParams()
-        API.contacts.list(Object.assign({}, this.defaultListParams, this.sortObj, this.advancedSearch), (data) => {
-          this.ac_contactsList(data.data)
+        API.activity.list(Object.assign({}, this.defaultListParams, this.sortObj, this.advancedSearch), (data) => {
+          this.tableData = data.data.content
+          this.tableDataTotal = data.data.totalElements
           setTimeout(() => {
             this.dataLoading = false
           }, 500)
         }, (err) => {
+          this.tableData = err.data.content
+          this.tableDataTotal = err.data.totalElements
           console.error(err)
+          setTimeout(() => {
+            this.dataLoading = false
+          }, 500)
         })
       },
       searchHandle () {
@@ -264,7 +367,7 @@
         this.$vDialog.modal(advancedSearch, {
           title: '高级搜索',
           width: 900,
-          height: 340,
+          height: 540,
           params: {
             contactsStatus: this.contactsStatus,
             preAdvancedSearch: this.advancedSearch,
@@ -282,7 +385,23 @@
         this.defaultListParams = {
           page: this.currentPage - 1,
           pageSize: this.pagesOptions.pageSize,
+          status: 1,
         }
+      },
+      formatterHandleState (row, column, cellValue, index) {
+        let val = null
+        switch (cellValue) {
+          case 1:
+            val = '待开始'
+            break
+          case 2:
+            val = '活动中'
+            break
+          case 3:
+            val = '已结束'
+            break
+        }
+        return val
       },
     },
     beforeCreate () {

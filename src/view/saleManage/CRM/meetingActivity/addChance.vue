@@ -117,18 +117,18 @@
               </el-form-item>
             </td>
           </tr>
-          <tr>
-            <td class="td-title">机会公海</td>
-            <td class="td-text">
-              <el-form-item prop="chanceSeaId">
-                <el-select v-model.number="addForm.chanceSeaId" placeholder="请选择机会公海" style="width: 100%;">
-                  <el-option v-for="item in seaList" :key="item.id" :label="item.name" :value="item.id"></el-option>
-                </el-select>
-              </el-form-item>
-            </td>
-            <td class="td-title"></td>
-            <td class="td-text"></td>
-          </tr>
+          <!--<tr>-->
+            <!--<td class="td-title">机会公海</td>-->
+            <!--<td class="td-text">-->
+              <!--<el-form-item prop="chanceSeaId">-->
+                <!--<el-select v-model.number="addForm.chanceSeaId" placeholder="请选择机会公海" style="width: 100%;">-->
+                  <!--<el-option v-for="item in seaList" :key="item.id" :label="item.name" :value="item.id"></el-option>-->
+                <!--</el-select>-->
+              <!--</el-form-item>-->
+            <!--</td>-->
+            <!--<td class="td-title"></td>-->
+            <!--<td class="td-text"></td>-->
+          <!--</tr>-->
           <tr>
             <td class="td-title">需求来源</td>
             <td class="td-text" colspan="3">
@@ -176,9 +176,9 @@
         dataLoading: false,
         addForm: { // 添加表单
           customerId: '',
-          state: 2, // 阶段，默认
-          // intentProductCate: '', // 分类，新需求没有这个
-          // intentProductCateName: '',
+          // state: 2, // 阶段，默认
+          // intentProductCate: '2', // 分类，新需求没有这个
+          // intentProductCateName: '2',
           intentProductId: '', // 商品
           intentProductName: '',
           contacter: '',
@@ -193,6 +193,7 @@
           chanceRemark: '',
           pageSource: 1, // 公海添加机会，传2. 其他传1
           chanceSource: '',
+          addType: 1, // 1主动添加 2扫活动二维码 3扫商务管家二维码
         },
         customersList: [],
         salesState: [],
@@ -281,7 +282,8 @@
                 }
               })
             } else {
-              API.salesOpportunities.add(this.addForm, (data) => {
+              this.addForm.meetingId = this.params.meetingId
+              API.activity.addChance2(this.addForm, (data) => {
                 if (data.status) {
                   this.$message.success('添加成功')
                   setTimeout(() => {
@@ -360,14 +362,14 @@
                 // 其他模块中新增调取销售自建，
                 // 金钥匙微信端调取代理商并不让用户填写直接把字段传后台
                 this.chanceSourceType = [
-                  { // 销售自建
-                    codeName: this.params.topSource[0].name,
-                    id: this.params.topSource[0].value,
+                  { // 会议营销
+                    codeName: this.params.topSource[3].name,
+                    id: this.params.topSource[3].value,
                     children: [],
                   }]
-                // this.selectedBindValue.push(this.topSource[0].value)
-                this.chanceSourceArr.push(this.params.topSource[0].value)
-                this.chanceSourceChangeHandle([this.params.topSource[0].value]) // 默认获取第二级
+                // this.selectedBindValue.push(this.topSource[3].value)
+                this.chanceSourceArr.push(this.params.topSource[3].value)
+                this.chanceSourceChangeHandle([this.params.topSource[3].value]) // 默认获取第二级
               }
             }
           }

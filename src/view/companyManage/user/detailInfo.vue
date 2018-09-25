@@ -65,7 +65,7 @@
                 <td class="td-title">部门</td>
                 <td>{{userDetail.departmentName}}</td>
                 <td class="td-title">角色</td>
-                <td><label v-for="temp in userDetail.roles" :key="temp.name">{{temp.name}}</label></td>
+                <td><label v-for="temp in userDetail.roles" :key="temp.name">{{temp.name}}、</label></td>
               </tr>
               <tr>
                 <td class="td-title">直接上级</td>

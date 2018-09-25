@@ -37,8 +37,8 @@
         <!--</el-radio-group>-->
         <ul class="com-info-op-group">
           <li class="op-active" @click="operateOptions('edit')">编辑</li>
-          <li @click="operateOptions('back')">退回公海</li>
-          <li @click="operateOptions('move')">转移</li>
+          <!--<li @click="operateOptions('back')">退回公海</li>-->
+          <!--<li @click="operateOptions('move')">转移</li>-->
         </ul>
       </div>
     </div>
@@ -50,20 +50,20 @@
             <p class="table-title">客户资料信息</p>
             <table class="detail-table">
               <tr>
-                <td class="td-title">公司名称</td>
+                <td class="td-title">客户类型</td>
+                <td>{{customerDetail.cate === 1 ? '个人' : '机构'}}</td>
+                <td class="td-title">客户名称</td>
                 <td>{{customerDetail.name}}</td>
-                <td class="td-title">营业执照</td>
-                <td>{{customerDetail.businessLicense}}</td>
-                <td class="td-title">客户级别</td>
-                <td>{{customerDetail.level}}</td>
+                <td class="td-title">客户识别码</td>
+                <td>{{customerDetail.cdKey}}</td>
               </tr>
               <tr>
-                <td class="td-title">客户联系人</td>
-                <td>{{customerDetail.contactName}}</td>
+                <td class="td-title">所在公海</td>
+                <td>{{customerDetail.seaName}}</td>
+                <td class="td-title">客户级别</td>
+                <td>{{customerDetail.level}}</td>
                 <td class="td-title">客户行业</td>
                 <td>{{customerDetail.industry}}</td>
-                <td class="td-title">联系电话</td>
-                <td>{{customerDetail.phone}}</td>
               </tr>
               <tr>
                 <td class="td-title">所在地区</td>

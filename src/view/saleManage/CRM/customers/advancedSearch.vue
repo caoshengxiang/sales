@@ -8,9 +8,14 @@
               <el-input type="text" v-model="searchForm.name"></el-input>
             </el-form-item>
           </el-col>
+          <!--<el-col :span="8">-->
+            <!--<el-form-item label="营业执照：">-->
+              <!--<el-input type="text" v-model="searchForm.businessLicense"></el-input>-->
+            <!--</el-form-item>-->
+          <!--</el-col>-->
           <el-col :span="8">
-            <el-form-item label="营业执照：">
-              <el-input type="text" v-model="searchForm.businessLicense"></el-input>
+            <el-form-item label="客户识别码：">
+              <el-input type="text" v-model="searchForm.cdKey"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -87,9 +92,17 @@
           </el-col>
         </el-row>
         <el-row>
+          <!--<el-col :span="8">-->
+            <!--<el-form-item label="联系电话：">-->
+              <!--<el-input type="text" v-model="searchForm.phone"></el-input>-->
+            <!--</el-form-item>-->
+          <!--</el-col>-->
           <el-col :span="8">
-            <el-form-item label="联系电话：">
-              <el-input type="text" v-model="searchForm.phone"></el-input>
+            <el-form-item label="客户类型：">
+              <el-select v-model="searchForm.cate" placeholder="请选择客户类型">
+                <el-option label="个人" :value="1"></el-option>
+                <el-option label="机构" :value="2"></el-option>
+              </el-select>
             </el-form-item>
           </el-col>
         </el-row>
@@ -148,6 +161,8 @@
           state: null,
           startDate: null,
           endDate: null,
+          cate: null,
+          cdKey: null,
         },
         timeInterval: [],
         customerSourceType: [], // 客户来源

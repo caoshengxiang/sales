@@ -39,6 +39,12 @@
         </el-select>
         <com-button buttonType="search" @click="searchHandle">搜索</com-button>
         <com-button buttonType="search" @click="advancedSearchHandle" style="">高级搜索</com-button>
+        <com-button buttonType="export" icon="el-icon-download" @click="excelExport">导入模板下载</com-button>
+        <com-button buttonType="import" style="position: relative;overflow: hidden;">
+          <input @change="fileUploadHandle" type="file"
+                 style="position: absolute;top: 0;left: 0; right: 0;bottom: 0;opacity: 0;">
+          导入
+        </com-button>
       </div>
       <div class="com-bar-right" v-if="themeIndex === 1"><!--后端-->
         <el-select
@@ -55,13 +61,6 @@
         </el-select>
         <!--<com-button buttonType="search" @click="searchHandle">搜索</com-button>-->
         <com-button buttonType="search" @click="advancedSearchHandle" style="">高级搜索</com-button>
-        <com-button buttonType="export" icon="el-icon-download" @click="excelExport">导入模板下载</com-button>
-        &nbsp;&nbsp;&nbsp;&nbsp;
-        <com-button buttonType="import" style="position: relative;overflow: hidden;">
-          <input @change="fileUploadHandle" type="file"
-                 style="position: absolute;top: 0;left: 0; right: 0;bottom: 0;opacity: 0;">
-          导入
-        </com-button>
       </div>
     </div>
     <!--详细-->
@@ -81,17 +80,6 @@
           align="center"
           width="40">
         </el-table-column>
-        <!--<el-table-column-->
-          <!--align="center"-->
-          <!--sortable="custom"-->
-          <!--label="客户名称"-->
-          <!--prop="customerName"-->
-          <!--show-overflow-tooltip-->
-          <!--width="160">-->
-          <!--<template slot-scope="scope">-->
-            <!--<a class="col-link" @click="handleRouter2('detail', scope.row.customerId)">{{ scope.row.customerName }}</a>-->
-          <!--</template>-->
-        <!--</el-table-column>-->
         <el-table-column
           align="center"
           sortable="custom"
@@ -111,12 +99,23 @@
           label="退回次数"
           width="160"
           show-overflow-tooltip>
-          </el-table-column>
+        </el-table-column>
+        <el-table-column
+          align="center"
+          sortable="custom"
+          prop="billDate"
+          label="最近跟进时间"
+          width="160"
+          show-overflow-tooltip>
+          <template slot-scope="scope">
+            {{scope.row.billDate && $moment(scope.row.billDate).format('YYYY-MM-DD HH:mm')}}
+          </template>
+        </el-table-column>
         <el-table-column
           align="center"
           sortable="custom"
           prop="intentBillAmount"
-          label="预计签单金额"
+          label="最近跟进记录"
           width="160"
           show-overflow-tooltip>
         </el-table-column>
@@ -124,12 +123,47 @@
           align="center"
           sortable="custom"
           prop="billDate"
-          label="预计签单日期"
+          label="退回日期"
           width="160"
           show-overflow-tooltip>
           <template slot-scope="scope">
-            {{scope.row.billDate && $moment(scope.row.billDate).format('YYYY-MM-DD')}}
+            {{scope.row.billDate && $moment(scope.row.billDate).format('YYYY-MM-DD HH:mm')}}
           </template>
+        </el-table-column>
+        <el-table-column
+          align="center"
+          sortable="custom"
+          prop="created"
+          label="创建日期"
+          width="160"
+          show-overflow-tooltip>
+          <template slot-scope="scope">
+            {{scope.row.created && $moment(scope.row.created).format('YYYY-MM-DD HH:mm')}}
+          </template>
+        </el-table-column>
+        <el-table-column
+          align="center"
+          sortable="custom"
+          prop="customerName"
+          label="客户名称"
+          width="160"
+          show-overflow-tooltip>
+        </el-table-column>
+        <el-table-column
+          align="center"
+          sortable="custom"
+          prop="contacterName"
+          label="联系人"
+          width="160"
+          show-overflow-tooltip>
+        </el-table-column>
+        <el-table-column
+          align="center"
+          sortable="custom"
+          prop="contactPhone"
+          label="联系电话"
+          width="160"
+          show-overflow-tooltip>
         </el-table-column>
         <el-table-column
           align="center"
@@ -192,34 +226,38 @@
           show-overflow-tooltip>
         </el-table-column>
         <el-table-column
-          align="center"
-          sortable="custom"
-          prop="created"
-          label="创建日期"
-          width="160"
-          show-overflow-tooltip>
-          <template slot-scope="scope">
-            {{scope.row.created && $moment(scope.row.created).format('YYYY-MM-DD HH:mm')}}
-          </template>
-        </el-table-column>
-        <el-table-column
-          align="center"
-          sortable="custom"
-          prop="followDate"
-          label="最近跟单记录"
-          width="160"
-          show-overflow-tooltip>
-          <template slot-scope="scope">
-            {{scope.row.followDate && $moment(scope.row.followDate).format('YYYY-MM-DD HH:mm')}}
-          </template>
-        </el-table-column>
-        <el-table-column
-          v-if="themeIndex === 1"
           show-overflow-tooltip
           align="center"
           sortable="custom"
           prop="organizationName"
-          label="所属组织"
+          label="地区"
+          width="160">
+        </el-table-column>
+        <el-table-column
+          show-overflow-tooltip
+          align="center"
+          sortable="custom"
+          prop="organizationName"
+          label="行业"
+          width="160">
+        </el-table-column>
+        <el-table-column
+          show-overflow-tooltip
+          align="center"
+          sortable="custom"
+          prop="organizationName"
+          label="预计签单时间"
+          width="160">
+          <template slot-scope="scope">
+            {{scope.row.created && $moment(scope.row.created).format('YYYY-MM-DD')}}
+          </template>
+        </el-table-column>
+        <el-table-column
+          show-overflow-tooltip
+          align="center"
+          sortable="custom"
+          prop="organizationName"
+          label="预计签单金额"
           width="160">
         </el-table-column>
       </el-table>
@@ -247,9 +285,12 @@
   import addDialog from './addDialog'
   import moveDialog from './moveDialog'
   import { arrToStr, underscoreName } from '../../../../utils/utils'
+  import { serverUrl } from '../../../../utils/const'
   import advancedSearch from './advancedSearch'
   import assignDialog from './assignDialog'
   import groupDialog from './groupDialog'
+  import QS from 'qs'
+  import webStorage from 'webStorage'
 
   export default {
     name: 'list',
@@ -321,7 +362,7 @@
               width: 500,
               height: 230,
               params: {
-                customerIds: arrToStr(this.multipleSelection, 'id'),
+                chanceIds: arrToStr(this.multipleSelection, 'id'),
               },
               callback (data) {
                 if (data.type === 'save') {
@@ -337,7 +378,7 @@
               type: 'warning',
             }).then(() => {
               this.dataLoading = true
-              API.customerSea.fish({customerIds: arrToStr(this.multipleSelection, 'id')}, (data) => {
+              API.salesOpportunitiesSea.fish({chanceIds: arrToStr(this.multipleSelection, 'id')}, (data) => {
                 if (data.status) {
                   if (data.data.fail > 0) {
                     this.$message.warning(`成功${data.data.success}, 失败${data.data.fail}, 失败原因：${data.data.errorMessage}`)
@@ -367,7 +408,7 @@
               width: 500,
               height: 240,
               params: {
-                customerIds: arrToStr(this.multipleSelection, 'id'),
+                chanceIds: arrToStr(this.multipleSelection, 'id'),
               },
               callback (data) {
                 if (data.type === 'save') {
@@ -384,23 +425,13 @@
       getSalesOpportunititeisList () { // 获取列表
         this.dataLoading = true
         this.getQueryParams()
-        if (this.themeIndex === 0) {
-          API.salesOpportunities.list(Object.assign({}, this.defaultListParams, this.sortObj, this.advancedSearch),
-            (data) => {
-              this.ac_salesOpportunitiesList(data.data)
-              setTimeout(() => {
-                this.dataLoading = false
-              }, 500)
-            })
-        } else if (this.themeIndex === 1) {
-          API.salesOpportunities.listAdmin(Object.assign({}, this.defaultListParams, this.sortObj, this.advancedSearch),
-            (data) => {
-              this.ac_salesOpportunitiesList(data.data)
-              setTimeout(() => {
-                this.dataLoading = false
-              }, 500)
-            })
-        }
+        API.salesOpportunities.seaList(Object.assign({}, this.defaultListParams, this.sortObj, this.advancedSearch),
+          (data) => {
+            this.ac_salesOpportunitiesList(data.data)
+            setTimeout(() => {
+              this.dataLoading = false
+            }, 500)
+          })
       },
       handleSizeChange (val) {
         console.log(`每页 ${val} 条`)
@@ -413,7 +444,7 @@
       },
       handleRouter (name, id) {
         this.$router.push({
-          name: 'salesOpportunitiesDetail',
+          name: 'salesOpportunitiesDetailSeas',
           query: {view: name, id: id},
           params: {end: this.themeIndex === 0 ? 'FE' : 'ME'},
         })
@@ -479,7 +510,7 @@
         let link = document.createElement('a') // 创建事件对象
         let query = QS.stringify(Object.assign({}, {authKey: webStorage.getItem('userInfo').authKey}))
         // console.log('下载参数：', query)
-        link.setAttribute('href', serverUrl + '/customerSea/template/customer/download?' + query)
+        link.setAttribute('href', serverUrl + '/chanceSea/template/chance/download?' + query)
         link.setAttribute('download', '跟单记录导出')
         let event = document.createEvent('MouseEvents') // 初始化事件对象
         event.initMouseEvent('click', true, true, document.defaultView, 0, 0, 0, 0, 0, false, false, false, false, 0,
@@ -491,7 +522,7 @@
         let formData = new FormData()
         formData.append('filename', files[0].name)
         formData.append('file', files[0])
-        API.customerSea.seaImport(formData, up => {
+        API.salesOpportunitiesSea.seaImport(formData, up => {
           if (up.status) {
             this.$alert(`成功：${up.data.success},\n失败：${up.data.fail},\n错误日志: ${up.data.errorMessage}`, '导入日志', {
               confirmButtonText: '确定',
@@ -511,7 +542,8 @@
       if (this.themeIndex === 1) { // 后端， 拉取组织列表
         this.getOrganization({pid: 1})
       }
-    },
+    }
+    ,
   }
 </script>
 

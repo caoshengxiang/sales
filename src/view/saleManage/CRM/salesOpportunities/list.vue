@@ -24,10 +24,13 @@
           业务模式发生变化，同一客户（含该客户的销售机会）同一时间在同一分子公司只能存在一个销售跟进人员，为了避免同一客户多个销售机会被多个用户跟进，故需要隐藏销售机会“转移”功能
           [期望]
           销售机会模块列表中“转移”按钮与销售机会详情里面“转移”按钮隐藏-->
-        <!--<com-button buttonType="orange" @click="operateOptions('move')"-->
-        <!--:disabled="multipleSelection.length <= 0"><i class="el-icon-sort"-->
-        <!--style="transform: rotate(90deg)"></i> 转移-->
-        <!--</com-button>-->
+        <com-button buttonType="orange" @click="operateOptions('move')"
+        :disabled="multipleSelection.length <= 0"><i class="el-icon-sort"
+        style="transform: rotate(90deg)"></i> 转移
+        </com-button>
+        <com-button buttonType="backHighSeas" icon="el-icon-back" @click="operateOptions('return')"
+        :disabled="multipleSelection.length <= 0">退回机会公池
+        </com-button>
       </div>
       <div class="com-bar-right" v-if="themeIndex === 0"><!--前端-->
         <el-select v-model="salesOpportunitiesOptionsType" placeholder="请选择" class="com-el-select">
@@ -83,7 +86,8 @@
           show-overflow-tooltip
           width="160">
           <template slot-scope="scope">
-            <a class="col-link" @click="handleRouter2('detail', scope.row.customerId)">{{ scope.row.customerName }}</a>
+            <a v-if="scope.row.customerId" class="col-link" @click="handleRouter2('detail', scope.row.customerId)">{{ scope.row.customerName }}</a>
+            <a v-else class="col-link" @click="operateOptions('bind', scope.row)">绑定客户</a>
           </template>
         </el-table-column>
         <el-table-column
@@ -99,32 +103,38 @@
               '无名'}}</a>
           </template>
         </el-table-column>
-        <!--要求去掉了列表的联系人-->
-        <!--<el-table-column
+        <el-table-column
           align="center"
-          prop="contacterName"
+          prop="contacter"
           label="联系人"
           width="160"
           show-overflow-tooltip>
-          </el-table-column>-->
+          </el-table-column>
         <el-table-column
           align="center"
-          sortable="custom"
-          prop="intentBillAmount"
-          label="预计签单金额"
+          prop="contactPhone"
+          label="联系电话"
           width="160"
           show-overflow-tooltip>
         </el-table-column>
         <el-table-column
           align="center"
           sortable="custom"
-          prop="billDate"
-          label="预计签单日期"
+          prop="followDate"
+          label="最近跟单时间"
           width="160"
           show-overflow-tooltip>
           <template slot-scope="scope">
-            {{scope.row.billDate && $moment(scope.row.billDate).format('YYYY-MM-DD')}}
+            {{scope.row.followDate && $moment(scope.row.followDate).format('YYYY-MM-DD HH:mm')}}
           </template>
+        </el-table-column>
+        <el-table-column
+          align="center"
+          sortable="custom"
+          prop="latestFollowRecord"
+          label="最近跟单记录"
+          width="160"
+          show-overflow-tooltip>
         </el-table-column>
         <el-table-column
           align="center"
@@ -200,12 +210,41 @@
         <el-table-column
           align="center"
           sortable="custom"
-          prop="followDate"
-          label="最近跟单记录"
+          prop="intentBillAmount"
+          label="地区"
           width="160"
           show-overflow-tooltip>
           <template slot-scope="scope">
-            {{scope.row.followDate && $moment(scope.row.followDate).format('YYYY-MM-DD HH:mm')}}
+            {{ scope.row.provinceName }}
+            {{ scope.row.cityName }}
+            {{ scope.row.areaName }}
+          </template>
+        </el-table-column>
+        <el-table-column
+          align="center"
+          sortable="custom"
+          prop="industry"
+          label="行业"
+          width="160"
+          show-overflow-tooltip>
+        </el-table-column>
+        <el-table-column
+          align="center"
+          sortable="custom"
+          prop="intentBillAmount"
+          label="预计签单金额"
+          width="160"
+          show-overflow-tooltip>
+        </el-table-column>
+        <el-table-column
+          align="center"
+          sortable="custom"
+          prop="billDate"
+          label="预计签单日期"
+          width="160"
+          show-overflow-tooltip>
+          <template slot-scope="scope">
+            {{scope.row.billDate && $moment(scope.row.billDate).format('YYYY-MM-DD')}}
           </template>
         </el-table-column>
         <el-table-column
@@ -243,6 +282,7 @@
   import moveDialog from './moveDialog'
   import { arrToStr, underscoreName } from '../../../../utils/utils'
   import advancedSearch from './advancedSearch'
+  import bindCustomer from './bindCustomer'
 
   export default {
     name: 'list',
@@ -289,17 +329,33 @@
       ...mapActions('salesOpportunities', [
         'ac_salesOpportunitiesList',
       ]),
-      operateOptions (op) {
+      operateOptions (op, row) {
         let that = this
+        let rowData = row
         switch (op) {
           case 'add':
             this.$vDialog.modal(addDialog, {
               title: '新增销售机会',
               width: 900,
-              height: 400,
+              height: 600,
               params: {
                 salesState: this.salesState,
                 topSource: this.topSource, // 顶级客户来源
+              },
+              callback (data) {
+                if (data.type === 'save') {
+                  that.getSalesOpportunititeisList()
+                }
+              },
+            })
+            break
+          case 'bind':
+            this.$vDialog.modal(bindCustomer, {
+              title: '绑定客户(可二选一操作)',
+              width: 800,
+              height: 500,
+              params: {
+                chanceDetail: JSON.parse(JSON.stringify(rowData))
               },
               callback (data) {
                 if (data.type === 'save') {
@@ -331,6 +387,37 @@
             }).then(() => {
               this.dataLoading = true
               API.salesOpportunities.batchDelete({salerChanceIds: arrToStr(this.multipleSelection, 'id')}, (data) => {
+                if (data.status) {
+                  if (data.data.fail > 0) {
+                    this.$message.warning(`成功${data.data.success}, 失败${data.data.fail}, 失败原因：${data.data.errorMessage}`)
+                  } else {
+                    this.$message.success(`成功${data.data.success},失败${data.data.fail}`)
+                  }
+                  setTimeout(() => {
+                    this.dataLoading = false
+                    this.getSalesOpportunititeisList()
+                  }, 500)
+                } else {
+                  setTimeout(() => {
+                    this.dataLoading = false
+                  }, 500)
+                }
+              })
+            }).catch(() => {
+              this.$message({
+                type: 'info',
+                message: '已取消删除',
+              })
+            })
+            break
+          case 'return':
+            this.$confirm('确定退回机会公池, 是否继续?', '提示', {
+              confirmButtonText: '确定',
+              cancelButtonText: '取消',
+              type: 'warning',
+            }).then(() => {
+              this.dataLoading = true
+              API.salesOpportunities.returnSea({chanceIds: arrToStr(this.multipleSelection, 'id')}, (data) => {
                 if (data.status) {
                   if (data.data.fail > 0) {
                     this.$message.warning(`成功${data.data.success}, 失败${data.data.fail}, 失败原因：${data.data.errorMessage}`)

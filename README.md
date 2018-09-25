@@ -76,6 +76,8 @@ npm test
 
 ## 测试服项目部署
 
+====== 注意打包需要修改const.js 中的 二维码地址变量，activityCodePre，agentRegister
+
 ### window 上运行bash
 [教程](https://www.ithome.com/html/win10/233457.htm)
 

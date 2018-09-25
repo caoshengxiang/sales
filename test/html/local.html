@@ -1,0 +1,530 @@
+
+
+
+
+
+
+
+
+
+
+
+<script>
+	var readonly = false;
+    /*以下常量是必须的，每个页面都有。*/
+    
+	var printpage = true ;
+	
+	
+    var ImportListIndexJS = true;
+    var ImportFormJS = true;
+    var ImportTreeJS = true;
+    var PageTitle = "案件调查终结报告";
+  //页面状态
+  	var PageStatus="edit_detail";
+  	
+    var toolbarData =
+            [
+            	[],
+            	["60","b_edit.gif","特殊字符","doTszf()","kec"],
+            	[],
+            	["40","b_save.gif","保存","doSave();","save"],
+            	[],
+            	["40","b_record.gif","暂存","doctemp();","temp"],
+            	[],
+            	["10","b_up.gif","","barUp();","barUp"]
+            ];
+</script>
+
+<script type="text/javascript" src="/law/jsp/doc/js/tszf.js"></script>
+<html>
+	<head>
+		<title>案件调查终结报告</title>
+		<style type="text/css">
+        body
+        {
+        	font-family:仿宋;
+    		font-size:20px;
+        }
+        
+    	.tabMain
+    	{
+    		background-color: #000000;
+    		width:570px;
+    		height:820px;
+    		border-collapse: collapse;
+    		font-family: "仿宋";
+    		font-size:20px;
+        	table-layout:fixed;
+        	
+    	}
+    	.tabMain tr
+    	{
+    		background-color: #FFFFFF;
+    	}
+    	
+    	.tabMain tr td
+    	{
+    		font-family:仿宋;
+    		font-size:20px;
+    	}
+    	.content_tr
+		{
+			min-height: 35px;
+			line-height: 35px;
+		 	vertical-align: bottom;
+		}
+		
+		.head_tr
+		{
+		 	
+		}
+		.head_tr_noprint
+		{
+			border-color: green;
+		}
+		.noPrintTr
+		{
+			height:70px;
+		}
+		
+    </style>
+	<link rel='stylesheet' type='text/css' href='/law/jsp/doc/css/doc.css'>
+	<script language="javascript" src="/public/js/main.js"></script>
+	<script language="javascript" src="/law/jsp/doc/js/doc.js"></script>
+    <script language="javascript">
+    function doSave(noConfirm){
+			var content01 = document.getElementById("content01").innerText ;
+   		khjs.form.setInputValue({name:"WS22201201001",value:content01});
+    	var value_22201201002 = document.getElementById("22201201002").innerHTML ;
+    	if(value_22201201002=="&nbsp;&nbsp;&nbsp;&nbsp;")
+    		value_22201201002="";
+    	value_22201201002=clearhtmlstyle(value_22201201002);
+    	khjs.form.setInputValue({name:"WS22201201002",value:value_22201201002})
+    	
+    	var value_22201201003 = document.getElementById("22201201003").innerHTML ;
+    	if(value_22201201003=="&nbsp;&nbsp;&nbsp;&nbsp;")
+    		value_22201201003="";
+    	value_22201201003=value_22201201003.replace('<INPUT style="WIDTH: 190px" class=input_text_01_utwo value=（1.案情及查办经过） readOnly oldClassName="input_text_01_utwo">','^^^^^^^^^^');
+   		value_22201201003=value_22201201003.replace('<INPUT style="WIDTH: 190px" class=input_text_01_utwo value=（2.基本的违法事实） readOnly oldClassName="input_text_01_utwo">','^^^^^^^^^');
+   		value_22201201003=value_22201201003.replace('<INPUT style="WIDTH: 190px" class=input_text_01_utwo value=（3.违法的后果事实） readOnly oldClassName="input_text_01_utwo">','^^^^^^^^');
+   		value_22201201003=value_22201201003.replace('<INPUT style="WIDTH: 170px" class=input_text_01_utwo value=（4.违法事实认定） readOnly oldClassName="input_text_01_utwo">','^^^^^^^');	
+   		value_22201201003=value_22201201003.replace('<INPUT style="WIDTH: 190px" class=input_text_01_utwo value=（1.案情及查办经过） readOnly>','^^^^^^^^^^');
+   		value_22201201003=value_22201201003.replace('<INPUT style="WIDTH: 190px" class=input_text_01_utwo value=（2.基本的违法事实） readOnly>','^^^^^^^^^');
+   		value_22201201003=value_22201201003.replace('<INPUT style="WIDTH: 190px" class=input_text_01_utwo value=（3.违法的后果事实） readOnly>','^^^^^^^^');
+   		value_22201201003=value_22201201003.replace('<INPUT style="WIDTH: 170px" class=input_text_01_utwo value=（4.违法事实认定） readOnly>','^^^^^^^');	
+   		value_22201201003=value_22201201003.replace(/<BR>/g,"");
+    	value_22201201003=clearhtmlstyle(value_22201201003);
+    	value_22201201003=value_22201201003.replace('^^^^^^^^^^','<INPUT style="WIDTH: 190px" class=input_text_01_utwo value=（1.案情及查办经过） readOnly oldClassName="input_text_01_utwo">');
+   		value_22201201003=value_22201201003.replace('^^^^^^^^^','<INPUT style="WIDTH: 190px" class=input_text_01_utwo value=（2.基本的违法事实） readOnly oldClassName="input_text_01_utwo">');
+   		value_22201201003=value_22201201003.replace('^^^^^^^^','<INPUT style="WIDTH: 190px" class=input_text_01_utwo value=（3.违法的后果事实） readOnly oldClassName="input_text_01_utwo">');
+   		value_22201201003=value_22201201003.replace('^^^^^^^','<INPUT style="WIDTH: 170px" class=input_text_01_utwo value=（4.违法事实认定） readOnly oldClassName="input_text_01_utwo">');
+    	khjs.form.setInputValue({name:"WS22201201003",value:value_22201201003})
+    	
+    	var value_22201201004 = document.getElementById("22201201004").innerHTML ;
+    	if(value_22201201004=="&nbsp;&nbsp;&nbsp;&nbsp;")
+    		value_22201201004="";
+    	value_22201201004=clearhtmlstyle(value_22201201004);
+    	khjs.form.setInputValue({name:"WS22201201004",value:value_22201201004})
+    	
+    	var value_22201201005 = document.getElementById("22201201005").innerHTML ;
+    	if(value_22201201005=="&nbsp;&nbsp;&nbsp;&nbsp;")
+    		value_22201201005="";
+    	value_22201201005=clearhtmlstyle(value_22201201005);
+    	khjs.form.setInputValue({name:"WS22201201005",value:value_22201201005})
+    	
+    	var value_22201201006 = document.getElementById("22201201006").innerHTML ;
+    	if(value_22201201006=="&nbsp;&nbsp;&nbsp;&nbsp;")
+    		value_22201201006="";
+    	value_22201201006=clearhtmlstyle(value_22201201006);
+    	khjs.form.setInputValue({name:"WS22201201006",value:value_22201201006})
+    	var value_22201201010 = document.getElementById("22201201010").innerHTML ;
+    	if(value_22201201010=="&nbsp;&nbsp;&nbsp;&nbsp;")
+    		value_22201201010="";
+    	value_22201201010=value_22201201010.replace(/<BR>/g,"");
+    	value_22201201010=value_22201201010.replace('<INPUT style="WIDTH: 210px" class=input_text_01_utwo value=（1.从宽或从严的情节） readOnly oldClassName="input_text_01_utwo">','^^^^^^^^^^');
+   		value_22201201010=value_22201201010.replace('<INPUT style="WIDTH: 230px" class=input_text_01_utwo value=（2.当事人的申辩及理由） readOnly oldClassName="input_text_01_utwo">','^^^^^^^^^');
+   		value_22201201010=value_22201201010.replace('<INPUT style="WIDTH: 150px" class=input_text_01_utwo value=（3.量罚及理由） readOnly oldClassName="input_text_01_utwo">','^^^^^^^^');
+   		value_22201201010=value_22201201010.replace('<INPUT style="WIDTH: 190px" class=input_text_01_utwo value=（4.是否移送及理由） readOnly oldClassName="input_text_01_utwo">','^^^^^^^');
+   		value_22201201010=value_22201201010.replace('<INPUT style="WIDTH: 210px" class=input_text_01_utwo value=（1.从宽或从严的情节） readOnly>','^^^^^^^^^^');
+   		value_22201201010=value_22201201010.replace('<INPUT style="WIDTH: 230px" class=input_text_01_utwo value=（2.当事人的申辩及理由） readOnly>','^^^^^^^^^');
+   		value_22201201010=value_22201201010.replace('<INPUT style="WIDTH: 150px" class=input_text_01_utwo value=（3.量罚及理由） readOnly>','^^^^^^^^');
+   		value_22201201010=value_22201201010.replace('<INPUT style="WIDTH: 190px" class=input_text_01_utwo value=（4.是否移送及理由） readOnly>','^^^^^^^');		
+    	value_22201201010=clearhtmlstyle(value_22201201010);
+    	value_22201201010=value_22201201010.replace('^^^^^^^^^^','<INPUT style="WIDTH: 210px" class=input_text_01_utwo value=（1.从宽或从严的情节） readOnly>');
+   		value_22201201010=value_22201201010.replace('^^^^^^^^^','<INPUT style="WIDTH: 230px" class=input_text_01_utwo value=（2.当事人的申辩及理由） readOnly>');
+   		value_22201201010=value_22201201010.replace('^^^^^^^^','<INPUT style="WIDTH: 150px" class=input_text_01_utwo value=（3.量罚及理由） readOnly>');
+   		value_22201201010=value_22201201010.replace('^^^^^^^','<INPUT style="WIDTH: 190px" class=input_text_01_utwo value=（4.是否移送及理由） readOnly>');
+    	
+    	khjs.form.setInputValue({name:"WS22201201010",value:value_22201201010})
+    	var WS22201201002=getInputValue("WS22201201002");
+    	var WS22201201003=getInputValue("WS22201201003");
+    	var WS22201201004=getInputValue("WS22201201004");
+    	var WS22201201005=getInputValue("WS22201201005");
+    	var WS22201201010=getInputValue("WS22201201010");
+    	if(WS22201201002==""){
+    		alert("当事人基本情况不能为空。");
+    		return ;
+    	}
+    	if(WS22201201003==""){
+    		alert("案情及案件事实不能为空。");
+    		return ;
+    	}
+    	if(WS22201201004==""){
+    		alert("证据及证明过程不能为空。");
+    		return ;
+    	}
+    	if(WS22201201005==""){
+    		alert("性质及拟处意见不能为空。");
+    		return ;
+    	}
+    	if(WS22201201010==""){
+    		alert("情节及裁量理由不能为空。");
+    		return ;
+    	}
+    	
+    	khjs.form.setInputValue({name:"WS22201201009",value:getInputValue("WS22201201009__year").replace(/[ ]/g,"")+"-"+getInputValue("WS22201201009__month").replace(/[ ]/g,"")+"-"+getInputValue("WS22201201009__day").replace(/[ ]/g,"")});
+    	
+		
+		var Obj=formObj;
+		if (CheckForm(Obj)) {return false;}
+			var json="type=1";
+			$('input').each(function(i){
+				var name=$(this).attr("name");
+				var vol=$(this).val();
+				if(vol!="" && name!=undefined){
+					json+="&"+name+"="+escape(encodeURIComponent(vol))+"";
+				}
+			});
+			$('textarea').each(function(i){
+				var name=$(this).attr("name");
+				var tet=$(this).val();
+				if(tet!=""  && name!=undefined){
+					json+="&"+name+"="+escape(encodeURIComponent(tet))+"";
+				}
+			});
+			var doctidx=khjs.form.getInputValue({name:"doctidx"});
+			var doctrow=khjs.form.getInputValue({name:"doctrow"});
+			var doctid="137058320118789";
+			if(noConfirm){
+				saveData(json,"1",doctidx,doctrow,doctid);
+			}else{
+				if (WinConfirm("确定保存文书？")) {
+					saveData(json,"1",doctidx,doctrow,doctid);
+				}
+			}
+				
+		}	
+    
+function doctemp(){
+		var content01 = document.getElementById("content01").innerText ;
+   		khjs.form.setInputValue({name:"WS22201201001",value:content01});
+    	var value_22201201002 = document.getElementById("22201201002").innerHTML ;
+    	if(value_22201201002=="&nbsp;&nbsp;&nbsp;&nbsp;")
+    		value_22201201002="";
+    	value_22201201002=clearhtmlstyle(value_22201201002);
+    	khjs.form.setInputValue({name:"WS22201201002",value:value_22201201002})
+    	
+    	var value_22201201003 = document.getElementById("22201201003").innerHTML ;
+    	if(value_22201201003=="&nbsp;&nbsp;&nbsp;&nbsp;")
+    		value_22201201003="";
+    	value_22201201003=clearhtmlstyle(value_22201201003);
+    	khjs.form.setInputValue({name:"WS22201201003",value:value_22201201003})
+    	
+    	var value_22201201004 = document.getElementById("22201201004").innerHTML ;
+    	if(value_22201201004=="&nbsp;&nbsp;&nbsp;&nbsp;")
+    		value_22201201004="";
+    	value_22201201004=clearhtmlstyle(value_22201201004);
+    	khjs.form.setInputValue({name:"WS22201201004",value:value_22201201004})
+    	
+    	var value_22201201005 = document.getElementById("22201201005").innerHTML ;
+    	if(value_22201201005=="&nbsp;&nbsp;&nbsp;&nbsp;")
+    		value_22201201005="";
+    	value_22201201005=clearhtmlstyle(value_22201201005);
+    	khjs.form.setInputValue({name:"WS22201201005",value:value_22201201005})
+    	var value_22201201006 = document.getElementById("22201201006").innerHTML ;
+    	if(value_22201201006=="&nbsp;&nbsp;&nbsp;&nbsp;")
+    		value_22201201006="";
+    	value_22201201006=clearhtmlstyle(value_22201201006);
+    	khjs.form.setInputValue({name:"WS22201201006",value:value_22201201006})
+    	var value_22201201010 = document.getElementById("22201201010").innerHTML ;
+    	if(value_22201201010=="&nbsp;&nbsp;&nbsp;&nbsp;")
+    		value_22201201010="";
+    	value_22201201010=clearhtmlstyle(value_22201201010);
+    	khjs.form.setInputValue({name:"WS22201201010",value:value_22201201010})
+    	khjs.form.setInputValue({name:"WS22201201009",value:getInputValue("WS22201201009__year").replace(/[ ]/g,"")+"-"+getInputValue("WS22201201009__month").replace(/[ ]/g,"")+"-"+getInputValue("WS22201201009__day").replace(/[ ]/g,"")});
+    	
+			var json="type=2";
+			$('input').each(function(i){
+				var name=$(this).attr("name");
+				var vol=$(this).val();
+				if(vol!="" && name!=undefined){
+					json+="&"+name+"="+escape(encodeURIComponent(vol))+"";
+				}
+			});
+			$('textarea').each(function(i){
+				var name=$(this).attr("name");
+				var tet=$(this).text();
+				if(tet!=""  && name!=undefined){
+					json+="&"+name+"="+escape(encodeURIComponent(tet))+"";
+				}
+			});
+			var doctidx=khjs.form.getInputValue({name:"doctidx"});
+			var doctrow=khjs.form.getInputValue({name:"doctrow"});
+			var doctid="137058320118789";
+			saveData(json,"2",doctidx,doctrow,doctid);
+		}
+    
+    
+    	function doPrint(){
+    		var url = "/cqzf?CONTROLLER=com.khnt.law.doc.DocHandle&op=toDocPaper&NEXT_PAGE=DOC_PAPER_05&doctrow=0&print=true&doctid=137058320118789";
+    		//var url = "/cqzf?CONTROLLER=com.khnt.law.doc.DocHandle&op=toDocPaper&NEXT_PAGE=DOC_PAPER_05&doctidx=05&caseidx=1111111&doctrow=0&print=true";
+    		var wObj = WinOpen(0, url, "", 620, 650);
+    	}
+    	
+		$(document).ready(function(){
+			$("input").each(function(i){
+					if(this.maxsize!=undefined){
+						 $(this).bind("keyup", function(){
+						 	var objlenth=getBylength($(this).val());
+						 	if(objlenth>=this.maxsize){
+						 		$(this).val(getstrbylen($(this).val(),this.maxsize));
+						 	}
+						});
+					}
+			});
+			if(getInputValue("WS22201201001")!=""){
+				$('#22201201001').text(getInputValue("WS22201201001"));
+			}
+			
+			if(getInputValue("WS22201201009")!=""){
+				var WS22201201009 = getInputValue("WS22201201009").split(" ");
+				var WS22201201009DATE = WS22201201009[0].split("-");
+				if(WS22201201009[0]!=""){
+					khjs.form.setInputValue({name:"WS22201201009__year",value:WS22201201009DATE[0]});
+					khjs.form.setInputValue({name:"WS22201201009__month",value:WS22201201009DATE[1]});
+					khjs.form.setInputValue({name:"WS22201201009__day",value:WS22201201009DATE[2]});
+				}
+			}
+			var headHeight = 0 ;
+			$('.head_tr').each(function(i){
+				headHeight += $(this).height();
+			})
+			var contentHeight = 0 ;
+			$('.content_tr').each(function(i){
+				contentHeight += $(this).height();
+			})
+			
+			//$('#blankTr').height($('.tabMain').height()-contentHeight-headHeight);
+			//alert($('#blankTr').height());
+			if(printpage){
+				$("input").attr("readonly","readonly").attr("onclick","");
+				$("textarea").attr("readonly","readonly").attr("onclick","");
+			} else {
+				$("#noPrint").hide();
+				$(".noPrintTr").hide();
+				$(".head_tr_noprint").hide();
+			}
+			//不知道为什么，直接给separateLine添加样式有问题，动态添加就没有问题。求美工高手解释。
+			$('#separateLine').append('<td style="border-top:solid #000000 2px;"></td>');
+		});
+		
+		var Uobj;
+		function showModelWindow(obj){
+			if(obj!=Uobj){
+				if(obj.innerText != "请单击")
+				{
+					if(trim(obj.innerText)!=""){
+						obj.innerHTML="<input type=\"text\" onclick='' id='uvalue' value=\""+obj.innerText+"\" onblur=\"getvalue(this)\" >";
+					} else {
+						obj.innerHTML="<input type=\"text\" onclick='' id='uvalue' value=\"\" onblur=\"getvalue(this)\" >";
+					}
+				}else{
+					obj.innerHTML="<input type=\"text\" onclick='' id='uvalue' value=\"\" onblur=\"getvalue(this)\" >";
+				}
+				document.getElementById("uvalue").focus();		
+				Uobj=obj;
+			}
+		}
+		function getvalue(obj){
+			   if(obj.value!=""){
+					Uobj.innerText=obj.value; 	
+				}else{
+					Uobj.innerHTML="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+			    }
+			   Uobj=null;
+			}
+		//当前页面重写返回方法
+    	function barUp(){
+    		if(WinConfirm("请确认最新内容是否已保存。\n点击“确认”自动保存，点击“取消”为返回。")){
+	    		doSave(true);
+    		}else{
+	   			var Obj=formObj;
+	    		Obj.action = "/cqzf?NEXT_PAGE=DOC_LIST&searchId=137058320118789";
+	    		Obj.submit();
+    		}
+    		
+    	}
+    function show(obj,value,type)
+	  {
+	   var s=new Array();
+	    s[0]="1、行政处罚前的填写方法：当事人+涉嫌+违法行为+案<br>2、行政处罚后的填写方法：当事人+违法行为+案<br>3、“违法行为”一般为：行为（如生产、使用、未取得生产许可等）+性质（如以次充好、冒用厂名厂地、无证生产等）+涉案物品名称<br>4、“违法行为”在特种设备、计量等少量案件案由中书写顺序可能不同，请按以上要素组合。";
+	   s[1]="1、当事人为自然人的，写明姓名、性别、年龄、身份证号码、职业及工作单位、住所等。<Br>2、当事人为法人或其他组织的，写明名称（注册登记的全称）、营业或办公场所、营业执照注册号、法定代表人或负责人姓名、职务、其他资质证明及证书号。";
+	   s[2]="1、简明扼要的违法行为发生过程或调查经过为主线写明案情及违法事实。<br>2、违法事实包括行为事实（如时间、地点、场所、方法、手段、目的、动机、设备设施 、货值金额以及其他从重或从轻减轻情节等），包括后果事实（如行为与后果的因果关系，危害后果及程度，违法所得或收入，整改、补救赔偿措施等）。<br>3、应当写明当事人提出的陈述申辩意见及核实情况。<br>4、有多个违法行为的，应逐一写明当事人的所有违法事实及相互之间的关系，写明对当事人主要违法事实的认定及理由，写明从轻、减轻、不予处罚的理由及依据。<br>5、采取行政强制措施的情况。";
+	   s[3]="1、对需要证明的基本事实和主要情节逐一列举、逐项写明哪些证据用以证明以上事实和情节。<br>2、对程序性事实，如无异议或分歧的，不必专门说明。";
+	   s[4]="1、写明所认定的违法行为性质，简要说明理由。<br>2、写明所认定的从轻、减轻、不予处罚或从重的情节、理由及依据，当事人作出陈述、申辩的，简要写明复核和采纳情况并说明理由。<br>3、拟处理意见，写明拟作出处罚的种类、幅度，所适用的法律依据及准确的条款或者不予处罚的理由、依据。";
+	   s[5]="写明作出其他行政处理的建议（如通报其他行政机关、建议吊销许可证、要求企业实施召回、涉案物品处置方式、要求等）及理由。";
+	  if (typeof tscharstauts=="undefined"){
+			tscharstauts=2;
+	   }
+	   if (typeof tscharvalcontant=="undefined"){
+			tscharvalcontant="";
+	   }
+	   if(tscharstauts=="1"){
+	   		type=1;
+	   	   s[0]=tscharvalcontant;
+		   s[1]=tscharvalcontant;
+		   s[2]=tscharvalcontant;
+		   s[3]=tscharvalcontant;
+		   s[4]=tscharvalcontant;
+		   s[5]=tscharvalcontant;
+	   }
+	   mydiv.innerHTML='<span style="border:1px solid #000;font-size:12px;width:100%;min-height: 25px;line-height: 25px;vertical-align: bottom;">'+s[value]+'</span>'
+	     if(document.getElementById(obj).style.width==""||document.getElementById(obj).style.width=="100%"){
+		   	 mydiv.style.width="570px";
+	   }else{
+	   		mydiv.style.width=document.getElementById(obj).style.width;
+	   }
+	   var objHeight=mydiv.style.width.substr(0,mydiv.style.width.toString().length-2);
+	    mydiv.style.pixelLeft=event.clientX+document.body.scrollLeft-event.offsetX-objHeight;
+	   	
+	   	if(type==undefined){
+	   		mydiv.style.pixelTop=event.clientY+document.body.scrollTop-event.offsetY+$("#"+obj).height()+30;
+	   	}else{
+	   		mydiv.style.pixelTop=event.clientY+document.body.scrollTop-(type*25);
+	   	}
+	   	mydiv.style.visibility="visible"
+	   }
+		
+    function hid()
+     {mydiv.style.visibility="hidden"}
+		// 打印强制分页  style="page-break-after: always; "
+		// 参考 http://blog.sunshow.net/2006/10/force-html-page-break-when-printing/
+    </script>
+    
+    
+	<script>InitPage(false);</script>
+	</head>
+	<body onLoad="ChangePageStatus(formObj);onloaddoctemp();" onmousedown="pos()">
+	<div id=mydiv onclick="hid()" style="position:absolute;visibility:hidden;background-color:seashell;cursor:pointer;"></div>
+	<!--<OBJECT classid=CLSID:8856F961-340A-11D0-A96B-00C04FD705A2 height=0 id=WB width=0 ></OBJECT>-->
+	<div id="EMSPrintDIV">
+	<form name="formObj" method="post" action="">
+		<table class="tabMain" cellspacing="0" cellpadding="0" border="0" borderColor="black" align="center" >
+			<tr class="head_tr" height="35px">
+				<td>
+					<div align="center" class="org">质 量 技 术 监 督</div>
+				</td>
+			</tr>
+			<tr class="head_tr" height="55px">
+				<td>
+					<div align="center" class="doc_name" style="height: 35px"><strong>案件调查终结报告</strong></div>
+				</td>
+			</tr>
+			
+			<tr class="head_tr" height="5px" id="separateLine"></tr>
+			<tr class="head_tr">
+				<td height="20px">
+					<input type="hidden" name='doctidx'  value="22201201" />
+					<input type="hidden" name='caseidx' id='caseidx' value="5002330499130017" />
+					<input type="hidden" name='doctrow' value="1" />
+				</td>
+			</tr>
+			<tr class="content_tr">
+				<td  align="center" valign="middle"  style="min-height: 35px">
+					<table  cellspacing="0" cellpadding="0" border="0" style="width:100%;">
+						<tr>
+							<td style="min-height: 35px;width:60px;padding-top:15px" valign="top">案由：</td>
+							<td  style="min-height: 35px;width:480px;"><div class="text_box2"  style="width:100%;" name='content01' id="content01"  contenteditable="true">忠县忠梁食品厂涉嫌生产以次充好酥性饼干案.</div></td>
+							<td style="min-height: 35px;padding-top:10px" valign="top"><span style="color:red">*</span><span><img src="/law/jsp/doc/image/bztp.jpg"  onclick="show('WS22201201001',0)"  style="width:18px;height:18px;cursor:pointer" ></span></td>
+							
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<tr style="display:none">
+				<td><input type="text" class="input_text_01"  ext_name="案由" isNull="N" ext_type="string"  name="WS22201201001" id="WS22201201001" style="width: 480px"  value="忠县忠梁食品厂涉嫌生产以次充好酥性饼干案."/>
+				</td>
+			</tr>
+			<tr class="content_tr">
+				<td><input type="text" class="input_text_01_u" id="TS002" style="width: 540px" readonly="readonly" value="当事人基本情况："/><span><img src="/law/jsp/doc/image/bztp.jpg"  onclick="show('TS002',1,5)"  style="width:18px;height:18px;cursor:pointer" ></span></td>
+			</tr>
+			<tr>
+				<td style="min-height: 35px">
+				<input type="hidden" name="WS22201201002" id="WS22201201002" value=""/>
+				<div class="text_box" name='22201201002' id="22201201002"   contenteditable="true" >&nbsp;&nbsp;&nbsp;&nbsp;忠县忠梁食品厂，经营者姓名：蓝启维，经营场所：忠县马灌镇文明路60号营业执照注册号：500233200016041 .电话：15523941906</div></td>
+			</tr>
+			<tr class="content_tr">
+				<td><input type="text" class="input_text_01_u" id="TS003" style="width: 540px" readonly="readonly" value="案情及案件事实："/><span><img src="/law/jsp/doc/image/bztp.jpg"  onclick="show('TS003',2,10)"  style="width:18px;height:18px;cursor:pointer" ></span></td>
+			</tr>
+			<tr>
+				<td style="min-height: 35px">
+				<input type="hidden" name="WS22201201003" id="WS22201201003" value=""/>
+				<div class="text_box" name='22201201003' id="22201201003"  contenteditable="true" >&nbsp;&nbsp;&nbsp;&nbsp;重庆市忠县质量技术监督局食品安全监督科执法人员杨辉（执法证件号：220310009）、袁宏（执法证件号：220310005）对忠县忠梁食品厂工作人员蓝启维就该厂酥性饼干不合格一案进行调查。执法人员当场出示了执法证件，说明了调查事项，表明了身份，介绍了案情，向当事人讲明了其应享有的权利和应尽的义务。当事人承诺如实答复调查的事项。受调查人名叫蓝启维，在忠县忠梁食品厂工作，任厂长，是本厂负责人。当事人看过调查人员的执法证件，承诺如实回答调查人员的调查问题。受调查人于2013年4月24日签收测试检测替换出具的检验报告（报告编号：No：2013-A327；不合格项目：过氧化值），检验结论为：不合格。受调查人对检验结论无异议，不要求复检，受调查人承认该批产品生产了20Kg，现已卖完，出厂价是10元人民币每Kg，货值金额共计200元人民币。当事人已仔细核对所调查记录的文字内容，确认无误，所述内容属实。</div></td>
+			</tr>
+			<tr class="content_tr">
+				<td><input type="text" class="input_text_01_u" id="TS004" style="width: 540px" readonly="readonly" value="情节及裁量理由："/></td>
+			</tr>
+			<tr>
+				<td style="min-height: 35px">
+				<input type="hidden" name="WS22201201010" id="WS22201201010" value=""/>
+				<div class="text_box" name='22201201010' id="22201201010"   contenteditable="true" ><INPUT style='WIDTH: 210px' class=input_text_01_utwo value=（1.从宽或从严的情节） readOnly><Br><Br><Br></P><INPUT style='WIDTH: 230px' class=input_text_01_utwo value=（2.当事人的申辩及理由） readOnly><Br><Br><Br></P><INPUT style='WIDTH: 150px' class=input_text_01_utwo value=（3.量罚及理由） readOnly><Br><Br><Br></P><INPUT style='WIDTH: 190px' class=input_text_01_utwo value=（4.是否移送及理由） readOnly><Br><Br><Br></P></div></td>
+			</tr>
+			<tr class="content_tr">
+				<td><input type="text" class="input_text_01_u" id="TS004" style="width: 540px" readonly="readonly" value="证据及证明过程："/><span><img src="/law/jsp/doc/image/bztp.jpg"  onclick="show('TS004',3,3)"  style="width:18px;height:18px;cursor:pointer" ></span></td>
+			</tr>
+			<tr>
+				<td style="min-height: 35px">
+				<input type="hidden" name="WS22201201004" id="WS22201201004" value="&nbsp;&nbsp;&nbsp;&nbsp;测试检测替换出具的检验报告（报告编号：No：2013-A327；不合格项目：过氧化值），检验结论为：不合格。对当事人调查笔录。 证明过程：调查全过程的调查笔录经当事人签字认可，无异议。"/>
+				<div class="text_box" name='22201201004' id="22201201004"   contenteditable="true" >&nbsp;&nbsp;&nbsp;&nbsp;测试检测替换出具的检验报告（报告编号：No：2013-A327；不合格项目：过氧化值），检验结论为：不合格。对当事人调查笔录。 证明过程：调查全过程的调查笔录经当事人签字认可，无异议。</div></td>
+			</tr>
+			<tr class="content_tr">
+				<td><input type="text" class="input_text_01_u" id="TS005" style="width: 540px" readonly="readonly" value="性质及拟处意见："/><span><img src="/law/jsp/doc/image/bztp.jpg"  onclick="show('TS005',4,5)"  style="width:18px;height:18px;cursor:pointer" ></span></td>
+			</tr>
+			<tr>
+				<td style="min-height: 35px">
+				<input type="hidden" name="WS22201201005" id="WS22201201005" value="&nbsp;&nbsp;&nbsp;&nbsp;性质：忠县忠梁食品厂涉嫌生产以次充好酥性饼干， 不合格项目：过氧化值，为一般性不合格项目，适用于《中华人民共和国产品质量法》，该厂违反了《产品质量法》第三十二条之规定，依据《产品质量法》第五十条之规定 ：责令停止生产、销售，并处违法生产、销售产品货值金额百分之五十以上三倍以下的罚款，有非法所得的，并处没收违法所得。没收违法所得200元，处罚款300元，罚没款合计500元。"/>
+				<div class="text_box" name='22201201005' id="22201201005"   contenteditable="true" >&nbsp;&nbsp;&nbsp;&nbsp;性质：忠县忠梁食品厂涉嫌生产以次充好酥性饼干， 不合格项目：过氧化值，为一般性不合格项目，适用于《中华人民共和国产品质量法》，该厂违反了《产品质量法》第三十二条之规定，依据《产品质量法》第五十条之规定 ：责令停止生产、销售，并处违法生产、销售产品货值金额百分之五十以上三倍以下的罚款，有非法所得的，并处没收违法所得。没收违法所得200元，处罚款300元，罚没款合计500元。</div></td>
+			
+			</tr>
+			<tr class="content_tr">
+				<td><input type="text" class="input_text_01_u" id="TS006" style="width: 540px" readonly="readonly" value="其他处理建议："/><span><img src="/law/jsp/doc/image/bztp.jpg"  onclick="show('TS006',5,2)"  style="width:18px;height:18px;cursor:pointer" ></span></td>
+			</tr>
+			<tr>
+				<td style="min-height: 35px">
+				<input type="hidden" name="WS22201201006" id="WS22201201006" value="<P>&nbsp;&nbsp;&nbsp;&nbsp;<BR></P><P>&nbsp;&nbsp;&nbsp; 责令改正。</P>"/>
+				<div class="text_box" name='22201201006' id="22201201006"   contenteditable="true" ><P>&nbsp;&nbsp;&nbsp;&nbsp;<BR></P><P>&nbsp;&nbsp;&nbsp; 责令改正。</P></div></td>
+			</tr>
+			
+			<tr id="blankTr" height="100%">
+				<td>
+				
+				
+				</td>
+			</tr>
+			<tr class="content_tr" style="vertical-align: top;">
+				<td align="right">案件承办人签字：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+			</tr>
+			<tr class="content_tr" style="vertical-align: top;">
+				<td align="right">承办部门负责人签字：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+			</tr>
+			<tr class="content_tr" style="vertical-align: top;">
+				<input type="hidden" name='WS22201201009' value="2013-05-25" />
+				<td align="right"><input style="width:50px;text-align:center;" name='WS22201201009__year'   maxsize="4" ext_type="int" class="input_text_01_nobottom"/>年<input style="width:20px;text-align:center;"   maxsize="2" ext_type="int" name='WS22201201009__month' class="input_text_01_nobottom"/>月<input style="width:20px;text-align:center;" name='WS22201201009__day'   maxsize="2" ext_type="int" class="input_text_01_nobottom"/>日&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+			</tr>
+			
+		</table>
+	</form>
+	</div>
+	</body>
+	</html>

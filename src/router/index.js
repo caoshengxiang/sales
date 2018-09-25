@@ -85,6 +85,10 @@ const agentRecommendation = resolve => require.ensure([],
 const meetingActivity = resolve => require.ensure([],
   () => resolve(require('../view/saleManage/CRM/meetingActivity/list')),
   'meetingActivity')
+// 活动会议详细
+const meetingActivityDetail = resolve => require.ensure([],
+  () => resolve(require('../view/saleManage/CRM/meetingActivity/detailInfo')),
+  'meetingActivity')
 
 // 消息
 const messageList = resolve => require.ensure([],
@@ -256,6 +260,10 @@ const organizationList = resolve => require.ensure([],
 // 客户池管理
 const customerPool = resolve => require.ensure([],
   () => resolve(require('../view/companyManage/organization/customerPool/customerPool')),
+  'organization')
+// 机会池管理
+const chancePool = resolve => require.ensure([],
+  () => resolve(require('../view/companyManage/organization/chancePool/chancePool')),
   'organization')
 
 const baseSettingList = resolve => require.ensure([],
@@ -563,6 +571,17 @@ const router = new Router({
           path: 'meetingActivity',
           name: 'meetingActivity',
           component: meetingActivity,
+          meta: {
+            title: '会议活动管理',
+            pos: [
+              {name: '销售管理系统', toName: 'saleHome'},
+              {name: 'CRM管理'},
+              {name: '会议活动管理'}],
+          },
+        }, {
+          path: 'meetingActivityDetail',
+          name: 'meetingActivityDetail',
+          component: meetingActivityDetail,
           meta: {
             title: '会议活动管理',
             pos: [
@@ -957,6 +976,19 @@ const router = new Router({
               {name: '管理系统', toName: 'companyManageHome'},
               {name: '组织管理'},
               {name: '客户池管理'}],
+          },
+        },
+        // 企业管理 -- 机会池管理
+        {
+          path: 'chancePool',
+          name: 'chancePool',
+          component: chancePool,
+          meta: {
+            title: '机会池管理',
+            pos: [
+              {name: '管理系统', toName: 'companyManageHome'},
+              {name: '组织管理'},
+              {name: '机会池管理'}],
           },
         },
         // 企业管理 -- 组织商品配置管理

@@ -50,9 +50,9 @@
             <el-menu-item index="orderRecordsList" v-if="listPermissions(menus, 'followOrder')">跟单记录管理</el-menu-item>
             <el-menu-item index="customersHighSeasList" v-if="listPermissions(menus, 'customerSea')">客户公海管理</el-menu-item>
             <el-menu-item index="returnRecordList" v-if="listPermissions(menus, 'refund')">回款记录管理</el-menu-item>
-            <el-menu-item index="salesOpportunitiesListSeas" v-if="listPermissions(menus, 'customerSea')">机会公海管理</el-menu-item><!--todo-->
-            <el-menu-item index="meetingActivity" v-if="listPermissions(menus, 'customerSea')"><span slot="title">会议活动管理</span></el-menu-item> <!--todo-->
-            <el-menu-item index="agentRecommendation" v-if="listPermissions(menus, 'customerSea')"><span slot="title">代理培育管理</span> <!--todo-->
+            <el-menu-item index="salesOpportunitiesListSeas" v-if="listPermissions(menus, 'chanceSea')">机会公海管理</el-menu-item>
+            <el-menu-item index="meetingActivity" v-if="listPermissions(menus, 'meetingActivity')"><span slot="title">会议活动管理</span></el-menu-item>
+            <el-menu-item index="agentRecommendation" v-if="listPermissions(menus, 'agentCultivate')"><span slot="title">代理培育管理</span>
             </el-menu-item>
           </el-menu-item-group>
         </el-submenu>
@@ -90,15 +90,15 @@
             <el-menu-item index="rebateRecordsList" v-if="listPermissions(menus, 'commission')">财务佣金管理</el-menu-item>
           </el-menu-item-group>
         </el-submenu>
-        <el-submenu index="task"> <!--todo 加权限-->
+        <el-submenu index="task">
           <template slot="title">
             <i class="iconfont icon-shenpi"></i>
             <span>业务审批</span>
           </template>
-          <!--<el-menu-item-group>
+          <el-menu-item-group>
             <el-menu-item index="taskApprovalList" v-if="listPermissions(menus, 'approval')">业务审批管理</el-menu-item>
-            <el-menu-item index="housekeeperEnterList">管家入驻管理</el-menu-item>
-          </el-menu-item-group>-->
+            <!--<el-menu-item index="housekeeperEnterList">管家入驻管理</el-menu-item>-->
+          </el-menu-item-group>
         </el-submenu>
         <!-- <el-submenu index="statistical"> &lt;!&ndash;todo 加权限&ndash;&gt;
            <template slot="title">
@@ -150,8 +150,8 @@
             <!--<template slot="title">分组一</template>-->
             <el-menu-item index="organizationList" v-if="listPermissions(menus, 'orgManagementSub')">组织管理</el-menu-item>
             <el-menu-item index="customerPool" v-if="listPermissions(menus, 'customerPool')">客户池管理</el-menu-item>
-            <el-menu-item index="organizationProductSetting" v-if="listPermissions(menus, 'orgGoodsConfig')">组织商品配置
-            </el-menu-item>
+            <el-menu-item index="organizationProductSetting" v-if="listPermissions(menus, 'orgGoodsConfig')">组织商品配置</el-menu-item>
+            <el-menu-item index="chancePool" v-if="listPermissions(menus, 'chancePool')">机会池管理</el-menu-item>
           </el-menu-item-group>
         </el-submenu>
         <el-submenu index="financial" v-if="listPermissions(menus, 'financialManagement')">

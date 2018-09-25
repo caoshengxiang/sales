@@ -33,11 +33,6 @@
         </div>
       </div>
       <div class="com-info-right">
-        <!--<el-radio-group v-model="tapOption">-->
-        <!--<el-radio-button class="btn-width" label="move">APP下单</el-radio-button>-->
-        <!--<el-radio-button class="btn-width" label="move">修改</el-radio-button>-->
-        <!--<el-radio-button class="btn-width" label="move">删除</el-radio-button>-->
-        <!--</el-radio-group>-->
         <ul class="btn-group">
           <!--订单为预下单 - 显示APP下单-->
           <li class="btn-order" v-if="orderDetail.orderState === 0 && isFollower" @click="operateOptions('appOrder')">
@@ -62,7 +57,7 @@
             <p class="table-title">销售订单基本信息</p>
             <table class="detail-table">
               <tr>
-                <td class="td-title">订单机会</td>
+                <td class="td-title">销售机会</td>
                 <td>{{orderDetail.chanceName}}</td>
                 <td class="td-title">客户名称</td>
                 <td>{{orderDetail.customerName}}</td>
@@ -70,10 +65,16 @@
                 <td>{{orderDetail.contacterName}}[{{orderDetail.contacterPhone}}]</td>
               </tr>
               <tr>
+                <td class="td-title">签单类型</td>
+                <td></td>
                 <td class="td-title">是否续费</td>
                 <td>{{orderDetail.isRenew?'续费订单':'新签订单'}}</td>
+                <td class="td-title">续费次数</td>
+                <td>{{orderDetail.contacterName}}[{{orderDetail.contacterPhone}}]</td>
+              </tr>
+              <tr>
                 <td class="td-title">购买商品</td>
-                <td colspan="3">{{orderDetail.productName}}</td>
+                <td colspan="5">{{orderDetail.productName}}</td>
               </tr>
               <tr>
                 <td class="td-title">购买规格</td>

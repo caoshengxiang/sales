@@ -127,7 +127,6 @@
           align="center"
           prop="roleName"
           label="角色"
-          sortable="custom"
         >
           <template slot-scope="scope">
             <span v-for="item in scope.row.roles"

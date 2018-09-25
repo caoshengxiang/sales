@@ -7,7 +7,9 @@
             <td class="td-title">客户名称</td>
             <td class="td-text">
               <el-form-item prop="customerId">
-                <el-select :disabled="params.detailCustomersId?true:false" v-model.number="addForm.customerId"
+                <el-select :disabled="params.detailCustomersId?true:false"
+                           filterable
+                           v-model.number="addForm.customerId"
                            placeholder="请选择客户" style="width: 100%">
                   <el-option v-for="item in customersList" :key="item.id" :label="item.name"
                              :value="item.id"></el-option>
@@ -15,12 +17,70 @@
               </el-form-item>
             </td>
 
-            <td class="td-title">需求阶段</td>
+            <!--<td class="td-title">意向商品分类</td>-->
+            <!--<td class="td-text">-->
+            <!--<el-form-item prop="intentProductCate">-->
+            <!--<el-select v-model.number="addForm.intentProductCate" @change="intentProductCateChangeHandle"-->
+            <!--placeholder="请选择意向商品分类" style="width: 100%">-->
+            <!--<el-option v-for="item in intentProductCateList" :key="item.objectId" :label="item.name"-->
+            <!--:value="item.objectId"></el-option>-->
+            <!--</el-select>-->
+            <!--</el-form-item>-->
+            <!--</td>-->
+            <td class="td-title">意向商品</td>
             <td class="td-text">
-              <el-form-item prop="state">
-                <el-select :disabled="true" v-model.number="addForm.state" placeholder="" style="width: 100%">
-                  <el-option v-for="item in salesState" :key="item.type" :label="item.value + item.percent"
-                             :value="item.type" v-if="item.type !== -1"></el-option>
+              <el-form-item prop="intentProductId">
+                <el-select v-model.number="addForm.intentProductId"
+                           filterable
+                           @change="intentProductIdChangeHandle"
+                           placeholder="请选择意向商品" style="width: 100%">
+                  <el-option v-for="item in intentProductList" :key="item.id" :label="item.goodsName"
+                             :value="item.goodsId"></el-option>
+                </el-select>
+              </el-form-item>
+            </td>
+
+            <!--<td class="td-title">需求阶段</td>-->
+            <!--<td class="td-text">-->
+            <!--<el-form-item prop="state">-->
+            <!--<el-select :disabled="true" v-model.number="addForm.state" placeholder="" style="width: 100%">-->
+            <!--<el-option v-for="item in salesState" :key="item.type" :label="item.value + item.percent"-->
+            <!--:value="item.type" v-if="item.type !== -1"></el-option>-->
+            <!--</el-select>-->
+            <!--</el-form-item>-->
+            <!--</td>-->
+          </tr>
+          <tr>
+            <td class="td-title">联系人</td>
+            <td class="td-text">
+              <el-form-item prop="contacter">
+                <el-input type="text" v-model="addForm.contacter"></el-input>
+              </el-form-item>
+            </td>
+            <td class="td-title">联系电话</td>
+            <td class="td-text">
+              <el-form-item prop="contactPhone">
+                <el-input type="text" v-model="addForm.contactPhone"></el-input>
+              </el-form-item>
+            </td>
+          </tr>
+          <tr>
+            <td class="td-title">地区</td>
+            <td class="td-text">
+              <el-form-item prop="provinceId">
+                <AreaSelect ref="areaSe"
+                            :area="(addForm.provinceName?addForm.provinceName:'') + ' ' + (addForm.cityName?addForm.cityName:'')  + ' ' + (addForm.areaName?addForm.areaName:'')"
+                            @change="areaSelectedOptionsHandleChange"
+                            :selectLastLevelMode="true"></AreaSelect>
+              </el-form-item>
+            </td>
+            <td class="td-title">行业</td>
+            <td class="td-text">
+              <!--<input type="text" v-model="addForm.industry">-->
+              <el-form-item prop="industry">
+                <el-select v-model="addForm.industry" placeholder="请选择客户行业"  style="width: 100%">
+                  <el-option v-for="item in industryList" :key="item.id" :label="item.codeName"
+                             :value="item.codeName"></el-option>
                 </el-select>
               </el-form-item>
             </td>
@@ -49,26 +109,16 @@
             </td>
           </tr>
           <tr>
-            <td class="td-title">意向商品分类</td>
+            <td class="td-title">机会公海</td>
             <td class="td-text">
-              <el-form-item prop="intentProductCate">
-                <el-select v-model.number="addForm.intentProductCate" @change="intentProductCateChangeHandle"
-                           placeholder="请选择意向商品分类" style="width: 100%">
-                  <el-option v-for="item in intentProductCateList" :key="item.objectId" :label="item.name"
-                             :value="item.objectId"></el-option>
+              <el-form-item prop="chanceSeaId">
+                <el-select v-model.number="addForm.chanceSeaId" placeholder="请选择机会公海" style="width: 100%;">
+                  <el-option v-for="item in seaList" :key="item.id" :label="item.name" :value="item.id"></el-option>
                 </el-select>
               </el-form-item>
             </td>
-            <td class="td-title">意向商品</td>
-            <td class="td-text">
-              <el-form-item prop="intentProductId">
-                <el-select v-model.number="addForm.intentProductId" @change="intentProductIdChangeHandle"
-                           placeholder="请选择意向商品" style="width: 100%">
-                  <el-option v-for="item in intentProductList" :key="item.id" :label="item.goodsName"
-                             :value="item.goodsId"></el-option>
-                </el-select>
-              </el-form-item>
-            </td>
+            <td class="td-title"></td>
+            <td class="td-text"></td>
           </tr>
           <tr>
             <td class="td-title">需求来源</td>
@@ -117,24 +167,33 @@
         dataLoading: false,
         addForm: { // 添加表单
           customerId: '',
-          state: 2,
+          state: 2, // 阶段，默认
+          // intentProductCate: '', // 分类，新需求没有这个
+          // intentProductCateName: '',
+          intentProductId: '', // 商品
+          intentProductName: '',
+          contacter: '',
+          contactPhone: '',
+          provinceId: '',
+          cityId: '',
+          areaId: '',
+          industry: '', // 行业
+          chanceSeaId: '', // 机会公海
           billDate: '',
           intentBillAmount: '',
-          intentProductCate: '',
-          intentProductCateName: '',
-          intentProductId: '',
-          intentProductName: '',
           chanceRemark: '',
-          pageSource: 1, // 公海添加机会，传2. 其他传1
+          pageSource: 2, // 公海添加机会，传2. 其他传1
           chanceSource: '',
         },
         customersList: [],
         salesState: [],
         intentProductCateList: [],
         intentProductList: [],
+        industryList: [], // 行业
+        seaList: [], // 公海
         rules: {
           customerId: [
-            {required: true, message: '请输入所属公司', trigger: 'blur'},
+            // {required: true, message: '请输入客户名称', trigger: 'blur'},
           ],
           state: [
             // {required: true, message: '请选择需求阶段', trigger: 'change'},
@@ -147,13 +206,28 @@
             {required: true, message: '请输入预计签单金额', trigger: 'blur'},
           ],
           intentProductCate: [
-            {required: true, message: '请选择意向商品分类', trigger: 'change'},
+            // {required: true, message: '请选择意向商品分类', trigger: 'change'},
           ],
           intentProductId: [
             {required: true, message: '请选择意向商品', trigger: 'change'},
           ],
           chanceRemark: [
             // {required: true, message: '请输入需求描述', trigger: 'blur'},
+          ],
+          contacter: [
+            {required: true, message: '请输入联系人', trigger: 'blur'},
+          ],
+          contactPhone: [
+            {required: true, message: '请输入联系电话', trigger: 'blur'},
+          ],
+          provinceId: [
+            {required: true, message: '请选择地区', trigger: 'blur'},
+          ],
+          industry: [
+            {required: true, message: '请选择行业', trigger: 'change'},
+          ],
+          chanceSeaId: [
+            {required: true, message: '请选择机会公海', trigger: 'change'},
           ],
         },
         chanceSourceType: [], // 客户来源
@@ -170,16 +244,18 @@
     props: ['params'],
     methods: {
       areaSelectedOptionsHandleChange (value) {
-        console.log(value)
+        this.addForm.provinceId = value[0] || ''
+        this.addForm.cityId = value[1] || ''
+        this.addForm.areaId = value[2] || ''
       },
       saveSubmitForm (formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
             this.dataLoading = true
             if (this.params.detail) { // 编辑
-              API.salesOpportunities.confirm({path: this.addForm.id, body: this.addForm}, (data) => {
+              API.salesOpportunitiesSea.editChance(this.addForm, (data) => {
                 if (data.status) {
-                  this.$message.success('添加成功')
+                  this.$message.success('编辑成功')
                   setTimeout(() => {
                     this.dataLoading = false
                     this.$vDialog.close({type: 'save'})
@@ -191,7 +267,7 @@
                 }
               })
             } else {
-              API.salesOpportunities.add(this.addForm, (data) => {
+              API.salesOpportunitiesSea.addChance(this.addForm, (data) => {
                 if (data.status) {
                   this.$message.success('添加成功')
                   setTimeout(() => {
@@ -212,7 +288,7 @@
         })
       },
       getCustomersList () { // 当前登陆用户所有的拥有团队成员权限的客户信息
-        API.customer.teamAboutCustomerlist(data => {
+        API.customer.teamAboutCustomerlist(null, data => {
           if (data.status) {
             this.customersList = data.data
           }
@@ -223,9 +299,10 @@
           this.intentProductCateList = data.content
         })
       },
-      getIntentProductList (id) {
+      getIntentProductList (p) {
         API.common.organizationGoodsConf({ // 这个接口该来不调用外部接口
-          goodsTypeId: id,
+          goodsTypeId: p.goodsTypeId,
+          goodsName: p.goodsName,
           organizationId: webStorage.getItem('userInfo').organizationId,
           saleable: 1,
         }, (data) => {
@@ -240,7 +317,7 @@
         })
       },
       intentProductCateChangeHandle (id) { // 分类
-        this.getIntentProductList(id) // 分类id获取商品
+        this.getIntentProductList({goodsTypeId: id}) // 分类id获取商品
         this.addForm.intentProductName = ''
         this.addForm.intentProductId = ''
         this.intentProductCateList.forEach(item => {
@@ -269,14 +346,14 @@
                 // 其他模块中新增调取销售自建，
                 // 金钥匙微信端调取代理商并不让用户填写直接把字段传后台
                 this.chanceSourceType = [
-                  { // 销售自建
-                    codeName: this.params.topSource[0].name,
-                    id: this.params.topSource[0].value,
+                  { // 公司资源
+                    codeName: this.params.topSource[2].name,
+                    id: this.params.topSource[2].value,
                     children: [],
                   }]
                 // this.selectedBindValue.push(this.topSource[0].value)
-                this.chanceSourceArr.push(this.params.topSource[0].value)
-                this.chanceSourceChangeHandle([this.params.topSource[0].value]) // 默认获取第二级
+                this.chanceSourceArr.push(this.params.topSource[2].value)
+                this.chanceSourceChangeHandle([this.params.topSource[2].value]) // 默认获取第二级
               }
             }
           }
@@ -317,14 +394,20 @@
       },
       billDateChangeHandle (t) {
       },
+      getSeaList () { // 机会公海
+        API.salesOpportunitiesSea.listAboutCustomer((data) => {
+          this.seaList = data.data
+        })
+      },
     },
     created () {
       this.getCustomersList()
-      this.getIntentProductCateList()
+      // this.getIntentProductCateList()
+      this.getIntentProductList({goodsTypeId: null, goodsName: null})
       this.salesState = this.params.salesState
       if (this.params.detail) { // 编辑
         this.addForm = this.params.detail // 需要根据分类id获取商品列表进行展示
-        this.getIntentProductList(this.addForm.intentProductCate)
+        this.getIntentProductList({goodsTypeId: this.addForm.intentProductCate})
       }
       if (this.params.stateValue) { // 设置默认2，销售阶段；[公海1]
         this.addForm.state = this.params.stateValue
@@ -335,6 +418,8 @@
       }
       // 来源
       this.getConfigData(5, 0)
+      this.getConfigData(3) // 行业
+      this.getSeaList()
     },
   }
 </script>
