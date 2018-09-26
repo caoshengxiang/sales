@@ -147,7 +147,7 @@
         <el-table-column
           show-overflow-tooltip
           align="center"
-          prop="departmentName"
+          prop="directName"
           label="直接培育人"
           width="160"
         >
