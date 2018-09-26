@@ -161,6 +161,7 @@
           </template>
           <el-menu-item-group>
             <!--<template slot="title">分组一</template>-->
+            <el-menu-item index="returnSettlementList" v-if="listPermissions(menus, 'refundClear')">回款结算管理</el-menu-item>
             <el-menu-item index="settlementList" v-if="listPermissions(menus, 'commissionClear')">佣金结算管理</el-menu-item>
             <el-menu-item index="spendingList" v-if="listPermissions(menus, 'commissionExpenses')">佣金支出管理</el-menu-item>
           </el-menu-item-group>

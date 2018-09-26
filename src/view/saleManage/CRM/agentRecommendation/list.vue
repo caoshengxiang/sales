@@ -203,11 +203,19 @@
           this.tableData = data.data.content
           this.tableDataTotal = data.data.totalElements
           this.otherData = data.other
+          let phoneOrOriganization = null
+          if (this.agentType === 1) {
+            phoneOrOriganization = this.userInfo.mobilePhone
+          } else if (this.agentType === 2) {
+            phoneOrOriganization = ''
+          } else {
+            phoneOrOriganization = '- ' + this.userInfo.organizationName
+          }
           this.config.value = agentRegister + QS.stringify({ // 拼装二维码参数
             type: this.agentType,
             id: this.agentType === 1 ? this.userInfo.id : this.agentTypeOption,
             name: this.agentType === 1 ? this.userInfo.name : gentTypeOptionName,
-            phone: this.agentType === 1 ? this.userInfo.mobilePhone : '',
+            phone: phoneOrOriganization,
           })
           setTimeout(() => {
             this.dataLoading = false

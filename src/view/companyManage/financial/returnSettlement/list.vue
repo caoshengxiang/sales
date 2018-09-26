@@ -205,6 +205,15 @@
               <span>{{ scope.row.created && $moment(scope.row.created).format('YYYY-MM-DD HH:mm:ss')}}</span>
             </template>
           </el-table-column>
+          <el-table-column
+            align="center"
+            label="是否成返佣"
+            width="100"
+            sortable="custom"
+            prop=""
+            show-overflow-tooltip
+          >
+          </el-table-column>
         </el-table-column>
 
  <!--       <el-table-column
