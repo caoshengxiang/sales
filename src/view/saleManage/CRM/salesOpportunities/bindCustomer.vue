@@ -6,7 +6,8 @@
         <div style="margin-bottom: 20px;">
           <el-form-item label="绑定创建或跟进中的客户" prop="customerId">
             <el-select filterable
-                       v-model.number="addForm.customerId"
+                       @change="customerId_1_change"
+                       v-model.number="customerId_1"
                        placeholder="请选择客户" style="width: 100%">
               <el-option v-for="item in customersList" :key="item.id" :label="item.name"
                          :value="item.id"></el-option>
@@ -21,12 +22,12 @@
               <el-option label="个人" :value="1"></el-option>
               <el-option label="机构" :value="2"></el-option>
             </el-select>
-            <el-input type="text" v-model="searchForm.name" placeholder="请输入客户名称" style="width: 150px"></el-input>
+            <el-input type="text" v-model="searchForm.customerName" placeholder="请输入客户名称" style="width: 150px"></el-input>
             <el-input type="text" v-model="searchForm.cdKey" placeholder="请输入客户识别码" style="width: 150px"></el-input>
             <el-button type="primary" icon="el-icon-search" style="width: 80px;" @click="searchHandle">搜索</el-button>
           </el-form-item>
           <div>
-            <el-radio-group v-model="addForm.customerId">
+            <el-radio-group v-model="customerId_2" @change="customerId_2_change">
               <el-radio v-for="item in customersList2" :key="item.id" :label="item.id">
                 {{item.name}}[{{item.cdKey}}][{{item.cate===1?'个人':'机构'}}]
               </el-radio>
@@ -53,14 +54,16 @@
       return {
         dataLoading: false,
         chanceDetail: '',
+        customerId_1: '', // 方式一
+        customerId_2: '', // 方式二
         addForm: { // 添加表单
           customerId: '',
           chanceId: '',
         },
         searchForm: {
-          cate: null,
+          cate: 2,
           cdKey: null,
-          name: null,
+          customerName: null,
         },
         customersList: [],
         customersList2: [],
@@ -74,7 +77,18 @@
     },
     props: ['params'],
     methods: {
+      customerId_1_change () {
+        this.customerId_2 = null
+      },
+      customerId_2_change () {
+        this.customerId_1 = null
+      },
       saveSubmitForm (formName) {
+        if (!this.customerId_1 && !this.customerId_2) {
+          this.$message.warning('请选择客户')
+          return
+        }
+        this.addForm.customerId = this.customerId_1 || this.customerId_2
         this.$refs[formName].validate((valid) => {
           if (valid) {
             this.dataLoading = true
@@ -105,9 +119,20 @@
         })
       },
       searchHandle () {
-        API.customer.customerSearch(this.searchForm, data => {
+        if (!this.searchForm.cdKey && !this.searchForm.customerName) {
+          this.$message.warning('请输入客户名称和客户识别码至少一个！')
+          return
+        }
+        API.customer.customerSearch({
+          cate: this.searchForm.cate,
+          cdKey: this.searchForm.cdKey || null,
+          customerName: this.searchForm.customerName || null,
+        }, data => {
           if (data.status) {
             this.customersList2 = data.data
+            if (!data.data.length) {
+              this.$message.warning('无客户数据！')
+            }
           }
         })
       },

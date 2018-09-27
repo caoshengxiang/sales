@@ -410,6 +410,7 @@
   import addRenew from '../salesOrders/addRenew'
   import addOrderRecord from '../followOrderRecords/addDialog'
   import order from './order'
+  import bindCustomer from './bindCustomer'
 
   export default {
     name: 'detailInfo',
@@ -595,6 +596,21 @@
                 type: 'info',
                 message: '已取消删除',
               })
+            })
+            break
+          case 'bind':
+            this.$vDialog.modal(bindCustomer, {
+              title: '绑定客户(可二选一操作)',
+              width: 800,
+              height: 500,
+              params: {
+                chanceDetail: JSON.parse(JSON.stringify(this.salesOpportunitiesDetail))
+              },
+              callback: (data) => {
+                if (data.type === 'save') {
+                  this.getSalesOpportunititeisList()
+                }
+              },
             })
             break
         }

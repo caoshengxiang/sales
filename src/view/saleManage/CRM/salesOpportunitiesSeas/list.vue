@@ -95,7 +95,7 @@
         </el-table-column>
         <el-table-column
           align="center"
-          prop="returnNum"
+          prop="returnTimes"
           label="退回次数"
           width="160"
           show-overflow-tooltip>

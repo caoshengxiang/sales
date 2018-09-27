@@ -193,29 +193,15 @@
       getList () {
         this.dataLoading = true
         this.getQueryParams()
-        let gentTypeOptionName = null
-        this.agentTypeOptions.forEach(item => {
-          if (item.id === this.agentTypeOption) {
-            gentTypeOptionName = item.name
-          }
-        })
         API.agentDev.list(Object.assign({}, this.defaultListParams, this.sortObj, this.advancedSearch), (data) => {
           this.tableData = data.data.content
           this.tableDataTotal = data.data.totalElements
           this.otherData = data.other
-          let phoneOrOriganization = null
-          if (this.agentType === 1) {
-            phoneOrOriganization = this.userInfo.mobilePhone
-          } else if (this.agentType === 2) {
-            phoneOrOriganization = ''
-          } else {
-            phoneOrOriganization = '- ' + this.userInfo.organizationName
-          }
           this.config.value = agentRegister + QS.stringify({ // 拼装二维码参数
             type: this.agentType,
             id: this.agentType === 1 ? this.userInfo.id : this.agentTypeOption,
-            name: this.agentType === 1 ? this.userInfo.name : gentTypeOptionName,
-            phone: phoneOrOriganization,
+            name: this.agentType === 1 ? this.userInfo.name : this.otherData.directName,
+            phone: this.agentType === 1 ? this.userInfo.mobilePhone : ''
           })
           setTimeout(() => {
             this.dataLoading = false

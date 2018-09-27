@@ -230,8 +230,8 @@
               联系人({{contactTotal}})
               <!--<a class="more" v-if="contactTotal > 5" @click="handleRoute('contact')">更多》</a>-->
               <!--（-1 输单）-->
-              <a v-if="salesOpportunitiesDetail.stage !== -1 && (isChangeFollower || isChanceCreater)" class="table-add"
-                 @click="quickOperation('addContact')"><i class="el-icon-plus"></i>新增联系人</a>
+              <!--<a v-if="salesOpportunitiesDetail.stage !== -1 && (isChangeFollower || isChanceCreater)" class="table-add"-->
+                 <!--@click="quickOperation('addContact')"><i class="el-icon-plus"></i>新增联系人</a>-->
             </p>
             <table class="detail-table related-table">
               <tr>
@@ -256,8 +256,8 @@
               跟单记录({{orderRecordsTotal}})
               <!--<a class="more" v-if="orderRecordsTotal > 5" @click="handleRoute('orderRecords')">更多》</a>-->
               <!--（-1输单）-->
-              <a v-if="salesOpportunitiesDetail.stage !== -1 && isChangeFollower" class="table-add"
-                 @click="quickOperation('addRecord')"><i class="el-icon-plus"></i>新增跟单记录</a>
+              <!--<a v-if="salesOpportunitiesDetail.stage !== -1 && isChangeFollower" class="table-add"-->
+                 <!--@click="quickOperation('addRecord')"><i class="el-icon-plus"></i>新增跟单记录</a>-->
             </p>
             <table class="detail-table related-table">
               <tr>
@@ -276,8 +276,8 @@
               销售订单({{orderTotal}})
               <!--<a class="more" v-if="orderTotal > 5" @click="handleRoute('order')">更多》</a>-->
               <!--（-1 输单）-->
-              <a v-if="salesOpportunitiesDetail.stage !== -1 && isChangeFollower" class="table-add"
-                 @click="quickOperation('addOrder')"><i class="el-icon-plus"></i>新增关联订单</a>
+              <!--<a v-if="salesOpportunitiesDetail.stage !== -1 && isChangeFollower" class="table-add"-->
+                 <!--@click="quickOperation('addOrder')"><i class="el-icon-plus"></i>新增关联订单</a>-->
             </p>
             <table class="detail-table related-table">
               <tr>
@@ -454,7 +454,7 @@
       handleTabsClick (tab, event) {
         // console.log(tab.name)
         this.$router.push(
-          {name: 'salesOpportunitiesDetail', params: {end: this.themeIndex === 0 ? 'FE' : 'ME'}, query: {view: tab.name, id: this.$route.query.id}})
+          {name: 'salesOpportunitiesDetailSeas', params: {end: this.themeIndex === 0 ? 'FE' : 'ME'}, query: {view: tab.name, id: this.$route.query.id}})
       },
       operateOptions (op) {
         switch (op) {
