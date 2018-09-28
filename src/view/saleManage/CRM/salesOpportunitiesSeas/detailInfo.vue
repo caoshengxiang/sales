@@ -151,6 +151,10 @@
                 <td>{{salesOpportunitiesDetail.billAmount}}</td>
               </tr>
               <tr>
+                <td class="td-title">销售机会公海</td>
+                <td colspan="5">{{salesOpportunitiesDetail.chanceSeaName}}</td>
+              </tr>
+              <tr>
                 <td class="td-title">销售机会备注</td>
                 <td colspan="5">{{salesOpportunitiesDetail.chanceRemark || '暂无备注信息'}}</td>
               </tr>
@@ -655,7 +659,7 @@
       },
       getSalesOpportunitiesDetail () {
         this.dataLoading = true
-        API.salesOpportunities.detail(this.$route.query.id, (data) => {
+        API.salesOpportunitiesSea.chanceDetail(this.$route.query.id, (data) => {
           this.ac_salesOpportunitiesDetail(data.data)
           if (data.data.customerId) {
             this.getContactList(data.data.customerId)

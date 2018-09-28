@@ -120,7 +120,7 @@
                   <img style="width: 58px;height: 58px;border-radius: 100%;"
                        v-if="item.headUrl"
                        :src="item.headUrl" alt="" :onerror="defaultHeadUrl">
-                  <img v-else src="../../../../assets/icon/headDefault.png" alt="">
+                  <img v-else src="../../../../assets/icon/touxiang2.png" alt="">
                 </div>
                 <div class="text">
                   <p>{{item.mangerName}}</p>
@@ -212,7 +212,6 @@
               width="80"
               show-overflow-tooltip>
               <template slot-scope="scope">
-                {{scope.row.stage}}
             <span v-for="item in salesState" :key="item.type"
                   v-if="item.type === scope.row.stage">{{item.percent}}</span>
                 <!--<span v-if="scope.row.stage === -1">0%</span>-->
@@ -344,7 +343,7 @@
               <span
                 style="font-size: 18px;font-weight: bold;margin-right: 10px;">{{managerCodeDetail.mangerName}}</span>
               <span v-if="managerCodeDetail.managerId">商务管家</span>
-              <span v-if="managerCodeDetail.meetingCreatorId">、活动负责人</span>
+              <span v-if="managerCodeDetail.managerId === managerCodeDetail.meetingCreatorId">、活动负责人</span>
             </div>
             <div>
               <p style="margin-bottom:10px;">使用方法</p>
@@ -455,6 +454,7 @@
             this.getLog(this.detailInfo.id)
             this.config1.value = activityCodePre + Qs.stringify({ // 拼装活动二维码参数
               meetingId: this.detailInfo.id,
+              organizationId: this.detailInfo.meetingCreatorOgrId
             })
           }, 500)
         }, (data) => {
@@ -629,6 +629,7 @@
             salesState: this.salesState,
             topSource: this.topSource, // 顶级客户来源
             meetingId: this.detailInfo.id,
+            meetingCreatorId: this.detailInfo.meetingCreatorId
           },
           callback: (data) => {
             if (data.type === 'save') {
@@ -729,7 +730,8 @@
         this.managerCodeDetail = item
         this.config.value = activityCodePre + Qs.stringify({ // 拼装活动管家二维码参数
           meetingId: this.detailInfo.id,
-          meetingManagerId: item.meetingManagerId
+          organizationId: this.detailInfo.meetingCreatorOgrId,
+          meetingManagerId: item.managerId
         })
       },
     },

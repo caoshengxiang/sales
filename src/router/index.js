@@ -360,7 +360,7 @@ const router = new Router({
           name: 'salesOpportunitiesListSeas',
           component: salesOpportunitiesListSeas,
           meta: {
-            title: '销售机会',
+            title: '销售机会公海',
             pos: [{name: '销售管理系统', toName: 'saleHome'}, {name: '销售机会公海'}],
             pos2: [{name: '管理系统', toName: 'companyManageHome'}, {name: '销售机会公海'}],
           },

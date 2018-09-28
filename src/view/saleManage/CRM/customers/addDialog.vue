@@ -170,7 +170,7 @@
         rules: {
           cate: [
             {required: true, message: '请选择客户类型', trigger: 'change'},
-            {min: 1, max: 50, message: '长度为 50 个字符以内', trigger: 'blur'},
+            // {min: 1, max: 50, message: '长度为 50 个字符以内', trigger: 'blur'},
           ],
           name: [
             {required: true, message: '请输入客户名称', trigger: 'blur'},

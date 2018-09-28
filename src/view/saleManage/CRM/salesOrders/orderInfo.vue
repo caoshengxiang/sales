@@ -1,7 +1,7 @@
 <template>
   <div class="com-dialog-container">
     <div class="percent">
-      <div class="order-no">订单编号：</div>
+      <div class="order-no">订单编号：{{orderDetail.id}}<span v-if="orderDetail.orderId">-{{orderDetail.orderId}}</span></div>
       <div class="step-box">
         <el-steps :active="orderDetail.orderState + 1" finish-status="success">
           <el-step title="预下单"></el-step>

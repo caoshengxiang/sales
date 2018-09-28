@@ -51,7 +51,7 @@
                   :callback="agentRecCallback"
                   qid="agentRec"></vue-qr>
               </div>
-              <p class="name">{{otherData.directName || userInfo.name}}</p>
+              <p class="name">{{otherData.directName}}</p>
             </div>
             <p class="down-code">
               <!--<a v-if="codeImgBase64" :href="codeImgBase64" download="二维码">下载二维码</a>-->
@@ -101,6 +101,9 @@
               prop="created"
               label="加入时间"
             >
+              <template slot-scope="scope">
+                {{scope.row.created && $moment(scope.row.created).format('YYYY-MM-DD HH:mm')}}
+              </template>
             </el-table-column>
           </el-table>
         </div>
@@ -199,9 +202,9 @@
           this.otherData = data.other
           this.config.value = agentRegister + QS.stringify({ // 拼装二维码参数
             type: this.agentType,
-            id: this.agentType === 1 ? this.userInfo.id : this.agentTypeOption,
-            name: this.agentType === 1 ? this.userInfo.name : this.otherData.directName,
-            phone: this.agentType === 1 ? this.userInfo.mobilePhone : ''
+            id: this.agentTypeOption,
+            name: this.otherData.directName,
+            phone: '',
           })
           setTimeout(() => {
             this.dataLoading = false
@@ -227,14 +230,9 @@
         this.getList()
       },
       agentTypeChange (va) {
-        if (va === 1) {
-          this.agentTypeOption = null
-          this.agentTypeOptions = [{name: '个人', id: null}]
-        } else {
-          this.getDepts(va, (id) => {
-            this.agentTypeOption = id
-          })
-        }
+        this.getDepts(va, (id) => {
+          this.agentTypeOption = id
+        })
       },
       agentTypeOptionChange (va) {
         this.agentTypeOption = va
@@ -274,6 +272,8 @@
     .code-rec {
       width: 400px;
       padding: 10px;
+      padding-right: 20px;
+      border-right: 6px solid #F0F3F6;
       .code-rec-1 {
         text-align: center;
         margin: 0 auto 50px auto;

@@ -813,6 +813,13 @@ export default {
         error && error(err)
       })
     },
+    chanceDetail (params, success, error) { // 客户池获取客户详情
+      $axios.get('chanceSea/chance/' + params).then((res) => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+    },
     contactList (params, success, error) { // 客户池获取联系人列表
       $axios.get('chanceSea/contacter', {
         params: params,

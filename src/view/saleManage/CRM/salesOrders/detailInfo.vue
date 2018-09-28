@@ -66,11 +66,14 @@
               </tr>
               <tr>
                 <td class="td-title">签单类型</td>
-                <td></td>
+                <td>
+                  <span v-if="orderDetail.orderType === 'FIRST'">客户首单</span>
+                  <span v-if="orderDetail.orderType === 'DERIVE'">衍生业务</span>
+                </td>
                 <td class="td-title">是否续费</td>
                 <td>{{orderDetail.isRenew?'续费订单':'新签订单'}}</td>
                 <td class="td-title">续费次数</td>
-                <td>{{orderDetail.contacterName}}[{{orderDetail.contacterPhone}}]</td>
+                <td>{{orderDetail.renewTimes}}</td>
               </tr>
               <tr>
                 <td class="td-title">购买商品</td>
