@@ -30,7 +30,7 @@
         <div class="com-info-text">
           <h3>{{detailInfo.meetingName}}
             <span
-              style="font-size: 12px; color: #FF7700;padding: 3px 10px;border:1px solid #FF7700;margin-left: 20px;border-radius: 8px;">
+              style="font-size: 12px; color: #FF7700;padding: 4px 12px;border:1px solid #FF7700;margin-left: 20px;border-radius: 20px;">
               {{detailInfo.stateName}}
             </span>
           </h3>
@@ -155,8 +155,9 @@
               show-overflow-tooltip
               width="160">
               <template slot-scope="scope">
-                <a class="col-link" @click="handleRouter2('detail', scope.row.customerId)">{{ scope.row.customerName
+                <a v-if="scope.row.customerId" class="col-link" @click="handleRouter2('detail', scope.row.customerId)">{{ scope.row.customerName
                   }}</a>
+                <span v-else>{{scope.row.customerName}}</span>
               </template>
             </el-table-column>
             <el-table-column
@@ -484,7 +485,7 @@
           page: this.currentPage - 1,
           pageSize: this.pagesOptions.pageSize,
           meetingId: this.detailInfo.id,
-          meetingSaleCreator: null,
+          meetingSaleCreator: this.detailInfo.meetingCreatorId,
           meetingManagerId: null,
         }
       },

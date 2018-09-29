@@ -81,15 +81,17 @@
           }
         })
       },
-      getUserSearch (departmentId) { // todo 展示传得部门
-        API.user.userSubordinates({}, (data) => {
+      getUserSearch () {
+        API.user.userSubordinates({
+          bilityIds: 1,
+        }, (data) => {
           this.salerList = data.data
         })
       },
     },
     created () {
       this.getUserSearch()
-      this.currentUserId = webStorage.getItem('userInfo').id // todo 需不需要过滤自己，【客户转移一样得代码】
+      this.currentUserId = webStorage.getItem('userInfo').id
       this.moveCustomerForm.chanceIds = arrToStr(this.params.multipleSelection, 'id')
     },
   }
