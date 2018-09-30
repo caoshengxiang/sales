@@ -187,6 +187,9 @@
   @import "../../../styles/common";
   @import "../../../styles/sprites.css";
 
+  .com-title:after {
+    width: calc(100% + 16px);
+  }
   .welcome {
     font-size: 22px;
     color: $color-1-active;
@@ -223,7 +226,7 @@
   .list {
     li {
       color: #333333;
-      padding: 20px;
+      padding: 20px 20px 20px 10px;
       border-bottom: 1px dashed #ccc;
       overflow: hidden;
       text-overflow: ellipsis;

@@ -330,14 +330,14 @@
     }
     .u-text {
       display: inline-block;
-      margin-left: 20px;
+      margin-left: 8px;
       .username {
         font-size: 16px;
         font-weight: normal;
         /*color: #FEFEFE*/
         span {
           display: inline-block;
-          width: 70px;
+          width: 100px;
           overflow: hidden;
           text-overflow: ellipsis;
           white-space: nowrap;

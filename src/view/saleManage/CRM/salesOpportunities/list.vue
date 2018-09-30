@@ -353,7 +353,7 @@
             this.$vDialog.modal(bindCustomer, {
               title: '绑定客户(可二选一操作)',
               width: 800,
-              height: 500,
+              height: 380,
               params: {
                 chanceDetail: JSON.parse(JSON.stringify(rowData))
               },
