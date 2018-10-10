@@ -122,6 +122,14 @@
         <el-table-column
           align="center"
           sortable="custom"
+          prop="latestFollowerName"
+          label="最近跟进人"
+          width="160"
+          show-overflow-tooltip>
+        </el-table-column>
+        <el-table-column
+          align="center"
+          sortable="custom"
           prop="returnDate"
           label="退回日期"
           width="160"
@@ -479,7 +487,7 @@
         this.$vDialog.modal(advancedSearch, {
           title: '高级搜索',
           width: 900,
-          height: 460,
+          height: 600,
           params: {
             salesState: this.salesState,
             demandSource: this.demandSource,

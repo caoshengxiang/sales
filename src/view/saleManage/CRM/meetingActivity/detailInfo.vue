@@ -114,7 +114,7 @@
               <span class="title-text">商务管家信息</span>
             </div>
             <el-row>
-              <el-col :span="8" style="text-align: center;padding: 10px;"
+              <el-col :span="8" style="text-align: center;padding: 10px 0;"
                       v-for="item in managerList" :key="item.managerId">
                 <div class="head" @click="showManagerCode(item)">
                   <img style="width: 58px;height: 58px;border-radius: 100%;"
