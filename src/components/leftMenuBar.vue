@@ -56,7 +56,7 @@
             </el-menu-item>
           </el-menu-item-group>
         </el-submenu>
-        <!--<el-submenu index="PMS"> &lt;!&ndash;todo 加权限&ndash;&gt;
+        <el-submenu index="PMS"> <!--todo 加权限-->
           <template slot="title">
             <i class="iconfont icon-lvzhou_shebeipeizhi"></i>
             <span>PMS管理</span>
@@ -67,8 +67,8 @@
             <el-menu-item index="serviceWorkOrderList">服务工单管理</el-menu-item>
             <el-menu-item index="customerBill">客户票据管理</el-menu-item>
           </el-menu-item-group>
-        </el-submenu>-->
-        <!--<el-submenu index="CSM"> &lt;!&ndash;todo 加权限&ndash;&gt;
+        </el-submenu>
+        <el-submenu index="CSM"> <!--todo 加权限-->
           <template slot="title">
             <i class="iconfont icon-lvzhou_shebeipeizhi"></i>
             <span>CSM管理</span>
@@ -80,7 +80,7 @@
             <el-menu-item index="serviceSpotCheck">服务抽查管理</el-menu-item>
             <el-menu-item index="customerComments">客户意见管理</el-menu-item>
           </el-menu-item-group>
-        </el-submenu>-->
+        </el-submenu>
         <el-submenu index="financial"> <!--todo 加权限-->
           <template slot="title">
             <i class="iconfont icon-ai-wallet"></i>
@@ -100,7 +100,7 @@
             <!--<el-menu-item index="housekeeperEnterList">管家入驻管理</el-menu-item>-->
           </el-menu-item-group>
         </el-submenu>
-        <!-- <el-submenu index="statistical"> &lt;!&ndash;todo 加权限&ndash;&gt;
+         <el-submenu index="statistical"> <!--todo 加权限-->
            <template slot="title">
              <i class="iconfont icon-lvzhou_shebeipeizhi"></i>
              <span>统计分析</span>
@@ -115,7 +115,7 @@
              <el-menu-item index="customerCommentsSta">客户评价统计</el-menu-item>
              <el-menu-item index="customerOpinionSta">客户意见统计</el-menu-item>
            </el-menu-item-group>
-         </el-submenu>-->
+         </el-submenu>
       </div>
       <!--前端 菜单 end-->
       <!--前端 菜单 end-->
