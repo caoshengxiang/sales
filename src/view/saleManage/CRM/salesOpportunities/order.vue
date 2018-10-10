@@ -66,7 +66,7 @@
           <label v-else style="color: #ccc;">请选择一个订单</label>
         </el-form-item>
         <el-form-item prop="authCode" label="请输入客户联系人所获取的的验证码" style="margin-top: 20px;">
-          <el-input style="width: 200px;" v-model.number="addForm.authCode"
+          <el-input style="width: 200px;" v-model="addForm.authCode"
                     placeholder="请输入短信验证码"></el-input>
         </el-form-item>
       </el-form>
@@ -132,15 +132,15 @@
         this.$refs[formName].validate((valid) => {
           if (valid) {
             this.dataLoading = true
-            API.salesOrder.appOrder(this.addForm, (da) => {
-              setTimeout(() => {
-                this.dataLoading = false
-                if (da.status) {
-                  this.$message.success('APP下单成功成功')
-                  this.$vDialog.close({type: 'save'})
-                }
-              }, 500)
-            })
+            // API.salesOrder.appOrder(this.addForm, (da) => {
+            //   setTimeout(() => {
+            //     this.dataLoading = false
+            //     if (da.status) {
+            //       this.$message.success('APP下单成功成功')
+            //       this.$vDialog.close({type: 'save'})
+            //     }
+            //   }, 500)
+            // })
           } else {
             console.log('error submit!!')
             return false
