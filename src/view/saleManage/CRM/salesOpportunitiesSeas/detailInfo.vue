@@ -592,7 +592,7 @@
                   } else {
                     this.$message.success(`成功${data.data.success},失败${data.data.fail}`)
                   }
-                  this.getCustomersSeaList()
+                  this.getSalesOpportunitiesDetail()
                   setTimeout(() => {
                     this.dataLoading = false
                   }, 500)
