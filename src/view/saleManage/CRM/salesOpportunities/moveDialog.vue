@@ -82,7 +82,9 @@
         })
       },
       getUserSearch () {
-        API.user.userSubordinates({}, (data) => {
+        API.user.userSubordinates({
+          bilityIds: 1,
+        }, (data) => {
           this.salerList = data.data
         })
       },

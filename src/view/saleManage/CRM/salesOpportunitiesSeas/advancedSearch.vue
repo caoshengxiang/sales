@@ -31,6 +31,11 @@
               <el-input type="text" v-model="searchForm.contacterPhone"></el-input>
             </el-form-item>
           </el-col>
+          <el-col :span="8">
+            <el-form-item label="最近跟进人：">
+              <el-input type="text" v-model="searchForm.latestFollowerName"></el-input>
+            </el-form-item>
+          </el-col>
         </el-row>
         <el-row class="el-row-cla">
           <el-col :span="8">
@@ -100,6 +105,22 @@
         </el-row>
         <el-row class="el-row-cla">
           <el-col :span="14">
+            <el-form-item label="退回日期：">
+              <el-date-picker
+                v-model="timeInterval3"
+                type="datetimerange"
+                value-format="yyyy-MM-dd HH:mm:ss"
+                @change="returnDateIntervalHandle"
+                :unlink-panels="true"
+                range-separator="至"
+                start-placeholder="开始日期"
+                end-placeholder="结束日期">
+              </el-date-picker>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row class="el-row-cla">
+          <el-col :span="14">
             <el-form-item label="预计签单金额：">
               <el-row>
                 <el-col :span="10">
@@ -112,6 +133,25 @@
                 <el-col :span="10">
                   <el-input @change="intentBillAmountEndHandle" type="number"
                             v-model.number="searchForm.endIntentBillAmount"></el-input>
+                </el-col>
+              </el-row>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row class="el-row-cla">
+          <el-col :span="14">
+            <el-form-item label="退回次数：">
+              <el-row>
+                <el-col :span="10">
+                  <el-input @change="startReturnTimesHandle" type="number"
+                            v-model.number="searchForm.startReturnTimes"></el-input>
+                </el-col>
+                <el-col :span="2">
+                  <div style="text-align: center">-</div>
+                </el-col>
+                <el-col :span="10">
+                  <el-input @change="endReturnTimesHandle" type="number"
+                            v-model.number="searchForm.endReturnTimes"></el-input>
                 </el-col>
               </el-row>
             </el-form-item>
@@ -151,9 +191,15 @@
           endBillDate: null,
           contactPhone: null,
           contacter: null,
+          startReturnTimes: null,
+          endReturnTimes: null,
+          latestFollowerName: null,
+          startReturnDate: null,
+          endReturnDate: null,
         },
         timeInterval: [],
         timeInterval2: [],
+        timeInterval3: [],
         chanceSourceType: [], // 客户来源
         chanceSourceArr: [],
         props: {
@@ -190,10 +236,22 @@
           this.searchForm.endIntentBillAmount = this.searchForm.startIntentBillAmount
         }
       },
+      startReturnTimesHandle () {
+        if (this.searchForm.startReturnTimes > this.searchForm.endReturnTimes) {
+          this.searchForm.endReturnTimes = null
+        }
+      },
+      endReturnTimesHandle () {
+        if (this.searchForm.startReturnTimes && this.searchForm.startReturnTimes >
+          this.searchForm.endReturnTimes) {
+          this.searchForm.endReturnTimes = this.searchForm.startReturnTimes
+        }
+      },
       clearForm () {
         this.searchForm = {}
         this.timeInterval = []
         this.timeInterval2 = []
+        this.timeInterval3 = []
       },
       saveSubmitForm () {
         this.$vDialog.close({type: 'search', params: this.searchForm})
@@ -205,6 +263,10 @@
       timeBillDateIntervalHandle (value) {
         this.searchForm.startBillDate = value[0] || ''
         this.searchForm.endBillDate = value[1] || ''
+      },
+      returnDateIntervalHandle (value) {
+        this.searchForm.startReturnDate = value[0] || ''
+        this.searchForm.endReturnDate = value[1] || ''
       },
       getConfigData (type, pCode) {
         API.common.codeConfig({type: type, pCode: pCode}, (data) => {
@@ -268,6 +330,9 @@
       }
       if (this.searchForm.startBillDate) { // 日期
         this.timeInterval2 = [this.searchForm.startBillDate, this.searchForm.endBillDate]
+      }
+      if (this.searchForm.startReturnDate) { // 日期
+        this.timeInterval3 = [this.searchForm.startReturnDate, this.searchForm.endReturnDate]
       }
     },
   }

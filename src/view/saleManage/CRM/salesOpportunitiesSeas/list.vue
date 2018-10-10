@@ -95,7 +95,7 @@
         </el-table-column>
         <el-table-column
           align="center"
-          prop="returnNum"
+          prop="returnTimes"
           label="退回次数"
           width="160"
           show-overflow-tooltip>
@@ -103,18 +103,18 @@
         <el-table-column
           align="center"
           sortable="custom"
-          prop="billDate"
+          prop="followDate"
           label="最近跟进时间"
           width="160"
           show-overflow-tooltip>
           <template slot-scope="scope">
-            {{scope.row.billDate && $moment(scope.row.billDate).format('YYYY-MM-DD HH:mm')}}
+            {{scope.row.followDate && $moment(scope.row.followDate).format('YYYY-MM-DD HH:mm')}}
           </template>
         </el-table-column>
         <el-table-column
           align="center"
           sortable="custom"
-          prop="intentBillAmount"
+          prop="latestFollowRecord"
           label="最近跟进记录"
           width="160"
           show-overflow-tooltip>
@@ -122,12 +122,20 @@
         <el-table-column
           align="center"
           sortable="custom"
-          prop="billDate"
+          prop="latestFollowerName"
+          label="最近跟进人"
+          width="160"
+          show-overflow-tooltip>
+        </el-table-column>
+        <el-table-column
+          align="center"
+          sortable="custom"
+          prop="returnDate"
           label="退回日期"
           width="160"
           show-overflow-tooltip>
           <template slot-scope="scope">
-            {{scope.row.billDate && $moment(scope.row.billDate).format('YYYY-MM-DD HH:mm')}}
+            {{scope.row.returnDate && $moment(scope.row.returnDate).format('YYYY-MM-DD HH:mm')}}
           </template>
         </el-table-column>
         <el-table-column
@@ -152,7 +160,7 @@
         <el-table-column
           align="center"
           sortable="custom"
-          prop="contacterName"
+          prop="contacter"
           label="联系人"
           width="160"
           show-overflow-tooltip>
@@ -229,15 +237,20 @@
           show-overflow-tooltip
           align="center"
           sortable="custom"
-          prop="organizationName"
+          prop="provinceName"
           label="地区"
           width="160">
+          <template slot-scope="scope">
+            {{ scope.row.provinceName }}
+            {{ scope.row.cityName }}
+            {{ scope.row.areaName }}
+          </template>
         </el-table-column>
         <el-table-column
           show-overflow-tooltip
           align="center"
           sortable="custom"
-          prop="organizationName"
+          prop="industry"
           label="行业"
           width="160">
         </el-table-column>
@@ -245,18 +258,18 @@
           show-overflow-tooltip
           align="center"
           sortable="custom"
-          prop="organizationName"
+          prop="billDate"
           label="预计签单时间"
           width="160">
           <template slot-scope="scope">
-            {{scope.row.created && $moment(scope.row.created).format('YYYY-MM-DD')}}
+            {{scope.row.billDate && $moment(scope.row.billDate).format('YYYY-MM-DD')}}
           </template>
         </el-table-column>
         <el-table-column
           show-overflow-tooltip
           align="center"
           sortable="custom"
-          prop="organizationName"
+          prop="intentBillAmount"
           label="预计签单金额"
           width="160">
         </el-table-column>
@@ -366,7 +379,7 @@
               },
               callback (data) {
                 if (data.type === 'save') {
-                  that.getCustomersSeaList()
+                  that.getSalesOpportunititeisList()
                 }
               },
             })
@@ -385,7 +398,7 @@
                   } else {
                     this.$message.success(`成功${data.data.success},失败${data.data.fail}`)
                   }
-                  this.getCustomersSeaList()
+                  this.getSalesOpportunititeisList()
                   setTimeout(() => {
                     this.dataLoading = false
                   }, 500)
@@ -412,7 +425,7 @@
               },
               callback (data) {
                 if (data.type === 'save') {
-                  that.getCustomersSeaList()
+                  that.getSalesOpportunititeisList()
                 }
               },
             })
@@ -474,7 +487,7 @@
         this.$vDialog.modal(advancedSearch, {
           title: '高级搜索',
           width: 900,
-          height: 460,
+          height: 600,
           params: {
             salesState: this.salesState,
             demandSource: this.demandSource,

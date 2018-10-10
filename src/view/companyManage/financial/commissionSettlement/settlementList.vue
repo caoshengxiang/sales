@@ -64,58 +64,109 @@
           sortable="custom"
           show-overflow-tooltip>
         </el-table-column>
+
         <el-table-column
           align="center"
-          label="结算状态"
-          show-overflow-tooltip
+          label="订单信息"
         >
-          <template slot-scope="scope">
+          <el-table-column
+            align="center"
+            label="结算状态"
+            show-overflow-tooltip
+          >
+            <template slot-scope="scope">
             <span v-for="item in clearState" :key="item.type"
                   v-if="scope.row.clearState === item.type">{{item.value}}</span>
-          </template>
+            </template>
+          </el-table-column>
+          <el-table-column
+            align="center"
+            prop="customerName"
+            label="订单客户"
+            width="100"
+            sortable="custom"
+            show-overflow-tooltip>
+          </el-table-column>
+          <el-table-column
+            align="center"
+            prop="productName"
+            label="销售商品"
+            sortable="custom"
+            width="100"
+            show-overflow-tooltip
+          >
+          </el-table-column>
+          <el-table-column
+            align="center"
+            sortable="custom"
+            prop=""
+            label="款项名称"
+            width="100"
+            show-overflow-tooltip
+          >
+          </el-table-column>
+          <el-table-column
+            align="center"
+            sortable="custom"
+            prop="netReceipts"
+            label="回款金额"
+            width="100"
+            show-overflow-tooltip
+          >
+          </el-table-column>
+          <el-table-column
+            align="center"
+            sortable="custom"
+            prop=""
+            label="签单类型"
+            width="100"
+            show-overflow-tooltip
+          >
+          </el-table-column>
+          <el-table-column
+            align="center"
+            sortable="custom"
+            prop=""
+            label="是否续费"
+            width="100"
+            show-overflow-tooltip
+          >
+          </el-table-column>
+          <el-table-column
+            align="center"
+            sortable="custom"
+            prop=""
+            label="续费次数"
+            width="100"
+            show-overflow-tooltip
+          >
+          </el-table-column>
+          <el-table-column
+            align="center"
+            label="回款审核时间"
+            prop="refundAuditTime"
+            sortable="custom"
+            width="150"
+            show-overflow-tooltip>
+            <template slot-scope="scope">
+              <span>{{ scope.row.refundAuditTime && $moment(scope.row.refundAuditTime).format('YYYY-MM-DD HH:mm:ss')}}</span>
+            </template>
+          </el-table-column>
         </el-table-column>
         <el-table-column
           align="center"
-          prop="customerName"
-          label="订单客户"
-          width="100"
-          sortable="custom"
-          show-overflow-tooltip>
-        </el-table-column>
-
-        <el-table-column
-          align="center"
-          prop="productName"
-          label="销售商品"
-          sortable="custom"
-          width="100"
-          show-overflow-tooltip
-        >
-        </el-table-column>
-
-        <el-table-column
-          align="center"
-          sortable="custom"
-          prop="netReceipts"
-          label="回款金额"
-          width="100"
-          show-overflow-tooltip
-        >
-        </el-table-column>
-        <el-table-column
-          align="center"
-          label="结算类型"
+          label="结算信息"
           show-overflow-tooltip
         >
           <el-table-column
             align="center"
-            prop="totalAmount"
             sortable="custom"
-            label="合计收支"
+            prop="saleSubjectName"
+            label="销售主体"
             width="100"
+            show-overflow-tooltip
           >
           </el-table-column>
-
           <el-table-column
             align="center"
             label="签约主体"
@@ -127,35 +178,6 @@
           </el-table-column>
           <el-table-column
             align="center"
-            label="签约金额"
-            width="100"
-            sortable="custom"
-            prop="contractSubjectAmount"
-            show-overflow-tooltip
-          >
-          </el-table-column>
-          <el-table-column
-            align="center"
-            sortable="custom"
-            prop="saleSubjectName"
-            label="销售主体"
-            width="100"
-            show-overflow-tooltip
-          >
-          </el-table-column>
-
-          <el-table-column
-            align="center"
-            sortable="custom"
-            prop="serviceSubjectName"
-            label="服务主体"
-            width="100"
-            show-overflow-tooltip
-          >
-          </el-table-column>
-
-          <el-table-column
-            align="center"
             sortable="custom"
             prop="rebateSubjectName"
             label="返佣主体"
@@ -164,8 +186,46 @@
           >
           </el-table-column>
 
+          <el-table-column
+            align="center"
+            prop="totalAmount"
+            sortable="custom"
+            label="合计收支"
+            width="100"
+          >
+          </el-table-column>
+          <el-table-column
+            align="center"
+            label="结算生成时间"
+            prop="created"
+            width="150"
+            sortable="custom"
+            show-overflow-tooltip>
+            <template slot-scope="scope">
+              <span>{{ scope.row.created && $moment(scope.row.created).format('YYYY-MM-DD HH:mm:ss')}}</span>
+            </template>
+          </el-table-column>
         </el-table-column>
 
+ <!--       <el-table-column
+          align="center"
+          label="签约金额"
+          width="100"
+          sortable="custom"
+          prop="contractSubjectAmount"
+          show-overflow-tooltip
+        >
+        </el-table-column>
+
+        <el-table-column
+          align="center"
+          sortable="custom"
+          prop="serviceSubjectName"
+          label="服务主体"
+          width="100"
+          show-overflow-tooltip
+        >
+        </el-table-column>
         <el-table-column
           align="center"
           label="销售佣金"
@@ -225,28 +285,6 @@
         </el-table-column>
         <el-table-column
           align="center"
-          label="回款审核时间"
-          prop="refundAuditTime"
-          sortable="custom"
-          width="150"
-          show-overflow-tooltip>
-          <template slot-scope="scope">
-            <span>{{ scope.row.refundAuditTime && $moment(scope.row.refundAuditTime).format('YYYY-MM-DD HH:mm:ss')}}</span>
-          </template>
-        </el-table-column>
-        <el-table-column
-          align="center"
-          label="结算生成时间"
-          prop="created"
-          width="150"
-          sortable="custom"
-          show-overflow-tooltip>
-          <template slot-scope="scope">
-            <span>{{ scope.row.created && $moment(scope.row.created).format('YYYY-MM-DD HH:mm:ss')}}</span>
-          </template>
-        </el-table-column>
-        <el-table-column
-          align="center"
           label="结算审核时间"
           prop="auditDate"
           width="150"
@@ -255,7 +293,7 @@
           <template slot-scope="scope">
             <span>{{ scope.row.auditDate && $moment(scope.row.auditDate).format('YYYY-MM-DD HH:mm:ss')}}</span>
           </template>
-        </el-table-column>
+        </el-table-column>-->
       </el-table>
     </div>
     <!--分页-->

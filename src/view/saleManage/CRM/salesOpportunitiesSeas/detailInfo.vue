@@ -74,8 +74,8 @@
       <div class="detail-left com-box-padding">
         <el-tabs v-model="activeViewName" type="card" @tab-click="handleTabsClick">
           <el-tab-pane label="销售机会资料信息" name="detail">
-            <p class="table-title">客户基本信息</p>
-            <table class="detail-table">
+            <p class="table-title" v-if="salesOpportunitiesDetail.customerId">客户基本信息</p>
+            <table class="detail-table" v-if="salesOpportunitiesDetail.customerId">
               <tr>
                 <td class="td-title">客户类型</td>
                 <td>{{customerDetail.cate === 1 ? '个人' : '机构'}}</td>
@@ -124,7 +124,7 @@
                 <td class="td-title">客户名称</td>
                 <td>{{salesOpportunitiesDetail.customerName}}</td>
                 <td class="td-title">客户联系人</td>
-                <td>{{salesOpportunitiesDetail.contacter}}</td>
+                <td>{{salesOpportunitiesDetail.contacter}}[{{salesOpportunitiesDetail.contactPhone}}]</td>
                 <td class="td-title">需求进度</td>
                 <td>
                   <span v-for="item in salesState"
@@ -149,6 +149,10 @@
                 <td>{{salesOpportunitiesDetail.productName}}</td>
                 <td class="td-title">实际签单金额</td>
                 <td>{{salesOpportunitiesDetail.billAmount}}</td>
+              </tr>
+              <tr>
+                <td class="td-title">销售机会公海</td>
+                <td colspan="5">{{salesOpportunitiesDetail.chanceSeaName}}</td>
               </tr>
               <tr>
                 <td class="td-title">销售机会备注</td>
@@ -230,8 +234,8 @@
               联系人({{contactTotal}})
               <!--<a class="more" v-if="contactTotal > 5" @click="handleRoute('contact')">更多》</a>-->
               <!--（-1 输单）-->
-              <a v-if="salesOpportunitiesDetail.stage !== -1 && (isChangeFollower || isChanceCreater)" class="table-add"
-                 @click="quickOperation('addContact')"><i class="el-icon-plus"></i>新增联系人</a>
+              <!--<a v-if="salesOpportunitiesDetail.stage !== -1 && (isChangeFollower || isChanceCreater)" class="table-add"-->
+                 <!--@click="quickOperation('addContact')"><i class="el-icon-plus"></i>新增联系人</a>-->
             </p>
             <table class="detail-table related-table">
               <tr>
@@ -256,8 +260,8 @@
               跟单记录({{orderRecordsTotal}})
               <!--<a class="more" v-if="orderRecordsTotal > 5" @click="handleRoute('orderRecords')">更多》</a>-->
               <!--（-1输单）-->
-              <a v-if="salesOpportunitiesDetail.stage !== -1 && isChangeFollower" class="table-add"
-                 @click="quickOperation('addRecord')"><i class="el-icon-plus"></i>新增跟单记录</a>
+              <!--<a v-if="salesOpportunitiesDetail.stage !== -1 && isChangeFollower" class="table-add"-->
+                 <!--@click="quickOperation('addRecord')"><i class="el-icon-plus"></i>新增跟单记录</a>-->
             </p>
             <table class="detail-table related-table">
               <tr>
@@ -276,8 +280,8 @@
               销售订单({{orderTotal}})
               <!--<a class="more" v-if="orderTotal > 5" @click="handleRoute('order')">更多》</a>-->
               <!--（-1 输单）-->
-              <a v-if="salesOpportunitiesDetail.stage !== -1 && isChangeFollower" class="table-add"
-                 @click="quickOperation('addOrder')"><i class="el-icon-plus"></i>新增关联订单</a>
+              <!--<a v-if="salesOpportunitiesDetail.stage !== -1 && isChangeFollower" class="table-add"-->
+                 <!--@click="quickOperation('addOrder')"><i class="el-icon-plus"></i>新增关联订单</a>-->
             </p>
             <table class="detail-table related-table">
               <tr>
@@ -454,7 +458,7 @@
       handleTabsClick (tab, event) {
         // console.log(tab.name)
         this.$router.push(
-          {name: 'salesOpportunitiesDetail', params: {end: this.themeIndex === 0 ? 'FE' : 'ME'}, query: {view: tab.name, id: this.$route.query.id}})
+          {name: 'salesOpportunitiesDetailSeas', params: {end: this.themeIndex === 0 ? 'FE' : 'ME'}, query: {view: tab.name, id: this.$route.query.id}})
       },
       operateOptions (op) {
         switch (op) {
@@ -588,7 +592,7 @@
                   } else {
                     this.$message.success(`成功${data.data.success},失败${data.data.fail}`)
                   }
-                  this.getCustomersSeaList()
+                  this.getSalesOpportunitiesDetail()
                   setTimeout(() => {
                     this.dataLoading = false
                   }, 500)
@@ -655,7 +659,7 @@
       },
       getSalesOpportunitiesDetail () {
         this.dataLoading = true
-        API.salesOpportunities.detail(this.$route.query.id, (data) => {
+        API.salesOpportunitiesSea.chanceDetail(this.$route.query.id, (data) => {
           this.ac_salesOpportunitiesDetail(data.data)
           if (data.data.customerId) {
             this.getContactList(data.data.customerId)

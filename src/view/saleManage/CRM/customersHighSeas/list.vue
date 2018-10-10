@@ -46,9 +46,7 @@
           </el-select>
           <!--<com-button buttonType="search" @click="searchHandle">搜索</com-button>-->
           <com-button buttonType="search" @click="advancedSearchHandle" style="">高级搜索</com-button>
-          &nbsp;&nbsp;&nbsp;&nbsp;
           <com-button buttonType="export" icon="el-icon-download" @click="excelExport">导入模板下载</com-button>
-          &nbsp;&nbsp;&nbsp;&nbsp;
           <com-button buttonType="import" style="position: relative;overflow: hidden;">
             <input @change="fileUploadHandle" type="file"
                    style="position: absolute;top: 0;left: 0; right: 0;bottom: 0;opacity: 0;">

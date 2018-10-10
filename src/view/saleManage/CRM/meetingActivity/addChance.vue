@@ -283,6 +283,7 @@
               })
             } else {
               this.addForm.meetingId = this.params.meetingId
+              this.addForm.meetingSaleCreator = this.params.meetingCreatorId
               API.activity.addChance2(this.addForm, (data) => {
                 if (data.status) {
                   this.$message.success('添加成功')

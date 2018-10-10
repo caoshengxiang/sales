@@ -30,7 +30,7 @@
         <div class="com-info-text">
           <h3>{{detailInfo.meetingName}}
             <span
-              style="font-size: 12px; color: #FF7700;padding: 3px 10px;border:1px solid #FF7700;margin-left: 20px;border-radius: 8px;">
+              style="font-size: 12px; color: #FF7700;padding: 4px 12px;border:1px solid #FF7700;margin-left: 20px;border-radius: 20px;">
               {{detailInfo.stateName}}
             </span>
           </h3>
@@ -114,13 +114,13 @@
               <span class="title-text">商务管家信息</span>
             </div>
             <el-row>
-              <el-col :span="8" style="text-align: center;padding: 10px;"
+              <el-col :span="8" style="text-align: center;padding: 10px 0;"
                       v-for="item in managerList" :key="item.managerId">
                 <div class="head" @click="showManagerCode(item)">
                   <img style="width: 58px;height: 58px;border-radius: 100%;"
                        v-if="item.headUrl"
                        :src="item.headUrl" alt="" :onerror="defaultHeadUrl">
-                  <img v-else src="../../../../assets/icon/headDefault.png" alt="">
+                  <img v-else src="../../../../assets/icon/touxiang2.png" alt="">
                 </div>
                 <div class="text">
                   <p>{{item.mangerName}}</p>
@@ -155,8 +155,9 @@
               show-overflow-tooltip
               width="160">
               <template slot-scope="scope">
-                <a class="col-link" @click="handleRouter2('detail', scope.row.customerId)">{{ scope.row.customerName
+                <a v-if="scope.row.customerId" class="col-link" @click="handleRouter2('detail', scope.row.customerId)">{{ scope.row.customerName
                   }}</a>
+                <span v-else>{{scope.row.customerName}}</span>
               </template>
             </el-table-column>
             <el-table-column
@@ -212,7 +213,6 @@
               width="80"
               show-overflow-tooltip>
               <template slot-scope="scope">
-                {{scope.row.stage}}
             <span v-for="item in salesState" :key="item.type"
                   v-if="item.type === scope.row.stage">{{item.percent}}</span>
                 <!--<span v-if="scope.row.stage === -1">0%</span>-->
@@ -344,7 +344,7 @@
               <span
                 style="font-size: 18px;font-weight: bold;margin-right: 10px;">{{managerCodeDetail.mangerName}}</span>
               <span v-if="managerCodeDetail.managerId">商务管家</span>
-              <span v-if="managerCodeDetail.meetingCreatorId">、活动负责人</span>
+              <span v-if="managerCodeDetail.managerId === managerCodeDetail.meetingCreatorId">、活动负责人</span>
             </div>
             <div>
               <p style="margin-bottom:10px;">使用方法</p>
@@ -455,6 +455,7 @@
             this.getLog(this.detailInfo.id)
             this.config1.value = activityCodePre + Qs.stringify({ // 拼装活动二维码参数
               meetingId: this.detailInfo.id,
+              organizationId: this.detailInfo.meetingCreatorOgrId
             })
           }, 500)
         }, (data) => {
@@ -484,7 +485,7 @@
           page: this.currentPage - 1,
           pageSize: this.pagesOptions.pageSize,
           meetingId: this.detailInfo.id,
-          meetingSaleCreator: null,
+          meetingSaleCreator: this.detailInfo.meetingCreatorId,
           meetingManagerId: null,
         }
       },
@@ -629,6 +630,7 @@
             salesState: this.salesState,
             topSource: this.topSource, // 顶级客户来源
             meetingId: this.detailInfo.id,
+            meetingCreatorId: this.detailInfo.meetingCreatorId
           },
           callback: (data) => {
             if (data.type === 'save') {
@@ -729,7 +731,8 @@
         this.managerCodeDetail = item
         this.config.value = activityCodePre + Qs.stringify({ // 拼装活动管家二维码参数
           meetingId: this.detailInfo.id,
-          meetingManagerId: item.meetingManagerId
+          organizationId: this.detailInfo.meetingCreatorOgrId,
+          meetingManagerId: item.managerId
         })
       },
     },

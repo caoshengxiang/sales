@@ -8,7 +8,7 @@
           <span class="code time" v-else>重新发送({{time}})</span>
         </el-form-item>
         <el-form-item prop="authCode" label="请输入客户联系人所获取的的验证码" style="margin-top: 20px;">
-          <el-input type="age" v-model.number="addForm.authCode" placeholder="请输入短信验证码"></el-input>
+          <el-input type="age" v-model="addForm.authCode" placeholder="请输入短信验证码"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -39,7 +39,7 @@
         rules: {
           authCode: [
             {required: true, message: '请输入短信验证码', trigger: 'blur'},
-            {type: 'number', message: '验证码必须为数字值'},
+            // {type: 'number', message: '验证码必须为数字值'},
           ],
         },
       }

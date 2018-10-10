@@ -66,7 +66,7 @@
           <label v-else style="color: #ccc;">请选择一个订单</label>
         </el-form-item>
         <el-form-item prop="authCode" label="请输入客户联系人所获取的的验证码" style="margin-top: 20px;">
-          <el-input style="width: 200px;" type="age" v-model.number="addForm.authCode"
+          <el-input style="width: 200px;" type="age" v-model="addForm.authCode"
                     placeholder="请输入短信验证码"></el-input>
         </el-form-item>
       </el-form>
@@ -103,7 +103,7 @@
         rules: {
           authCode: [
             {required: true, message: '请输入短信验证码', trigger: 'blur'},
-            {type: 'number', message: '验证码必须为数字值'},
+            // {type: 'number', message: '验证码必须为数字值'},
           ],
         },
         multipleSelection: [],

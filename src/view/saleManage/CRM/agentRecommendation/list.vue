@@ -37,72 +37,77 @@
     </div>
     <!--详细-->
     <div class="com-box com-box-padding com-list-box">
-      <div class="agent-rec">
-        <div class="code-rec">
-          <div class="code-rec-1">
-            <div ref="downloadCode">
-              <p class="title">推荐代理商扫码加入平台</p>
-              <div class="code-show">
-                <vue-qr
-                  :logoSrc="config.logo"
-                  :text="config.value"
-                  :size="200"
-                  :margin="0"
-                  :callback="agentRecCallback"
-                  qid="agentRec"></vue-qr>
+      <div class="agent-rec-p">
+        <div class="agent-rec">
+          <div class="code-rec">
+            <div class="code-rec-1">
+              <div ref="downloadCode">
+                <p class="title">推荐代理商扫码加入平台</p>
+                <div class="code-show">
+                  <vue-qr
+                    :logoSrc="config.logo"
+                    :text="config.value"
+                    :size="200"
+                    :margin="0"
+                    :callback="agentRecCallback"
+                    qid="agentRec"></vue-qr>
+                </div>
+                <p class="name">{{otherData.directName}}</p>
               </div>
-              <p class="name">{{otherData.directName || userInfo.name}}</p>
+              <p class="down-code">
+                <!--<a v-if="codeImgBase64" :href="codeImgBase64" download="二维码">下载二维码</a>-->
+                <a v-if="codeImgBase64" @click="downloadCodeHandle">下载二维码</a>
+              </p>
             </div>
-            <p class="down-code">
-              <!--<a v-if="codeImgBase64" :href="codeImgBase64" download="二维码">下载二维码</a>-->
-              <a v-if="codeImgBase64" @click="downloadCodeHandle">下载二维码</a>
-            </p>
+            <div class="code-rec-2">
+              <p class="com-title">培育已累计获取佣金</p>
+              <table style="width: 100%">
+                <tr class="detail-table">
+                  <td class="td-title">直接培育人</td>
+                  <td style="text-align: center">￥{{otherData.directMoney || '0.00'}}</td>
+                </tr>
+                <tr class="detail-table">
+                  <td class="td-title">间接培育人</td>
+                  <td style="text-align: center">￥{{otherData.indirectMoney || '0.00'}}</td>
+                </tr>
+              </table>
+            </div>
           </div>
-          <div class="code-rec-2">
-            <p class="com-title">培育已累计获取佣金</p>
-            <table style="width: 100%">
-              <tr class="detail-table">
-                <td class="td-title">直接培育人</td>
-                <td style="text-align: center">￥{{otherData.directMoney || '0.00'}}</td>
-              </tr>
-              <tr class="detail-table">
-                <td class="td-title">间接培育人</td>
-                <td style="text-align: center">￥{{otherData.indirectMoney || '0.00'}}</td>
-              </tr>
-            </table>
+          <div class="rec-table">
+            <p class="com-title">推荐人员信息（{{tableDataTotal}}）</p>
+            <el-table
+              ref="multipleTable"
+              border
+              stripe
+              :data="tableData"
+              tooltip-effect="dark"
+              style="width: 100%">
+              <el-table-column
+                show-overflow-tooltip
+                align="center"
+                prop="name"
+                label="用户昵称"
+              >
+              </el-table-column>
+              <el-table-column
+                show-overflow-tooltip
+                align="center"
+                label="用户账号"
+                prop="account"
+              >
+              </el-table-column>
+              <el-table-column
+                show-overflow-tooltip
+                align="center"
+                prop="created"
+                label="加入时间"
+              >
+                <template slot-scope="scope">
+                  {{scope.row.created && $moment(scope.row.created).format('YYYY-MM-DD HH:mm')}}
+                </template>
+              </el-table-column>
+            </el-table>
           </div>
-        </div>
-        <div class="rec-table">
-          <p class="com-title">推荐人员信息（{{tableDataTotal}}）</p>
-          <el-table
-            ref="multipleTable"
-            border
-            stripe
-            :data="tableData"
-            tooltip-effect="dark"
-            style="width: 100%">
-            <el-table-column
-              show-overflow-tooltip
-              align="center"
-              prop="name"
-              label="用户昵称"
-            >
-            </el-table-column>
-            <el-table-column
-              show-overflow-tooltip
-              align="center"
-              label="用户账号"
-              prop="account"
-            >
-            </el-table-column>
-            <el-table-column
-              show-overflow-tooltip
-              align="center"
-              prop="created"
-              label="加入时间"
-            >
-            </el-table-column>
-          </el-table>
         </div>
       </div>
     </div>
@@ -193,21 +198,15 @@
       getList () {
         this.dataLoading = true
         this.getQueryParams()
-        let gentTypeOptionName = null
-        this.agentTypeOptions.forEach(item => {
-          if (item.id === this.agentTypeOption) {
-            gentTypeOptionName = item.name
-          }
-        })
         API.agentDev.list(Object.assign({}, this.defaultListParams, this.sortObj, this.advancedSearch), (data) => {
           this.tableData = data.data.content
           this.tableDataTotal = data.data.totalElements
           this.otherData = data.other
           this.config.value = agentRegister + QS.stringify({ // 拼装二维码参数
             type: this.agentType,
-            id: this.agentType === 1 ? this.userInfo.id : this.agentTypeOption,
-            name: this.agentType === 1 ? this.userInfo.name : gentTypeOptionName,
-            phone: this.agentType === 1 ? this.userInfo.mobilePhone : '',
+            id: this.agentTypeOption,
+            name: this.otherData.directName,
+            phone: '',
           })
           setTimeout(() => {
             this.dataLoading = false
@@ -233,14 +232,9 @@
         this.getList()
       },
       agentTypeChange (va) {
-        if (va === 1) {
-          this.agentTypeOption = null
-          this.agentTypeOptions = [{name: '个人', id: null}]
-        } else {
-          this.getDepts(va, (id) => {
-            this.agentTypeOption = id
-          })
-        }
+        this.getDepts(va, (id) => {
+          this.agentTypeOption = id
+        })
       },
       agentTypeOptionChange (va) {
         this.agentTypeOption = va
@@ -275,11 +269,20 @@
 <style scoped lang="scss" rel="stylesheet/scss">
   @import "../../../../styles/common";
 
+  .agent-rec-p {
+    position: absolute;
+    top: 110px;
+    bottom: 50px;
+    width: 100%;
+  }
   .agent-rec {
+    height: 100%;
     display: flex;
     .code-rec {
       width: 400px;
-      padding: 10px;
+      padding: 20px;
+      padding-right: 20px;
+      border-right: 6px solid #F0F3F6;
       .code-rec-1 {
         text-align: center;
         margin: 0 auto 50px auto;
@@ -309,7 +312,7 @@
     }
     .rec-table {
       flex: 1;
-      padding: 0 20px;
+      padding: 20px;
     }
   }
 </style>

@@ -100,7 +100,7 @@
         >
           <template slot-scope="scope">
             <a class="col-link" @click="handleRouter('detail', scope.row.id)">{{ scope.row.intentProductName ||
-              '无名'}}</a>
+              '暂无'}}</a>
           </template>
         </el-table-column>
         <el-table-column
@@ -353,7 +353,7 @@
             this.$vDialog.modal(bindCustomer, {
               title: '绑定客户(可二选一操作)',
               width: 800,
-              height: 500,
+              height: 380,
               params: {
                 chanceDetail: JSON.parse(JSON.stringify(rowData))
               },

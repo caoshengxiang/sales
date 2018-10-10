@@ -248,6 +248,10 @@ const roleList = resolve => require.ensure([],
 const settlementList = resolve => require.ensure([],
   () => resolve(require('../view/companyManage/financial/commissionSettlement/settlementList')),
   'financial')
+// 财务管理 回款结算
+const returnSettlementList = resolve => require.ensure([],
+  () => resolve(require('../view/companyManage/financial/returnSettlement/list')),
+  'financial')
 // 财务管理
 const spendingList = resolve => require.ensure([],
   () => resolve(require('../view/companyManage/financial/commissionExpense/spendingList')),
@@ -465,7 +469,7 @@ const router = new Router({
           name: 'salesOpportunitiesListSeas',
           component: salesOpportunitiesListSeas,
           meta: {
-            title: '销售机会',
+            title: '销售机会公海',
             pos: [{name: '销售管理系统', toName: 'saleHome'}, {name: '销售机会公海'}],
             pos2: [{name: '管理系统', toName: 'companyManageHome'}, {name: '销售机会公海'}],
           },
@@ -930,7 +934,7 @@ const router = new Router({
               {name: '角色管理'}],
           },
         },
-        // 企业管理 -- 财务管理
+        // 企业管理 -- 财务管理 -- 佣金结算
         {
           path: 'settlementList',
           name: 'settlementList',
@@ -941,6 +945,19 @@ const router = new Router({
               {name: '管理系统', toName: 'companyManageHome'},
               {name: '财务管理'},
               {name: '佣金结算管理'}],
+          },
+        },
+        // 企业管理 -- 财务管理 -- 回款结算
+        {
+          path: 'returnSettlementList',
+          name: 'returnSettlementList',
+          component: returnSettlementList,
+          meta: {
+            title: '回款结算管理',
+            pos: [
+              {name: '管理系统', toName: 'companyManageHome'},
+              {name: '财务管理'},
+              {name: '回款结算管理'}],
           },
         },
         {

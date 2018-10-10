@@ -81,25 +81,25 @@
                 <div class="box">
                   <div class="item">
                     获取之后
-                    <el-input class="item-input" type="age" v-model.number="ruleForm.dayOfNoFollow"
+                    <el-input class="item-input" type="number" v-model.number="ruleForm.dayOfNoFollow"
                               auto-complete="off"></el-input>
                     天没有跟进机会；
                   </div>
                   <div class="item">
                     跟进之后
-                    <el-input class="item-input" type="age" v-model.number="ruleForm.dayOfNoFollowAgain"
+                    <el-input class="item-input" type="number" v-model.number="ruleForm.dayOfNoFollowAgain"
                               auto-complete="off"></el-input>
                     天没有再次跟进机会；
                   </div>
-                  <div class="item">
+                  <!--<div class="item">
                     获取之后
-                    <el-input class="item-input" type="age" v-model.number="ruleForm.dayOfNoChance"
+                    <el-input class="item-input" type="number" v-model.number="ruleForm.dayOfNoChance"
                               auto-complete="off"></el-input>
                     天没有添加销售机会；
-                  </div>
+                  </div>-->
                   <div class="item">
                     获取之后
-                    <el-input class="item-input" type="age" v-model.number="ruleForm.dayOfNoFinishOrder"
+                    <el-input class="item-input" type="number" v-model.number="ruleForm.dayOfNoFinishOrder"
                               auto-complete="off"></el-input>
                     天没有完成订单签定；
                   </div>
@@ -127,11 +127,15 @@
       let validate = (rule, value, callback) => {
         console.log(this.ruleForm.dayOfNoChance, this.ruleForm.dayOfNoFinishOrder, this.ruleForm.dayOfNoFollow,
           this.ruleForm.dayOfNoFollowAgain)
-        if (!Number.isInteger(this.ruleForm.dayOfNoChance) || !Number.isInteger(this.ruleForm.dayOfNoFinishOrder) ||
+        /* if (!Number.isInteger(this.ruleForm.dayOfNoChance) || !Number.isInteger(this.ruleForm.dayOfNoFinishOrder) ||
+          !Number.isInteger(this.ruleForm.dayOfNoFollow) || !Number.isInteger(this.ruleForm.dayOfNoFollowAgain)) {
+          callback(new Error('请输入数字值'))
+        } */
+        if (!Number.isInteger(this.ruleForm.dayOfNoFinishOrder) ||
           !Number.isInteger(this.ruleForm.dayOfNoFollow) || !Number.isInteger(this.ruleForm.dayOfNoFollowAgain)) {
           callback(new Error('请输入数字值'))
         } else {
-          if (this.ruleForm.dayOfNoChance >= 0 &&
+          if (/* this.ruleForm.dayOfNoChance >= 0 && */
             this.ruleForm.dayOfNoFinishOrder >= 0 &&
             this.ruleForm.dayOfNoFollow >= 0 &&
             this.ruleForm.dayOfNoFollowAgain >= 0) {

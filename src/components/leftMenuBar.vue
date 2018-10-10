@@ -42,15 +42,14 @@
             <span>CRM管理</span>
           </template>
           <el-menu-item-group>
-            <el-menu-item index="customersList" v-if="listPermissions(menus, 'customer')">客户管理</el-menu-item>
-            <el-menu-item index="contactsList" v-if="listPermissions(menus, 'contacts')">联系人管理</el-menu-item>
-            <el-menu-item index="salesOpportunitiesList" v-if="listPermissions(menus, 'salerChance')">销售机会管理
-            </el-menu-item>
-            <el-menu-item index="salesOrdersList" v-if="listPermissions(menus, 'salerOrder')">销售订单管理</el-menu-item>
-            <el-menu-item index="orderRecordsList" v-if="listPermissions(menus, 'followOrder')">跟单记录管理</el-menu-item>
-            <el-menu-item index="customersHighSeasList" v-if="listPermissions(menus, 'customerSea')">客户公海管理</el-menu-item>
-            <el-menu-item index="returnRecordList" v-if="listPermissions(menus, 'refund')">回款记录管理</el-menu-item>
+            <el-menu-item index="salesOpportunitiesList" v-if="listPermissions(menus, 'salerChance')">销售机会管理</el-menu-item>
             <el-menu-item index="salesOpportunitiesListSeas" v-if="listPermissions(menus, 'chanceSea')">机会公海管理</el-menu-item>
+            <el-menu-item index="salesOrdersList" v-if="listPermissions(menus, 'salerOrder')">销售订单管理</el-menu-item>
+            <el-menu-item index="returnRecordList" v-if="listPermissions(menus, 'refund')">回款记录管理</el-menu-item>
+            <el-menu-item index="orderRecordsList" v-if="listPermissions(menus, 'followOrder')">跟单记录管理</el-menu-item>
+            <el-menu-item index="customersList" v-if="listPermissions(menus, 'customer')">客户管理</el-menu-item>
+            <el-menu-item index="customersHighSeasList" v-if="listPermissions(menus, 'customerSea')">客户公海管理</el-menu-item>
+            <el-menu-item index="contactsList" v-if="listPermissions(menus, 'contacts')">联系人管理</el-menu-item>
             <el-menu-item index="meetingActivity" v-if="listPermissions(menus, 'meetingActivity')"><span slot="title">会议活动管理</span></el-menu-item>
             <el-menu-item index="agentRecommendation" v-if="listPermissions(menus, 'agentCultivate')"><span slot="title">代理培育管理</span>
             </el-menu-item>
@@ -161,6 +160,7 @@
           </template>
           <el-menu-item-group>
             <!--<template slot="title">分组一</template>-->
+            <el-menu-item index="returnSettlementList" v-if="listPermissions(menus, 'refundClear')">回款结算管理</el-menu-item>
             <el-menu-item index="settlementList" v-if="listPermissions(menus, 'commissionClear')">佣金结算管理</el-menu-item>
             <el-menu-item index="spendingList" v-if="listPermissions(menus, 'commissionExpenses')">佣金支出管理</el-menu-item>
           </el-menu-item-group>
@@ -330,14 +330,14 @@
     }
     .u-text {
       display: inline-block;
-      margin-left: 20px;
+      margin-left: 8px;
       .username {
         font-size: 16px;
         font-weight: normal;
         /*color: #FEFEFE*/
         span {
           display: inline-block;
-          width: 70px;
+          width: 100px;
           overflow: hidden;
           text-overflow: ellipsis;
           white-space: nowrap;

@@ -37,20 +37,31 @@
         <ul class="com-info-op-group">
           <!--输单后隐藏删除以外得按钮-->
 
-          <li class="op-active" v-if="salesOpportunitiesDetail.stage !== -1 && isChangeFollower && !salesOpportunitiesDetail.customerId"
+          <!--<li class="op-active" v-if="salesOpportunitiesDetail.stage !== -1 && isChangeFollower && !salesOpportunitiesDetail.customerId"
               @click="operateOptions('bind')">绑定客户
           </li>
           <li class="op-active" v-if="salesOpportunitiesDetail.stage !== -1 && isChangeFollower"
               @click="operateOptions('return')">退回公海
           </li>
-          <!-- 销售机会模块列表中“转移”按钮与销售机会详情里面“转移”按钮隐藏
+          &lt;!&ndash; 销售机会模块列表中“转移”按钮与销售机会详情里面“转移”按钮隐藏
            业务模式发生变化，同一客户（含该客户的销售机会）同一时间在同一分子公司只能存在一个销售跟进人员，为了避免同一客户多个销售机会被多个用户跟进，故需要隐藏销售机会“转移”功能
            [期望]
-           销售机会模块列表中“转移”按钮与销售机会详情里面“转移”按钮隐藏-->
+           销售机会模块列表中“转移”按钮与销售机会详情里面“转移”按钮隐藏&ndash;&gt;
           <li class="op-active" v-if="salesOpportunitiesDetail.stage !== -1 && isChangeFollower"
               @click="operateOptions('move')">转移
           </li>
-          <li class="op-active" v-if="isChangeFollower" @click="operateOptions('delete')">删除</li>
+          <li class="op-active" v-if="isChangeFollower" @click="operateOptions('delete')">删除</li>-->
+
+          <li class="op-active" v-if="salesOpportunitiesDetail.stage !== -1 && !salesOpportunitiesDetail.customerId"
+              @click="operateOptions('bind')">绑定客户
+          </li>
+          <li class="op-active" v-if="salesOpportunitiesDetail.stage !== -1"
+              @click="operateOptions('return')">退回公海
+          </li>
+          <li class="op-active" v-if="salesOpportunitiesDetail.stage !== -1"
+              @click="operateOptions('move')">转移
+          </li>
+          <li class="op-active" @click="operateOptions('delete')">删除</li>
         </ul>
       </div>
       <div class="step-box">
@@ -72,8 +83,8 @@
       <div class="detail-left com-box-padding">
         <el-tabs v-model="activeViewName" type="card" @tab-click="handleTabsClick">
           <el-tab-pane label="销售机会资料信息" name="detail">
-            <p class="table-title">客户基本信息</p>
-            <table class="detail-table">
+            <p class="table-title" v-if="salesOpportunitiesDetail.customerId">客户基本信息</p>
+            <table class="detail-table" v-if="salesOpportunitiesDetail.customerId">
               <tr>
                 <td class="td-title">客户类型</td>
                 <td>
@@ -410,6 +421,7 @@
   import addRenew from '../salesOrders/addRenew'
   import addOrderRecord from '../followOrderRecords/addDialog'
   import order from './order'
+  import bindCustomer from './bindCustomer'
 
   export default {
     name: 'detailInfo',
@@ -595,6 +607,21 @@
                 type: 'info',
                 message: '已取消删除',
               })
+            })
+            break
+          case 'bind':
+            this.$vDialog.modal(bindCustomer, {
+              title: '绑定客户(可二选一操作)',
+              width: 800,
+              height: 380,
+              params: {
+                chanceDetail: JSON.parse(JSON.stringify(this.salesOpportunitiesDetail))
+              },
+              callback: (data) => {
+                if (data.type === 'save') {
+                  this.getSalesOpportunitiesDetail()
+                }
+              },
             })
             break
         }
