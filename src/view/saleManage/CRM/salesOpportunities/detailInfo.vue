@@ -83,8 +83,8 @@
       <div class="detail-left com-box-padding">
         <el-tabs v-model="activeViewName" type="card" @tab-click="handleTabsClick">
           <el-tab-pane label="销售机会资料信息" name="detail">
-            <p class="table-title">客户基本信息</p>
-            <table class="detail-table">
+            <p class="table-title" v-if="salesOpportunitiesDetail.customerId">客户基本信息</p>
+            <table class="detail-table" v-if="salesOpportunitiesDetail.customerId">
               <tr>
                 <td class="td-title">客户类型</td>
                 <td>
@@ -613,13 +613,13 @@
             this.$vDialog.modal(bindCustomer, {
               title: '绑定客户(可二选一操作)',
               width: 800,
-              height: 500,
+              height: 380,
               params: {
                 chanceDetail: JSON.parse(JSON.stringify(this.salesOpportunitiesDetail))
               },
               callback: (data) => {
                 if (data.type === 'save') {
-                  this.getSalesOpportunititeisList()
+                  this.getSalesOpportunitiesDetail()
                 }
               },
             })

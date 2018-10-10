@@ -74,8 +74,8 @@
       <div class="detail-left com-box-padding">
         <el-tabs v-model="activeViewName" type="card" @tab-click="handleTabsClick">
           <el-tab-pane label="销售机会资料信息" name="detail">
-            <p class="table-title">客户基本信息</p>
-            <table class="detail-table">
+            <p class="table-title" v-if="salesOpportunitiesDetail.customerId">客户基本信息</p>
+            <table class="detail-table" v-if="salesOpportunitiesDetail.customerId">
               <tr>
                 <td class="td-title">客户类型</td>
                 <td>{{customerDetail.cate === 1 ? '个人' : '机构'}}</td>
@@ -124,7 +124,7 @@
                 <td class="td-title">客户名称</td>
                 <td>{{salesOpportunitiesDetail.customerName}}</td>
                 <td class="td-title">客户联系人</td>
-                <td>{{salesOpportunitiesDetail.contacter}}</td>
+                <td>{{salesOpportunitiesDetail.contacter}}[{{salesOpportunitiesDetail.contactPhone}}]</td>
                 <td class="td-title">需求进度</td>
                 <td>
                   <span v-for="item in salesState"
