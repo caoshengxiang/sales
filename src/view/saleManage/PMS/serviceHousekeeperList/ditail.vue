@@ -15,11 +15,20 @@
       <div class="com-info-left">
         <img class="com-info-img" src="../../../../assets/icon/company.png" alt="">
         <div class="com-info-text">
-          <h3>todo <span class="com-d-tap">平台直属/平台控股子公司</span></h3>
+          <h3>{{managerDetail.name}}
+            <span class="com-d-tap-2"><span  v-for="(item, index) in managerDetail.serviceManagerTypeModels" :key="index">
+                <span v-if="index > 0">/</span>{{item.managerType}}
+              </span>
+          </span>
+          </h3>
           <p>
-            <span class="com-d-item">服务地区: <span> todo</span></span>
-            <span class="com-d-item">联系电话: <span>todo</span></span>
-            <span class="com-d-item">服务类目: <span>todo、todo</span></span>
+            <span class="com-d-item">服务地区: <span v-for="(item, index) in managerDetail.serviceManagerAreaModels" :key="index">
+                <span v-if="index > 0">、</span>{{item.provinceName + item.cityName + item.areaName}}
+              </span></span>
+            <span class="com-d-item">联系电话: <span>{{managerDetail.mobilePhone}}</span></span>
+            <span class="com-d-item">服务类目: <span v-for="(item, index) in managerDetail.serviceManagerGoodsModels" :key="index">
+                <span v-if="index > 0">、</span>{{item.goodsName}}
+              </span></span>
           </p>
         </div>
       </div>
@@ -40,33 +49,38 @@
         <table class="detail-table">
           <tr>
             <td class="td-title">平台用户</td>
-            <td>todo</td>
+            <td>{{managerDetail.accountNumber}}</td>
             <td class="td-title">联系姓名</td>
-            <td>todo</td>
+            <td>{{managerDetail.name}}</td>
             <td class="td-title">联系电话</td>
-            <td>todo</td>
+            <td>{{managerDetail.mobilePhone}}</td>
           </tr>
           <tr>
             <td class="td-title">名族</td>
-            <td>todo</td>
+            <td>{{managerDetail.nation}}</td>
             <td class="td-title">性别</td>
-            <td>todo</td>
+            <td>{{managerDetail.sex}}</td>
             <td class="td-title">出生日期</td>
-            <td>todo</td>
+            <td>{{managerDetail.birthday}}</td>
           </tr>
           <tr>
             <td class="td-title">居民身份证</td>
             <td colspan="5">
-              <span>13645641564545</span>
-              <photo-view :photo-data="photoData">
+              <span>{{managerDetail.idCard}}</span>
+              <photo-view :photo-data="{
+                text: '身份证查看大图',
+                images: [
+                  {url: managerDetail.identityCardPhoto, previewText: ''},
+                ]
+              }">
               </photo-view>
             </td>
           </tr>
           <tr>
             <td class="td-title">工作单位</td>
-            <td>todo</td>
+            <td>{{managerDetail.organizationName}}</td>
             <td class="td-title">工作部门</td>
-            <td>todo</td>
+            <td>{{managerDetail.departmentName}}</td>
             <td class="td-title">工作职责</td>
             <td>todo</td>
           </tr>
@@ -137,6 +151,7 @@
   import photoView from '../../../../components/photo/photoView'
   import historyDialog from './historyDialog'
   import editDialog from './editDialog'
+  import API2 from '../../../../utils/api2'
 
   export default {
     name: 'detail',
@@ -152,6 +167,7 @@
           {value: '入驻成功'},
         ],
         photoData: {},
+        managerDetail: {},
       }
     },
     components: {
@@ -187,8 +203,18 @@
           },
         })
       },
+      getDetail () {
+        this.dataLoading = true
+        API2.serviceManager.detail(this.$route.query.id, (da) => {
+          this.managerDetail = da.data
+          setTimeout(() => {
+            this.dataLoading = false
+          }, 500)
+        })
+      }
     },
     created () {
+      this.getDetail()
       setTimeout(() => {
         this.photoData = {
           text: '身份证.jpg 查看大图',
@@ -222,5 +248,15 @@
       padding: 5px;
       font-size: 12px;
     }
+  }
+  .com-d-tap-2 {
+    color: #1E88E5;
+    padding: 5px 10px;
+    background-color: #E5F3FE;
+    border-radius: 10px;
+    border: 0px;
+    font-size: 12px;
+    position: relative;
+    top: -2px;
   }
 </style>

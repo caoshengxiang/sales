@@ -307,148 +307,163 @@ export default {
         value: 110,
       }
     ],
-    menusObj: {
-      userM: {
-        name: '用户管理',
-        value: 'userManagementSub',
-        children: [
-          {name: '角色管理', value: 'userManagementSub'},
-          {name: '用户管理', value: 'userManagementSub'},
-          {name: '代理商管理', value: 'userManagementSub'},
-        ],
-      },
-      organizationM: {
-        name: '组织管理',
-        value: 'userManagementSub',
-        children: [
-          {name: '组织管理', value: 'userManagementSub'},
-          {name: '客户池管理', value: 'userManagementSub'},
-          {name: '组织商品配置', value: 'userManagementSub'},
-        ],
-      },
-      baseConfigM: {
-        name: '配置管理',
-        value: 'userManagementSub',
-        children: [
-          {name: '站点开关', value: 'userManagementSub'},
-          {name: '系统参数配置', value: 'userManagementSub'},
-          {name: '返佣配置', value: 'userManagementSub'},
-          {name: '服务内容配置', value: 'userManagementSub'},
-          {name: '服务商品配置', value: 'userManagementSub'},
-        ],
-      },
-      financialM: {
-        name: '财务管理',
-        value: 'userManagementSub',
-        children: [
-          {name: '回款结算管理', value: 'userManagementSub'},
-          {name: '佣金结算管理', value: 'userManagementSub'},
-          {name: '服务佣金结算管理', value: ''},
-          {name: '财务支出管理', value: 'userManagementSub'},
-        ],
-      },
-      messageM: {
-        name: '消息通知',
-        value: 'userManagementSub',
-        children: [
-          {name: '历史消息记录', value: 'userManagementSub'},
-        ],
-      },
-      logM: {
-        name: '日志管理',
-        value: 'userManagementSub',
-        children: [
-          {name: '日志管理', value: 'userManagementSub'},
-        ],
-      },
-      // 前端
-      messageFE: {
-        name: '消息通知',
-        value: 'userManagementSub',
-        children: [
-          {name: '历史消息记录', value: 'userManagementSub'},
-        ],
-      },
-      todoItemFE: {
-        name: ' 代办事项',
-        value: 'userManagementSub',
-        children: [],
-      },
-      personalFE: {
-        name: '个人设置',
-        value: 'userManagementSub',
-        children: [
-          {name: '个人信息管理', value: 'userManagementSub'},
-        ],
-      },
-      taskApprovalFE: {
-        name: '业务审批',
-        value: 'userManagementSub',
-        children: [
-          {name: '业务审批管理', value: 'userManagementSub'},
-          {name: '管家入驻管理', value: 'userManagementSub'},
-        ],
-      },
-      CRM: {
-        name: 'CRM管理',
-        value: 'userManagementSub',
-        children: [
-          {name: '客户管理', value: 'userManagementSub'},
-          {name: '客户公海管理', value: 'userManagementSub'},
-          {name: '联系人管理', value: 'userManagementSub'},
-          {name: '销售机会管理', value: 'userManagementSub'},
-          {name: '机会公海管理', value: 'userManagementSub'},
-          {name: '销售订单管理', value: 'userManagementSub'},
-          {name: '会议活动管理', value: 'userManagementSub'},
-          {name: '跟单记录管理', value: 'userManagementSub'},
-          {name: '销售回款管理', value: 'userManagementSub'},
-          {name: '代理培育管理', value: 'userManagementSub'},
-        ],
-      },
-      PMS: {
-        name: 'PMS管理',
-        value: 'userManagementSub',
-        children: [
-          {name: '服务管家管理', value: 'userManagementSub'},
-          {name: '服务订单管理', value: 'userManagementSub'},
-          {name: '服务工单管理', value: 'userManagementSub'},
-          {name: '客户票据管理', value: 'userManagementSub'},
-        ],
-      },
-      CSM: {
-        name: 'CSM管理',
-        value: 'userManagementSub',
-        children: [
-          {name: '服务客户管理', value: 'userManagementSub'},
-          {name: '服务投诉管理', value: 'userManagementSub'},
-          {name: '服务回访管理', value: 'userManagementSub'},
-          {name: '服务抽查管理', value: 'userManagementSub'},
-          {name: '服务抽查管理', value: 'userManagementSub'},
-          {name: '客户意见管理', value: 'userManagementSub'},
-        ],
-      },
-      financialFE: {
-        name: '财务管理',
-        value: 'userManagementSub',
-        children: [
-          {name: '财务佣金管理', value: 'userManagementSub'},
-        ],
-      },
-      ataAnaFE: {
-        name: '统计分析',
-        value: 'userManagementSub',
-        children: [
-          {name: '服务任务统计', value: 'userManagementSub'},
-          {name: '客服任务统计', value: 'userManagementSub'},
-          {name: '服务客户统计', value: 'userManagementSub'},
-          {name: '客户票据统计', value: 'userManagementSub'},
-          {name: '退单拒单统计', value: 'userManagementSub'},
-          {name: '客户投诉统计', value: 'userManagementSub'},
-          {name: '客户评价统计', value: 'userManagementSub'},
-          {name: '客户意见统计', value: 'userManagementSub'},
-        ],
+    // menusObj: {
+    //   userM: {
+    //     name: '用户管理',
+    //     value: 'userManagementSub',
+    //     children: [
+    //       {name: '角色管理', value: 'userManagementSub'},
+    //       {name: '用户管理', value: 'userManagementSub'},
+    //       {name: '代理商管理', value: 'userManagementSub'},
+    //     ],
+    //   },
+    //   organizationM: {
+    //     name: '组织管理',
+    //     value: 'userManagementSub',
+    //     children: [
+    //       {name: '组织管理', value: 'userManagementSub'},
+    //       {name: '客户池管理', value: 'userManagementSub'},
+    //       {name: '组织商品配置', value: 'userManagementSub'},
+    //     ],
+    //   },
+    //   baseConfigM: {
+    //     name: '配置管理',
+    //     value: 'userManagementSub',
+    //     children: [
+    //       {name: '站点开关', value: 'userManagementSub'},
+    //       {name: '系统参数配置', value: 'userManagementSub'},
+    //       {name: '返佣配置', value: 'userManagementSub'},
+    //       {name: '服务内容配置', value: 'userManagementSub'},
+    //       {name: '服务商品配置', value: 'userManagementSub'},
+    //     ],
+    //   },
+    //   financialM: {
+    //     name: '财务管理',
+    //     value: 'userManagementSub',
+    //     children: [
+    //       {name: '回款结算管理', value: 'userManagementSub'},
+    //       {name: '佣金结算管理', value: 'userManagementSub'},
+    //       {name: '服务佣金结算管理', value: ''},
+    //       {name: '财务支出管理', value: 'userManagementSub'},
+    //     ],
+    //   },
+    //   messageM: {
+    //     name: '消息通知',
+    //     value: 'userManagementSub',
+    //     children: [
+    //       {name: '历史消息记录', value: 'userManagementSub'},
+    //     ],
+    //   },
+    //   logM: {
+    //     name: '日志管理',
+    //     value: 'userManagementSub',
+    //     children: [
+    //       {name: '日志管理', value: 'userManagementSub'},
+    //     ],
+    //   },
+    //   // 前端
+    //   messageFE: {
+    //     name: '消息通知',
+    //     value: 'userManagementSub',
+    //     children: [
+    //       {name: '历史消息记录', value: 'userManagementSub'},
+    //     ],
+    //   },
+    //   todoItemFE: {
+    //     name: ' 代办事项',
+    //     value: 'userManagementSub',
+    //     children: [],
+    //   },
+    //   personalFE: {
+    //     name: '个人设置',
+    //     value: 'userManagementSub',
+    //     children: [
+    //       {name: '个人信息管理', value: 'userManagementSub'},
+    //     ],
+    //   },
+    //   taskApprovalFE: {
+    //     name: '业务审批',
+    //     value: 'userManagementSub',
+    //     children: [
+    //       {name: '业务审批管理', value: 'userManagementSub'},
+    //       {name: '管家入驻管理', value: 'userManagementSub'},
+    //     ],
+    //   },
+    //   CRM: {
+    //     name: 'CRM管理',
+    //     value: 'userManagementSub',
+    //     children: [
+    //       {name: '客户管理', value: 'userManagementSub'},
+    //       {name: '客户公海管理', value: 'userManagementSub'},
+    //       {name: '联系人管理', value: 'userManagementSub'},
+    //       {name: '销售机会管理', value: 'userManagementSub'},
+    //       {name: '机会公海管理', value: 'userManagementSub'},
+    //       {name: '销售订单管理', value: 'userManagementSub'},
+    //       {name: '会议活动管理', value: 'userManagementSub'},
+    //       {name: '跟单记录管理', value: 'userManagementSub'},
+    //       {name: '销售回款管理', value: 'userManagementSub'},
+    //       {name: '代理培育管理', value: 'userManagementSub'},
+    //     ],
+    //   },
+    //   PMS: {
+    //     name: 'PMS管理',
+    //     value: 'userManagementSub',
+    //     children: [
+    //       {name: '服务管家管理', value: 'userManagementSub'},
+    //       {name: '服务订单管理', value: 'userManagementSub'},
+    //       {name: '服务工单管理', value: 'userManagementSub'},
+    //       {name: '客户票据管理', value: 'userManagementSub'},
+    //     ],
+    //   },
+    //   CSM: {
+    //     name: 'CSM管理',
+    //     value: 'userManagementSub',
+    //     children: [
+    //       {name: '服务客户管理', value: 'userManagementSub'},
+    //       {name: '服务投诉管理', value: 'userManagementSub'},
+    //       {name: '服务回访管理', value: 'userManagementSub'},
+    //       {name: '服务抽查管理', value: 'userManagementSub'},
+    //       {name: '服务抽查管理', value: 'userManagementSub'},
+    //       {name: '客户意见管理', value: 'userManagementSub'},
+    //     ],
+    //   },
+    //   financialFE: {
+    //     name: '财务管理',
+    //     value: 'userManagementSub',
+    //     children: [
+    //       {name: '财务佣金管理', value: 'userManagementSub'},
+    //     ],
+    //   },
+    //   ataAnaFE: {
+    //     name: '统计分析',
+    //     value: 'userManagementSub',
+    //     children: [
+    //       {name: '服务任务统计', value: 'userManagementSub'},
+    //       {name: '客服任务统计', value: 'userManagementSub'},
+    //       {name: '服务客户统计', value: 'userManagementSub'},
+    //       {name: '客户票据统计', value: 'userManagementSub'},
+    //       {name: '退单拒单统计', value: 'userManagementSub'},
+    //       {name: '客户投诉统计', value: 'userManagementSub'},
+    //       {name: '客户评价统计', value: 'userManagementSub'},
+    //       {name: '客户意见统计', value: 'userManagementSub'},
+    //     ],
+    //   }
+    // },
+    managerCategory: [
+      {
+        name: '平台直属',
+        value: 1,
+      }, {
+        name: '控股子公司',
+        value: 2,
+      }, {
+        name: '第三方机构',
+        value: 3,
+      }, {
+        name: '第三方个人',
+        value: 4,
       }
-    },
+    ]
   },
   // getters,
   // actions,

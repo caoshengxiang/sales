@@ -1,5 +1,7 @@
 <template>
-  <div class="com-container">
+  <div class="com-container"
+       v-loading="dataLoading"
+       element-loading-text="数据加载中...">
     <!--头部-->
     <div class="com-head">
       <el-breadcrumb separator-class="el-icon-arrow-right">
@@ -36,19 +38,21 @@
           <el-table-column
             align="center"
             sortable="custom"
-            prop="test"
+            prop="managerNo"
             label="管家号"
             width="160"
             show-overflow-tooltip
           >
             <template slot-scope="scope">
-              <router-link class="col-link" :to="{name: 'serviceHousekeeperDetail', query: {id: scope.row.test}}">{{ scope.row.test }}</router-link>
+              <router-link class="col-link" :to="{name: 'serviceHousekeeperDetail', query: {id: scope.row.id}}">{{
+                scope.row.managerNo }}
+              </router-link>
             </template>
           </el-table-column>
           <el-table-column
             align="center"
             sortable="custom"
-            prop="test"
+            prop="name"
             label="服务管家"
             width="160"
             show-overflow-tooltip
@@ -57,16 +61,21 @@
           <el-table-column
             align="center"
             sortable="custom"
-            prop="test"
+            prop="category"
             label="管家类型"
             width="160"
             show-overflow-tooltip
           >
+            <template slot-scope="scope">
+              <span  v-for="(item, index) in scope.row.serviceManagerTypeModels" :key="index">
+                <span v-if="index > 0">、</span>{{item.managerType}}
+              </span>
+            </template>
           </el-table-column>
           <el-table-column
             align="center"
             sortable="custom"
-            prop="test"
+            prop="mobilePhone"
             label="联系电话"
             width="160"
             show-overflow-tooltip
@@ -80,11 +89,16 @@
             width="160"
             show-overflow-tooltip
           >
+            <template slot-scope="scope">
+              <span v-for="item in managerCategory" :key="item.value" v-if="item.value === scope.row.category">
+                {{item.name}}
+              </span>
+            </template>
           </el-table-column>
           <el-table-column
             align="center"
             sortable="custom"
-            prop="test"
+            prop="serviceName"
             label="服务商主体"
             width="160"
             show-overflow-tooltip
@@ -97,6 +111,11 @@
             label="服务地区"
             show-overflow-tooltip
           >
+            <template slot-scope="scope">
+              <span v-for="(item, index) in scope.row.serviceManagerAreaModels" :key="index">
+                <span v-if="index > 0">、</span>{{item.provinceName + item.cityName + item.areaName}}
+              </span>
+            </template>
           </el-table-column>
           <el-table-column
             align="center"
@@ -105,6 +124,11 @@
             label="可服务商品"
             show-overflow-tooltip
           >
+            <template slot-scope="scope">
+              <span v-for="(item, index) in scope.row.serviceManagerGoodsModels" :key="index">
+                <span v-if="index > 0">、</span>{{item.goodsName}}
+              </span>
+            </template>
           </el-table-column>
         </el-table>
       </div>
@@ -113,7 +137,7 @@
       <div class="com-pages-box">
         <el-pagination
           background
-          :total="100"
+          :total="tableDataTotal"
           @size-change="handleSizeChange"
           @current-change="handleCurrentChange"
           :current-page="currentPage"
@@ -129,31 +153,29 @@
 <script>
   import { mapState } from 'vuex'
   import { underscoreName } from '../../../../utils/utils'
+  import API2 from '../../../../utils/api2'
 
   export default {
     name: 'list',
     data () {
       return {
-        currentPage: 0,
+        currentPage: 1,
         defaultListParams: { // 默认顾客列表请求参数
           page: null,
           pageSize: null,
-          type: null,
-          customerId: null,
-          organizationId: null,
         },
         sortObj: {sort: 'created,desc'}, // 排序
         advancedSearch: {}, // 高级搜索
-        tableData: [
-          {
-            test: 'test Data',
-          }],
+        tableData: [],
+        tableDataTotal: 0,
         multipleSelection: [],
+        dataLoading: false,
       }
     },
     computed: {
       ...mapState('constData', [
         'pagesOptions',
+        'managerCategory',
       ]),
     },
     methods: {
@@ -175,8 +197,29 @@
           order = 'desc'
         }
         this.sortObj = {sort: underscoreName(sortObj.prop) + ',' + order}
-        // this.getCustomerList()
+        this.getList()
       },
+      getQueryParams () { // 请求参数配置
+        this.defaultListParams = {
+          page: this.currentPage - 1,
+          pageSize: this.pagesOptions.pageSize,
+        }
+      },
+      getList () {
+        this.getQueryParams()
+        this.dataLoading = true
+        API2.serviceManager.list(Object.assign({}, this.defaultListParams, this.sortObj, this.advancedSearch),
+          (res) => {
+            this.tableData = res.data.content
+            this.tableDataTotal = res.data.totalElements
+            setTimeout(() => {
+              this.dataLoading = false
+            }, 300)
+          })
+      },
+    },
+    created () {
+      this.getList()
     },
   }
 </script>
