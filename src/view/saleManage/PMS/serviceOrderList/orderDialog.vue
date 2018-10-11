@@ -38,7 +38,7 @@
           <tr>
             <td class="td-title">职称</td>
             <td>todo</td>
-            <td class="td-title">从年年限</td>
+            <td class="td-title">从业年限</td>
             <td>todo</td>
             <td class="td-title"></td>
             <td></td>

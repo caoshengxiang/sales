@@ -1,96 +1,198 @@
 <template>
   <div class="com-dialog-container" v-loading="dataLoading">
-    <div class="com-dialog">
+    <div class="com-dialog com-container">
       <el-form :model="addForm" ref="addForm" label-width="0px" :rules="rules">
-        <table class="detail-table com-container">
+        <table class="detail-table">
           <tr>
             <td class="td-title">平台用户</td>
-            <td>todo</td>
+            <td>
+              <el-form-item prop="accountNumber">
+                <el-input type="text" v-model="addForm.accountNumber"></el-input>
+              </el-form-item>
+            </td>
             <td class="td-title">联系姓名</td>
-            <td>todo</td>
+            <td>
+              <el-form-item prop="name">
+                <el-input type="text" v-model="addForm.name"></el-input>
+              </el-form-item>
+            </td>
             <td class="td-title">联系电话</td>
-            <td>todo</td>
+            <td>
+              <el-form-item prop="mobilePhone">
+                <el-input type="text" v-model="addForm.mobilePhone"></el-input>
+              </el-form-item>
+            </td>
           </tr>
           <tr>
             <td class="td-title">名族</td>
-            <td>todo</td>
+            <td>
+              <el-form-item prop="nation">
+                <el-input type="text" v-model="addForm.nation"></el-input>
+              </el-form-item>
+            </td>
             <td class="td-title">性别</td>
-            <td>todo</td>
+            <td>
+              <el-form-item prop="sex">
+                <el-input type="text" v-model="addForm.sex"></el-input>
+              </el-form-item>
+            </td>
             <td class="td-title">出生日期</td>
-            <td>todo</td>
+            <td>
+              <!--<el-form-item prop="birthday">-->
+                <!--<el-input type="text" v-model="addForm.birthday"></el-input>-->
+              <!--</el-form-item>-->
+            </td>
           </tr>
           <tr>
             <td class="td-title">居民身份证</td>
             <td colspan="5">
-              <span>13645641564545</span>
-              <photo-view :photo-data="photoData">
-              </photo-view>
+              <div style="display: flex;align-items: center;">
+                <span>
+                <el-form-item prop="idCard" style="width: 200px;">
+                  <el-input type="text" v-model="addForm.idCard"></el-input>
+                </el-form-item>
+              </span>
+                <photo-view :photo-data="{
+                text: '身份证查看大图',
+                images: [
+                  {url: addForm.identityCardPhoto, previewText: ''},
+                ]
+              }">
+                </photo-view>
+              </div>
             </td>
           </tr>
           <tr>
             <td class="td-title">工作单位</td>
-            <td>todo</td>
+            <td>
+              <el-form-item prop="organizationName">
+                <el-input type="text" v-model="addForm.organizationName"></el-input>
+              </el-form-item>
+            </td>
             <td class="td-title">工作部门</td>
-            <td>todo</td>
+            <td>
+              <el-form-item prop="departmentName">
+                <el-input type="text" v-model="addForm.departmentName"></el-input>
+              </el-form-item>
+            </td>
             <td class="td-title">工作职责</td>
-            <td>todo</td>
+            <td>
+              <!--<el-form-item prop="accountNumber">-->
+                <!--<el-input type="text" v-model="addForm.accountNumber"></el-input>-->
+              <!--</el-form-item>-->
+            </td>
           </tr>
           <tr>
             <td class="td-title">职称</td>
-            <td>todo</td>
-            <td class="td-title">从年年限</td>
-            <td>todo</td>
+            <td>
+              <el-form-item prop="jobTitle">
+                <el-input type="text" v-model="addForm.jobTitle"></el-input>
+              </el-form-item>
+            </td>
+            <td class="td-title">从业年限</td>
+            <td>
+              <el-form-item prop="workExperience">
+                <el-input type="text" v-model="addForm.workExperience"></el-input>
+              </el-form-item>
+            </td>
             <td class="td-title"></td>
             <td></td>
           </tr>
           <tr>
-            <td class="td-title">名族</td>
-            <td>todo</td>
-            <td class="td-title">性别</td>
-            <td>todo</td>
-            <td class="td-title">出生日期</td>
-            <td>todo</td>
-          </tr>
-          <tr>
             <td class="td-title">最高学历</td>
-            <td>todo</td>
+            <td>
+              <el-form-item prop="education">
+                <el-input type="text" v-model="addForm.education"></el-input>
+              </el-form-item>
+            </td>
             <td class="td-title">毕业院校</td>
-            <td>todo</td>
+            <td>
+              <el-form-item prop="graduateInstitutions">
+                <el-input type="text" v-model="addForm.graduateInstitutions"></el-input>
+              </el-form-item>
+            </td>
             <td class="td-title">专业</td>
-            <td>todo</td>
+            <td>
+              <el-form-item prop="major">
+                <el-input type="text" v-model="addForm.major"></el-input>
+              </el-form-item>
+            </td>
           </tr>
           <tr>
             <td class="td-title">专业资质证书</td>
-            <td colspan="5">todo</td>
+            <td colspan="5">
+              <el-form-item prop="certificate">
+                <el-input type="text" v-model="addForm.certificate"></el-input>
+              </el-form-item>
+            </td>
           </tr>
           <tr>
             <td class="td-title">职称证明</td>
             <td>
-              <photo-view :photo-data="photoData">
+              <photo-view :photo-data="{
+                text: '查看大图',
+                images: [
+                  {url: addForm.jobTitleCertificate, previewText: ''},
+                ]
+              }">
               </photo-view>
             </td>
             <td class="td-title">学历证明</td>
             <td>
-              <photo-view :photo-data="photoData">
+              <photo-view :photo-data="{
+                text: '查看大图',
+                images: [
+                  {url: addForm.educationCertificate, previewText: ''},
+                ]
+              }">
               </photo-view>
             </td>
             <td class="td-title">资质证明</td>
             <td>
-              <photo-view :photo-data="photoData">
+              <photo-view :photo-data="{
+                text: '查看大图',
+                images: [
+                  {url: addForm.qualificationCertificate, previewText: ''},
+                ]
+              }">
               </photo-view>
             </td>
           </tr>
           <tr>
+            <td class="td-title">认证服务地区</td>
+            <td colspan="5">
+
+            </td>
+          </tr>
+          <tr>
+            <td class="td-title">认证商品</td>
+            <td colspan="5">
+
+            </td>
+          </tr>
+          <tr>
             <td class="td-title">现从事专业及研究方向</td>
-            <td colspan="5">todo</td>
+            <td colspan="5">
+              <el-form-item prop="workReasearch">
+                <el-input type="text" v-model="addForm.workReasearch"></el-input>
+              </el-form-item>
+            </td>
           </tr>
           <tr>
             <td class="td-title">社会重要职务</td>
-            <td colspan="5">todo</td>
+            <td colspan="5">
+              <el-form-item prop="socialFunctions">
+                <el-input type="text" v-model="addForm.socialFunctions"></el-input>
+              </el-form-item>
+            </td>
           </tr>
           <tr>
             <td class="td-title">个人简介</td>
-            <td colspan="5">todo</td>
+            <td colspan="5">
+              <el-form-item prop="resume">
+                <el-input type="text" v-model="addForm.resume"></el-input>
+              </el-form-item>
+            </td>
           </tr>
         </table>
       </el-form>
@@ -103,8 +205,8 @@
 </template>
 
 <script>
-  // import API from '../../../../utils/api'
-  import { chartLengthRule } from '../../../../utils/const'
+  import API2 from '../../../../utils/api2'
+  // import { chartLengthRule } from '../../../../utils/const'
   import photoView from '../../../../components/photo/photoView'
 
   export default {
@@ -114,54 +216,15 @@
         dataLoading: false,
         photoData: {},
         addForm: { //
+          accountNumber: '',
+          name: '',
+          mobilePhone: '',
         },
         rules: {
-          name: [
-            {required: true, message: '请输入公司名称', trigger: 'blur'},
-            {min: 1, max: 50, message: '长度为 50 个字符以内', trigger: 'blur'},
+          accountNumber: [
+            // {required: true, message: '请输入平台用户名', trigger: 'blur'},
+            // {min: 1, max: 50, message: '长度为 50 个字符以内', trigger: 'blur'},
           ],
-          businessLicense: [
-            // {required: true, message: '请输入营业执照', trigger: 'blur'},
-            {max: 30, message: '长度为 30 个字符以内', trigger: 'blur'},
-          ],
-          level: [
-            // {required: true, message: '请选择客户等级', trigger: 'change'},
-          ],
-          contactName: [
-            // {required: true, message: '请输入客户简称', trigger: 'blur'},
-            {max: 30, message: '长度为 30 个字符以内', trigger: 'blur'},
-          ],
-          industry: [
-            {required: true, message: '请选择客户行业', trigger: 'change'},
-            {max: 30, message: '长度为 30 个字符以内', trigger: 'blur'},
-          ],
-          provinceId: [
-            {required: true, message: '请选择客户地区', trigger: 'change'},
-          ],
-          cityId: [],
-          areaId: [],
-          website: [
-            // {required: true, message: '请输入公司网站', trigger: 'blur'},
-            {max: 100, message: '长度为 100 个字符以内', trigger: 'blur'},
-          ],
-          phone: [
-            // {required: true, message: '请输入联系电话', trigger: 'blur'},
-            chartLengthRule.validatePhone,
-          ],
-          // seaName: '',
-          seaId: [
-            {required: true, message: '请选择客户公海', trigger: 'change'},
-          ],
-          address: [
-            {required: true, message: '请输入联系地址', trigger: 'blur'},
-          ],
-          business: [
-            {required: true, message: '请输入主营业务', trigger: 'blur'},
-            {max: 100, message: '长度为 100 个字符以内', trigger: 'blur'},
-          ],
-          // customerSource: [
-          //   {required: true, message: '请选择客户来源', trigger: 'change'},
-          // ],
         },
         dialogType: 'edit',
         targetObj: null,
@@ -173,10 +236,20 @@
     },
     methods: {
       saveSubmitForm (formName) {
-        // console.log(this.$refs.areaSe.getSelectedValue(), '区域')
         this.$refs[formName].validate((valid) => {
           if (valid) {
             this.dataLoading = true
+            API2.serviceManager.edit(this.addForm, (da) => {
+              if (da.status) {
+                this.$message.success('编辑成功')
+                this.$vDialog.close({type: 'save'})
+              } else {
+                this.$message.warning('编辑失败')
+              }
+              setTimeout(() => {
+                this.dataLoading = false
+              }, 500)
+            })
           } else {
             console.log('error submit!!')
             return false
@@ -191,7 +264,7 @@
           images: [
             {url: '../../../../../static/images/wave-bot.png', previewText: '描述文字1'},
             {url: '../../../../../static/images/wave-bot-2.png', previewText: '描述文字2'},
-          ]
+          ],
         }
       }, 1000)
       if (this.params.detail) { // 编辑

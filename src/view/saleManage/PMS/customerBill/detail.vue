@@ -23,21 +23,25 @@
         <table class="detail-table">
           <tr>
             <td class="td-title">业务编号</td>
-            <td></td>
+            <td>{{billDetail.bizNum}}</td>
             <td class="td-title">上传人</td>
-            <td></td>
+            <td>{{billDetail.uploadUserName}} {{billDetail.uploadUserPhone}}</td>
             <td class="td-title">企业名称</td>
-            <td colspan="3"></td>
+            <td colspan="3">{{billDetail.customerName}}</td>
           </tr>
           <tr>
             <td class="td-title">账期</td>
-            <td></td>
+            <td>{{billDetail.accountPeriodYear}}年{{billDetail.accountPeriodMonth}}月</td>
             <td class="td-title">业务类型</td>
-            <td></td>
+            <td>
+              <span v-if="billDetail.bizType === 1">收入</span>
+              <span v-if="billDetail.bizType === 2">支出</span>
+              <span v-if="billDetail.bizType === 3">其他</span>
+            </td>
             <td class="td-title">业务金额</td>
-            <td></td>
+            <td>{{billDetail.bizAmount}}</td>
             <td class="td-title">上传时间</td>
-            <td></td>
+            <td>{{$moment(billDetail.uploadTime).format('YYYY-MM-DD HH:mm')}}</td>
           </tr>
         </table>
 
@@ -58,8 +62,8 @@
         <!--操纵-->
         <div style="background-color: #F9FCFB; padding: 10px 30px;">
           <b>操作</b>
-          <span class="op-btn">审核通过</span>
-          <span class="op-btn">审核拒绝</span>
+          <span class="op-btn" @click="operateOptions('pass')">审核通过</span>
+          <span class="op-btn" @click="operateOptions('refuse')">审核拒绝</span>
           <span class="op-tips">已拒绝审核通过：因为资料不清晰  2018.07.28  02:12</span>
         </div>
         <el-card class="box-card">
@@ -82,42 +86,134 @@
 
 <script>
   import photoView from '../../../../components/photo/photoView'
+  import API2 from '../../../../utils/api2'
+  import { arrToStr } from '../../../../utils/utils'
   export default {
     name: 'detail',
     data () {
       return {
         dataLoading: false,
         bills: [
-          {
-            image: '../../../../../static/images/wave-bot-2.png',
-            text: '图片描述1',
-            id: 1,
-          },
-          {
-            image: '../../../../../static/images/wave-bot.png',
-            text: '图片描述2',
-            id: 2,
-          },
-          {
-            image: '../../../../../static/images/wave-mid.png',
-            text: '图片描述3',
-            id: 3,
-          }, {
-            image: '../../../../../static/images/wave-mid-2.png',
-            text: '图片描述4',
-            id: 4,
-          },
-        ]
+          // {
+          //   image: '../../../../../static/images/wave-bot-2.png',
+          //   text: '图片描述1',
+          //   id: 1,
+          // },
+          // {
+          //   image: '../../../../../static/images/wave-bot.png',
+          //   text: '图片描述2',
+          //   id: 2,
+          // },
+          // {
+          //   image: '../../../../../static/images/wave-mid.png',
+          //   text: '图片描述3',
+          //   id: 3,
+          // }, {
+          //   image: '../../../../../static/images/wave-mid-2.png',
+          //   text: '图片描述4',
+          //   id: 4,
+          // },
+        ],
+        billDetail: {},
       }
     },
     components: {
       photoView,
     },
     methods: {
-      operateOptions () {
+      getDetail () {
+        API2.customerBill.detail(this.$route.query.id, (da) => {
+          this.billDetail = da.data
+          let images = da.data.attachment.split(',')
+          this.bills = images.map((item, index) => {
+            return {
+              image: item,
+              text: '',
+              id: index,
+            }
+          })
+        })
       },
-      stepClickHandle () {},
+      operateOptions (type) {
+        switch (type) {
+          case 'pass':
+            this.$confirm('确定通过审核, 是否继续?', '提示', {
+              confirmButtonText: '确定',
+              cancelButtonText: '取消',
+              type: 'warning',
+            }).then(() => {
+              this.dataLoading = true
+              API2.customerBill.audit({
+                id: this.billDetail.id,
+                auditState: 3,
+              }, (data) => {
+                if (data.status) {
+                  this.$message.success(`操作成功`)
+                  setTimeout(() => {
+                    this.dataLoading = false
+                    this.getDetail()
+                  }, 500)
+                } else {
+                  setTimeout(() => {
+                    this.dataLoading = false
+                  }, 500)
+                }
+              })
+            }).catch(() => {
+              this.$message({
+                type: 'info',
+                message: '已取消删除',
+              })
+            })
+            break
+          case 'refuse':
+            this.$confirm('确定审核拒绝, 是否继续?', '提示', {
+              confirmButtonText: '确定',
+              cancelButtonText: '取消',
+              type: 'warning',
+            }).then(() => {
+              this.dataLoading = true
+              API2.customerBill.audit({
+                id: this.billDetail.id,
+                auditState: 2,
+              }, (data) => {
+                if (data.status) {
+                  this.$message.success(`操作成功`)
+                  setTimeout(() => {
+                    this.dataLoading = false
+                    this.getDetail()
+                  }, 500)
+                } else {
+                  setTimeout(() => {
+                    this.dataLoading = false
+                  }, 500)
+                }
+              })
+            }).catch(() => {
+              this.$message({
+                type: 'info',
+                message: '已取消删除',
+              })
+            })
+            break
+          default:
+        }
+      }
     },
+    created () {
+      this.getDetail()
+    },
+    mounted () {
+      this.$dragging.$on('dragged', ({ value }) => {
+        console.log(value.item)
+        console.log(value.list)
+        console.log(value.group)
+        this.billDetail.attachment = arrToStr(value.list, 'image')
+        API2.customerBill.edit(this.billDetail, da => {
+          console.log(da)
+        })
+      })
+    }
   }
 </script>
 
