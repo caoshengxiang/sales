@@ -102,7 +102,7 @@
 </template>
 
 <script>
-  // import API from '../../../../utils/api'
+  import API2 from '../../../../utils/api2'
   import photoView from '../../../../components/photo/photoView'
 
   export default {
@@ -113,13 +113,20 @@
         addForm: {},
         dialogType: 'edit',
         photoData: {},
+        managerDetail: {},
       }
     },
     props: ['params'],
     components: {
       photoView,
     },
-    methods: {},
+    methods: {
+      getDetail () {
+        API2.serviceManager.updateDetail(this.params.id, (da) => {
+          this.managerList = da.data
+        })
+      },
+    },
     created () {
       setTimeout(() => {
         this.photoData = {

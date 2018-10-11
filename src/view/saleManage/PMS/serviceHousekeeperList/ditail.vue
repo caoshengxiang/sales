@@ -38,8 +38,8 @@
         </ul>
       </div>
       <div class="bar-tips-box">
-        <p class="modify"> 提示：2018年07.24日进行了服务管家基本信息修改<a class="com-a-link" @click="historyHandle">点击可查看</a></p>
-        <p class="review"> 提示：修改资料已被拒绝，拒绝原因为：薪资资料与资质资料不统一。</p>
+        <p class="modify"> 提示：{{$moment(managerDetail.dataUpdateTime).format('YYYY年M月D日')}}进行了服务管家基本信息修改<a class="com-a-link" @click="historyHandle">点击可查看</a></p>
+        <p class="review"> 提示：修改资料{{modifyCheckStatus(managerDetail.checkStatus)}},审核备注：{{managerDetail.checkResult}}</p>
       </div>
     </div>
     <!--详细-->
@@ -56,12 +56,12 @@
             <td>{{managerDetail.mobilePhone}}</td>
           </tr>
           <tr>
-            <td class="td-title">名族</td>
+            <td class="td-title">民族</td>
             <td>{{managerDetail.nation}}</td>
             <td class="td-title">性别</td>
             <td>{{managerDetail.sex}}</td>
             <td class="td-title">出生日期</td>
-            <td>{{managerDetail.birthday}}</td>
+            <td>{{ $moment(managerDetail.birthday).format('YYYY-MM-DD') }}</td>
           </tr>
           <tr>
             <td class="td-title">居民身份证</td>
@@ -86,60 +86,67 @@
           </tr>
           <tr>
             <td class="td-title">职称</td>
-            <td>todo</td>
+            <td>{{managerDetail.jobTitle}}</td>
             <td class="td-title">从年年限</td>
-            <td>todo</td>
+            <td>{{managerDetail.workExperience}}</td>
             <td class="td-title"></td>
             <td></td>
           </tr>
           <tr>
-            <td class="td-title">名族</td>
-            <td>todo</td>
-            <td class="td-title">性别</td>
-            <td>todo</td>
-            <td class="td-title">出生日期</td>
-            <td>todo</td>
-          </tr>
-          <tr>
             <td class="td-title">最高学历</td>
-            <td>todo</td>
+            <td>{{managerDetail.education}}</td>
             <td class="td-title">毕业院校</td>
-            <td>todo</td>
+            <td>{{managerDetail.graduateInstitutions}}</td>
             <td class="td-title">专业</td>
-            <td>todo</td>
+            <td>{{managerDetail.major}}</td>
           </tr>
           <tr>
             <td class="td-title">专业资质证书</td>
-            <td colspan="5">todo</td>
+            <td colspan="5">{{managerDetail.certificate}}</td>
           </tr>
           <tr>
             <td class="td-title">职称证明</td>
             <td>
-              <photo-view :photo-data="photoData">
+              <photo-view :photo-data="{
+                text: '查看大图',
+                images: [
+                  {url: managerDetail.jobTitleCertificate, previewText: ''},
+                ]
+              }">
               </photo-view>
             </td>
             <td class="td-title">学历证明</td>
             <td>
-              <photo-view :photo-data="photoData">
+              <photo-view :photo-data="{
+                text: '查看大图',
+                images: [
+                  {url: managerDetail.educationCertificate, previewText: ''},
+                ]
+              }">
               </photo-view>
             </td>
             <td class="td-title">资质证明</td>
             <td>
-              <photo-view :photo-data="photoData">
+              <photo-view :photo-data="{
+                text: '查看大图',
+                images: [
+                  {url: managerDetail.qualificationCertificate, previewText: ''},
+                ]
+              }">
               </photo-view>
             </td>
           </tr>
           <tr>
             <td class="td-title">现从事专业及研究方向</td>
-            <td colspan="5">todo</td>
+            <td colspan="5">{{managerDetail.workReasearch}}</td>
           </tr>
           <tr>
             <td class="td-title">社会重要职务</td>
-            <td colspan="5">todo</td>
+            <td colspan="5">{{managerDetail.socialFunctions}}</td>
           </tr>
           <tr>
             <td class="td-title">个人简介</td>
-            <td colspan="5">todo</td>
+            <td colspan="5">{{managerDetail.resume}}</td>
           </tr>
         </table>
       </div>
@@ -183,12 +190,33 @@
           width: 1100,
           height: 600,
           params: {
+            id: this.managerDetail.id
           },
           callback (data) {
             if (data.type === 'save') {
             }
           },
         })
+      },
+      modifyCheckStatus (va) {
+        let statusVal = ''
+        switch (va) {
+          case 1:
+            statusVal = '已提交'
+            break
+          case 2:
+            statusVal = '未通过'
+            break
+          case 3:
+            statusVal = '未通过且不能修改'
+            break
+          case 4:
+            statusVal = '已通过'
+            break
+          default:
+            break
+        }
+        return statusVal
       },
       editHandle () {
         this.$vDialog.modal(editDialog, {
