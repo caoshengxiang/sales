@@ -62,21 +62,24 @@
         <!--操纵-->
         <div style="background-color: #F9FCFB; padding: 10px 30px;">
           <b>操作</b>
-          <span class="op-btn" @click="operateOptions('pass')">审核通过</span>
-          <span class="op-btn" @click="operateOptions('refuse')">审核拒绝</span>
-          <span class="op-tips">已拒绝审核通过：因为资料不清晰  2018.07.28  02:12</span>
+          <span  v-if="billDetail.auditState === 1" class="op-btn" @click="operateOptions('pass')">审核通过</span>
+          <span  v-if="billDetail.auditState === 1" class="op-btn" @click="operateOptions('refuse')">审核拒绝</span>
+          <span class="op-tips">
+            <span v-if="billDetail.auditState === 1">待审核</span>
+            <span v-if="billDetail.auditState === 2">审核已拒绝</span>
+            <span v-if="billDetail.auditState === 3">审核已通过</span>
+            ：{{billDetail.auditRemark}}  {{billDetail.auditTime && $moment(billDetail.auditTime).format('YYYY-MM-DD HH:mm')}}</span>
         </div>
         <el-card class="box-card">
           <div slot="header" class="clearfix">
             <span>服务日志</span>
           </div>
           <div class="text item">
-            2018.07.28 12:01 用户张珊（15672523334）操作录入票据单号45644564564；<br>
-            2018.07.28 13:07 服务管家超期未审核票据；<br>
-            2018.07.28 14:29 服务管家操作审核票据不通过，理由：票据资料显示不清晰；<br>
-            2018.07.28 12:01 用户张珊（15672523334）操作录入票据单号45644564564；<br>
-            2018.07.28 13:07 服务管家超期未审核票据；<br>
-            2018.07.28 14:29 服务管家操作审核票据不通过，理由：票据资料显示不清晰
+            <p v-for="(item, index) in billDetail.operateLogList" :key="index">
+              {{item.operateTime && $moment(item.operateTime).format('YYYY.MM.DD HH:mm')}}&nbsp;
+              {{item.userName}}
+              {{item.detail}}
+            </p>
           </div>
         </el-card>
       </div>
