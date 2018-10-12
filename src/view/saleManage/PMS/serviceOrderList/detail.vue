@@ -232,12 +232,14 @@
 
 <script>
   import iconText from '../../../../components/iconText/iconText'
+  import API2 from '../../../../utils/api2'
   export default {
     name: 'detail',
     data () {
       return {
         dataLoading: false,
         activeViewName: 'order', // related, operate
+        detail: {},
       }
     },
     watch: {
@@ -260,9 +262,15 @@
           query: {view: tab.name, id: this.$route.query.id},
         })
       },
+      getDetail () {
+        API2.serviceOrder.detail(this.$route.query.id, (da) => {
+          this.detail = da.data
+        })
+      },
     },
     created () {
       this.activeViewName = this.$route.query.view
+      this.getDetail()
     }
   }
 </script>
