@@ -190,7 +190,7 @@
     name: 'list',
     data () {
       return {
-        currentPage: 0,
+        currentPage: 1,
         defaultListParams: { // 默认顾客列表请求参数
           page: null,
           pageSize: null,

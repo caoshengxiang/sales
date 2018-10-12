@@ -1,5 +1,6 @@
 <template>
-  <div class="com-container">
+  <div class="com-container" v-loading="dataLoading"
+       element-loading-text="数据加载中...">
     <!--头部-->
     <div class="com-head">
       <el-breadcrumb separator-class="el-icon-arrow-right">
@@ -183,7 +184,7 @@
       <div class="com-pages-box">
         <el-pagination
           background
-          :total="100"
+          :total="tableDataTotal"
           @size-change="handleSizeChange"
           @current-change="handleCurrentChange"
           :current-page="currentPage"
@@ -204,7 +205,8 @@
     name: 'list',
     data () {
       return {
-        currentPage: 0,
+        currentPage: 1,
+        dataLoading: false,
         defaultListParams: { // 默认顾客列表请求参数
           page: null,
           pageSize: null,
@@ -214,10 +216,8 @@
         },
         sortObj: {sort: 'created,desc'}, // 排序
         advancedSearch: {}, // 高级搜索
-        tableData: [
-          {
-            test: 'test Data',
-          }],
+        tableData: [],
+        tableDataTotal: 0,
         multipleSelection: [],
       }
     },
@@ -235,6 +235,7 @@
       handleCurrentChange (val) {
         console.log(`当前页: ${val}`)
         this.currentPage = val
+        this.getList()
       },
       handleSelectionChange (val) {
         this.multipleSelection = val
@@ -247,7 +248,24 @@
           order = 'desc'
         }
         this.sortObj = {sort: underscoreName(sortObj.prop) + ',' + order}
-        // this.getCustomerList()
+      },
+      getQueryParams () { // 请求参数配置
+        this.defaultListParams = {
+          page: this.currentPage - 1,
+          pageSize: this.pagesOptions.pageSize,
+        }
+      },
+      getList () {
+        this.getQueryParams()
+        this.dataLoading = true
+        API2.serviceOrder.list(Object.assign({}, this.defaultListParams, this.sortObj, this.advancedSearch),
+          (res) => {
+            this.tableData = res.data.content
+            this.tableDataTotal = res.data.totalElements
+            setTimeout(() => {
+              this.dataLoading = false
+            }, 300)
+          })
       },
     },
   }

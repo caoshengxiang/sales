@@ -65,5 +65,23 @@ export default {
         error && error(err)
       })
     },
+  },
+  serviceOrder: {
+    list (params, success, error) { // 列表
+      $axios.get('serviceOrder', {
+        params: params,
+      }).then(res => {
+        success && success(res.data)
+      }).catch(err => {
+        error && error(err)
+      })
+    },
+    detail (params, success, error) { // 管家详情
+      $axios.get('serviceOrder/' + params).then(res => {
+        success && success(res.data)
+      }).catch(err => {
+        error && error(err)
+      })
+    },
   }
 }
