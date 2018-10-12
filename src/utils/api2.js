@@ -83,5 +83,51 @@ export default {
         error && error(err)
       })
     },
+  },
+  workOrder: {
+    list (params, success, error) { // 列表
+      $axios.get('serviceWorkOrder', {
+        params: params,
+      }).then(res => {
+        success && success(res.data)
+      }).catch(err => {
+        error && error(err)
+      })
+    },
+    detail (params, success, error) { // 管家详情
+      $axios.get('serviceOrder/' + params).then(res => {
+        success && success(res.data)
+      }).catch(err => {
+        error && error(err)
+      })
+    },
+  },
+  // 服务客户
+  servicecustomer: {
+    list (params, success, error) { // 列表
+      $axios.get('serviceWorkOrder', {
+        params: params,
+      }).then(res => {
+        success && success(res.data)
+      }).catch(err => {
+        error && error(err)
+      })
+    },
+    detail (params, success, error) { // 管家详情
+      $axios.get('serviceOrder/' + params).then(res => {
+        success && success(res.data)
+      }).catch(err => {
+        error && error(err)
+      })
+    },
+    // exports (params, success, error) { // 导出
+    //   $axios.post('serviceWorkOrder', {
+    //     params: params,
+    //   }).then(res => {
+    //     success && success(res.data)
+    //   }).catch(err => {
+    //     error && error(err)
+    //   })
+    // },
   }
 }

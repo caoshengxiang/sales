@@ -38,59 +38,77 @@
           <el-table-column
             align="center"
             sortable="custom"
-            prop="test"
+            prop="orderId"
             label="订单单号"
             width="160"
             show-overflow-tooltip
           >
             <template slot-scope="scope">
-              <router-link class="col-link" :to="{name: 'serviceOrderDetail', query: {id: scope.row.test}}">{{ scope.row.test }}</router-link>
+              <router-link class="col-link" :to="{name: 'serviceOrderDetail', query: {id: scope.row.id, view: 'order'}}">{{ scope.row.orderId }}</router-link>
             </template>
           </el-table-column>
           <el-table-column
             align="center"
             sortable="custom"
-            prop="test"
+            prop="assignState"
             label="派单状态"
             width="160"
             show-overflow-tooltip
           >
+            <template slot-scope="scope">
+              <span v-if="scope.row.assignState === 1">待派单</span>
+              <span v-if="scope.row.assignState === 2">待部分派单</span>
+              <span v-if="scope.row.assignState === 3">已派单</span>
+              <span v-if="scope.row.assignState === 4">已接单</span>
+            </template>
           </el-table-column>
           <el-table-column
             align="center"
             sortable="custom"
-            prop="test"
+            prop="orderState"
             label="订单状态"
             width="160"
             show-overflow-tooltip
           >
+            <template slot-scope="scope">
+              <span v-if="scope.row.orderState === 1">待服务</span>
+              <span v-if="scope.row.orderState === 2">服务中</span>
+              <span v-if="scope.row.orderState === 3">已完成</span>
+              <span v-if="scope.row.orderState === 4">已退单</span>
+            </template>
           </el-table-column>
           <el-table-column
             align="center"
-            sortable="custom"
-            prop="test"
+            prop="managerTypeName"
             label="服务管家"
             width="160"
             show-overflow-tooltip
           >
             <template slot-scope="scope">
-              <a class="col-link">{{ scope.row.test }}</a>&nbsp;&nbsp;
-              <a class="col-link">{{ scope.row.test }}</a>
+              <span v-for="(item, index) in scope.row.workOrderManagers" :key="index">
+                <a v-if="item.managerName">{{ item.managerName }}</a>
+                <a v-else class="col-link">{{ item.managerTypeName }}</a>
+                &nbsp;&nbsp;
+              </span>
             </template>
           </el-table-column>
           <el-table-column
             align="center"
             sortable="custom"
-            prop="test"
+            prop="reviewState"
             label="评价状态"
             width="160"
             show-overflow-tooltip
           >
+            <template slot-scope="scope">
+              <span v-if="scope.row.reviewState === 1">未评价</span>
+              <span v-if="scope.row.reviewState === 2">已评价</span>
+            </template>
           </el-table-column>
           <el-table-column
             align="center"
             sortable="custom"
-            prop="test"
+            prop="serviceCustomerName"
             label="服务客户"
             width="160"
             show-overflow-tooltip
@@ -99,7 +117,7 @@
           <el-table-column
             align="center"
             sortable="custom"
-            prop="test"
+            prop="contactName"
             label="客户联系人"
             width="160"
             show-overflow-tooltip
@@ -108,7 +126,7 @@
           <el-table-column
             align="center"
             sortable="custom"
-            prop="test"
+            prop="goodsName"
             label="服务商品"
             width="160"
             show-overflow-tooltip
@@ -117,16 +135,21 @@
           <el-table-column
             align="center"
             sortable="custom"
-            prop="test"
+            prop="provinceName"
             label="服务所在地"
             width="160"
             show-overflow-tooltip
           >
+            <template slot-scope="scope">
+              {{ scope.row.provinceName }}
+              {{ scope.row.cityName }}
+              {{ scope.row.areaName }}
+            </template>
           </el-table-column>
           <el-table-column
             align="center"
             sortable="custom"
-            prop="test"
+            prop="specificationName"
             label="服务规格"
             width="160"
             show-overflow-tooltip
@@ -135,7 +158,7 @@
           <el-table-column
             align="center"
             sortable="custom"
-            prop="test"
+            prop="contractAccount"
             label="签约金额"
             width="160"
             show-overflow-tooltip
@@ -144,25 +167,29 @@
           <el-table-column
             align="center"
             sortable="custom"
-            prop="test"
+            prop="contractTime"
             label="签约时间"
             width="160"
             show-overflow-tooltip
           >
+            <template slot-scope="scope">{{scope.row.contractTime && $moment(scope.row.contractTime).format('YYYY-MM-DD HH:mm')}}</template>
           </el-table-column>
           <el-table-column
             align="center"
             sortable="custom"
-            prop="test"
+            prop="contractProperty"
             label="签约性质"
             width="160"
             show-overflow-tooltip
           >
+            <template slot-scope="scope">
+              {{scope.row.contractProperty === 1 ? '新签订单' : '续费订单'}}
+            </template>
           </el-table-column>
           <el-table-column
             align="center"
             sortable="custom"
-            prop="test"
+            prop="contractObject"
             label="签约主体"
             width="160"
             show-overflow-tooltip
@@ -171,11 +198,14 @@
           <el-table-column
             align="center"
             sortable="custom"
-            prop="test"
+            prop="reservationTime"
             label="生成服务时间"
             width="160"
             show-overflow-tooltip
           >
+            <template slot-scope="scope">
+              {{scope.row.reservationTime && $moment(scope.row.reservationTime).format('YYYY-MM-DD HH:mm')}}
+            </template>
           </el-table-column>
         </el-table>
       </div>
@@ -200,6 +230,8 @@
 <script>
   import { mapState } from 'vuex'
   import { underscoreName } from '../../../../utils/utils'
+  import API2 from '../../../../utils/api2'
+  import comButton from '../../../../components/button/comButton'
 
   export default {
     name: 'list',
@@ -210,9 +242,6 @@
         defaultListParams: { // 默认顾客列表请求参数
           page: null,
           pageSize: null,
-          type: null,
-          customerId: null,
-          organizationId: null,
         },
         sortObj: {sort: 'created,desc'}, // 排序
         advancedSearch: {}, // 高级搜索
@@ -225,6 +254,9 @@
       ...mapState('constData', [
         'pagesOptions',
       ]),
+    },
+    components: {
+      comButton,
     },
     methods: {
       orderHandle () {
@@ -248,6 +280,7 @@
           order = 'desc'
         }
         this.sortObj = {sort: underscoreName(sortObj.prop) + ',' + order}
+        this.getList()
       },
       getQueryParams () { // 请求参数配置
         this.defaultListParams = {
@@ -267,6 +300,9 @@
             }, 300)
           })
       },
+    },
+    created () {
+      this.getList()
     },
   }
 </script>

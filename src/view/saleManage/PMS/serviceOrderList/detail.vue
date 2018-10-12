@@ -237,8 +237,13 @@
     data () {
       return {
         dataLoading: false,
-        activeViewName: 'order'
+        activeViewName: 'order', // related, operate
       }
+    },
+    watch: {
+      '$route.query.view' (view) {
+        this.activeViewName = view
+      },
     },
     components: {
       iconText,
@@ -248,9 +253,17 @@
       },
       stepClickHandle () {},
       handleTabsClick (tab, event) {
-        console.log(tab.name)
+        // console.log(tab.name)
+        this.$router.push({
+          name: 'serviceOrderDetail',
+          params: {end: this.themeIndex === 0 ? 'FE' : 'ME'},
+          query: {view: tab.name, id: this.$route.query.id},
+        })
       },
     },
+    created () {
+      this.activeViewName = this.$route.query.view
+    }
   }
 </script>
 
