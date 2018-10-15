@@ -28,7 +28,7 @@
           </el-col>
           <el-col :span="8">
             <el-form-item label="联系电话：">
-              <el-input type="text" v-model="searchForm.contacterPhone"></el-input>
+              <el-input type="text" v-model="searchForm.contactPhone"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">

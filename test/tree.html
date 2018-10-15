@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="renderer" content="webkit"/>
+  <meta http-equiv="x-ua-compatible" content="ie=edge, chrome=1">
+  <meta http-equiv="Cache-Control" content="max-age: 31536000">
+  <title>blog04</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="wap-font-scale" content="no">
+  <meta name="author" content="">
+  <meta name="keywords" content="">
+  <meta name="description" content="">
+  <script type="text/javascript" src="jsonData.js"></script>
+</head>
+<body>
+递归遍历：<span id="app"></span>
+<hr>
+非递归遍历：<span id="app2"></span>
+</body>
+<script>
+  /**
+   * 用于演示的 JSON 树形数据结构
+   */
+  var root = {
+    name:'D盘',
+    children:[
+      {
+        name:'学习',
+        children:[
+          {
+            name:'电子书',
+            children:[
+              {
+                name:'文学',
+                children:[
+                  {
+                    name:'茶馆'
+                  },
+                  {
+                    name:'红与黑'
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        name:'电影',
+        children:[
+          {
+            name:'美国电影'
+          },
+          {
+            name:'日本电影'
+          }
+        ]
+      }
+    ]
+  }
+</script>
+<script>
+  // 遍历单个节点
+  function traverseNode(node){
+    var divObj = document.getElementById("app");
+    divObj.innerHTML = divObj.innerHTML + "  " + node.name;
+  }
+
+  // 递归遍历树
+  // 作者：张超
+  function traverseTree(node){
+    if (!node) {
+      return;
+    }
+
+    traverseNode(node);
+    if (node.children && node.children.length > 0) {
+      var i = 0;
+      for (i = 0; i < node.children.length; i++) {
+        this.traverseTree(node.children[i]);
+      }
+    }
+  }
+
+  traverseTree(root);
+</script>
+</html>

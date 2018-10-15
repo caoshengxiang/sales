@@ -28,7 +28,7 @@
           </el-col>
           <el-col :span="8">
             <el-form-item label="联系电话：">
-              <el-input type="text" v-model="searchForm.contacterPhone"></el-input>
+              <el-input type="text" v-model="searchForm.contactPhone"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -195,8 +195,39 @@
         this.timeInterval = []
         this.timeInterval2 = []
       },
+      treeGetName (id, node) { // 获取名称
+        if (!node) {
+          return ''
+        }
+        if (node && node.length > 0) {
+          var i = 0
+          for (i = 0; i < node.length; i++) {
+            console.log(id, node[i].id)
+            if (id === node[i].id) {
+              // console.log(node[i].codeName)
+              return node[i].codeName
+            } else {
+              this.treeGetName(id, node[i].children)
+            }
+          }
+        }
+      },
+      traverseTree (source, node) { // 遍历树
+        if (!source) {
+          return
+        }
+        let sourceArr = source.split('-')
+        let sourceNameArr = []
+        sourceArr.forEach((item, index) => {
+          console.log(index, this.treeGetName(parseInt(item, 10), this.chanceSourceType))
+          sourceNameArr[index] = this.treeGetName(parseInt(item, 10), this.chanceSourceType)
+        })
+        console.info(sourceNameArr)
+        return sourceNameArr.join('-')
+      },
       saveSubmitForm () {
-        this.$vDialog.close({type: 'search', params: this.searchForm})
+        this.searchForm.sourceName = this.traverseTree(this.searchForm.chanceSource)
+        // this.$vDialog.close({type: 'search', params: this.searchForm})
       },
       timeIntervalHandle (value) {
         this.searchForm.startCreateDate = value[0] || ''
