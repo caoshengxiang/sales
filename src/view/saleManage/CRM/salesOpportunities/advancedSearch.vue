@@ -51,7 +51,7 @@
                 @active-item-change="chanceSourceChangeHandle"
                 @change="chanceSourceChangeHandle"
                 :props="props"
-                :placeholder="searchForm.chanceSourceName"
+                :placeholder="searchForm.sourceName"
               >
               </el-cascader>
             </el-form-item>
@@ -163,6 +163,7 @@
         targetObj: null,
         // selectedBindValue: [],
         selectLastLevelMode: true,
+        sourceNameArr: [],
       }
     },
     props: ['params'],
@@ -204,7 +205,7 @@
           for (i = 0; i < node.length; i++) {
             console.log(id, node[i].id)
             if (id === node[i].id) {
-              // console.log(node[i].codeName)
+              this.sourceNameArr.push(node[i].codeName)
               return node[i].codeName
             } else {
               this.treeGetName(id, node[i].children)
@@ -217,17 +218,16 @@
           return
         }
         let sourceArr = source.split('-')
-        let sourceNameArr = []
+        this.sourceNameArr = [] // 初始
         sourceArr.forEach((item, index) => {
-          console.log(index, this.treeGetName(parseInt(item, 10), this.chanceSourceType))
-          sourceNameArr[index] = this.treeGetName(parseInt(item, 10), this.chanceSourceType)
+          this.treeGetName(parseInt(item, 10), this.chanceSourceType)
         })
-        console.info(sourceNameArr)
-        return sourceNameArr.join('-')
+        // console.info(this.sourceNameArr)
+        return this.sourceNameArr.join('-')
       },
       saveSubmitForm () {
         this.searchForm.sourceName = this.traverseTree(this.searchForm.chanceSource)
-        // this.$vDialog.close({type: 'search', params: this.searchForm})
+        this.$vDialog.close({type: 'search', params: this.searchForm})
       },
       timeIntervalHandle (value) {
         this.searchForm.startCreateDate = value[0] || ''
