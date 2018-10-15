@@ -89,7 +89,13 @@
     data () {
       return {
         loading: false,
-        roleList: [{id: 2, name: '客户级别'}, {id: 3, name: '客户行业'}],
+        roleList: [
+          {id: 2, name: '客户级别'},
+          {id: 3, name: '客户行业'},
+          {id: 6, name: '管家类型'},
+          {id: 7, name: '意见类型'},
+          {id: 8, name: '投诉类型'},
+          ],
         roleDefaultIndex: '1',
         roleDetail: {},
         initBusinessSystemsIndex: '2',

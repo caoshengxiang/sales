@@ -36,7 +36,7 @@
           <i class="iconfont icon-home"></i>
           <span slot="title">管理中心</span>
         </el-menu-item>
-        <el-submenu index="CRM"> <!--todo 加权限-->
+        <el-submenu index="CRM" v-if="listPermissions(menus, 'crmManageFront')">
           <template slot="title">
             <i class="iconfont icon-lvzhou_shebeipeizhi"></i>
             <span>CRM管理</span>
@@ -55,32 +55,32 @@
             </el-menu-item>
           </el-menu-item-group>
         </el-submenu>
-        <el-submenu index="PMS"> <!--todo 加权限-->
+        <el-submenu index="PMS" v-if="listPermissions(menus, 'pmsManageFront')">
           <template slot="title">
             <i class="iconfont icon-lvzhou_shebeipeizhi"></i>
             <span>PMS管理</span>
           </template>
           <el-menu-item-group>
-            <el-menu-item index="serviceHousekeeperList">服务管家管理</el-menu-item>
-            <el-menu-item index="serviceOrderList">服务订单管理</el-menu-item>
-            <el-menu-item index="serviceWorkOrderList">服务工单管理</el-menu-item>
-            <el-menu-item index="customerBill">客户票据管理</el-menu-item>
+            <el-menu-item index="serviceHousekeeperList" v-if="listPermissions(menus, 'serviceManagerManage')">服务管家管理</el-menu-item>
+            <el-menu-item index="serviceOrderList" v-if="listPermissions(menus, 'serviceOrderManage')">服务订单管理</el-menu-item>
+            <el-menu-item index="serviceWorkOrderList" v-if="listPermissions(menus, 'serviceWorkOrderManage')">服务工单管理</el-menu-item>
+            <el-menu-item index="customerBill" v-if="listPermissions(menus, 'serviceCustomerBillManage')">客户票据管理</el-menu-item>
           </el-menu-item-group>
         </el-submenu>
-        <el-submenu index="CSM"> <!--todo 加权限-->
+        <el-submenu index="CSM" v-if="listPermissions(menus, 'csmManageFront')">
           <template slot="title">
             <i class="iconfont icon-lvzhou_shebeipeizhi"></i>
             <span>CSM管理</span>
           </template>
           <el-menu-item-group>
-            <el-menu-item index="serviceCustomer">服务客户管理</el-menu-item>
-            <el-menu-item index="serviceComplaint">服务投诉管理</el-menu-item>
-            <el-menu-item index="serviceReturnVisit">服务回访管理</el-menu-item>
-            <el-menu-item index="serviceSpotCheck">服务抽查管理</el-menu-item>
-            <el-menu-item index="customerComments">客户意见管理</el-menu-item>
+            <el-menu-item index="serviceCustomer" v-if="listPermissions(menus, 'serviceCustomerManage')">服务客户管理</el-menu-item>
+            <el-menu-item index="serviceComplaint" v-if="listPermissions(menus, 'serviceComplaintManage')">服务投诉管理</el-menu-item>
+            <el-menu-item index="serviceReturnVisit" v-if="listPermissions(menus, 'serviceRetVisitManage')">服务回访管理</el-menu-item>
+            <el-menu-item index="serviceSpotCheck" v-if="listPermissions(menus, 'serviceSpotCheckManage')">服务抽查管理</el-menu-item>
+            <el-menu-item index="customerComments" v-if="listPermissions(menus, 'serviceCustomerSuggestionManage')">客户意见管理</el-menu-item>
           </el-menu-item-group>
         </el-submenu>
-        <el-submenu index="financial"> <!--todo 加权限-->
+        <el-submenu index="financial" v-if="listPermissions(menus, 'commission')"><!--接口上这里有点小问题【没有放在子菜单里面】，但不影响-->
           <template slot="title">
             <i class="iconfont icon-ai-wallet"></i>
             <span>财务管理</span>
@@ -89,7 +89,7 @@
             <el-menu-item index="rebateRecordsList" v-if="listPermissions(menus, 'commission')">财务佣金管理</el-menu-item>
           </el-menu-item-group>
         </el-submenu>
-        <el-submenu index="task">
+        <el-submenu index="task" v-if="listPermissions(menus, 'approval')">
           <template slot="title">
             <i class="iconfont icon-shenpi"></i>
             <span>业务审批</span>
@@ -99,20 +99,20 @@
             <!--<el-menu-item index="housekeeperEnterList">管家入驻管理</el-menu-item>-->
           </el-menu-item-group>
         </el-submenu>
-         <el-submenu index="statistical"> <!--todo 加权限-->
+         <el-submenu index="statistical" v-if="listPermissions(menus, 'statisticAnalysis')">
            <template slot="title">
              <i class="iconfont icon-lvzhou_shebeipeizhi"></i>
              <span>统计分析</span>
            </template>
            <el-menu-item-group>
-             <el-menu-item index="serviceTaskSta">服务任务统计</el-menu-item>
-             <el-menu-item index="customerServiceTaskSta">客服任务统计</el-menu-item>
-             <el-menu-item index="serviceCustomerSta">服务客户统计</el-menu-item>
-             <el-menu-item index="serviceBillSta">服务票据统计</el-menu-item>
-             <el-menu-item index="refundOrderSta">退单拒单统计</el-menu-item>
-             <el-menu-item index="customerComplaintSta">客户投诉统计</el-menu-item>
-             <el-menu-item index="customerCommentsSta">客户评价统计</el-menu-item>
-             <el-menu-item index="customerOpinionSta">客户意见统计</el-menu-item>
+             <el-menu-item index="serviceTaskSta" v-if="listPermissions(menus, 'statisticServiceTask')">服务任务统计</el-menu-item>
+             <el-menu-item index="customerServiceTaskSta" v-if="listPermissions(menus, 'statisticCustomerServiceTask')">客服任务统计</el-menu-item>
+             <el-menu-item index="serviceCustomerSta" v-if="listPermissions(menus, 'statisticServiceCustomer')">服务客户统计</el-menu-item>
+             <el-menu-item index="serviceBillSta" v-if="listPermissions(menus, 'statisticCustomerBill')">服务票据统计</el-menu-item>
+             <el-menu-item index="refundOrderSta" v-if="listPermissions(menus, 'statisticChargeBack')">退单拒单统计</el-menu-item>
+             <el-menu-item index="customerComplaintSta" v-if="listPermissions(menus, 'statisticCustomerComplaint')">客户投诉统计</el-menu-item>
+             <el-menu-item index="customerCommentsSta" v-if="listPermissions(menus, 'statisticCustomerReview')">客户评价统计</el-menu-item>
+             <el-menu-item index="customerOpinionSta" v-if="listPermissions(menus, 'statisticCustomerSuggestion')">客户意见统计</el-menu-item>
            </el-menu-item-group>
          </el-submenu>
       </div>
@@ -183,8 +183,8 @@
           <el-menu-item-group>
             <!--<template slot="title">分组一</template>-->
             <el-menu-item index="siteList" v-if="listPermissions(menus, 'siteOnOff')">站点开关</el-menu-item>
-            <el-menu-item index="customerAreaSetting">客户地区</el-menu-item>
-            <el-menu-item index="customerSource">客户源管理</el-menu-item>
+            <el-menu-item index="customerAreaSetting" v-if="listPermissions(menus, 'customerRegion')">客户地区</el-menu-item>
+            <el-menu-item index="customerSource" v-if="listPermissions(menus, 'customerSource')">客户源管理</el-menu-item>
             <el-menu-item index="baseSettingList" v-if="listPermissions(menus, 'paramConfig')">参数配置</el-menu-item>
             <el-menu-item index="settlementRulesList" v-if="listPermissions(menus, 'commissionConfig')">返佣规则
             </el-menu-item>
@@ -192,16 +192,16 @@
 
           </el-menu-item-group>
         </el-submenu>
-        <el-submenu index="todo-300" v-if="listPermissions(menus, 'statistics')">
-          <template slot="title">
-            <i class="iconfont icon-ene_mon_mes_sta"></i>
-            <span>统计分析</span>
-          </template>
-          <el-menu-item-group>
-            <!--<template slot="title">分组一</template>-->
-            <el-menu-item index="todo-1" v-if="listPermissions(menus, 'statistics')">统计分析</el-menu-item>
-          </el-menu-item-group>
-        </el-submenu>
+        <!--<el-submenu index="todo-300" v-if="listPermissions(menus, 'statistics')">-->
+          <!--<template slot="title">-->
+            <!--<i class="iconfont icon-ene_mon_mes_sta"></i>-->
+            <!--<span>统计分析</span>-->
+          <!--</template>-->
+          <!--<el-menu-item-group>-->
+            <!--&lt;!&ndash;<template slot="title">分组一</template>&ndash;&gt;-->
+            <!--<el-menu-item index="todo-1" v-if="listPermissions(menus, 'statistics')">统计分析</el-menu-item>-->
+          <!--</el-menu-item-group>-->
+        <!--</el-submenu>-->
         <el-submenu index="log" v-if="listPermissions(menus, 'logManagement')">
           <template slot="title">
             <i class="iconfont icon-rizhi"></i>
@@ -228,6 +228,31 @@
             </el-menu-item>
           </el-menu-item-group>
         </el-submenu>
+        <el-submenu index="PMS" v-if="listPermissions(menus, 'pmsManagement')">
+          <template slot="title">
+            <i class="iconfont icon-lvzhou_shebeipeizhi"></i>
+            <span>PMS管理</span>
+          </template>
+          <el-menu-item-group>
+            <el-menu-item index="serviceHousekeeperList" v-if="listPermissions(menus, 'serviceManagerManagement')">服务管家管理</el-menu-item>
+            <el-menu-item index="serviceOrderList" v-if="listPermissions(menus, 'serviceOrderManagement')">服务订单管理</el-menu-item>
+            <el-menu-item index="serviceWorkOrderList" v-if="listPermissions(menus, 'serviceWorkOrderManagement')">服务工单管理</el-menu-item>
+            <el-menu-item index="customerBill" v-if="listPermissions(menus, 'serviceCustomerBillManagement')">客户票据管理</el-menu-item>
+          </el-menu-item-group>
+        </el-submenu>
+        <el-submenu index="CSM" v-if="listPermissions(menus, 'csmManagement')">
+          <template slot="title">
+            <i class="iconfont icon-lvzhou_shebeipeizhi"></i>
+            <span>CSM管理</span>
+          </template>
+          <el-menu-item-group>
+            <!--<el-menu-item index="serviceCustomer" v-if="listPermissions(menus, 'serviceCustomerManagement')">服务客户管理</el-menu-item>-->
+            <el-menu-item index="serviceComplaint" v-if="listPermissions(menus, 'serviceComplaintManagement')">服务投诉管理</el-menu-item>
+            <el-menu-item index="serviceReturnVisit" v-if="listPermissions(menus, 'serviceRetVisitManagement')">服务回访管理</el-menu-item>
+            <el-menu-item index="serviceSpotCheck" v-if="listPermissions(menus, 'serviceSpotCheckManagement')">服务抽查管理</el-menu-item>
+            <el-menu-item index="customerComments" v-if="listPermissions(menus, 'serviceCustomerSuggestionManagement')">客户意见管理</el-menu-item>
+          </el-menu-item-group>
+        </el-submenu>
       </div>
     </el-menu>
   </div>
@@ -245,16 +270,6 @@
       return {
         userInfo: {},
         menus: [],
-        // routeerIndexName: [
-        //   'saleHome', 'customersList', 'contactsList', 'salesOpportunitiesList', 'salesOrdersList',
-        //   'orderRecordsList', 'remittanceRecords', 'rebateRecordsList', 'customersHighSeasList', 'taskApprovalList',
-        //   'companyManageHome',
-        //   'userList', 'roleList', 'agentList',
-        //   'organizationList', 'customerPool', 'organizationProductSetting',
-        //   'settlementList', 'spendingList',
-        //   'meMessageList',
-        //   'siteList', 'customerAreaSetting', 'baseSettingList', 'settlementRulesList'
-        // ],
         defaultActiveIndex: 'saleHome',
       }
     },

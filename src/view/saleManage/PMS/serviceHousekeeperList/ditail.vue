@@ -222,7 +222,7 @@
         this.$vDialog.modal(editDialog, {
           title: '编辑管家信息',
           width: 1100,
-          height: 700,
+          height: 750,
           params: {
             detail: this.managerDetail
           },

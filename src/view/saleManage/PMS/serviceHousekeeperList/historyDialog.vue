@@ -63,7 +63,9 @@
           <tr>
             <td class="td-title">职称证明</td>
             <td>
-              <photo-view :photo-data="{
+              <photo-view
+                v-if="managerDetail.jobTitleCertificate"
+                :photo-data="{
                 text: '查看大图',
                 images: [
                   {url: managerDetail.jobTitleCertificate, previewText: ''},
@@ -73,7 +75,9 @@
             </td>
             <td class="td-title">学历证明</td>
             <td>
-              <photo-view :photo-data="{
+              <photo-view
+                v-if="managerDetail.educationCertificate"
+                :photo-data="{
                 text: '查看大图',
                 images: [
                   {url: managerDetail.educationCertificate, previewText: ''},
@@ -83,7 +87,9 @@
             </td>
             <td class="td-title">资质证明</td>
             <td>
-              <photo-view :photo-data="{
+              <photo-view
+                v-if="managerDetail.qualificationCertificate"
+                :photo-data="{
                 text: '查看大图',
                 images: [
                   {url: managerDetail.qualificationCertificate, previewText: ''},
@@ -151,7 +157,7 @@
     methods: {
       getDetail () {
         API2.serviceManager.updateDetail(this.params.id, (da) => {
-          this.managerList = da.data
+          this.managerDetail = da.data
         })
       },
     },

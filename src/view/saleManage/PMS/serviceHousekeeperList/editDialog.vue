@@ -39,7 +39,7 @@
             <td class="td-title">出生日期</td>
             <td>
               <!--<el-form-item prop="birthday">-->
-                <!--<el-input type="text" v-model="addForm.birthday"></el-input>-->
+              <!--<el-input type="text" v-model="addForm.birthday"></el-input>-->
               <!--</el-form-item>-->
             </td>
           </tr>
@@ -59,6 +59,11 @@
                 ]
               }">
                 </photo-view>
+                <el-button type="text" style="position: relative;margin-left: 20px;" icon="el-icon-upload2">
+                  上传图片
+                  <input type="file" class="com-upload-input" accept="image/png,image/jpeg,image/gif,image/jpg"
+                         @change="uploadImg($event, 1, 'identityCardPhoto')">
+                </el-button>
               </div>
             </td>
           </tr>
@@ -78,7 +83,7 @@
             <td class="td-title">工作职责</td>
             <td>
               <!--<el-form-item prop="accountNumber">-->
-                <!--<el-input type="text" v-model="addForm.accountNumber"></el-input>-->
+              <!--<el-input type="text" v-model="addForm.accountNumber"></el-input>-->
               <!--</el-form-item>-->
             </td>
           </tr>
@@ -136,6 +141,11 @@
                 ]
               }">
               </photo-view>
+              <el-button type="text" style="position: relative;margin-left: 20px;" icon="el-icon-upload2">
+                上传图片
+                <input type="file" class="com-upload-input" accept="image/png,image/jpeg,image/gif,image/jpg"
+                       @change="uploadImg($event, 2, 'jobTitleCertificate')">
+              </el-button>
             </td>
             <td class="td-title">学历证明</td>
             <td>
@@ -146,6 +156,11 @@
                 ]
               }">
               </photo-view>
+              <el-button type="text" style="position: relative;margin-left: 20px;" icon="el-icon-upload2">
+                上传图片
+                <input type="file" class="com-upload-input" accept="image/png,image/jpeg,image/gif,image/jpg"
+                       @change="uploadImg($event, 3, 'educationCertificate')">
+              </el-button>
             </td>
             <td class="td-title">资质证明</td>
             <td>
@@ -156,18 +171,23 @@
                 ]
               }">
               </photo-view>
+              <el-button type="text" style="position: relative;margin-left: 20px;" icon="el-icon-upload2">
+                上传图片
+                <input type="file" class="com-upload-input" accept="image/png,image/jpeg,image/gif,image/jpg"
+                       @change="uploadImg($event, 4, 'qualificationCertificate')">
+              </el-button>
             </td>
           </tr>
           <tr>
             <td class="td-title">认证服务地区</td>
             <td colspan="5">
-
+todo
             </td>
           </tr>
           <tr>
             <td class="td-title">认证商品</td>
             <td colspan="5">
-
+todo
             </td>
           </tr>
           <tr>
@@ -206,8 +226,11 @@
 
 <script>
   import API2 from '../../../../utils/api2'
-  // import { chartLengthRule } from '../../../../utils/const'
+  import API from '../../../../utils/api'
+  import { serverUrl } from '../../../../utils/const'
   import photoView from '../../../../components/photo/photoView'
+  import webStorage from 'webStorage'
+  import comButton from '../../../../components/button/comButton'
 
   export default {
     name: 'addDialog',
@@ -228,11 +251,18 @@
         },
         dialogType: 'edit',
         targetObj: null,
+        userInfo: {},
       }
     },
     props: ['params'],
     components: {
       photoView,
+      comButton,
+    },
+    computed: {
+      serverUrl () {
+        return serverUrl
+      },
     },
     methods: {
       saveSubmitForm (formName) {
@@ -256,17 +286,37 @@
           }
         })
       },
+      uploadImg (e, type, attr) { // 上传图片
+        // type 1-身份证；2-职称证明；3-学历证明；4-资质证明
+        var file = e.target.files[0]
+        // console.log(file)
+        if (!/\.(gif|jpg|jpeg|png|bmp|GIF|JPG|PNG)$/.test(e.target.value)) {
+          alert('图片类型必须是jpeg,jpg,png,bmp中的一种')
+          return false
+        }
+        let formData = new FormData()
+        formData.append('file', file)
+        API.common.uploadFile({path: 'avatar', body: formData}, upImg => {
+          if (upImg.status) {
+            // this.addForm.identityCardPhoto = upImg.data.path
+            this.addForm[attr] = upImg.data.url
+            this.$message.success('上传成功，确定保存成功后生效！')
+          }
+        })
+      },
     },
     created () {
-      setTimeout(() => {
-        this.photoData = {
-          text: '身份证.jpg 查看大图',
-          images: [
-            {url: '../../../../../static/images/wave-bot.png', previewText: '描述文字1'},
-            {url: '../../../../../static/images/wave-bot-2.png', previewText: '描述文字2'},
-          ],
-        }
-      }, 1000)
+      this.userInfo = webStorage.getItem('userInfo')
+
+      // setTimeout(() => {
+      //   this.photoData = {
+      //     text: '身份证.jpg 查看大图',
+      //     images: [
+      //       {url: '../../../../../static/images/wave-bot.png', previewText: '描述文字1'},
+      //       {url: '../../../../../static/images/wave-bot-2.png', previewText: '描述文字2'},
+      //     ],
+      //   }
+      // }, 1000)
       if (this.params.detail) { // 编辑
         this.addForm = JSON.parse(JSON.stringify(this.params.detail))
         this.dialogType = 'edit'
