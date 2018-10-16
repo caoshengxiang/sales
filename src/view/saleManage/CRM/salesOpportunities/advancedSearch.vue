@@ -28,7 +28,7 @@
           </el-col>
           <el-col :span="8">
             <el-form-item label="联系电话：">
-              <el-input type="text" v-model="searchForm.contacterPhone"></el-input>
+              <el-input type="text" v-model="searchForm.contactPhone"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -51,7 +51,7 @@
                 @active-item-change="chanceSourceChangeHandle"
                 @change="chanceSourceChangeHandle"
                 :props="props"
-                :placeholder="searchForm.chanceSourceName"
+                :placeholder="searchForm.sourceName"
               >
               </el-cascader>
             </el-form-item>
@@ -163,6 +163,7 @@
         targetObj: null,
         // selectedBindValue: [],
         selectLastLevelMode: true,
+        sourceNameArr: [],
       }
     },
     props: ['params'],
@@ -195,7 +196,35 @@
         this.timeInterval = []
         this.timeInterval2 = []
       },
+      treeGetName (id, node) { // 遍历树获取名称
+        if (!node) {
+          return ''
+        }
+        if (node && node.length > 0) {
+          var i = 0
+          for (i = 0; i < node.length; i++) {
+            if (id === node[i].id) {
+              this.sourceNameArr.push(node[i].codeName)
+              return node[i].codeName
+            } else {
+              this.treeGetName(id, node[i].children)
+            }
+          }
+        }
+      },
+      traverseTree (source, node) { // 遍历树
+        if (!source) {
+          return
+        }
+        let sourceArr = source.split('-')
+        this.sourceNameArr = [] // 初始
+        sourceArr.forEach((item, index) => {
+          this.treeGetName(parseInt(item, 10), this.chanceSourceType)
+        })
+        return this.sourceNameArr.join('-')
+      },
       saveSubmitForm () {
+        this.searchForm.sourceName = this.traverseTree(this.searchForm.chanceSource)
         this.$vDialog.close({type: 'search', params: this.searchForm})
       },
       timeIntervalHandle (value) {

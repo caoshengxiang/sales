@@ -81,6 +81,7 @@
           width="40">
         </el-table-column>
         <el-table-column
+          fixed
           align="center"
           sortable="custom"
           prop="intentProductName"

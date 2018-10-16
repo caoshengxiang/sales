@@ -1,7 +1,8 @@
 <template>
   <div class="com-container"
        v-loading="dataLoading"
-       element-loading-text="数据加载中...">
+       element-loading-text="数据加载中..."
+       v-if="!dataLoading">
     <!--头部-->
     <div class="com-head">
       <el-breadcrumb separator-class="el-icon-arrow-right">
@@ -275,6 +276,7 @@
     bottom: 50px;
     width: 100%;
   }
+
   .agent-rec {
     height: 100%;
     display: flex;

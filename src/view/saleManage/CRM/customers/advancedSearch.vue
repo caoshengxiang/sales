@@ -51,6 +51,7 @@
           <el-col :span="8">
             <el-form-item label="客户地区：">
               <AreaSelect ref="areaSe"
+                          :area="(searchForm.provinceName?searchForm.provinceName:'') + ' ' + (searchForm.cityName?searchForm.cityName:'')  + ' ' + (searchForm.areaName?searchForm.areaName:'')"
                           @change="areaSelectedOptionsHandleChange"
                           :selectLastLevelMode="true"></AreaSelect>
             </el-form-item>
@@ -78,6 +79,7 @@
                 @change="customerSourceChangeHandle"
                 :props="props"
                 :value="selectedBindValue"
+                :placeholder="searchForm.sourceName"
               >
               </el-cascader>
             </el-form-item>
@@ -174,6 +176,7 @@
         targetObj: null,
         selectedBindValue: [],
         selectLastLevelMode: true,
+        sourceNameArr: [],
         pickerOptions: {
           // disabledDate (t) {
           //   let timestamp = Date.parse(t)
@@ -196,7 +199,35 @@
         this.searchForm = {}
         this.timeInterval = []
       },
+      treeGetName (id, node) { // 遍历树获取名称
+        if (!node) {
+          return ''
+        }
+        if (node && node.length > 0) {
+          var i = 0
+          for (i = 0; i < node.length; i++) {
+            if (id === node[i].id) {
+              this.sourceNameArr.push(node[i].codeName)
+              return node[i].codeName
+            } else {
+              this.treeGetName(id, node[i].children)
+            }
+          }
+        }
+      },
+      traverseTree (source, node) { // 遍历树
+        if (!source) {
+          return
+        }
+        let sourceArr = source.split('-')
+        this.sourceNameArr = [] // 初始
+        sourceArr.forEach((item, index) => {
+          this.treeGetName(parseInt(item, 10), this.customerSourceType)
+        })
+        return this.sourceNameArr.join('-')
+      },
       saveSubmitForm () {
+        this.searchForm.sourceName = this.traverseTree(this.searchForm.customerSource)
         this.$vDialog.close({type: 'search', params: this.searchForm})
       },
       getConfigData (type, pCode) {
@@ -255,9 +286,13 @@
         })
       },
       areaSelectedOptionsHandleChange (value) {
+        let name = this.$refs.areaSe.getSelectedName(value)
         this.searchForm.provinceId = value[0] || ''
         this.searchForm.cityId = value[1] || ''
         this.searchForm.areaId = value[2] || ''
+        this.searchForm.provinceName = name[0] || ''
+        this.searchForm.cityName = name[1] || ''
+        this.searchForm.areaName = name[2] || ''
       },
       timeIntervalHandle (value) {
         this.searchForm.startDate = value[0] || ''

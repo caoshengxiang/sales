@@ -73,6 +73,7 @@
         </el-table-column>
         <!--sortable="custom"="custom"-->
         <el-table-column
+          fixed
           align="center"
           sortable="custom"
           label="客户名称"

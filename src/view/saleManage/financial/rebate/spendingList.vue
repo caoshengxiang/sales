@@ -41,6 +41,7 @@
           width="40">
         </el-table-column>
         <el-table-column
+          fixed
           align="center"
           label="返佣月度"
           prop="paymentMonth"

@@ -50,6 +50,7 @@
           width="40">
         </el-table-column>
         <el-table-column
+          fixed
           show-overflow-tooltip
           align="center"
           sortable="custom"

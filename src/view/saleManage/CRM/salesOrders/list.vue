@@ -68,6 +68,7 @@
           width="40">
         </el-table-column>
         <el-table-column
+          fixed
           align="center"
           sortable="custom"
           prop="id"
@@ -426,7 +427,7 @@
             this.tableDataTotal = data.data.totalElements
             setInterval(() => {
               this.dataLoading = false
-            }, 500)
+            }, 800)
           })
         } else if (this.themeIndex === 1) {
           API.salesOrder.listAdmin(Object.assign({}, this.defaultListParams, this.sortObj, this.advancedSearch), (data) => {
@@ -434,7 +435,7 @@
             this.tableDataTotal = data.data.totalElements
             setInterval(() => {
               this.dataLoading = false
-            }, 500)
+            }, 800)
           })
         }
       },
