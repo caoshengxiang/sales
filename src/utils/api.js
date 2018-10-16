@@ -1,8 +1,9 @@
 // import utils from '../utils/utils'
 import '../utils/axiosConfig' // axios配置文件
 import { externalAPI } from './const'
+import API2 from './api2'
 
-export default {
+const API1 = {
   // app外部依赖接口,【注意：基本地址改变】
   external: {
     goodsTypeList (success) { // 商品分类
@@ -1943,3 +1944,5 @@ export default {
     },
   }
 }
+
+export default Object.assign({}, API1, API2)

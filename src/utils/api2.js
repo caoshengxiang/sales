@@ -1,3 +1,7 @@
+/*
+* 二期接口
+* */
+
 import '../utils/axiosConfig' // axios配置文件
 // import { externalAPI } from './const'
 
@@ -103,9 +107,9 @@ export default {
     },
   },
   // 服务客户
-  servicecustomer: {
+  serviceCustomer: {
     list (params, success, error) { // 列表
-      $axios.get('serviceWorkOrder', {
+      $axios.get('customer/servicecustomer/list', {
         params: params,
       }).then(res => {
         success && success(res.data)
@@ -114,20 +118,30 @@ export default {
       })
     },
     detail (params, success, error) { // 管家详情
-      $axios.get('serviceOrder/' + params).then(res => {
+      $axios.get('customer/servicecustomer/' + params).then(res => {
         success && success(res.data)
       }).catch(err => {
         error && error(err)
       })
     },
-    // exports (params, success, error) { // 导出
-    //   $axios.post('serviceWorkOrder', {
-    //     params: params,
-    //   }).then(res => {
-    //     success && success(res.data)
-    //   }).catch(err => {
-    //     error && error(err)
-    //   })
-    // },
+  },
+  // 服务投诉
+  serviceComplaint: {
+    list (params, success, error) { // 列表
+      $axios.get('serviceComplaint', {
+        params: params,
+      }).then(res => {
+        success && success(res.data)
+      }).catch(err => {
+        error && error(err)
+      })
+    },
+    detail (params, success, error) { // 管家详情
+      $axios.get('serviceComplaint/' + params).then(res => {
+        success && success(res.data)
+      }).catch(err => {
+        error && error(err)
+      })
+    },
   }
 }

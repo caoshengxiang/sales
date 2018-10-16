@@ -13,6 +13,7 @@
       <div class="com-bar-left">
       </div>
       <div class="com-bar-right">
+        <com-button buttonType="export" icon="el-icon-download" @click="excelExport">导出</com-button>
       </div>
     </div>
     <!--详细-->
@@ -96,7 +97,7 @@
       <div class="com-pages-box">
         <el-pagination
           background
-          :total="100"
+          :total="tableDataTotal"
           @size-change="handleSizeChange"
           @current-change="handleCurrentChange"
           :current-page="currentPage"
@@ -112,6 +113,11 @@
 <script>
   import { mapState } from 'vuex'
   import { underscoreName } from '../../../../utils/utils'
+  import { serverUrl } from '../../../../utils/const'
+  import QS from 'qs'
+  import webStorage from 'webStorage'
+  import comButton from '../../../../components/button/comButton'
+  // import API from '../../../../utils/api'
 
   export default {
     name: 'list',
@@ -121,9 +127,6 @@
         defaultListParams: { // 默认顾客列表请求参数
           page: null,
           pageSize: null,
-          type: null,
-          customerId: null,
-          organizationId: null,
         },
         sortObj: {sort: 'created,desc'}, // 排序
         advancedSearch: {}, // 高级搜索
@@ -131,6 +134,7 @@
           {
             test: 'test Data',
           }],
+        tableDataTotal: 0,
         multipleSelection: [],
       }
     },
@@ -138,6 +142,9 @@
       ...mapState('constData', [
         'pagesOptions',
       ]),
+    },
+    components: {
+      comButton,
     },
     methods: {
       handleSizeChange (val) {
@@ -158,8 +165,54 @@
           order = 'desc'
         }
         this.sortObj = {sort: underscoreName(sortObj.prop) + ',' + order}
-        // this.getCustomerList()
+        this.getList()
       },
+      getQueryParams () { // 请求参数配置
+        this.defaultListParams = {
+          page: this.currentPage - 1,
+          pageSize: this.pagesOptions.pageSize,
+        }
+      },
+      getList () {
+        this.getQueryParams()
+        this.dataLoading = true
+        // API.serviceOrder.list(Object.assign({}, this.defaultListParams, this.sortObj, this.advancedSearch),
+        //   (res) => {
+        //     this.tableData = res.data.content
+        //     this.tableDataTotal = res.data.totalElements
+        //     setTimeout(() => {
+        this.dataLoading = false
+        //     }, 300)
+        //   })
+      },
+      excelExport () { // 导出
+        this.getQueryParams()
+        let as = {}
+        for (let key in this.advancedSearch) { // 去除null
+          if (this.advancedSearch[key]) {
+            as[key] = this.advancedSearch[key]
+          }
+        }
+        let dlp = {}
+        for (let key in this.defaultListParams) { // 去除分页
+          if (key !== 'page' && key !== 'pageSize') {
+            dlp[key] = this.defaultListParams[key]
+          }
+        }
+        let link = document.createElement('a') // 创建事件对象
+        let query = QS.stringify(Object.assign({}, dlp, this.sortObj, as,
+          {authKey: webStorage.getItem('userInfo').authKey}))
+        // console.log('下载参数：', query)
+        link.setAttribute('href', serverUrl + '/followOrderRecord/export?' + query) // todo 修改地址
+        link.setAttribute('download', '客户意见')
+        let event = document.createEvent('MouseEvents') // 初始化事件对象
+        event.initMouseEvent('click', true, true, document.defaultView, 0, 0, 0, 0, 0, false, false, false, false, 0,
+          null) // 触发事件
+        link.dispatchEvent(event)
+      },
+    },
+    created () {
+      this.getList()
     },
   }
 </script>

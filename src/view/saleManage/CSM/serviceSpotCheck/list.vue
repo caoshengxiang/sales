@@ -115,7 +115,7 @@
       <div class="com-pages-box">
         <el-pagination
           background
-          :total="100"
+          :total="tableDataTotal"
           @size-change="handleSizeChange"
           @current-change="handleCurrentChange"
           :current-page="currentPage"
@@ -131,6 +131,8 @@
 <script>
   import { mapState } from 'vuex'
   import { underscoreName } from '../../../../utils/utils'
+  import comButton from '../../../../components/button/comButton'
+  // import API from '../../../../utils/api'
 
   export default {
     name: 'list',
@@ -140,9 +142,6 @@
         defaultListParams: { // 默认顾客列表请求参数
           page: null,
           pageSize: null,
-          type: null,
-          customerId: null,
-          organizationId: null,
         },
         sortObj: {sort: 'created,desc'}, // 排序
         advancedSearch: {}, // 高级搜索
@@ -150,6 +149,7 @@
           {
             test: 'test Data',
           }],
+        tableDataTotal: 0,
         multipleSelection: [],
       }
     },
@@ -157,6 +157,9 @@
       ...mapState('constData', [
         'pagesOptions',
       ]),
+    },
+    components: {
+      comButton,
     },
     methods: {
       handleSizeChange (val) {
@@ -177,8 +180,29 @@
           order = 'desc'
         }
         this.sortObj = {sort: underscoreName(sortObj.prop) + ',' + order}
-        // this.getCustomerList()
+        this.getList()
       },
+      getQueryParams () { // 请求参数配置
+        this.defaultListParams = {
+          page: this.currentPage - 1,
+          pageSize: this.pagesOptions.pageSize,
+        }
+      },
+      getList () {
+        this.getQueryParams()
+        this.dataLoading = true
+        // API.serviceOrder.list(Object.assign({}, this.defaultListParams, this.sortObj, this.advancedSearch),
+        //   (res) => {
+        //     this.tableData = res.data.content
+        //     this.tableDataTotal = res.data.totalElements
+        //     setTimeout(() => {
+        this.dataLoading = false
+        //     }, 300)
+        //   })
+      },
+    },
+    created () {
+      this.getList()
     },
   }
 </script>

@@ -95,8 +95,8 @@
             <span>业务审批</span>
           </template>
           <el-menu-item-group>
-            <el-menu-item index="taskApprovalList" v-if="listPermissions(menus, 'approval')">业务审批管理</el-menu-item>
-            <!--<el-menu-item index="housekeeperEnterList">管家入驻管理</el-menu-item>-->
+            <el-menu-item index="taskApprovalList" v-if="listPermissions(menus, 'approvalManagement')">业务审批管理</el-menu-item>
+            <el-menu-item index="housekeeperEnterList" v-if="listPermissions(menus, 'serviceManagerJoin')">管家入驻管理</el-menu-item>
           </el-menu-item-group>
         </el-submenu>
          <el-submenu index="statistical" v-if="listPermissions(menus, 'statisticAnalysis')">
@@ -192,16 +192,6 @@
 
           </el-menu-item-group>
         </el-submenu>
-        <!--<el-submenu index="todo-300" v-if="listPermissions(menus, 'statistics')">-->
-          <!--<template slot="title">-->
-            <!--<i class="iconfont icon-ene_mon_mes_sta"></i>-->
-            <!--<span>统计分析</span>-->
-          <!--</template>-->
-          <!--<el-menu-item-group>-->
-            <!--&lt;!&ndash;<template slot="title">分组一</template>&ndash;&gt;-->
-            <!--<el-menu-item index="todo-1" v-if="listPermissions(menus, 'statistics')">统计分析</el-menu-item>-->
-          <!--</el-menu-item-group>-->
-        <!--</el-submenu>-->
         <el-submenu index="log" v-if="listPermissions(menus, 'logManagement')">
           <template slot="title">
             <i class="iconfont icon-rizhi"></i>

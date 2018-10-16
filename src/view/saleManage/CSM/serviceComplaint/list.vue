@@ -36,19 +36,19 @@
           <el-table-column
             align="center"
             sortable="custom"
-            prop="test"
+            prop="num"
             label="投诉单号"
             width="160"
             show-overflow-tooltip
           >
             <template slot-scope="scope">
-              <router-link class="col-link" :to="{name: 'serviceComplaintDetail', query: {id: scope.row.test}}">{{ scope.row.test }}</router-link>
+              <router-link class="col-link" :to="{name: 'serviceComplaintDetail', query: {id: scope.row.id}}">{{ scope.row.num }}</router-link>
             </template>
           </el-table-column>
           <el-table-column
             align="center"
             sortable="custom"
-            prop="test"
+            prop="state"
             label="投诉状态"
             width="160"
             show-overflow-tooltip
@@ -57,7 +57,7 @@
           <el-table-column
             align="center"
             sortable="custom"
-            prop="test"
+            prop="type"
             label="投诉类型"
             width="160"
             show-overflow-tooltip
@@ -66,7 +66,7 @@
           <el-table-column
             align="center"
             sortable="custom"
-            prop="test"
+            prop="orderId"
             label="订单编号"
             width="160"
             show-overflow-tooltip
@@ -75,7 +75,7 @@
           <el-table-column
             align="center"
             sortable="custom"
-            prop="test"
+            prop="customerName"
             label="客户名称"
             width="160"
             show-overflow-tooltip
@@ -84,7 +84,7 @@
           <el-table-column
             align="center"
             sortable="custom"
-            prop="test"
+            prop="contactName"
             label="联系人"
             width="160"
             show-overflow-tooltip
@@ -93,7 +93,7 @@
           <el-table-column
             align="center"
             sortable="custom"
-            prop="test"
+            prop="goodsName"
             label="服务商品"
             width="160"
             show-overflow-tooltip
@@ -102,16 +102,22 @@
           <el-table-column
             align="center"
             sortable="custom"
-            prop="test"
+            prop="orderState"
             label="服务状态"
             width="160"
             show-overflow-tooltip
           >
+            <template slot-scope="scope">
+              <span v-if="scope.row.orderState === 1">待服务</span>
+              <span v-if="scope.row.orderState === 2">服务中</span>
+              <span v-if="scope.row.orderState === 3">已完成</span>
+              <span v-if="scope.row.orderState === 4">已退单</span>
+            </template>
           </el-table-column>
           <el-table-column
             align="center"
             sortable="custom"
-            prop="test"
+            prop="managerName"
             label="被投诉管家"
             width="160"
             show-overflow-tooltip
@@ -120,16 +126,19 @@
           <el-table-column
             align="center"
             sortable="custom"
-            prop="test"
+            prop="complaintTime"
             label="一般诉讼日期"
             width="160"
             show-overflow-tooltip
           >
+            <template slot-scope="scope">
+              {{scope.row.complaintTime && $moment(scope.row.complaintTime).format('YYYY-MM-DD HH:mm')}}
+            </template>
           </el-table-column>
           <el-table-column
             align="center"
             sortable="custom"
-            prop="test"
+            prop="cusServiceName"
             label="客服坐席"
             width="160"
             show-overflow-tooltip
@@ -138,7 +147,7 @@
           <el-table-column
             align="center"
             sortable="custom"
-            prop="test"
+            prop="cusName"
             label="一般诉讼跟踪人"
             width="160"
             show-overflow-tooltip
@@ -147,16 +156,19 @@
           <el-table-column
             align="center"
             sortable="custom"
-            prop="test"
+            prop="upgradeTime"
             label="升级投诉日期"
             width="160"
             show-overflow-tooltip
           >
+            <template slot-scope="scope">
+              {{scope.row.upgradeTime && $moment(scope.row.upgradeTime).format('YYYY-MM-DD HH:mm')}}
+            </template>
           </el-table-column>
           <el-table-column
             align="center"
             sortable="custom"
-            prop="test"
+            prop="upgradeCusName"
             label="升级投诉跟踪人"
             width="160"
             show-overflow-tooltip
@@ -169,7 +181,7 @@
       <div class="com-pages-box">
         <el-pagination
           background
-          :total="100"
+          :total="tableDataTotal"
           @size-change="handleSizeChange"
           @current-change="handleCurrentChange"
           :current-page="currentPage"
@@ -185,6 +197,8 @@
 <script>
   import { mapState } from 'vuex'
   import { underscoreName } from '../../../../utils/utils'
+  import comButton from '../../../../components/button/comButton'
+  import API from '../../../../utils/api'
 
   export default {
     name: 'list',
@@ -194,16 +208,14 @@
         defaultListParams: { // 默认顾客列表请求参数
           page: null,
           pageSize: null,
-          type: null,
-          customerId: null,
-          organizationId: null,
         },
-        sortObj: {sort: 'created,desc'}, // 排序
+        sortObj: {sort: 'created,desc'}, // 排序 // todo 时间排序
         advancedSearch: {}, // 高级搜索
         tableData: [
           {
             test: 'test Data',
           }],
+        tableDataTotal: 0,
         multipleSelection: [],
       }
     },
@@ -211,6 +223,9 @@
       ...mapState('constData', [
         'pagesOptions',
       ]),
+    },
+    components: {
+      comButton,
     },
     methods: {
       handleSizeChange (val) {
@@ -231,8 +246,29 @@
           order = 'desc'
         }
         this.sortObj = {sort: underscoreName(sortObj.prop) + ',' + order}
-        // this.getCustomerList()
+        this.getList()
       },
+      getQueryParams () { // 请求参数配置
+        this.defaultListParams = {
+          page: this.currentPage - 1,
+          pageSize: this.pagesOptions.pageSize,
+        }
+      },
+      getList () {
+        this.getQueryParams()
+        this.dataLoading = true
+        API.serviceComplaint.list(Object.assign({}, this.defaultListParams, this.sortObj, this.advancedSearch),
+          (res) => {
+            this.tableData = res.data.content
+            this.tableDataTotal = res.data.totalElements
+            setTimeout(() => {
+              this.dataLoading = false
+            }, 300)
+          })
+      },
+    },
+    created () {
+      this.getList()
     },
   }
 </script>
