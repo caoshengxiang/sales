@@ -35,6 +35,7 @@
         style="width: 100%"
       >
         <el-table-column
+          fixed
           align="center"
           prop="name"
           label="任务名称"

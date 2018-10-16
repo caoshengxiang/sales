@@ -50,6 +50,7 @@
           width="40">
         </el-table-column>
         <el-table-column
+          fixed
           align="center"
           label="来自订单"
           prop="orderId"

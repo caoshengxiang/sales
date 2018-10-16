@@ -47,6 +47,7 @@
           width="40">
         </el-table-column>
         <el-table-column
+          fixed
           align="center"
           sortable="custom"
           prop="chanceName"
@@ -59,6 +60,7 @@
           </template>
         </el-table-column>
         <el-table-column
+          fixed
           align="center"
           sortable="custom"
           label="来自客户"
