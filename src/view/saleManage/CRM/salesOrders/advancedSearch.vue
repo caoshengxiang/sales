@@ -50,7 +50,7 @@
                 @active-item-change="orderSourceChangeHandle"
                 @change="orderSourceChangeHandle"
                 :props="props"
-                :placeholder="searchForm.orderSourceName"
+                :placeholder="searchForm.sourceName"
               >
               </el-cascader>
             </el-form-item>
@@ -182,6 +182,7 @@
         targetObj: null,
         // selectedBindValue: [],
         selectLastLevelMode: true,
+        sourceNameArr: [],
       }
     },
     props: ['params'],
@@ -216,7 +217,35 @@
         this.searchForm = {}
         this.timeInterval = []
       },
+      treeGetName (id, node) { // 遍历树获取名称
+        if (!node) {
+          return ''
+        }
+        if (node && node.length > 0) {
+          var i = 0
+          for (i = 0; i < node.length; i++) {
+            if (id === node[i].id) {
+              this.sourceNameArr.push(node[i].codeName)
+              return node[i].codeName
+            } else {
+              this.treeGetName(id, node[i].children)
+            }
+          }
+        }
+      },
+      traverseTree (source, node) { // 遍历树
+        if (!source) {
+          return
+        }
+        let sourceArr = source.split('-')
+        this.sourceNameArr = [] // 初始
+        sourceArr.forEach((item, index) => {
+          this.treeGetName(parseInt(item, 10), this.orderSourceType)
+        })
+        return this.sourceNameArr.join('-')
+      },
       saveSubmitForm () {
+        this.searchForm.sourceName = this.traverseTree(this.searchForm.orderSource)
         this.$vDialog.close({type: 'search', params: this.searchForm})
       },
       timeIntervalHandle (value) {

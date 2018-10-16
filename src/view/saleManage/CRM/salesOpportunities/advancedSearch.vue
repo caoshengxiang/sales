@@ -196,14 +196,13 @@
         this.timeInterval = []
         this.timeInterval2 = []
       },
-      treeGetName (id, node) { // 获取名称
+      treeGetName (id, node) { // 遍历树获取名称
         if (!node) {
           return ''
         }
         if (node && node.length > 0) {
           var i = 0
           for (i = 0; i < node.length; i++) {
-            console.log(id, node[i].id)
             if (id === node[i].id) {
               this.sourceNameArr.push(node[i].codeName)
               return node[i].codeName
@@ -222,7 +221,6 @@
         sourceArr.forEach((item, index) => {
           this.treeGetName(parseInt(item, 10), this.chanceSourceType)
         })
-        // console.info(this.sourceNameArr)
         return this.sourceNameArr.join('-')
       },
       saveSubmitForm () {

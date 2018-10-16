@@ -120,7 +120,7 @@
                   <img style="width: 58px;height: 58px;border-radius: 100%;"
                        v-if="item.headUrl"
                        :src="item.headUrl" alt="" :onerror="defaultHeadUrl">
-                  <img v-else src="../../../../assets/icon/touxiang2.png" alt="">
+                  <img style="width: 58px;height: 58px;border-radius: 100%;" v-else src="../../../../assets/icon/touxiang2.png" alt="">
                 </div>
                 <div class="text">
                   <p>{{item.mangerName}}</p>
