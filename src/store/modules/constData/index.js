@@ -449,7 +449,7 @@ export default {
     //     ],
     //   }
     // },
-    managerCategory: [
+    managerCategory: [ // 管家类别
       {
         name: '平台直属',
         value: 1,
@@ -463,6 +463,30 @@ export default {
         name: '第三方个人',
         value: 4,
       }
+    ],
+    serviceType: [ // 7种服务类型
+      {
+        type: 1,
+        value: '外勤服务'
+      }, {
+        type: 2,
+        value: '财务记账'
+      }, {
+        type: 3,
+        value: '财务内控'
+      }, {
+        type: 4,
+        value: '纳税申报务'
+      }, {
+        type: 5,
+        value: '税收风控'
+      }, {
+        type: 6,
+        value: '其他计次服务'
+      }, {
+        type: 7,
+        value: '其他计时服务'
+      },
     ]
   },
   // getters,

@@ -45,7 +45,7 @@
             show-overflow-tooltip
           >
             <template slot-scope="scope">
-              <router-link class="col-link" :to="{name: 'serviceWorkOrderDetail', query: {id: scope.row.id}}">{{ scope.row.orderNum }}</router-link>
+              <router-link class="col-link" :to="{name: 'serviceWorkOrderDetail', query: {id: scope.row.id,orderId: scope.row.orderId, view: 'operate'}}">{{ scope.row.orderNum }}</router-link>
             </template>
           </el-table-column>
           <el-table-column
@@ -199,7 +199,8 @@
           page: null,
           pageSize: null,
         },
-        sortObj: {sort: 'created,desc'}, // 排序
+        // sortObj: {sort: 'created,desc'}, // 排序 todo 时间排序问题
+        sortObj: {}, // 排序
         advancedSearch: {}, // 高级搜索
         tableData: [],
         tableDataTotal: 0,

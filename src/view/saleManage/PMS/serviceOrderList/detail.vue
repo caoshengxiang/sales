@@ -51,13 +51,18 @@
                 </td>
                 <td class="td-title">服务类型</td>
                 <td>
-                  <span v-if="detail.serviceItemConfigModel.serviceType === 1">外勤服务</span>
-                  <span v-if="detail.serviceItemConfigModel.serviceType === 2">财务记账</span>
-                  <span v-if="detail.serviceItemConfigModel.serviceType === 3">财务内控</span>
-                  <span v-if="detail.serviceItemConfigModel.serviceType === 4">纳税申报</span>
-                  <span v-if="detail.serviceItemConfigModel.serviceType === 5">税收风控</span>
-                  <span v-if="detail.serviceItemConfigModel.serviceType === 6">金融服务</span>
-                  <span v-if="detail.serviceItemConfigModel.serviceType === 7">其他计次服务</span>
+                  <!--<span v-if="detail.serviceItemConfigModel.serviceType === 1">外勤服务</span>-->
+                  <!--<span v-if="detail.serviceItemConfigModel.serviceType === 2">财务记账</span>-->
+                  <!--<span v-if="detail.serviceItemConfigModel.serviceType === 3">财务内控</span>-->
+                  <!--<span v-if="detail.serviceItemConfigModel.serviceType === 4">纳税申报</span>-->
+                  <!--<span v-if="detail.serviceItemConfigModel.serviceType === 5">税收风控</span>-->
+                  <!--&lt;!&ndash;<span v-if="detail.serviceItemConfigModel.serviceType === 6">金融服务</span>&ndash;&gt;-->
+                  <!--<span v-if="detail.serviceItemConfigModel.serviceType === 6">其他计次服务</span>-->
+                  <!--<span v-if="detail.serviceItemConfigModel.serviceType === 7">其他计时服务</span>-->
+                  <span v-for="item in serviceType" :key="item.type"
+                        v-if="item.type === detail.serviceItemConfigModel.serviceType">
+                    {{item.value}}
+                  </span>
                 </td>
               </tr>
               <tr>
@@ -248,6 +253,7 @@
 <script>
   import iconText from '../../../../components/iconText/iconText'
   import API from '../../../../utils/api'
+  import { mapState } from 'vuex'
 
   export default {
     name: 'detail',
@@ -256,33 +262,14 @@
         dataLoading: false,
         activeViewName: 'order', // related, operate
         detail: {
-          serviceItemConfigModel: {}
+          serviceItemConfigModel: {},
         },
-        serviceType: [
-          {
-            type: 1,
-            value: '外勤服务'
-          }, {
-            type: 2,
-            value: '财务记账'
-          }, {
-            type: 3,
-            value: '财务内控'
-          }, {
-            type: 4,
-            value: '纳税申报务'
-          }, {
-            type: 5,
-            value: '税收风控'
-          }, {
-            type: 6,
-            value: '金融服务'
-          }, {
-            type: 7,
-            value: '其他计次服务'
-          },
-        ]
       }
+    },
+    computed: {
+      ...mapState('constData', [
+        'serviceType', // 服务类型
+      ])
     },
     watch: {
       '$route.query.view' (view) {

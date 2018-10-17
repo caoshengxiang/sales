@@ -25,7 +25,8 @@
       </div>
       <div class="com-info-right">
         <ul class="com-info-op-group">
-          <li @click="operateOptions('delete')">派单</li>
+          <li @click="operateOptions('delete')">转移</li>
+          <li @click="operateOptions('delete')">退单</li>
         </ul>
       </div>
     </div>
@@ -36,68 +37,28 @@
           <el-tab-pane label="服务派单加工" name="operate">
             <p class="table-title">我负责的服务内容</p>
             <table class="detail-table">
-              <tr>
-                <td style="height: 50px;" class="td-center">外勤服务[张三]</td>
+              <tr v-for="(item, index) in workingListMy" :key="index">
+                <td style="height: 50px;" class="td-center">{{item.serviceName}}[{{item.managerName}}]</td>
                 <td colspan="5">
-                  <icon-text icon="el-icon-picture" text="首次电话沟通" status="1"></icon-text>
-                  <icon-text icon="el-icon-picture" text="首次上门沟通" status="1"></icon-text>
-                  <icon-text icon="el-icon-picture" text="录入客户资料" status="1"></icon-text>
-                  <icon-text icon="el-icon-picture" text="装订凭证" status="1"></icon-text>
-                </td>
-              </tr>
-              <tr>
-                <td style="height: 50px;" class="td-center">财务记账[张三]</td>
-                <td colspan="5">
-                  <icon-text icon="el-icon-picture" text="客户资料审核" status="1"></icon-text>
-                  <icon-text icon="el-icon-picture" text="客户票据审核" status="1"></icon-text>
-                  <icon-text icon="el-icon-picture" text="记账日常告知" status="1"></icon-text>
-                  <icon-text icon="el-icon-picture" text="出具财务报表" status="1"></icon-text>
+                  <div class="com-icon-text-box com-icon-text-h"
+                       v-for="op in item.orderModuleComposites" :key="op.type">
+                    <i style="font-size: 30px;" class="el-icon-picture"></i>
+                    <span class="com-icon-t">{{op.title}}</span>
+                  </div>
                 </td>
               </tr>
             </table>
             <p class="table-title">相关的服务内容</p>
             <table class="detail-table">
-              <tr>
-                <td style="height: 50px;" class="td-center">财务申报[张三]</td>
+              <tr v-for="(item, index) in workingListAbout" :key="index">
+                <td style="height: 50px;" class="td-center">{{item.serviceName}}[{{item.managerName}}]</td>
                 <td colspan="5">
-                  <icon-text icon="el-icon-picture" text="税前沟通" status="1"></icon-text>
-                  <icon-text icon="el-icon-picture" text="纳税申报" status="1"></icon-text>
-                  <icon-text icon="el-icon-picture" text="纳税异常提醒" status="1"></icon-text>
-                </td>
-              </tr>
-              <tr>
-                <td style="height: 50px;" class="td-center">财务内控[张三]</td>
-                <td colspan="5">
-                  <icon-text icon="el-icon-picture" text="财务内控分析" status="1"></icon-text>
-                  <icon-text icon="el-icon-picture" text="财务内控构建指导" status="1"></icon-text>
-                </td>
-              </tr>
-              <tr>
-                <td style="height: 50px;" class="td-center">税收风控[张三]</td>
-                <td colspan="5">
-                  <icon-text icon="el-icon-picture" text="增值税发票风险管理指导" status="1"></icon-text>
-                  <icon-text icon="el-icon-picture" text="税收优惠政策辅导" status="1"></icon-text>
-                  <icon-text icon="el-icon-picture" text="税收问题提醒" status="1"></icon-text>
-                  <icon-text icon="el-icon-picture" text="税收分控方案设计" status="1"></icon-text>
-                  <icon-text icon="el-icon-picture" text="纳税信用等级维护指导" status="1"></icon-text>
-                  <icon-text icon="el-icon-picture" text="财税专家“一对一”咨询" status="1"></icon-text>
-                  <icon-text icon="el-icon-picture" text="税务危机应对参与" status="1"></icon-text>
-                  <icon-text icon="el-icon-picture" text="税收策划指导" status="1"></icon-text>
-                </td>
-              </tr>
-              <tr>
-                <td style="height: 50px;" class="td-center">金融服务[张三]</td>
-                <td colspan="5">
-                  <icon-text icon="el-icon-picture" text="融资需求分析" status="1"></icon-text>
-                  <icon-text icon="el-icon-picture" text="融资对接指导" status="1"></icon-text>
-                  <icon-text icon="el-icon-picture" text="政府扶持资金规话" status="1"></icon-text>
-                </td>
-              </tr>
-              <tr>
-                <td style="height: 50px;" class="td-center">其他单项服务（产品名）[张三]</td>
-                <td colspan="5">
-                  <icon-text icon="el-icon-picture" text="开始服务" status="1"></icon-text>
-                  <icon-text icon="el-icon-picture" text="完成服务" status="1"></icon-text>
+                  <div class="com-icon-text-box com-icon-text-h"
+                       v-for="op in item.orderModuleComposites" :key="op.type">
+                    <!--高亮是待处理stage===2  完成stage===1-->
+                    <img :src="'/static/images/'+ op.stage===1?'green':'gray' + '/' + 'icon_call.png'" alt="">
+                    <span class="com-icon-t">{{op.title}}</span>
+                  </div>
                 </td>
               </tr>
             </table>
@@ -155,14 +116,25 @@
 
 <script>
   import iconText from '../../../../components/iconText/iconText'
+  import API from '../../../../utils/api'
+  import webStorage from 'webStorage'
 
   export default {
     name: 'detail',
     data () {
       return {
         dataLoading: false,
-        activeViewName: 'operate',
+        activeViewName: 'operate', // operate，related
+        detail: {}, // 详情
+        workingListMy: [], // 加工,我的
+        workingListAbout: [], // 加工，相关
+        userInfo: {},
       }
+    },
+    watch: {
+      '$route.query.view' (view) {
+        this.activeViewName = view
+      },
     },
     components: {
       iconText,
@@ -171,7 +143,39 @@
       operateOptions () {
       },
       stepClickHandle () {},
+      handleTabsClick (tab, event) {
+        // console.log(tab.name)
+        this.$router.push({
+          name: 'serviceWorkOrderDetail',
+          params: {end: this.themeIndex === 0 ? 'FE' : 'ME'},
+          query: {view: tab.name, id: this.$route.query.id},
+        })
+      },
+      getWorkOrderDetail () {
+        API.workOrder.detail(this.$route.query.id, (da) => {
+          this.detail = da.data
+        })
+      },
+      getOrderWorkingList () {
+        API.workOrder.orderWorkingList({orderId: this.$route.query.orderId}, (da) => {
+          this.workingListMy = []
+          this.workingListAbout = []
+          let data = da.data || []
+          data.forEach(item => {
+            if (item.managerId === this.userInfo.id) {
+              this.workingListMy.push(item)
+            } else {
+              this.workingListAbout.push(item)
+            }
+          })
+        })
+      }
     },
+    created () {
+      this.userInfo = webStorage.getItem('userInfo')
+      // this.getWorkOrderDetail() // todo
+      this.getOrderWorkingList()
+    }
   }
 </script>
 

@@ -88,7 +88,7 @@ export default {
       })
     },
   },
-  workOrder: {
+  workOrder: { // 工单
     list (params, success, error) { // 列表
       $axios.get('serviceWorkOrder', {
         params: params,
@@ -98,8 +98,17 @@ export default {
         error && error(err)
       })
     },
-    detail (params, success, error) { // 管家详情
-      $axios.get('serviceOrder/' + params).then(res => {
+    detail (params, success, error) { // 详情
+      $axios.get('' + params).then(res => { // todo url
+        success && success(res.data)
+      }).catch(err => {
+        error && error(err)
+      })
+    },
+    orderWorkingList (params, success, error) { // 工单加工
+      $axios.get('serviceWorkOrder/byOrder/' + params.orderId, {
+        params: params
+      }).then(res => {
         success && success(res.data)
       }).catch(err => {
         error && error(err)

@@ -209,7 +209,8 @@
           page: null,
           pageSize: null,
         },
-        sortObj: {sort: 'created,desc'}, // 排序 // todo 时间排序
+        sortObj: {sort: 'id,desc'}, // 排序 // todo 时间排序
+        // sortObj: {sort: 'created,desc'}, // 排序 // todo 时间排序
         advancedSearch: {}, // 高级搜索
         tableData: [
           {
