@@ -35,33 +35,7 @@
       <div class="com-box-padding">
         <el-tabs v-model="activeViewName" type="card" @tab-click="handleTabsClick">
           <el-tab-pane label="服务派单加工" name="operate">
-            <p class="table-title">我负责的服务内容</p>
-            <table class="detail-table">
-              <tr v-for="(item, index) in workingListMy" :key="index">
-                <td style="height: 50px;" class="td-center">{{item.serviceName}}[{{item.managerName}}]</td>
-                <td colspan="5">
-                  <div class="com-icon-text-box com-icon-text-h"
-                       v-for="op in item.orderModuleComposites" :key="op.type">
-                    <i style="font-size: 30px;" class="el-icon-picture"></i>
-                    <span class="com-icon-t">{{op.title}}</span>
-                  </div>
-                </td>
-              </tr>
-            </table>
-            <p class="table-title">相关的服务内容</p>
-            <table class="detail-table">
-              <tr v-for="(item, index) in workingListAbout" :key="index">
-                <td style="height: 50px;" class="td-center">{{item.serviceName}}[{{item.managerName}}]</td>
-                <td colspan="5">
-                  <div class="com-icon-text-box com-icon-text-h"
-                       v-for="op in item.orderModuleComposites" :key="op.type">
-                    <!--高亮是待处理stage===2  完成stage===1-->
-                    <img :src="'/static/images/'+ op.stage===1?'green':'gray' + '/' + 'icon_call.png'" alt="">
-                    <span class="com-icon-t">{{op.title}}</span>
-                  </div>
-                </td>
-              </tr>
-            </table>
+            <working-op></working-op>
           </el-tab-pane>
           <el-tab-pane label="工单相关信息" name="related">
             <p class="table-title">服务客户</p>
@@ -116,6 +90,7 @@
 
 <script>
   import iconText from '../../../../components/iconText/iconText'
+  import workingOp from './workingOp'
   import API from '../../../../utils/api'
   import webStorage from 'webStorage'
 
@@ -138,6 +113,7 @@
     },
     components: {
       iconText,
+      workingOp,
     },
     methods: {
       operateOptions () {
@@ -156,25 +132,10 @@
           this.detail = da.data
         })
       },
-      getOrderWorkingList () {
-        API.workOrder.orderWorkingList({orderId: this.$route.query.orderId}, (da) => {
-          this.workingListMy = []
-          this.workingListAbout = []
-          let data = da.data || []
-          data.forEach(item => {
-            if (item.managerId === this.userInfo.id) {
-              this.workingListMy.push(item)
-            } else {
-              this.workingListAbout.push(item)
-            }
-          })
-        })
-      }
     },
     created () {
       this.userInfo = webStorage.getItem('userInfo')
       // this.getWorkOrderDetail() // todo
-      this.getOrderWorkingList()
     }
   }
 </script>
