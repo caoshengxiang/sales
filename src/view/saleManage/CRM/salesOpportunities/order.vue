@@ -132,15 +132,15 @@
         this.$refs[formName].validate((valid) => {
           if (valid) {
             this.dataLoading = true
-            // API.salesOrder.appOrder(this.addForm, (da) => {
-            //   setTimeout(() => {
-            //     this.dataLoading = false
-            //     if (da.status) {
-            //       this.$message.success('APP下单成功成功')
-            //       this.$vDialog.close({type: 'save'})
-            //     }
-            //   }, 500)
-            // })
+            API.salesOrder.appOrder(this.addForm, (da) => {
+              setTimeout(() => {
+                this.dataLoading = false
+                if (da.status) {
+                  this.$message.success('APP下单成功成功')
+                  this.$vDialog.close({type: 'save'})
+                }
+              }, 500)
+            })
           } else {
             console.log('error submit!!')
             return false
