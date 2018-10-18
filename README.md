@@ -34,7 +34,6 @@
 * master 主分支  一期项目
 * dev1 一期维护
 * dev2 二期开发
-* prod 生产
 
 > 工作流程：一期的维护在dev1分支， 合并到dev2分支。二期的开发在dev2分支。
 【特别注意有些功能二期开发是在一期基础上修改，这种情况差异会越来遇到，冲突增多。如果二期非独立的模块还是在dev1分支上进行，当一期bug方式处理合并到dev2。新模块直接在dev2上开发】
@@ -98,7 +97,7 @@ npm test
 [linux expect 使用](https://blog.csdn.net/houmou/article/details/53102051)
 
 
-> ## 生产环境部署
+> ## 生产环境部署（后台给的说明）
   1. 将打包后dist目录下的index.html和static打包（例如包名：Archive.zip）拷贝到服务器目录/opt/web-front/sales/下面
   2. 将服务器上原有index.html和static移动到bak目录
   3. 解压Archive.zip即完成部署
