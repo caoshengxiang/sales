@@ -51,14 +51,6 @@
                 </td>
                 <td class="td-title">服务类型</td>
                 <td>
-                  <!--<span v-if="detail.serviceItemConfigModel.serviceType === 1">外勤服务</span>-->
-                  <!--<span v-if="detail.serviceItemConfigModel.serviceType === 2">财务记账</span>-->
-                  <!--<span v-if="detail.serviceItemConfigModel.serviceType === 3">财务内控</span>-->
-                  <!--<span v-if="detail.serviceItemConfigModel.serviceType === 4">纳税申报</span>-->
-                  <!--<span v-if="detail.serviceItemConfigModel.serviceType === 5">税收风控</span>-->
-                  <!--&lt;!&ndash;<span v-if="detail.serviceItemConfigModel.serviceType === 6">金融服务</span>&ndash;&gt;-->
-                  <!--<span v-if="detail.serviceItemConfigModel.serviceType === 6">其他计次服务</span>-->
-                  <!--<span v-if="detail.serviceItemConfigModel.serviceType === 7">其他计时服务</span>-->
                   <span v-for="item in serviceType" :key="item.type"
                         v-if="item.type === detail.serviceItemConfigModel.serviceType">
                     {{item.value}}
@@ -136,12 +128,12 @@
                 <td class="td-title">派单单号</td>
                 <td class="td-title">派单时间</td>
               </tr>
-              <tr>
-                <td class="td-center">todo</td>
-                <td class="td-center"></td>
-                <td class="td-center"></td>
-                <td class="td-center"></td>
-                <td class="td-center"></td>
+              <tr v-for="(item, index) in assignOrderList" :key="index">
+                <td class="td-center">{{item.managerTypeName}}</td>
+                <td class="td-center">{{item.managerName}}</td>
+                <td class="td-center">{{item.serviceName}}</td>
+                <td class="td-center">{{item.orderNum}}</td>
+                <td class="td-center">{{item.assignDate && $moment(item.assignDate).format('YYYY-MM-DD HH:mm:ss')}}</td>
               </tr>
             </table>
           </el-tab-pane>
@@ -264,6 +256,7 @@
         detail: {
           serviceItemConfigModel: {},
         },
+        assignOrderList: [], // 派单列表
       }
     },
     computed: {
@@ -294,26 +287,17 @@
       getDetail () {
         API.serviceOrder.detail(this.$route.query.id, (da) => {
           this.detail = da.data
-          // this.getManagerTypeList(this.detail.serviceItemConfigModel.serviceType)
+          this.getAssignOrderList(this.detail.orderId)
         })
       },
-      // getManagerTypeList (managerId) { // 获取管家类型名称
-      //   if (!managerId) {
-      //     return ''
-      //   }
-      //   API.baseSetting.getCodeConfig({type: 6}, (res) => { // 6 管家类型
-      //       if (res.status) {
-      //         console.log(res.data)
-      //         let arr = res.data || []
-      //         arr.forEach(item => {
-      //           if (managerId === item.id) {
-      //             this.detail.managerName = res.data
-      //           }
-      //         })
-      //       }
-      //     },
-      //   )
-      // },
+      getAssignOrderList (orderId) { // 获取管家类型名称
+        API.workOrder.workOrderAsignList({orderId: orderId}, (res) => { // 6 管家类型
+            if (res.status) {
+              this.assignOrderList = res.data
+            }
+          },
+        )
+      },
     },
     created () {
       this.activeViewName = this.$route.query.view

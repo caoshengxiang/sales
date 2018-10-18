@@ -15,11 +15,11 @@
       <div class="com-info-left">
         <img class="com-info-img" src="../../../../assets/icon/company.png" alt="">
         <div class="com-info-text">
-          <h3>todo <span class="com-d-tap">平台直属/平台控股子公司</span></h3>
+          <h3>订单派单号 <span>{{detail.orderNum}}</span></h3>
           <p>
-            <span class="com-d-item">服务地区: <span> todo</span></span>
-            <span class="com-d-item">联系电话: <span>todo</span></span>
-            <span class="com-d-item">服务类目: <span>todo、todo</span></span>
+            <span class="com-d-item">服务客户: <span>{{detail.customerName}}</span></span>
+            <span class="com-d-item">联系商品: <span>{{detail.goodsName}}</span></span>
+            <span class="com-d-item">派单时间: <span>{{detail.assignDate && $moment(detail.assignDate).format('YYYY-MM-DD HH:mm:ss')}}</span></span>
           </p>
         </div>
       </div>
@@ -35,7 +35,7 @@
       <div class="com-box-padding">
         <el-tabs v-model="activeViewName" type="card" @tab-click="handleTabsClick">
           <el-tab-pane label="服务派单加工" name="operate">
-            <working-op></working-op>
+            <working-op :order-id="$route.query.orderId"></working-op>
           </el-tab-pane>
           <el-tab-pane label="工单相关信息" name="related">
             <p class="table-title">服务客户</p>
@@ -124,7 +124,7 @@
         this.$router.push({
           name: 'serviceWorkOrderDetail',
           params: {end: this.themeIndex === 0 ? 'FE' : 'ME'},
-          query: {view: tab.name, id: this.$route.query.id},
+          query: {view: tab.name, id: this.$route.query.id, orderId: this.$route.query.orderId},
         })
       },
       getWorkOrderDetail () {
@@ -135,7 +135,7 @@
     },
     created () {
       this.userInfo = webStorage.getItem('userInfo')
-      // this.getWorkOrderDetail() // todo
+      this.getWorkOrderDetail()
     }
   }
 </script>

@@ -2,14 +2,13 @@
     <div>
       <p class="table-title">我负责的服务内容</p>
       <table class="detail-table">
-        <!--<tr v-for="(item, index) in workingListMy" :key="index">--><!--todo 改成这个-->
-        <tr v-for="(item, index) in workingListAbout" :key="index">
+        <tr v-for="(item, index) in workingListMy" :key="index">
           <td style="height: 50px;" class="td-center">{{item.serviceName}}[{{item.managerName}}]</td>
           <td colspan="5">
             <div class="com-icon-text-box com-icon-text-h"
-                 @click="operateHandle(op.type)"
+                 @click="operateHandle(op.type, op.state)"
                  v-for="op in item.orderModuleComposites" :key="op.type">
-              <img :src="'/static/images/'+ (op.stage===1?'green':'red') + '/' + getIconName(op.type) + '.png'" alt="">
+              <img :src="'/static/images/'+ (op.state===1?'green':'red') + '/icon_gongdan_' + op.type + '.png'" alt="">
               <span class="com-icon-t">{{op.title}}</span>
             </div>
           </td>
@@ -23,8 +22,8 @@
             <div class="com-icon-text-box com-icon-text-h"
                  @click="operateHandle(op.type)"
                  v-for="op in item.orderModuleComposites" :key="op.type">
-              <!--高亮是待处理stage===2  完成stage===1-->
-              <img :src="'/static/images/'+ (op.stage===1?'green':'gray') + '/' + getIconName(op.type) + '.png'" alt="">
+              <!--高亮是待处理state===2  完成state===1-->
+              <img :src="'/static/images/'+ (op.state===1?'green':'gray') + '/icon_gongdan_' + op.type + '.png'" alt="">
               <span class="com-icon-t">{{op.title}}</span>
             </div>
           </td>
@@ -45,9 +44,13 @@
         userInfo: {},
       }
     },
+    props: {
+      orderId: String,
+      require: true,
+    },
     methods: {
       getOrderWorkingList () {
-        API.workOrder.orderWorkingList({orderId: this.$route.query.orderId}, (da) => {
+        API.workOrder.orderWorkingList({orderId: this.orderId}, (da) => {
           this.workingListMy = []
           this.workingListAbout = []
           let data = da.data || []
@@ -60,41 +63,12 @@
           })
         })
       },
-      operateHandle (type) {
-        alert(type)
-      },
-      getIconName (type) {
-        let names = [
-          /* 外勤服务 */
-          'icon_call', // 首次电话沟通
-          'icon_shangmen', // 首次上门沟通
-          'icon_luru', // 录入客户资料
-          'icon_zhuangding', // 装订凭证
-          '', // 外勤非常规服务
-          /* 财务记账 */
-          'icon_cons', // 客户资料审核
-          'icon_kehupiaoju', // 客户票据审核
-          'icon_jizhanggaozhi', // 记账日常告知
-          '', // 抄报清卡提醒
-          '', // 出具财务报表
-          '', // 工商年报
-          '', // 记账非常规服务
-          /* 财务内控 */
-          'icon_caiwuneikongzhidao', // 财务内控构建指导
-          /* 纳税申报 */
-          'icon_shuiqiangoutong', // 纳税税前沟通
-          'icon_nashuishenbao', // 纳税申报
-          'icon_nashuiyichang', // 纳税异常提醒
-          /* 税收风控 */
-          '', // 税收风险提示
-          /* 其他计次服务 */
-          'icon_start', // 计次开始服务
-          'icon_cons', // 计次完成服务
-          /* 其他计时服务 */
-          'icon_start', // 计时开始服务
-          'icon_cons', // 计时完成五福
-        ]
-        return names[type - 1]
+      operateHandle (type, state) {
+        // 高亮是待处理state===2  完成state===1 type 1-21对应
+        if (state && state === 2) {
+          alert('chuli')
+        }
+        console.log(type, state)
       },
     },
     created () {

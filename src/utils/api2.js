@@ -99,7 +99,7 @@ export default {
       })
     },
     detail (params, success, error) { // 详情
-      $axios.get('' + params).then(res => { // todo url
+      $axios.get('serviceWorkOrder/' + params).then(res => {
         success && success(res.data)
       }).catch(err => {
         error && error(err)
@@ -107,6 +107,15 @@ export default {
     },
     orderWorkingList (params, success, error) { // 工单加工
       $axios.get('serviceWorkOrder/byOrder/' + params.orderId, {
+        params: params
+      }).then(res => {
+        success && success(res.data)
+      }).catch(err => {
+        error && error(err)
+      })
+    },
+    workOrderAsignList  (params, success, error) { // 订单下得派单列表
+      $axios.get('serviceWorkOrder/assignList', {
         params: params
       }).then(res => {
         success && success(res.data)
