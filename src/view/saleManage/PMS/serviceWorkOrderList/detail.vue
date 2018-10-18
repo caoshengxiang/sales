@@ -128,8 +128,12 @@
         })
       },
       getWorkOrderDetail () {
+        this.dataLoading = true
         API.workOrder.detail(this.$route.query.id, (da) => {
           this.detail = da.data
+          setTimeout(() => {
+            this.dataLoading = false
+          }, 500)
         })
       },
     },

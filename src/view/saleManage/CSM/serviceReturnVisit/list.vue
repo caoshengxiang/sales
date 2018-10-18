@@ -36,19 +36,21 @@
           <el-table-column
             align="center"
             sortable="custom"
-            prop="test"
+            prop="num"
             label="回访单号"
             width="160"
             show-overflow-tooltip
           >
             <template slot-scope="scope">
-              <router-link class="col-link" :to="{name: 'serviceReturnVisitDetail', query: {id: scope.row.test}}">{{ scope.row.test }}</router-link>
+              <router-link class="col-link" :to="{name: 'serviceReturnVisitDetail', query: {id: scope.row.id}}">{{
+                scope.row.num }}
+              </router-link>
             </template>
           </el-table-column>
           <el-table-column
             align="center"
             sortable="custom"
-            prop="test"
+            prop="customerName"
             label="服务回访客户"
             width="160"
             show-overflow-tooltip
@@ -57,7 +59,7 @@
           <el-table-column
             align="center"
             sortable="custom"
-            prop="test"
+            prop="contactName"
             label="客户联系人"
             width="160"
             show-overflow-tooltip
@@ -66,7 +68,7 @@
           <el-table-column
             align="center"
             sortable="custom"
-            prop="test"
+            prop="orderId"
             label="订单单号"
             width="160"
             show-overflow-tooltip
@@ -75,7 +77,7 @@
           <el-table-column
             align="center"
             sortable="custom"
-            prop="test"
+            prop="goodsName"
             label="服务商品"
             width="160"
             show-overflow-tooltip
@@ -83,8 +85,8 @@
           </el-table-column>
           <el-table-column
             align="center"
-            sortable="custom"
-            prop="test"
+            sortable=""
+            prop="serviceManagerNames"
             label="服务管家"
             width="160"
             show-overflow-tooltip
@@ -92,8 +94,8 @@
           </el-table-column>
           <el-table-column
             align="center"
-            sortable="custom"
-            prop="test"
+            sortable=""
+            prop="serviceManagersAndTypes"
             label="管家类型"
             width="160"
             show-overflow-tooltip
@@ -102,25 +104,41 @@
           <el-table-column
             align="center"
             sortable="custom"
-            prop="test"
+            prop="type"
             label="回访类型"
             width="160"
             show-overflow-tooltip
           >
+            <template slot-scope="scope">
+              <span v-if="scope.row.type === 1">客户主动退单订单回访</span>
+              <span v-if="scope.row.type === 2">回款异常订单回访</span>
+              <span v-if="scope.row.type === 3">A类产品续费异常订单回访</span>
+              <span v-if="scope.row.type === 4">非记账托管业务首次沟通订单回访</span>
+              <span v-if="scope.row.type === 5">外勤首次上门回访</span>
+              <span v-if="scope.row.type === 6">2-3星评价回访</span>
+              <span v-if="scope.row.type === 7">未评价订单回访</span>
+            </template>
           </el-table-column>
           <el-table-column
             align="center"
             sortable="custom"
-            prop="test"
+            prop="state"
             label="回访状态"
             width="160"
             show-overflow-tooltip
           >
+            <template slot-scope="scope">
+              <span v-if="scope.row.type === 1">待派单</span>
+              <span v-if="scope.row.type === 2">待回访</span>
+              <span v-if="scope.row.type === 3">已回访</span>
+              <span v-if="scope.row.type === 4">拒绝回访</span>
+              <span v-if="scope.row.type === 5">待再回访</span>
+            </template>
           </el-table-column>
           <el-table-column
             align="center"
             sortable="custom"
-            prop="test"
+            prop="cusserviceName"
             label="回访客服"
             width="160"
             show-overflow-tooltip
@@ -129,11 +147,14 @@
           <el-table-column
             align="center"
             sortable="custom"
-            prop="test"
+            prop="assignTime"
             label="回访派单时间"
             width="160"
             show-overflow-tooltip
           >
+            <template slot-scope="scope">
+              {{scope.row.assignTime && $moment(scope.row.assignTime).format('YYYY-MM-DD HH:mm')}}
+            </template>
           </el-table-column>
         </el-table>
       </div>
@@ -159,7 +180,7 @@
   import { mapState } from 'vuex'
   import { underscoreName } from '../../../../utils/utils'
   import comButton from '../../../../components/button/comButton'
-  // import API from '../../../../utils/api'
+  import API from '../../../../utils/api'
 
   export default {
     name: 'list',
@@ -172,10 +193,7 @@
         },
         sortObj: {sort: 'created,desc'}, // 排序
         advancedSearch: {}, // 高级搜索
-        tableData: [
-          {
-            test: 'test Data',
-          }],
+        tableData: [],
         tableDataTotal: 0,
         multipleSelection: [],
       }
@@ -218,14 +236,14 @@
       getList () {
         this.getQueryParams()
         this.dataLoading = true
-        // API.serviceOrder.list(Object.assign({}, this.defaultListParams, this.sortObj, this.advancedSearch),
-        //   (res) => {
-        //     this.tableData = res.data.content
-        //     this.tableDataTotal = res.data.totalElements
-        //     setTimeout(() => {
-        this.dataLoading = false
-        //     }, 300)
-        //   })
+        API.serviceRetVisit.list(Object.assign({}, this.defaultListParams, this.sortObj, this.advancedSearch),
+          (res) => {
+            this.tableData = res.data.content
+            this.tableDataTotal = res.data.totalElements
+            setTimeout(() => {
+              this.dataLoading = false
+            }, 300)
+          })
       },
     },
     created () {

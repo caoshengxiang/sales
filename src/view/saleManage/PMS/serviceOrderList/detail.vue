@@ -285,9 +285,13 @@
         })
       },
       getDetail () {
+        this.dataLoading = true
         API.serviceOrder.detail(this.$route.query.id, (da) => {
           this.detail = da.data
           this.getAssignOrderList(this.detail.orderId)
+          setTimeout(() => {
+            this.dataLoading = false
+          }, 500)
         })
       },
       getAssignOrderList (orderId) { // 获取管家类型名称

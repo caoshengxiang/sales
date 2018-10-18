@@ -289,6 +289,8 @@
       },
       stepClickHandle () {},
       handleTabsClick () {},
+      getDetail () {
+      }
     },
   }
 </script>

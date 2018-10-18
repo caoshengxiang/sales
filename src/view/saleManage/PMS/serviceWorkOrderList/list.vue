@@ -1,5 +1,6 @@
 <template>
-  <div class="com-container">
+  <div class="com-container" v-loading="dataLoading"
+       element-loading-text="数据加载中...">
     <!--头部-->
     <div class="com-head">
       <el-breadcrumb separator-class="el-icon-arrow-right">
@@ -194,6 +195,7 @@
     name: 'list',
     data () {
       return {
+        dataLoading: false,
         currentPage: 1,
         defaultListParams: { // 默认顾客列表请求参数
           page: null,

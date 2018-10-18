@@ -125,6 +125,7 @@
     },
     methods: {
       getDetail () {
+        this.dataLoading = true
         API2.customerBill.detail(this.$route.query.id, (da) => {
           this.billDetail = da.data
           let images = da.data.attachment.split(',')
@@ -135,6 +136,9 @@
               id: index,
             }
           })
+          setTimeout(() => {
+            this.dataLoading = false
+          }, 500)
         })
       },
       operateOptions (type) {

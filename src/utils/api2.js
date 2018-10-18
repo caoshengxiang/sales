@@ -154,12 +154,31 @@ export default {
         error && error(err)
       })
     },
-    detail (params, success, error) { // 管家详情
+    detail (params, success, error) { // 详情
       $axios.get('serviceComplaint/' + params).then(res => {
         success && success(res.data)
       }).catch(err => {
         error && error(err)
       })
     },
-  }
+  },
+  // 服务回访
+  serviceRetVisit: {
+    list (params, success, error) { // 列表
+      $axios.get('revisit/serviceRetVisit/list', {
+        params: params,
+      }).then(res => {
+        success && success(res.data)
+      }).catch(err => {
+        error && error(err)
+      })
+    },
+    detail (params, success, error) { // 详情
+      $axios.get('revisit/serviceRetVisit/list/' + params).then(res => {
+        success && success(res.data)
+      }).catch(err => {
+        error && error(err)
+      })
+    },
+  },
 }
