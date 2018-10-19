@@ -174,11 +174,36 @@ export default {
       })
     },
     detail (params, success, error) { // 详情
-      $axios.get('revisit/serviceRetVisit/list/' + params).then(res => {
+      $axios.get('revisit/serviceRetVisit/detail/' + params).then(res => {
+        success && success(res.data)
+      }).catch(err => {
+        error && error(err)
+      })
+    },
+    customerServicesList (params, success, error) { // 获取回访派单内的坐席客服列表
+      $axios.get('revisit/serviceRetVisit/customerServices').then(res => {
+        success && success(res.data)
+      }).catch(err => {
+        error && error(err)
+      })
+    },
+    assginBatch (params, success, error) { // 回访派单
+      $axios.post('revisit/serviceRetVisit/assginBatch', null, {params: params}).then(res => {
         success && success(res.data)
       }).catch(err => {
         error && error(err)
       })
     },
   },
+  customerComments: { // 客户意见
+    list (params, success, error) { // 列表
+      $axios.get('suggestion/sales/serviceSuggestion', {
+        params: params,
+      }).then(res => {
+        success && success(res.data)
+      }).catch(err => {
+        error && error(err)
+      })
+    },
+  }
 }

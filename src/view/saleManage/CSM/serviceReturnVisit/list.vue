@@ -1,5 +1,6 @@
 <template>
-  <div class="com-container">
+  <div class="com-container" v-loading="dataLoading"
+       element-loading-text="数据加载中...">
     <!--头部-->
     <div class="com-head">
       <el-breadcrumb separator-class="el-icon-arrow-right">
@@ -11,6 +12,22 @@
     <!--控制栏-->
     <div class="com-bar">
       <div class="com-bar-left">
+        <com-button buttonType="add" :disabled="multipleSelection.length === 0" icon="el-icon-plus" @click="orderHandle('assginOrder')">回访派单</com-button>
+        <com-button buttonType="add" icon="el-icon-plus" @click="orderHandle('returnVisit')">回访</com-button>
+        <el-dropdown @command="handleCommand">
+              <span class="el-dropdown-link">
+                回访<i class="el-icon-arrow-down el-icon--right"></i>
+              </span>
+        <el-dropdown-menu slot="dropdown">
+          <el-dropdown-item command="1">客户主动退单订单回访</el-dropdown-item>
+          <el-dropdown-item command="2">回款异常订单回访</el-dropdown-item>
+          <el-dropdown-item command="3">A类产品续费异常订单回访</el-dropdown-item>
+          <el-dropdown-item command="4">非记账托管业务首次沟通订单回访</el-dropdown-item>
+          <el-dropdown-item command="5">外勤首次上门回访</el-dropdown-item>
+          <el-dropdown-item command="6">2-3星评价回访</el-dropdown-item>
+          <el-dropdown-item command="7">未评价订单回访</el-dropdown-item>
+        </el-dropdown-menu>
+        </el-dropdown>
       </div>
       <div class="com-bar-right">
       </div>
@@ -42,7 +59,7 @@
             show-overflow-tooltip
           >
             <template slot-scope="scope">
-              <router-link class="col-link" :to="{name: 'serviceReturnVisitDetail', query: {id: scope.row.id}}">{{
+              <router-link class="col-link" :to="{name: 'serviceReturnVisitDetail', query: {id: scope.row.id, view: 'service'}}">{{
                 scope.row.num }}
               </router-link>
             </template>
@@ -178,14 +195,17 @@
 
 <script>
   import { mapState } from 'vuex'
-  import { underscoreName } from '../../../../utils/utils'
+  import { underscoreName, arrToStr } from '../../../../utils/utils'
   import comButton from '../../../../components/button/comButton'
   import API from '../../../../utils/api'
+  import assginOrder from './assginOrder'
+  import returnVisit from './returnVisit'
 
   export default {
     name: 'list',
     data () {
       return {
+        dataLoading: false,
         currentPage: 1,
         defaultListParams: { // 默认顾客列表请求参数
           page: null,
@@ -244,6 +264,44 @@
               this.dataLoading = false
             }, 300)
           })
+      },
+      orderHandle (type) {
+        switch (type) {
+          case 'assginOrder':
+            this.$vDialog.modal(assginOrder, {
+              title: '回访派单',
+              width: 600,
+              height: 260,
+              params: {
+                ids: arrToStr(this.multipleSelection, 'id')
+              },
+              callback: (data) => {
+                if (data.type === 'save') {
+                  this.getList()
+                }
+              },
+            })
+            break
+          case 'returnVisit':
+            this.$vDialog.modal(returnVisit, {
+              title: 'todo',
+              width: 600,
+              height: 360,
+              params: {
+                ids: arrToStr(this.multipleSelection, 'id')
+              },
+              callback: (data) => {
+                if (data.type === 'save') {
+                  this.getList()
+                }
+              },
+            })
+            break
+          default:
+        }
+      },
+      handleCommand (command) {
+        this.$message('click on item ' + command)
       },
     },
     created () {

@@ -15,30 +15,39 @@
       <div class="com-info-left">
         <img class="com-info-img" src="../../../../assets/icon/company.png" alt="">
         <div class="com-info-text">
-          <h3>todo <span class="com-d-tap">平台直属/平台控股子公司</span></h3>
+          <h3>回访单号{{detail.num}} <span class="com-d-tap">
+             <span v-if="detail.type === 1">客户主动退单订单回访</span>
+              <span v-if="detail.type === 2">回款异常订单回访</span>
+              <span v-if="detail.type === 3">A类产品续费异常订单回访</span>
+              <span v-if="detail.type === 4">非记账托管业务首次沟通订单回访</span>
+              <span v-if="detail.type === 5">外勤首次上门回访</span>
+              <span v-if="detail.type === 6">2-3星评价回访</span>
+              <span v-if="detail.type === 7">未评价订单回访</span>
+          </span></h3>
           <p>
-            <span class="com-d-item">服务地区: <span> todo</span></span>
-            <span class="com-d-item">联系电话: <span>todo</span></span>
-            <span class="com-d-item">服务类目: <span>todo、todo</span></span>
+            <span class="com-d-item">回访客户: <span>{{detail.customerName}}</span></span>
+            <span class="com-d-item">服务商品: <span>{{detail.goodsName}}</span></span>
+            <span class="com-d-item">派单时间: <span>{{detail.assignTime && $moment(detail.assignTime).format('YYYY-MM-DD HH:mm:ss')}}</span></span>
           </p>
         </div>
       </div>
       <div class="com-info-right">
         <ul class="com-info-op-group">
-          <li @click="operateOptions('delete')">派单</li>
-          <li @click="operateOptions('delete')">
+          <!-- 回访状态（1待派单2待回访3已回访4拒绝回访5待再回访）-->
+          <li @click="operateOptions('delete')" v-if="detail.state === 1">派单</li>
+          <li @click="operateOptions('delete')" v-if="detail.state === 2 || detail.state === 5">
             <el-dropdown @command="handleCommand">
               <span class="el-dropdown-link">
                 回访<i class="el-icon-arrow-down el-icon--right"></i>
               </span>
               <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item command="a">客户主动退单订单回访</el-dropdown-item>
-                <el-dropdown-item command="b">回款异常订单回访</el-dropdown-item>
-                <el-dropdown-item command="c">A类产品续费异常订单回访</el-dropdown-item>
-                <el-dropdown-item command="d">非记账托管业务首次沟通订单回访</el-dropdown-item>
-                <el-dropdown-item command="e">外勤首次上门回访</el-dropdown-item>
-                <el-dropdown-item command="f">2-3星评价回访</el-dropdown-item>
-                <el-dropdown-item command="g">未评价订单回访</el-dropdown-item>
+                <el-dropdown-item command="1">客户主动退单订单回访</el-dropdown-item>
+                <el-dropdown-item command="2">回款异常订单回访</el-dropdown-item>
+                <el-dropdown-item command="3">A类产品续费异常订单回访</el-dropdown-item>
+                <el-dropdown-item command="4">非记账托管业务首次沟通订单回访</el-dropdown-item>
+                <el-dropdown-item command="5">外勤首次上门回访</el-dropdown-item>
+                <el-dropdown-item command="6">2-3星评价回访</el-dropdown-item>
+                <el-dropdown-item command="7">未评价订单回访</el-dropdown-item>
               </el-dropdown-menu>
             </el-dropdown>
           </li>
@@ -49,55 +58,66 @@
     <div class="com-box detail-info-box">
       <div class="com-box-padding">
         <el-tabs v-model="activeViewName" type="card" @tab-click="handleTabsClick">
-          <el-tab-pane label="服务订单信息" name="order">
+          <el-tab-pane label="服务质量信息" name="service">
             <!--<p class="table-title"></p>-->
             <table class="detail-table">
               <tr>
                 <td class="td-title">回访单号</td>
-                <td></td>
+                <td>{{detail.num}}</td>
                 <td class="td-title">回访日期</td>
-                <td></td>
+                <td>{{detail.modified && $moment(detail.modified).format('YYYY-MM-DD HH:mm:ss')}}</td>
                 <td class="td-title">回访坐席</td>
-                <td></td>
+                <td>{{detail.cusserviceName}}</td>
               </tr>
               <tr>
                 <td class="td-title">客户名称</td>
-                <td></td>
+                <td>{{detail.customerName}}</td>
                 <td class="td-title">联系人</td>
-                <td></td>
+                <td>{{detail.contactName}}</td>
                 <td class="td-title">联系方式</td>
-                <td></td>
+                <td>{{detail.contactPhone}}</td>
               </tr>
               <tr>
                 <td class="td-title">订单编号</td>
-                <td></td>
+                <td>{{detail.orderId}}</td>
                 <td class="td-title">服务商品</td>
-                <td></td>
+                <td>{{detail.goodsName}}</td>
                 <td class="td-title">服务状态</td>
-                <td></td>
+                <td>
+                  <span v-if="detail.orderState === 1">待服务</span>
+                  <span v-if="detail.orderState === 2">服务中</span>
+                  <span v-if="detail.orderState === 3">已完成</span>
+                  <span v-if="detail.orderState === 4">退单中</span>
+                  <span v-if="detail.orderState === 5">已退单</span>
+                </td>
               </tr>
-              <tr>
+              <tr v-if="detail.type === 6 || detail.type === 7">
                 <td class="td-title">原评价星级</td>
-                <td></td>
+                <td>{{detail.retvisitContentModel.originStar}}星</td>
                 <td class="td-title">回访评价</td>
-                <td></td>
+                <td>{{detail.retvisitContentModel.retEvaluation}}星</td>
                 <td class="td-title"></td>
                 <td></td>
-              </tr>
-              <tr>
-                <td class="td-title">客户评价原因</td>
-                <td colspan="5"></td>
-              </tr>
-              <tr>
-                <td class="td-title">客户其他反馈</td>
-                <td colspan="5"></td>
               </tr>
             </table>
 
             <!--<p class="table-title"></p>-->
-            <!--<table class="detail-table">-->
+            <table class="detail-table">
+              <tr>
+                <td class="td-title" v-if="detail.type < 6">回访内容</td>
+                <td class="td-title" v-else>评价意见</td>
+                <td colspan="5">
+                  <p>{{detail.retvisitContentModel.commentSuggestion.commentSuggestionDesc}}</p>
+                </td>
+              </tr>
+              <tr>
+                <td class="td-title">其他意见</td>
+                <td colspan="5">
+                  <p>{{detail.retvisitContentModel.otherSuggestion}}</p>
+                </td>
+              </tr>
+            </table>
 
-            <!--</table>-->
           </el-tab-pane>
           <el-tab-pane label="订单相关信息" name="related">
             <p class="table-title">服务客户</p>
@@ -144,7 +164,7 @@
               </tr>
             </table>
           </el-tab-pane>
-          <el-tab-pane label="订单加工信息" name="operate">
+          <el-tab-pane label="服务加工" name="operate">
             <table class="detail-table">
               <tr>
                 <td style="height: 50px;" class="td-center">外勤服务[张三]</td>
@@ -217,14 +237,25 @@
 
 <script>
   import iconText from '../../../../components/iconText/iconText'
+  import API from '../../../../utils/api'
 
   export default {
     name: 'detail',
     data () {
       return {
         dataLoading: false,
-        activeViewName: 'order',
+        activeViewName: 'service',
+        detail: {
+          retvisitContentModel: {
+            commentSuggestion: {},
+          },
+        },
       }
+    },
+    watch: {
+      '$route.query.view' (view) {
+        this.activeViewName = view
+      },
     },
     components: {
       iconText,
@@ -233,10 +264,29 @@
       operateOptions () {
       },
       stepClickHandle () {},
-      handleTabsClick () {},
+      handleTabsClick (tab, event) {
+        // console.log(tab.name)
+        this.$router.push({
+          name: 'serviceReturnVisitDetail',
+          params: {end: this.themeIndex === 0 ? 'FE' : 'ME'},
+          query: {view: tab.name, id: this.$route.query.id},
+        })
+      },
       handleCommand (command) {
         this.$message('click on item ' + command)
-      }
+      },
+      getDetail () {
+        this.dataLoading = true
+        API.serviceRetVisit.detail(this.$route.query.id, (da) => {
+          this.detail = da.data
+          setTimeout(() => {
+            this.dataLoading = false
+          }, 500)
+        })
+      },
+    },
+    created () {
+      this.getDetail()
     },
   }
 </script>

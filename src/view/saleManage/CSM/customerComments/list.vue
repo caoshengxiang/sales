@@ -1,5 +1,6 @@
 <template>
-  <div class="com-container">
+  <div class="com-container" v-loading="dataLoading"
+       element-loading-text="数据加载中...">
     <!--头部-->
     <div class="com-head">
       <el-breadcrumb separator-class="el-icon-arrow-right">
@@ -37,19 +38,21 @@
           <el-table-column
             align="center"
             sortable="custom"
-            prop="test"
+            prop="retVisitNum"
             label="来自回访单号"
             width="160"
             show-overflow-tooltip
           >
             <template slot-scope="scope">
-              <router-link class="col-link" :to="{name: 'serviceReturnVisitDetail', query: {id: scope.row.test}}">{{ scope.row.test }}</router-link>
+              <router-link class="col-link" :to="{name: 'serviceReturnVisitDetail', query: {id: scope.row.retvisitId, view: 'service'}}">{{
+                scope.row.retVisitNum }}
+              </router-link>
             </template>
           </el-table-column>
           <el-table-column
             align="center"
             sortable="custom"
-            prop="test"
+            prop="customerName"
             label="来自客户"
             width="160"
             show-overflow-tooltip
@@ -58,7 +61,7 @@
           <el-table-column
             align="center"
             sortable="custom"
-            prop="test"
+            prop="orderNum"
             label="来自订单"
             width="160"
             show-overflow-tooltip
@@ -67,16 +70,25 @@
           <el-table-column
             align="center"
             sortable="custom"
-            prop="test"
+            prop="type"
             label="回访类型"
             width="160"
             show-overflow-tooltip
           >
+            <template slot-scope="scope">
+              <span v-if="scope.row.type === 1">客户主动退单订单回访</span>
+              <span v-if="scope.row.type === 2">回款异常订单回访</span>
+              <span v-if="scope.row.type === 3">A类产品续费异常订单回访</span>
+              <span v-if="scope.row.type === 4">非记账托管业务首次沟通订单回访</span>
+              <span v-if="scope.row.type === 5">外勤首次上门回访</span>
+              <span v-if="scope.row.type === 6">2-3星评价回访</span>
+              <span v-if="scope.row.type === 7">未评价订单回访</span>
+            </template>
           </el-table-column>
           <el-table-column
             align="center"
             sortable="custom"
-            prop="test"
+            prop="suggestionType"
             label="意见类型"
             width="160"
             show-overflow-tooltip
@@ -85,7 +97,7 @@
           <el-table-column
             align="center"
             sortable="custom"
-            prop="test"
+            prop="suggestion"
             label="意见内容"
             show-overflow-tooltip
           >
@@ -117,12 +129,13 @@
   import QS from 'qs'
   import webStorage from 'webStorage'
   import comButton from '../../../../components/button/comButton'
-  // import API from '../../../../utils/api'
+  import API from '../../../../utils/api'
 
   export default {
     name: 'list',
     data () {
       return {
+        dataLoading: false,
         currentPage: 1,
         defaultListParams: { // 默认顾客列表请求参数
           page: null,
@@ -130,10 +143,7 @@
         },
         sortObj: {sort: 'created,desc'}, // 排序
         advancedSearch: {}, // 高级搜索
-        tableData: [
-          {
-            test: 'test Data',
-          }],
+        tableData: [],
         tableDataTotal: 0,
         multipleSelection: [],
       }
@@ -176,14 +186,14 @@
       getList () {
         this.getQueryParams()
         this.dataLoading = true
-        // API.serviceOrder.list(Object.assign({}, this.defaultListParams, this.sortObj, this.advancedSearch),
-        //   (res) => {
-        //     this.tableData = res.data.content
-        //     this.tableDataTotal = res.data.totalElements
-        //     setTimeout(() => {
-        this.dataLoading = false
-        //     }, 300)
-        //   })
+        API.customerComments.list(Object.assign({}, this.defaultListParams, this.sortObj, this.advancedSearch),
+          (res) => {
+            this.tableData = res.data.content
+            this.tableDataTotal = res.data.totalElements
+            setTimeout(() => {
+              this.dataLoading = false
+            }, 300)
+          })
       },
       excelExport () { // 导出
         this.getQueryParams()
@@ -203,7 +213,7 @@
         let query = QS.stringify(Object.assign({}, dlp, this.sortObj, as,
           {authKey: webStorage.getItem('userInfo').authKey}))
         // console.log('下载参数：', query)
-        link.setAttribute('href', serverUrl + '/followOrderRecord/export?' + query) // todo 修改地址
+        link.setAttribute('href', serverUrl + '/suggestion/sales/serviceSuggestion/export?' + query) // todo 修改地址
         link.setAttribute('download', '客户意见')
         let event = document.createEvent('MouseEvents') // 初始化事件对象
         event.initMouseEvent('click', true, true, document.defaultView, 0, 0, 0, 0, 0, false, false, false, false, 0,
