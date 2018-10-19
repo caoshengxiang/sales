@@ -81,6 +81,8 @@
                         <el-radio v-model="scope.row.dataAuthority" :label="1">个人</el-radio>
                         <el-radio v-model="scope.row.dataAuthority" :label="2">部门</el-radio>
                         <el-radio v-model="scope.row.dataAuthority" :label="3">公司</el-radio>
+                        <!-- 5,6, 8 pms csm 统计 -->
+                        <el-radio v-model="scope.row.dataAuthority" :label="4" v-show="item.id == 5 || item.id == 6 || item.id == 8">平台</el-radio>
                       </div>
                       <div
                         v-show="initBusinessSystemsIndex == '1' && (scope.row.id != 1 && scope.row.id != 7 && scope.row.id != 8 && scope.row.id != 9)">
