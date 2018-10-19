@@ -305,7 +305,7 @@ export default {
       }, {
         name: '自然客户',
         value: 110,
-      }
+      },
     ],
     // menusObj: {
     //   userM: {
@@ -462,32 +462,41 @@ export default {
       }, {
         name: '第三方个人',
         value: 4,
-      }
+      },
     ],
     serviceType: [ // 7种服务类型
       {
         type: 1,
-        value: '外勤服务'
+        value: '外勤服务',
       }, {
         type: 2,
-        value: '财务记账'
+        value: '财务记账',
       }, {
         type: 3,
-        value: '财务内控'
+        value: '财务内控',
       }, {
         type: 4,
-        value: '纳税申报务'
+        value: '纳税申报务',
       }, {
         type: 5,
-        value: '税收风控'
+        value: '税收风控',
       }, {
         type: 6,
-        value: '其他计次服务'
+        value: '其他计次服务',
       }, {
         type: 7,
-        value: '其他计时服务'
+        value: '其他计时服务',
       },
-    ]
+    ],
+    visitTypes: [ // 回访类型
+      {type: 1, value: '客户主动退单回访'},
+      {type: 2, value: '回款异常订单回访'},
+      {type: 3, value: 'A类产品续费异常订单回访'},
+      {type: 4, value: '非记账托管业务首次沟通回访'},
+      {type: 5, value: '外勤首次上门回访'},
+      {type: 6, value: '2-3星评价回访'},
+      {type: 7, value: '未评价订单回访'},
+    ],
   },
   // getters,
   // actions,

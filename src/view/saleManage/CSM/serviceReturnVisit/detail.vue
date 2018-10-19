@@ -113,7 +113,7 @@
               <tr>
                 <td class="td-title">其他意见</td>
                 <td colspan="5">
-                  <p>{{detail.retvisitContentModel.otherSuggestion}}</p>
+                  <p>{{detail.retvisitContentModel.otherSuggestion.otherSuggestionDesc}}</p>
                 </td>
               </tr>
             </table>
@@ -238,6 +238,7 @@
 <script>
   import iconText from '../../../../components/iconText/iconText'
   import API from '../../../../utils/api'
+  import { mapState } from 'vuex'
 
   export default {
     name: 'detail',
@@ -252,6 +253,9 @@
         },
       }
     },
+    ...mapState('constData', [
+      'visitTypes',
+    ]),
     watch: {
       '$route.query.view' (view) {
         this.activeViewName = view

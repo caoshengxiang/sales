@@ -13,19 +13,18 @@
     <div class="com-bar">
       <div class="com-bar-left">
         <com-button buttonType="add" :disabled="multipleSelection.length === 0" icon="el-icon-plus" @click="orderHandle('assginOrder')">回访派单</com-button>
-        <com-button buttonType="add" icon="el-icon-plus" @click="orderHandle('returnVisit')">回访</com-button>
-        <el-dropdown @command="handleCommand">
-              <span class="el-dropdown-link">
-                回访<i class="el-icon-arrow-down el-icon--right"></i>
-              </span>
+        <!--<com-button buttonType="add" icon="el-icon-plus" @click="orderHandle('returnVisit')">回访</com-button>-->
+        <el-dropdown @command="handleCommand" trigger="click">
+          <el-button type="primary">
+            回访<i class="el-icon-arrow-down el-icon--right"></i>
+          </el-button>
         <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item command="1">客户主动退单订单回访</el-dropdown-item>
-          <el-dropdown-item command="2">回款异常订单回访</el-dropdown-item>
-          <el-dropdown-item command="3">A类产品续费异常订单回访</el-dropdown-item>
-          <el-dropdown-item command="4">非记账托管业务首次沟通订单回访</el-dropdown-item>
-          <el-dropdown-item command="5">外勤首次上门回访</el-dropdown-item>
-          <el-dropdown-item command="6">2-3星评价回访</el-dropdown-item>
-          <el-dropdown-item command="7">未评价订单回访</el-dropdown-item>
+          <el-dropdown-item v-for="item in visitTypes"
+                            :key="item.type"
+                            :command="item.type"
+                            :disabled="multipleSelection.length !== 1">
+            {{item.value}}
+          </el-dropdown-item>
         </el-dropdown-menu>
         </el-dropdown>
       </div>
@@ -100,21 +99,20 @@
             show-overflow-tooltip
           >
           </el-table-column>
+          <!--<el-table-column-->
+            <!--align="center"-->
+            <!--sortable=""-->
+            <!--prop="serviceManagerNames"-->
+            <!--label="服务管家"-->
+            <!--width="160"-->
+            <!--show-overflow-tooltip-->
+          <!--&gt;-->
+          <!--</el-table-column>-->
           <el-table-column
             align="center"
-            sortable=""
-            prop="serviceManagerNames"
-            label="服务管家"
-            width="160"
-            show-overflow-tooltip
-          >
-          </el-table-column>
-          <el-table-column
-            align="center"
-            sortable=""
             prop="serviceManagersAndTypes"
             label="管家类型"
-            width="160"
+            width="180"
             show-overflow-tooltip
           >
           </el-table-column>
@@ -221,6 +219,7 @@
     computed: {
       ...mapState('constData', [
         'pagesOptions',
+        'visitTypes',
       ]),
     },
     components: {
@@ -282,26 +281,26 @@
               },
             })
             break
-          case 'returnVisit':
-            this.$vDialog.modal(returnVisit, {
-              title: 'todo',
-              width: 600,
-              height: 360,
-              params: {
-                ids: arrToStr(this.multipleSelection, 'id')
-              },
-              callback: (data) => {
-                if (data.type === 'save') {
-                  this.getList()
-                }
-              },
-            })
-            break
           default:
         }
       },
       handleCommand (command) {
-        this.$message('click on item ' + command)
+        // this.$message('click on item ' + command)
+        let type = parseInt(command, 10)
+        this.$vDialog.modal(returnVisit, {
+          title: this.visitTypes[type - 1].value,
+          width: 1100,
+          height: 600,
+          params: {
+            ids: arrToStr(this.multipleSelection, 'id'),
+            type: type
+          },
+          callback: (data) => {
+            if (data.type === 'save') {
+              this.getList()
+            }
+          },
+        })
       },
     },
     created () {

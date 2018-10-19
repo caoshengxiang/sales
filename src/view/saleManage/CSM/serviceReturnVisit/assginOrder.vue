@@ -1,7 +1,7 @@
 <template>
   <div class="com-dialog-container" v-loading="dataLoading">
     <div class="com-dialog">
-      <el-form :model="dialogRuleForm" :rules="rules" ref="dialogRuleForm" label-width="180px"
+      <el-form :model="dialogRuleForm" :rules="rules" ref="dialogRuleForm" label-width="0px"
                class="demo-ruleForm">
         <el-form-item label="请选择派单坐席客服" prop="id">
           <el-select v-model="dialogRuleForm.id" placeholder="请选择派单坐席客服">
@@ -23,7 +23,7 @@
   import webStorage from 'webStorage'
 
   export default {
-    name: 'moveDialog',
+    name: 'assginOrderDialog',
     data () {
       return {
         dataLoading: false,
