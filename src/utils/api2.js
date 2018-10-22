@@ -194,6 +194,13 @@ export default {
         error && error(err)
       })
     },
+    revisit (params, success, error) { // 回访
+      $axios.post('revisit/serviceRetVisit/revisit', params).then(res => {
+        success && success(res.data)
+      }).catch(err => {
+        error && error(err)
+      })
+    },
   },
   customerComments: { // 客户意见
     list (params, success, error) { // 列表

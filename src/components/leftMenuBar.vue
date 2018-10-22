@@ -65,6 +65,7 @@
             <el-menu-item index="serviceOrderList" v-if="listPermissions(menus, 'serviceOrderManage')">服务订单管理</el-menu-item>
             <el-menu-item index="serviceWorkOrderList" v-if="listPermissions(menus, 'serviceWorkOrderManage')">服务工单管理</el-menu-item>
             <el-menu-item index="customerBill" v-if="listPermissions(menus, 'serviceCustomerBillManage')">客户票据管理</el-menu-item>
+            <el-menu-item index="serviceCustomer" v-if="listPermissions(menus, 'serviceCustomerManage')">服务客户管理</el-menu-item>
           </el-menu-item-group>
         </el-submenu>
         <el-submenu index="CSM" v-if="listPermissions(menus, 'csmManageFront')">
@@ -73,7 +74,6 @@
             <span>CSM管理</span>
           </template>
           <el-menu-item-group>
-            <el-menu-item index="serviceCustomer" v-if="listPermissions(menus, 'serviceCustomerManage')">服务客户管理</el-menu-item>
             <el-menu-item index="serviceComplaint" v-if="listPermissions(menus, 'serviceComplaintManage')">服务投诉管理</el-menu-item>
             <el-menu-item index="serviceReturnVisit" v-if="listPermissions(menus, 'serviceRetVisitManage')">服务回访管理</el-menu-item>
             <el-menu-item index="serviceSpotCheck" v-if="listPermissions(menus, 'serviceSpotCheckManage')">服务抽查管理</el-menu-item>
@@ -228,6 +228,7 @@
             <el-menu-item index="serviceOrderList" v-if="listPermissions(menus, 'serviceOrderManagement')">服务订单管理</el-menu-item>
             <el-menu-item index="serviceWorkOrderList" v-if="listPermissions(menus, 'serviceWorkOrderManagement')">服务工单管理</el-menu-item>
             <el-menu-item index="customerBill" v-if="listPermissions(menus, 'serviceCustomerBillManagement')">客户票据管理</el-menu-item>
+            <el-menu-item index="serviceCustomer" v-if="listPermissions(menus, 'serviceCustomerManagement')">服务客户管理</el-menu-item>
           </el-menu-item-group>
         </el-submenu>
         <el-submenu index="CSM" v-if="listPermissions(menus, 'csmManagement')">
@@ -236,7 +237,6 @@
             <span>CSM管理</span>
           </template>
           <el-menu-item-group>
-            <!--<el-menu-item index="serviceCustomer" v-if="listPermissions(menus, 'serviceCustomerManagement')">服务客户管理</el-menu-item>-->
             <el-menu-item index="serviceComplaint" v-if="listPermissions(menus, 'serviceComplaintManagement')">服务投诉管理</el-menu-item>
             <el-menu-item index="serviceReturnVisit" v-if="listPermissions(menus, 'serviceRetVisitManagement')">服务回访管理</el-menu-item>
             <el-menu-item index="serviceSpotCheck" v-if="listPermissions(menus, 'serviceSpotCheckManagement')">服务抽查管理</el-menu-item>

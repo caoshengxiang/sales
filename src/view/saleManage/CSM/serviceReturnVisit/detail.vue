@@ -34,24 +34,21 @@
       <div class="com-info-right">
         <ul class="com-info-op-group">
           <!-- 回访状态（1待派单2待回访3已回访4拒绝回访5待再回访）-->
-          <li @click="operateOptions('delete')" v-if="detail.state === 1">派单</li>
-          <li @click="operateOptions('delete')" v-if="detail.state === 2 || detail.state === 5">
-            <el-dropdown @command="handleCommand">
-              <span class="el-dropdown-link">
-                回访<i class="el-icon-arrow-down el-icon--right"></i>
-              </span>
-              <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item command="1">客户主动退单订单回访</el-dropdown-item>
-                <el-dropdown-item command="2">回款异常订单回访</el-dropdown-item>
-                <el-dropdown-item command="3">A类产品续费异常订单回访</el-dropdown-item>
-                <el-dropdown-item command="4">非记账托管业务首次沟通订单回访</el-dropdown-item>
-                <el-dropdown-item command="5">外勤首次上门回访</el-dropdown-item>
-                <el-dropdown-item command="6">2-3星评价回访</el-dropdown-item>
-                <el-dropdown-item command="7">未评价订单回访</el-dropdown-item>
-              </el-dropdown-menu>
-            </el-dropdown>
-          </li>
+          <li @click="operateOptions('assginOrder')" v-if="detail.state === 1">派单</li>
         </ul>
+        <el-dropdown @command="handleCommand" trigger="click" v-if="detail.state === 2 || detail.state === 5">
+          <el-button type="primary">
+            回访<i class="el-icon-arrow-down el-icon--right"></i>
+          </el-button>
+          <el-dropdown-menu slot="dropdown" v-if="detail.type">
+            <el-dropdown-item v-for="item in visitTypes"
+                              :key="item.type"
+                              :command="item.type"
+                              :disabled="returnVisitDisabled(item.type)">
+              {{item.value}}
+            </el-dropdown-item>
+          </el-dropdown-menu>
+        </el-dropdown>
       </div>
     </div>
     <!--详细-->
@@ -239,6 +236,8 @@
   import iconText from '../../../../components/iconText/iconText'
   import API from '../../../../utils/api'
   import { mapState } from 'vuex'
+  import assginOrder from './assginOrder'
+  import returnVisit from './returnVisit'
 
   export default {
     name: 'detail',
@@ -248,14 +247,17 @@
         activeViewName: 'service',
         detail: {
           retvisitContentModel: {
+            otherSuggestion: {},
             commentSuggestion: {},
           },
         },
       }
     },
-    ...mapState('constData', [
-      'visitTypes',
-    ]),
+    computed: {
+      ...mapState('constData', [
+        'visitTypes',
+      ]),
+    },
     watch: {
       '$route.query.view' (view) {
         this.activeViewName = view
@@ -265,7 +267,25 @@
       iconText,
     },
     methods: {
-      operateOptions () {
+      operateOptions (type) {
+        switch (type) {
+          case 'assginOrder':
+            this.$vDialog.modal(assginOrder, {
+              title: '回访派单',
+              width: 600,
+              height: 260,
+              params: {
+                ids: this.detail.id
+              },
+              callback: (data) => {
+                if (data.type === 'save') {
+                  this.getDetail()
+                }
+              },
+            })
+            break
+          default:
+        }
       },
       stepClickHandle () {},
       handleTabsClick (tab, event) {
@@ -276,9 +296,6 @@
           query: {view: tab.name, id: this.$route.query.id},
         })
       },
-      handleCommand (command) {
-        this.$message('click on item ' + command)
-      },
       getDetail () {
         this.dataLoading = true
         API.serviceRetVisit.detail(this.$route.query.id, (da) => {
@@ -287,6 +304,32 @@
             this.dataLoading = false
           }, 500)
         })
+      },
+      handleCommand (command) {
+        // this.$message('click on item ' + command)
+        let type = parseInt(command, 10)
+        this.$vDialog.modal(returnVisit, {
+          title: this.visitTypes[type - 1].value,
+          width: 950,
+          height: 560,
+          params: {
+            ids: this.detail.id,
+            type: type
+          },
+          callback: (data) => {
+            if (data.type === 'save') {
+              this.getDetail()
+            }
+          },
+        })
+      },
+      returnVisitDisabled (type) {
+        // console.log(type, this.detail.type)
+        if (this.detail.type === type) {
+          return false
+        } else {
+          return true
+        }
       },
     },
     created () {

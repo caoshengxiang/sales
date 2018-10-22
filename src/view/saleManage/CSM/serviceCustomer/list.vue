@@ -401,7 +401,7 @@
 
 <script>
   import { mapState } from 'vuex'
-  import { underscoreName } from '../../../../utils/utils'
+  import { underscoreName, arrToStr } from '../../../../utils/utils'
   import { serverUrl } from '../../../../utils/const'
   import QS from 'qs'
   import webStorage from 'webStorage'
@@ -475,6 +475,11 @@
       excelExport () { // 导出
         this.getQueryParams()
         let as = {}
+        if (this.multipleSelection.length) {
+          as['ids'] = arrToStr(this.multipleSelection, 'id')
+        } else {
+          as['ids'] = null
+        }
         for (let key in this.advancedSearch) { // 去除null
           if (this.advancedSearch[key]) {
             as[key] = this.advancedSearch[key]

@@ -102,6 +102,25 @@
             show-overflow-tooltip
           >
           </el-table-column>
+          <el-table-column
+            align="center"
+            sortable="custom"
+            prop="cusServiceName"
+            label="回访人"
+            show-overflow-tooltip
+          >
+          </el-table-column>
+          <el-table-column
+            align="center"
+            sortable="custom"
+            prop="buildTime"
+            label="生成日期"
+            show-overflow-tooltip
+          >
+            <template slot-scope="scope">
+              {{scope.row.buildTime && $moment(scope.row.buildTime).format('YYYY-MM-DD HH:mm')}}
+            </template>
+          </el-table-column>
         </el-table>
       </div>
 
@@ -124,7 +143,7 @@
 
 <script>
   import { mapState } from 'vuex'
-  import { underscoreName } from '../../../../utils/utils'
+  import { underscoreName, arrToStr } from '../../../../utils/utils'
   import { serverUrl } from '../../../../utils/const'
   import QS from 'qs'
   import webStorage from 'webStorage'
@@ -198,6 +217,11 @@
       excelExport () { // 导出
         this.getQueryParams()
         let as = {}
+        if (this.multipleSelection.length) {
+          as['ids'] = arrToStr(this.multipleSelection, 'id')
+        } else {
+          as['ids'] = null
+        }
         for (let key in this.advancedSearch) { // 去除null
           if (this.advancedSearch[key]) {
             as[key] = this.advancedSearch[key]

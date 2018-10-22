@@ -11,22 +11,24 @@
     </div>
     <!--控制栏-->
     <div class="com-bar">
-      <div class="com-bar-left">
+      <div class="com-bar-left" style="display: flex">
         <com-button buttonType="add" :disabled="multipleSelection.length === 0" icon="el-icon-plus" @click="orderHandle('assginOrder')">回访派单</com-button>
         <!--<com-button buttonType="add" icon="el-icon-plus" @click="orderHandle('returnVisit')">回访</com-button>-->
-        <el-dropdown @command="handleCommand" trigger="click">
-          <el-button type="primary">
-            回访<i class="el-icon-arrow-down el-icon--right"></i>
-          </el-button>
-        <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item v-for="item in visitTypes"
-                            :key="item.type"
-                            :command="item.type"
-                            :disabled="multipleSelection.length !== 1">
-            {{item.value}}
-          </el-dropdown-item>
-        </el-dropdown-menu>
-        </el-dropdown>
+        <div>
+          <el-dropdown @command="handleCommand" trigger="click" style="margin-left: 10px">
+            <el-button type="primary">
+              回访<i class="el-icon-arrow-down el-icon--right"></i>
+            </el-button>
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item v-for="item in visitTypes"
+                                :key="item.type"
+                                :command="item.type"
+                                :disabled="returnVisitDisabled(item.type)">
+                {{item.value}}
+              </el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
+        </div>
       </div>
       <div class="com-bar-right">
       </div>
@@ -143,11 +145,11 @@
             show-overflow-tooltip
           >
             <template slot-scope="scope">
-              <span v-if="scope.row.type === 1">待派单</span>
-              <span v-if="scope.row.type === 2">待回访</span>
-              <span v-if="scope.row.type === 3">已回访</span>
-              <span v-if="scope.row.type === 4">拒绝回访</span>
-              <span v-if="scope.row.type === 5">待再回访</span>
+              <span v-if="scope.row.state === 1">待派单</span>
+              <span v-if="scope.row.state === 2">待回访</span>
+              <span v-if="scope.row.state === 3">已回访</span>
+              <span v-if="scope.row.state === 4">拒绝回访</span>
+              <span v-if="scope.row.state === 5">待再回访</span>
             </template>
           </el-table-column>
           <el-table-column
@@ -289,8 +291,8 @@
         let type = parseInt(command, 10)
         this.$vDialog.modal(returnVisit, {
           title: this.visitTypes[type - 1].value,
-          width: 1100,
-          height: 600,
+          width: 950,
+          height: 560,
           params: {
             ids: arrToStr(this.multipleSelection, 'id'),
             type: type
@@ -302,6 +304,15 @@
           },
         })
       },
+      returnVisitDisabled (type) {
+        if (this.multipleSelection.length !== 1) {
+          return true
+        } else if (this.multipleSelection.length === 1 && this.multipleSelection[0].type === type) {
+          return false
+        } else {
+          return true
+        }
+      }
     },
     created () {
       this.getList()
