@@ -44,7 +44,7 @@
             show-overflow-tooltip
           >
             <template slot-scope="scope">
-              <router-link class="col-link" :to="{name: 'serviceCustomerDetail', query: {id: scope.row.id}}">{{ scope.row.name }}</router-link>
+              <router-link class="col-link" :to="{name: 'serviceCustomerDetail', query: {id: scope.row.id, view: 'base'}}">{{ scope.row.name }}</router-link>
             </template>
           </el-table-column>
           <el-table-column
@@ -440,6 +440,7 @@
       handleCurrentChange (val) {
         console.log(`当前页: ${val}`)
         this.currentPage = val
+        this.getList()
       },
       handleSelectionChange (val) {
         this.multipleSelection = val

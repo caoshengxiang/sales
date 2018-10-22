@@ -202,7 +202,8 @@ export default {
       })
     },
   },
-  customerComments: { // 客户意见
+  // 客户意见
+  customerComments: {
     list (params, success, error) { // 列表
       $axios.get('suggestion/sales/serviceSuggestion', {
         params: params,

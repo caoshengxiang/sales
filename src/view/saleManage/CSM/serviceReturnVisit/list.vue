@@ -81,7 +81,7 @@
             label="客户联系人"
             width="160"
             show-overflow-tooltip
-          >
+          ><template slot-scope="scope">{{scope.row.contactName}}[{{scope.row.contactPhone}}]</template>
           </el-table-column>
           <el-table-column
             align="center"
