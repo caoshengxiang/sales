@@ -1,3 +1,4 @@
+<!-- 投诉 -->
 <template>
   <div class="com-container" v-loading="dataLoading"
        element-loading-text="数据加载中...">
@@ -12,6 +13,8 @@
     <!--控制栏-->
     <div class="com-bar">
       <div class="com-bar-left">
+        <com-button buttonType="add" icon="el-icon-plus" @click="addHandle">添加</com-button>
+        <el-button buttonType="add" type="primary" icon="" @click="assginOrderHandle">坐席派单</el-button>
       </div>
       <div class="com-bar-right">
       </div>
@@ -197,9 +200,11 @@
 
 <script>
   import { mapState } from 'vuex'
-  import { underscoreName } from '../../../../utils/utils'
+  import { underscoreName, arrToStr } from '../../../../utils/utils'
   import comButton from '../../../../components/button/comButton'
   import API from '../../../../utils/api'
+  import addDialog from './addDialog'
+  import assginOrder from './assginOrder'
 
   export default {
     name: 'list',
@@ -211,13 +216,9 @@
           page: null,
           pageSize: null,
         },
-        sortObj: {sort: 'id,desc'}, // 排序 // todo 时间排序
-        // sortObj: {sort: 'created,desc'}, // 排序 // todo 时间排序
+        sortObj: {sort: 'created,desc'}, // 排序
         advancedSearch: {}, // 高级搜索
-        tableData: [
-          {
-            test: 'test Data',
-          }],
+        tableData: [],
         tableDataTotal: 0,
         multipleSelection: [],
       }
@@ -269,6 +270,34 @@
             }, 300)
           })
       },
+      addHandle () {
+        this.$vDialog.modal(addDialog, {
+          title: '添加投诉',
+          width: 1200,
+          height: 400,
+          params: {},
+          callback: (data) => {
+            if (data.type === 'save') {
+              this.getList()
+            }
+          },
+        })
+      },
+      assginOrderHandle () {
+        this.$vDialog.modal(assginOrder, {
+          title: '坐席派单',
+          width: 600,
+          height: 260,
+          params: {
+            ids: arrToStr(this.multipleSelection, 'id')
+          },
+          callback: (data) => {
+            if (data.type === 'save') {
+              this.getList()
+            }
+          },
+        })
+      }
     },
     created () {
       this.getList()

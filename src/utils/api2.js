@@ -6,7 +6,8 @@ import '../utils/axiosConfig' // axios配置文件
 // import { externalAPI } from './const'
 
 export default {
-  serviceManager: { // 管家
+  // 管家
+  serviceManager: {
     list (params, success, error) { // 列表
       $axios.get('serviceManager', {
         params: params,
@@ -38,7 +39,8 @@ export default {
       })
     },
   },
-  customerBill: { // 票据
+  // 票据
+  customerBill: {
     list (params, success, error) {
       $axios.get('serviceCustomerBill', {
         params: params,
@@ -70,6 +72,7 @@ export default {
       })
     },
   },
+  // 服务订单
   serviceOrder: {
     list (params, success, error) { // 列表
       $axios.get('serviceOrder', {
@@ -88,7 +91,8 @@ export default {
       })
     },
   },
-  workOrder: { // 工单
+  // 工单
+  workOrder: {
     list (params, success, error) { // 列表
       $axios.get('serviceWorkOrder', {
         params: params,
@@ -156,6 +160,55 @@ export default {
     },
     detail (params, success, error) { // 详情
       $axios.get('serviceComplaint/' + params).then(res => {
+        success && success(res.data)
+      }).catch(err => {
+        error && error(err)
+      })
+    },
+    assignOrder (params, success, error) { // 服务投诉派单
+      $axios.post('serviceComplaint/assign', params).then(res => {
+        success && success(res.data)
+      }).catch(err => {
+        error && error(err)
+      })
+    },
+    add (params, success, error) { // 新增服务投诉
+      $axios.post('serviceComplaint', params).then(res => {
+        success && success(res.data)
+      }).catch(err => {
+        error && error(err)
+      })
+    },
+    inquire (params, success, error) { // 投诉调查
+      $axios.post('serviceComplaint/' + params.id + '/inquire', params).then(res => {
+        success && success(res.data)
+      }).catch(err => {
+        error && error(err)
+      })
+    },
+    handle (params, success, error) { // 投诉处理
+      $axios.post('serviceComplaint/' + params.id + '/handle', params).then(res => {
+        success && success(res.data)
+      }).catch(err => {
+        error && error(err)
+      })
+    },
+    visit (params, success, error) { // 投诉回访
+      $axios.post('serviceComplaint/' + params.id + '/visit', params).then(res => {
+        success && success(res.data)
+      }).catch(err => {
+        error && error(err)
+      })
+    },
+    upInquire (params, success, error) { // 升级调查
+      $axios.post('serviceComplaint/' + params.id + '/upInquire', params).then(res => {
+        success && success(res.data)
+      }).catch(err => {
+        error && error(err)
+      })
+    },
+    upHandle (params, success, error) { // 升级处理
+      $axios.post('serviceComplaint/' + params.id + '/upHandle', params).then(res => {
         success && success(res.data)
       }).catch(err => {
         error && error(err)

@@ -15,7 +15,13 @@
       <div class="com-info-left">
         <img class="com-info-img" src="../../../../assets/icon/company.png" alt="">
         <div class="com-info-text">
-          <h3>{{detail.goodsName}} <span class="com-d-tap">升级投诉 ???</span></h3>
+          <h3>{{detail.goodsName}}
+            <span class="com-d-tap" v-if="detail.state === 2">投诉调查</span>
+            <span class="com-d-tap" v-if="detail.state === 3">投诉处理</span>
+            <span class="com-d-tap" v-if="detail.state === 4">投诉回访</span>
+            <span class="com-d-tap" v-if="detail.state === 5">升级调查</span>
+            <span class="com-d-tap" v-if="detail.state === 6">升级处理</span>
+          </h3>
           <p>
             <span class="com-d-item">投诉状态:
               <span v-if="detail.state === 1">待派单</span>
@@ -33,24 +39,24 @@
       </div>
       <div class="com-info-right">
         <ul class="com-info-op-group">
-          <li @click="operateOptions('delete')">投诉调查</li>
-          <li @click="operateOptions('delete')">投诉处理</li>
-          <li @click="operateOptions('delete')">投诉回访</li>
-          <li @click="operateOptions('delete')">升级调查</li>
-          <li @click="operateOptions('delete')">升级处理</li>
+          <li @click="stepClickHandle(2)" v-if="detail.state === 2">投诉调查</li>
+          <li @click="stepClickHandle(3)" v-if="detail.state === 3">投诉处理</li>
+          <li @click="stepClickHandle(4)" v-if="detail.state === 4">投诉回访</li>
+          <li @click="stepClickHandle(5)" v-if="detail.state === 5">升级调查</li>
+          <li @click="stepClickHandle(6)" v-if="detail.state === 6">升级处理</li>
         </ul>
       </div>
       <div class="step-box">
         <div class="step">
           <el-steps :active="detail.state - 1" align-center>
             <!--<el-step @click.native="stepClickHandle(item)" v-for="(item, index) in complaintState" :key="index"-->
-                     <!--:title="item.value"></el-step>-->
-            <el-step @click.native="stepClickHandle(2)" title="更进中"></el-step>
-            <el-step @click.native="stepClickHandle(3)" title="待处理"></el-step>
-            <el-step @click.native="stepClickHandle(4)" title="待回访"></el-step>
-            <el-step @click.native="stepClickHandle(5)" title="升级跟进中"></el-step>
-            <el-step @click.native="stepClickHandle(6)" title="升级待处理"></el-step>
-            <el-step @click.native="stepClickHandle(7)" title="已完成"></el-step>
+            <!--:title="item.value"></el-step>-->
+            <el-step title="更进中"></el-step>
+            <el-step title="待处理"></el-step>
+            <el-step title="待回访"></el-step>
+            <el-step title="升级跟进中"></el-step>
+            <el-step title="升级待处理"></el-step>
+            <el-step title="已完成"></el-step>
           </el-steps>
         </div>
       </div>
@@ -67,7 +73,7 @@
             <td class="td-title">首次投诉日期</td>
             <td>todo</td>
             <td class="td-title">客服坐席</td>
-            <td>todo</td>
+            <td>{{detail.cusServiceName}}</td>
           </tr>
           <tr>
             <td class="td-title">客户名称</td>
@@ -104,11 +110,28 @@
           </tr>
           <tr>
             <td class="td-title" rowspan="2">首次调查结果</td>
-            <td rowspan="2">有责任 todo</td>
-            <td colspan="4">todo</td>
+            <td rowspan="2">
+              {{detail.checkResultModel.duty == true ? '有责任' : '无责任'}}
+            </td>
+            <td colspan="4">
+              <ul class="duty-ul">
+                <li type="square" v-if="detail.checkResultModel.serviceProcedure">未按流程服务</li>
+                <li type="square" v-if="detail.checkResultModel.contactCustomer">未及时与客户联系</li>
+                <li type="square" v-if="detail.checkResultModel.serviceFinishDelay">未按约定时间开始或完成服务</li>
+                <li type="square" v-if="detail.checkResultModel.serviceError">专业服务出现差错</li>
+                <li type="square" v-if="detail.checkResultModel.chargeExtraCost">私下额外收费</li>
+                <li type="square" v-if="detail.checkResultModel.intrduceOtherOrder">私下介绍客户跳单</li>
+                <li type="square" v-if="detail.checkResultModel.serviceAttitudeBad">服务态度差</li>
+              </ul>
+            </td>
           </tr>
           <tr>
-            <td colspan="4">todo</td>
+            <td colspan="4">
+              <ul class="duty-ul">
+                <li type="square" v-if="detail.checkResultModel.other">其他</li>
+              </ul>
+              <span style="padding-left: 10px;" v-if="detail.checkResultModel.other">{{detail.checkResultModel.otherContent}}</span>
+            </td>
           </tr>
           <tr>
             <td class="td-title">首次处理方案</td>
@@ -120,13 +143,13 @@
           </tr>
           <tr>
             <td class="td-title">首次处理结果回访</td>
-            <td colspan="5">todo todotodo
-              {{JSON.parse(detail.handleVisit).state}}
+            <td colspan="5">
+              {{detail.handleVisitModel.state == 1 ? '满意' : '不满意'}}
               &nbsp;
               &nbsp;
               &nbsp;
               &nbsp;
-              {{JSON.parse(detail.handleVisit).content}}
+              {{detail.handleVisitModel.content}}
             </td>
           </tr>
           <tr>
@@ -147,7 +170,15 @@
           </tr>
           <tr>
             <td class="td-title">投诉处理</td>
-            <td colspan="5">todo</td>
+            <td colspan="5">
+              <ul class="duty-ul">
+                <li type="square" v-if="detail.complaintReusltModel.cancelReward">取消该订单的服务奖励</li>
+                <li type="square" v-if="detail.complaintReusltModel.stopCooperation">取消合作</li>
+                <li type="square" v-if="detail.complaintReusltModel.other">
+                  其他（{{detail.complaintReusltModel.otherDesc}}）
+                </li>
+              </ul>
+            </td>
           </tr>
         </table>
       </div>
@@ -157,6 +188,8 @@
 
 <script>
   import API from '../../../../utils/api'
+  import handleDialog from './handleDialog'
+
   export default {
     name: 'detail',
     data () {
@@ -170,13 +203,34 @@
           {value: '升级待处理'},
           {value: '已完成'},
         ],
-        detail: {},
+        detail: {
+          checkResultModel: {},
+          complaintReusltModel: {},
+          handleVisitModel: {},
+        },
       }
     },
     methods: {
       operateOptions () {
       },
-      stepClickHandle () {},
+      stepClickHandle (type) {
+        // console.log(type)
+        let typeName = ['投诉调查', '投诉处理', '投诉回访', '升级调查', '升级处理']
+        this.$vDialog.modal(handleDialog, {
+          title: typeName[type - 2],
+          width: 1000,
+          height: 660,
+          params: {
+            type: type, // 2-6 投诉调查，投诉处理，投诉回访，升级调查，升级处理
+            id: this.detail.id,
+          },
+          callback: (data) => {
+            if (data.type === 'save') {
+              this.getDetail()
+            }
+          },
+        })
+      },
       getDetail () {
         this.dataLoading = true
         API.serviceComplaint.detail(this.$route.query.id, (da) => {
@@ -189,10 +243,17 @@
     },
     created () {
       this.getDetail()
-    }
+    },
   }
 </script>
 
 <style scoped lang="scss" rel="stylesheet/scss">
   @import "../../../../styles/common";
+
+  .duty-ul {
+    li {
+      float: left;
+      margin-left: 20px;
+    }
+  }
 </style>

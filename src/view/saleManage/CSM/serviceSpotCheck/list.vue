@@ -104,7 +104,6 @@
             sortable="custom"
             prop="test"
             label="抽查派单时间"
-            width="160"
             show-overflow-tooltip
           >
           </el-table-column>
