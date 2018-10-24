@@ -11,6 +11,8 @@
     <!--控制栏-->
     <div class="com-bar">
       <div class="com-bar-left">
+        <el-button type="primary" :disabled="multipleSelection.length === 0" @click="assginOrderHandle">派单</el-button>
+        <el-button type="primary" :disabled="multipleSelection.length !== 1" @click="checkHandle">抽查</el-button>
       </div>
       <div class="com-bar-right">
       </div>
@@ -36,19 +38,21 @@
           <el-table-column
             align="center"
             sortable="custom"
-            prop="test"
+            prop="num"
             label="抽查单号"
             width="160"
             show-overflow-tooltip
           >
             <template slot-scope="scope">
-              <router-link class="col-link" :to="{name: 'serviceSpotCheckDetail', query: {id: scope.row.test}}">{{ scope.row.test }}</router-link>
+              <router-link class="col-link" :to="{name: 'serviceSpotCheckDetail', query: {id: scope.row.id, view: 'order'}}">{{
+                scope.row.num }}
+              </router-link>
             </template>
           </el-table-column>
           <el-table-column
             align="center"
             sortable="custom"
-            prop="test"
+            prop="customerName"
             label="服务客户"
             width="160"
             show-overflow-tooltip
@@ -57,7 +61,7 @@
           <el-table-column
             align="center"
             sortable="custom"
-            prop="test"
+            prop="contactName"
             label="客户联系人"
             width="160"
             show-overflow-tooltip
@@ -66,7 +70,7 @@
           <el-table-column
             align="center"
             sortable="custom"
-            prop="test"
+            prop="orderId"
             label="订单号"
             width="160"
             show-overflow-tooltip
@@ -75,7 +79,7 @@
           <el-table-column
             align="center"
             sortable="custom"
-            prop="test"
+            prop="goodsName"
             label="服务商品"
             width="160"
             show-overflow-tooltip
@@ -84,16 +88,21 @@
           <el-table-column
             align="center"
             sortable="custom"
-            prop="test"
+            prop="state"
             label="抽查状态"
             width="160"
             show-overflow-tooltip
           >
+            <template slot-scope="scope">
+              <span v-if="scope.row.state === 1">待派单</span>
+              <span v-if="scope.row.state === 2">待抽查</span>
+              <span v-if="scope.row.state === 3">已抽查 </span>
+            </template>
           </el-table-column>
           <el-table-column
             align="center"
             sortable="custom"
-            prop="test"
+            prop="cusServiceName"
             label="抽查客服"
             width="160"
             show-overflow-tooltip
@@ -102,10 +111,13 @@
           <el-table-column
             align="center"
             sortable="custom"
-            prop="test"
+            prop="assignTime"
             label="抽查派单时间"
             show-overflow-tooltip
           >
+            <template slot-scope="scope">
+              {{scope.row.assignTime && $moment(scope.row.assignTime).format('YYYY-MM-DD HH:mm')}}
+            </template>
           </el-table-column>
         </el-table>
       </div>
@@ -129,9 +141,11 @@
 
 <script>
   import { mapState } from 'vuex'
-  import { underscoreName } from '../../../../utils/utils'
+  import { underscoreName, arrToStr } from '../../../../utils/utils'
   import comButton from '../../../../components/button/comButton'
-  // import API from '../../../../utils/api'
+  import API from '../../../../utils/api'
+  import assginOrder from './assginOrder'
+  import checkHandle from './checkHandle'
 
   export default {
     name: 'list',
@@ -144,10 +158,7 @@
         },
         sortObj: {sort: 'created,desc'}, // 排序
         advancedSearch: {}, // 高级搜索
-        tableData: [
-          {
-            test: 'test Data',
-          }],
+        tableData: [],
         tableDataTotal: 0,
         multipleSelection: [],
       }
@@ -167,6 +178,7 @@
       handleCurrentChange (val) {
         console.log(`当前页: ${val}`)
         this.currentPage = val
+        this.getList()
       },
       handleSelectionChange (val) {
         this.multipleSelection = val
@@ -190,15 +202,45 @@
       getList () {
         this.getQueryParams()
         this.dataLoading = true
-        // API.serviceOrder.list(Object.assign({}, this.defaultListParams, this.sortObj, this.advancedSearch),
-        //   (res) => {
-        //     this.tableData = res.data.content
-        //     this.tableDataTotal = res.data.totalElements
-        //     setTimeout(() => {
-        this.dataLoading = false
-        //     }, 300)
-        //   })
+        API.serviceSpotCheck.list(Object.assign({}, this.defaultListParams, this.sortObj, this.advancedSearch),
+          (res) => {
+            this.tableData = res.data.content
+            this.tableDataTotal = res.data.totalElements
+            setTimeout(() => {
+              this.dataLoading = false
+            }, 300)
+          })
       },
+      assginOrderHandle () {
+        this.$vDialog.modal(assginOrder, {
+          title: '派单',
+          width: 600,
+          height: 260,
+          params: {
+            ids: arrToStr(this.multipleSelection, 'id')
+          },
+          callback: (data) => {
+            if (data.type === 'save') {
+              this.getList()
+            }
+          },
+        })
+      },
+      checkHandle () {
+        this.$vDialog.modal(checkHandle, {
+          title: '抽查',
+          width: 800,
+          height: 460,
+          params: {
+            ids: arrToStr(this.multipleSelection, 'id')
+          },
+          callback: (data) => {
+            if (data.type === 'save') {
+              this.getList()
+            }
+          },
+        })
+      }
     },
     created () {
       this.getList()

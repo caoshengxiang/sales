@@ -15,17 +15,21 @@
       <div class="com-info-left">
         <img class="com-info-img" src="../../../../assets/icon/company.png" alt="">
         <div class="com-info-text">
-          <h3>todo <span class="com-d-tap">已抽查</span></h3>
+          <h3>{{detail.num}} <span class="com-d-tap">
+            <span v-if="detail.state === 1">待派单</span>
+              <span v-if="detail.state === 2">待抽查</span>
+              <span v-if="detail.state === 3">已抽查 </span>
+          </span></h3>
           <p>
-            <span class="com-d-item">服务客户: <span> todo</span></span>
-            <span class="com-d-item">服务商品: <span>todo</span></span>
-            <span class="com-d-item">派单时间: <span>todo、todo</span></span>
+            <span class="com-d-item">服务客户: <span> {{detail.customerName}}</span></span>
+            <span class="com-d-item">服务商品: <span>{{detail.goodsName}}</span></span>
+            <span class="com-d-item">派单时间: <span>{{detail.assignTime && $moment(detail.assignTime).format('YYYY-MM-DD HH:mm:mm')}}</span></span>
           </p>
         </div>
       </div>
       <div class="com-info-right">
         <ul class="com-info-op-group">
-          <li @click="operateOptions('delete')">抽查</li>
+          <li @click="operateOptions('check')" v-if="detail.state === 2">抽查</li>
         </ul>
       </div>
     </div>
@@ -38,19 +42,19 @@
             <table class="detail-table">
               <tr>
                 <td class="td-title">抽查单号</td>
-                <td></td>
+                <td>{{detail.num}}</td>
                 <td class="td-title">抽查日期</td>
-                <td></td>
+                <td>{{detail.modified && $moment(detail.modified).format('YYYY-MM-DD HH:mm:mm')}}</td>
                 <td class="td-title">抽查人员</td>
-                <td></td>
+                <td>{{detail.cusServiceName}}</td>
               </tr>
               <tr>
                 <td class="td-title">抽查结果</td>
-                <td colspan="5"></td>
+                <td colspan="5">{{detail.assignResult}}</td>
               </tr>
               <tr>
                 <td class="td-title">抽查处罚</td>
-                <td colspan="5"></td>
+                <td colspan="5">{{detail.assignPunlish}}</td>
               </tr>
             </table>
           </el-tab-pane>
@@ -172,22 +176,62 @@
 
 <script>
   import iconText from '../../../../components/iconText/iconText'
+  import API from '../../../../utils/api'
+  import checkHandle from './checkHandle'
+
   export default {
     name: 'detail',
     data () {
       return {
         dataLoading: false,
-        activeViewName: 'order'
+        activeViewName: 'order',
+        detail: {},
       }
     },
     components: {
       iconText,
     },
-    methods: {
-      operateOptions () {
+    watch: {
+      '$route.query.view' (view) {
+        this.activeViewName = view
       },
-      stepClickHandle () {},
-      handleTabsClick () {},
+    },
+    methods: {
+      handleTabsClick (tab, event) {
+        // console.log(tab.name)
+        this.$router.push({
+          name: 'serviceSpotCheckDetail',
+          params: {end: this.themeIndex === 0 ? 'FE' : 'ME'},
+          query: {view: tab.name, id: this.$route.query.id},
+        })
+      },
+      operateOptions () {
+        this.$vDialog.modal(checkHandle, {
+          title: '抽查',
+          width: 800,
+          height: 460,
+          params: {
+            ids: this.detail.id
+          },
+          callback: (data) => {
+            if (data.type === 'save') {
+              this.getList()
+            }
+          },
+        })
+      },
+      getDetail () {
+        this.dataLoading = true
+        API.serviceSpotCheck.detail(this.$route.query.id, (da) => {
+          this.detail = da.data
+          setTimeout(() => {
+            this.dataLoading = false
+          }, 500)
+        })
+      },
+    },
+    created () {
+      this.getDetail()
     },
   }
 </script>

@@ -166,7 +166,7 @@ export default {
       })
     },
     assignOrder (params, success, error) { // 服务投诉派单
-      $axios.post('serviceComplaint/assign', params).then(res => {
+      $axios.post('serviceComplaint/batch/assign', params).then(res => {
         success && success(res.data)
       }).catch(err => {
         error && error(err)
@@ -261,6 +261,39 @@ export default {
       $axios.get('suggestion/sales/serviceSuggestion', {
         params: params,
       }).then(res => {
+        success && success(res.data)
+      }).catch(err => {
+        error && error(err)
+      })
+    },
+  },
+  // 服务抽查
+  serviceSpotCheck: {
+    list (params, success, error) { // 列表
+      $axios.get('check/serviceSpotCheck', {
+        params: params,
+      }).then(res => {
+        success && success(res.data)
+      }).catch(err => {
+        error && error(err)
+      })
+    },
+    detail (params, success, error) { // 详情
+      $axios.get('check/serviceSpotCheck/' + params).then(res => {
+        success && success(res.data)
+      }).catch(err => {
+        error && error(err)
+      })
+    },
+    assignBatch (params, success, error) { // 派单
+      $axios.post('check/assignBatch', null, {params: params}).then(res => {
+        success && success(res.data)
+      }).catch(err => {
+        error && error(err)
+      })
+    },
+    check (params, success, error) { // 抽查
+      $axios.post('check/spot', null, {params: params}).then(res => {
         success && success(res.data)
       }).catch(err => {
         error && error(err)

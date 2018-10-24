@@ -66,6 +66,10 @@
             width="160"
             show-overflow-tooltip
           >
+            <template slot-scope="scope">
+              <span v-if="scope.row.type === 1">一般投诉</span>
+              <span v-if="scope.row.type === 2">升级投诉</span>
+            </template>
           </el-table-column>
           <el-table-column
             align="center"
@@ -238,6 +242,7 @@
       handleCurrentChange (val) {
         console.log(`当前页: ${val}`)
         this.currentPage = val
+        this.getList()
       },
       handleSelectionChange (val) {
         this.multipleSelection = val

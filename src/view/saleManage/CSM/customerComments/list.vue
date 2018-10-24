@@ -182,6 +182,7 @@
       handleCurrentChange (val) {
         console.log(`当前页: ${val}`)
         this.currentPage = val
+        this.getList()
       },
       handleSelectionChange (val) {
         this.multipleSelection = val
