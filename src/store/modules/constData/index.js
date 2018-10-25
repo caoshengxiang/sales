@@ -464,6 +464,15 @@ export default {
         value: 4,
       },
     ],
+    // 认证状态,认证状态
+    auditStatus: [
+      {type: 1, value: '申请认证'},
+      {type: 2, value: '认证审核'},
+      {type: 3, value: '管家面签'},
+      {type: 4, value: '缴纳保证金'},
+      {type: 5, value: '保证金审核'},
+      {type: 6, value: '入驻成功'},
+    ],
     serviceType: [ // 7种服务类型
       {
         type: 1,

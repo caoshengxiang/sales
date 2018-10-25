@@ -80,7 +80,7 @@
     },
     created () {
       this.currentUserId = webStorage.getItem('userInfo').id
-      this.dialogRuleForm.ids = this.params.ids
+      this.dialogRuleForm.ids = this.params.ids.split(',')
       this.getCustomerServicesList()
     },
   }

@@ -29,15 +29,22 @@
                 <div class="flex-line" v-if="ruleForm2.checkResult.duty === true">
                   <label class="label-ti">有责任</label>
                   <div style="flex: 1;">
+                    <!--<div>-->
+                      <!--<el-checkbox v-model="ruleForm2.checkResult.serviceProcedure">服务质量未达预期</el-checkbox>-->
+                      <!--<el-checkbox v-model="ruleForm2.checkResult.contactCustomer">未及时与客户联系</el-checkbox>-->
+                      <!--<el-checkbox v-model="ruleForm2.checkResult.serviceFinishDelay">未按约定时间开始或完成服务</el-checkbox>-->
+                    <!--</div>-->
+                    <!--<div>-->
+                      <!--<el-checkbox v-model="ruleForm2.checkResult.serviceError">专业服务出现差错</el-checkbox>-->
+                      <!--<el-checkbox v-model="ruleForm2.checkResult.chargeExtraCost">私下额外收费</el-checkbox>-->
+                      <!--<el-checkbox v-model="ruleForm2.checkResult.serviceAttitudeBad">服务态度差</el-checkbox>-->
+                    <!--</div>-->
                     <div>
-                      <el-checkbox v-model="ruleForm2.checkResult.serviceProcedure">服务质量未达预期</el-checkbox>
-                      <el-checkbox v-model="ruleForm2.checkResult.contactCustomer">未及时与客户联系</el-checkbox>
-                      <el-checkbox v-model="ruleForm2.checkResult.serviceFinishDelay">未按约定时间开始或完成服务</el-checkbox>
-                    </div>
-                    <div>
-                      <el-checkbox v-model="ruleForm2.checkResult.serviceError">专业服务出现差错</el-checkbox>
-                      <el-checkbox v-model="ruleForm2.checkResult.chargeExtraCost">私下额外收费</el-checkbox>
-                      <el-checkbox v-model="ruleForm2.checkResult.serviceAttitudeBad">服务态度差</el-checkbox>
+                      <el-checkbox-group v-model="ruleForm2.checkResult.dutyTypes">
+                        <el-checkbox v-for="item in complaintTypes"
+                                     :key="item.id"
+                                     :label="item.codeName" name="type"></el-checkbox>
+                      </el-checkbox-group>
                     </div>
                     <div>
                       <el-checkbox v-model="ruleForm2.checkResult.other" @change="changeOther">其他</el-checkbox>
@@ -166,17 +173,18 @@
         ruleForm2: {
           checkResult: {
             duty: true,
-            serviceProcedure: false,
-            chargeExtraCost: false,
-            contactCustomer: false,
-            intrduceOtherOrder: false,
             other: false,
             otherContent: '',
-            serviceAttitudeBad: false,
-            serviceError: false,
-            serviceFinishDelay: false,
             serviceContent: false,
             servicePrice: false,
+            dutyTypes: [],
+            // serviceProcedure: false,
+            // chargeExtraCost: false,
+            // contactCustomer: false,
+            // intrduceOtherOrder: false,
+            // serviceAttitudeBad: false,
+            // serviceError: false,
+            // serviceFinishDelay: false,
           },
           handlePlan: '',
         },
@@ -204,7 +212,7 @@
           // {required: true, message: '请选择回访结果', trigger: 'change'},
           // ],
         },
-        commentsTypes: [],
+        complaintTypes: [],
         detail: {},
       }
     },
@@ -216,17 +224,11 @@
         this.ruleForm2 = {
           checkResult: {
             duty: duty,
-            serviceProcedure: false,
-            chargeExtraCost: false,
-            contactCustomer: false,
-            intrduceOtherOrder: false,
             other: false,
             otherContent: '',
-            serviceAttitudeBad: false,
-            serviceError: false,
-            serviceFinishDelay: false,
             serviceContent: false,
             servicePrice: false,
+            dutyTypes: [],
           },
           handlePlan: '',
         }
@@ -324,15 +326,15 @@
       },
       getCodeConfig () {
         var that = this
-        API.baseSetting.getCodeConfig({type: 7}, function (res) { // 7 意见类型
+        API.baseSetting.getCodeConfig({type: 8}, function (res) { // 7 意见类型
           if (res.status) {
-            that.commentsTypes = res.data
+            that.complaintTypes = res.data
           }
         })
       },
     },
     created () {
-      this.getCodeConfig() // 意见类型
+      this.getCodeConfig() // 投诉类型
     },
   }
 </script>

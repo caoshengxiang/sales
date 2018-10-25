@@ -181,13 +181,17 @@
           <tr>
             <td class="td-title">认证服务地区</td>
             <td colspan="5">
-todo
+              <span v-for="(item, index) in addForm.serviceManagerAreaModels" :key="index">
+                <span v-if="index > 0">、</span>{{item.provinceName + item.cityName + item.areaName}}
+              </span>
             </td>
           </tr>
           <tr>
             <td class="td-title">认证商品</td>
             <td colspan="5">
-todo
+              <span v-for="(item, index) in addForm.serviceManagerGoodsModels" :key="index">
+                <span v-if="index > 0">、</span>{{item.goodsName}}
+              </span>
             </td>
           </tr>
           <tr>

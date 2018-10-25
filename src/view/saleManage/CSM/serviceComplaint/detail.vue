@@ -45,6 +45,13 @@
           <li @click="stepClickHandle(5)" v-if="detail.state === 5">升级调查</li>
           <li @click="stepClickHandle(6)" v-if="detail.state === 6">升级处理</li>
         </ul>
+        <!--<ul class="com-info-op-group">
+          <li @click="stepClickHandle(2)">投诉调查</li>
+          <li @click="stepClickHandle(3)">投诉处理</li>
+          <li @click="stepClickHandle(4)">投诉回访</li>
+          <li @click="stepClickHandle(5)">升级调查</li>
+          <li @click="stepClickHandle(6)">升级处理</li>
+        </ul>-->
       </div>
       <div class="step-box">
         <div class="step">
@@ -115,13 +122,11 @@
             </td>
             <td colspan="4">
               <ul class="duty-ul">
-                <li type="square" v-if="detail.checkResultModel.serviceProcedure">未按流程服务</li>
-                <li type="square" v-if="detail.checkResultModel.contactCustomer">未及时与客户联系</li>
-                <li type="square" v-if="detail.checkResultModel.serviceFinishDelay">未按约定时间开始或完成服务</li>
-                <li type="square" v-if="detail.checkResultModel.serviceError">专业服务出现差错</li>
-                <li type="square" v-if="detail.checkResultModel.chargeExtraCost">私下额外收费</li>
-                <li type="square" v-if="detail.checkResultModel.intrduceOtherOrder">私下介绍客户跳单</li>
-                <li type="square" v-if="detail.checkResultModel.serviceAttitudeBad">服务态度差</li>
+                <li type="square"
+                    v-if="detail.checkResultModel"
+                    v-for="(item, index) in detail.checkResultModel.dutyTypes"
+                    :key="index"
+                >{{item}}</li>
               </ul>
             </td>
           </tr>
@@ -235,6 +240,18 @@
         this.dataLoading = true
         API.serviceComplaint.detail(this.$route.query.id, (da) => {
           this.detail = da.data
+          if (da.data.checkResult) {
+            this.detail.checkResultModel = JSON.parse(da.data.checkResult)
+            // console.log(JSON.parse(da.data.checkResult))
+          } else {
+            this.detail.checkResultModel = {}
+          }
+          if (!da.data.complaintReusltModel) {
+            this.detail.complaintReusltModel = {}
+          }
+          if (!da.data.handleVisitModel) {
+            this.detail.handleVisitModel = {}
+          }
           setTimeout(() => {
             this.dataLoading = false
           }, 500)

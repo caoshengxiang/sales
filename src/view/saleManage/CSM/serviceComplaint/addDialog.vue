@@ -6,10 +6,10 @@
           <tr>
             <td class="td-title">投诉日期</td>
             <td class="td-text">
-              <el-form-item prop="time">
+              <el-form-item prop="complaintTime">
                 <el-date-picker
                   style="width: 100%"
-                  v-model="addForm.time"
+                  v-model="addForm.complaintTime"
                   type="date"
                   value-format="timestamp"
                   placeholder="选择日期">
@@ -29,9 +29,9 @@
             </td>
             <td class="td-title">商务电话</td>
             <td class="td-text">
-              <el-form-item prop="contactPhone">
-                <el-input type="text" v-model="addForm.contactPhone"></el-input>
-              </el-form-item>
+              <!--<el-form-item prop="customerPhone">-->
+                <!--<el-input type="text" v-model="addForm.customerPhone"></el-input>-->
+              <!--</el-form-item>-->
             </td>
           </tr>
           <tr>
@@ -52,8 +52,8 @@
             <td class="td-text">
               <el-form-item prop="managerId">
                 <el-select v-model.number="addForm.managerId" placeholder="请选择管家">
-                  <el-option :label="1" value="男"></el-option>
-                  <el-option :label="2" value="女"></el-option>
+                  <el-option label="男fdg" :value="126"></el-option>
+                  <el-option label="男fdg" :value="126"></el-option>
                 </el-select>
               </el-form-item>
             </td>
@@ -86,21 +86,21 @@
       return {
         dataLoading: false,
         addForm: { // 添加表单
-          time: '',
+          complaintTime: '',
           contactName: '',
-          contactPhone: '',
+          customerPhone: '',
           orderId: '',
           managerId: '',
           content: '',
         },
         rules: {
-          time: [
+          complaintTime: [
             {required: true, message: '请选择投诉日期', trigger: 'blur'},
           ],
           contactName: [
             {required: true, message: '请输入联系人', trigger: 'blur'},
           ],
-          contactPhone: [
+          customerPhone: [
             // {required: true, message: '请输入联系电话', trigger: 'blur'},
             chartLengthRule.validatePhone,
           ],
@@ -165,29 +165,11 @@
           }
         })
       },
-      getCustomersList () { // 当前登陆用户所有的拥有团队成员权限的客户信息 // todo ?
-        API.customer.teamAboutCustomerlist(null, data => {
-          if (data.status) {
-            this.customersList = data.data
-            if (this.params.addCustomersAndAddContact_customerName) { // 添加客户并添加联系人
-              this.customersList.forEach(item => {
-                if (item.name === this.params.addCustomersAndAddContact_customerName) {
-                  this.addForm.customerId = item.id
-                }
-              })
-            }
-          }
-        })
-      },
     },
     created () {
-      this.getCustomersList()
       if (this.params.detail) { // 联系人编辑
         this.addForm = JSON.parse(JSON.stringify(this.params.detail))
         this.dialogType = 'edit'
-      }
-      if (this.params.detailCustomersId) { // 详细页面的添加, 并禁用下拉列表
-        this.addForm.customerId = this.params.detailCustomersId
       }
     },
   }

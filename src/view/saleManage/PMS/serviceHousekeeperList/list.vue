@@ -60,8 +60,6 @@
           </el-table-column>
           <el-table-column
             align="center"
-            sortable="custom"
-            prop="category"
             label="管家类型"
             width="160"
             show-overflow-tooltip
@@ -84,7 +82,7 @@
           <el-table-column
             align="center"
             sortable="custom"
-            prop="test"
+            prop="category"
             label="管家类别"
             width="160"
             show-overflow-tooltip
@@ -106,8 +104,6 @@
           </el-table-column>
           <el-table-column
             align="center"
-            sortable="custom"
-            prop="test"
             label="服务地区"
             show-overflow-tooltip
           >
@@ -119,8 +115,6 @@
           </el-table-column>
           <el-table-column
             align="center"
-            sortable="custom"
-            prop="test"
             label="可服务商品"
             show-overflow-tooltip
           >

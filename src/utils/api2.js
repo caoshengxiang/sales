@@ -38,6 +38,13 @@ export default {
         error && error(err)
       })
     },
+    deleteBatch (params, success, error) { // 删除认证（批量）
+      $axios.post('serviceManager/batch', params).then(res => {
+        success && success(res.data)
+      }).catch(err => {
+        error && error(err)
+      })
+    },
   },
   // 票据
   customerBill: {
