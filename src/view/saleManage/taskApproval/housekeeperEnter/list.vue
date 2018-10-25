@@ -130,13 +130,13 @@
           <el-table-column
             align="center"
             sortable="custom"
-            prop="dataAuditTime"
+            prop="created"
             label="申请日期"
             width="160"
             show-overflow-tooltip
           >
             <template slot-scope="scope">
-              {{scope.row.dataAuditTime && $moment(scope.row.dataAuditTime).format('YYYY-MM-DD HH:mm')}}
+              {{scope.row.created && $moment(scope.row.created).format('YYYY-MM-DD HH:mm')}}
             </template>
           </el-table-column>
           <el-table-column

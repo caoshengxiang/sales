@@ -45,6 +45,27 @@ export default {
         error && error(err)
       })
     },
+    dataCheck (params, success, error) { // 认证
+      $axios.post('serviceManager/' + params.id + '/dataCheck', params).then(res => {
+        success && success(res.data)
+      }).catch(err => {
+        error && error(err)
+      })
+    },
+    signAudit (params, success, error) { // 面签审核
+      $axios.post('serviceManager/' + params.id + '/signAudit', params).then(res => {
+        success && success(res.data)
+      }).catch(err => {
+        error && error(err)
+      })
+    },
+    bailAudit (params, success, error) { // 面签审核
+      $axios.post('serviceManager/' + params.id + '/bailAudit', params).then(res => {
+        success && success(res.data)
+      }).catch(err => {
+        error && error(err)
+      })
+    },
   },
   // 票据
   customerBill: {

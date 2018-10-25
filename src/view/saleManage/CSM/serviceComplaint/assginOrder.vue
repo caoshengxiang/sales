@@ -49,7 +49,7 @@
         this.$refs[formName].validate((valid) => {
           if (valid) {
             this.dataLoading = true
-            API.serviceComplaint.assignOrder(this.dialogRuleForm, (data) => {
+            API.serviceComplaint.assignOrder({batchModel: this.dialogRuleForm}, (data) => {
               if (data.status) {
                 if (data.data.fail > 0) {
                   this.$message.warning(`成功${data.data.success}, 失败${data.data.fail}, 失败原因：${data.data.errorMessage}`)

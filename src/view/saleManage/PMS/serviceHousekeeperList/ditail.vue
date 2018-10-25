@@ -158,7 +158,7 @@
   import photoView from '../../../../components/photo/photoView'
   import historyDialog from './historyDialog'
   import editDialog from './editDialog'
-  import API2 from '../../../../utils/api2'
+  import API from '../../../../utils/api'
 
   export default {
     name: 'detail',
@@ -234,7 +234,7 @@
       },
       getDetail () {
         this.dataLoading = true
-        API2.serviceManager.detail(this.$route.query.id, (da) => {
+        API.serviceManager.detail(this.$route.query.id, (da) => {
           this.managerDetail = da.data
           setTimeout(() => {
             this.dataLoading = false
