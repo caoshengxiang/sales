@@ -1,0 +1,100 @@
+<template>
+  <div class="com-dialog-container">
+    <div class="com-dialog">
+      <el-table
+        ref="multipleTable"
+        border
+        stripe
+        :data="managerList"
+        tooltip-effect="dark"
+        @selection-change="handleSelectionChange"
+      >
+        <el-table-column
+          fixed
+          type="selection"
+          align="center"
+          width="40">
+        </el-table-column>
+        <el-table-column width="100" property="name" label="管家姓名"></el-table-column>
+        <el-table-column width="100" property="name" label="参与销售"></el-table-column>
+        <el-table-column property="provinceId" label="可服务地">
+          <template slot-scope="scope">
+              <span v-for="(item, index) in scope.row.serviceManagerAreaModels" :key="index">
+                <span v-if="index > 0">、</span>{{item.provinceName + item.cityName + item.areaName}}
+              </span>
+          </template>
+        </el-table-column>
+        <el-table-column property="accountNumber" label="平台分子机构" width="100"></el-table-column>
+        <el-table-column property="accountNumber" label="服务星级" width="100"></el-table-column>
+        <el-table-column property="accountNumber" label="个人/机构" width="100">
+          <template slot-scope="scope">
+              <span v-for="item in managerCategory" :key="item.value" v-if="item.value === scope.row.category">
+                {{item.name}}
+              </span>
+          </template>
+        </el-table-column>
+      </el-table>
+      <div slot="footer" class="dialog-footer">
+        <el-button class="save-button" @click="saveSubmitForm" :disabled="multipleSelection.length != 1">确 定</el-button>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+  import API from '../../../../utils/api'
+  export default {
+    name: 'selectManager',
+    data () {
+      return {
+        multipleSelection: [],
+        managerList: [],
+        managerCategory: [ // 管家类别
+          {
+            name: '平台直属',
+            value: 1,
+          }, {
+            name: '控股子公司',
+            value: 2,
+          }, {
+            name: '第三方机构',
+            value: 3,
+          }, {
+            name: '第三方个人',
+            value: 4,
+          },
+        ],
+      }
+    },
+    props: ['params'],
+    methods: {
+      getManagerList (managerType) { // todo 新列表
+        API.serviceManager.list({
+          page: 0,
+          pageSize: 1000,
+          sort: 'created,desc',
+          managerType: managerType,
+        }, (res) => {
+          this.managerList = res.data.content
+        })
+      },
+      handleSelectionChange (val) {
+        this.multipleSelection = val
+      },
+      saveSubmitForm () {
+        if (this.params.quickList) {
+          // todo
+        } else {
+          this.$vDialog.close({type: 'selectManager', manager: this.multipleSelection[0]})
+        }
+      }
+    },
+    created () {
+      this.getManagerList(this.params.managerType)
+    }
+  }
+</script>
+
+<style scoped lang="scss" rel="stylesheet/scss">
+  @import "../../../../styles/common";
+</style>

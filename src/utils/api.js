@@ -1371,8 +1371,8 @@ const API1 = {
 
   // 任务审批管理
   task: {
-    queryList (params, success, error) { // 用户列表
-      $axios.get('approval', {
+    queryList (params, success, error) { // 列表
+      $axios.get('approvalProcess', {
         params: params,
       }).then((res) => {
         success && success(res.data)
@@ -1382,10 +1382,10 @@ const API1 = {
         }, 1000)
       })
     },
-    getTaskDetail (params, success, error) { // 用户列表
+    getTaskDetail (params, success, error) { // detail
       $axios({
         method: 'get',
-        url: `/approval/${params.id}`,
+        url: `/approvalProcess/${params.id}`,
       }).then((res) => {
         success && success(res.data)
       }).catch(() => {
@@ -1394,10 +1394,10 @@ const API1 = {
         }, 1000)
       })
     },
-    auditTask (params, success, error) { // 用户列表
+    auditTask (params, success, error) { // 审批
       $axios({
         method: 'put',
-        url: `/approval/${params.id}`,
+        url: `/approvalProcess/${params.id}`,
         params: {state: params.state},
       }).then((res) => {
         success && success(res.data)

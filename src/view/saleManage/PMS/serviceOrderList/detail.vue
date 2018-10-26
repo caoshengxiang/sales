@@ -15,17 +15,22 @@
       <div class="com-info-left">
         <img class="com-info-img" src="../../../../assets/icon/company.png" alt="">
         <div class="com-info-text">
-          <h3>todo <span class="com-d-tap">平台直属/平台控股子公司</span></h3>
+          <h3>订单号{{detail.orderId}} <span class="com-d-tap">
+            <span v-if="detail.assignState === 1">待派单</span>
+            <span v-if="detail.assignState === 2">待部分派单</span>
+            <span v-if="detail.assignState === 3">已派单</span>
+            <span v-if="detail.assignState === 4">已接单</span>
+          </span></h3>
           <p>
-            <span class="com-d-item">服务地区: <span> todo</span></span>
-            <span class="com-d-item">联系电话: <span>todo</span></span>
-            <span class="com-d-item">服务类目: <span>todo、todo</span></span>
+            <span class="com-d-item">客户名称: <span> {{detail.serviceCustomerName}}</span></span>
+            <span class="com-d-item">服务商品: <span>{{detail.goodsName}}</span></span>
+            <span class="com-d-item">生成服务时间: <span>{{detail.created && $moment(detail.created).format('YYYY-MM-DD HH:mm:ss')}}</span></span>
           </p>
         </div>
       </div>
       <div class="com-info-right">
         <ul class="com-info-op-group">
-          <li @click="operateOptions('delete')">派单</li>
+          <li @click="orderHandle">派单</li>
         </ul>
       </div>
     </div>
@@ -63,7 +68,7 @@
                 <td class="td-title">服务客户</td>
                 <td>{{detail.serviceCustomerName}}</td>
                 <td class="td-title">联系人</td>
-                <td>{{detail.contactName}}</td>
+                <td>{{detail.contactName}}[{{detail.contactPhone}}]</td>
               </tr>
               <tr>
                 <td class="td-title">购买商品</td>
@@ -246,6 +251,7 @@
   import iconText from '../../../../components/iconText/iconText'
   import API from '../../../../utils/api'
   import { mapState } from 'vuex'
+  import orderDialog from './orderDialog'
 
   export default {
     name: 'detail',
@@ -301,6 +307,21 @@
             }
           },
         )
+      },
+      orderHandle () {
+        this.$vDialog.modal(orderDialog, {
+          title: '派单',
+          width: 1100,
+          height: 660,
+          params: {
+            ids: this.detail.id
+          },
+          callback: (data) => {
+            if (data.type === 'save') {
+              this.getList()
+            }
+          },
+        })
       },
     },
     created () {

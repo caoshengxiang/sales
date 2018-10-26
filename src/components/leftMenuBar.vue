@@ -96,8 +96,8 @@
           </template>
           <el-menu-item-group>
             <el-menu-item index="taskApprovalList" v-if="listPermissions(menus, 'approvalManagement')">业务审批管理</el-menu-item>
-            <!--<el-menu-item index="housekeeperEnterList" v-if="listPermissions(menus, 'serviceManagerJoin')">管家入驻管理</el-menu-item>&lt;!&ndash;todo&ndash;&gt;-->
-            <el-menu-item index="housekeeperEnterList">管家入驻管理</el-menu-item>
+            <el-menu-item index="housekeeperEnterList" v-if="listPermissions(menus, 'serviceManagerJoin')">管家入驻管理</el-menu-item><!--todo-->
+            <!--<el-menu-item index="housekeeperEnterList">管家入驻管理</el-menu-item>-->
           </el-menu-item-group>
         </el-submenu>
          <el-submenu index="statistical" v-if="listPermissions(menus, 'statisticAnalysis')">

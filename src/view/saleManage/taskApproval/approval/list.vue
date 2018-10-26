@@ -37,36 +37,23 @@
         <el-table-column
           fixed
           align="center"
-          prop="name"
-          label="任务名称"
+          prop="id"
+          label="审批单号"
         >
         </el-table-column>
         <el-table-column
           align="center"
-          prop="principalName"
-          label="负责人员"
+          prop="approvalType"
+          label="审批类型"
         >
-        </el-table-column>
-        <el-table-column
-          align="center"
-          prop="businessType"
-          :formatter="fmtBoolColumn"
-          label="关联销售类型"
-          show-overflow-tooltip>
-        </el-table-column>
-        <el-table-column
-          align="center"
-          prop="businessDesc"
-          label="关联业务描述"
-          show-overflow-tooltip>
-        </el-table-column>
-        <el-table-column
-          prop="deadline"
-          align="center"
-          label="任务截止时间"
-          :formatter="dateFormat"
-          show-overflow-tooltip>
-          >
+          <template slot-scope="scope">
+            <span v-if="scope.row.approvalType === 1">申请咨询师协同</span>
+            <span v-if="scope.row.approvalType === 2">申请移除咨询师</span>
+            <span v-if="scope.row.approvalType === 3">app订单退</span>
+            <span v-if="scope.row.approvalType === 4">服务工单退单</span>
+            <span v-if="scope.row.approvalType === 5">服务工单派单</span>
+            <span v-if="scope.row.approvalType === 6">管家信息修改</span>
+          </template>
         </el-table-column>
         <el-table-column
           align="center"
@@ -77,7 +64,7 @@
         <el-table-column
           align="center"
           prop="publishTime"
-          label="任务发布时间"
+          label="发布时间"
           :formatter="dateFormat"
         >
         </el-table-column>
@@ -87,6 +74,7 @@
           label="任务状态"
           show-overflow-tooltip>
           <template slot-scope="scope">
+            <!--principalId 负责人id-->
             <a v-if="scope.row.state === 1 && userInfo.id === scope.row.principalId" class="button" @click="handleRouter('detail', scope.row.id)">办理</a>
             <a v-if="scope.row.state === 1 && userInfo.id !== scope.row.principalId" class="button" @click="handleRouter('detail', scope.row.id)">查看</a>
             <a v-if="scope.row.state === 2" class="link" @click="handleRouter('detail', scope.row.id)">已通过</a>
@@ -185,7 +173,7 @@
         let param = {
           page: this.currentPage - 1,
           pageSize: this.pagesOptions.pageSize,
-          sort: 'publishTime,desc'
+          sort: 'publish_time,desc'
         }
 
         if (that.changeValue === 2) {
@@ -200,18 +188,7 @@
           if (res.status) {
             that.tableData = res.data.content
             that.total = res.data.totalElements
-          } else {
-            Message({
-              message: res.error.message,
-              type: 'error',
-            })
           }
-        }, (mock) => {
-          that.loading = false
-          Message({
-            message: '系统繁忙，请稍后再试！',
-            type: 'error',
-          })
         })
       },
       addHandle () {

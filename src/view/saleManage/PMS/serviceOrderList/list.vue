@@ -86,8 +86,10 @@
           >
             <template slot-scope="scope">
               <span v-for="(item, index) in scope.row.workOrderManagers" :key="index">
-                <a v-if="item.managerName">{{ item.managerName }}</a>
-                <a v-else class="col-link">{{ item.managerTypeName }}</a>
+                <a @click="selectManagerHandle(item, 1)" v-if="!item.serviceState" class="col-link">{{ item.managerTypeName }}</a>
+                <a @click="selectManagerHandle(item, 2)" v-else-if="item.serviceState == 1">{{ item.managerName }}</a>
+                <!--<a v-else-if="item.serviceState == 3 || item.serviceState == 4">{{ item.managerName }}</a>-->
+                <a @click="selectManagerHandle(item, 3)" v-else>{{ item.managerName }}</a>
                 &nbsp;&nbsp;
               </span>
             </template>
@@ -232,6 +234,8 @@
   import { underscoreName } from '../../../../utils/utils'
   import API2 from '../../../../utils/api2'
   import comButton from '../../../../components/button/comButton'
+  import orderDialog from './orderDialog'
+  import selectManager from './selectManager'
 
   export default {
     name: 'list',
@@ -260,6 +264,19 @@
     },
     methods: {
       orderHandle () {
+        this.$vDialog.modal(orderDialog, {
+          title: '派单',
+          width: 1100,
+          height: 660,
+          params: {
+            ids: this.multipleSelection[0].id
+          },
+          callback: (data) => {
+            if (data.type === 'save') {
+              this.getList()
+            }
+          },
+        })
       },
       handleSizeChange (val) {
         console.log(`每页 ${val} 条`)
@@ -299,6 +316,28 @@
               this.dataLoading = false
             }, 300)
           })
+      },
+      selectManagerHandle (item, type) { // type 1家类型未指定服务管家 2提示此管家未接单 3进入工单详情
+        if (type === 1) {
+          this.$vDialog.modal(selectManager, {
+            title: '选择管家',
+            width: 800,
+            height: 400,
+            params: {
+              managerType: item.managerType,
+              quickList: true, // true 快捷派单
+            },
+            callback: (data) => {
+              if (data.type === 'selectManager') {
+                console.log(data.manager)
+              }
+            },
+          })
+        } else if (type === 2) {
+          this.$message.warning('此管家未接单')
+        } else if (type === 3) {
+          // todo 3进入工单详情
+        }
       },
     },
     created () {
