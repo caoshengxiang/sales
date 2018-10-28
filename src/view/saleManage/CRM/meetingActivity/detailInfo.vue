@@ -30,7 +30,7 @@
         <div class="com-info-text">
           <h3>{{detailInfo.meetingName}}
             <span
-              style="font-size: 12px; color: #FF7700;padding: 4px 12px;border:1px solid #FF7700;margin-left: 20px;border-radius: 20px;">
+              style="position:relative;top: -5px;font-size: 12px; color: #FF7700;padding: 4px 12px;border:1px solid #FF7700;margin-left: 20px;border-radius: 20px;">
               {{detailInfo.stateName}}
             </span>
           </h3>
@@ -302,7 +302,8 @@
     <el-dialog
       title="活动二维码"
       :visible.sync="dialogVisible"
-      width="30%"
+      width="30%;"
+      class="code"
     >
       <div ref="downloadCode" style="text-align: center">
         <p class="title">{{detailInfo.meetingName}}</p>
@@ -329,7 +330,7 @@
       width="800px"
     >
       <div style="color: #4F5F6F;">
-        <div ref="downloadCodeManager" style="display: flex;margin:20px;padding: 20px;border: 1px solid #ddd;">
+        <div ref="downloadCodeManager" style="display: flex;margin:20px 0;padding: 20px;border: 1px solid #ddd;">
           <div style="min-height: 200px;margin-right: 20px;">
             <vue-qr
               :logoSrc="config.logo"
@@ -745,4 +746,6 @@
 
 <style scoped lang="scss" rel="stylesheet/scss">
   @import "../../../../styles/common";
+</style>
+<style>
 </style>
