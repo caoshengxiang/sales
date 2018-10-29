@@ -124,6 +124,7 @@
   import workingOp from './workingOp'
   import API from '../../../../utils/api'
   import webStorage from 'webStorage'
+  import { mapState } from 'vuex'
 
   export default {
     name: 'detail',
@@ -140,6 +141,11 @@
         orderListNoAuthTotal: 0,
         orderDetail: {}, // 订单信息
       }
+    },
+    computed: {
+      ...mapState('constData', [
+        'themeIndex',
+      ]),
     },
     watch: {
       '$route.query.view' (view) {
@@ -189,12 +195,12 @@
           this.getOrderListNoAuth(this.orderDetail.customerId)
           this.getCustomerAbout(this.orderDetail.customerId, this.orderDetail.orderId)
         })
-      }
+      },
     },
     created () {
       this.userInfo = webStorage.getItem('userInfo')
       this.getWorkOrderDetail()
-    }
+    },
   }
 </script>
 

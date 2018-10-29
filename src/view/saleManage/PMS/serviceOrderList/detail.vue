@@ -289,6 +289,7 @@
     },
     computed: {
       ...mapState('constData', [
+        'themeIndex',
         'serviceType', // 服务类型
       ])
     },

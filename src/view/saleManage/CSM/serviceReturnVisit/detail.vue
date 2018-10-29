@@ -298,6 +298,7 @@
     },
     computed: {
       ...mapState('constData', [
+        'themeIndex',
         'visitTypes',
       ]),
     },

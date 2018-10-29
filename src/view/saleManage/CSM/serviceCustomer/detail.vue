@@ -348,6 +348,7 @@
 
 <script>
   import API from '../../../../utils/api'
+  import { mapState } from 'vuex'
 
   export default {
     name: 'detail',
@@ -357,6 +358,11 @@
         activeViewName: 'base',
         detail: {},
       }
+    },
+    computed: {
+      ...mapState('constData', [
+        'themeIndex',
+      ])
     },
     watch: {
       '$route.query.view' (view) {

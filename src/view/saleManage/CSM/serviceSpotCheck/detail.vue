@@ -178,6 +178,7 @@
   import iconText from '../../../../components/iconText/iconText'
   import API from '../../../../utils/api'
   import checkHandle from './checkHandle'
+  import { mapState } from 'vuex'
 
   export default {
     name: 'detail',
@@ -190,6 +191,11 @@
     },
     components: {
       iconText,
+    },
+    computed: {
+      ...mapState('constData', [
+        'themeIndex',
+      ])
     },
     watch: {
       '$route.query.view' (view) {
