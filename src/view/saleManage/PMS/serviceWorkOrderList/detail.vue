@@ -47,6 +47,13 @@
                 <td class="td-title">所属行业</td>
                 <td class="td-title">企业联系人及电话</td>
               </tr>
+              <tr>
+                <td>{{customerDetail.name}}</td>
+                <td>{{customerDetail.creditCode}}</td>
+                <td>{{customerDetail.registeredCapital}}</td>
+                <td>{{customerDetail.industry}}</td>
+                <td>{{customerDetail.contactName}}[{{customerDetail.contactPhone}}]</td>
+              </tr>
             </table>
 
             <p class="table-title">订单信息</p>
@@ -57,6 +64,18 @@
                 <td class="td-title">商品名称</td>
                 <td class="td-title">服务派单时间</td>
                 <td class="td-title">订单下单时间</td>
+              </tr>
+              <tr>
+                <td>{{orderDetail.orderId}}</td>
+                <td>
+                  <span v-if="orderDetail.orderState === 1">待服务</span>
+                  <span v-if="orderDetail.orderState === 2">服务中</span>
+                  <span v-if="orderDetail.orderState === 3">已完成</span>
+                  <span v-if="orderDetail.orderState === 4">已退单</span>
+                </td>
+                <td>{{orderDetail.goodsName}}</td>
+                <td>{{orderDetail.created && $moment(orderDetail.created).format('YYYY-MM-DD HH:mm:ss')}}</td>
+                <td>{{orderDetail.orderTime && $moment(orderDetail.orderTime).format('YYYY-MM-DD HH:mm:ss')}}</td>
               </tr>
             </table>
 
@@ -71,7 +90,7 @@
               </tr>
             </table>
 
-            <p class="table-title">历史订单 <span>（2）</span></p>
+            <p class="table-title">客户历史订单 <span>（{{orderListNoAuthTotal}}）</span></p>
             <table class="detail-table">
               <tr>
                 <td class="td-title">订单号</td>
@@ -79,6 +98,18 @@
                 <td class="td-title">商品名称</td>
                 <td class="td-title">服务派单时间</td>
                 <td class="td-title">服务完成时间</td>
+              </tr>
+              <tr v-for="(item, index) in orderListNoAuth" :key="index">
+                <td>{{item.orderId}}</td>
+                <td>
+                  <span v-if="item.orderState === 1">待服务</span>
+                  <span v-if="item.orderState === 2">服务中</span>
+                  <span v-if="item.orderState === 3">已完成</span>
+                  <span v-if="item.orderState === 4">已退单</span>
+                </td>
+                <td>{{item.goodsName}}</td>
+                <td>{{item.created && $moment(item.created).format('YYYY-MM-DD HH:mm:ss')}}</td>
+                <td>todo</td>
               </tr>
             </table>
           </el-tab-pane>
@@ -104,6 +135,10 @@
         workingListMy: [], // 加工,我的
         workingListAbout: [], // 加工，相关
         userInfo: {},
+        customerDetail: {}, // 服务客户
+        orderListNoAuth: [], // 客户历史订单
+        orderListNoAuthTotal: 0,
+        orderDetail: {}, // 订单信息
       }
     },
     watch: {
@@ -131,11 +166,30 @@
         this.dataLoading = true
         API.workOrder.detail(this.$route.query.id, (da) => {
           this.detail = da.data
+          this.getDetailByOrderId(this.detail.orderId)
           setTimeout(() => {
             this.dataLoading = false
           }, 500)
         })
       },
+      getCustomerAbout (customerId, orderId) {
+        API.serviceCustomer.detailAbout({customerId: customerId, orderId: orderId}, (da) => {
+          this.customerDetail = da.data
+        })
+      },
+      getOrderListNoAuth (customerId) {
+        API.serviceOrder.listNoAuth({customerId: customerId}, (da) => {
+          this.orderListNoAuth = da.data.content
+          this.orderListNoAuthTotal = da.data.totalElements
+        })
+      },
+      getDetailByOrderId (orderId) {
+        API.serviceOrder.detailByOrderId(orderId, (da) => {
+          this.orderDetail = da.data
+          this.getOrderListNoAuth(this.orderDetail.customerId)
+          this.getCustomerAbout(this.orderDetail.customerId, this.orderDetail.orderId)
+        })
+      }
     },
     created () {
       this.userInfo = webStorage.getItem('userInfo')

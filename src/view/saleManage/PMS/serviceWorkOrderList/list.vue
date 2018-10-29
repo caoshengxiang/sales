@@ -201,8 +201,8 @@
           page: null,
           pageSize: null,
         },
-        sortObj: {sort: 'created,desc'},
-        // sortObj: {}, // 排序
+        // sortObj: {sort: 'created,desc'},
+        sortObj: {}, // 排序
         advancedSearch: {}, // 高级搜索
         tableData: [],
         tableDataTotal: 0,

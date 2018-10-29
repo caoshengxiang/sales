@@ -86,10 +86,10 @@
           >
             <template slot-scope="scope">
               <span v-for="(item, index) in scope.row.workOrderManagers" :key="index">
-                <a @click="selectManagerHandle(item, 1)" v-if="!item.serviceState" class="col-link">{{ item.managerTypeName }}</a>
-                <a @click="selectManagerHandle(item, 2)" v-else-if="item.serviceState == 1">{{ item.managerName }}</a>
+                <a @click="selectManagerHandle(item, 1, scope.row)" v-if="!item.serviceState" class="col-link">{{ item.managerTypeName }}</a>
+                <a @click="selectManagerHandle(item, 2, scope.row)" v-else-if="item.serviceState == 1">{{ item.managerName }}</a>
                 <!--<a v-else-if="item.serviceState == 3 || item.serviceState == 4">{{ item.managerName }}</a>-->
-                <a @click="selectManagerHandle(item, 3)" v-else>{{ item.managerName }}</a>
+                <a @click="selectManagerHandle(item, 3, scope.row)" v-else>{{ item.managerName }}</a>
                 &nbsp;&nbsp;
               </span>
             </template>
@@ -317,7 +317,7 @@
             }, 300)
           })
       },
-      selectManagerHandle (item, type) { // type 1家类型未指定服务管家 2提示此管家未接单 3进入工单详情
+      selectManagerHandle (item, type, row) { // type 1家类型未指定服务管家 2提示此管家未接单 3进入工单详情
         if (type === 1) {
           this.$vDialog.modal(selectManager, {
             title: '选择管家',
@@ -325,6 +325,8 @@
             height: 400,
             params: {
               managerType: item.managerType,
+              serviceType: item.serviceType,
+              orderId: row.orderId,
               quickList: true, // true 快捷派单
             },
             callback: (data) => {

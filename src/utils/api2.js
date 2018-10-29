@@ -17,6 +17,15 @@ export default {
         error && error(err)
       })
     },
+    assginOrderManagerList  (params, success, error) { // 获取派发订单选择管家列表
+      $axios.get('serviceManager/work/page', {
+        params: params,
+      }).then(res => {
+        success && success(res.data)
+      }).catch(err => {
+        error && error(err)
+      })
+    },
     detail (params, success, error) { // 管家详情
       $axios.get('serviceManager/' + params).then(res => {
         success && success(res.data)
@@ -111,8 +120,24 @@ export default {
         error && error(err)
       })
     },
-    detail (params, success, error) { // 管家详情
+    listNoAuth  (params, success, error) { // 获取服务订单列表（noAuth）
+      $axios.get('serviceOrder/page', {
+        params: params,
+      }).then(res => {
+        success && success(res.data)
+      }).catch(err => {
+        error && error(err)
+      })
+    },
+    detail (params, success, error) { // 详情
       $axios.get('serviceOrder/' + params).then(res => {
+        success && success(res.data)
+      }).catch(err => {
+        error && error(err)
+      })
+    },
+    detailByOrderId (params, success, error) { // 获取服务订单详情（orderId）
+      $axios.get('serviceOrder/byOrder/' + params).then(res => {
         success && success(res.data)
       }).catch(err => {
         error && error(err)
@@ -146,8 +171,24 @@ export default {
         error && error(err)
       })
     },
-    workOrderAsignList  (params, success, error) { // 订单下得派单列表
+    workOrderAsignList (params, success, error) { // 订单下得派单列表
       $axios.get('serviceWorkOrder/assignList', {
+        params: params
+      }).then(res => {
+        success && success(res.data)
+      }).catch(err => {
+        error && error(err)
+      })
+    },
+    addWorkOrder (params, success, error) { // 新增服务工单
+      $axios.post('serviceWorkOrder', params).then(res => {
+        success && success(res.data)
+      }).catch(err => {
+        error && error(err)
+      })
+    },
+    orderAssignManagerList (params, success, error) { // 查询订单管家派单情况列表（派单页面下方管家列表）
+      $axios.get('serviceWorkOrder/orderAssign', {
         params: params
       }).then(res => {
         success && success(res.data)
@@ -169,6 +210,13 @@ export default {
     },
     detail (params, success, error) { // 管家详情
       $axios.get('customer/servicecustomer/' + params).then(res => {
+        success && success(res.data)
+      }).catch(err => {
+        error && error(err)
+      })
+    },
+    detailAbout (params, success, error) { // 详情页获取服务客户部分信息（订单相关）
+      $axios.get('customer/sampleServiceCustomerOfDetail', {params: params}).then(res => {
         success && success(res.data)
       }).catch(err => {
         error && error(err)

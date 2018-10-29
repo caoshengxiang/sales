@@ -22,7 +22,7 @@
 * 审批入驻列表和详细接口(展示不做管家入驻)
 * 审核得必填
 * 审批流程
-$moment().format('YYYY-MM-DD HH:mm:ss')}}
+$moment().format('YYYY-MM-DD HH:mm:ss')
 
 
 1. 管家编辑没有进入审批列表

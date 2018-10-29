@@ -1396,9 +1396,9 @@ const API1 = {
     },
     auditTask (params, success, error) { // 审批
       $axios({
-        method: 'put',
-        url: `/approvalProcess/${params.id}`,
-        params: {state: params.state},
+        method: 'post',
+        url: 'approvalProcess/doApproval',
+        data: params,
       }).then((res) => {
         success && success(res.data)
       }).catch(() => {

@@ -42,11 +42,17 @@
         <tr>
           <td class="td-title">操作</td>
           <td colspan="7">
+            <!--<com-button buttonType="backHighSeas" @click="auditTaskYes"-->
+                        <!--v-if="detailInfo.state === 1 && detailInfo.principalId === userInfo.id">审核通过-->
+            <!--</com-button>-->
+            <!--<com-button buttonType="grey" @click="auditTaskNo"-->
+                        <!--v-if="detailInfo.state === 1 && detailInfo.principalId === userInfo.id">审核拒绝-->
+            <!--</com-button>-->
             <com-button buttonType="backHighSeas" @click="auditTaskYes"
-                        v-if="detailInfo.state === 1 && detailInfo.principalId === userInfo.id">审核通过
+                        v-if="detailInfo.state === 1">审核通过
             </com-button>
             <com-button buttonType="grey" @click="auditTaskNo"
-                        v-if="detailInfo.state === 1 && detailInfo.principalId === userInfo.id">审核拒绝
+                        v-if="detailInfo.state === 1">审核拒绝
             </com-button>
           </td>
         </tr>
@@ -304,52 +310,52 @@
         </table>
       </div>
       <!--团队成员-->
-      <div class="detail-right com-box-padding">
-        <!--<team-member :detail="salesOpportunitiesDetail"></team-member>-->
+      <!--<div class="detail-right com-box-padding">-->
+        <!--&lt;!&ndash;<team-member :detail="salesOpportunitiesDetail"></team-member>&ndash;&gt;-->
 
-        <div class="team-title">
-          <span class="title-text">团队成员</span>
-        </div>
-        <ul class="team-member">
-          <li class="team-member-item">
-            <div class="head">
-              <img src="../../../../assets/icon/headDefault.png" alt="">
-            </div>
-            <div class="text">
-              <h4>{{salesOpportunitiesDetail.team && salesOpportunitiesDetail.team.creatorName}}</h4>
-              <!--<p>{{salesOpportunitiesDetail.team && salesOpportunitiesDetail.team.creatorMobilePhone}}</p>-->
-              <p>******</p>
-            </div>
-            <div class="post">
-              <span class="post-tag-1">创建人</span>
-            </div>
-          </li>
-          <li class="team-member-item">
-            <div class="head">
-              <img src="../../../../assets/icon/headDefault.png" alt="">
-            </div>
-            <div class="text">
-              <h4>{{salesOpportunitiesDetail.team && salesOpportunitiesDetail.team.salerName}}</h4>
-              <p>{{salesOpportunitiesDetail.team && salesOpportunitiesDetail.team.salerMobilePhone}}</p>
-            </div>
-            <div class="post">
-              <span class="post-tag-2">销售员</span>
-            </div>
-          </li>
-          <li class="team-member-item">
-            <div class="head">
-              <img src="../../../../assets/icon/headDefault.png" alt="">
-            </div>
-            <div class="text">
-              <h4>{{salesOpportunitiesDetail.team && salesOpportunitiesDetail.team.counselorName}}</h4>
-              <p>{{salesOpportunitiesDetail.team && salesOpportunitiesDetail.team.counselorMobilePhone}}</p>
-            </div>
-            <div class="post">
-              <span class="post-tag-2">咨询师</span>
-            </div>
-          </li>
-        </ul>
-      </div>
+        <!--<div class="team-title">-->
+          <!--<span class="title-text">团队成员</span>-->
+        <!--</div>-->
+        <!--<ul class="team-member">-->
+          <!--<li class="team-member-item">-->
+            <!--<div class="head">-->
+              <!--<img src="../../../../assets/icon/headDefault.png" alt="">-->
+            <!--</div>-->
+            <!--<div class="text">-->
+              <!--<h4>{{salesOpportunitiesDetail.team && salesOpportunitiesDetail.team.creatorName}}</h4>-->
+              <!--&lt;!&ndash;<p>{{salesOpportunitiesDetail.team && salesOpportunitiesDetail.team.creatorMobilePhone}}</p>&ndash;&gt;-->
+              <!--<p>******</p>-->
+            <!--</div>-->
+            <!--<div class="post">-->
+              <!--<span class="post-tag-1">创建人</span>-->
+            <!--</div>-->
+          <!--</li>-->
+          <!--<li class="team-member-item">-->
+            <!--<div class="head">-->
+              <!--<img src="../../../../assets/icon/headDefault.png" alt="">-->
+            <!--</div>-->
+            <!--<div class="text">-->
+              <!--<h4>{{salesOpportunitiesDetail.team && salesOpportunitiesDetail.team.salerName}}</h4>-->
+              <!--<p>{{salesOpportunitiesDetail.team && salesOpportunitiesDetail.team.salerMobilePhone}}</p>-->
+            <!--</div>-->
+            <!--<div class="post">-->
+              <!--<span class="post-tag-2">销售员</span>-->
+            <!--</div>-->
+          <!--</li>-->
+          <!--<li class="team-member-item">-->
+            <!--<div class="head">-->
+              <!--<img src="../../../../assets/icon/headDefault.png" alt="">-->
+            <!--</div>-->
+            <!--<div class="text">-->
+              <!--<h4>{{salesOpportunitiesDetail.team && salesOpportunitiesDetail.team.counselorName}}</h4>-->
+              <!--<p>{{salesOpportunitiesDetail.team && salesOpportunitiesDetail.team.counselorMobilePhone}}</p>-->
+            <!--</div>-->
+            <!--<div class="post">-->
+              <!--<span class="post-tag-2">咨询师</span>-->
+            <!--</div>-->
+          <!--</li>-->
+        <!--</ul>-->
+      <!--</div>-->
     </div>
   </div>
 </template>
@@ -450,8 +456,10 @@
       },
       auditTask (state) {
         let param = {
-          state: state,
-          id: this.$route.query.id,
+          // state: state,
+          processId: this.$route.query.id,
+          approved: state === 2,
+          opinion: '',
         }
         API.task.auditTask(param, (res) => {
           this.loading = false

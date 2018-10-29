@@ -24,8 +24,8 @@
               </span>
           </template>
         </el-table-column>
-        <el-table-column property="accountNumber" label="平台分子机构" width="100"></el-table-column>
-        <el-table-column property="accountNumber" label="服务星级" width="100"></el-table-column>
+        <el-table-column property="serviceName" label="平台分子机构" width="160"></el-table-column>
+        <el-table-column property="evaluationAverageScore" label="服务星级" width="80"></el-table-column>
         <el-table-column property="accountNumber" label="个人/机构" width="100">
           <template slot-scope="scope">
               <span v-for="item in managerCategory" :key="item.value" v-if="item.value === scope.row.category">
@@ -68,11 +68,11 @@
     },
     props: ['params'],
     methods: {
-      getManagerList (managerType) { // todo 新列表
-        API.serviceManager.list({
-          page: 0,
-          pageSize: 1000,
-          sort: 'created,desc',
+      getManagerList (managerType) {
+        API.serviceManager.assginOrderManagerList({
+          // page: 0,
+          // pageSize: 1000,
+          // sort: 'created,desc',
           managerType: managerType,
         }, (res) => {
           this.managerList = res.data.content
@@ -83,7 +83,16 @@
       },
       saveSubmitForm () {
         if (this.params.quickList) {
-          // todo
+          API.workOrder.addWorkOrder([{
+            orderId: this.params.orderId,
+            manager_id: this.multipleSelection[0].id,
+            serviceType: this.params.serviceType,
+            managerType: this.params.managerType
+          }], (res) => {
+            if (res.status) {
+              this.$message.success('派单成功')
+            }
+          })
         } else {
           this.$vDialog.close({type: 'selectManager', manager: this.multipleSelection[0]})
         }

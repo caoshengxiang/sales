@@ -152,6 +152,13 @@
                 <td class="td-title">所属行业</td>
                 <td class="td-title">企业联系人及电话</td>
               </tr>
+              <tr>
+                <td>{{customerDetail.name}}</td>
+                <td>{{customerDetail.creditCode}}</td>
+                <td>{{customerDetail.registeredCapital}}</td>
+                <td>{{customerDetail.industry}}</td>
+                <td>{{customerDetail.contactName}}[{{customerDetail.contactPhone}}]</td>
+              </tr>
             </table>
 
             <p class="table-title">客满相关 <span>（2）</span></p>
@@ -165,7 +172,7 @@
               </tr>
             </table>
 
-            <p class="table-title">客户历史订单 <span>（2）</span></p>
+            <p class="table-title">客户历史订单 <span>（{{orderListNoAuthTotal}}）</span></p>
             <table class="detail-table">
               <tr>
                 <td class="td-title">订单号</td>
@@ -173,6 +180,18 @@
                 <td class="td-title">商品名称</td>
                 <td class="td-title">服务派单时间</td>
                 <td class="td-title">服务完成时间</td>
+              </tr>
+              <tr v-for="(item, index) in orderListNoAuth" :key="index">
+                <td>{{item.orderId}}</td>
+                <td>
+                  <span v-if="item.orderState === 1">待服务</span>
+                  <span v-if="item.orderState === 2">服务中</span>
+                  <span v-if="item.orderState === 3">已完成</span>
+                  <span v-if="item.orderState === 4">已退单</span>
+                </td>
+                <td>{{item.goodsName}}</td>
+                <td>{{item.created && $moment(item.created).format('YYYY-MM-DD HH:mm:ss')}}</td>
+                <td>todo</td>
               </tr>
             </table>
           </el-tab-pane>
@@ -263,6 +282,9 @@
           serviceItemConfigModel: {},
         },
         assignOrderList: [], // 派单列表
+        customerDetail: {}, // 服务客户
+        orderListNoAuth: [], // 客户历史订单
+        orderListNoAuthTotal: 0,
       }
     },
     computed: {
@@ -295,6 +317,8 @@
         API.serviceOrder.detail(this.$route.query.id, (da) => {
           this.detail = da.data
           this.getAssignOrderList(this.detail.orderId)
+          this.getCustomerAbout(this.detail.customerId, this.detail.orderId)
+          this.getOrderListNoAuth(this.detail.customerId)
           setTimeout(() => {
             this.dataLoading = false
           }, 500)
@@ -307,6 +331,17 @@
             }
           },
         )
+      },
+      getCustomerAbout (customerId, orderId) {
+        API.serviceCustomer.detailAbout({customerId: customerId, orderId: orderId}, (da) => {
+          this.customerDetail = da.data
+        })
+      },
+      getOrderListNoAuth (customerId) {
+        API.serviceOrder.listNoAuth({customerId: customerId}, (da) => {
+          this.orderListNoAuth = da.data.content
+          this.orderListNoAuthTotal = da.data.totalElements
+        })
       },
       orderHandle () {
         this.$vDialog.modal(orderDialog, {

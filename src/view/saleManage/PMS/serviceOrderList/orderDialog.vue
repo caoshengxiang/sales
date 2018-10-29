@@ -122,25 +122,8 @@
         dataLoading: false,
         addForm: {},
         detail: {},
-        managerList: [],
-        workOrderManagers: [ // todo 测试数据
-          {
-            'id': null,
-            'managerName': '谭谭',
-            'managerType': 111,
-            'managerTypeName': '外勤管家',
-            'serviceState': 2,
-            'serviceType': 1,
-          },
-          {
-            'id': null,
-            'managerName': null,
-            'managerType': 112,
-            'managerTypeName': '税务管家',
-            'serviceState': null,
-            'serviceType': 3,
-          },
-        ],
+        // managerList: [],
+        workOrderManagers: [],
       }
     },
     props: ['params'],
@@ -149,7 +132,7 @@
         this.dataLoading = true
         API.serviceOrder.detail(this.params.ids, (da) => {
           this.detail = da.data
-          // this.getAssignOrderList(this.detail.orderId)
+          this.getOrderAssignManagerList(this.detail.orderId)
           setTimeout(() => {
             this.dataLoading = false
           }, 500)
@@ -164,14 +147,12 @@
           pageSize: this.pagesOptions.pageSize,
         }
       },
-      getManagerList (managerType) { // todo 新列表
-        API.serviceManager.list({
-          page: 0,
-          pageSize: 1000,
-          sort: 'created,desc',
-          managerType: managerType,
+      getOrderAssignManagerList (orderId) {
+        // console.log(orderId)
+        API.workOrder.orderAssignManagerList({
+          orderId: orderId,
         }, (res) => {
-            this.managerList = res.data.content
+            this.workOrderManagers = res.data
           })
       },
       selectManagerHandle (item) {
@@ -187,8 +168,9 @@
           },
           callback: (data) => {
             if (data.type === 'selectManager') {
-              // console.log(data)
+              console.log(data)
               item.managerName = data.manager.name
+              item.managerId = data.manager.id
               // console.log(item)
               // this.getDetail()
             }
@@ -196,7 +178,23 @@
         })
       },
       saveSubmitForm () {
-        this.$vDialog.close({type: 'save'})
+        let paramsArr = []
+        this.workOrderManagers.forEach(item => {
+          if (item.workOrderState === 1 || item.workOrderState === 2) { // 待派单，已拒绝
+            paramsArr.push({
+              orderId: this.detail.orderId,
+              manager_id: item.managerId,
+              serviceType: item.serviceType,
+              managerType: item.managerType
+            })
+          }
+        })
+        API.workOrder.addWorkOrder(paramsArr, (res) => {
+          if (res.status) {
+            this.$message.success('派单成功')
+            this.$vDialog.close({type: 'save'})
+          }
+        })
       }
     },
     created () {
