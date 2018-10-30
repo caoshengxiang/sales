@@ -70,9 +70,6 @@
     methods: {
       getManagerList (managerType) {
         API.serviceManager.assginOrderManagerList({
-          // page: 0,
-          // pageSize: 1000,
-          // sort: 'created,desc',
           managerType: managerType,
         }, (res) => {
           this.managerList = res.data.content

@@ -68,8 +68,15 @@ export default {
         error && error(err)
       })
     },
-    bailAudit (params, success, error) { // 面签审核
+    bailAudit (params, success, error) { //
       $axios.post('serviceManager/' + params.id + '/bailAudit', params).then(res => {
+        success && success(res.data)
+      }).catch(err => {
+        error && error(err)
+      })
+    },
+    changeWorkState  (params, success, error) { // 更改管家服务状态
+      $axios.post('serviceManager/changeWorkState', params).then(res => {
         success && success(res.data)
       }).catch(err => {
         error && error(err)
@@ -190,6 +197,39 @@ export default {
     orderAssignManagerList (params, success, error) { // 查询订单管家派单情况列表（派单页面下方管家列表）
       $axios.get('serviceWorkOrder/orderAssign', {
         params: params
+      }).then(res => {
+        success && success(res.data)
+      }).catch(err => {
+        error && error(err)
+      })
+    },
+    returnOrder (params, success, error) { // 退单
+      $axios.post(`serviceWorkOrder/back/${params.id}`, params).then(res => {
+        success && success(res.data)
+      }).catch(err => {
+        error && error(err)
+      })
+    },
+    moveOrder (params, success, error) { // 新增服务工单
+      console.log(params)
+      $axios.post(`serviceWorkOrder/change/${params.id}`, params).then(res => {
+        success && success(res.data)
+      }).catch(err => {
+        error && error(err)
+      })
+    },
+    serviceLog (params, success, error) { // 获取工单服务日志列表
+      $axios.get('serviceLog/list', {
+        params: params,
+      }).then(res => {
+        success && success(res.data)
+      }).catch(err => {
+        error && error(err)
+      })
+    },
+    serviceItem (params, success, error) { // 获取工单服务日志列表
+      $axios.get('serviceItem', {
+        params: params,
       }).then(res => {
         success && success(res.data)
       }).catch(err => {

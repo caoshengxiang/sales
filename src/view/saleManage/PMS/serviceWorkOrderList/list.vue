@@ -12,11 +12,19 @@
     <!--控制栏-->
     <div class="com-bar">
       <div class="com-bar-left">
-        <com-button buttonType="add" icon="el-icon-plus" @click="orderHandle">申请退单</com-button>
-        <com-button buttonType="add" icon="el-icon-plus" @click="orderHandle">转移</com-button>
+        <com-button buttonType="add" icon="el-icon-plus" @click="orderHandle('back')"
+                    :disabled="multipleSelection.length != 1">申请退单
+        </com-button>
+        <com-button buttonType="add" icon="el-icon-plus" @click="orderHandle('move')"
+                    :disabled="multipleSelection.length != 1">转移
+        </com-button>
       </div>
       <div class="com-bar-right">
-        <com-button buttonType="add" icon="el-icon-plus" @click="orderHandle">打烊中</com-button>
+        <com-button buttonType="add" icon="el-icon-plus"
+                    v-if="managerDetail"
+                    @click="orderHandle('laze')">
+          {{managerDetail.workState === 1 ? '服务中' : '打烊中'}}
+        </com-button>
       </div>
     </div>
     <!--详细-->
@@ -46,7 +54,10 @@
             show-overflow-tooltip
           >
             <template slot-scope="scope">
-              <router-link class="col-link" :to="{name: 'serviceWorkOrderDetail', query: {id: scope.row.id,orderId: scope.row.orderId, view: 'operate'}}">{{ scope.row.orderNum }}</router-link>
+              <router-link class="col-link"
+                           :to="{name: 'serviceWorkOrderDetail', query: {id: scope.row.id,orderId: scope.row.orderId, view: 'operate'}}">
+                {{ scope.row.orderNum }}
+              </router-link>
             </template>
           </el-table-column>
           <el-table-column
@@ -188,8 +199,11 @@
 <script>
   import { mapState } from 'vuex'
   import { underscoreName } from '../../../../utils/utils'
-  import API2 from '../../../../utils/api2'
+  import API from '../../../../utils/api'
   import comButton from '../../../../components/button/comButton'
+  import returnOrder from './returnOrder'
+  import selectManager from './selectManager'
+  import webStorage from 'webStorage'
 
   export default {
     name: 'list',
@@ -207,6 +221,8 @@
         tableData: [],
         tableDataTotal: 0,
         multipleSelection: [],
+        userInfo: {},
+        managerDetail: {},
       }
     },
     computed: {
@@ -248,7 +264,7 @@
       getList () {
         this.getQueryParams()
         this.dataLoading = true
-        API2.workOrder.list(Object.assign({}, this.defaultListParams, this.sortObj, this.advancedSearch),
+        API.workOrder.list(Object.assign({}, this.defaultListParams, this.sortObj, this.advancedSearch),
           (res) => {
             this.tableData = res.data.content
             this.tableDataTotal = res.data.totalElements
@@ -257,10 +273,59 @@
             }, 300)
           })
       },
-      orderHandle () {},
+      orderHandle (type) {
+        switch (type) {
+          case 'back':
+            this.$vDialog.modal(returnOrder, {
+              title: '申请退单',
+              width: 1100,
+              height: 660,
+              params: {
+                workOrder: this.multipleSelection[0],
+              },
+              callback: (data) => {
+                if (data.type === 'save') {
+                  this.getList()
+                }
+              },
+            })
+            break
+          case 'move':
+            this.$vDialog.modal(selectManager, {
+              title: '转移工单',
+              width: 500,
+              height: 200,
+              params: {
+                workOrder: this.multipleSelection[0],
+              },
+              callback: (data) => {
+                if (data.type === 'save') {
+                  this.getList()
+                }
+              },
+            })
+            break
+          case 'laze':
+            API.workOrder.list({workState: this.managerDetail.workState === 1 ? 2 : 1}, (res) => {
+              if (res.status) {
+                this.$message.success('操作成功')
+                this.getManagerDetail(this.userInfo.id)
+              }
+            })
+            break
+          default:
+        }
+      },
+      getManagerDetail (id) {
+        API.serviceManager.detail(id, (da) => {
+          this.managerDetail = da.data
+        })
+      }
     },
     created () {
+      this.userInfo = webStorage.getItem('userInfo')
       this.getList()
+      this.getManagerDetail(this.userInfo.id)
     },
   }
 </script>

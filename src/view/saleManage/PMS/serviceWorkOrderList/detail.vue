@@ -25,8 +25,8 @@
       </div>
       <div class="com-info-right">
         <ul class="com-info-op-group">
-          <li @click="operateOptions('delete')">转移</li>
-          <li @click="operateOptions('delete')">退单</li>
+          <li @click="orderHandle('move')">转移</li>
+          <li @click="orderHandle('back')">退单</li>
         </ul>
       </div>
     </div>
@@ -35,7 +35,7 @@
       <div class="com-box-padding">
         <el-tabs v-model="activeViewName" type="card" @tab-click="handleTabsClick">
           <el-tab-pane label="服务派单加工" name="operate">
-            <working-op :order-id="$route.query.orderId"></working-op>
+            <working-op :order-id="$route.query.orderId" :detail="detail"></working-op>
           </el-tab-pane>
           <el-tab-pane label="工单相关信息" name="related">
             <p class="table-title">服务客户</p>
@@ -125,6 +125,8 @@
   import API from '../../../../utils/api'
   import webStorage from 'webStorage'
   import { mapState } from 'vuex'
+  import returnOrder from './returnOrder'
+  import selectManager from './selectManager'
 
   export default {
     name: 'detail',
@@ -133,8 +135,6 @@
         dataLoading: false,
         activeViewName: 'operate', // operate，related
         detail: {}, // 详情
-        workingListMy: [], // 加工,我的
-        workingListAbout: [], // 加工，相关
         userInfo: {},
         customerDetail: {}, // 服务客户
         orderListNoAuth: [], // 客户历史订单
@@ -195,6 +195,49 @@
           this.getOrderListNoAuth(this.orderDetail.customerId)
           this.getCustomerAbout(this.orderDetail.customerId, this.orderDetail.orderId)
         })
+      },
+      orderHandle (type) {
+        switch (type) {
+          case 'back':
+            this.$vDialog.modal(returnOrder, {
+              title: '申请退单',
+              width: 1100,
+              height: 660,
+              params: {
+                workOrder: this.orderDetail,
+              },
+              callback: (data) => {
+                if (data.type === 'save') {
+                  this.getWorkOrderDetail()
+                }
+              },
+            })
+            break
+          case 'move':
+            this.$vDialog.modal(selectManager, {
+              title: '转移工单',
+              width: 500,
+              height: 200,
+              params: {
+                workOrder: this.orderDetail,
+              },
+              callback: (data) => {
+                if (data.type === 'save') {
+                  this.getWorkOrderDetail()
+                }
+              },
+            })
+            break
+          // case 'laze':
+          //   API.workOrder.list({workState: this.managerDetail.workState === 1 ? 2 : 1}, (res) => {
+          //     if (res.status) {
+          //       this.$message.success('操作成功')
+          //       this.getManagerDetail(this.userInfo.id)
+          //     }
+          //   })
+          //   break
+          default:
+        }
       },
     },
     created () {
