@@ -17,7 +17,7 @@
         <div class="com-info-text">
           <h3>订单派单号 <span>{{detail.orderNum}}</span></h3>
           <p>
-            <span class="com-d-item">服务客户: <span>{{detail.customerName}}</span></span>
+            <span class="com-d-item">服务客户: <span>{{detail.serviceName}}</span></span>
             <span class="com-d-item">联系商品: <span>{{detail.goodsName}}</span></span>
             <span class="com-d-item">派单时间: <span>{{detail.assignDate && $moment(detail.assignDate).format('YYYY-MM-DD HH:mm:ss')}}</span></span>
           </p>
@@ -35,7 +35,7 @@
       <div class="com-box-padding">
         <el-tabs v-model="activeViewName" type="card" @tab-click="handleTabsClick">
           <el-tab-pane label="服务派单加工" name="operate">
-            <working-op :order-id="$route.query.orderId" :detail="detail"></working-op>
+            <working-op :order-id="$route.query.orderId" :workOrderId="$route.query.id" :customerName="detail.serviceName"></working-op>
           </el-tab-pane>
           <el-tab-pane label="工单相关信息" name="related">
             <p class="table-title">服务客户</p>

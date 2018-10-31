@@ -17,7 +17,7 @@ export default {
         error && error(err)
       })
     },
-    assginOrderManagerList  (params, success, error) { // 获取派发订单选择管家列表
+    assginOrderManagerList (params, success, error) { // 获取派发订单选择管家列表
       $axios.get('serviceManager/work/page', {
         params: params,
       }).then(res => {
@@ -55,27 +55,30 @@ export default {
       })
     },
     dataCheck (params, success, error) { // 认证
-      $axios.post('serviceManager/' + params.id + '/dataCheck', params).then(res => {
+      $axios.post('serviceManager/' + params.id + '/dataCheck',
+        params).then(res => {
         success && success(res.data)
       }).catch(err => {
         error && error(err)
       })
     },
     signAudit (params, success, error) { // 面签审核
-      $axios.post('serviceManager/' + params.id + '/signAudit', params).then(res => {
+      $axios.post('serviceManager/' + params.id + '/signAudit',
+        params).then(res => {
         success && success(res.data)
       }).catch(err => {
         error && error(err)
       })
     },
     bailAudit (params, success, error) { //
-      $axios.post('serviceManager/' + params.id + '/bailAudit', params).then(res => {
+      $axios.post('serviceManager/' + params.id + '/bailAudit',
+        params).then(res => {
         success && success(res.data)
       }).catch(err => {
         error && error(err)
       })
     },
-    changeWorkState  (params, success, error) { // 更改管家服务状态
+    changeWorkState (params, success, error) { // 更改管家服务状态
       $axios.post('serviceManager/changeWorkState', params).then(res => {
         success && success(res.data)
       }).catch(err => {
@@ -127,7 +130,7 @@ export default {
         error && error(err)
       })
     },
-    listNoAuth  (params, success, error) { // 获取服务订单列表（noAuth）
+    listNoAuth (params, success, error) { // 获取服务订单列表（noAuth）
       $axios.get('serviceOrder/page', {
         params: params,
       }).then(res => {
@@ -171,7 +174,7 @@ export default {
     },
     orderWorkingList (params, success, error) { // 工单加工
       $axios.get('serviceWorkOrder/byOrder/' + params.orderId, {
-        params: params
+        params: params,
       }).then(res => {
         success && success(res.data)
       }).catch(err => {
@@ -180,7 +183,7 @@ export default {
     },
     workOrderAsignList (params, success, error) { // 订单下得派单列表
       $axios.get('serviceWorkOrder/assignList', {
-        params: params
+        params: params,
       }).then(res => {
         success && success(res.data)
       }).catch(err => {
@@ -196,7 +199,7 @@ export default {
     },
     orderAssignManagerList (params, success, error) { // 查询订单管家派单情况列表（派单页面下方管家列表）
       $axios.get('serviceWorkOrder/orderAssign', {
-        params: params
+        params: params,
       }).then(res => {
         success && success(res.data)
       }).catch(err => {
@@ -211,7 +214,6 @@ export default {
       })
     },
     moveOrder (params, success, error) { // 新增服务工单
-      console.log(params)
       $axios.post(`serviceWorkOrder/change/${params.id}`, params).then(res => {
         success && success(res.data)
       }).catch(err => {
@@ -227,7 +229,106 @@ export default {
         error && error(err)
       })
     },
+    serviceItemOperate (params, success, error) { // 操作服务事项
+      console.log(params, 1111)
+      $axios.post('serviceItem/operate', params).then(res => {
+        success && success(res.data)
+      }).catch(err => {
+        error && error(err)
+      })
+    },
     serviceItem (params, success, error) { // 获取工单服务日志列表
+      if (params.type > 4) { // todo
+        let mock = {
+          data: {content: []},
+        }
+        if (params.type === 5) {
+          mock.data.content = [
+            {num: 10, title: '会计账簿托管'},
+            {num: 11, title: '协助税务报道'},
+            {num: 12, title: '协助办理“税企银”三方代扣税款协议服务'},
+            {num: 13, title: '协助购买税控装置服务'},
+            {num: 14, title: '提供首次领票批准资格服务'},
+            {num: 15, title: '提供开具国地税完税证明服务'},
+            {num: 16, title: '办理新增税种事宜'},
+          ]
+        } else if (params.type === 6) {
+          mock.data.content = [
+            {num: 17, title: '审核客户资料'},
+            {num: 18, title: '用户财务资料审核'},
+            {num: 19, title: '资料存档'},
+            {num: 20, title: '开设套账'}
+            ]
+        } else if (params.type === 7) {
+          mock.data.content = [
+            {num: 21, title: '客户票据审核'},
+            ]
+        } else if (params.type === 8) {
+          mock.data.content = [
+            {num: 22, title: '记账日常告知通知'},
+            ]
+        } else if (params.type === 9) {
+          mock.data.content = [
+            {num: 23, title: '提醒客户抄报'},
+            {num: 24, title: '提醒客户清'},
+            ]
+        } else if (params.type === 10) {
+          mock.data.content = [
+            {num: 25, title: '发送财报确认函'},
+            ]
+        } else if (params.type === 11) {
+          mock.data.content = [
+            {num: 26, title: '工商年报'},
+            ]
+        } else if (params.type === 12) {
+          mock.data.content = [
+            {num: 27, title: '提供企业与银行对账服务'},
+            ]
+        } else if (params.type === 13) {
+          mock.data.content = [
+            {num: 28, title: '提交财务制度'},
+            ]
+        } else if (params.type === 14) {
+          mock.data.content = [
+            {num: 29, title: '发送纳税确认函'},
+            ]
+        } else if (params.type === 15) {
+          mock.data.content = [
+            {num: 30, title: '上传纳税申报表'},
+            {num: 31, title: '完成纳税申报'},
+          ]
+        } else if (params.type === 16) {
+          mock.data.content = [
+            {num: 32, title: '发送异常提醒'},
+          ]
+        } else if (params.type === 17) {
+          mock.data.content = [
+            {num: 33, title: '税收风险提示'},
+          ]
+        } else if (params.type === 18) {
+          mock.data.content = [
+            {num: 34, title: '完成联系人信息'},
+            {num: 35, title: '设置开始时间'},
+          ]
+        } else if (params.type === 19) {
+          mock.data.content = [
+            {num: 36, title: '上传服务成果'},
+            {num: 37, title: '添加服务阶段款项'},
+            {num: 38, title: '确认完成服务'},
+          ]
+        } else if (params.type === 20) {
+          mock.data.content = [
+            {num: 39, title: '完成联系人信息'},
+            {num: 40, title: '设置服务周期'},
+          ]
+        } else if (params.type === 21) {
+          mock.data.content = [
+            {num: 41, title: '上传服务成果'},
+          ]
+        }
+        success && success(mock)
+        return
+      }
       $axios.get('serviceItem', {
         params: params,
       }).then(res => {
@@ -256,7 +357,8 @@ export default {
       })
     },
     detailAbout (params, success, error) { // 详情页获取服务客户部分信息（订单相关）
-      $axios.get('customer/sampleServiceCustomerOfDetail', {params: params}).then(res => {
+      $axios.get('customer/sampleServiceCustomerOfDetail',
+        {params: params}).then(res => {
         success && success(res.data)
       }).catch(err => {
         error && error(err)
@@ -296,35 +398,40 @@ export default {
       })
     },
     inquire (params, success, error) { // 投诉调查
-      $axios.post('serviceComplaint/' + params.id + '/inquire', params).then(res => {
+      $axios.post('serviceComplaint/' + params.id + '/inquire',
+        params).then(res => {
         success && success(res.data)
       }).catch(err => {
         error && error(err)
       })
     },
     handle (params, success, error) { // 投诉处理
-      $axios.post('serviceComplaint/' + params.id + '/handle', params).then(res => {
+      $axios.post('serviceComplaint/' + params.id + '/handle',
+        params).then(res => {
         success && success(res.data)
       }).catch(err => {
         error && error(err)
       })
     },
     visit (params, success, error) { // 投诉回访
-      $axios.post('serviceComplaint/' + params.id + '/visit', params).then(res => {
+      $axios.post('serviceComplaint/' + params.id + '/visit',
+        params).then(res => {
         success && success(res.data)
       }).catch(err => {
         error && error(err)
       })
     },
     upInquire (params, success, error) { // 升级调查
-      $axios.post('serviceComplaint/' + params.id + '/upInquire', params).then(res => {
+      $axios.post('serviceComplaint/' + params.id + '/upInquire',
+        params).then(res => {
         success && success(res.data)
       }).catch(err => {
         error && error(err)
       })
     },
     upHandle (params, success, error) { // 升级处理
-      $axios.post('serviceComplaint/' + params.id + '/upHandle', params).then(res => {
+      $axios.post('serviceComplaint/' + params.id + '/upHandle',
+        params).then(res => {
         success && success(res.data)
       }).catch(err => {
         error && error(err)
@@ -357,7 +464,8 @@ export default {
       })
     },
     assginBatch (params, success, error) { // 回访派单
-      $axios.post('revisit/serviceRetVisit/assginBatch', null, {params: params}).then(res => {
+      $axios.post('revisit/serviceRetVisit/assginBatch', null,
+        {params: params}).then(res => {
         success && success(res.data)
       }).catch(err => {
         error && error(err)
@@ -415,5 +523,5 @@ export default {
         error && error(err)
       })
     },
-  }
+  },
 }

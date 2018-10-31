@@ -80,7 +80,7 @@
           </tr>
         </table>
       </el-form>
-      <div slot="footer" class="dialog-footer">
+      <div class="dialog-footer">
         <el-button class="cancel-button" @click="$vDialog.close({type: 'cancel'})">取 消</el-button>
         <el-button class="save-button" @click="saveSubmitForm">确 定</el-button>
       </div>

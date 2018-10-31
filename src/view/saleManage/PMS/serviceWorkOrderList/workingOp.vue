@@ -48,11 +48,15 @@
       }
     },
     props: {
-      orderId: {
-        type: String,
+      orderId: { // 实际订单id
+        type: [String, Number],
         require: true,
       },
-      detail: {
+      workOrderId: { // 工单主键id
+        type: [String, Number],
+        require: true,
+      },
+      customerName: {
         default () {
           return {}
         }
@@ -78,7 +82,7 @@
         // 高亮是待处理state===1  完成state===2 type 1-21对应
         console.log('item:', numItem)
         if (numItem.state && numItem.state === 1) {
-          if (numItem.type === 1) {
+          if (numItem.type <= 21) {
             this.$vDialog.modal(opItem, {
               title: numItem.title,
               width: 1100,
@@ -86,8 +90,9 @@
               params: {
                 numItem: numItem,
                 typeItem: typeItem,
-                workDetail: this.detail,
+                customerName: this.customerName,
                 orderId: this.orderId,
+                workOrderId: this.workOrderId,
               },
               callback: (data) => {
                 if (data.type === 'save') {
