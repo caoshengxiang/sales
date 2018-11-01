@@ -36,6 +36,8 @@
   import API from '../../../../utils/api'
   import webStorage from 'webStorage'
   import opItem from './opItem'
+  import opItem22 from './opItem22'
+  import opItem32 from './opItem32'
 
   export default {
     name: 'workingOp',
@@ -82,7 +84,45 @@
         // 高亮是待处理state===1  完成state===2 type 1-21对应
         console.log('item:', numItem)
         if (numItem.state && numItem.state === 1) {
-          if (numItem.type <= 21) {
+          if (numItem.type === 7) { // 7 客户票据审核
+            this.$router.push({name: 'customerBill'})
+          } else if (numItem.type === 8) { // 记账日常告知
+            this.$vDialog.modal(opItem22, {
+              title: numItem.title,
+              width: 1100,
+              height: 600,
+              params: {
+                numItem: numItem,
+                typeItem: typeItem,
+                customerName: this.customerName,
+                orderId: this.orderId,
+                workOrderId: this.workOrderId,
+              },
+              callback: (data) => {
+                if (data.type === 'save') {
+                  this.getOrderWorkingList()
+                }
+              },
+            })
+           } else if (numItem.type === 16) { // 发送异常提醒
+            this.$vDialog.modal(opItem32, {
+              title: numItem.title,
+              width: 1100,
+              height: 600,
+              params: {
+                numItem: numItem,
+                typeItem: typeItem,
+                customerName: this.customerName,
+                orderId: this.orderId,
+                workOrderId: this.workOrderId,
+              },
+              callback: (data) => {
+                if (data.type === 'save') {
+                  this.getOrderWorkingList()
+                }
+              },
+            })
+          } else if (numItem.type <= 21) {
             this.$vDialog.modal(opItem, {
               title: numItem.title,
               width: 1100,

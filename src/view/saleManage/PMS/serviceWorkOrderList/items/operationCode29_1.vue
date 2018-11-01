@@ -1,27 +1,23 @@
 <!--
   num-operationCode
 -->
-
 <template>
   <div class="com-dialog">
     <div class="operation-code-box">
-      <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="140px">
-        <el-form-item label="选择文件" prop="attachment">
-          <el-upload
-            class="upload-demo"
-            :action="serverUrl + '/file/notice'"
-            :headers="{authKey: userInfo.authKey}"
-            :on-success="onSuccessHandle"
-            multiple
-            :limit="1"
-            >
-            <el-button size="small" type="primary">点击上传</el-button>
-          </el-upload>
+      <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="120px">
+        <el-form-item label="纳税申报时间" prop="setTime">
+          <el-date-picker
+            style="width: 100%"
+            v-model="ruleForm.setTime"
+            type="datetime"
+            value-format="timestamp"
+            placeholder="请选择纳税申报时间">
+          </el-date-picker>
         </el-form-item>
         <el-form-item label="备注" prop="remark">
           <el-input
             type="textarea"
-            placeholder="请输入备注"
+            placeholder="请选择纳税申报时间"
             :rows="3"
             v-model="ruleForm.remark">
           </el-input>
@@ -35,28 +31,21 @@
 </template>
 
 <script>
-  import { serverUrl } from '../../../../../utils/const'
   import API from '../../../../../utils/api'
-  import webStorage from 'webStorage'
+
   export default {
-    name: 'operationCode6_1',
+    name: 'operationCode29_1',
     data () {
       return {
-        userInfo: webStorage.getItem('userInfo'),
         ruleForm: {
+          setTime: '',
           remark: '',
-          attachment: '',
         },
         rules: {
-          attachment: [
-            {required: true, message: '请选择文件', trigger: 'change'},
+          setTime: [
+            {required: true, message: '请选择纳税申报时间', trigger: 'change'},
           ],
         },
-      }
-    },
-    computed: {
-      serverUrl () {
-        return serverUrl
       }
     },
     props: ['params'],
@@ -65,14 +54,17 @@
         this.$refs[formName].validate((valid) => {
           if (valid) {
             API.workOrder.serviceItemOperate(Object.assign({}, this.params.baseParam, {
+              setTime: this.ruleForm.setTime,
               remark: this.ruleForm.remark,
-              attachment: this.ruleForm.attachment
-              // result: JSON.stringify({})
+              // result: JSON.stringify({
+              //   isSendMsg: this.ruleForm.isSendMsg,
+              //   message: this.ruleForm.message
+              // })
             }), (res) => {
               if (res.status) {
                 this.$message.success('操作成功')
                 this.$vDialog.close({type: 'itemSave'})
-            }
+              }
             })
           } else {
             console.log('error submit!!')
@@ -80,9 +72,6 @@
           }
         })
       },
-      onSuccessHandle (response, file, fileList) {
-        this.ruleForm.attachment = response.data.path
-      }
     },
   }
 </script>
