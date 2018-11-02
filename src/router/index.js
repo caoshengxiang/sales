@@ -300,6 +300,11 @@ const productType = resolve => require.ensure([],
   () => resolve(
     require('../view/companyManage/baseSetting/serviceProductConfig/productType')),
   'productType')
+// 服务内容配置
+const serviceContent = resolve => require.ensure([],
+  () => resolve(
+    require('../view/companyManage/baseSetting/serviceContent/serviceContent')),
+  'serviceContent')
 
 // 消息通知管理(ME)
 const meMessageList = resolve => require.ensure([],
@@ -1017,7 +1022,7 @@ const router = new Router({
             title: '组织商品配置',
             pos: [
               {name: '管理系统', toName: 'companyManageHome'},
-              {name: '组织管理'},
+              {name: '配置管理'},
               {name: '组织商品配置'}],
           },
         },
@@ -1030,7 +1035,20 @@ const router = new Router({
             title: '服务商品配置',
             pos: [
               {name: '管理系统', toName: 'companyManageHome'},
-              {name: '组织管理'},
+              {name: '配置管理'},
+              {name: '服务商品配置'}],
+          },
+        },
+        // 企业管理 -- 服务商品配置
+        {
+          path: 'serviceContent',
+          name: 'serviceContent',
+          component: serviceContent,
+          meta: {
+            title: '服务内容配置',
+            pos: [
+              {name: '管理系统', toName: 'companyManageHome'},
+              {name: '配置管理'},
               {name: '服务商品配置'}],
           },
         },

@@ -234,6 +234,15 @@ const API1 = {
         error && error(err)
       })
     },
+    serviceContentConfigDetail  (params, success, error) { // 获取服务内容配置详情
+      $axios.get(`serviceItemConfig/goodsId/${params.goodId}`, {
+        params: params,
+      }).then((res) => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+    },
   },
   login: {
 

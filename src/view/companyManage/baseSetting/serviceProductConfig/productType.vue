@@ -119,7 +119,7 @@
           that.totle = res.data.totalElements
         }, (mock) => {
           this.alldepartments = mock.data
-          this.dataLoading = false
+          this.loading = false
         })
       },
       handleSizeChange (val) {
