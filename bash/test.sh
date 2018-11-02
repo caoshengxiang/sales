@@ -6,3 +6,5 @@ ssh -p 47295 root@119.27.160.41 "rm -rf /opt/web-front/sales/bak && mkdir /opt/w
 
 #
 # http://sales.dcstar-inc.com/#/
+
+# h0JiO-3xNotm#5bw0v9
