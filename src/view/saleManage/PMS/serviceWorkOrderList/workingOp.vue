@@ -20,7 +20,6 @@
         <td style="height: 50px;" class="td-center">{{item.serviceName}}[{{item.managerName}}]</td>
         <td colspan="5">
           <div class="com-icon-text-box com-icon-text-h"
-               @click="operateHandle(op, item)"
                v-for="op in item.orderModuleComposites" :key="op.type">
             <!--高亮是待处理state===2  完成state===1-->
             <img :src="'/static/images/'+ (op.state===2?'green':'gray') + '/icon_gongdan_' + op.type + '.png'" alt="">
@@ -96,7 +95,7 @@
                 typeItem: typeItem,
                 customerName: this.customerName,
                 orderId: this.orderId,
-                workOrderId: this.workOrderId,
+                workOrderId: typeItem.id,
               },
               callback: (data) => {
                 if (data.type === 'save') {
@@ -114,7 +113,7 @@
                 typeItem: typeItem,
                 customerName: this.customerName,
                 orderId: this.orderId,
-                workOrderId: this.workOrderId,
+                workOrderId: typeItem.id,
               },
               callback: (data) => {
                 if (data.type === 'save') {
@@ -132,7 +131,7 @@
                 typeItem: typeItem,
                 customerName: this.customerName,
                 orderId: this.orderId,
-                workOrderId: this.workOrderId,
+                workOrderId: typeItem.id,
               },
               callback: (data) => {
                 if (data.type === 'save') {

@@ -68,6 +68,18 @@
                 <td class="td-title">所属行业</td>
                 <td class="td-title">企业联系人及电话</td>
               </tr>
+              <tr>
+                <td>
+                  <router-link class="col-link"
+                               :to="{name: 'serviceCustomerDetail', query: {id: detail.customerId, view: 'base'}}">
+                    {{customerDetail.name}}
+                  </router-link>
+                </td>
+                <td>{{customerDetail.creditCode}}</td>
+                <td>{{customerDetail.registeredCapital}}</td>
+                <td>{{customerDetail.industry}}</td>
+                <td>{{customerDetail.contactName}}[{{customerDetail.contactPhone}}]</td>
+              </tr>
             </table>
 
             <p class="table-title">订单信息</p>
@@ -79,20 +91,41 @@
                 <td class="td-title">服务派单时间</td>
                 <td class="td-title">订单下单时间</td>
               </tr>
-            </table>
-
-            <p class="table-title">服务派单 <span>（2）</span></p>
-            <table class="detail-table">
               <tr>
-                <td class="td-title">订单单号</td>
-                <td class="td-title">订单状态</td>
-                <td class="td-title">商品名称</td>
-                <td class="td-title">服务派单时间</td>
-                <td class="td-title">订单下单时间</td>
+                <td>
+                  <a class="col-link" @click="showOrderDetail(orderDetail.orderId)">{{orderDetail.orderId}}</a>
+                </td>
+                <td>
+                  <span v-if="orderDetail.orderState === 1">待服务</span>
+                  <span v-if="orderDetail.orderState === 2">服务中</span>
+                  <span v-if="orderDetail.orderState === 3">已完成</span>
+                  <span v-if="orderDetail.orderState === 4">已退单</span>
+                </td>
+                <td>{{orderDetail.goodsName}}</td>
+                <td>{{orderDetail.created && $moment(orderDetail.created).format('YYYY-MM-DD HH:mm:ss')}}</td>
+                <td>{{orderDetail.orderTime && $moment(orderDetail.orderTime).format('YYYY-MM-DD HH:mm:ss')}}</td>
               </tr>
             </table>
 
-            <p class="table-title">历史订单 <span>（2）</span></p>
+            <p class="table-title">服务派单 <span>（{{assignOrderList.length}}）</span></p>
+            <table class="detail-table">
+              <tr>
+                <td class="td-title">管家类型</td>
+                <td class="td-title">服务管家</td>
+                <td class="td-title">服务主体</td>
+                <td class="td-title">派单单号</td>
+                <td class="td-title">派单时间</td>
+              </tr>
+              <tr v-for="(item, index) in assignOrderList" :key="index">
+                <td class="td-center">{{item.managerTypeName}}</td>
+                <td class="td-center">{{item.managerName}}</td>
+                <td class="td-center">{{item.serviceName}}</td>
+                <td class="td-center">{{item.orderNum}}</td>
+                <td class="td-center">{{item.assignDate && $moment(item.assignDate).format('YYYY-MM-DD HH:mm:ss')}}</td>
+              </tr>
+            </table>
+
+            <p class="table-title">历史订单 <span>（{{orderListNoAuthTotal}}）</span></p>
             <table class="detail-table">
               <tr>
                 <td class="td-title">订单号</td>
@@ -101,72 +134,22 @@
                 <td class="td-title">服务派单时间</td>
                 <td class="td-title">服务完成时间</td>
               </tr>
+              <tr v-for="(item, index) in orderListNoAuth" :key="index">
+                <td><a class="col-link" @click="showOrderDetail(item.orderId)">{{item.orderId}}</a></td>
+                <td>
+                  <span v-if="item.orderState === 1">待服务</span>
+                  <span v-if="item.orderState === 2">服务中</span>
+                  <span v-if="item.orderState === 3">已完成</span>
+                  <span v-if="item.orderState === 4">已退单</span>
+                </td>
+                <td>{{item.goodsName}}</td>
+                <td>{{item.created && $moment(item.created).format('YYYY-MM-DD HH:mm:ss')}}</td>
+                <td>todo</td>
+              </tr>
             </table>
           </el-tab-pane>
           <el-tab-pane label="订单加工信息" name="operate">
-            <table class="detail-table">
-              <tr>
-                <td style="height: 50px;" class="td-center">外勤服务[张三]</td>
-                <td colspan="5">
-                  <icon-text icon="el-icon-picture" text="首次电话沟通" status="1"></icon-text>
-                  <icon-text icon="el-icon-picture" text="首次上门沟通" status="1"></icon-text>
-                  <icon-text icon="el-icon-picture" text="录入客户资料" status="1"></icon-text>
-                  <icon-text icon="el-icon-picture" text="装订凭证" status="1"></icon-text>
-                </td>
-              </tr>
-              <tr>
-                <td style="height: 50px;" class="td-center">财务记账[张三]</td>
-                <td colspan="5">
-                  <icon-text icon="el-icon-picture" text="客户资料审核" status="1"></icon-text>
-                  <icon-text icon="el-icon-picture" text="客户票据审核" status="1"></icon-text>
-                  <icon-text icon="el-icon-picture" text="记账日常告知" status="1"></icon-text>
-                  <icon-text icon="el-icon-picture" text="出具财务报表" status="1"></icon-text>
-                </td>
-              </tr>
-              <tr>
-                <td style="height: 50px;" class="td-center">财务申报[张三]</td>
-                <td colspan="5">
-                  <icon-text icon="el-icon-picture" text="税前沟通" status="1"></icon-text>
-                  <icon-text icon="el-icon-picture" text="纳税申报" status="1"></icon-text>
-                  <icon-text icon="el-icon-picture" text="纳税异常提醒" status="1"></icon-text>
-                </td>
-              </tr>
-              <tr>
-                <td style="height: 50px;" class="td-center">财务内控[张三]</td>
-                <td colspan="5">
-                  <icon-text icon="el-icon-picture" text="财务内控分析" status="1"></icon-text>
-                  <icon-text icon="el-icon-picture" text="财务内控构建指导" status="1"></icon-text>
-                </td>
-              </tr>
-              <tr>
-                <td style="height: 50px;" class="td-center">税收风控[张三]</td>
-                <td colspan="5">
-                  <icon-text icon="el-icon-picture" text="增值税发票风险管理指导" status="1"></icon-text>
-                  <icon-text icon="el-icon-picture" text="税收优惠政策辅导" status="1"></icon-text>
-                  <icon-text icon="el-icon-picture" text="税收问题提醒" status="1"></icon-text>
-                  <icon-text icon="el-icon-picture" text="税收分控方案设计" status="1"></icon-text>
-                  <icon-text icon="el-icon-picture" text="纳税信用等级维护指导" status="1"></icon-text>
-                  <icon-text icon="el-icon-picture" text="财税专家“一对一”咨询" status="1"></icon-text>
-                  <icon-text icon="el-icon-picture" text="税务危机应对参与" status="1"></icon-text>
-                  <icon-text icon="el-icon-picture" text="税收策划指导" status="1"></icon-text>
-                </td>
-              </tr>
-              <tr>
-                <td style="height: 50px;" class="td-center">金融服务[张三]</td>
-                <td colspan="5">
-                  <icon-text icon="el-icon-picture" text="融资需求分析" status="1"></icon-text>
-                  <icon-text icon="el-icon-picture" text="融资对接指导" status="1"></icon-text>
-                  <icon-text icon="el-icon-picture" text="政府扶持资金规话" status="1"></icon-text>
-                </td>
-              </tr>
-              <tr>
-                <td style="height: 50px;" class="td-center">其他单项服务（产品名）[张三]</td>
-                <td colspan="5">
-                  <icon-text icon="el-icon-picture" text="开始服务" status="1"></icon-text>
-                  <icon-text icon="el-icon-picture" text="完成服务" status="1"></icon-text>
-                </td>
-              </tr>
-            </table>
+            <working-op v-if="detail.orderId" :order-id="detail.orderId" :customerName="detail.customerName"></working-op>
           </el-tab-pane>
         </el-tabs>
       </div>
@@ -179,6 +162,8 @@
   import API from '../../../../utils/api'
   import checkHandle from './checkHandle'
   import { mapState } from 'vuex'
+  import workingOp from '../../PMS/serviceWorkOrderList/workingOp'
+  import orderDetailDialog from '../../PMS/serviceOrderList/detailDialog'
 
   export default {
     name: 'detail',
@@ -187,10 +172,16 @@
         dataLoading: false,
         activeViewName: 'order',
         detail: {},
+        customerDetail: {}, // 服务客户
+        orderDetail: {}, // 订单信息
+        assignOrderList: [], // 派单列表
+        orderListNoAuth: [], // 客户历史订单
+        orderListNoAuthTotal: 0,
       }
     },
     components: {
       iconText,
+      workingOp,
     },
     computed: {
       ...mapState('constData', [
@@ -230,13 +221,57 @@
         this.dataLoading = true
         API.serviceSpotCheck.detail(this.$route.query.id, (da) => {
           this.detail = da.data
+          this.getCustomerAbout(this.detail.customerId, this.detail.orderId)
+          this.getDetailByOrderId(this.detail.orderId)
+          this.getAssignOrderList(this.detail.orderId)
+          this.getOrderListNoAuth(this.detail.customerId)
           setTimeout(() => {
             this.dataLoading = false
           }, 500)
         })
       },
+      getCustomerAbout (customerId, orderId) {
+        API.serviceCustomer.detailAbout({customerId: customerId, orderId: orderId}, (da) => {
+          this.customerDetail = da.data
+        })
+      },
+      getDetailByOrderId (orderId) {
+        API.serviceOrder.detailByOrderId(orderId, (da) => {
+          this.orderDetail = da.data
+        })
+      },
+      getAssignOrderList (orderId) { // 获取管家类型名称
+        API.workOrder.workOrderAsignList({orderId: orderId}, (res) => { // 6 管家类型
+            if (res.status) {
+              this.assignOrderList = res.data
+            }
+          },
+        )
+      },
+      getOrderListNoAuth (customerId) {
+        API.serviceOrder.listNoAuth({customerId: customerId}, (da) => {
+          this.orderListNoAuth = da.data.content
+          this.orderListNoAuthTotal = da.data.totalElements
+        })
+      },
+      showOrderDetail (orderId) {
+        this.$vDialog.modal(orderDetailDialog, {
+          title: '订单信息',
+          width: 1100,
+          height: 400,
+          params: {
+            orderId: orderId,
+          },
+          callback: (data) => {
+            if (data.type === 'save') {
+              this.getWorkOrderDetail()
+            }
+          },
+        })
+      }
     },
     created () {
+      this.activeViewName = this.$route.query.view
       this.getDetail()
     },
   }

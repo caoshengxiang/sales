@@ -35,7 +35,7 @@
       <div class="com-box-padding">
         <el-tabs v-model="activeViewName" type="card" @tab-click="handleTabsClick">
           <el-tab-pane label="服务派单加工" name="operate">
-            <working-op :order-id="$route.query.orderId" :workOrderId="$route.query.id" :customerName="detail.serviceName"></working-op>
+            <working-op :order-id="$route.query.orderId" :customerName="detail.serviceName"></working-op>
           </el-tab-pane>
           <el-tab-pane label="工单相关信息" name="related">
             <p class="table-title">服务客户</p>
@@ -48,7 +48,12 @@
                 <td class="td-title">企业联系人及电话</td>
               </tr>
               <tr>
-                <td>{{customerDetail.name}}</td>
+                <td>
+                  <router-link class="col-link"
+                               :to="{name: 'serviceCustomerDetail', query: {id: orderDetail.customerId, view: 'base'}}">
+                    {{customerDetail.name}}
+                  </router-link>
+                </td>
                 <td>{{customerDetail.creditCode}}</td>
                 <td>{{customerDetail.registeredCapital}}</td>
                 <td>{{customerDetail.industry}}</td>
@@ -66,7 +71,7 @@
                 <td class="td-title">订单下单时间</td>
               </tr>
               <tr>
-                <td>{{orderDetail.orderId}}</td>
+                <td><a class="col-link" @click="showOrderDetail(orderDetail.orderId)">{{orderDetail.orderId}}</a></td>
                 <td>
                   <span v-if="orderDetail.orderState === 1">待服务</span>
                   <span v-if="orderDetail.orderState === 2">服务中</span>
@@ -79,7 +84,7 @@
               </tr>
             </table>
 
-            <p class="table-title">客满相关 <span>（2）</span></p>
+            <p class="table-title">客满相关 <span>（{{csInOrderList.length}}）</span></p>
             <table class="detail-table">
               <tr>
                 <td class="td-title">单号</td>
@@ -87,6 +92,32 @@
                 <td class="td-title">状态</td>
                 <td class="td-title">客服人员</td>
                 <td class="td-title">生成时间</td>
+              </tr>
+              <tr v-for="(item, index) in csInOrderList" :key="index">
+                <td>
+                  <!--投诉-->
+                  <router-link class="col-link"
+                               v-if="item.type === 3"
+                               :to="{name: 'serviceComplaintDetail', query: {id: item.id}}">
+                    {{item.num}}
+                  </router-link>
+                  <!--回访-->
+                  <router-link class="col-link"
+                               v-if="item.type === 2"
+                               :to="{name: 'serviceReturnVisitDetail', query: {id: item.id, view: 'service'}}">
+                    {{item.num}}
+                  </router-link>
+                  <!--抽查-->
+                  <router-link class="col-link"
+                               v-if="item.type === 1"
+                               :to="{name: 'serviceSpotCheckDetail', query: {id: item.id, view: 'order'}}">
+                    {{item.num}}
+                  </router-link>
+                </td>
+                <td>{{item.subjectName}}</td>
+                <td>{{item.stateName}}</td>
+                <td>{{item.name}}</td>
+                <td>{{item.created && $moment(item.created).format('YYYY-MM-DD HH:mm:ss')}}</td>
               </tr>
             </table>
 
@@ -100,7 +131,7 @@
                 <td class="td-title">服务完成时间</td>
               </tr>
               <tr v-for="(item, index) in orderListNoAuth" :key="index">
-                <td>{{item.orderId}}</td>
+                <td><a class="col-link" @click="showOrderDetail(item.orderId)">{{item.orderId}}</a></td>
                 <td>
                   <span v-if="item.orderState === 1">待服务</span>
                   <span v-if="item.orderState === 2">服务中</span>
@@ -127,6 +158,7 @@
   import { mapState } from 'vuex'
   import returnOrder from './returnOrder'
   import selectManager from './selectManager'
+  import orderDetailDialog from '../serviceOrderList/detailDialog'
 
   export default {
     name: 'detail',
@@ -140,6 +172,7 @@
         orderListNoAuth: [], // 客户历史订单
         orderListNoAuthTotal: 0,
         orderDetail: {}, // 订单信息
+        csInOrderList: [], // 客满
       }
     },
     computed: {
@@ -173,6 +206,7 @@
         API.workOrder.detail(this.$route.query.id, (da) => {
           this.detail = da.data
           this.getDetailByOrderId(this.detail.orderId)
+          this.getCsInOrderList(this.detail.orderId)
           setTimeout(() => {
             this.dataLoading = false
           }, 500)
@@ -187,6 +221,11 @@
         API.serviceOrder.listNoAuth({customerId: customerId}, (da) => {
           this.orderListNoAuth = da.data.content
           this.orderListNoAuthTotal = da.data.totalElements
+        })
+      },
+      getCsInOrderList (orderId) {
+        API.serviceSpotCheck.csInOrder({orderId: orderId}, (da) => {
+          this.csInOrderList = da.data
         })
       },
       getDetailByOrderId (orderId) {
@@ -239,8 +278,24 @@
           default:
         }
       },
+      showOrderDetail (orderId) {
+        this.$vDialog.modal(orderDetailDialog, {
+          title: '订单信息',
+          width: 1100,
+          height: 400,
+          params: {
+            orderId: orderId,
+          },
+          callback: (data) => {
+            if (data.type === 'save') {
+              this.getWorkOrderDetail()
+            }
+          },
+        })
+      }
     },
     created () {
+      this.activeViewName = this.$route.query.view
       this.userInfo = webStorage.getItem('userInfo')
       this.getWorkOrderDetail()
     },

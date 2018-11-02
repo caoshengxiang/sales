@@ -153,7 +153,12 @@
                 <td class="td-title">企业联系人及电话</td>
               </tr>
               <tr>
-                <td>{{customerDetail.name}}</td>
+                <td>
+                  <router-link class="col-link"
+                               :to="{name: 'serviceCustomerDetail', query: {id: detail.customerId, view: 'base'}}">
+                    {{customerDetail.name}}
+                  </router-link>
+                </td>
                 <td>{{customerDetail.creditCode}}</td>
                 <td>{{customerDetail.registeredCapital}}</td>
                 <td>{{customerDetail.industry}}</td>
@@ -161,7 +166,7 @@
               </tr>
             </table>
 
-            <p class="table-title">客满相关 <span>（2）</span></p>
+            <p class="table-title">客满相关 <span>（{{csInOrderList.length}}）</span></p>
             <table class="detail-table">
               <tr>
                 <td class="td-title">单号</td>
@@ -169,6 +174,32 @@
                 <td class="td-title">状态</td>
                 <td class="td-title">客服人员</td>
                 <td class="td-title">生成时间</td>
+              </tr>
+              <tr v-for="(item, index) in csInOrderList" :key="index">
+                <td>
+                  <!--投诉-->
+                  <router-link class="col-link"
+                               v-if="item.type === 3"
+                               :to="{name: 'serviceComplaintDetail', query: {id: item.id}}">
+                    {{item.num}}
+                  </router-link>
+                  <!--回访-->
+                  <router-link class="col-link"
+                               v-if="item.type === 2"
+                               :to="{name: 'serviceReturnVisitDetail', query: {id: item.id, view: 'service'}}">
+                    {{item.num}}
+                  </router-link>
+                  <!--抽查-->
+                  <router-link class="col-link"
+                               v-if="item.type === 1"
+                               :to="{name: 'serviceSpotCheckDetail', query: {id: item.id, view: 'order'}}">
+                    {{item.num}}
+                  </router-link>
+                </td>
+                <td>{{item.subjectName}}</td>
+                <td>{{item.stateName}}</td>
+                <td>{{item.name}}</td>
+                <td>{{item.created && $moment(item.created).format('YYYY-MM-DD HH:mm:ss')}}</td>
               </tr>
             </table>
 
@@ -182,7 +213,12 @@
                 <td class="td-title">服务完成时间</td>
               </tr>
               <tr v-for="(item, index) in orderListNoAuth" :key="index">
-                <td>{{item.orderId}}</td>
+                <td>
+                  <router-link class="col-link"
+                               :to="{name: 'serviceOrderDetail', query: {id: item.id, view: 'order'}}">
+                    {{item.orderId}}
+                  </router-link>
+                </td>
                 <td>
                   <span v-if="item.orderState === 1">待服务</span>
                   <span v-if="item.orderState === 2">服务中</span>
@@ -196,7 +232,8 @@
             </table>
           </el-tab-pane>
           <el-tab-pane label="订单加工信息" name="operate">
-            <working-op :order-id="$route.query.orderId" :workOrderId="$route.query.id" :customerName="detail.serviceName"></working-op>
+            <working-op v-if="detail.orderId" :order-id="detail.orderId"
+                        :customerName="detail.serviceCustomerName"></working-op>
           </el-tab-pane>
         </el-tabs>
       </div>
@@ -224,13 +261,14 @@
         customerDetail: {}, // 服务客户
         orderListNoAuth: [], // 客户历史订单
         orderListNoAuthTotal: 0,
+        csInOrderList: [], // 客满
       }
     },
     computed: {
       ...mapState('constData', [
         'themeIndex',
         'serviceType', // 服务类型
-      ])
+      ]),
     },
     watch: {
       '$route.query.view' (view) {
@@ -260,6 +298,7 @@
           this.getAssignOrderList(this.detail.orderId)
           this.getCustomerAbout(this.detail.customerId, this.detail.orderId)
           this.getOrderListNoAuth(this.detail.customerId)
+          this.getCsInOrderList(this.detail.orderId)
           setTimeout(() => {
             this.dataLoading = false
           }, 500)
@@ -284,13 +323,18 @@
           this.orderListNoAuthTotal = da.data.totalElements
         })
       },
+      getCsInOrderList (orderId) { // 客满相关
+        API.serviceSpotCheck.csInOrder({orderId: orderId}, (da) => {
+          this.csInOrderList = da.data
+        })
+      },
       orderHandle () {
         this.$vDialog.modal(orderDialog, {
           title: '派单',
           width: 1100,
           height: 660,
           params: {
-            ids: this.detail.id
+            ids: this.detail.id,
           },
           callback: (data) => {
             if (data.type === 'save') {
