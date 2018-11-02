@@ -136,7 +136,7 @@
                 <td class="td-title">客户名称</td>
                 <td>{{salesOpportunitiesDetail.customerName}}</td>
                 <td class="td-title">客户联系人</td>
-                <td>{{salesOpportunitiesDetail.contacter}}</td>
+                <td>{{salesOpportunitiesDetail.contacter}}[{{salesOpportunitiesDetail.contactPhone}}]</td>
                 <td class="td-title">需求进度</td>
                 <td>
                   <span v-for="item in salesState"
@@ -489,7 +489,9 @@
                 salesState: this.salesState,
                 multipleSelection: [{id: this.salesOpportunitiesDetail.id}],
               },
-              callback (data) {},
+              callback: (data) => {
+                this.getSalesOpportunitiesDetail()
+              },
             })
             break
           case 'delete': // 删除

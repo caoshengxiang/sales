@@ -60,8 +60,8 @@
         <el-form-item prop="" label="请点击该订单联系人获取手机验证码">
           <div v-if="multipleSelection[0]">
             {{multipleSelection[0].contacterName}}[{{multipleSelection[0].contacterPhone}}]
-            <span class="code" v-if="time === 0" @click="getCode">获取验证码</span>
-            <span class="code time" v-else>重新发送({{time}})</span>
+            <!--<span class="code" v-if="time === 0" @click="getCode">获取验证码</span>--><!--todo 展示注释-->
+            <!--<span class="code time" v-else>重新发送({{time}})</span>-->
           </div>
           <label v-else style="color: #ccc;">请选择一个订单</label>
         </el-form-item>
