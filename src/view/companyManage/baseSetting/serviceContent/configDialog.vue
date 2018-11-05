@@ -1,11 +1,11 @@
 <template>
-  <div class="com-dialog com-container">
+  <div class="com-dialog" style="padding: 20px">
     <el-form :model="ruleForm" :rules="rules" ref="ruleForm"
              label-width="160px"
              label-position="left"
              class="demo-ruleForm">
       <el-form-item label="服务商品名称">
-        <label>{{params.goodName}}</label>
+        <label>{{params.goodsName}}</label>
       </el-form-item>
       <el-form-item label="服务管家服务顺序" prop="serviceType">
         <el-radio-group v-model="serviceContentConfigDetail.serviceType">
@@ -19,6 +19,7 @@
       <el-form-item label="商品服务类型">
         <div v-for="(con, index) in serviceContent" :key="index" style="margin-bottom: 10px;">
           <span v-for="item in params.serviceType"
+                style="display: inline-block;width: 100px;"
                 :key="item.type"
                 v-if="item.type === con.serviceType">{{item.value}}</span>
           <el-select v-model="con.managerType" placeholder="请选择" style="width: 160px;">
@@ -34,13 +35,11 @@
           </span>
         </div>
       </el-form-item>
-      <el-form-item>
-        <div class="dialog-footer">
-          <el-button class="cancel-button" @click="$vDialog.close({type: 'cancel'})">取 消</el-button>
-          <el-button class="save-button" type="primary" @click="submitForm('ruleForm')">确 定</el-button>
-        </div>
-      </el-form-item>
     </el-form>
+    <div class="dialog-footer">
+      <el-button class="cancel-button" @click="$vDialog.close({type: 'cancel'})">取 消</el-button>
+      <el-button class="save-button" type="primary" @click="submitForm('ruleForm')">确 定</el-button>
+    </div>
   </div>
 </template>
 
@@ -58,6 +57,7 @@
         rules: {},
         serviceContentConfigDetail: {
           serviceType: 1, // 服务顺序类型 1-串行 2-并行
+          goodsId: '',
           serviceContent: [],
         },
         serviceContent: [],
@@ -88,6 +88,19 @@
               API.common.editServiceItemConfig(param, (da) => {
                 if (da.status) {
                   this.$message.success('配置成功')
+                  this.$vDialog.close({type: 'save'})
+                }
+              })
+            } else {
+              let param = {
+                goodsId: this.params.goodsId,
+                serviceType: this.serviceContentConfigDetail.serviceType, // 服务顺序类型 1-串行 2-并行
+                serviceContent: this.serviceContent
+              }
+              API.common.addServiceItemConfig(param, (da) => {
+                if (da.status) {
+                  this.$message.success('配置成功')
+                  this.$vDialog.close({type: 'save'})
                 }
               })
             }
@@ -100,8 +113,8 @@
       resetForm (formName) {
         this.$refs[formName].resetFields()
       },
-      getServiceContentConfigDetail (goodId) {
-        API.common.serviceContentConfigDetail({goodId: goodId}, (da) => {
+      getServiceContentConfigDetail (goodsId) {
+        API.common.serviceContentConfigDetail({goodId: goodsId}, (da) => {
           if (!da.data) {
             this.configType = 'add'
           } else {
@@ -114,17 +127,18 @@
       showServiceItem () {
         this.$vDialog.modal(servieceItem, {
           title: '服务事项配置',
-          width: 1100,
+          width: 700,
           height: 860,
           params: {
-            goodId: this.roleDefaultIndex,
-            goodName: this.desGoodName,
+            goodsId: this.params.goodsId,
+            goodsName: this.params.goodsName,
             serviceType: this.params.serviceType, // 七种服务类型
             serviceContent: this.serviceContent
           },
           callback: (data) => {
-            if (data.type === 'save') {
-              //
+            if (data.type === 'configItem') {
+              console.log(data.serviceContent)
+              this.serviceContent = data.serviceContent
             }
           },
         })
@@ -138,7 +152,7 @@
       },
     },
     created () {
-      this.getServiceContentConfigDetail(this.params.goodId)
+      this.getServiceContentConfigDetail(this.params.goodsId)
       this.getCodeConfig()
     },
   }

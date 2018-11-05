@@ -161,16 +161,16 @@
       configHandle () {
         this.$vDialog.modal(configDialog, {
           title: '服务内容配置',
-          width: 1100,
+          width: 700,
           height: 660,
           params: {
-            goodId: this.roleDefaultIndex,
-            goodName: this.desGoodName,
+            goodsId: this.roleDefaultIndex,
+            goodsName: this.desGoodName,
             serviceType: this.serviceType,
           },
           callback: (data) => {
             if (data.type === 'save') {
-              this.getOrganizationList()
+              this.selectGood(this.roleDefaultIndex) // 重获详细
             }
           },
         })
