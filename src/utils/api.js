@@ -234,10 +234,33 @@ const API1 = {
         error && error(err)
       })
     },
-    serviceContentConfigDetail  (params, success, error) { // 获取服务内容配置详情
+    serviceContentConfigDetail (params, success, error) { // 获取服务内容配置详情
       $axios.get(`serviceItemConfig/goodsId/${params.goodId}`, {
         params: params,
       }).then((res) => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+    },
+    serviceItemConfigAll (params, success, error) { // 获取所有服务事项配置
+      $axios.get('serviceItemConfig/all', {
+        params: params,
+      }).then((res) => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+    },
+    addServiceItemConfig (params, success, error) { // 新增服务内容配置
+      $axios.post('serviceItemConfig', params).then((res) => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+    },
+    editServiceItemConfig (params, success, error) { // 修改服务内容配置详情
+      $axios.put(`serviceItemConfig/${params.id}`, params).then((res) => {
         success && success(res.data)
       }).catch((err) => {
         error && error(err)

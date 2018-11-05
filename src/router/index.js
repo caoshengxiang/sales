@@ -335,7 +335,7 @@ const router = new Router({
       },
     }, {
       path: '*',
-      name: 'HelloWorld',
+      name: 'signIn2',
       // component: HelloWorld,
       redirect: '/FE/signIn',
       meta: {

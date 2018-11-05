@@ -13,7 +13,7 @@
     <!--控制栏-->
     <div class="com-bar">
       <div class="com-bar-left">
-        <com-button buttonType="grey" icon="el-icon-remove-outline">配置</com-button>
+        <com-button buttonType="grey" icon="el-icon-remove-outline" @click="configHandle">配置</com-button>
       </div>
     </div>
     <!--详细-->
@@ -55,8 +55,15 @@
                 align="center"
                 show-overflow-tooltip
                 label="服务内容"
-                prop="serviceTypeName"
+                prop="serviceType"
               >
+                <template slot-scope="scope">
+                  <span v-for="item in serviceType"
+                        :key="item.type"
+                        v-if="item.type === scope.row.serviceType">
+                    {{item.value}}
+                  </span>
+                </template>
               </el-table-column>
               <el-table-column
                 align="center"
@@ -91,13 +98,15 @@
   import API from '../../../../utils/api'
   // import { Message } from 'element-ui'
   import { mapState } from 'vuex'
+  import configDialog from './configDialog'
+
   export default {
     name: 'serviceContent',
     data () {
       return {
         dataLoading: false,
         currentPage: 1, // 当前页
-        roleDefaultIndex: '1', // 选择的商品id
+        roleDefaultIndex: '', // 选择的商品id
         desGoodName: '', // 选择的商品名称
         produceList: [], // 服务商品
         produceListTotal: 0,
@@ -108,6 +117,7 @@
       ...mapState('constData', [
         'userTypeOptions',
         'pagesOptions',
+        'serviceType',
       ]),
     },
     components: {
@@ -124,6 +134,7 @@
         API.baseSetting.getProductType(params, (res) => {
           that.produceList = res.data.content
           that.produceListTotal = res.data.totalElements
+          // alert(typeof that.produceList[0].goodsId.toString())
           this.selectGood(that.produceList[0].goodsId) // 初始第一个商品
           this.dataLoading = false
         })
@@ -137,14 +148,31 @@
       },
       selectGood (index) {
         this.desGoodName = this.produceList.find((n) => n.goodsId === parseInt(index)).goodsName
-        this.roleDefaultIndex = index
+        this.roleDefaultIndex = index.toString()
         this.getCodeConfig(index)
       },
       getCodeConfig (id) {
         API.common.serviceContentConfigDetail({goodId: id}, (da) => {
-          this.serviceItemConfigList = da.data.serviceContent ? JSON.parse(da.data.serviceContent) : []
+          this.serviceItemConfigList = da.data.serviceContentModelModels
         }, () => {
           this.serviceItemConfigList = []
+        })
+      },
+      configHandle () {
+        this.$vDialog.modal(configDialog, {
+          title: '服务内容配置',
+          width: 1100,
+          height: 660,
+          params: {
+            goodId: this.roleDefaultIndex,
+            goodName: this.desGoodName,
+            serviceType: this.serviceType,
+          },
+          callback: (data) => {
+            if (data.type === 'save') {
+              this.getOrganizationList()
+            }
+          },
         })
       }
     },
