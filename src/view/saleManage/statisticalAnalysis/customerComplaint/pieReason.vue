@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="com-title">
-      <span>投诉来源统计</span>
+      <span>投诉原因统计</span>
     </div>
     <div style="width: 100%;height: 320px" id="pieReason"></div>
   </div>
@@ -26,21 +26,15 @@
           legend: {
             x: 'center',
             y: 'bottom',
-            data: ['直接访问', '邮件营销', '联盟广告', '视频广告', '搜索引擎'],
+            data: [],
           },
           series: [
             {
-              name: '访问来源',
+              name: '投诉原因',
               type: 'pie',
               radius: '55%',
               center: ['50%', '60%'],
-              data: [
-                {value: 335, name: '直接访问'},
-                {value: 310, name: '邮件营销'},
-                {value: 234, name: '联盟广告'},
-                {value: 135, name: '视频广告'},
-                {value: 1548, name: '搜索引擎'},
-              ],
+              data: [],
               itemStyle: {
                 emphasis: {
                   shadowBlur: 10,
@@ -51,6 +45,25 @@
             },
           ],
         },
+      }
+    },
+    props: {
+      reasonData: {
+        default () {
+          return []
+        },
+        required: true,
+        type: Array,
+      }
+    },
+    watch: {
+      reasonData (d) {
+        this.option.legend.data = []
+        d.forEach(item => {
+          this.option.legend.data.push(item.name)
+        })
+        this.option.series[0].data = d
+        this.chart.setOption(this.option)
       }
     },
     methods: {

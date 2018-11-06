@@ -22,7 +22,7 @@
             <span v-if="detailInfo.approvalType === 5">服务工单派单</span>
             <span v-if="detailInfo.approvalType === 6">管家信息修改</span>
           </td>
-          <td class="td-title">发布人员</td>
+          <td class="td-title">发布人</td>
           <td>{{detailInfo.publisherName}}</td>
           <!--<td class="td-title">发布时间</td>-->
           <!--<td>{{detailInfo.publishTime && $moment(detailInfo.publishTime).format('YYYY-MM-DD HH:mm:ss')}}</td>-->
@@ -34,8 +34,9 @@
             <span v-if="detailInfo.state === 2">已通过</span>
             <span v-if="detailInfo.state === 3">已拒绝</span>
           </td>
-          <td class="td-title">任务业务描述</td>
-          <td>{{detailInfo.businessDesc}}</td>
+          <td class="td-title"></td>
+          <td>
+          </td>
           <td class="td-title">发布时间</td>
           <td>{{detailInfo.publishTime}}</td>
         </tr>

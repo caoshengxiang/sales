@@ -12,7 +12,8 @@
     <div class="com-bar">
       <div class="com-bar-left">
         <span>服务年度</span>
-        <el-select v-model="value" placeholder="请选择" style="width: 100px;">
+        <el-select v-model="defaultListParams.year" placeholder="请选择" style="width: 100px;">
+          <el-option label="全部" :value="null"></el-option>
           <el-option
             v-for="item in yearOptions"
             :key="item"
@@ -21,19 +22,20 @@
           </el-option>
         </el-select>
         <span>服务月度</span>
-        <el-select v-model="value2" placeholder="请选择" style="width: 100px;">
+        <el-select v-model="defaultListParams.month" placeholder="请选择" style="width: 100px;">
+          <el-option label="全部" :value="null"></el-option>
           <el-option
-            v-for="item in monthOptions"
+            v-for="(item, index) in monthOptions"
             :key="item"
             :label="item"
-            :value="item">
+            :value="index + 1">
           </el-option>
         </el-select>
-        <el-button>查询</el-button>
+        <el-button @click="searchHandle">查询</el-button>
       </div>
       <div class="com-bar-right">
         <el-button>打印</el-button>
-        <el-button>导出</el-button>
+        <com-button buttonType="export" icon="el-icon-download" @click="excelExport">导出</com-button>
       </div>
     </div>
     <!--详细-->
@@ -51,7 +53,7 @@
           <el-table-column
             align="center"
             sortable="custom"
-            prop="test"
+            prop="customerName"
             label="服务客户名称"
             show-overflow-tooltip
           >
@@ -59,7 +61,7 @@
           <el-table-column
             align="center"
             sortable="custom"
-            prop="test"
+            prop="billNum"
             label="上传票据资料数量"
             show-overflow-tooltip
           >
@@ -67,7 +69,7 @@
           <el-table-column
             align="center"
             sortable="custom"
-            prop="test"
+            prop="validBillNum"
             label="票据通过数量"
             show-overflow-tooltip
           >
@@ -75,7 +77,7 @@
           <el-table-column
             align="center"
             sortable="custom"
-            prop="test"
+            prop="invalidBillNum"
             label="票据未通过数量"
             show-overflow-tooltip
           >
@@ -87,7 +89,7 @@
       <div class="com-pages-box">
         <el-pagination
           background
-          :total="100"
+          :total="tableDataTotal"
           @size-change="handleSizeChange"
           @current-change="handleCurrentChange"
           :current-page="currentPage"
@@ -103,7 +105,11 @@
 <script>
   import { mapState } from 'vuex'
   import { underscoreName } from '../../../../utils/utils'
-
+  import API from '../../../../utils/api'
+  import comButton from '../../../../components/button/comButton'
+  import { serverUrl } from '../../../../utils/const'
+  import webStorage from 'webStorage'
+  import QS from 'qs'
   export default {
     name: 'list',
     data () {
@@ -112,20 +118,17 @@
         defaultListParams: { // 默认顾客列表请求参数
           page: null,
           pageSize: null,
-          type: null,
-          customerId: null,
-          organizationId: null,
+          year: null,
+          month: null,
         },
-        sortObj: {sort: 'created,desc'}, // 排序
+        sortObj: {}, // 排序
         advancedSearch: {}, // 高级搜索
-        tableData: [
-          {
-            test: 'test Data',
-          }],
-        multipleSelection: [],
-        value: '',
-        value2: '',
+        tableData: [],
+        tableDataTotal: 0,
       }
+    },
+    components: {
+      comButton,
     },
     computed: {
       ...mapState('constData', [
@@ -133,9 +136,9 @@
       ]),
       yearOptions () {
         let y = new Date().getFullYear()
-        let interval = 20
+        let interval = 30
         let arr = []
-        for (let i = y - interval; i <= y; i++) {
+        for (let i = y; i >= y - interval; i--) {
           arr.push(i)
         }
         return arr
@@ -154,6 +157,7 @@
       },
       handleSelectionChange (val) {
         this.multipleSelection = val
+        this.getData()
       },
       sortChangeHandle (sortObj) {
         let order = null
@@ -163,9 +167,56 @@
           order = 'desc'
         }
         this.sortObj = {sort: underscoreName(sortObj.prop) + ',' + order}
-        // this.getCustomerList()
+        this.getData()
+      },
+      getQueryParams () { // 请求参数配置
+        this.defaultListParams = {
+          page: this.currentPage - 1,
+          pageSize: this.pagesOptions.pageSize,
+          year: this.defaultListParams.year,
+          month: this.defaultListParams.month,
+        }
+      },
+      getData () {
+        this.getQueryParams()
+        API.statistical.customerBill(Object.assign({}, this.defaultListParams, this.sortObj, this.advancedSearch),
+          (da) => {
+            this.tableData = da.data.content
+            this.tableDataTotal = da.data.totalElements
+          })
+      },
+      searchHandle () {
+        this.getData()
+      },
+      excelExport () { // 导出
+        this.getQueryParams()
+        let as = {}
+        for (let key in this.advancedSearch) { // 去除null
+          if (this.advancedSearch[key]) {
+            as[key] = this.advancedSearch[key]
+          }
+        }
+        let dlp = {}
+        for (let key in this.defaultListParams) { // 去除分页
+          if (key !== 'page' && key !== 'pageSize') {
+            dlp[key] = this.defaultListParams[key]
+          }
+        }
+        let link = document.createElement('a') // 创建事件对象
+        let query = QS.stringify(Object.assign({}, dlp, this.sortObj, as,
+          {authKey: webStorage.getItem('userInfo').authKey}))
+        // console.log('下载参数：', query)
+        link.setAttribute('href', serverUrl + 'countSystem/customerBillExport?' + query)
+        link.setAttribute('download', '客服票据统计')
+        let event = document.createEvent('MouseEvents') // 初始化事件对象
+        event.initMouseEvent('click', true, true, document.defaultView, 0, 0, 0, 0, 0, false, false, false, false, 0,
+          null) // 触发事件
+        link.dispatchEvent(event)
       },
     },
+    created () {
+      this.getData()
+    }
   }
 </script>
 

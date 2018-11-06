@@ -36,6 +36,9 @@
           <div class="role-head-con">
             描述：<span style="padding-right: 10px;">{{desGoodName}}</span>
           </div>
+          <div style="margin: 14px 5px;">
+            <a class="com-a-link" @click="showServiceItem">查看商品服务事项</a>
+          </div>
           <div class="role-view-con">
             <el-table
               ref="multipleTable"
@@ -99,6 +102,7 @@
   // import { Message } from 'element-ui'
   import { mapState } from 'vuex'
   import configDialog from './configDialog'
+  import serviceItemShow from './serviceItemShow'
 
   export default {
     name: 'serviceContent',
@@ -111,6 +115,7 @@
         produceList: [], // 服务商品
         produceListTotal: 0,
         serviceItemConfigList: [],
+        serviceContent: [],
       }
     },
     computed: {
@@ -154,6 +159,7 @@
       getCodeConfig (id) {
         API.common.serviceContentConfigDetail({goodId: id}, (da) => {
           this.serviceItemConfigList = da.data.serviceContentModelModels
+          this.serviceContent = JSON.parse(da.data.serviceContent)
         }, () => {
           this.serviceItemConfigList = []
         })
@@ -174,7 +180,26 @@
             }
           },
         })
-      }
+      },
+      showServiceItem () {
+        this.$vDialog.modal(serviceItemShow, {
+          title: '商品服务事项浏览',
+          width: 700,
+          height: 860,
+          params: {
+            goodsId: this.roleDefaultIndex,
+            goodsName: this.desGoodName,
+            serviceType: this.serviceType, // 七种服务类型
+            serviceContent: this.serviceContent
+          },
+          callback: (data) => {
+            if (data.type === 'configItem') {
+              console.log(data.serviceContent)
+              this.serviceContent = data.serviceContent
+            }
+          },
+        })
+      },
     },
     created () {
       this.getOrganizationList()

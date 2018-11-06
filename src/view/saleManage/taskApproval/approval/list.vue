@@ -114,16 +114,19 @@
         total: 0,
         options: [
           {
-            value: 1,
+            value: null,
             label: '全部任务',
           }, {
+            value: 1,
+            label: '我待办的审核',
+          }, {
             value: 2,
-            label: '我待办的工作任务',
+            label: '我经办的审核',
           }, {
             value: 3,
-            label: '我发布的工作任务',
+            label: '我发起的审核',
           }],
-        value: 1,
+        value: null,
         tableData: [],
         multipleSelection: [],
         currentPage: 1,
@@ -152,6 +155,7 @@
     methods: {
       selectedOptionsHandleChange (value) {
         this.changeValue = value
+        this.currentPage = 1
         this.getTaskList()
       },
       dateFormat: function (row, column) {
@@ -173,15 +177,16 @@
         let param = {
           page: this.currentPage - 1,
           pageSize: this.pagesOptions.pageSize,
-          sort: 'publish_time,desc'
+          sort: 'publish_time,desc',
+          type: this.value
         }
 
-        if (that.changeValue === 2) {
-          param.principalId = that.userInfo.id
-          param.state = that.state
-        } else if (that.changeValue === 3) {
-          param.publisherId = that.userInfo.id
-        }
+        // if (that.changeValue === 2) {
+        //   param.principalId = that.userInfo.id
+        //   param.state = that.state
+        // } else if (that.changeValue === 3) {
+        //   param.publisherId = that.userInfo.id
+        // }
         this.loading = true
         API.task.queryList(param, (res) => {
           that.loading = false

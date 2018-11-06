@@ -3,11 +3,18 @@
     <div class="com-title com-title-no">
       <span>年度订单数量同比</span>
       <div class="report-bar">
-        <el-select placeholder="请选择" @change="selectOptionsHandle" style="margin-left: 20px">
-          <el-option label="11111" value="1"></el-option>
+        <el-select placeholder="请选择对比年份" v-model="defaultListParams.year" @change="selectOptionsHandle" style="margin-left: 20px">
+          <el-option v-for="item in yearOptions" :key="item" :label="item" :value="item"></el-option>
         </el-select>
-        <el-select placeholder="请选择" @change="selectOptionsHandle" style="margin-left: 20px">
-          <el-option label="22222" value="2"></el-option>
+        <el-select placeholder="请选择对比数据类型" v-model="defaultListParams.type" @change="selectOptionsHandle" style="margin-left: 20px">
+          <el-option label="满意" :value="6"></el-option>
+          <el-option label="一般" :value="7"></el-option>
+          <el-option label="不满意" :value="8"></el-option>
+          <el-option label="一星" :value="1"></el-option>
+          <el-option label="二星" :value="2"></el-option>
+          <el-option label="三星" :value="3"></el-option>
+          <el-option label="四星" :value="4"></el-option>
+          <el-option label="五星" :value="5"></el-option>
         </el-select>
       </div>
     </div>
@@ -18,8 +25,8 @@
 </template>
 
 <script>
-  // import API from '../../../../utils/api'
-  import webStorage from 'webStorage'
+  import API from '../../../../utils/api'
+  // import webStorage from 'webStorage'
   // import { arrToStr } from '../../../../utils/utils'
 
   export default {
@@ -27,8 +34,11 @@
     data () {
       let colors = ['#5793f3', '#d14a61', '#675bba']
       return {
-        currentUserId: null,
-        type: 4, // 1:本周 2:本月 3:本季 4:本年
+        currentYear: new Date().getFullYear(),
+        defaultListParams: {
+          year: new Date().getFullYear() - 1,
+          type: 6,
+        },
         option: {
           color: colors,
 
@@ -39,7 +49,7 @@
             },
           },
           legend: {
-            data: ['2015 降水量', '2016 降水量'],
+            data: ['2015 订单数模拟数据', '2016 订单数模拟数据'],
           },
           grid: {
             left: '3%',
@@ -62,7 +72,7 @@
               axisPointer: {
                 label: {
                   formatter: function (params) {
-                    return '降水量  ' + params.value + (params.seriesData.length ? '：' + params.seriesData[0].data : '')
+                    return '订单数  ' + params.value + (params.seriesData.length ? '：' + params.seriesData[0].data : '')
                   },
                 },
               },
@@ -94,7 +104,7 @@
               axisPointer: {
                 label: {
                   formatter: function (params) {
-                    return '降水量  ' + params.value + (params.seriesData.length ? '：' + params.seriesData[0].data : '')
+                    return '订单数  ' + params.value + (params.seriesData.length ? '：' + params.seriesData[0].data : '')
                   },
                 },
               },
@@ -120,14 +130,14 @@
           ],
           series: [
             {
-              name: '2015 降水量',
+              name: '2015 订单数',
               type: 'line',
               xAxisIndex: 1,
               smooth: true,
               data: [2.6, 5.9, 9.0, 26.4, 28.7, 70.7, 175.6, 182.2, 48.7, 18.8, 6.0, 2.3],
             },
             {
-              name: '2016 降水量',
+              name: '2016 订单数',
               type: 'line',
               smooth: true,
               data: [3.9, 5.9, 11.1, 18.7, 48.3, 69.2, 231.6, 46.6, 55.4, 18.4, 10.3, 0.7],
@@ -140,7 +150,20 @@
           userIds: null,
         },
         orderStat: {},
+        tableDataCurrentYear: [],
+        tableData: [],
       }
+    },
+    computed: {
+      yearOptions () {
+        let y = new Date().getFullYear() - 1
+        let interval = 30
+        let arr = []
+        for (let i = y; i >= y - interval; i--) {
+          arr.push(i)
+        }
+        return arr
+      },
     },
     methods: {
       drawOrderNumChart () {
@@ -150,29 +173,47 @@
         this.orderNumChart.setOption(this.option)
       },
       getData () {
+        API.statistical.orderReviewYOY(this.defaultListParams, da => {
+          this.tableData = da.data
+          this.option.legend.data = [this.defaultListParams.year + '评价订单数量', this.currentYear + '评价订单数量']
+          let date = []
+          let count = []
+          da.data.forEach(item => {
+            date.push(item.date)
+            count.push(item.count)
+          })
+          this.option.xAxis[1].data = date
+          this.option.series[1].name = this.defaultListParams.year + '评价订单数量'
+          this.option.series[1].data = count
+          this.orderNumChart.setOption(this.option)
+        })
       },
-      getSelectOptions () {
-        // API.user.userSubordinates({}, (da) => {
-        //   this.selectOptions = da.data
-        //   this.selectOptions.unshift({id: this.currentUserId, name: '只看自己'})
-        //   this.getData()
-        //   this.getOrderStat()
-        // })
+      getDataCurrentYear () {
+        API.statistical.orderReviewYOY({
+          year: this.currentYear,
+          type: this.defaultListParams.type
+        }, da => {
+          this.tableDataCurrentYear = da.data
+          let date = []
+          let count = []
+          da.data.forEach(item => {
+            date.push(item.date)
+            count.push(item.count)
+          })
+          console.log(da.data, date)
+          this.option.xAxis[0].data = date
+          this.option.series[0].name = this.currentYear + '评价订单数量'
+          this.option.series[0].data = count
+          this.orderNumChart.setOption(this.option)
+        })
       },
-      getOrderStat () {
-        // let userIds = this.paramsForm.userIds
-        // if (this.paramsForm.userIds === null) {
-        //   userIds = arrToStr(this.selectOptions, 'id')
-        // }
-        // API.home.orderStat({userIds: userIds}, da => {
-        //   this.orderStat = da.data
-        // })
+      selectOptionsHandle () {
+        this.getData()
+        this.getDataCurrentYear()
       },
-      selectOptionsHandle () {},
     },
     created () {
-      this.getSelectOptions()
-      this.currentUserId = webStorage.getItem('userInfo').id
+      this.selectOptionsHandle()
     },
     mounted () {
       this.drawOrderNumChart()

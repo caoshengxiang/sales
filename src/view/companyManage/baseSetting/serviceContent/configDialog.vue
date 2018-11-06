@@ -95,6 +95,7 @@
               let param = {
                 goodsId: this.params.goodsId,
                 serviceType: this.serviceContentConfigDetail.serviceType, // 服务顺序类型 1-串行 2-并行
+                serviceName: this.serviceContentConfigDetail.serviceName, // 服务顺序类型 1-串行 2-并行
                 serviceContent: this.serviceContent
               }
               API.common.addServiceItemConfig(param, (da) => {

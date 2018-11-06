@@ -3,6 +3,9 @@
     <div class="com-title">
       <span>客户评价星级占比</span>
     </div>
+    <div class="">
+      <span>统计期客户意见数量合计：{{orderReviewDataTotal}}</span>
+    </div>
     <div style="width: 100%;height: 320px" id="pieRate"></div>
   </div>
 </template>
@@ -26,7 +29,7 @@
           legend: {
             x: 'center',
             y: 'bottom',
-            data: ['直接访问', '邮件营销', '联盟广告', '视频广告', '搜索引擎'],
+            data: [],
           },
           series: [
             {
@@ -34,13 +37,7 @@
               type: 'pie',
               radius: '55%',
               center: ['50%', '60%'],
-              data: [
-                {value: 335, name: '直接访问'},
-                {value: 310, name: '邮件营销'},
-                {value: 234, name: '联盟广告'},
-                {value: 135, name: '视频广告'},
-                {value: 1548, name: '搜索引擎'},
-              ],
+              data: [],
               itemStyle: {
                 emphasis: {
                   shadowBlur: 10,
@@ -51,6 +48,30 @@
             },
           ],
         },
+      }
+    },
+    props: {
+      orderReviewData: {
+        default () {
+          return []
+        },
+        required: true,
+        type: Array,
+      },
+      orderReviewDataTotal: {
+        default: 0,
+        required: true,
+        type: Number,
+      }
+    },
+    watch: {
+      orderReviewData (d) {
+        this.option.legend.data = []
+        d.forEach(item => {
+          this.option.legend.data.push(item.name)
+        })
+        this.option.series[0].data = d
+        this.chart.setOption(this.option)
       }
     },
     methods: {

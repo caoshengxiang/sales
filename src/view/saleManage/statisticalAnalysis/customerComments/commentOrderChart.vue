@@ -1,10 +1,10 @@
 <template>
   <div>
     <div class="com-title com-title-no">
-      <span>订单数</span>
+      <span></span>
       <el-radio-group v-model="radio2" @change="selectOptionsHandle"  style="margin-left: 20px">
-        <el-radio :label="3">备选项</el-radio>
-        <el-radio :label="6">备选项</el-radio>
+        <el-radio :label="1">统计期评价订单数量趋势</el-radio>
+        <el-radio :label="2">统计期订单占比趋势</el-radio>
       </el-radio-group>
       <div class="report-bar">
         <el-button @click="setType(1)" :class="{active: this.type===1}">日</el-button>
@@ -20,7 +20,7 @@
 </template>
 
 <script>
-  // import API from '../../../../utils/api'
+  import API from '../../../../utils/api'
   import webStorage from 'webStorage'
   // import { arrToStr } from '../../../../utils/utils'
 
@@ -29,11 +29,13 @@
     data () {
       return {
         currentUserId: null,
-        radio2: '',
+        radio2: 1,
         type: 4, // 1:本周 2:本月 3:本季 4:本年
+        dateStart: null,
+        dateEnd: null,
         option: {
           title: {
-            text: '折线图堆叠',
+            text: '',
           },
           tooltip: {
             trigger: 'axis',
@@ -41,7 +43,7 @@
           legend: {
             x: 'center',
             y: 'botton',
-            data: ['邮件营销', '联盟广告', '视频广告', '直接访问', '搜索引擎'],
+            data: ['满意', '一般', '不满意', '一星评价', '二星评价', '三星评价', '四星评价', '五星评价', '三星评价（默认）'],
           },
           grid: {
             left: '3%',
@@ -64,31 +66,51 @@
           },
           series: [
             {
-              name: '邮件营销',
+              name: '满意',
               type: 'line',
               stack: '总量',
               data: [120, 132, 101, 134, 90, 230, 210],
             },
             {
-              name: '联盟广告',
+              name: '一般',
               type: 'line',
               stack: '总量',
               data: [220, 182, 191, 234, 290, 330, 310],
             },
             {
-              name: '视频广告',
+              name: '不满意',
               type: 'line',
               stack: '总量',
               data: [150, 232, 201, 154, 190, 330, 410],
             },
             {
-              name: '直接访问',
+              name: '一星评价',
               type: 'line',
               stack: '总量',
               data: [320, 332, 301, 334, 390, 330, 320],
             },
             {
-              name: '搜索引擎',
+              name: '二星评价',
+              type: 'line',
+              stack: '总量',
+              data: [820, 932, 901, 934, 1290, 1330, 1320],
+            }, {
+              name: '三星评价',
+              type: 'line',
+              stack: '总量',
+              data: [820, 932, 901, 934, 1290, 1330, 1320],
+            }, {
+              name: '四星评价',
+              type: 'line',
+              stack: '总量',
+              data: [820, 932, 901, 934, 1290, 1330, 1320],
+            }, {
+              name: '五星评价',
+              type: 'line',
+              stack: '总量',
+              data: [820, 932, 901, 934, 1290, 1330, 1320],
+            }, {
+              name: '三星评价（默认）',
               type: 'line',
               stack: '总量',
               data: [820, 932, 901, 934, 1290, 1330, 1320],
@@ -96,11 +118,19 @@
           ],
         },
         orderNumChart: '',
-        selectOptions: [],
-        paramsForm: {
-          userIds: null,
-        },
-        orderStat: {},
+        tableData: []
+      }
+    },
+    props: {
+      time: {
+        default: ''
+      }
+    },
+    watch: {
+      time (d) {
+        this.dateStart = d[0] || null
+        this.dateEnd = d[1] || null
+        this.getData()
       }
     },
     methods: {
@@ -111,37 +141,47 @@
         this.orderNumChart.setOption(this.option)
       },
       getData () {
-        // API.home.orderReport({userIds: userIds, type: this.type}, da => {
-        //   this.drawOrderNumChart()
-        // }, () => {})
+        API.statistical.orderReviewTrend({
+          type: this.type,
+          dateStart: this.dateStart,
+          dateEnd: this.dateEnd,
+        }, da => {
+          this.tableData = da.data
+          let date = []
+          let series = [[], [], [], [], [], [], [], [], []]
+          da.data.forEach(item => {
+            date.push(item.date)
+            series[0].push(item.satisfaction)
+            series[1].push(item.normal)
+            series[2].push(item.discontent)
+            series[3].push(item.oneStar)
+            series[4].push(item.twoStar)
+            series[5].push(item.threeStar)
+            series[6].push(item.fourStar)
+            series[7].push(item.fiveStar)
+            series[8].push(item.defaultThreeStar)
+          })
+          this.option.xAxis.data = date
+          series.forEach((se, index) => {
+            this.option.series[index].data = se
+          })
+          this.orderNumChart.setOption(this.option)
+        })
       },
       setType (type) {
         this.type = type
-        this.getSelectOptions()
+        this.getData()
       },
       selectOptionsHandle () {
-        this.getSelectOptions()
-      },
-      getSelectOptions () {
-        // API.user.userSubordinates({}, (da) => {
-        //   this.selectOptions = da.data
-        //   this.selectOptions.unshift({id: this.currentUserId, name: '只看自己'})
-        //   this.getData()
-        //   this.getOrderStat()
-        // })
-      },
-      getOrderStat () {
-        // let userIds = this.paramsForm.userIds
-        // if (this.paramsForm.userIds === null) {
-        //   userIds = arrToStr(this.selectOptions, 'id')
-        // }
-        // API.home.orderStat({userIds: userIds}, da => {
-        //   this.orderStat = da.data
-        // })
+        if (this.radio2 === 1) {
+          console.log(1)
+        } else {
+          console.log(2)
+        }
       },
     },
     created () {
-      this.getSelectOptions()
+      this.getData()
       this.currentUserId = webStorage.getItem('userInfo').id
     },
     mounted () {

@@ -531,4 +531,97 @@ export default {
       })
     },
   },
+  statistical: {
+    serviceWork (params, success, error) { // 服务任务统计(总)
+      $axios.get('countSystem/serviceWork', {params: params}).then(res => {
+        success && success(res.data)
+      }).catch(err => {
+        error && error(err)
+      })
+    },
+    serviceWorkManager (params, success, error) { // 服务任务统计（管家 分页）
+      $axios.get('countSystem/serviceWorkManager', {params: params}).then(res => {
+        success && success(res.data)
+      }).catch(err => {
+        error && error(err)
+      })
+    },
+    serviceTask (params, success, error) { // 客服任务统计
+      $axios.get('countSystem/serviceTask', {params: params}).then(res => {
+        success && success(res.data)
+      }).catch(err => {
+        error && error(err)
+      })
+    },
+    serviceCustomer (params, success, error) { // 服务客户统计
+      $axios.get('countSystem/serviceCustomer', {params: params}).then(res => {
+        success && success(res.data)
+      }).catch(err => {
+        error && error(err)
+      })
+    },
+    customerBill (params, success, error) { // 客户票据统计
+      $axios.get('countSystem/customerBill', {params: params}).then(res => {
+        success && success(res.data)
+      }).catch(err => {
+        error && error(err)
+      })
+    },
+    serviceWorkState (params, success, error) { // 拒单退单统计(总)
+      $axios.get('countSystem/serviceWorkState', {params: params}).then(res => {
+        success && success(res.data)
+      }).catch(err => {
+        error && error(err)
+      })
+    },
+    serviceWorkStateManager (params, success, error) { // 拒单退单统计(管家 分页)
+      $axios.get('countSystem/serviceWorkStateManager', {params: params}).then(res => {
+        success && success(res.data)
+      }).catch(err => {
+        error && error(err)
+      })
+    },
+    serviceCompliaint (params, success, error) { // 客户投诉统计
+      $axios.get('countSystem/serviceCompliaint', {params: params}).then(res => {
+        success && success(res.data)
+      }).catch(err => {
+        error && error(err)
+      })
+    },
+    suggestion (params, success, error) { // 客户意见统计
+      $axios.get('countSystem/suggestion', {params: params}).then(res => {
+        success && success(res.data)
+      }).catch(err => {
+        error && error(err)
+      })
+    },
+    orderReview (params, success, error) { // 订单评价满意度统计
+      $axios.get('countSystem/orderReview', {params: params}).then(res => {
+        success && success(res.data)
+      }).catch(err => {
+        error && error(err)
+      })
+    },
+    orderManagerReview (params, success, error) { // 服务期管家获得评价明细
+      $axios.get('countSystem/orderManagerReview', {params: params}).then(res => {
+        success && success(res.data)
+      }).catch(err => {
+        error && error(err)
+      })
+    },
+    orderReviewTrend (params, success, error) { // 客户评价订单数趋势统计
+      $axios.get('countSystem/orderReviewTrend', {params: params}).then(res => {
+        success && success(res.data)
+      }).catch(err => {
+        error && error(err)
+      })
+    },
+    orderReviewYOY (params, success, error) { // 服务期管家获得评价明细
+      $axios.get('countSystem/orderReviewYOY', {params: params}).then(res => {
+        success && success(res.data)
+      }).catch(err => {
+        error && error(err)
+      })
+    },
+  }
 }

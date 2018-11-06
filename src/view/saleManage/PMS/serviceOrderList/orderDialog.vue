@@ -59,18 +59,18 @@
             <td>{{item.managerTypeName}}</td>
             <td>
               <!--null-未指派、1-待接收、2-已拒绝、3-进行中、4-已完成、5-退单中、6-已退单-->
-              <span v-if="!item.serviceState && !item.managerName">
+              <span v-if="!item.workOrderState && !item.managerName">
                 <a class="com-a-link" @click="selectManagerHandle(item)">请选择</a>
               </span>
-              <span v-if="!item.serviceState && item.managerName">
+              <span v-if="!item.workOrderState && item.managerName">
                 <span style="margin-left: 10px">{{item.managerName}}</span>
                 <a class="com-a-link" @click="selectManagerHandle(item)">重选</a>
               </span>
-              <span v-else-if="item.serviceState == 2">
+              <span v-else-if="item.workOrderState == 2">
                 <a class="com-a-link" @click="selectManagerHandle(item)">{{item.managerName}}</a>
                 <label>已拒单</label>
               </span>
-              <span v-else-if="item.serviceState == 5">
+              <span v-else-if="item.workOrderState == 5">
                 <a>{{item.managerName}}</a>
                 <label>已退单</label>
               </span>
@@ -180,7 +180,8 @@
       saveSubmitForm () {
         let paramsArr = []
         this.workOrderManagers.forEach(item => {
-          if (item.workOrderState === 1 || item.workOrderState === 2) { // 待派单，已拒绝
+          // （null-未指派、1-待接收、2-已拒绝、3-进行中、4-已完成、5-退单中、6-已退单）
+          if (!item.workOrderState || item.workOrderState === 1 || item.workOrderState === 2) { // 待派单，已拒绝
             paramsArr.push({
               orderId: this.detail.orderId,
               manager_id: item.managerId,
@@ -189,6 +190,10 @@
             })
           }
         })
+        if (!paramsArr.length) {
+          this.$message.warning('派单不满足条件')
+          return
+        }
         API.workOrder.addWorkOrder(paramsArr, (res) => {
           if (res.status) {
             this.$message.success('派单成功')

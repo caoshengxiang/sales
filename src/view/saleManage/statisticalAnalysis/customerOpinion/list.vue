@@ -13,10 +13,17 @@
       <div class="com-bar-left">
         <span>统计时间: </span>
         <el-date-picker
-          v-model="value1"
-          type="date"
-          placeholder="选择日期">
+          v-model="time"
+          type="datetimerange"
+          value-format="yyyy-MM-dd HH:mm:ss"
+          @change="timeIntervalHandle"
+          :unlink-panels="true"
+          :default-value="lastMonthDate()"
+          range-separator="至"
+          start-placeholder="开始日期"
+          end-placeholder="结束日期">
         </el-date-picker>
+        <el-button @click="searchHandle">查询</el-button>
       </div>
       <div class="com-bar-right">
         <el-button>打印</el-button>
@@ -27,12 +34,12 @@
     <div class="com-box com-box-padding com-list-box">
       <div class="home-row">
         <el-row>
-          <el-col :span="12">
+          <el-col :span="24">
             <div class="col-box">
-              <pie-opinion></pie-opinion>
+              <pie-opinion :tableData="tableData" :tableDataTotal="tableDataTotal"></pie-opinion>
             </div>
           </el-col>
-          <el-col :span="12" class="l-border-6">
+          <el-col class="l-border-6">
             <div class="col-box">
             </div>
           </el-col>
@@ -43,9 +50,9 @@
 </template>
 
 <script>
-  import { mapState } from 'vuex'
-  import { underscoreName } from '../../../../utils/utils'
+  import { lastMonthDate } from '../../../../utils/utils'
   import PieOpinion from './pieOpinion'
+  import API from '../../../../utils/api'
 
   export default {
     name: 'list',
@@ -53,51 +60,37 @@
       return {
         currentPage: 1,
         defaultListParams: { // 默认顾客列表请求参数
-          page: null,
-          pageSize: null,
-          type: null,
-          customerId: null,
-          organizationId: null,
+          timeStart: null,
+          timeEnd: null,
         },
-        sortObj: {sort: 'created,desc'}, // 排序
-        advancedSearch: {}, // 高级搜索
-        tableData: [
-          {
-            test: 'test Data',
-          }],
-        multipleSelection: [],
-        value1: '',
+        tableData: [],
+        tableDataTotal: 0,
+        time: '',
       }
-    },
-    computed: {
-      ...mapState('constData', [
-        'pagesOptions',
-      ]),
     },
     components: {
       PieOpinion
     },
     methods: {
-      handleSizeChange (val) {
-        console.log(`每页 ${val} 条`)
+      lastMonthDate () {
+        return lastMonthDate()
       },
-      handleCurrentChange (val) {
-        console.log(`当前页: ${val}`)
-        this.currentPage = val
+      timeIntervalHandle (value) {
+        this.defaultListParams.timeStart = value[0] || ''
+        this.defaultListParams.timeEnd = value[1] || ''
       },
-      handleSelectionChange (val) {
-        this.multipleSelection = val
+      searchHandle () {
+        this.getData()
       },
-      sortChangeHandle (sortObj) {
-        let order = null
-        if (sortObj.order === 'ascending') {
-          order = 'asc'
-        } else if (sortObj.order === 'descending') {
-          order = 'desc'
-        }
-        this.sortObj = {sort: underscoreName(sortObj.prop) + ',' + order}
-        // this.getCustomerList()
+      getData () {
+        API.statistical.suggestion(this.defaultListParams, (da) => {
+          this.tableData = da.data.innerCountList
+          this.tableDataTotal = da.data.total
+        })
       },
+    },
+    created () {
+      this.getData()
     },
   }
 </script>

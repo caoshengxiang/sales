@@ -13,10 +13,17 @@
       <div class="com-bar-left">
         <span>统计时间: </span>
         <el-date-picker
-          v-model="value1"
-          type="date"
-          placeholder="选择日期">
+          v-model="time"
+          type="datetimerange"
+          value-format="yyyy-MM-dd HH:mm:ss"
+          @change="timeIntervalHandle"
+          :unlink-panels="true"
+          :default-value="lastMonthDate()"
+          range-separator="至"
+          start-placeholder="开始日期"
+          end-placeholder="结束日期">
         </el-date-picker>
+        <el-button @click="searchHandle">查询</el-button>
       </div>
       <div class="com-bar-right">
         <el-button>打印</el-button>
@@ -29,12 +36,12 @@
         <el-row>
           <el-col :span="12">
             <div class="col-box">
-              <pie-origin></pie-origin>
+              <pie-origin :originData="originData"></pie-origin>
             </div>
           </el-col>
           <el-col :span="12" class="l-border-6">
             <div class="col-box">
-              <pie-reason></pie-reason>
+              <pie-reason :reasonData="reasonData"></pie-reason>
             </div>
           </el-col>
         </el-row>
@@ -44,69 +51,74 @@
 </template>
 
 <script>
-  import { mapState } from 'vuex'
-  import { underscoreName } from '../../../../utils/utils'
   import pieOrigin from './pieOrigin'
   import pieReason from './pieReason'
+  import API from '../../../../utils/api'
+  import { lastMonthDate } from '../../../../utils/utils'
 
   export default {
     name: 'list',
     data () {
       return {
-        currentPage: 1,
         defaultListParams: { // 默认顾客列表请求参数
-          page: null,
-          pageSize: null,
-          type: null,
-          customerId: null,
-          organizationId: null,
+          dateStart: null,
+          dateEnd: null,
         },
-        sortObj: {sort: 'created,desc'}, // 排序
+        sortObj: {}, // 排序
         advancedSearch: {}, // 高级搜索
-        tableData: [
-          {
-            test: 'test Data',
-          }],
-        multipleSelection: [],
-        value1: '',
+        tableData: {},
+        time: '',
+        originData: [],
+        reasonData: [],
       }
-    },
-    computed: {
-      ...mapState('constData', [
-        'pagesOptions',
-      ]),
     },
     components: {
       pieOrigin,
       pieReason,
     },
     methods: {
-      handleSizeChange (val) {
-        console.log(`每页 ${val} 条`)
+      lastMonthDate () {
+        return lastMonthDate()
       },
-      handleCurrentChange (val) {
-        console.log(`当前页: ${val}`)
-        this.currentPage = val
+      timeIntervalHandle (value) {
+        this.defaultListParams.dateStart = value[0] || ''
+        this.defaultListParams.dateEnd = value[1] || ''
       },
-      handleSelectionChange (val) {
-        this.multipleSelection = val
+      searchHandle () {
+        this.getData()
       },
-      sortChangeHandle (sortObj) {
-        let order = null
-        if (sortObj.order === 'ascending') {
-          order = 'asc'
-        } else if (sortObj.order === 'descending') {
-          order = 'desc'
-        }
-        this.sortObj = {sort: underscoreName(sortObj.prop) + ',' + order}
-        // this.getCustomerList()
+      getData () {
+        API.statistical.serviceCompliaint(this.defaultListParams, (da) => {
+          this.tableData = da.data
+          this.originData = [
+            {
+              value: da.data.normal,
+              name: '一般投诉',
+            }, {
+              value: da.data.upgrade,
+              name: '升级投诉',
+            },
+          ]
+          let reason = da.data.reason || {}
+          this.reasonData = []
+          for (let key in reason) {
+            this.reasonData.push({
+              value: reason[key],
+              name: key,
+            })
+          }
+        })
       },
+    },
+    created () {
+      this.getData()
     },
   }
 </script>
 
 <style scoped lang="scss" rel="stylesheet/scss">
   @import "../../../../styles/common";
+
   .home-row {
     &.home-row-2 {
       border-top: 6px solid $part-color;

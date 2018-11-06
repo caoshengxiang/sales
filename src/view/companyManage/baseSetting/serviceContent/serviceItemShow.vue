@@ -12,6 +12,7 @@
         <el-tree :data="serviceItemConfigAll"
                  node-key="itemType"
                  show-checkbox
+                 default-expand-all
                  :default-checked-keys="defaultCheckedKeys"
                  :props="defaultProps"
                  @check-change="handleCheckChange"
@@ -19,8 +20,8 @@
       </el-form-item>
     </el-form>
     <div class="dialog-footer">
-      <el-button class="cancel-button" @click="$vDialog.close({type: 'cancel'})">取 消</el-button>
-      <el-button class="save-button" type="primary" @click="submitForm('ruleForm')">确 定</el-button>
+      <!--<el-button class="cancel-button" @click="$vDialog.close({type: 'cancel'})">取 消</el-button>-->
+      <!--<el-button class="save-button" type="primary" @click="submitForm('ruleForm')">确 定</el-button>-->
     </div>
   </div>
 </template>
@@ -29,7 +30,7 @@
   import API from '../../../../utils/api'
 
   export default {
-    name: 'serviceItem',
+    name: 'serviceItemShow',
     data () {
       return {
         ruleForm: {

@@ -25,12 +25,11 @@
           :data="tableData"
           tooltip-effect="dark"
           @sort-change="sortChangeHandle"
-          @selection-change="handleSelectionChange"
         >
           <el-table-column
             align="center"
             sortable="custom"
-            prop="test"
+            prop="name"
             label="服务客户名称"
             show-overflow-tooltip
           >
@@ -38,7 +37,7 @@
           <el-table-column
             align="center"
             sortable="custom"
-            prop="test"
+            prop="creditCode"
             label="统一信用码"
             show-overflow-tooltip
           >
@@ -46,7 +45,7 @@
           <el-table-column
             align="center"
             sortable="custom"
-            prop="test"
+            prop="registeredCapital"
             label="注册资本金"
             show-overflow-tooltip
           >
@@ -54,7 +53,7 @@
           <el-table-column
             align="center"
             sortable="custom"
-            prop="test"
+            prop="industry"
             label="所属行业"
             show-overflow-tooltip
           >
@@ -62,23 +61,30 @@
           <el-table-column
             align="center"
             sortable="custom"
-            prop="test"
+            prop="contactName"
             label="企业联系人及电话"
             show-overflow-tooltip
           >
+            <template slot-scope="scope">
+              {{scope.row.contactName}}[{{scope.row.contactPhone}}]
+            </template>
           </el-table-column>
           <el-table-column
             align="center"
             sortable="custom"
-            prop="test"
+            prop="orderState"
             label="服务状态"
             show-overflow-tooltip
           >
+            <template slot-scope="scope">
+              <span v-if="scope.row.orderState === 1">服务中</span>
+              <span v-if="scope.row.orderState === 2">历史客户</span>
+            </template>
           </el-table-column>
           <el-table-column
             align="center"
             sortable="custom"
-            prop="test"
+            prop="managerName"
             label="服务管家"
             show-overflow-tooltip
           >
@@ -90,7 +96,7 @@
       <div class="com-pages-box">
         <el-pagination
           background
-          :total="100"
+          :total="tableDataTotal"
           @size-change="handleSizeChange"
           @current-change="handleCurrentChange"
           :current-page="currentPage"
@@ -106,6 +112,7 @@
 <script>
   import { mapState } from 'vuex'
   import { underscoreName } from '../../../../utils/utils'
+  import API from '../../../../utils/api'
 
   export default {
     name: 'list',
@@ -115,18 +122,11 @@
         defaultListParams: { // 默认顾客列表请求参数
           page: null,
           pageSize: null,
-          type: null,
-          customerId: null,
-          organizationId: null,
         },
-        sortObj: {sort: 'created,desc'}, // 排序
+        sortObj: {}, // 排序
         advancedSearch: {}, // 高级搜索
-        tableData: [
-          {
-            test: 'test Data',
-          }],
-        multipleSelection: [],
-        time: '',
+        tableData: [],
+        tableDataTotal: 0,
       }
     },
     computed: {
@@ -141,9 +141,7 @@
       handleCurrentChange (val) {
         console.log(`当前页: ${val}`)
         this.currentPage = val
-      },
-      handleSelectionChange (val) {
-        this.multipleSelection = val
+        this.getData()
       },
       sortChangeHandle (sortObj) {
         let order = null
@@ -153,9 +151,26 @@
           order = 'desc'
         }
         this.sortObj = {sort: underscoreName(sortObj.prop) + ',' + order}
-        // this.getCustomerList()
+        this.getData()
+      },
+      getQueryParams () { // 请求参数配置
+        this.defaultListParams = {
+          page: this.currentPage - 1,
+          pageSize: this.pagesOptions.pageSize,
+        }
+      },
+      getData () {
+        this.getQueryParams()
+        API.statistical.serviceCustomer(Object.assign({}, this.defaultListParams, this.sortObj, this.advancedSearch),
+          (da) => {
+            this.tableData = da.data.content
+            this.tableDataTotal = da.data.totalElements
+          })
       },
     },
+    created () {
+      this.getData()
+    }
   }
 </script>
 
