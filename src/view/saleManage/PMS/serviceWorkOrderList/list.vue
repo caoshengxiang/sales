@@ -316,7 +316,7 @@
           default:
         }
       },
-      getManagerDetail (id) {
+      getManagerDetail (id) { // todo 通过userid查的新接口
         API.serviceManager.detail(id, (da) => {
           this.managerDetail = da.data
         })

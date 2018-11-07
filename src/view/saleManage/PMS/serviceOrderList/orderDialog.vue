@@ -124,6 +124,7 @@
         detail: {},
         // managerList: [],
         workOrderManagers: [],
+        workOrderManagersOld: [], // 修改前的数据，用于对比修改
       }
     },
     props: ['params'],
@@ -153,6 +154,7 @@
           orderId: orderId,
         }, (res) => {
             this.workOrderManagers = res.data
+            this.workOrderManagersOld = JSON.parse(JSON.stringify(res.data))
           })
       },
       selectManagerHandle (item) {
@@ -170,7 +172,7 @@
             if (data.type === 'selectManager') {
               console.log(data)
               item.managerName = data.manager.name
-              item.managerId = data.manager.id
+              item.managerId = data.manager.userId
               // console.log(item)
               // this.getDetail()
             }
@@ -179,19 +181,31 @@
       },
       saveSubmitForm () {
         let paramsArr = []
-        this.workOrderManagers.forEach(item => {
+        this.workOrderManagers.forEach((item, index) => {
           // （null-未指派、1-待接收、2-已拒绝、3-进行中、4-已完成、5-退单中、6-已退单）
-          if (!item.workOrderState || item.workOrderState === 1 || item.workOrderState === 2) { // 待派单，已拒绝
-            paramsArr.push({
-              orderId: this.detail.orderId,
-              manager_id: item.managerId,
-              serviceType: item.serviceType,
-              managerType: item.managerType
-            })
+          if (item.managerId && (!item.workOrderState || item.workOrderState === 2)) { // 待派单，已拒绝
+            if (!item.workOrderState) {
+              paramsArr.push({
+                orderId: this.detail.orderId,
+                managerId: item.managerId,
+                serviceType: item.serviceType,
+                managerType: item.managerType
+              })
+            } else {
+              if (item.managerId !== this.workOrderManagersOld[index].managerId) { // 修改了管家，重派单
+                paramsArr.push({
+                  // todo 工单id
+                  orderId: this.detail.orderId,
+                  managerId: item.managerId,
+                  serviceType: item.serviceType,
+                  managerType: item.managerType
+                })
+              }
+            }
           }
         })
         if (!paramsArr.length) {
-          this.$message.warning('派单不满足条件')
+          this.$message.warning('未选择派单管家')
           return
         }
         API.workOrder.addWorkOrder(paramsArr, (res) => {

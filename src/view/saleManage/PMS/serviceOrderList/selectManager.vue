@@ -82,7 +82,7 @@
         if (this.params.quickList) {
           API.workOrder.addWorkOrder([{
             orderId: this.params.orderId,
-            manager_id: this.multipleSelection[0].id,
+            managerId: this.multipleSelection[0].userId,
             serviceType: this.params.serviceType,
             managerType: this.params.managerType
           }], (res) => {
