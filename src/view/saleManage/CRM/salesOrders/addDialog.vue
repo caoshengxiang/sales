@@ -85,8 +85,9 @@
             <td class="td-title">地区</td>
             <td class="td-text">
               <el-form-item prop="provinceId">
+                <!--:disabled="(orderState===0 || addForm.chanceId || params.fromChance)?true:false"-->
               <AreaSelect ref="areaSe"
-                          :disabled="(orderState===0 || addForm.chanceId || params.fromChance)?true:false"
+                          :disabled="true"
                           :area="(addForm.provinceName?addForm.provinceName:'') + ' ' + (addForm.cityName?addForm.cityName:'')  + ' ' + (addForm.areaName?addForm.areaName:'')"
                           @change="areaSelectedOptionsHandleChange"
                           :selectLastLevelMode="true"></AreaSelect>
