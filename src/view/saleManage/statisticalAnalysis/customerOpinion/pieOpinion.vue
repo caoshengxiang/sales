@@ -23,6 +23,11 @@
             trigger: 'item',
             formatter: '{a} <br/>{b} : {c} ({d}%)',
           },
+          toolbox: {
+            feature: {
+              saveAsImage: {},
+            },
+          },
           legend: {
             x: 'center',
             y: 'bottom',

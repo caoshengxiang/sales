@@ -33,6 +33,11 @@
             y: 'bottom',
             data: [],
           },
+          toolbox: {
+            feature: {
+              saveAsImage: {},
+            },
+          },
           series: [
             {
               name: '访问来源',

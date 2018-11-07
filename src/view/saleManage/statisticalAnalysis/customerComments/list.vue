@@ -27,7 +27,7 @@
       </div>
       <div class="com-bar-right">
         <el-button>打印</el-button>
-        <el-button>导出</el-button>
+        <com-button buttonType="export" icon="el-icon-download" @click="excelExport">导出</com-button>
       </div>
     </div>
     <!--详细-->
@@ -172,6 +172,10 @@
   import commentsOrder from './commentOrderChart'
   import orderNum from './orderNumChart'
   import API from '../../../../utils/api'
+  import comButton from '../../../../components/button/comButton'
+  import { serverUrl } from '../../../../utils/const'
+  import webStorage from 'webStorage'
+  import QS from 'qs'
 
   export default {
     name: 'list',
@@ -200,6 +204,7 @@
       pieSatisfaction,
       commentsOrder,
       orderNum,
+      comButton,
     },
     computed: {
       ...mapState('constData', [
@@ -288,6 +293,31 @@
       searchHandle () {
         this.getOrderReview()
         this.getData()
+      },
+      excelExport () { // 导出
+        this.getQueryParams()
+        let as = {}
+        for (let key in this.advancedSearch) { // 去除null
+          if (this.advancedSearch[key]) {
+            as[key] = this.advancedSearch[key]
+          }
+        }
+        let dlp = {}
+        for (let key in this.defaultListParams) { // 去除分页
+          if (key !== 'page' && key !== 'pageSize') {
+            dlp[key] = this.defaultListParams[key]
+          }
+        }
+        let link = document.createElement('a') // 创建事件对象
+        let query = QS.stringify(Object.assign({}, dlp, this.sortObj, as,
+          {authKey: webStorage.getItem('userInfo').authKey}))
+        // console.log('下载参数：', query)
+        link.setAttribute('href', serverUrl + '/countSystem/orderManagerReview/export?' + query)
+        link.setAttribute('download', '统计期管家获得评价导出')
+        let event = document.createEvent('MouseEvents') // 初始化事件对象
+        event.initMouseEvent('click', true, true, document.defaultView, 0, 0, 0, 0, 0, false, false, false, false, 0,
+          null) // 触发事件
+        link.dispatchEvent(event)
       },
     },
     created () {

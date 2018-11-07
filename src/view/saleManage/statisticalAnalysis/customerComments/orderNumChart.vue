@@ -51,6 +51,11 @@
           legend: {
             data: ['2015 订单数模拟数据', '2016 订单数模拟数据'],
           },
+          toolbox: {
+            feature: {
+              saveAsImage: {},
+            },
+          },
           grid: {
             left: '3%',
             right: '4%',

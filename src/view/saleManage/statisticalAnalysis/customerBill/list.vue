@@ -206,7 +206,7 @@
         let query = QS.stringify(Object.assign({}, dlp, this.sortObj, as,
           {authKey: webStorage.getItem('userInfo').authKey}))
         // console.log('下载参数：', query)
-        link.setAttribute('href', serverUrl + 'countSystem/customerBillExport?' + query)
+        link.setAttribute('href', serverUrl + '/countSystem/customerBillExport?' + query)
         link.setAttribute('download', '客服票据统计')
         let event = document.createEvent('MouseEvents') // 初始化事件对象
         event.initMouseEvent('click', true, true, document.defaultView, 0, 0, 0, 0, 0, false, false, false, false, 0,

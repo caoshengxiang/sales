@@ -28,6 +28,11 @@
             y: 'bottom',
             data: [],
           },
+          toolbox: {
+            feature: {
+              saveAsImage: {},
+            },
+          },
           series: [
             {
               name: '投诉原因',
