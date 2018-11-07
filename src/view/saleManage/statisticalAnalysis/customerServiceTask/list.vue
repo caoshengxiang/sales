@@ -45,7 +45,7 @@
           </el-table-column>
           <el-table-column
             align="center"
-            prop="total"
+            prop="retTotal"
             label="分配回访客户量"
             show-overflow-tooltip
           >
@@ -94,7 +94,7 @@
           </el-table-column>
           <el-table-column
             align="center"
-            prop="retAgain"
+            prop="wait"
             label="待抽查客户量"
             show-overflow-tooltip
           >
@@ -124,7 +124,7 @@
           <el-table-column
             align="center"
             sortable="custom"
-            prop="total"
+            prop="retTotal"
             label="分配回访客户量"
             show-overflow-tooltip
           >
@@ -180,7 +180,7 @@
           <el-table-column
             align="center"
             sortable="custom"
-            prop="retAgain"
+            prop="wait"
             label="待抽查客户量"
             show-overflow-tooltip
           >

@@ -38,9 +38,15 @@
             </td>
             <td class="td-title">出生日期</td>
             <td>
-              <!--<el-form-item prop="birthday">-->
-              <!--<el-input type="text" v-model="addForm.birthday"></el-input>-->
-              <!--</el-form-item>-->
+              <el-form-item prop="birthday">
+                <el-date-picker
+                  v-model="addForm.birthday"
+                  type="date"
+                  style="width: 100%"
+                  value-format="timestamp"
+                  placeholder="选择日期">
+                </el-date-picker>
+              </el-form-item>
             </td>
           </tr>
           <tr>
@@ -52,7 +58,7 @@
                   <el-input type="text" v-model="addForm.idCard"></el-input>
                 </el-form-item>
               </span>
-                <photo-view :photo-data="{
+                <photo-view v-if="addForm.identityCardPhoto" :photo-data="{
                 text: '身份证查看大图',
                 images: [
                   {url: addForm.identityCardPhoto, previewText: ''},
@@ -134,7 +140,7 @@
           <tr>
             <td class="td-title">职称证明</td>
             <td>
-              <photo-view :photo-data="{
+              <photo-view v-if="addForm.jobTitleCertificate" :photo-data="{
                 text: '查看大图',
                 images: [
                   {url: addForm.jobTitleCertificate, previewText: ''},
@@ -149,7 +155,7 @@
             </td>
             <td class="td-title">学历证明</td>
             <td>
-              <photo-view :photo-data="{
+              <photo-view v-if="addForm.educationCertificate" :photo-data="{
                 text: '查看大图',
                 images: [
                   {url: addForm.educationCertificate, previewText: ''},
@@ -164,7 +170,7 @@
             </td>
             <td class="td-title">资质证明</td>
             <td>
-              <photo-view :photo-data="{
+              <photo-view v-if="addForm.qualificationCertificate" :photo-data="{
                 text: '查看大图',
                 images: [
                   {url: addForm.qualificationCertificate, previewText: ''},
@@ -179,19 +185,53 @@
             </td>
           </tr>
           <tr>
+            <td class="td-title">管家类型</td>
+            <td colspan="5">
+              <el-form-item prop="managerTypes">
+                <el-select v-model="managerTypes" multiple placeholder="请选择管家类型">
+                  <el-option
+                    v-for="(item, index) in managerTypeList"
+                    :key="index"
+                    :label="item.codeName"
+                    :value="item.id">
+                  </el-option>
+                </el-select>
+              </el-form-item>
+            </td>
+          </tr>
+          <tr>
             <td class="td-title">认证服务地区</td>
             <td colspan="5">
-              <span v-for="(item, index) in addForm.serviceManagerAreaModels" :key="index">
-                <span v-if="index > 0">、</span>{{item.provinceName + item.cityName + item.areaName}}
-              </span>
+              <!--<span v-for="(item, index) in addForm.serviceManagerAreaModels" :key="index">-->
+              <!--<span v-if="index > 0">、</span>{{item.provinceName + item.cityName + item.areaName}}-->
+              <!--</span>-->
+              <el-tag
+                style="margin-bottom: 5px;margin-right: 5px;"
+                v-for="(tag, index) in addForm.serviceManagerAreaModels"
+                :key="index"
+                closable
+                :type="tag.type"
+                @close="handleClose(tag, index)">
+                {{tag.provinceName+tag.cityName+tag.areaName}}
+              </el-tag>
+              <AreaSelect ref="areaSe"
+                          style="width: 200px;"
+                          :area="(addForm.provinceName?addForm.provinceName:'') + ' ' + (addForm.cityName?addForm.cityName:'')  + ' ' + (addForm.areaName?addForm.areaName:'')"
+                          @change="areaSelectedOptionsHandleChange"
+                          :selectLastLevelMode="true"></AreaSelect>
             </td>
           </tr>
           <tr>
             <td class="td-title">认证商品</td>
             <td colspan="5">
-              <span v-for="(item, index) in addForm.serviceManagerGoodsModels" :key="index">
-                <span v-if="index > 0">、</span>{{item.goodsName}}
-              </span>
+              <el-select style="width: 100%;" v-model="serviceManagerGoodsModels" multiple placeholder="请选择认证商品">
+                <el-option
+                  v-for="(item, index) in goodsList"
+                  :key="index"
+                  :label="item.goodsName"
+                  :value="item.goodsId">
+                </el-option>
+              </el-select>
             </td>
           </tr>
           <tr>
@@ -243,9 +283,7 @@
         dataLoading: false,
         photoData: {},
         addForm: { //
-          accountNumber: '',
-          name: '',
-          mobilePhone: '',
+          managerTypes: [],
         },
         rules: {
           accountNumber: [
@@ -254,8 +292,11 @@
           ],
         },
         dialogType: 'edit',
-        targetObj: null,
         userInfo: {},
+        managerTypeList: [],
+        managerTypes: [], // 参数
+        goodsList: [],
+        serviceManagerGoodsModels: [], // 参数
       }
     },
     props: ['params'],
@@ -273,6 +314,12 @@
         this.$refs[formName].validate((valid) => {
           if (valid) {
             this.dataLoading = true
+            this.addForm.managerTypes = this.managerTypes
+            this.addForm.serviceManagerGoodsModels = this.serviceManagerGoodsModels.map(item => {
+              return {
+                goodsId: item,
+              }
+            })
             API2.serviceManager.edit(this.addForm, (da) => {
               if (da.status) {
                 this.$message.success('编辑成功')
@@ -289,6 +336,9 @@
             return false
           }
         })
+      },
+      handleClose (tag, index) {
+        this.addForm.serviceManagerAreaModels.splice(index, 1)
       },
       uploadImg (e, type, attr) { // 上传图片
         // type 1-身份证；2-职称证明；3-学历证明；4-资质证明
@@ -308,21 +358,55 @@
           }
         })
       },
+      getCodeConfig () { // 配置接口
+        API.baseSetting.getCodeConfig({type: 6}, (res) => { // 6 管家类型
+          if (res.status) {
+            this.managerTypeList = res.data
+          }
+        })
+      },
+      getGoodsList () { // 组织商品列表
+        API.common.organizationGoodsConf({
+          // saleable: 1,
+          organizationId: webStorage.getItem('userInfo').organizationId,
+        }, (da) => {
+          this.goodsList = da.data
+        })
+      },
+      areaSelectedOptionsHandleChange (value) {
+        if (value.length && value.length === 3) {
+          let name = this.$refs.areaSe.getSelectedName(value)
+          let serviceManagerAreaModel = {
+            provinceId: value[0] || '',
+            cityId: value[1] || '',
+            areaId: value[2] || '',
+            provinceName: name[0] || '',
+            cityName: name[1] || '',
+            areaName: name[2] || '',
+          }
+          // console.log(serviceManagerAreaModel)
+          this.addForm.serviceManagerAreaModels.push(serviceManagerAreaModel)
+        }
+      },
     },
     created () {
       this.userInfo = webStorage.getItem('userInfo')
-
-      // setTimeout(() => {
-      //   this.photoData = {
-      //     text: '身份证.jpg 查看大图',
-      //     images: [
-      //       {url: '../../../../../static/images/wave-bot.png', previewText: '描述文字1'},
-      //       {url: '../../../../../static/images/wave-bot-2.png', previewText: '描述文字2'},
-      //     ],
-      //   }
-      // }, 1000)
+      this.getCodeConfig()
+      this.getGoodsList()
       if (this.params.detail) { // 编辑
         this.addForm = JSON.parse(JSON.stringify(this.params.detail))
+        let managerTypes = [] // 管家
+        this.addForm.serviceManagerTypeModels.forEach(item => {
+          managerTypes.push(item.codeConfigId)
+        })
+        this.managerTypes = managerTypes
+
+        // 商品
+        let serviceManagerGoodsModels = []
+        this.addForm.serviceManagerGoodsModels.forEach(item => {
+          serviceManagerGoodsModels.push(item.goodsId)
+        })
+        this.serviceManagerGoodsModels = serviceManagerGoodsModels
         this.dialogType = 'edit'
       }
     },

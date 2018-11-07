@@ -78,7 +78,7 @@
             <td class="td-title">居民身份证</td>
             <td colspan="5">
               <span>{{managerDetail.idCard}}</span>
-              <photo-view :photo-data="{
+              <photo-view v-if="managerDetail.identityCardPhoto" :photo-data="{
                 text: '身份证查看大图',
                 images: [
                   {url: managerDetail.identityCardPhoto, previewText: ''},
@@ -118,7 +118,7 @@
           <tr>
             <td class="td-title">职称证明</td>
             <td>
-              <photo-view :photo-data="{
+              <photo-view v-if="managerDetail.jobTitleCertificate" :photo-data="{
                 text: '查看大图',
                 images: [
                   {url: managerDetail.jobTitleCertificate, previewText: ''},
@@ -128,7 +128,7 @@
             </td>
             <td class="td-title">学历证明</td>
             <td>
-              <photo-view :photo-data="{
+              <photo-view v-if="managerDetail.educationCertificate" :photo-data="{
                 text: '查看大图',
                 images: [
                   {url: managerDetail.educationCertificate, previewText: ''},
@@ -138,7 +138,7 @@
             </td>
             <td class="td-title">资质证明</td>
             <td>
-              <photo-view :photo-data="{
+              <photo-view v-if="managerDetail.qualificationCertificate" :photo-data="{
                 text: '查看大图',
                 images: [
                   {url: managerDetail.qualificationCertificate, previewText: ''},
@@ -175,7 +175,7 @@
           <tr>
             <td class="td-title">面签形象照</td>
             <td colspan="5">
-              <photo-view :photo-data="{
+              <photo-view v-if="managerDetail.signPhoto" :photo-data="{
                 text: '点击查看大图',
                 images: [
                   {url: managerDetail.signPhoto, previewText: ''},
@@ -215,7 +215,7 @@
             <td class="td-title">缴纳凭证</td>
             <td colspan="5">
               <div>
-                <photo-view :photo-data="{
+                <photo-view v-if="managerDetail.bailPhoto" :photo-data="{
                 text: '点击查看大图',
                 images: [
                   {url: managerDetail.bailPhoto, previewText: '描述文字1'},

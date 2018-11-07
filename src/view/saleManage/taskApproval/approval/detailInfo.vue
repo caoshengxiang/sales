@@ -187,7 +187,8 @@
               <td class="td-title">居民身份证</td>
               <td colspan="5">
                 <span>{{managerDetail.idCard}}</span>
-                <photo-view :photo-data="{
+                <photo-view v-if="managerDetail.identityCardPhoto"
+                  :photo-data="{
                 text: '身份证查看大图',
                 images: [
                   {url: managerDetail.identityCardPhoto, previewText: ''},
@@ -227,8 +228,7 @@
             <tr>
               <td class="td-title">职称证明</td>
               <td>
-                <photo-view
-                  v-if="managerDetail.jobTitleCertificate"
+                <photo-view v-if="managerDetail.jobTitleCertificate"
                   :photo-data="{
                 text: '查看大图',
                 images: [
@@ -239,8 +239,7 @@
               </td>
               <td class="td-title">学历证明</td>
               <td>
-                <photo-view
-                  v-if="managerDetail.educationCertificate"
+                <photo-view v-if="managerDetail.educationCertificate"
                   :photo-data="{
                 text: '查看大图',
                 images: [
@@ -251,8 +250,7 @@
               </td>
               <td class="td-title">资质证明</td>
               <td>
-                <photo-view
-                  v-if="managerDetail.qualificationCertificate"
+                <photo-view v-if="managerDetail.qualificationCertificate"
                   :photo-data="{
                 text: '查看大图',
                 images: [
@@ -260,6 +258,14 @@
                 ]
               }">
                 </photo-view>
+              </td>
+            </tr>
+            <tr>
+              <td class="td-title">管家类型</td>
+              <td colspan="5">
+              <span v-for="(item, index) in managerDetail.serviceManagerTypeModels" :key="index">
+                <span v-if="index > 0">、</span>{{item.managerType}}
+              </span>
               </td>
             </tr>
             <tr>

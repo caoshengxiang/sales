@@ -38,7 +38,7 @@
         </ul>
       </div>
       <div class="bar-tips-box">
-        <p class="modify"> 提示：{{$moment(managerDetail.dataUpdateTime).format('YYYY年M月D日')}}进行了服务管家基本信息修改<a class="com-a-link" @click="historyHandle">点击可查看</a></p>
+        <p class="modify" v-if="managerDetail.dataUpdateTime"> 提示：{{$moment(managerDetail.dataUpdateTime).format('YYYY年M月D日')}}进行了服务管家基本信息修改<a class="com-a-link" @click="historyHandle">点击可查看</a></p>
         <p class="review"> 提示：修改资料{{modifyCheckStatus(managerDetail.checkStatus)}},审核备注：{{managerDetail.checkResult}}</p>
       </div>
     </div>
@@ -61,13 +61,13 @@
             <td class="td-title">性别</td>
             <td>{{managerDetail.sex}}</td>
             <td class="td-title">出生日期</td>
-            <td>{{ $moment(managerDetail.birthday).format('YYYY-MM-DD') }}</td>
+            <td>{{ managerDetail.birthday && $moment(managerDetail.birthday).format('YYYY-MM-DD') }}</td>
           </tr>
           <tr>
             <td class="td-title">居民身份证</td>
             <td colspan="5">
               <span>{{managerDetail.idCard}}</span>
-              <photo-view :photo-data="{
+              <photo-view v-if="managerDetail.identityCardPhoto" :photo-data="{
                 text: '身份证查看大图',
                 images: [
                   {url: managerDetail.identityCardPhoto, previewText: ''},
@@ -107,7 +107,7 @@
           <tr>
             <td class="td-title">职称证明</td>
             <td>
-              <photo-view :photo-data="{
+              <photo-view v-if="managerDetail.jobTitleCertificate" :photo-data="{
                 text: '查看大图',
                 images: [
                   {url: managerDetail.jobTitleCertificate, previewText: ''},
@@ -117,7 +117,7 @@
             </td>
             <td class="td-title">学历证明</td>
             <td>
-              <photo-view :photo-data="{
+              <photo-view v-if="managerDetail.educationCertificate" :photo-data="{
                 text: '查看大图',
                 images: [
                   {url: managerDetail.educationCertificate, previewText: ''},
@@ -127,13 +127,37 @@
             </td>
             <td class="td-title">资质证明</td>
             <td>
-              <photo-view :photo-data="{
+              <photo-view v-if="managerDetail.qualificationCertificate" :photo-data="{
                 text: '查看大图',
                 images: [
                   {url: managerDetail.qualificationCertificate, previewText: ''},
                 ]
               }">
               </photo-view>
+            </td>
+          </tr>
+          <tr>
+            <td class="td-title">管家类型</td>
+            <td colspan="5">
+              <span v-for="(item, index) in managerDetail.serviceManagerTypeModels" :key="index">
+                <span v-if="index > 0">、</span>{{item.managerType}}
+              </span>
+            </td>
+          </tr>
+          <tr>
+            <td class="td-title">认证服务地区</td>
+            <td colspan="5">
+              <span v-for="(item, index) in managerDetail.serviceManagerAreaModels" :key="index">
+                <span v-if="index > 0">、</span>{{item.provinceName + item.cityName + item.areaName}}
+              </span>
+            </td>
+          </tr>
+          <tr>
+            <td class="td-title">认证商品</td>
+            <td colspan="5">
+              <span v-for="(item, index) in managerDetail.serviceManagerGoodsModels" :key="index">
+                <span v-if="index > 0">、</span>{{item.goodsName}}
+              </span>
             </td>
           </tr>
           <tr>
@@ -222,12 +246,13 @@
         this.$vDialog.modal(editDialog, {
           title: '编辑管家信息',
           width: 1100,
-          height: 750,
+          height: 800,
           params: {
             detail: this.managerDetail
           },
-          callback (data) {
+          callback: (data) => {
             if (data.type === 'save') {
+              this.getDetail()
             }
           },
         })
