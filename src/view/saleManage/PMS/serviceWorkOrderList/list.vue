@@ -306,7 +306,7 @@
             })
             break
           case 'laze':
-            API.workOrder.list({workState: this.managerDetail.workState === 1 ? 2 : 1}, (res) => {
+            API.serviceManager.changeWorkState({workState: this.managerDetail.workState === 1 ? 2 : 1}, (res) => {
               if (res.status) {
                 this.$message.success('操作成功')
                 this.getManagerDetail(this.userInfo.id)

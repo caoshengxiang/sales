@@ -202,8 +202,8 @@
               <td>{{managerDetail.organizationName}}</td>
               <td class="td-title">工作部门</td>
               <td>{{managerDetail.departmentName}}</td>
-              <td class="td-title">工作职责</td>
-              <td>todo</td>
+              <td class="td-title"></td>
+              <td></td>
             </tr>
             <tr>
               <td class="td-title">职称</td>

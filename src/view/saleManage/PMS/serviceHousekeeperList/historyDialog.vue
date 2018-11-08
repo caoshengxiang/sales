@@ -37,8 +37,8 @@
             <td>{{managerDetail.organizationName}}</td>
             <td class="td-title">工作部门</td>
             <td>{{managerDetail.departmentName}}</td>
-            <td class="td-title">工作职责</td>
-            <td>todo</td>
+            <td class="td-title"></td>
+            <td></td>
           </tr>
           <tr>
             <td class="td-title">职称</td>
@@ -93,6 +93,14 @@
                 ]
               }">
               </photo-view>
+            </td>
+          </tr>
+          <tr>
+            <td class="td-title">管家类型</td>
+            <td colspan="5">
+              <span v-for="(item, index) in managerDetail.serviceManagerTypeModels" :key="index">
+                <span v-if="index > 0">、</span>{{item.managerType}}
+              </span>
             </td>
           </tr>
           <tr>

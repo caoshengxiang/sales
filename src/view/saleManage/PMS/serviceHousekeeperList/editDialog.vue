@@ -86,7 +86,7 @@
                 <el-input type="text" v-model="addForm.departmentName"></el-input>
               </el-form-item>
             </td>
-            <td class="td-title">工作职责</td>
+            <td class="td-title"></td>
             <td>
               <!--<el-form-item prop="accountNumber">-->
               <!--<el-input type="text" v-model="addForm.accountNumber"></el-input>-->
@@ -314,7 +314,12 @@
         this.$refs[formName].validate((valid) => {
           if (valid) {
             this.dataLoading = true
-            this.addForm.managerTypes = this.managerTypes
+            // this.addForm.managerTypes = this.managerTypes
+            this.addForm.serviceManagerTypeModels = this.managerTypes.map(item => {
+              return {
+                codeConfigId: item,
+              }
+            })
             this.addForm.serviceManagerGoodsModels = this.serviceManagerGoodsModels.map(item => {
               return {
                 goodsId: item,

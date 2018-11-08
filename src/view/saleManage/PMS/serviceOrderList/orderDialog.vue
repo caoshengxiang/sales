@@ -70,8 +70,8 @@
                 <a class="com-a-link" @click="selectManagerHandle(item)">{{item.managerName}}</a>
                 <label>已拒单</label>
               </span>
-              <span v-else-if="item.workOrderState == 5">
-                <a>{{item.managerName}}</a>
+              <span v-else-if="item.workOrderState == 6">
+                <a @click="selectManagerHandle(item)">{{item.managerName}}</a>
                 <label>已退单</label>
               </span>
               <a v-else>{{ item.managerName }}</a>
@@ -183,7 +183,7 @@
         let paramsArr = []
         this.workOrderManagers.forEach((item, index) => {
           // （null-未指派、1-待接收、2-已拒绝、3-进行中、4-已完成、5-退单中、6-已退单）
-          if (item.managerId && (!item.workOrderState || item.workOrderState === 2)) { // 待派单，已拒绝
+          if (item.managerId && (!item.workOrderState || item.workOrderState === 2 || item.workOrderState === 6)) { // 待派单，已拒绝
             if (!item.workOrderState) {
               paramsArr.push({
                 orderId: this.detail.orderId,
