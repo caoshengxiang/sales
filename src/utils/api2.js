@@ -33,6 +33,13 @@ export default {
         error && error(err)
       })
     },
+    detailByUserId (params, success, error) { // 管家详情,by userid
+      $axios.get(`serviceManager/userId/${params}`).then(res => {
+        success && success(res.data)
+      }).catch(err => {
+        error && error(err)
+      })
+    },
     updateDetail (params, success, error) { // 修改历史详细
       $axios.get('serviceManager/' + params + '/updateData').then(res => {
         success && success(res.data)
