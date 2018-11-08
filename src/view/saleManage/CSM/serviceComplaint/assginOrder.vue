@@ -80,7 +80,10 @@
     },
     created () {
       this.currentUserId = webStorage.getItem('userInfo').id
-      this.dialogRuleForm.ids = this.params.ids.split(',')
+      let ids = this.params.ids.split(',')
+      this.dialogRuleForm.ids = ids.map(item => {
+        return parseInt(item, 10)
+      })
       this.getCustomerServicesList()
     },
   }

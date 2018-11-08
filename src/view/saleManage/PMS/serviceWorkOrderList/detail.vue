@@ -25,8 +25,8 @@
       </div>
       <div class="com-info-right">
         <ul class="com-info-op-group">
-          <li @click="orderHandle('move')">转移</li>
-          <li @click="orderHandle('back')">退单</li>
+          <!--<li @click="orderHandle('move')">转移</li>-->
+          <!--<li @click="orderHandle('back')">退单</li>-->
         </ul>
       </div>
     </div>
