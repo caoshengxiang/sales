@@ -192,9 +192,9 @@
                 managerType: item.managerType
               })
             } else {
-              if (item.managerId !== this.workOrderManagersOld[index].managerId) { // 修改了管家，重派单
+              if (item.managerId !== this.workOrderManagersOld[index].managerId) { // 修改了管家，重派单,需要工单id,(id即为工单id)
                 paramsArr.push({
-                  // todo 工单id
+                  id: item.id,
                   orderId: this.detail.orderId,
                   managerId: item.managerId,
                   serviceType: item.serviceType,
