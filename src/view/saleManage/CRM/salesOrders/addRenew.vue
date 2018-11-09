@@ -165,9 +165,6 @@
           orderSource: '',
           // orderSourceName: '',
           isRenew: true,
-          provinceId: '',
-          cityId: '',
-          areaId: '',
         },
         orderState: null,
         rules: {
@@ -391,9 +388,6 @@
           orderSourceName: orD.orderSourceName || '', // 获取机会对应来源
           isRenew: true,
           preId: orD.id,
-          provinceId: orD.provinceId,
-          cityId: orD.cityId,
-          areaId: orD.areaId,
         }
         this.getChanceList(this.params.orderDetail.customerId)
         this.getProductsList(this.params.orderDetail.productId)
