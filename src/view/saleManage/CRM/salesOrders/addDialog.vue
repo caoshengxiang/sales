@@ -167,6 +167,9 @@
           contacterId: [
             {required: true, message: '请选择签单联系人', trigger: 'change'},
           ],
+          provinceId: [
+            {required: true, message: '地区字段不能为空', trigger: 'change'},
+          ],
           // chanceId: [
           //   {required: true, message: '请选择关联销售机会', trigger: 'change'},
           // ],
