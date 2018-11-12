@@ -126,8 +126,19 @@
                 </el-select>
               </el-form-item>
             </td>
-            <td class="td-title"></td>
-            <td class="td-text"></td>
+            <td class="td-title">需求提供人</td>
+            <td class="td-text">
+              <el_form-item prop="provider">
+                <el-select v-model="addForm.provider" filterable placeholder="请选择" style="width: 100%;">
+                  <el-option
+                    v-for="item in staffList"
+                    :key="item.id"
+                    :label="item.name"
+                    :value="item.id">
+                  </el-option>
+                </el-select>
+              </el_form-item>
+            </td>
           </tr>
           <tr>
             <td class="td-title">需求来源</td>
@@ -193,6 +204,7 @@
           chanceRemark: '',
           pageSource: 1, // 公海添加机会，传2. 其他传1
           chanceSource: '',
+          provider: '', // 需求提供人
         },
         customersList: [],
         salesState: [],
@@ -200,6 +212,7 @@
         intentProductList: [],
         industryList: [], // 行业
         seaList: [], // 公海
+        staffList: [], // 机构用户
         rules: {
           customerId: [
             {required: true, message: '请选择客户', trigger: 'blur'},
@@ -237,6 +250,9 @@
           ],
           chanceSeaId: [
             {required: true, message: '请选择机会公海', trigger: 'change'},
+          ],
+          provider: [
+            {required: true, message: '请选择需求提供人', trigger: 'change'},
           ],
         },
         chanceSourceType: [], // 客户来源
@@ -413,6 +429,11 @@
           this.seaList = data.data
         })
       },
+      getStaffList () { // 用户信息
+        API.user.listOrgUser((data) => {
+          this.staffList = data.data
+        })
+      },
     },
     created () {
       this.getCustomersList()
@@ -436,6 +457,7 @@
       this.getConfigData(5, 0)
       this.getConfigData(3) // 行业
       this.getSeaList()
+      this.getStaffList()
     },
   }
 </script>
