@@ -55,15 +55,14 @@
           show-overflow-tooltip
         >
         </el-table-column>
+
         <el-table-column
           align="center"
           prop="totalAmount"
-          label="合计返佣金额"
+          label="实返金额"
           show-overflow-tooltip>
-          <template slot-scope="scope">
-            <a class="col-link" @click="showDetailList(scope.row.id)">{{ scope.row.totalAmount }}</a>
-          </template>
         </el-table-column>
+
         <el-table-column
           align="center"
           prop="paymentState"
@@ -73,48 +72,28 @@
             <span v-for="(item, index) in paymentStateData" :key="item.type+index" v-if="item.type === scope.row.paymentState">{{item.value}}</span>
           </template>
         </el-table-column>
+
+        <!--<el-table-column-->
+          <!--align="center"-->
+          <!--prop="totalAmount"-->
+          <!--label="合计返佣金额"-->
+          <!--show-overflow-tooltip>-->
+          <!--<template slot-scope="scope">-->
+            <!--<a class="col-link" @click="showDetailList(scope.row.id)">{{ scope.row.totalAmount }}</a>-->
+          <!--</template>-->
+        <!--</el-table-column>-->
+
         <el-table-column
           align="center"
-          prop="name"
+          prop="saleCommission"
           label="销售佣金"
         >
-
-          <el-table-column
-            align="center"
-            prop="saleCommission"
-            label="销售佣金"
-          >
-          </el-table-column>
-          <el-table-column
-            align="center"
-            prop="managementCommission"
-            label="管理佣金"
-          >
-          </el-table-column>
         </el-table-column>
         <el-table-column
           align="center"
-          prop="name"
+          prop="serviceCommission"
           label="服务佣金"
         >
-          <el-table-column
-            align="center"
-            prop="serviceCommission"
-            label="服务佣金"
-          >
-          </el-table-column>
-          <el-table-column
-            align="center"
-            prop="serviceAllowance"
-            label="服务补贴"
-          >
-          </el-table-column>
-          <el-table-column
-            align="center"
-            prop="serviceReward"
-            label="服务奖励"
-          >
-          </el-table-column>
         </el-table-column>
       </el-table>
     </div>

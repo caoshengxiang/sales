@@ -5,7 +5,7 @@
       <el-breadcrumb separator-class="el-icon-arrow-right">
         <el-breadcrumb-item :to="{ name: 'companyManageHome' }">管理系统</el-breadcrumb-item>
         <el-breadcrumb-item>财务管理</el-breadcrumb-item>
-        <el-breadcrumb-item>佣金结算管理</el-breadcrumb-item>
+        <el-breadcrumb-item>回款结算管理</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <!--控制栏-->
@@ -60,7 +60,7 @@
           align="center"
           prop="orderId"
           label="订单号"
-          width="120"
+          width="160"
           sortable="custom"
           show-overflow-tooltip>
         </el-table-column>
@@ -73,6 +73,7 @@
             align="center"
             label="结算状态"
             show-overflow-tooltip
+            width="80"
           >
             <template slot-scope="scope">
             <span v-for="item in clearState" :key="item.type"
@@ -83,7 +84,7 @@
             align="center"
             prop="customerName"
             label="订单客户"
-            width="100"
+            width="160"
             sortable="custom"
             show-overflow-tooltip>
           </el-table-column>
@@ -92,7 +93,7 @@
             prop="productName"
             label="销售商品"
             sortable="custom"
-            width="100"
+            width="160"
             show-overflow-tooltip
           >
           </el-table-column>
@@ -101,7 +102,7 @@
             sortable="custom"
             prop=""
             label="款项名称"
-            width="100"
+            width="160"
             show-overflow-tooltip
           >
           </el-table-column>
@@ -163,15 +164,15 @@
             sortable="custom"
             prop="saleSubjectName"
             label="销售主体"
-            width="100"
+            width="170"
             show-overflow-tooltip
           >
           </el-table-column>
           <el-table-column
             align="center"
-            label="签约主体"
+            label="签约主体（结算对象）"
             sortable="custom"
-            width="100"
+            width="170"
             prop="contractSubjectName"
             show-overflow-tooltip
           >
@@ -180,8 +181,8 @@
             align="center"
             sortable="custom"
             prop="rebateSubjectName"
-            label="返佣主体"
-            width="100"
+            label="返佣主体（结算主体）"
+            width="170"
             show-overflow-tooltip
           >
           </el-table-column>
@@ -190,8 +191,8 @@
             align="center"
             prop="totalAmount"
             sortable="custom"
-            label="合计收支"
-            width="100"
+            label="结算收支金额"
+            width="120"
           >
           </el-table-column>
           <el-table-column
@@ -208,7 +209,7 @@
           <el-table-column
             align="center"
             label="是否成返佣"
-            width="100"
+            width="110"
             sortable="custom"
             prop=""
             show-overflow-tooltip
