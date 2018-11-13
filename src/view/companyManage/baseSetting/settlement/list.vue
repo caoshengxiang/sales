@@ -373,7 +373,7 @@
           dayOfTransferRebate: 1,
         },
         saleCommissionConfig: [],
-        cptSaleCommissionConfig: [[], [], [], [], [], [], [], [], [], [], [], []], // 数据构建
+        cptSaleCommissionConfig: [[], [], [], [], [], [], [], [], [], [], [], [], [], []], // 数据构建
         billType: 1,
         billTypeName: '代理体系',
         billTypeOptions: [
@@ -400,35 +400,37 @@
         API.common.getSaleCommissionConfig({billType: this.billType}, (res) => {
           if (res.status) {
             this.saleCommissionConfig = res.data
+
             if (this.saleCommissionConfig.length) {
-              if (this.billType === 1) { // 代理体系
-                this.cptSaleCommissionConfig = [[], [], [], [], [], [], [], [], [], [], [], [], [], []] // 初始化
-                this.saleCommissionConfig.forEach(item => {
-                  let y = null
-                  let x = item.commissionDetail - 1
-                  if (item.productType <= 2) { // 返回数据前两个有7个
-                    let bc = item.billCate >= 2 ? item.billCate - 1 : item.billCate // 没有返回billCate为2
-                    y = (item.productType - 1) * 6 + (bc - 1)
-                  } else {
-                    y = 12 + item.productType - 3
-                  }
-                  // console.log(y, x)
-                  this.cptSaleCommissionConfig[y][x] = item
-                })
-              } else { // 其他
-                this.cptSaleCommissionConfig = [[], [], [], [], [], []] // 初始化
-                this.saleCommissionConfig.forEach(item => {
-                  let y = null
-                  let x = item.commissionDetail - 1
-                  if (item.productType <= 2) { // 返回数据前两个有2个
-                    y = (item.productType - 1) * 2 + (item.billCate - 1)
-                  } else {
-                    y = 4 + item.productType - 3
-                  }
-                  // console.log(y, x)
-                  this.cptSaleCommissionConfig[y][x] = item
-                })
-              }
+              this.cptSaleCommissionConfig = [[], [], [], [], [], [], [], [], [], [], [], [], [], []] // 初始化
+              let colNum = 8 // 定义行的单元格数
+              this.saleCommissionConfig.forEach((item, index) => {
+                let x = Math.floor(index / colNum)
+                this.cptSaleCommissionConfig[x].push(item)
+                //       let y = null
+                //       let x = item.commissionDetail - 1
+                //       if (item.productType <= 2) { // 返回数据前两个有7个
+                //         let bc = item.billCate >= 2 ? item.billCate - 1 : item.billCate // 没有返回billCate为2
+                //         y = (item.productType - 1) * 6 + (bc - 1)
+                //       } else {
+                //         y = 12 + item.productType - 3
+                //       }
+                //       // console.log(y, x)
+                //       this.cptSaleCommissionConfig[y][x] = item
+                //     })
+                //   } else { // 其他
+                //     this.cptSaleCommissionConfig = [[], [], [], [], [], []] // 初始化
+                //     this.saleCommissionConfig.forEach(item => {
+                //       let y = null
+                //       let x = item.commissionDetail - 1
+                //       if (item.productType <= 2) { // 返回数据前两个有2个
+                //         y = (item.productType - 1) * 2 + (item.billCate - 1)
+                //       } else {
+                //         y = 4 + item.productType - 3
+                //       }
+                //       // console.log(y, x)
+                //       this.cptSaleCommissionConfig[y][x] = item
+              })
             }
           }
           this.dataLoading = false
