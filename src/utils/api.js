@@ -1580,6 +1580,7 @@ export default {
       })
     },
   },
+  // 财务管理
   financial: {
     commissionPaymentConfirm (params, success, error) { // 确认佣金支出记录
       $axios({
@@ -1673,6 +1674,17 @@ export default {
       $axios({
         method: 'put',
         url: 'commissionClear/audit',
+        params: params,
+      }).then((res) => {
+        success && success(res.data)
+      }).catch((errorData) => {
+        error && error(errorData)
+      })
+    },
+    refundSettlements (params, success, error) { // 后台-回款结算记录列表
+      $axios({
+        method: 'get',
+        url: 'commissionClear/refundSettlement',
         params: params,
       }).then((res) => {
         success && success(res.data)

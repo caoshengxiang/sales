@@ -27,7 +27,7 @@
           </el-form-item>
           <el-form-item>
             <el-select v-model="searchForm.paymentState" placeholder="请选择结算状态">
-              <el-option v-for="item in paymentState" :key="item.type" :label="item.value"
+              <el-option v-for="(item,index) in paymentState" :key="index" :label="item.value"
                          :value="item.type"></el-option>
             </el-select>
           </el-form-item>
@@ -78,14 +78,14 @@
 
         <el-table-column
           align="center"
-          label="返佣合计金额"
+          label="实返金额"
           width="120"
-          prop="totalAmount"
+          prop=""
           sortable="custom"
           show-overflow-tooltip>
-          <template slot-scope="scope">
-            <a class="col-link" @click="saleCommission(scope.row)">{{ scope.row.totalAmount }}</a>
-          </template>
+          <!--<template slot-scope="scope">-->
+          <!--<a class="col-link" @click="saleCommission(scope.row)">{{ scope.row.totalAmount }}</a>-->
+          <!--</template>-->
         </el-table-column>
 
         <el-table-column
@@ -93,63 +93,60 @@
           label="返佣状态"
         >
           <template slot-scope="scope">
-            <span v-for="item in paymentState" :key="item.type"
+            <span v-for="(item, index) in paymentState" :key="index"
                   v-if="scope.row.paymentState === item.type">{{item.value}}</span>
           </template>
         </el-table-column>
         <el-table-column
           align="center"
-          prop="created"
-          label="返佣结算日期"
-          width="120"
+          prop="saleCommission"
           sortable="custom"
-          show-overflow-tooltip>
-        </el-table-column>
-
-        <el-table-column
-          align="center"
+          width="100"
           label="销售佣金"
         >
-          <el-table-column
-            align="center"
-            label="销售佣金"
-            width="100"
-            sortable="custom"
-            prop="saleCommission"
-          >
-          </el-table-column>
-
-          <el-table-column
-            align="center"
-            label="管理佣金"
-            width="100"
-            sortable="custom"
-            prop="managementCommission"
-          >
-          </el-table-column>
+          <template slot-scope="scope">
+            <a class="col-link" @click="saleCommission(scope.row)">{{ scope.row.totalAmount }}</a>
+          </template>
         </el-table-column>
         <el-table-column
           align="center"
           label="服务佣金"
+          width="100"
+          prop="serviceCommission"
+          sortable="custom"
         >
-          <el-table-column
-            align="center"
-            label="服务佣金"
-            prop="serviceCommission"
-          >
-          </el-table-column>
-          <el-table-column
-            align="center"
-            label="服务奖励"
-            prop="serviceReward"
-          >
-          </el-table-column>
-          <el-table-column
-            align="center"
-            label="服务补贴"
-            prop="serviceAllowance"
-          >
-          </el-table-column>
+          <template slot-scope="scope">
+            <a class="col-link">{{ scope.row.serviceCommission }}</a>
+          </template>
+        </el-table-column>
+        <el-table-column
+          align="center"
+          label="合计应返"
+          prop=""
+        >
+        </el-table-column>
+        <el-table-column
+          align="center"
+          label="服务押金扣款"
+          prop=""
+        >
+        </el-table-column>
+        <el-table-column
+          align="center"
+          label="服务押金"
+          prop=""
+        >
+        </el-table-column>
+        <el-table-column
+          align="center"
+          label="佣金生成日期"
+          prop="created"
+          width="150"
+          sortable="custom"
+          show-overflow-tooltip>
+          <template slot-scope="scope">
+            <span>{{ scope.row.created && $moment(scope.row.created).format('YYYY-MM-DD HH:mm:ss')}}</span>
+          </template>
         </el-table-column>
 
       </el-table>
@@ -207,29 +204,7 @@
           },
         ],
         organizationOptions: [],
-        tableData: [
-          {
-            customerName: '成都凡特塞科技有限公司',
-            businessLicense: '',
-            date: '2016-05-03',
-            name: '王小虎',
-            address: '上海市普陀区金沙江路 1518 弄',
-            status: 1,
-          }, {
-            customerName: '成都凡特塞科技有限公司',
-            businessLicense: '',
-            date: '2016-05-03',
-            name: '王小虎',
-            address: '上海市普陀区金沙江路 1518 弄',
-            status: 2,
-          }, {
-            customerName: '成都凡特塞科技有限公司',
-            businessLicense: '',
-            date: '2016-05-03',
-            name: '王小虎',
-            address: '上海市普陀区金沙江路 1518 弄',
-            status: 3,
-          }],
+        tableData: [],
         multipleSelection: [],
         currentPage: 1,
         searchForm: {
@@ -266,8 +241,6 @@
         let link = document.createElement('a') // 创建事件对象
         let query = QS.stringify(Object.assign({}, this.defaultListParams, this.sortObj, as,
           {authKey: webStorage.getItem('userInfo').authKey}))
-        // console.log('下载参数：', query)
-        // alert(query)
         link.setAttribute('href', serverUrl + '/commissionPayment/export?' + query)
         link.setAttribute('download', '导出结算佣金')
         let event = document.createEvent('MouseEvents') // 初始化事件对象
@@ -320,10 +293,10 @@
         if (that.multipleSelection.length === 0) {
           return
         }
-        API.financial.auditPayment({ids: that.multipleSelection.map(item => item.id).join()}, (res) => {
-          this.$confirm('确认审核?', '提示', {
-            type: 'warning',
-          }).then(() => {
+        this.$confirm('确认审核?', '提示', {
+          type: 'warning',
+        }).then(() => {
+          API.financial.auditPayment({ids: that.multipleSelection.map(item => item.id).join()}, (res) => {
             that.loading = false
             if (res.status) {
               that.$message({
@@ -331,18 +304,7 @@
                 message: '审核成功!',
               })
               that.getCommissionClear()
-            } else {
-              that.$message({
-                message: res.error.message,
-                type: 'error',
-              })
             }
-          }, (mock) => {
-            that.loading = false
-            that.$message({
-              message: '系统繁忙，请稍后再试！',
-              type: 'error',
-            })
           })
         }).catch(() => {})
       },
@@ -362,18 +324,7 @@
                 message: '付款成功!',
               })
               that.getCommissionClear()
-            } else {
-              that.$message({
-                message: res.error.message,
-                type: 'error',
-              })
             }
-          }, (mock) => {
-            that.loading = false
-            that.$message({
-              message: '系统繁忙，请稍后再试！',
-              type: 'error',
-            })
           })
         }).catch(() => {})
       },
@@ -409,18 +360,7 @@
             if (res.status) {
               that.tableData = res.data.content
               that.totle = res.data.totalElements
-            } else {
-              Message({
-                message: res.error.message,
-                type: 'error',
-              })
             }
-          }, (mock) => {
-            that.loading = false
-            Message({
-              message: '系统繁忙，请稍后再试！',
-              type: 'error',
-            })
           })
       },
 
@@ -430,9 +370,6 @@
       handleCurrentChange (val) {
         this.currentPage = val
         this.getCommissionClear()
-      },
-      addHandle () {
-        // alert('add btn')
       },
       getOrganization (pa) {
         API.organization.queryAllList(pa, (data) => {

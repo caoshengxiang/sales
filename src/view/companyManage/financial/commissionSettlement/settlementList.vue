@@ -70,6 +70,7 @@
           label="订单信息"
         >
           <el-table-column
+            width="80"
             align="center"
             label="结算状态"
             show-overflow-tooltip
@@ -83,7 +84,7 @@
             align="center"
             prop="customerName"
             label="订单客户"
-            width="100"
+            width="160"
             sortable="custom"
             show-overflow-tooltip>
           </el-table-column>
@@ -92,16 +93,16 @@
             prop="productName"
             label="销售商品"
             sortable="custom"
-            width="100"
+            width="160"
             show-overflow-tooltip
           >
           </el-table-column>
           <el-table-column
             align="center"
             sortable="custom"
-            prop=""
+            prop="paymentName"
             label="款项名称"
-            width="100"
+            width="160"
             show-overflow-tooltip
           >
           </el-table-column>
@@ -117,7 +118,7 @@
           <el-table-column
             align="center"
             sortable="custom"
-            prop=""
+            prop="orderType"
             label="签单类型"
             width="100"
             show-overflow-tooltip
@@ -126,7 +127,7 @@
           <el-table-column
             align="center"
             sortable="custom"
-            prop=""
+            prop="isRenewState"
             label="是否续费"
             width="100"
             show-overflow-tooltip
@@ -135,7 +136,7 @@
           <el-table-column
             align="center"
             sortable="custom"
-            prop=""
+            prop="renewTimes"
             label="续费次数"
             width="100"
             show-overflow-tooltip
@@ -163,15 +164,15 @@
             sortable="custom"
             prop="saleSubjectName"
             label="销售主体"
-            width="100"
+            width="170"
             show-overflow-tooltip
           >
           </el-table-column>
           <el-table-column
             align="center"
-            label="签约主体"
+            label="签约主体（结算对象）"
             sortable="custom"
-            width="100"
+            width="170"
             prop="contractSubjectName"
             show-overflow-tooltip
           >
@@ -180,8 +181,8 @@
             align="center"
             sortable="custom"
             prop="rebateSubjectName"
-            label="返佣主体"
-            width="100"
+            label="返佣主体（结算主体）"
+            width="170"
             show-overflow-tooltip
           >
           </el-table-column>
@@ -190,9 +191,12 @@
             align="center"
             prop="totalAmount"
             sortable="custom"
-            label="合计收支"
-            width="100"
+            label="销售合计返佣"
+            width="160"
           >
+            <template slot-scope="scope">
+              <a class="col-link" @click="saleCommission(scope.row,1)">{{ scope.row.saleCommission }}</a><!--todo 确认字段名-->
+            </template>
           </el-table-column>
           <el-table-column
             align="center"
