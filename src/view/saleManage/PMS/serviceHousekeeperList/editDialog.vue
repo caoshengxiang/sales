@@ -24,7 +24,7 @@
             </td>
           </tr>
           <tr>
-            <td class="td-title">名族</td>
+            <td class="td-title">民族</td>
             <td>
               <el-form-item prop="nation">
                 <el-input type="text" v-model="addForm.nation"></el-input>
