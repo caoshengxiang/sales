@@ -131,7 +131,7 @@
           <!--</tr>-->
           <tr>
             <td class="td-title">需求来源</td>
-            <td class="td-text" colspan="3">
+            <td class="td-text">
               <el-cascader
                 style="width: 100%"
                 :change-on-select="selectLastLevelMode"
@@ -144,6 +144,19 @@
                 :disabled="!!params.detail"
               >
               </el-cascader>
+            </td>
+            <td class="td-title">需求提供人</td>
+            <td class="td-text">
+              <el_form-item prop="provider">
+                <el-select v-model="addForm.provider" filterable placeholder="请选择" style="width: 100%;">
+                  <el-option
+                    v-for="item in staffList"
+                    :key="item.id"
+                    :label="item.name"
+                    :value="item.id">
+                  </el-option>
+                </el-select>
+              </el_form-item>
             </td>
           </tr>
           <tr>
@@ -194,6 +207,7 @@
           pageSource: 1, // 公海添加机会，传2. 其他传1
           chanceSource: '',
           addType: 1, // 1主动添加 2扫活动二维码 3扫商务管家二维码
+          provider: '', // 需求提供人
         },
         customersList: [],
         salesState: [],
@@ -201,6 +215,7 @@
         intentProductList: [],
         industryList: [], // 行业
         seaList: [], // 公海
+        staffList: [], // 机构用户
         rules: {
           customerId: [
             {required: true, message: '请选择客户', trigger: 'blur'},
@@ -416,6 +431,11 @@
           this.seaList = data.data
         })
       },
+      getStaffList () { // 用户信息
+        API.user.listOrgUser((data) => {
+          this.staffList = data.data
+        })
+      },
     },
     created () {
       this.getCustomersList()
@@ -439,6 +459,7 @@
       this.getConfigData(5, 0)
       this.getConfigData(3) // 行业
       this.getSeaList()
+      this.getStaffList()
     },
   }
 </script>
