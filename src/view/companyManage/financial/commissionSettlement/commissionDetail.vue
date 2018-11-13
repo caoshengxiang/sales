@@ -156,18 +156,7 @@
         that.loading = false
         if (res.status) {
           that.tableData = res.data
-        } else {
-          Message({
-            message: res.error.message,
-            type: 'error',
-          })
         }
-      }, (mock) => {
-        that.loading = false
-        Message({
-          message: '系统繁忙，请稍后再试！',
-          type: 'error',
-        })
       })
     },
     methods: {},

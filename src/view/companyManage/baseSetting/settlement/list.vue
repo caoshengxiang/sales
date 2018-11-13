@@ -70,10 +70,11 @@
                 </el-option>
               </el-select>
             </h3>
-            <!--代理体系 start-->
-            <table class="com-dialog-table" v-if="billType === 1">
+            <!--1 start-->
+            <table class="com-dialog-table"
+                   v-if="billType === 1 || billType === 2">
               <tr>
-                <th colspan="11" class="td-title">{{billTypeName}}</th>
+                <th colspan="12" class="td-title">{{billTypeName}}</th>
               </tr>
               <tr>
                 <th rowspan="2" colspan="3" class="td-title out-td" style="width: 286px;padding: 0;">
@@ -84,143 +85,144 @@
                   </div>
                 </th>
                 <th colspan="3" class="td-title">销售佣金</th>
-                <th colspan="3" class="td-title">管理贴金</th>
-                <th colspan="2" class="td-title">培育佣金</th>
+                <th colspan="3" class="td-title">管理津贴</th>
+                <th colspan="2" class="td-title">培育培育</th>
+                <th colspan="1" class="td-title">销售奖金</th>
               </tr>
               <tr>
-                <td class="td-title">需求录入</td>
-                <td class="td-title">销售佣金</td>
-                <td class="td-title">销售咨询</td>
+                <td class="td-title">需求推荐(代理商)</td>
+                <td class="td-title">跟单人</td>
+                <td class="td-title">售前咨询（商务管家自主选择）</td>
                 <td class="td-title">区域经理</td>
                 <td class="td-title">销售总监</td>
                 <td class="td-title">销售副总</td>
-                <td class="td-title">直接</td>
-                <td class="td-title">间接</td>
+                <td class="td-title">直接培育</td>
+                <td class="td-title">间接培育</td>
+                <td class="td-title">客户推荐</td>
               </tr>
               <tr><!--代理商下单 start-->
-                <td class="td-title" rowspan="12">年度产品(A类)</td>
-                <td rowspan="6">计时-记账托管类</td>
+                <td class="td-title" rowspan="8">年度产品(A类)</td>
+                <td rowspan="4">记账/财税金融全托管</td>
                 <td>新签</td>
                 <td v-for="col in cptSaleCommissionConfig[0]" :key="col.id">
-                  <el-input style="width: 72px" type="number" step="0.01" v-model.number="col.commissionPercent"
-                            auto-complete="off"></el-input>
+                  <span v-if="col.commissionPercent !== -1">
+                    <el-input style="width: 72px" type="number" step="0.01" v-model.number="col.commissionPercent"
+                              auto-complete="off" ></el-input>
                   %
+                  </span>
+                  <span v-else>/</span>
                 </td>
               </tr>
               <tr>
-                <td>第二年</td>
+                <td>第二年续签</td>
                 <td v-for="col in cptSaleCommissionConfig[1]" :key="col.id">
-                  <el-input style="width: 72px" type="number" step="0.01" v-model.number="col.commissionPercent"
-                            auto-complete="off"></el-input>
+                  <span v-if="col.commissionPercent !== -1">
+                    <el-input style="width: 72px" type="number" step="0.01" v-model.number="col.commissionPercent"
+                              auto-complete="off" ></el-input>
                   %
+                  </span>
+                  <span v-else>/</span>
                 </td>
               </tr>
               <tr>
-                <td>第三年</td>
+                <td>第三年至第五年</td>
                 <td v-for="col in cptSaleCommissionConfig[2]" :key="col.id">
-                  <el-input style="width: 72px" type="number" step="0.01" v-model.number="col.commissionPercent"
-                            auto-complete="off"></el-input>
+                  <span v-if="col.commissionPercent !== -1">
+                    <el-input style="width: 72px" type="number" step="0.01" v-model.number="col.commissionPercent"
+                              auto-complete="off" ></el-input>
                   %
+                  </span>
+                  <span v-else>/</span>
                 </td>
               </tr>
               <tr>
-                <td>第四年</td>
+                <td>五年以后续签</td>
                 <td v-for="col in cptSaleCommissionConfig[3]" :key="col.id">
-                  <el-input style="width: 72px" type="number" step="0.01" v-model.number="col.commissionPercent"
-                            auto-complete="off"></el-input>
+                  <span v-if="col.commissionPercent !== -1">
+                    <el-input style="width: 72px" type="number" step="0.01" v-model.number="col.commissionPercent"
+                              auto-complete="off" ></el-input>
                   %
+                  </span>
+                  <span v-else>/</span>
                 </td>
               </tr>
               <tr>
-                <td>第五年</td>
-                <td v-for="col in cptSaleCommissionConfig[4]" :key="col.id">
-                  <el-input style="width: 72px" type="number" step="0.01" v-model.number="col.commissionPercent"
-                            auto-complete="off"></el-input>
-                  %
-                </td>
-              </tr>
-              <tr>
-                <td>第五年后</td>
-                <td v-for="col in cptSaleCommissionConfig[5]" :key="col.id">
-                  <el-input style="width: 72px" type="number" step="0.01" v-model.number="col.commissionPercent"
-                            auto-complete="off"></el-input>
-                  %
-                </td>
-              </tr>
-              <tr>
-                <td rowspan="6">计时-非记账托管类</td>
+                <td rowspan="4">税务顾问/财税咨询/金融咨询</td>
                 <td>新签</td>
+                <td v-for="col in cptSaleCommissionConfig[4]" :key="col.id">
+                  <span v-if="col.commissionPercent !== -1">
+                    <el-input style="width: 72px" type="number" step="0.01" v-model.number="col.commissionPercent"
+                              auto-complete="off" ></el-input>
+                  %
+                  </span>
+                  <span v-else>/</span>
+                </td>
+              </tr>
+              <tr>
+                <td>第二年续签</td>
+                <td v-for="col in cptSaleCommissionConfig[5]" :key="col.id">
+                  <span v-if="col.commissionPercent !== -1">
+                    <el-input style="width: 72px" type="number" step="0.01" v-model.number="col.commissionPercent"
+                              auto-complete="off" ></el-input>
+                  %
+                  </span>
+                  <span v-else>/</span>
+                </td>
+              </tr>
+              <tr>
+                <td>第三年至第五年</td>
                 <td v-for="col in cptSaleCommissionConfig[6]" :key="col.id">
-                  <el-input style="width: 72px" type="number" step="0.01" v-model.number="col.commissionPercent"
-                            auto-complete="off"></el-input>
+                  <span v-if="col.commissionPercent !== -1">
+                    <el-input style="width: 72px" type="number" step="0.01" v-model.number="col.commissionPercent"
+                              auto-complete="off" ></el-input>
                   %
+                  </span>
+                  <span v-else>/</span>
                 </td>
               </tr>
               <tr>
-                <td>第二年</td>
+                <td>五年以后续签</td>
                 <td v-for="col in cptSaleCommissionConfig[7]" :key="col.id">
-                  <el-input style="width: 72px" type="number" step="0.01" v-model.number="col.commissionPercent"
-                            auto-complete="off"></el-input>
+                  <span v-if="col.commissionPercent !== -1">
+                    <el-input style="width: 72px" type="number" step="0.01" v-model.number="col.commissionPercent"
+                              auto-complete="off" ></el-input>
                   %
-                </td>
-              </tr>
-              <tr>
-                <td>第三年</td>
-                <td v-for="col in cptSaleCommissionConfig[8]" :key="col.id">
-                  <el-input style="width: 72px" type="number" step="0.01" v-model.number="col.commissionPercent"
-                            auto-complete="off"></el-input>
-                  %
-                </td>
-              </tr>
-              <tr>
-                <td>第四年</td>
-                <td v-for="col in cptSaleCommissionConfig[9]" :key="col.id">
-                  <el-input style="width: 72px" type="number" step="0.01" v-model.number="col.commissionPercent"
-                            auto-complete="off"></el-input>
-                  %
-                </td>
-              </tr>
-              <tr>
-                <td>第五年</td>
-                <td v-for="col in cptSaleCommissionConfig[10]" :key="col.id">
-                  <el-input style="width: 72px" type="number" step="0.01" v-model.number="col.commissionPercent"
-                            auto-complete="off"></el-input>
-                  %
-                </td>
-              </tr>
-              <tr>
-                <td>第五年后</td>
-                <td v-for="col in cptSaleCommissionConfig[11]" :key="col.id">
-                  <el-input style="width: 72px" type="number" step="0.01" v-model.number="col.commissionPercent"
-                            auto-complete="off"></el-input>
-                  %
+                  </span>
+                  <span v-else>/</span>
                 </td>
               </tr>
               <tr>
                 <td class="td-title" rowspan="2">单次产品(B类)</td>
-                <td>B类标准化产品</td>
+                <td>标准化产品</td>
                 <td>新签</td>
-                <td v-for="col in cptSaleCommissionConfig[12]" :key="col.id">
-                  <el-input style="width: 72px" type="number" step="0.01" v-model.number="col.commissionPercent"
-                            auto-complete="off"></el-input>
+                <td v-for="col in cptSaleCommissionConfig[8]" :key="col.id">
+                  <span v-if="col.commissionPercent !== -1">
+                    <el-input style="width: 72px" type="number" step="0.01" v-model.number="col.commissionPercent"
+                              auto-complete="off" ></el-input>
                   %
+                  </span>
+                  <span v-else>/</span>
                 </td>
               </tr>
               <tr>
-                <td>B类标定制产品</td>
+                <td>定制化产品（税务筹划/危机应对/公司股权设计）</td>
                 <td>新签</td>
-                <td v-for="col in cptSaleCommissionConfig[13]" :key="col.id">
-                  <el-input style="width: 72px" type="number" step="0.01" v-model.number="col.commissionPercent"
-                            auto-complete="off"></el-input>
+                <td v-for="col in cptSaleCommissionConfig[9]" :key="col.id">
+                  <span v-if="col.commissionPercent !== -1">
+                    <el-input style="width: 72px" type="number" step="0.01" v-model.number="col.commissionPercent"
+                              auto-complete="off" ></el-input>
                   %
+                  </span>
+                  <span v-else>/</span>
                 </td>
               </tr>
             </table>
-            <!--代理体系 end-->
-            <!--其他 start-->
-            <table class="com-dialog-table" v-if="billType !== 1">
+            <!--1 end-->
+            <!--2 start-->
+            <table class="com-dialog-table"
+                   v-if="billType === 3 || billType === 4 || billType === 9 || billType === 10">
               <tr>
-                <th colspan="11" class="td-title">{{billTypeName}}</th>
+                <th colspan="10" class="td-title">{{billTypeName}}</th>
               </tr>
               <tr>
                 <th rowspan="2" colspan="3" class="td-title out-td" style="width: 286px;padding: 0;">
@@ -231,75 +233,237 @@
                   </div>
                 </th>
                 <th colspan="3" class="td-title">销售佣金</th>
-                <th colspan="3" class="td-title">管理贴金</th>
-                <th colspan="2" class="td-title">培育佣金</th>
+                <th colspan="3" class="td-title">管理津贴</th>
+                <th colspan="1" class="td-title">销售奖金</th>
               </tr>
               <tr>
-                <td class="td-title">需求录入</td>
-                <td class="td-title">销售佣金</td>
-                <td class="td-title">销售咨询</td>
+                <td class="td-title">需求推荐(代理商)</td>
+                <td class="td-title">跟单人</td>
+                <td class="td-title">售前咨询（商务管家自主选择）</td>
                 <td class="td-title">区域经理</td>
                 <td class="td-title">销售总监</td>
                 <td class="td-title">销售副总</td>
-                <td class="td-title">直接</td>
-                <td class="td-title">间接</td>
+                <td class="td-title">客户推荐</td>
+              </tr>
+              <tr><!--代理商下单 start-->
+                <td class="td-title" rowspan="8">年度产品(A类)</td>
+                <td rowspan="4">记账/财税金融全托管</td>
+                <td>新签</td>
+                <td v-for="col in cptSaleCommissionConfig[0]" :key="col.id">
+                  <span v-if="col.commissionPercent !== -1">
+                    <el-input style="width: 72px" type="number" step="0.01" v-model.number="col.commissionPercent"
+                              auto-complete="off" ></el-input>
+                  %
+                  </span>
+                  <span v-else>/</span>
+                </td>
+              </tr>
+              <tr>
+                <td>第二年续签</td>
+                <td v-for="col in cptSaleCommissionConfig[1]" :key="col.id">
+                  <span v-if="col.commissionPercent !== -1">
+                    <el-input style="width: 72px" type="number" step="0.01" v-model.number="col.commissionPercent"
+                              auto-complete="off" ></el-input>
+                  %
+                  </span>
+                  <span v-else>/</span>
+                </td>
+              </tr>
+              <tr>
+                <td>第三年至第五年</td>
+                <td v-for="col in cptSaleCommissionConfig[2]" :key="col.id">
+                  <span v-if="col.commissionPercent !== -1">
+                    <el-input style="width: 72px" type="number" step="0.01" v-model.number="col.commissionPercent"
+                              auto-complete="off" ></el-input>
+                  %
+                  </span>
+                  <span v-else>/</span>
+                </td>
+              </tr>
+              <tr>
+                <td>五年以后续签</td>
+                <td v-for="col in cptSaleCommissionConfig[3]" :key="col.id">
+                  <span v-if="col.commissionPercent !== -1">
+                    <el-input style="width: 72px" type="number" step="0.01" v-model.number="col.commissionPercent"
+                              auto-complete="off" ></el-input>
+                  %
+                  </span>
+                  <span v-else>/</span>
+                </td>
+              </tr>
+              <tr>
+                <td rowspan="4">税务顾问/财税咨询/金融咨询</td>
+                <td>新签</td>
+                <td v-for="col in cptSaleCommissionConfig[4]" :key="col.id">
+                  <span v-if="col.commissionPercent !== -1">
+                    <el-input style="width: 72px" type="number" step="0.01" v-model.number="col.commissionPercent"
+                              auto-complete="off" ></el-input>
+                  %
+                  </span>
+                  <span v-else>/</span>
+                </td>
+              </tr>
+              <tr>
+                <td>第二年续签</td>
+                <td v-for="col in cptSaleCommissionConfig[5]" :key="col.id">
+                  <span v-if="col.commissionPercent !== -1">
+                    <el-input style="width: 72px" type="number" step="0.01" v-model.number="col.commissionPercent"
+                              auto-complete="off" ></el-input>
+                  %
+                  </span>
+                  <span v-else>/</span>
+                </td>
+              </tr>
+              <tr>
+                <td>第三年至第五年</td>
+                <td v-for="col in cptSaleCommissionConfig[6]" :key="col.id">
+                  <span v-if="col.commissionPercent !== -1">
+                    <el-input style="width: 72px" type="number" step="0.01" v-model.number="col.commissionPercent"
+                              auto-complete="off" ></el-input>
+                  %
+                  </span>
+                  <span v-else>/</span>
+                </td>
+              </tr>
+              <tr>
+                <td>五年以后续签</td>
+                <td v-for="col in cptSaleCommissionConfig[7]" :key="col.id">
+                  <span v-if="col.commissionPercent !== -1">
+                    <el-input style="width: 72px" type="number" step="0.01" v-model.number="col.commissionPercent"
+                              auto-complete="off" ></el-input>
+                  %
+                  </span>
+                  <span v-else>/</span>
+                </td>
+              </tr>
+              <tr>
+                <td class="td-title" rowspan="2">单次产品(B类)</td>
+                <td>标准化产品</td>
+                <td>新签</td>
+                <td v-for="col in cptSaleCommissionConfig[8]" :key="col.id">
+                  <span v-if="col.commissionPercent !== -1">
+                    <el-input style="width: 72px" type="number" step="0.01" v-model.number="col.commissionPercent"
+                              auto-complete="off" ></el-input>
+                  %
+                  </span>
+                  <span v-else>/</span>
+                </td>
+              </tr>
+              <tr>
+                <td>定制化产品（税务筹划/危机应对/公司股权设计）</td>
+                <td>新签</td>
+                <td v-for="col in cptSaleCommissionConfig[9]" :key="col.id">
+                  <span v-if="col.commissionPercent !== -1">
+                    <el-input style="width: 72px" type="number" step="0.01" v-model.number="col.commissionPercent"
+                              auto-complete="off" ></el-input>
+                  %
+                  </span>
+                  <span v-else>/</span>
+                </td>
+              </tr>
+            </table>
+            <!--2 end-->
+            <!--3 start-->
+            <table class="com-dialog-table"
+                   v-if=" billType === 5|| billType === 6 || billType === 7 || billType === 8">
+              <tr>
+                <th colspan="10" class="td-title">{{billTypeName}}</th>
+              </tr>
+              <tr>
+                <th rowspan="2" colspan="3" class="td-title out-td" style="width: 286px;padding: 0;">
+                  <div class="out">
+                    <div class="t-1">合作模式</div>
+                    <div class="t-line"></div>
+                    <div class="t-2">产品类别</div>
+                  </div>
+                </th>
+                <th colspan="3" class="td-title">销售佣金</th>
+                <th colspan="3" class="td-title">管理津贴</th>
+                <th colspan="1" class="td-title">销售奖金</th>
+              </tr>
+              <tr>
+                <td class="td-title">需求推荐(代理商)</td>
+                <td class="td-title">跟单人</td>
+                <td class="td-title">售前咨询（商务管家自主选择）</td>
+                <td class="td-title">区域经理</td>
+                <td class="td-title">销售总监</td>
+                <td class="td-title">销售副总</td>
+                <td class="td-title">客户推荐</td>
               </tr>
               <tr><!--代理商下单 start-->
                 <td class="td-title" rowspan="4">年度产品(A类)</td>
-                <td rowspan="2">计时-记账托管类</td>
+                <td rowspan="2">记账/财税金融全托管</td>
                 <td>新签</td>
                 <td v-for="col in cptSaleCommissionConfig[0]" :key="col.id">
-                  <el-input style="width: 72px" type="number" step="0.01" v-model.number="col.commissionPercent"
-                            auto-complete="off"></el-input>
+                  <span v-if="col.commissionPercent !== -1">
+                    <el-input style="width: 72px" type="number" step="0.01" v-model.number="col.commissionPercent"
+                              auto-complete="off" ></el-input>
                   %
+                  </span>
+                  <span v-else>/</span>
                 </td>
               </tr>
               <tr>
-                <td>续费</td>
+                <td>续签</td>
                 <td v-for="col in cptSaleCommissionConfig[1]" :key="col.id">
-                  <el-input style="width: 72px" type="number" step="0.01" v-model.number="col.commissionPercent"
-                            auto-complete="off"></el-input>
+                  <span v-if="col.commissionPercent !== -1">
+                    <el-input style="width: 72px" type="number" step="0.01" v-model.number="col.commissionPercent"
+                              auto-complete="off" ></el-input>
                   %
+                  </span>
+                  <span v-else>/</span>
                 </td>
               </tr>
               <tr>
-                <td rowspan="2">计时-非记账托管类</td>
+                <td rowspan="2">税务顾问/财税咨询/金融咨询</td>
                 <td>新签</td>
                 <td v-for="col in cptSaleCommissionConfig[2]" :key="col.id">
-                  <el-input style="width: 72px" type="number" step="0.01" v-model.number="col.commissionPercent"
-                            auto-complete="off"></el-input>
+                  <span v-if="col.commissionPercent !== -1">
+                    <el-input style="width: 72px" type="number" step="0.01" v-model.number="col.commissionPercent"
+                              auto-complete="off" ></el-input>
                   %
+                  </span>
+                  <span v-else>/</span>
                 </td>
               </tr>
               <tr>
-                <td>续费</td>
+                <td>续签</td>
                 <td v-for="col in cptSaleCommissionConfig[3]" :key="col.id">
-                  <el-input style="width: 72px" type="number" step="0.01" v-model.number="col.commissionPercent"
-                            auto-complete="off"></el-input>
+                  <span v-if="col.commissionPercent !== -1">
+                    <el-input style="width: 72px" type="number" step="0.01" v-model.number="col.commissionPercent"
+                              auto-complete="off" ></el-input>
                   %
+                  </span>
+                  <span v-else>/</span>
                 </td>
               </tr>
               <tr>
                 <td class="td-title" rowspan="2">单次产品(B类)</td>
-                <td>B类标准化产品</td>
+                <td>标准化产品</td>
                 <td>新签</td>
                 <td v-for="col in cptSaleCommissionConfig[4]" :key="col.id">
-                  <el-input style="width: 72px" type="number" step="0.01" v-model.number="col.commissionPercent"
-                            auto-complete="off"></el-input>
+                  <span v-if="col.commissionPercent !== -1">
+                    <el-input style="width: 72px" type="number" step="0.01" v-model.number="col.commissionPercent"
+                              auto-complete="off" ></el-input>
                   %
+                  </span>
+                  <span v-else>/</span>
                 </td>
               </tr>
               <tr>
-                <td>B类标定制产品</td>
+                <td>定制化产品（税务筹划/危机应对/公司股权设计）</td>
                 <td>新签</td>
                 <td v-for="col in cptSaleCommissionConfig[5]" :key="col.id">
-                  <el-input style="width: 72px" type="number" step="0.01" v-model.number="col.commissionPercent"
-                            auto-complete="off"></el-input>
+                  <span v-if="col.commissionPercent !== -1">
+                    <el-input style="width: 72px" type="number" step="0.01" v-model.number="col.commissionPercent"
+                              auto-complete="off" ></el-input>
                   %
+                  </span>
+                  <span v-else>/</span>
                 </td>
               </tr>
             </table>
-            <!--其他 end-->
+            <!--3 end-->
             <div class="btn-group">
               <el-button @click="saveSaleCommissionConfig" type="primary" style="width: 100px">保存</el-button>
             </div>
@@ -375,14 +539,18 @@
         saleCommissionConfig: [],
         cptSaleCommissionConfig: [[], [], [], [], [], [], [], [], [], [], [], [], [], []], // 数据构建
         billType: 1,
-        billTypeName: '代理体系',
+        billTypeName: '代理体系(首购)',
         billTypeOptions: [
-          {type: 1, value: '代理体系'},
-          {type: 2, value: '商务管家自拓体系'},
-          {type: 3, value: '市场中心体系'},
-          {type: 4, value: '衍生业务体系'},
-          {type: 5, value: '会议营销体系'},
-          {type: 6, value: 'APP自然下单体系'},
+          {type: 1, value: '代理体系(首购)'},
+          {type: 2, value: '代理体系(复购) '},
+          {type: 3, value: '销售自拓体系(首购)'},
+          {type: 4, value: '销售自拓体系(复购) '},
+          {type: 5, value: '公司资源体系(首购)'},
+          {type: 6, value: '公司资源体系(复购)'},
+          {type: 7, value: '会议营销体系(首购)'},
+          {type: 8, value: '会议营销体系(复购)'},
+          {type: 9, value: '自然客户体系(首购)'},
+          {type: 10, value: '自然客户体系(复购)'},
         ],
       }
     },
@@ -403,33 +571,15 @@
 
             if (this.saleCommissionConfig.length) {
               this.cptSaleCommissionConfig = [[], [], [], [], [], [], [], [], [], [], [], [], [], []] // 初始化
-              let colNum = 8 // 定义行的单元格数
+              let colNum = 9 // 定义行的单元格数
+              if (this.billType === 1 || this.billType === 2) {
+                colNum = 9
+              } else {
+                colNum = 7
+              }
               this.saleCommissionConfig.forEach((item, index) => {
                 let x = Math.floor(index / colNum)
                 this.cptSaleCommissionConfig[x].push(item)
-                //       let y = null
-                //       let x = item.commissionDetail - 1
-                //       if (item.productType <= 2) { // 返回数据前两个有7个
-                //         let bc = item.billCate >= 2 ? item.billCate - 1 : item.billCate // 没有返回billCate为2
-                //         y = (item.productType - 1) * 6 + (bc - 1)
-                //       } else {
-                //         y = 12 + item.productType - 3
-                //       }
-                //       // console.log(y, x)
-                //       this.cptSaleCommissionConfig[y][x] = item
-                //     })
-                //   } else { // 其他
-                //     this.cptSaleCommissionConfig = [[], [], [], [], [], []] // 初始化
-                //     this.saleCommissionConfig.forEach(item => {
-                //       let y = null
-                //       let x = item.commissionDetail - 1
-                //       if (item.productType <= 2) { // 返回数据前两个有2个
-                //         y = (item.productType - 1) * 2 + (item.billCate - 1)
-                //       } else {
-                //         y = 4 + item.productType - 3
-                //       }
-                //       // console.log(y, x)
-                //       this.cptSaleCommissionConfig[y][x] = item
               })
             }
           }

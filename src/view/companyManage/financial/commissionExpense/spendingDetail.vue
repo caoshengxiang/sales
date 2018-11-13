@@ -62,7 +62,32 @@
             {{ $moment(scope.row.refundDate).format('YYYY-MM-DD HH:mm') }}
           </template>
         </el-table-column>
-
+        <el-table-column
+          align="center"
+          label="来源渠道"
+          prop=""
+          show-overflow-tooltip>
+        </el-table-column>
+        <el-table-column
+          align="center"
+          label="签约类型"
+          prop=""
+          show-overflow-tooltip>
+        </el-table-column>
+        <el-table-column
+          align="center"
+          label="是否续费"
+          show-overflow-tooltip>
+          <template slot-scope="scope">
+            {{ scope.row.isRenew == 1?'是':'否' }}
+          </template>
+        </el-table-column>
+        <el-table-column
+          align="center"
+          label="续费次数"
+          prop=""
+          show-overflow-tooltip>
+        </el-table-column>
         <el-table-column
           align="center"
           prop="customerName"
@@ -73,7 +98,6 @@
                   v-if="scope.row.clearState === item.type">{{item.value}}</span>
           </template>
         </el-table-column>
-
         <el-table-column
           align="center"
           label="审核日期"
@@ -85,17 +109,8 @@
 
         <el-table-column
           align="center"
-          label="是否续费"
-          show-overflow-tooltip>
-          <template slot-scope="scope">
-            {{ scope.row.isRenew == 1?'是':'否' }}
-          </template>
-        </el-table-column>
-
-        <el-table-column
-          align="center"
-          prop="totalAmount"
-          label="返佣合计"
+          prop=""
+          label="实发合计"
           show-overflow-tooltip>
         </el-table-column>
 
@@ -137,7 +152,7 @@
         </el-table-column>
         <el-table-column
           align="center"
-          label="大区总监"
+          label="营销总监"
           show-overflow-tooltip>
           <template slot-scope="scope">
             {{ scope.row.zoneDirectorAmount }}({{ scope.row.zoneDirectorPeriod }}/{{ scope.row.zoneDirectorPeriodTotal
@@ -146,7 +161,7 @@
         </el-table-column>
         <el-table-column
           align="center"
-          label="区域经理"
+          label="营销经理"
           show-overflow-tooltip>
           <template slot-scope="scope">
             {{ scope.row.regionalManagerAmount }}({{ scope.row.regionalManagerPeriod }}/{{
@@ -155,7 +170,16 @@
         </el-table-column>
         <el-table-column
           align="center"
-          label="销售助理"
+          label="新客推荐人"
+          show-overflow-tooltip>
+          <template slot-scope="scope">
+            {{ scope.row.regionalManagerAmount }}({{ scope.row.regionalManagerPeriod }}/{{
+            scope.row.regionalManagerPeriodTotal }}期)
+          </template>
+        </el-table-column>
+        <el-table-column
+          align="center"
+          label="直接培训"
           show-overflow-tooltip>
           <template slot-scope="scope">
             {{ scope.row.assistantAmount }}({{ scope.row.assistantPeriod }}/{{ scope.row.assistantPeriodTotal }}期)
@@ -163,39 +187,10 @@
         </el-table-column>
         <el-table-column
           align="center"
-          label="培训师"
+          label="间接培训"
           show-overflow-tooltip>
           <template slot-scope="scope">
             {{ scope.row.trainerAmount }}({{ scope.row.trainerPeriod }}/{{ scope.row.trainerPeriodTotal }}期)
-          </template>
-        </el-table-column>
-
-        <el-table-column
-          align="center"
-          label="服务奖励"
-          show-overflow-tooltip>
-          <template slot-scope="scope">
-            {{ scope.row.serviceReward }}({{ scope.row.serviceRewardPeriod }}/{{ scope.row.serviceRewardPeriodTotal }}期)
-          </template>
-        </el-table-column>
-
-        <el-table-column
-          align="center"
-          label="服务补贴"
-          show-overflow-tooltip>
-          <template slot-scope="scope">
-            {{ scope.row.serviceAllowance }}({{ scope.row.serviceAllowancePeriod }}/{{
-            scope.row.serviceAllowancePeriodTotal }}期)
-          </template>
-        </el-table-column>
-
-        <el-table-column
-          align="center"
-          label="服务佣金"
-          show-overflow-tooltip>
-          <template slot-scope="scope">
-            {{ scope.row.serviceCommission }}({{ scope.row.serviceCommissionPeriod }}/{{
-            scope.row.serviceCommissionPeriodTotal }}期)
           </template>
         </el-table-column>
 

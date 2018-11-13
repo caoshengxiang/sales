@@ -30,7 +30,7 @@
             </el-select>
           </el-form-item>
           <el-form-item>
-            <com-button buttonType="search" @click="getCommissionClear">搜索</com-button>
+            <com-button buttonType="search" @click="getreFundSettlements">搜索</com-button>
             <com-button buttonType="search" @click="advancedSearchHandle" style="">高级搜索</com-button>
             <com-button buttonType="export" icon="el-icon-download" @click="excelExport">导出</com-button>
           </el-form-item>
@@ -100,7 +100,7 @@
           <el-table-column
             align="center"
             sortable="custom"
-            prop=""
+            prop="paymentName"
             label="款项名称"
             width="160"
             show-overflow-tooltip
@@ -118,7 +118,7 @@
           <el-table-column
             align="center"
             sortable="custom"
-            prop=""
+            prop="orderType"
             label="签单类型"
             width="100"
             show-overflow-tooltip
@@ -127,7 +127,7 @@
           <el-table-column
             align="center"
             sortable="custom"
-            prop=""
+            prop="isRenewState"
             label="是否续费"
             width="100"
             show-overflow-tooltip
@@ -136,7 +136,7 @@
           <el-table-column
             align="center"
             sortable="custom"
-            prop=""
+            prop="renewTimes"
             label="续费次数"
             width="100"
             show-overflow-tooltip
@@ -190,7 +190,7 @@
           <el-table-column
             align="center"
             prop="totalAmount"
-            sortable="custom"
+            sortable="settlementAmount"
             label="结算收支金额"
             width="120"
           >
@@ -211,106 +211,22 @@
             label="是否成返佣"
             width="110"
             sortable="custom"
-            prop=""
+            prop="generateCommission"
             show-overflow-tooltip
           >
-          </el-table-column>
-        </el-table-column>
-
- <!--       <el-table-column
-          align="center"
-          label="签约金额"
-          width="100"
-          sortable="custom"
-          prop="contractSubjectAmount"
-          show-overflow-tooltip
-        >
-        </el-table-column>
-
-        <el-table-column
-          align="center"
-          sortable="custom"
-          prop="serviceSubjectName"
-          label="服务主体"
-          width="100"
-          show-overflow-tooltip
-        >
-        </el-table-column>
-        <el-table-column
-          align="center"
-          label="销售佣金"
-        >
-          <el-table-column
-            align="center"
-            prop="saleCommission"
-            sortable="custom"
-            width="100"
-            label="销售佣金"
-          >
             <template slot-scope="scope">
-              <a class="col-link" @click="saleCommission(scope.row,1)">{{ scope.row.saleCommission }}</a>
-            </template>
-          </el-table-column>
-
-          <el-table-column
-            align="center"
-            label="管理佣金"
-          >
-            <template slot-scope="scope">
-              <a class="col-link" @click="saleCommission(scope.row,2)">{{ scope.row.managementCommission }}</a>
+              <span v-if="scope.row.generateCommission === 1">是</span>
+              <span v-if="scope.row.generateCommission === 0">否</span>
             </template>
           </el-table-column>
         </el-table-column>
-        <el-table-column
-          align="center"
-          label="服务佣金"
-        >
-          <el-table-column
-            align="center"
-            label="服务佣金"
-            width="100"
-            prop="serviceCommission"
-            sortable="custom"
-          >
-            <template slot-scope="scope">
-              <a class="col-link" @click="saleCommission(scope.row,3)">{{ scope.row.serviceCommission }}</a>
-            </template>
-          </el-table-column>
-          <el-table-column
-            align="center"
-            label="服务奖励"
-          >
-            <template slot-scope="scope">
-              <a class="col-link" @click="saleCommission(scope.row,4)">{{ scope.row.serviceReward }}</a>
-            </template>
-          </el-table-column>
-          <el-table-column
-            align="center"
-            label="服务补贴"
-          >
-            <template slot-scope="scope">
-              <a class="col-link" @click="saleCommission(scope.row,5)">{{ scope.row.serviceAllowance }}</a>
-            </template>
-          </el-table-column>
-        </el-table-column>
-        <el-table-column
-          align="center"
-          label="结算审核时间"
-          prop="auditDate"
-          width="150"
-          sortable="custom"
-          show-overflow-tooltip>
-          <template slot-scope="scope">
-            <span>{{ scope.row.auditDate && $moment(scope.row.auditDate).format('YYYY-MM-DD HH:mm:ss')}}</span>
-          </template>
-        </el-table-column>-->
       </el-table>
     </div>
     <!--分页-->
     <div class="com-pages-box">
       <el-pagination
         background
-        :total="totle"
+        :total="total"
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
         :current-page="currentPage"
@@ -326,11 +242,6 @@
   import { mapState } from 'vuex'
   import comButton from '../../../../components/button/comButton'
   import API from '../../../../utils/api'
-  import commissionDetail from './commissionDetail'
-  import serviceCommission from './serviceCommission'
-  import managementCommission from './managementCommission'
-  import serviceReward from './serviceReward'
-  import serviceAllowance from './serviceAllowance'
   import advancedSearch from '../advancedSearch'
   import { underscoreName } from '../../../../utils/utils'
   import QS from 'qs'
@@ -343,7 +254,7 @@
       return {
         sortObj: null, // 排序
         advancedSearch: {}, // 高级搜索
-        totle: 0,
+        total: 0,
         clearState: [ // 订单状态
           {
             type: 1,
@@ -383,7 +294,7 @@
         multipleSelection: [],
         currentPage: 1,
         searchForm: {
-          organizationId: '',
+          organizationId: null,
           clearMonth: null,
           clearState: null,
         },
@@ -397,16 +308,10 @@
     },
     components: {
       comButton,
-      commissionDetail,
-      serviceCommission,
-      managementCommission,
-      serviceReward,
-      serviceAllowance,
-      advancedSearch,
     },
     created () {
       var that = this
-      that.getCommissionClear() // 查询列表
+      that.getreFundSettlements() // 查询列表
       that.getOrganization({pid: 1})
     },
     methods: {
@@ -428,8 +333,8 @@
           {authKey: webStorage.getItem('userInfo').authKey}))
         // console.log('下载参数：', query)
         // alert(query)
-        link.setAttribute('href', serverUrl + '/commissionClear/export?' + query)
-        link.setAttribute('download', '导出结算佣金')
+        link.setAttribute('href', serverUrl + '/commissionClear/refundSettlements/export?' + query)
+        link.setAttribute('download', '导出回款结算')
         let event = document.createEvent('MouseEvents') // 初始化事件对象
         event.initMouseEvent('click', true, true, document.defaultView, 0, 0, 0, 0, 0, false, false, false, false, 0,
           null) // 触发事件
@@ -443,7 +348,7 @@
           order = 'desc'
         }
         this.sortObj = {sort: underscoreName(sortObj.prop) + ',' + order}
-        this.getCommissionClear()
+        this.getreFundSettlements()
       },
       advancedSearchHandle () {
         this.$vDialog.modal(advancedSearch, {
@@ -460,7 +365,7 @@
             if (data.type === 'search') {
               console.log('高级搜索数据：', data.params)
               this.advancedSearch = data.params
-              this.getCommissionClear()
+              this.getreFundSettlements()
             }
           },
         })
@@ -470,116 +375,30 @@
         if (that.multipleSelection.length === 0) {
           return
         }
-
-        API.financial.audit({ids: that.multipleSelection.map(item => item.id).join()}, (res) => {
-          this.$confirm('确认审核?', '提示', {
-            type: 'warning',
-          }).then(() => {
+        this.$confirm('确认审核?', '提示', {
+          type: 'warning',
+        }).then(() => {
+          API.financial.audit({ids: that.multipleSelection.map(item => item.id).join()}, (res) => {
             that.loading = false
             if (res.status) {
               that.$message({
                 type: 'success',
                 message: '审核成功!',
               })
-              that.getCommissionClear()
+              that.getreFundSettlements()
             } else {
               that.$message({
                 message: res.error.message,
                 type: 'error',
               })
             }
-          }, (mock) => {
-            that.loading = false
-            that.$message({
-              message: '系统繁忙，请稍后再试！',
-              type: 'error',
-            })
           })
         }).catch(() => {})
       },
       handleSelectionChange (val) {
         this.multipleSelection = val
       },
-      saleCommission (row, type) {
-        var that = this
-        if (type === 1) {
-          that.openSaleCommission(row.id)
-        } else if (type === 2) {
-          that.openManagementCommission(row.id)
-        } else if (type === 3) {
-          that.openServiceCommission(row.id)
-        } else if (type === 4) {
-          that.openServiceReward(row.id)
-        } else if (type === 5) {
-          that.openServiceAllowance(row.id)
-        }
-      },
-      openManagementCommission (id) {
-        var that = this
-        that.$vDialog.modal(managementCommission, {
-          title: '管理佣金返佣详情',
-          width: 1500,
-          height: 800,
-          params: {
-            id: id,
-          },
-          callback: function (data) {
-          },
-        })
-      },
-      openServiceAllowance (id) {
-        var that = this
-        that.$vDialog.modal(serviceAllowance, {
-          title: '服务补贴返佣详情',
-          width: 1500,
-          height: 800,
-          params: {
-            id: id,
-          },
-          callback: function (data) {
-          },
-        })
-      },
-      openServiceCommission (id) {
-        var that = this
-        that.$vDialog.modal(serviceCommission, {
-          title: '服务佣金返佣详情',
-          width: 1500,
-          height: 800,
-          params: {
-            id: id,
-          },
-          callback: function (data) {
-          },
-        })
-      },
-      openServiceReward (id) {
-        var that = this
-        that.$vDialog.modal(serviceReward, {
-          title: '服务奖励返佣详情',
-          width: 1500,
-          height: 800,
-          params: {
-            id: id,
-          },
-          callback: function (data) {
-          },
-        })
-      },
-      openSaleCommission (id) {
-        var that = this
-        that.$vDialog.modal(commissionDetail, {
-          title: '销售佣金返佣详情',
-          width: 1200,
-          height: 800,
-          params: {
-            id: id,
-          },
-          callback: function (data) {
-          },
-        })
-      },
-      getCommissionClear () {
+      getreFundSettlements () {
         var that = this
         that.loading = true
         that.defaultListParams = {
@@ -593,31 +412,15 @@
           that.loading = false
           if (res.status) {
             that.tableData = res.data.content
-            that.totle = res.data.totalElements
-          } else {
-            Message({
-              message: res.error.message,
-              type: 'error',
-            })
+            that.total = res.data.totalElements
           }
-        }, (mock) => {
-          that.loading = false
-          Message({
-            message: '系统繁忙，请稍后再试！',
-            type: 'error',
-          })
         })
       },
 
-      handleSizeChange (val) {
-
-      },
+      handleSizeChange (val) {},
       handleCurrentChange (val) {
         this.currentPage = val
-        this.getCommissionClear()
-      },
-      addHandle () {
-        // alert('add btn')
+        this.getreFundSettlements()
       },
       getOrganization (pa) {
         API.organization.queryAllList(pa, (data) => {
