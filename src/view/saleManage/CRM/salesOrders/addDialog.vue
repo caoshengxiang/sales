@@ -95,7 +95,7 @@
           </tr>
           <tr>
             <td class="td-title">订单来源</td>
-            <td class="td-text" colspan="3">
+            <td class="td-text" >
               <el-cascader
                 :disabled="(addForm.chanceId || params.fromChance)?true:false"
                 style="width: 100%"
@@ -108,6 +108,18 @@
                 :placeholder="addForm.orderSourceName"
               >
               </el-cascader>
+            </td>
+            <td class="td-title">需求提供人</td>
+            <td class="td-text">
+              <el-form-item prop="provider">
+                <el-select style="width: 100%" filterable clearable
+                           v-model.number="addForm.provider"
+                           @change="providerChange"
+                           placeholder="请选择需求提供人">
+                  <el-option v-for="item in allProviderList" :key="item.id" :label="item.name"
+                             :value="item.id"></el-option>
+                </el-select>
+              </el-form-item>
             </td>
           </tr>
           <tr>
@@ -143,6 +155,7 @@
         contactList: [], // 客户对应的联系人列表
         productsList: [], // 产品【规格】列表
         contractSubjects: [], // 签约主体
+        allProviderList: [], // 需求提供人列表
         allGoodsList: [],
         addForm: { // 添加表单
           customerId: '',
@@ -150,6 +163,8 @@
           chanceId: '',
           productId: '',
           productName: '',
+          provider: '',
+          providerName: '',
           specificationId: '',
           specificationName: '',
           contractSubjectId: '',
@@ -176,6 +191,9 @@
           // productId: [
           //   {required: true, message: '请选择购买商品', trigger: 'change'},
           // ],
+          provider: [
+             {required: true, message: '请选择需求提供人', trigger: 'change'},
+           ],
           specificationId: [
             {required: true, message: '请选择购买规格', trigger: 'change'},
           ],
@@ -268,6 +286,11 @@
           this.allGoodsList = da.data
         })
       },
+      getAllProviderList () { // 获取所有需求提供人
+        API.user.listOrgUser((data) => {
+          this.allProviderList = data.data
+        })
+      },
       getProductsList (goodsId) { // 产品【规格】列表
         API.external.getProducts({goodsId: goodsId}, (data) => {
           this.productsList = data.content
@@ -309,10 +332,10 @@
             // 对应的签约主体
             this.getContractSubjects(item.intentProductId)
             // 重置来源
-            // console.log(item.chanceSource)
             this.orderSourceArr = item.chanceSource.split('-') // 获取机会对应来源
             this.addForm.orderSource = item.chanceSource
             this.addForm.orderSourceName = item.chanceSourceName || '' // 获取机会对应来源
+            this.getAllProvider()
           }
         })
       },
@@ -332,6 +355,12 @@
         this.getProductsList(id)
         // 对应的签约主体
         this.getContractSubjects(id)
+      },
+      getAllProvider () { // 直接选择商品获取名称
+        API.common.getProviderByChance({id: this.addForm.chanceId}, data => {
+          console.log(data)
+          this.addForm.provider = data.data.id
+        })
       },
       specificationChange () { // 规格change
         this.productsList.forEach(item => {
@@ -435,6 +464,7 @@
     created () {
       this.getCustomersList()
       this.getAllGoodsList()
+      this.getAllProviderList()
       if (this.params.orderDetail) { // 编辑
         this.addForm = JSON.parse(JSON.stringify(this.params.orderDetail))
         this.getChanceList(this.params.orderDetail.customerId)
