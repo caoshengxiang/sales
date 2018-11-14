@@ -113,8 +113,9 @@
             <td class="td-text">
               <el-form-item prop="provider">
                 <el-select style="width: 100%" filterable clearable
+                           :disabled="(orderState===0 || addForm.chanceId && addForm.provider === providerId && providerId != null || params.fromChance)?true:false"
+                           @change="providerChangeHandle(addForm.provider)"
                            v-model.number="addForm.provider"
-                           @change="providerChange"
                            placeholder="请选择需求提供人">
                   <el-option v-for="item in allProviderList" :key="item.id" :label="item.name"
                              :value="item.id"></el-option>
@@ -174,6 +175,7 @@
           // orderSourceName: '',
           isRenew: false
         },
+        providerId: '',
         orderState: null,
         rules: {
           customerId: [
@@ -321,7 +323,8 @@
 
             this.addForm.contacter = item.contacter
             this.addForm.contactPhone = item.contactPhone
-
+            this.addForm.provider = item.provider
+            this.providerId = item.provider
             // 清除规格
             this.addForm.specificationId = ''
             this.addForm.specificationName = ''
@@ -335,9 +338,12 @@
             this.orderSourceArr = item.chanceSource.split('-') // 获取机会对应来源
             this.addForm.orderSource = item.chanceSource
             this.addForm.orderSourceName = item.chanceSourceName || '' // 获取机会对应来源
-            this.getAllProvider()
           }
         })
+      },
+      providerChangeHandle (e) {
+          console.log(e)
+          console.log(this.addForm.provider)
       },
       goodSelectChange (id) { // 直接选择商品获取名称
         this.allGoodsList.forEach(item => {
@@ -356,12 +362,6 @@
         // 对应的签约主体
         this.getContractSubjects(id)
       },
-      getAllProvider () { // 直接选择商品获取名称
-        API.common.getProviderByChance({id: this.addForm.chanceId}, data => {
-          console.log(data)
-          this.addForm.provider = data.data.id
-        })
-      },
       specificationChange () { // 规格change
         this.productsList.forEach(item => {
           if (item.objectId === this.addForm.specificationId) {
@@ -379,6 +379,7 @@
           contacterId: '',
           chanceId: '',
           productId: '',
+          provider: '',
           productName: '',
           specificationId: '',
           specificationName: '',
