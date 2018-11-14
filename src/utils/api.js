@@ -1944,6 +1944,15 @@ export default {
         error && error(err)
       })
     },
+    getcommission (params, success, error) {
+      $axios.get('foster/sales/fosterPerson/getcommission', {
+        params: params,
+      }).then(res => {
+        success && success(res.data)
+      }).catch(err => {
+        error && error(err)
+      })
+    },
     type (params, success, error) {
       $axios.get('foster/fosterPerson/getViews', {
         params: params,
