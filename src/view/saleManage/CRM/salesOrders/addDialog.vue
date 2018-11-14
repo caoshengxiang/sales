@@ -113,7 +113,7 @@
             <td class="td-text">
               <el-form-item prop="provider">
                 <el-select style="width: 100%" filterable clearable
-                           :disabled="(orderState===0 || addForm.chanceId && addForm.provider === providerId && providerId != null || params.fromChance)?true:false"
+                           :disabled="(orderState===0 || addForm.chanceId || params.fromChance)?true:false"
                            v-model.number="addForm.provider"
                            placeholder="请选择需求提供人">
                   <el-option v-for="item in allProviderList" :key="item.id" :label="item.name"
@@ -174,7 +174,6 @@
           // orderSourceName: '',
           isRenew: false
         },
-        providerId: '',
         orderState: null,
         rules: {
           customerId: [
@@ -320,7 +319,6 @@
             this.addForm.contacter = item.contacter
             this.addForm.contactPhone = item.contactPhone
             this.addForm.provider = item.provider
-            this.providerId = item.provider
             // 清除规格
             this.addForm.specificationId = ''
             this.addForm.specificationName = ''
