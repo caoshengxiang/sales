@@ -113,10 +113,10 @@
       return {
         total: 0,
         options: [
-          {
+          /* {
             value: null,
             label: '全部任务',
-          }, {
+          }, */{
             value: 1,
             label: '我待办的审核',
           }, {
