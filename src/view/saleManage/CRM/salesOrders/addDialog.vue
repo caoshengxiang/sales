@@ -114,7 +114,6 @@
               <el-form-item prop="provider">
                 <el-select style="width: 100%" filterable clearable
                            :disabled="(orderState===0 || addForm.chanceId && addForm.provider === providerId && providerId != null || params.fromChance)?true:false"
-                           @change="providerChangeHandle(addForm.provider)"
                            v-model.number="addForm.provider"
                            placeholder="请选择需求提供人">
                   <el-option v-for="item in allProviderList" :key="item.id" :label="item.name"
@@ -184,18 +183,12 @@
           contacterId: [
             {required: true, message: '请选择签单联系人', trigger: 'change'},
           ],
-          provinceId: [
-            {required: true, message: '地区字段不能为空', trigger: 'change'},
-          ],
           // chanceId: [
           //   {required: true, message: '请选择关联销售机会', trigger: 'change'},
           // ],
           // productId: [
           //   {required: true, message: '请选择购买商品', trigger: 'change'},
           // ],
-          provider: [
-             {required: true, message: '请选择需求提供人', trigger: 'change'},
-           ],
           specificationId: [
             {required: true, message: '请选择购买规格', trigger: 'change'},
           ],
@@ -207,6 +200,9 @@
           ],
           remark: [
             // {required: true, message: '请输入备注', trigger: 'blur'},
+          ],
+          provider: [
+            {required: true, message: '请选择需求提供人', trigger: 'change'},
           ],
         },
         orderSourceType: [], // 客户来源
@@ -340,10 +336,6 @@
             this.addForm.orderSourceName = item.chanceSourceName || '' // 获取机会对应来源
           }
         })
-      },
-      providerChangeHandle (e) {
-          console.log(e)
-          console.log(this.addForm.provider)
       },
       goodSelectChange (id) { // 直接选择商品获取名称
         this.allGoodsList.forEach(item => {
