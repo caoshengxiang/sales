@@ -195,7 +195,7 @@
             width="160"
           >
             <template slot-scope="scope">
-              <a class="col-link" @click="saleCommission(scope.row,1)">{{ scope.row.saleCommission }}</a><!--todo 确认字段名-->
+              <a class="col-link" @click="saleCommission(scope.row,1)">{{ scope.row.totalAmount }}</a>
             </template>
           </el-table-column>
           <el-table-column
@@ -210,94 +210,6 @@
             </template>
           </el-table-column>
         </el-table-column>
-
- <!--       <el-table-column
-          align="center"
-          label="签约金额"
-          width="100"
-          sortable="custom"
-          prop="contractSubjectAmount"
-          show-overflow-tooltip
-        >
-        </el-table-column>
-
-        <el-table-column
-          align="center"
-          sortable="custom"
-          prop="serviceSubjectName"
-          label="服务主体"
-          width="100"
-          show-overflow-tooltip
-        >
-        </el-table-column>
-        <el-table-column
-          align="center"
-          label="销售佣金"
-        >
-          <el-table-column
-            align="center"
-            prop="saleCommission"
-            sortable="custom"
-            width="100"
-            label="销售佣金"
-          >
-            <template slot-scope="scope">
-              <a class="col-link" @click="saleCommission(scope.row,1)">{{ scope.row.saleCommission }}</a>
-            </template>
-          </el-table-column>
-
-          <el-table-column
-            align="center"
-            label="管理佣金"
-          >
-            <template slot-scope="scope">
-              <a class="col-link" @click="saleCommission(scope.row,2)">{{ scope.row.managementCommission }}</a>
-            </template>
-          </el-table-column>
-        </el-table-column>
-        <el-table-column
-          align="center"
-          label="服务佣金"
-        >
-          <el-table-column
-            align="center"
-            label="服务佣金"
-            width="100"
-            prop="serviceCommission"
-            sortable="custom"
-          >
-            <template slot-scope="scope">
-              <a class="col-link" @click="saleCommission(scope.row,3)">{{ scope.row.serviceCommission }}</a>
-            </template>
-          </el-table-column>
-          <el-table-column
-            align="center"
-            label="服务奖励"
-          >
-            <template slot-scope="scope">
-              <a class="col-link" @click="saleCommission(scope.row,4)">{{ scope.row.serviceReward }}</a>
-            </template>
-          </el-table-column>
-          <el-table-column
-            align="center"
-            label="服务补贴"
-          >
-            <template slot-scope="scope">
-              <a class="col-link" @click="saleCommission(scope.row,5)">{{ scope.row.serviceAllowance }}</a>
-            </template>
-          </el-table-column>
-        </el-table-column>
-        <el-table-column
-          align="center"
-          label="结算审核时间"
-          prop="auditDate"
-          width="150"
-          sortable="custom"
-          show-overflow-tooltip>
-          <template slot-scope="scope">
-            <span>{{ scope.row.auditDate && $moment(scope.row.auditDate).format('YYYY-MM-DD HH:mm:ss')}}</span>
-          </template>
-        </el-table-column>-->
       </el-table>
     </div>
     <!--分页-->
@@ -351,29 +263,7 @@
           },
         ],
         organizationOptions: [],
-        tableData: [
-          {
-            customerName: '成都凡特塞科技有限公司',
-            businessLicense: '',
-            date: '2016-05-03',
-            name: '王小虎',
-            address: '上海市普陀区金沙江路 1518 弄',
-            status: 1,
-          }, {
-            customerName: '成都凡特塞科技有限公司',
-            businessLicense: '',
-            date: '2016-05-03',
-            name: '王小虎',
-            address: '上海市普陀区金沙江路 1518 弄',
-            status: 2,
-          }, {
-            customerName: '成都凡特塞科技有限公司',
-            businessLicense: '',
-            date: '2016-05-03',
-            name: '王小虎',
-            address: '上海市普陀区金沙江路 1518 弄',
-            status: 3,
-          }],
+        tableData: [],
         multipleSelection: [],
         currentPage: 1,
         searchForm: {
@@ -465,10 +355,10 @@
           return
         }
 
+        this.$confirm('确认审核?', '提示', {
+          type: 'warning',
+        }).then(() => {
         API.financial.audit({ids: that.multipleSelection.map(item => item.id).join()}, (res) => {
-          this.$confirm('确认审核?', '提示', {
-            type: 'warning',
-          }).then(() => {
             that.loading = false
             if (res.status) {
               that.$message({
@@ -476,18 +366,7 @@
                 message: '审核成功!',
               })
               that.getCommissionClear()
-            } else {
-              that.$message({
-                message: res.error.message,
-                type: 'error',
-              })
             }
-          }, (mock) => {
-            that.loading = false
-            that.$message({
-              message: '系统繁忙，请稍后再试！',
-              type: 'error',
-            })
           })
         }).catch(() => {})
       },
