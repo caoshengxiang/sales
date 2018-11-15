@@ -144,7 +144,7 @@
         <el-table-column
           align="center"
           prop="totalAmount"
-          label="营销副总"
+          label="销售副总"
           show-overflow-tooltip>
           <template slot-scope="scope">
             {{ scope.row.vpAmount }}({{ scope.row.vpPeriod }}/{{ scope.row.vpPeriodTotal }}期)
@@ -152,7 +152,7 @@
         </el-table-column>
         <el-table-column
           align="center"
-          label="营销总监"
+          label="销售总监"
           show-overflow-tooltip>
           <template slot-scope="scope">
             {{ scope.row.zoneDirectorAmount }}({{ scope.row.zoneDirectorPeriod }}/{{ scope.row.zoneDirectorPeriodTotal
@@ -161,7 +161,7 @@
         </el-table-column>
         <el-table-column
           align="center"
-          label="营销经理"
+          label="销售经理"
           show-overflow-tooltip>
           <template slot-scope="scope">
             {{ scope.row.regionalManagerAmount }}({{ scope.row.regionalManagerPeriod }}/{{
