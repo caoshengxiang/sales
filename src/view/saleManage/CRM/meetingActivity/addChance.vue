@@ -254,6 +254,9 @@
           chanceSeaId: [
             {required: true, message: '请选择机会公海', trigger: 'change'},
           ],
+          provider: [
+            {required: true, message: '请选择需求提供人', trigger: 'change'},
+          ],
         },
         chanceSourceType: [], // 客户来源
         chanceSourceArr: [],
