@@ -115,9 +115,9 @@
           prop="serviceCommission"
           sortable="custom"
         >
-          <template slot-scope="scope">
-            <a class="col-link">{{ scope.row.serviceCommission }}</a>
-          </template>
+          <!--<template slot-scope="scope">-->
+            <!--<a class="col-link">{{ scope.row.serviceCommission }}</a>-->
+          <!--</template>-->
         </el-table-column>
         <el-table-column
           align="center"
