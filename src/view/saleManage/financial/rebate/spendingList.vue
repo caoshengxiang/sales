@@ -62,7 +62,7 @@
           align="center"
           label="实返金额"
           width="120"
-          prop=""
+          prop="actualAmount"
           sortable="custom"
           show-overflow-tooltip>
           <!--<template slot-scope="scope">-->
@@ -87,7 +87,7 @@
           label="销售佣金"
         >
           <template slot-scope="scope">
-            <a class="col-link" @click="saleCommission(scope.row.id)">{{ scope.row.totalAmount }}</a>
+            <a class="col-link" @click="saleCommission(scope.row)">{{ scope.row.saleCommission }}</a>
           </template>
         </el-table-column>
         <el-table-column
@@ -104,19 +104,19 @@
         <el-table-column
           align="center"
           label="合计应返"
-          prop=""
+          prop="totalAmount"
         >
         </el-table-column>
         <el-table-column
           align="center"
           label="服务押金扣款"
-          prop=""
+          prop="bailAmountDeduction"
         >
         </el-table-column>
         <el-table-column
           align="center"
           label="服务押金"
-          prop=""
+          prop="bailAmount"
         >
         </el-table-column>
         <el-table-column
@@ -153,7 +153,7 @@
   import comButton from '../../../../components/button/comButton'
   import API from '../../../../utils/api'
   import { underscoreName, arrToStr } from '../../../../utils/utils'
-  import detailList from './detailList'
+  import spendingDetail from '../../../companyManage/financial/commissionExpense/spendingDetail'
 
   export default {
     name: 'list',
@@ -169,7 +169,7 @@
         },
         sortObj: {sort: 'created,desc'}, // 排序
         advancedSearch: null, // 高级搜索
-        paymentStateData: [
+        paymentState: [
           {
             type: 1,
             value: '待审核',
@@ -262,15 +262,16 @@
         //   })
         // },
       },
-      saleCommission (id) {
-        this.$vDialog.modal(detailList, {
-          title: '销售返佣详情',
-          width: 1100,
-          height: 660,
+      saleCommission (row) {
+        var that = this
+        that.$vDialog.modal(spendingDetail, {
+          title: '管理佣金返佣详情',
+          width: 1024,
+          height: 800,
           params: {
-            id: id,
+            id: row.id,
           },
-          callback: (data) => {
+          callback: function (data) {
           },
         })
       },
