@@ -64,151 +64,147 @@
           sortable="custom"
           show-overflow-tooltip>
         </el-table-column>
-
         <el-table-column
+          width="80"
           align="center"
-          label="订单信息"
+          label="结算状态"
+          show-overflow-tooltip
         >
-          <el-table-column
-            width="80"
-            align="center"
-            label="结算状态"
-            show-overflow-tooltip
-          >
-            <template slot-scope="scope">
+          <template slot-scope="scope">
             <span v-for="item in clearState" :key="item.type"
                   v-if="scope.row.clearState === item.type">{{item.value}}</span>
-            </template>
-          </el-table-column>
-          <el-table-column
-            align="center"
-            prop="customerName"
-            label="订单客户"
-            width="160"
-            sortable="custom"
-            show-overflow-tooltip>
-          </el-table-column>
-          <el-table-column
-            align="center"
-            prop="productName"
-            label="销售商品"
-            sortable="custom"
-            width="160"
-            show-overflow-tooltip
-          >
-          </el-table-column>
-          <el-table-column
-            align="center"
-            sortable="custom"
-            prop="paymentName"
-            label="款项名称"
-            width="160"
-            show-overflow-tooltip
-          >
-          </el-table-column>
-          <el-table-column
-            align="center"
-            sortable="custom"
-            prop="netReceipts"
-            label="回款金额"
-            width="100"
-            show-overflow-tooltip
-          >
-          </el-table-column>
-          <el-table-column
-            align="center"
-            sortable="custom"
-            prop="orderType"
-            label="签单类型"
-            width="100"
-            show-overflow-tooltip
-          >
-          </el-table-column>
-          <el-table-column
-            align="center"
-            sortable="custom"
-            prop="isRenewState"
-            label="是否续费"
-            width="100"
-            show-overflow-tooltip
-          >
-          </el-table-column>
-          <el-table-column
-            align="center"
-            sortable="custom"
-            prop="renewTimes"
-            label="续费次数"
-            width="100"
-            show-overflow-tooltip
-          >
-          </el-table-column>
-          <el-table-column
-            align="center"
-            label="回款审核时间"
-            prop="refundAuditTime"
-            sortable="custom"
-            width="150"
-            show-overflow-tooltip>
-            <template slot-scope="scope">
-              <span>{{ scope.row.refundAuditTime && $moment(scope.row.refundAuditTime).format('YYYY-MM-DD HH:mm:ss')}}</span>
-            </template>
-          </el-table-column>
+          </template>
         </el-table-column>
         <el-table-column
           align="center"
-          label="结算信息"
+          prop="customerName"
+          label="客户"
+          width="160"
+          sortable="custom"
+          show-overflow-tooltip>
+        </el-table-column>
+        <el-table-column
+          align="center"
+          prop="totalAmount"
+          sortable="custom"
+          label="合计返佣"
+          width="160"
+        >
+          <template slot-scope="scope">
+            <a class="col-link" @click="saleCommission(scope.row,1)">{{ scope.row.totalAmount }}</a>
+          </template>
+        </el-table-column>
+        <el-table-column
+          align="center"
+          prop="productName"
+          label="销售商品"
+          sortable="custom"
+          width="160"
           show-overflow-tooltip
         >
-          <el-table-column
-            align="center"
-            sortable="custom"
-            prop="saleSubjectName"
-            label="销售主体"
-            width="170"
-            show-overflow-tooltip
-          >
-          </el-table-column>
-          <el-table-column
-            align="center"
-            label="签约主体（结算对象）"
-            sortable="custom"
-            width="170"
-            prop="contractSubjectName"
-            show-overflow-tooltip
-          >
-          </el-table-column>
-          <el-table-column
-            align="center"
-            sortable="custom"
-            prop="rebateSubjectName"
-            label="返佣主体（结算主体）"
-            width="170"
-            show-overflow-tooltip
-          >
-          </el-table-column>
-
-          <el-table-column
-            align="center"
-            prop="totalAmount"
-            sortable="custom"
-            label="销售合计返佣"
-            width="160"
-          >
-            <template slot-scope="scope">
-              <a class="col-link" @click="saleCommission(scope.row,1)">{{ scope.row.totalAmount }}</a>
-            </template>
-          </el-table-column>
-          <el-table-column
-            align="center"
-            label="结算生成时间"
-            prop="created"
-            width="150"
-            sortable="custom"
-            show-overflow-tooltip>
-            <template slot-scope="scope">
-              <span>{{ scope.row.created && $moment(scope.row.created).format('YYYY-MM-DD HH:mm:ss')}}</span>
-            </template>
-          </el-table-column>
+        </el-table-column>
+        <el-table-column
+          align="center"
+          sortable="custom"
+          prop="paymentName"
+          label="款项名称"
+          width="160"
+          show-overflow-tooltip
+        >
+        </el-table-column>
+        <el-table-column
+          align="center"
+          sortable="custom"
+          prop="netReceipts"
+          label="回款金额"
+          width="100"
+          show-overflow-tooltip
+        >
+        </el-table-column>
+        <el-table-column
+          align="center"
+          sortable="custom"
+          prop="orderSource"
+          label="来源渠道"
+          width="100"
+          show-overflow-tooltip
+        >
+        </el-table-column>
+        <el-table-column
+          align="center"
+          sortable="custom"
+          prop="orderType"
+          label="签单类型"
+          width="100"
+          show-overflow-tooltip
+        >
+        </el-table-column>
+        <el-table-column
+          align="center"
+          sortable="custom"
+          prop="isRenewState"
+          label="是否续费"
+          width="100"
+          show-overflow-tooltip
+        >
+        </el-table-column>
+        <el-table-column
+          align="center"
+          sortable="custom"
+          prop="renewTimes"
+          label="续费次数"
+          width="100"
+          show-overflow-tooltip
+        >
+        </el-table-column>
+        <el-table-column
+          align="center"
+          label="回款审核时间"
+          prop="refundAuditTime"
+          sortable="custom"
+          width="150"
+          show-overflow-tooltip>
+          <template slot-scope="scope">
+            <span>{{ scope.row.refundAuditTime && $moment(scope.row.refundAuditTime).format('YYYY-MM-DD HH:mm:ss')}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column
+          align="center"
+          sortable="custom"
+          prop="saleSubjectName"
+          label="销售主体"
+          width="170"
+          show-overflow-tooltip
+        >
+        </el-table-column>
+        <el-table-column
+          align="center"
+          label="签约主体（结算对象）"
+          sortable="custom"
+          width="170"
+          prop="contractSubjectName"
+          show-overflow-tooltip
+        >
+        </el-table-column>
+        <el-table-column
+          align="center"
+          sortable="custom"
+          prop="rebateSubjectName"
+          label="返佣主体（结算主体）"
+          width="170"
+          show-overflow-tooltip
+        >
+        </el-table-column>
+        <el-table-column
+          align="center"
+          label="结算生成时间"
+          prop="created"
+          width="150"
+          sortable="custom"
+          show-overflow-tooltip>
+          <template slot-scope="scope">
+            <span>{{ scope.row.created && $moment(scope.row.created).format('YYYY-MM-DD HH:mm:ss')}}</span>
+          </template>
         </el-table-column>
       </el-table>
     </div>
@@ -233,10 +229,10 @@
   import comButton from '../../../../components/button/comButton'
   import API from '../../../../utils/api'
   import commissionDetail from './commissionDetail'
-  import serviceCommission from './serviceCommission'
-  import managementCommission from './managementCommission'
-  import serviceReward from './serviceReward'
-  import serviceAllowance from './serviceAllowance'
+  // import serviceCommission from './serviceCommission'
+  // import managementCommission from './managementCommission'
+  // import serviceReward from './serviceReward'
+  // import serviceAllowance from './serviceAllowance'
   import advancedSearch from '../advancedSearch'
   import { underscoreName } from '../../../../utils/utils'
   import QS from 'qs'
@@ -281,11 +277,6 @@
     },
     components: {
       comButton,
-      commissionDetail,
-      serviceCommission,
-      managementCommission,
-      serviceReward,
-      serviceAllowance,
       advancedSearch,
     },
     created () {
@@ -377,7 +368,7 @@
         var that = this
         if (type === 1) {
           that.openSaleCommission(row.id)
-        } else if (type === 2) {
+        } /* else if (type === 2) {
           that.openManagementCommission(row.id)
         } else if (type === 3) {
           that.openServiceCommission(row.id)
@@ -385,60 +376,60 @@
           that.openServiceReward(row.id)
         } else if (type === 5) {
           that.openServiceAllowance(row.id)
-        }
+        } */
       },
-      openManagementCommission (id) {
-        var that = this
-        that.$vDialog.modal(managementCommission, {
-          title: '管理佣金返佣详情',
-          width: 1500,
-          height: 800,
-          params: {
-            id: id,
-          },
-          callback: function (data) {
-          },
-        })
-      },
-      openServiceAllowance (id) {
-        var that = this
-        that.$vDialog.modal(serviceAllowance, {
-          title: '服务补贴返佣详情',
-          width: 1500,
-          height: 800,
-          params: {
-            id: id,
-          },
-          callback: function (data) {
-          },
-        })
-      },
-      openServiceCommission (id) {
-        var that = this
-        that.$vDialog.modal(serviceCommission, {
-          title: '服务佣金返佣详情',
-          width: 1500,
-          height: 800,
-          params: {
-            id: id,
-          },
-          callback: function (data) {
-          },
-        })
-      },
-      openServiceReward (id) {
-        var that = this
-        that.$vDialog.modal(serviceReward, {
-          title: '服务奖励返佣详情',
-          width: 1500,
-          height: 800,
-          params: {
-            id: id,
-          },
-          callback: function (data) {
-          },
-        })
-      },
+      // openManagementCommission (id) {
+      //   var that = this
+      //   that.$vDialog.modal(managementCommission, {
+      //     title: '管理佣金返佣详情',
+      //     width: 1500,
+      //     height: 800,
+      //     params: {
+      //       id: id,
+      //     },
+      //     callback: function (data) {
+      //     },
+      //   })
+      // },
+      // openServiceAllowance (id) {
+      //   var that = this
+      //   that.$vDialog.modal(serviceAllowance, {
+      //     title: '服务补贴返佣详情',
+      //     width: 1500,
+      //     height: 800,
+      //     params: {
+      //       id: id,
+      //     },
+      //     callback: function (data) {
+      //     },
+      //   })
+      // },
+      // openServiceCommission (id) {
+      //   var that = this
+      //   that.$vDialog.modal(serviceCommission, {
+      //     title: '服务佣金返佣详情',
+      //     width: 1500,
+      //     height: 800,
+      //     params: {
+      //       id: id,
+      //     },
+      //     callback: function (data) {
+      //     },
+      //   })
+      // },
+      // openServiceReward (id) {
+      //   var that = this
+      //   that.$vDialog.modal(serviceReward, {
+      //     title: '服务奖励返佣详情',
+      //     width: 1500,
+      //     height: 800,
+      //     params: {
+      //       id: id,
+      //     },
+      //     callback: function (data) {
+      //     },
+      //   })
+      // },
       openSaleCommission (id) {
         var that = this
         that.$vDialog.modal(commissionDetail, {

@@ -41,49 +41,63 @@
           width="40">
         </el-table-column>
         <el-table-column
-          fixed
           align="center"
-          label="返佣月度"
           prop="paymentMonth"
-          show-overflow-tooltip
-        >
+          label="返佣月度"
+          sortable="custom"
+          show-overflow-tooltip>
         </el-table-column>
+
         <el-table-column
           align="center"
           prop="rebateUserName"
           label="返佣对象"
-          show-overflow-tooltip
-        >
-        </el-table-column>
-
-        <el-table-column
-          align="center"
-          prop="totalAmount"
-          label="实返金额"
-          show-overflow-tooltip>
-        </el-table-column>
-
-        <el-table-column
-          align="center"
-          prop="paymentState"
-          label="佣金状态"
           show-overflow-tooltip>
           <template slot-scope="scope">
-            <span v-for="(item, index) in paymentStateData" :key="item.type+index" v-if="item.type === scope.row.paymentState">{{item.value}}</span>
+            <span>{{ scope.row.rebateUserName }}[{{ scope.row.mobilePhone }}]</span>
+          </template>
+        </el-table-column>
+
+        <el-table-column
+          align="center"
+          label="实返金额"
+          width="120"
+          prop=""
+          sortable="custom"
+          show-overflow-tooltip>
+          <!--<template slot-scope="scope">-->
+          <!--<a class="col-link" @click="saleCommission(scope.row)">{{ scope.row.totalAmount }}</a>-->
+          <!--</template>-->
+        </el-table-column>
+
+        <el-table-column
+          align="center"
+          label="佣金状态"
+        >
+          <template slot-scope="scope">
+            <span v-for="(item, index) in paymentState" :key="index"
+                  v-if="scope.row.paymentState === item.type">{{item.value}}</span>
           </template>
         </el-table-column>
 
         <el-table-column
           align="center"
           prop="saleCommission"
+          sortable="custom"
+          width="100"
           label="销售佣金"
         >
+          <template slot-scope="scope">
+            <a class="col-link" @click="saleCommission(scope.row.id)">{{ scope.row.totalAmount }}</a>
+          </template>
           <template slot-scope="scope">
             <a class="col-link" @click="showDetailList(scope.row.id)">{{ scope.row.saleCommission }}</a>
           </template>
         </el-table-column>
         <el-table-column
           align="center"
+          label="服务佣金"
+          width="100"
           prop="serviceCommission"
           label="服务佣金"
         >
@@ -252,9 +266,9 @@
         //   })
         // },
       },
-      showDetailList (id) {
+      saleCommission (id) {
         this.$vDialog.modal(detailList, {
-          title: '佣金详情',
+          title: '销售返佣详情',
           width: 1100,
           height: 660,
           params: {

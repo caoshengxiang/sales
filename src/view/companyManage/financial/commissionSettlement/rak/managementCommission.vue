@@ -25,12 +25,12 @@
 
         <el-table-column
           align="center"
-          label="佣金补贴类型"
+          label="管理佣金类型"
         >
 
           <el-table-column
             align="center"
-            label="外勤管理"
+            label="营销副总"
           >
 
             <el-table-column
@@ -58,7 +58,7 @@
 
           <el-table-column
             align="center"
-            label="财务管理"
+            label="大区总监"
           >
 
             <el-table-column
@@ -86,7 +86,7 @@
 
           <el-table-column
             align="center"
-            label="税务管家"
+            label="区域经理"
           >
 
             <el-table-column
@@ -115,7 +115,7 @@
 
           <el-table-column
             align="center"
-            label="内控管家"
+            label="销售助理"
           >
 
             <el-table-column
@@ -144,7 +144,7 @@
 
           <el-table-column
             align="center"
-            label="金融管家"
+            label="培训师"
           >
 
             <el-table-column
@@ -178,8 +178,8 @@
 </template>
 
 <script>
-  import comButton from '../../../../components/button/comButton'
-  import API from '../../../../utils/api'
+  import comButton from '../../../../../components/button/comButton'
+  import API from '../../../../../utils/api'
   import { mapState } from 'vuex'
 
   export default {
@@ -209,7 +209,7 @@
       var that = this
       let param = {
         clearId: that.params.id,
-        type: 5,
+        type: 2,
       }
       API.financial.detail(param, (res) => {
         that.loading = false
@@ -234,5 +234,5 @@
 </script>
 
 <style scoped lang="scss" rel="stylesheet/scss">
-  @import "../../../../styles/common";
+  @import "../../../../../styles/common";
 </style>

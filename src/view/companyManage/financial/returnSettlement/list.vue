@@ -118,6 +118,15 @@
           <el-table-column
             align="center"
             sortable="custom"
+            prop="orderSource"
+            label="来源渠道"
+            width="100"
+            show-overflow-tooltip
+          >
+          </el-table-column>
+          <el-table-column
+            align="center"
+            sortable="custom"
             prop="orderType"
             label="签单类型"
             width="100"
@@ -208,7 +217,7 @@
           </el-table-column>
           <el-table-column
             align="center"
-            label="是否成返佣"
+            label="是否生成返佣"
             width="110"
             sortable="custom"
             prop="generateCommission"
