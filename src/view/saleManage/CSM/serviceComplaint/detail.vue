@@ -58,7 +58,7 @@
           <el-steps :active="detail.state - 1" align-center>
             <!--<el-step @click.native="stepClickHandle(item)" v-for="(item, index) in complaintState" :key="index"-->
             <!--:title="item.value"></el-step>-->
-            <el-step title="更进中"></el-step>
+            <el-step title="跟进中"></el-step>
             <el-step title="待处理"></el-step>
             <el-step title="待回访"></el-step>
             <el-step title="升级跟进中"></el-step>
@@ -204,7 +204,7 @@
           {value: '跟进中'},
           {value: '待处理'},
           {value: '待回访'},
-          {value: '升级更进中'},
+          {value: '升级跟进中'},
           {value: '升级待处理'},
           {value: '已完成'},
         ],

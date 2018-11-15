@@ -44,10 +44,10 @@
           <td class="td-title">操作</td>
           <td colspan="7">
             <!--<com-button buttonType="backHighSeas" @click="auditTaskYes"-->
-                        <!--v-if="detailInfo.state === 1 && detailInfo.principalId === userInfo.id">审核通过-->
+            <!--v-if="detailInfo.state === 1 && detailInfo.principalId === userInfo.id">审核通过-->
             <!--</com-button>-->
             <!--<com-button buttonType="grey" @click="auditTaskNo"-->
-                        <!--v-if="detailInfo.state === 1 && detailInfo.principalId === userInfo.id">审核拒绝-->
+            <!--v-if="detailInfo.state === 1 && detailInfo.principalId === userInfo.id">审核拒绝-->
             <!--</com-button>-->
             <com-button buttonType="backHighSeas" @click="auditTaskYes"
                         v-if="detailInfo.state === 1">审核通过
@@ -188,7 +188,7 @@
               <td colspan="5">
                 <span>{{managerDetail.idCard}}</span>
                 <photo-view v-if="managerDetail.identityCardPhoto"
-                  :photo-data="{
+                            :photo-data="{
                 text: '身份证查看大图',
                 images: [
                   {url: managerDetail.identityCardPhoto, previewText: ''},
@@ -229,7 +229,7 @@
               <td class="td-title">职称证明</td>
               <td>
                 <photo-view v-if="managerDetail.jobTitleCertificate"
-                  :photo-data="{
+                            :photo-data="{
                 text: '查看大图',
                 images: [
                   {url: managerDetail.jobTitleCertificate, previewText: ''},
@@ -240,7 +240,7 @@
               <td class="td-title">学历证明</td>
               <td>
                 <photo-view v-if="managerDetail.educationCertificate"
-                  :photo-data="{
+                            :photo-data="{
                 text: '查看大图',
                 images: [
                   {url: managerDetail.educationCertificate, previewText: ''},
@@ -251,7 +251,7 @@
               <td class="td-title">资质证明</td>
               <td>
                 <photo-view v-if="managerDetail.qualificationCertificate"
-                  :photo-data="{
+                            :photo-data="{
                 text: '查看大图',
                 images: [
                   {url: managerDetail.qualificationCertificate, previewText: ''},
@@ -318,50 +318,50 @@
       </div>
       <!--团队成员-->
       <!--<div class="detail-right com-box-padding">-->
-        <!--&lt;!&ndash;<team-member :detail="salesOpportunitiesDetail"></team-member>&ndash;&gt;-->
+      <!--&lt;!&ndash;<team-member :detail="salesOpportunitiesDetail"></team-member>&ndash;&gt;-->
 
-        <!--<div class="team-title">-->
-          <!--<span class="title-text">团队成员</span>-->
-        <!--</div>-->
-        <!--<ul class="team-member">-->
-          <!--<li class="team-member-item">-->
-            <!--<div class="head">-->
-              <!--<img src="../../../../assets/icon/headDefault.png" alt="">-->
-            <!--</div>-->
-            <!--<div class="text">-->
-              <!--<h4>{{salesOpportunitiesDetail.team && salesOpportunitiesDetail.team.creatorName}}</h4>-->
-              <!--&lt;!&ndash;<p>{{salesOpportunitiesDetail.team && salesOpportunitiesDetail.team.creatorMobilePhone}}</p>&ndash;&gt;-->
-              <!--<p>******</p>-->
-            <!--</div>-->
-            <!--<div class="post">-->
-              <!--<span class="post-tag-1">创建人</span>-->
-            <!--</div>-->
-          <!--</li>-->
-          <!--<li class="team-member-item">-->
-            <!--<div class="head">-->
-              <!--<img src="../../../../assets/icon/headDefault.png" alt="">-->
-            <!--</div>-->
-            <!--<div class="text">-->
-              <!--<h4>{{salesOpportunitiesDetail.team && salesOpportunitiesDetail.team.salerName}}</h4>-->
-              <!--<p>{{salesOpportunitiesDetail.team && salesOpportunitiesDetail.team.salerMobilePhone}}</p>-->
-            <!--</div>-->
-            <!--<div class="post">-->
-              <!--<span class="post-tag-2">销售员</span>-->
-            <!--</div>-->
-          <!--</li>-->
-          <!--<li class="team-member-item">-->
-            <!--<div class="head">-->
-              <!--<img src="../../../../assets/icon/headDefault.png" alt="">-->
-            <!--</div>-->
-            <!--<div class="text">-->
-              <!--<h4>{{salesOpportunitiesDetail.team && salesOpportunitiesDetail.team.counselorName}}</h4>-->
-              <!--<p>{{salesOpportunitiesDetail.team && salesOpportunitiesDetail.team.counselorMobilePhone}}</p>-->
-            <!--</div>-->
-            <!--<div class="post">-->
-              <!--<span class="post-tag-2">咨询师</span>-->
-            <!--</div>-->
-          <!--</li>-->
-        <!--</ul>-->
+      <!--<div class="team-title">-->
+      <!--<span class="title-text">团队成员</span>-->
+      <!--</div>-->
+      <!--<ul class="team-member">-->
+      <!--<li class="team-member-item">-->
+      <!--<div class="head">-->
+      <!--<img src="../../../../assets/icon/headDefault.png" alt="">-->
+      <!--</div>-->
+      <!--<div class="text">-->
+      <!--<h4>{{salesOpportunitiesDetail.team && salesOpportunitiesDetail.team.creatorName}}</h4>-->
+      <!--&lt;!&ndash;<p>{{salesOpportunitiesDetail.team && salesOpportunitiesDetail.team.creatorMobilePhone}}</p>&ndash;&gt;-->
+      <!--<p>******</p>-->
+      <!--</div>-->
+      <!--<div class="post">-->
+      <!--<span class="post-tag-1">创建人</span>-->
+      <!--</div>-->
+      <!--</li>-->
+      <!--<li class="team-member-item">-->
+      <!--<div class="head">-->
+      <!--<img src="../../../../assets/icon/headDefault.png" alt="">-->
+      <!--</div>-->
+      <!--<div class="text">-->
+      <!--<h4>{{salesOpportunitiesDetail.team && salesOpportunitiesDetail.team.salerName}}</h4>-->
+      <!--<p>{{salesOpportunitiesDetail.team && salesOpportunitiesDetail.team.salerMobilePhone}}</p>-->
+      <!--</div>-->
+      <!--<div class="post">-->
+      <!--<span class="post-tag-2">销售员</span>-->
+      <!--</div>-->
+      <!--</li>-->
+      <!--<li class="team-member-item">-->
+      <!--<div class="head">-->
+      <!--<img src="../../../../assets/icon/headDefault.png" alt="">-->
+      <!--</div>-->
+      <!--<div class="text">-->
+      <!--<h4>{{salesOpportunitiesDetail.team && salesOpportunitiesDetail.team.counselorName}}</h4>-->
+      <!--<p>{{salesOpportunitiesDetail.team && salesOpportunitiesDetail.team.counselorMobilePhone}}</p>-->
+      <!--</div>-->
+      <!--<div class="post">-->
+      <!--<span class="post-tag-2">咨询师</span>-->
+      <!--</div>-->
+      <!--</li>-->
+      <!--</ul>-->
       <!--</div>-->
     </div>
   </div>
@@ -383,7 +383,7 @@
         salesOpportunitiesDetail: {},
         customerDetail: {},
         userInfo: {},
-        managerDetail: {}
+        managerDetail: {},
       }
     },
     computed: {
@@ -468,17 +468,25 @@
           approved: state === 2,
           opinion: '',
         }
-        API.task.auditTask(param, (res) => {
-          this.loading = false
-          if (res.status) {
-            this.getTaskDetail()
-            this.$message.success('审核成功')
-          } else {
-            this.$message.success(res.error.message)
-          }
-        }, (mock) => {
-          that.loading = false
-          this.$message.success('系统繁忙')
+        this.$prompt('请输入审核意见', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+        }).then(({value}) => {
+          param.opinion = value
+          API.task.auditTask(param, (res) => {
+            this.loading = false
+            if (res.status) {
+              this.getTaskDetail()
+              this.$message.success('审核成功')
+            } else {
+              this.$message.success(res.error.message)
+            }
+          })
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '取消输入',
+          })
         })
       },
     },

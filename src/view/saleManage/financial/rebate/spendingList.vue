@@ -66,34 +66,59 @@
         <el-table-column
           align="center"
           prop="paymentState"
-          label="返佣状态"
+          label="佣金状态"
           show-overflow-tooltip>
           <template slot-scope="scope">
             <span v-for="(item, index) in paymentStateData" :key="item.type+index" v-if="item.type === scope.row.paymentState">{{item.value}}</span>
           </template>
         </el-table-column>
 
-        <!--<el-table-column-->
-          <!--align="center"-->
-          <!--prop="totalAmount"-->
-          <!--label="合计返佣金额"-->
-          <!--show-overflow-tooltip>-->
-          <!--<template slot-scope="scope">-->
-            <!--<a class="col-link" @click="showDetailList(scope.row.id)">{{ scope.row.totalAmount }}</a>-->
-          <!--</template>-->
-        <!--</el-table-column>-->
-
         <el-table-column
           align="center"
           prop="saleCommission"
           label="销售佣金"
         >
+          <template slot-scope="scope">
+            <a class="col-link" @click="showDetailList(scope.row.id)">{{ scope.row.saleCommission }}</a>
+          </template>
         </el-table-column>
         <el-table-column
           align="center"
           prop="serviceCommission"
           label="服务佣金"
         >
+          <!--<template slot-scope="scope">-->
+            <!--<a class="col-link">{{ scope.row.serviceCommission }}</a>-->
+          <!--</template>-->
+        </el-table-column>
+        <el-table-column
+          align="center"
+          label="合计应返"
+          prop="totalAmount"
+        >
+        </el-table-column>
+        <el-table-column
+          align="center"
+          label="服务押金扣款"
+          prop="bailAmountDeduction"
+        >
+        </el-table-column>
+        <el-table-column
+          align="center"
+          label="服务押金"
+          prop="bailAmount"
+        >
+        </el-table-column>
+        <el-table-column
+          align="center"
+          label="佣金生成日期"
+          prop="created"
+          width="150"
+          sortable="custom"
+          show-overflow-tooltip>
+          <template slot-scope="scope">
+            <span>{{ scope.row.created && $moment(scope.row.created).format('YYYY-MM-DD HH:mm:ss')}}</span>
+          </template>
         </el-table-column>
       </el-table>
     </div>

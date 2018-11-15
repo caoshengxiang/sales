@@ -102,7 +102,7 @@
           label="销售佣金"
         >
           <template slot-scope="scope">
-            <a class="col-link" @click="saleCommission(scope.row)">{{ scope.row.totalAmount }}</a>
+            <a class="col-link" @click="saleCommission(scope.row)">{{ scope.row.saleCommission }}</a>
           </template>
         </el-table-column>
         <el-table-column
@@ -112,9 +112,9 @@
           prop="serviceCommission"
           sortable="custom"
         >
-          <template slot-scope="scope">
-            <a class="col-link">{{ scope.row.serviceCommission }}</a>
-          </template>
+          <!--<template slot-scope="scope">-->
+            <!--<a class="col-link">{{ scope.row.serviceCommission }}</a>-->
+          <!--</template>-->
         </el-table-column>
         <el-table-column
           align="center"
@@ -331,7 +331,7 @@
       saleCommission (row) {
         var that = this
         that.$vDialog.modal(spendingDetail, {
-          title: '管理佣金返佣详情',
+          title: '销售返佣详情',
           width: 1024,
           height: 800,
           params: {
