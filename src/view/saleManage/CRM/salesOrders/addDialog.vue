@@ -23,7 +23,7 @@
                   <el-option v-for="item in contactList" :key="item.id" :label="item.contacterName"
                              :value="item.id"></el-option>
                 </el-select>
-                  <!--<el-input type="text" :disabled="true" :placeholder="'['+addForm.contacter+']'+addForm.contactPhone"></el-input>-->
+                <!--<el-input type="text" :disabled="true" :placeholder="'['+addForm.contacter+']'+addForm.contactPhone"></el-input>-->
               </el-form-item>
             </td>
           </tr>
@@ -84,18 +84,20 @@
             </td>
             <td class="td-title">地区</td>
             <td class="td-text">
-              <el-form-item prop="provinceId">
-              <AreaSelect ref="areaSe"
-                        :disabled="(orderState===0 || addForm.chanceId || params.fromChance)?true:false"
-                          :area="(addForm.provinceName?addForm.provinceName:'') + ' ' + (addForm.cityName?addForm.cityName:'')  + ' ' + (addForm.areaName?addForm.areaName:'')"
-                          @change="areaSelectedOptionsHandleChange"
-                          :selectLastLevelMode="true"></AreaSelect>
+              <el-form-item prop="areaId">
+                <span v-if="(orderState===0 || addForm.chanceId || params.fromChance)">{{(addForm.provinceName?addForm.provinceName:'') + ' ' + (addForm.cityName?addForm.cityName:'')  + ' ' + (addForm.areaName?addForm.areaName:'')}}</span>
+                <AreaSelect ref="areaSe"
+                            v-else
+                            :disabled="(orderState===0 || addForm.chanceId || params.fromChance)?true:false"
+                            :area="(addForm.provinceName?addForm.provinceName:'') + ' ' + (addForm.cityName?addForm.cityName:'')  + ' ' + (addForm.areaName?addForm.areaName:'')"
+                            @change="areaSelectedOptionsHandleChange"
+                            :selectLastLevelMode="true"></AreaSelect>
               </el-form-item>
             </td>
           </tr>
           <tr>
             <td class="td-title">订单来源</td>
-            <td class="td-text" >
+            <td class="td-text">
               <el-cascader
                 :disabled="(addForm.chanceId || params.fromChance)?true:false"
                 style="width: 100%"
@@ -172,7 +174,13 @@
           remark: '',
           orderSource: '',
           // orderSourceName: '',
-          isRenew: false
+          isRenew: false,
+          provinceId: '',
+          provinceName: '',
+          cityId: '',
+          areaId: '',
+          cityName: '',
+          areaName: '',
         },
         orderState: null,
         rules: {
@@ -188,6 +196,9 @@
           // productId: [
           //   {required: true, message: '请选择购买商品', trigger: 'change'},
           // ],
+          areaId: [
+            {required: true, message: '请选择三级地区', trigger: 'change'},
+          ],
           specificationId: [
             {required: true, message: '请选择购买规格', trigger: 'change'},
           ],
@@ -378,6 +389,12 @@
           remark: '',
           orderSource: this.orderSourceArr.join('-'),
           isRenew: this.params.orderDetail || false,
+          provinceId: this.addForm.provinceId,
+          cityId: this.addForm.cityId,
+          areaId: this.addForm.areaId,
+          provinceName: this.addForm.provinceName,
+          cityName: this.addForm.cityName,
+          areaName: this.addForm.areaName,
         }
       },
       getConfigData (type, pCode) {
