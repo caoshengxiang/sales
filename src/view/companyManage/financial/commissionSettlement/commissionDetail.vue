@@ -226,7 +226,6 @@
             align="center"
             label="直接培育人"
           >
-
             <el-table-column
               align="center"
               label="返佣对象"
