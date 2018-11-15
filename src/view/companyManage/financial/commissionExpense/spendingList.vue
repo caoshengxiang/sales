@@ -80,12 +80,9 @@
           align="center"
           label="实返金额"
           width="120"
-          prop=""
+          prop="actualAmount"
           sortable="custom"
           show-overflow-tooltip>
-          <!--<template slot-scope="scope">-->
-          <!--<a class="col-link" @click="saleCommission(scope.row)">{{ scope.row.totalAmount }}</a>-->
-          <!--</template>-->
         </el-table-column>
 
         <el-table-column
@@ -122,19 +119,19 @@
         <el-table-column
           align="center"
           label="合计应返"
-          prop=""
+          prop="totalAmount"
         >
         </el-table-column>
         <el-table-column
           align="center"
           label="服务押金扣款"
-          prop=""
+          prop="bailAmountDeduction"
         >
         </el-table-column>
         <el-table-column
           align="center"
           label="服务押金"
-          prop=""
+          prop="bailAmount"
         >
         </el-table-column>
         <el-table-column

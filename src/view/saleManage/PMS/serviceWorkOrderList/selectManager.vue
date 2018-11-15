@@ -5,7 +5,7 @@
                class="demo-ruleForm">
         <el-form-item label="请选择新的服务管家" prop="managerId">
           <el-select v-model="addForm.managerId" placeholder="请选择新的服务管家">
-            <el-option v-for="item in managerList" :key="item.id" :label="item.name" :value="item.id"></el-option>
+            <el-option v-for="item in managerList" :key="item.id" :label="item.name" :value="item.userId"></el-option>
           </el-select>
         </el-form-item>
       </el-form>
@@ -40,9 +40,16 @@
     },
     props: ['params'],
     methods: {
-      getManagerList (managerType) {
+      getManagerList () {
         API.serviceManager.assginOrderManagerList({
-          managerType: managerType,
+          managerType: this.workOrderDetail.managerType,
+          // orderId: this.workOrderDetail.orderId,
+          // goodsId: this.workOrderDetail.goodsId,
+          // excludeId: this.params.excludeId,
+          // provinceId: this.params.serviceOrderDetail.provinceId,
+          // cityId: this.params.serviceOrderDetail.cityId,
+          // areaId: this.params.serviceOrderDetail.areaId,
+          workState: 1,
         }, (res) => {
           this.managerList = res.data.content
         })
@@ -77,7 +84,7 @@
     created () {
       this.workOrderDetail = this.params.workOrder
       this.addForm.id = this.workOrderDetail.id
-      this.getManagerList(this.workOrderDetail.managerType)
+      this.getManagerList()
     },
   }
 </script>

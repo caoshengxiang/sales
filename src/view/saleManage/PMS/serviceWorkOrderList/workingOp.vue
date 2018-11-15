@@ -1,4 +1,8 @@
 <template>
+  <!--
+  我负责：绿色是已完成，红色待处理
+相关：绿色是已完成，灰色是其他人待处理
+  -->
   <div>
     <p class="table-title">我负责的服务内容</p>
     <table class="detail-table">
