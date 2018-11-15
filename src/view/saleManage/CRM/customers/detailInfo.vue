@@ -21,7 +21,9 @@
       <div class="com-info-left">
         <img class="com-info-img" src="../../../../assets/icon/company.png" alt="">
         <div class="com-info-text">
-          <h3>{{customerDetail.name}}</h3>
+          <h3>{{customerDetail.name}}
+            <span class="tap" style="border: 1px solid #ccc; font-size: 14px;padding: 2px 5px;position: relative;top: -3px;">
+              {{customerDetail.cate === 1 ? '个人' : '机构'}}</span> </h3>
           <p>
             <span class="com-d-item">客户所有人: <span>{{customerDetail.ownerName}}</span></span>
             <span class="com-d-item">所属公海: <span>{{customerDetail.seaName}}</span></span>
@@ -94,45 +96,45 @@
             <p class="table-title">客户操作记录</p>
             <table class="detail-table">
               <!--<tr>-->
-                <!--<td class="td-title">所在公海</td>-->
-                <!--<td colspan="2">{{customerDetail.seaName}}</td>-->
-                <!--<td class="td-title">客户状态</td>-->
-                <!--<td colspan="2">-->
-                   <!--<span v-for="item in customerState" :key="item.type"-->
-                         <!--v-if="item.type === customerDetail.state">{{item.value}}</span>-->
-                <!--</td>-->
+              <!--<td class="td-title">所在公海</td>-->
+              <!--<td colspan="2">{{customerDetail.seaName}}</td>-->
+              <!--<td class="td-title">客户状态</td>-->
+              <!--<td colspan="2">-->
+              <!--<span v-for="item in customerState" :key="item.type"-->
+              <!--v-if="item.type === customerDetail.state">{{item.value}}</span>-->
+              <!--</td>-->
               <!--</tr>-->
               <!--<tr>-->
-                <!--<td class="td-title">客户创建时间</td>-->
-                <!--<td colspan="2">-->
-                  <!--{{customerDetail.created &&-->
-                  <!--$moment(customerDetail.created).format('YYYY-MM-DD HH:mm:ss')}}-->
-                <!--</td>-->
-                <!--<td class="td-title">创建人</td>-->
-                <!--<td colspan="2">{{customerDetail.creatorName}}</td>-->
+              <!--<td class="td-title">客户创建时间</td>-->
+              <!--<td colspan="2">-->
+              <!--{{customerDetail.created &&-->
+              <!--$moment(customerDetail.created).format('YYYY-MM-DD HH:mm:ss')}}-->
+              <!--</td>-->
+              <!--<td class="td-title">创建人</td>-->
+              <!--<td colspan="2">{{customerDetail.creatorName}}</td>-->
               <!--</tr>-->
               <!--<tr>-->
-                <!--<td class="td-title">最新修改时间</td>-->
-                <!--<td colspan="2">-->
-                  <!--{{customerDetail.modified &&-->
-                  <!--$moment(customerDetail.modified).format('YYYY-MM-DD HH:mm:ss')}}-->
-                <!--</td>-->
-                <!--<td class="td-title">修改人</td>-->
-                <!--<td colspan="2">{{customerDetail.modifierName}}</td>-->
+              <!--<td class="td-title">最新修改时间</td>-->
+              <!--<td colspan="2">-->
+              <!--{{customerDetail.modified &&-->
+              <!--$moment(customerDetail.modified).format('YYYY-MM-DD HH:mm:ss')}}-->
+              <!--</td>-->
+              <!--<td class="td-title">修改人</td>-->
+              <!--<td colspan="2">{{customerDetail.modifierName}}</td>-->
               <!--</tr>-->
               <!--<tr>-->
-                <!--<td class="td-title">最新活动时间</td>-->
-                <!--<td colspan="2">-->
-                  <!--{{customerDetail.activeTime &&-->
-                  <!--$moment(customerDetail.activeTime).format('YYYY-MM-DD HH:mm:ss')}}-->
-                <!--</td>-->
-                <!--<td class="td-title">跟进人</td>-->
-                <!--<td colspan="2">{{customerDetail.followerName}}</td>-->
+              <!--<td class="td-title">最新活动时间</td>-->
+              <!--<td colspan="2">-->
+              <!--{{customerDetail.activeTime &&-->
+              <!--$moment(customerDetail.activeTime).format('YYYY-MM-DD HH:mm:ss')}}-->
+              <!--</td>-->
+              <!--<td class="td-title">跟进人</td>-->
+              <!--<td colspan="2">{{customerDetail.followerName}}</td>-->
               <!--</tr>-->
               <!--<tr>-->
-                <!--<td colspan="5" class="td-title">客户操作记录</td>-->
-                <!--<td class="td-title">操作人</td>-->
-                <!--<td class="td-title">操作时间</td>-->
+              <!--<td colspan="5" class="td-title">客户操作记录</td>-->
+              <!--<td class="td-title">操作人</td>-->
+              <!--<td class="td-title">操作时间</td>-->
               <!--</tr>-->
               <tr v-for="(item, index) in customerDetail.operateLogList" :key="index">
                 <td colspan="5">{{item.detail}}</td>
@@ -230,7 +232,9 @@
                   <!--1.订单中的商品为计时类商品；-->
                   <!--2.订单处于服务中或已完成状态。-->
                   <!--计费类型（TIMES计次，ANNUALLY包年） 包年就是计时商品-->
-                  <a class="table-op" v-if="(item.orderState === 3 || item.orderState === 4) && item.billingType === 'ANNUALLY'" @click="quickOperation('reNew', item.id, item)">续费</a>
+                  <a class="table-op"
+                     v-if="(item.orderState === 3 || item.orderState === 4) && item.billingType === 'ANNUALLY'"
+                     @click="quickOperation('reNew', item.id, item)">续费</a>
                 </td>
               </tr>
             </table>
@@ -402,22 +406,25 @@
         })
       },
       getContactList () { // 相关
-        API.contacts.listNoAuth({customerId: this.$route.query.customerId, pageSize: 10000, page: 0, sort: 'created,desc'}, (da) => {
-          this.contactList = da.data.content
-          this.contactTotal = da.data.totalElements
-        })
+        API.contacts.listNoAuth(
+          {customerId: this.$route.query.customerId, pageSize: 10000, page: 0, sort: 'created,desc'}, (da) => {
+            this.contactList = da.data.content
+            this.contactTotal = da.data.totalElements
+          })
       },
       getChanceList () { // 相关
-        API.salesOpportunities.listNoAuth({customerId: this.$route.query.customerId, pageSize: 1000, page: 0, sort: 'created,desc'}, (da) => {
-          this.chanceList = da.data.content
-          this.chanceTotal = da.data.totalElements
-        })
+        API.salesOpportunities.listNoAuth(
+          {customerId: this.$route.query.customerId, pageSize: 1000, page: 0, sort: 'created,desc'}, (da) => {
+            this.chanceList = da.data.content
+            this.chanceTotal = da.data.totalElements
+          })
       },
       getOrderList () { // 相关
-        API.salesOrder.listNoAuth({customerId: this.$route.query.customerId, pageSize: 1000, page: 0, sort: 'created,desc'}, (da) => {
-          this.orderList = da.data.content
-          this.orderTotal = da.data.totalElements
-        })
+        API.salesOrder.listNoAuth(
+          {customerId: this.$route.query.customerId, pageSize: 1000, page: 0, sort: 'created,desc'}, (da) => {
+            this.orderList = da.data.content
+            this.orderTotal = da.data.totalElements
+          })
       },
       handleRoute (list) {
         switch (list) { // 相关列表和菜单列表权限不同，不能直接跳过去
@@ -510,7 +517,7 @@
                 params: {
                   orderDetail: obj,
                   topSource: this.topSource, // 顶级客户来源
-                  isRenew: true
+                  isRenew: true,
                 },
                 callback (data) {
                   if (data.type === 'save') {

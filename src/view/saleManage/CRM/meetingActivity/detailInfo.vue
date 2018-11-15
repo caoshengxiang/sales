@@ -305,9 +305,11 @@
       width="30%;"
       class="code"
     >
-      <div ref="downloadCode" style="text-align: center">
+      <div style="text-align: center">
         <p class="title">{{detailInfo.meetingName}}</p>
-        <div style="min-height: 200px;margin: 20px;padding: 20px;">
+        <div
+          ref="downloadCode"
+          style="min-height: 200px;margin: 20px;padding: 20px;">
           <vue-qr
             :logoSrc="config1.logo"
             :text="config1.value"
@@ -330,8 +332,9 @@
       width="800px"
     >
       <div style="color: #4F5F6F;">
-        <div ref="downloadCodeManager" style="display: flex;margin:20px 0;padding: 20px;border: 1px solid #ddd;">
-          <div style="min-height: 200px;margin-right: 20px;">
+        <div style="display: flex;margin:20px 0;padding: 20px;border: 1px solid #ddd;">
+          <div ref="downloadCodeManager"
+               style="min-height: 200px;margin-right: 20px;">
             <vue-qr
               :logoSrc="config.logo"
               :text="config.value"

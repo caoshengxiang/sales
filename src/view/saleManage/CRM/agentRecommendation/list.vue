@@ -202,18 +202,23 @@
         API.agentDev.list(Object.assign({}, this.defaultListParams, this.sortObj, this.advancedSearch), (data) => {
           this.tableData = data.data.content
           this.tableDataTotal = data.data.totalElements
-          this.otherData = data.other
+          this.getCommission()
+          setTimeout(() => {
+            this.dataLoading = false
+          }, 500)
+        }, (err) => {
+          console.error(err)
+        })
+      },
+      getCommission () {
+        API.agentDev.getcommission({id: this.defaultListParams.id, type: this.defaultListParams.type}, (da) => {
+          this.otherData = da.other
           this.config.value = agentRegister + QS.stringify({ // 拼装二维码参数
             type: this.agentType,
             id: this.agentTypeOption,
             name: this.otherData.directName,
             phone: '',
           })
-          setTimeout(() => {
-            this.dataLoading = false
-          }, 500)
-        }, (err) => {
-          console.error(err)
         })
       },
       getDepts (type, callback) {

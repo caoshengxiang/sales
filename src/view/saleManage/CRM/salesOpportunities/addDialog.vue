@@ -228,6 +228,7 @@
           ],
           contactPhone: [
             {required: true, message: '请输入联系电话', trigger: 'blur'},
+            chartLengthRule.validatePhone,
           ],
           provinceId: [
             {required: true, message: '请选择地区', trigger: 'blur'},
