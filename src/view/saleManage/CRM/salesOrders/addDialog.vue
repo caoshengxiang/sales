@@ -84,7 +84,7 @@
             </td>
             <td class="td-title">地区</td>
             <td class="td-text">
-              <el-form-item prop="provinceId">
+              <el-form-item prop="areaId">
                 <span v-if="(orderState===0 || addForm.chanceId || params.fromChance)">{{(addForm.provinceName?addForm.provinceName:'') + ' ' + (addForm.cityName?addForm.cityName:'')  + ' ' + (addForm.areaName?addForm.areaName:'')}}</span>
                 <AreaSelect ref="areaSe"
                             v-else
@@ -175,6 +175,12 @@
           orderSource: '',
           // orderSourceName: '',
           isRenew: false,
+          provinceId: '',
+          provinceName: '',
+          cityId: '',
+          areaId: '',
+          cityName: '',
+          areaName: '',
         },
         orderState: null,
         rules: {
@@ -190,6 +196,9 @@
           // productId: [
           //   {required: true, message: '请选择购买商品', trigger: 'change'},
           // ],
+          areaId: [
+            {required: true, message: '请选择三级地区', trigger: 'change'},
+          ],
           specificationId: [
             {required: true, message: '请选择购买规格', trigger: 'change'},
           ],
@@ -222,10 +231,6 @@
       saveSubmitForm (formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            if (!this.addForm.provinceId) {
-              this.$message.warning('未选择地区')
-              return
-            }
             this.dataLoading = true
             if (this.params.orderDetail) { // 编辑
               API.salesOrder.edit({path: this.addForm.id, body: this.addForm}, (da) => {
