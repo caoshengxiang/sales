@@ -8,7 +8,6 @@
         :data="tableData"
         tooltip-effect="dark"
         style="width: 100%"
-        show-summary
       >
         <el-table-column
           align="center"
@@ -22,7 +21,6 @@
           label="合计返佣"
           show-overflow-tooltip>
         </el-table-column>
-
         <el-table-column
           align="center"
           label="销售佣金类型"
@@ -111,6 +109,175 @@
             </el-table-column>
 
           </el-table-column>
+
+          <el-table-column
+            align="center"
+            label="营销副总"
+          >
+
+            <el-table-column
+              align="center"
+              label="返佣对象"
+              prop="vpRebateSubjectName"
+            >
+            </el-table-column>
+
+            <el-table-column
+              align="center"
+              label="工作人员"
+              prop="vpWorkerName"
+            >
+            </el-table-column>
+
+            <el-table-column
+              align="center"
+              label="本期应反"
+              prop="vpAmount"
+            >
+            </el-table-column>
+
+          </el-table-column>
+
+          <el-table-column
+            align="center"
+            label="销售总监"
+          >
+
+            <el-table-column
+              align="center"
+              label="返佣对象"
+              prop="zoneDirectorRebateSubjectName"
+            >
+            </el-table-column>
+
+            <el-table-column
+              align="center"
+              prop="zoneDirectorWorkerName"
+              label="工作人员"
+            >
+            </el-table-column>
+
+            <el-table-column
+              align="center"
+              label="本期应反"
+              prop="zoneDirectorAmount"
+            >
+            </el-table-column>
+
+          </el-table-column>
+
+          <el-table-column
+            align="center"
+            label="销售经理"
+          >
+
+            <el-table-column
+              align="center"
+              label="返佣对象"
+              prop="regionalManagerRebateSubjectName"
+            >
+            </el-table-column>
+
+            <el-table-column
+              align="center"
+              label="工作人员"
+              prop="regionalManagerWorkerName"
+            >
+            </el-table-column>
+
+            <el-table-column
+              align="center"
+              label="本期应反"
+              prop="regionalManagerAmount"
+            >
+            </el-table-column>
+
+          </el-table-column>
+
+          <el-table-column
+            align="center"
+            label="新客推荐人"
+          >
+
+            <el-table-column
+              align="center"
+              label="返佣对象"
+              prop=""
+            >
+            </el-table-column>
+
+            <el-table-column
+              align="center"
+              label="工作人员"
+              prop=""
+            >
+            </el-table-column>
+
+            <el-table-column
+              align="center"
+              label="本期应反"
+              prop=""
+            >
+            </el-table-column>
+
+          </el-table-column>
+
+          <el-table-column
+            align="center"
+            label="直接培育人"
+          >
+
+            <el-table-column
+              align="center"
+              label="返佣对象"
+              prop=""
+            >
+            </el-table-column>
+
+            <el-table-column
+              align="center"
+              label="工作人员"
+              prop=""
+            >
+            </el-table-column>
+
+            <el-table-column
+              align="center"
+              label="本期应反"
+              prop=""
+            >
+            </el-table-column>
+
+          </el-table-column>
+
+          <el-table-column
+            align="center"
+            label="间接培育人"
+          >
+
+            <el-table-column
+              align="center"
+              label="返佣对象"
+              prop=""
+            >
+            </el-table-column>
+
+            <el-table-column
+              align="center"
+              label="工作人员"
+              prop=""
+            >
+            </el-table-column>
+
+            <el-table-column
+              align="center"
+              label="本期应反"
+              prop=""
+            >
+            </el-table-column>
+
+          </el-table-column>
+
         </el-table-column>
 
       </el-table>
