@@ -168,7 +168,7 @@
           params: {
             managerType: item.managerType,
             serviceOrderDetail: this.detail,
-            excludeId: this.workOrderManagersOld[index].id || null, // 排除原来得管家id
+            excludeId: this.workOrderManagersOld[index].managerId || null, // 排除原来得管家id
             quickList: false, // true 快捷派单
           },
           callback: (data) => {
