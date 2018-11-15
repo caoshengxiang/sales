@@ -90,16 +90,12 @@
           <template slot-scope="scope">
             <a class="col-link" @click="saleCommission(scope.row.id)">{{ scope.row.totalAmount }}</a>
           </template>
-          <template slot-scope="scope">
-            <a class="col-link" @click="showDetailList(scope.row.id)">{{ scope.row.saleCommission }}</a>
-          </template>
         </el-table-column>
         <el-table-column
           align="center"
           label="服务佣金"
           width="100"
           prop="serviceCommission"
-          label="服务佣金"
         >
           <!--<template slot-scope="scope">-->
             <!--<a class="col-link">{{ scope.row.serviceCommission }}</a>-->
