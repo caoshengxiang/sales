@@ -38,7 +38,7 @@
             <td class="td-title" style="width: 100px;">计划完成时限</td>
             <td class="td-title" style="width: 100px;">完成日期</td>
             <td class="td-title" style="width: 50px;">完成状态</td>
-            <td class="td-title">操作</td>
+            <td class="td-title" v-if="!params.isShow">操作</td>
           </tr>
           <tr v-for="(item, index) in serviceItem" :key="index">
             <td style="width: 30px;">{{index+1}}</td>
@@ -54,11 +54,11 @@
               <span v-if="item.state === 5">重新发起审核</span>
               <span v-if="item.state === 9">已完成</span>
             </td>
-            <td>
+            <td v-if="!params.isShow">
               <!--<el-button type="text"-->
-                         <!--@click="operationListHandle(item, oplIndex + 1)"-->
-                         <!--v-for="(opl, oplIndex) in operationList[item.num - 1]"-->
-                         <!--:key="oplIndex">{{opl}}-->
+              <!--@click="operationListHandle(item, oplIndex + 1)"-->
+              <!--v-for="(opl, oplIndex) in operationList[item.num - 1]"-->
+              <!--:key="oplIndex">{{opl}}-->
               <!--</el-button>-->
 
               <!--
@@ -68,145 +68,248 @@
                   操作完隐藏按钮 state (不等于)9-已完成
                   审核按钮 3-待审核
               -->
-
-              <div v-if="item.num === 1">
-                <el-button v-if="item.state !== 9" type="text" @click="operationListHandle(item, 1)">{{operationList[item.num - 1][1-1]}}</el-button>
-              </div>
-              <div v-if="item.num === 2">
-                <el-button v-if="item.state === 1" type="text" @click="operationListHandle(item, 1)">{{operationList[item.num - 1][1-1]}}</el-button>
-                <el-button v-if="item.state !== 9 && item.state !== 1" type="text" @click="operationListHandle(item, 2)">{{operationList[item.num - 1][2-1]}}</el-button>
-              </div>
-              <div v-if="item.num === 3">
-                <el-button v-if="item.state === 1" type="text" @click="operationListHandle(item, 1)">{{operationList[item.num - 1][1-1]}}</el-button>
-                <el-button v-if="item.state !== 9 && item.state !== 1" type="text" @click="operationListHandle(item, 2)">{{operationList[item.num - 1][2-1]}}</el-button>
-              </div>
-              <div v-if="item.num === 4">
-                <el-button v-if="item.state !== 9" type="text" @click="operationListHandle(item, 1)">{{operationList[item.num - 1][1-1]}}</el-button>
-              </div>
-              <div v-if="item.num === 5">
-                <el-button v-if="item.state !== 9" type="text" @click="operationListHandle(item, 1)">{{operationList[item.num - 1][1-1]}}</el-button>
-              </div>
-              <div v-if="item.num === 6">
-                <el-button v-if="item.state === 1" type="text" @click="operationListHandle(item, 1)">{{operationList[item.num - 1][1-1]}}</el-button>
-              </div>
-              <div v-if="item.num === 7">
-                <el-button v-if="item.state === 1" type="text" @click="operationListHandle(item, 1)">{{operationList[item.num - 1][1-1]}}</el-button>
-                <el-button type="text" @click="operationListHandle(item, 2)">{{operationList[item.num - 1][2-1]}}</el-button>
-              </div>
-              <div v-if="item.num === 8">
-                <el-button v-if="item.state !== 9" type="text" @click="operationListHandle(item, 1)">{{operationList[item.num - 1][1-1]}}</el-button>
-                <el-button v-if="item.state !== 9" type="text" @click="operationListHandle(item, 2)">{{operationList[item.num - 1][2-1]}}</el-button>
-              </div>
-              <div v-if="item.num === 9">
-                <el-button type="text" @click="operationListHandle(item, 1)">{{operationList[item.num - 1][1-1]}}</el-button>
-              </div>
-              <div v-if="item.num === 10">
-                <el-button v-if="item.state === 3" type="text" @click="operationListHandle(item, 1)">{{operationList[item.num - 1][1-1]}}</el-button>
-                <el-button v-if="item.state === 1" type="text" @click="operationListHandle(item, 2)">{{operationList[item.num - 1][2-1]}}</el-button>
-              </div>
-              <div v-if="item.num === 11">
-                <el-button v-if="item.state === 3" type="text" @click="operationListHandle(item, 1)">{{operationList[item.num - 1][1-1]}}</el-button>
-                <el-button v-if="item.state === 1" type="text" @click="operationListHandle(item, 2)">{{operationList[item.num - 1][2-1]}}</el-button>
-              </div>
-              <div v-if="item.num === 12">
-                <el-button v-if="item.state === 3" type="text" @click="operationListHandle(item, 1)">{{operationList[item.num - 1][1-1]}}</el-button>
-                <el-button v-if="item.state === 1" type="text" @click="operationListHandle(item, 2)">{{operationList[item.num - 1][2-1]}}</el-button>
-              </div>
-              <div v-if="item.num === 13">
-                <el-button v-if="item.state === 3" type="text" @click="operationListHandle(item, 1)">{{operationList[item.num - 1][1-1]}}</el-button>
-                <el-button v-if="item.state === 1" type="text" @click="operationListHandle(item, 2)">{{operationList[item.num - 1][2-1]}}</el-button>
-              </div>
-              <div v-if="item.num === 14">
-                <el-button v-if="item.state === 3" type="text" @click="operationListHandle(item, 1)">{{operationList[item.num - 1][1-1]}}</el-button>
-                <el-button v-if="item.state === 1" type="text" @click="operationListHandle(item, 2)">{{operationList[item.num - 1][2-1]}}</el-button>
-              </div>
-              <div v-if="item.num === 15">
-                <el-button v-if="item.state === 3" type="text" @click="operationListHandle(item, 1)">{{operationList[item.num - 1][1-1]}}</el-button>
-                <el-button v-if="item.state === 1" type="text" @click="operationListHandle(item, 2)">{{operationList[item.num - 1][2-1]}}</el-button>
-              </div>
-              <div v-if="item.num === 16">
-                <el-button v-if="item.state === 3" type="text" @click="operationListHandle(item, 1)">{{operationList[item.num - 1][1-1]}}</el-button>
-                <el-button v-if="item.state === 1" type="text" @click="operationListHandle(item, 2)">{{operationList[item.num - 1][2-1]}}</el-button>
-              </div>
-              <div v-if="item.num === 17">
-                <el-button v-if="item.state === 3 || item.state === 5" type="text" @click="operationListHandle(item, 1)">{{operationList[item.num - 1][1-1]}}</el-button>
-              </div>
-              <div v-if="item.num === 18">
-                <el-button v-if="item.state === 3 || item.state === 5" type="text" @click="operationListHandle(item, 1)">{{operationList[item.num - 1][1-1]}}</el-button>
-              </div>
-              <div v-if="item.num === 19">
-                <el-button type="text" @click="operationListHandle(item, 1)">{{operationList[item.num - 1][1-1]}}</el-button>
-              </div>
-              <div v-if="item.num === 20">
-                <el-button type="text" @click="operationListHandle(item, 1)">{{operationList[item.num - 1][1-1]}}</el-button>
-              </div>
-              <div v-if="item.num === 21">
-                <el-button type="text" @click="operationListHandle(item, 1)">{{operationList[item.num - 1][1-1]}}</el-button>
-              </div>
-              <div v-if="item.num === 22">
-                <el-button type="text" @click="operationListHandle(item, 1)">{{operationList[item.num - 1][1-1]}}</el-button>
-              </div>
-              <div v-if="item.num === 23">
-                <el-button v-if="item.state === 1" type="text" @click="operationListHandle(item, 1)">{{operationList[item.num - 1][1-1]}}</el-button>
-              </div>
-              <div v-if="item.num === 24">
-                <el-button v-if="item.state === 1" type="text" @click="operationListHandle(item, 1)">{{operationList[item.num - 1][1-1]}}</el-button>
-              </div>
-              <div v-if="item.num === 25">
-                <el-button v-if="item.state === 1" type="text" @click="operationListHandle(item, 1)">{{operationList[item.num - 1][1-1]}}</el-button>
-                <el-button v-if="item.state !== 1" type="text" @click="operationListHandle(item, 2)">{{operationList[item.num - 1][2-1]}}</el-button>
-              </div>
-              <div v-if="item.num === 26">
-                <el-button v-if="item.state === 1" type="text" @click="operationListHandle(item, 1)">{{operationList[item.num - 1][1-1]}}</el-button>
-              </div>
-              <div v-if="item.num === 27">
-                <el-button v-if="item.state === 3" type="text" @click="operationListHandle(item, 2)">{{operationList[item.num - 1][2-1]}}</el-button>
-                <el-button v-if="item.state === 1" type="text" @click="operationListHandle(item, 3)">{{operationList[item.num - 1][3-1]}}</el-button>
-              </div>
-              <div v-if="item.num === 28">
-                <el-button v-if="item.state === 1" type="text" @click="operationListHandle(item, 1)">{{operationList[item.num - 1][1-1]}}</el-button>
-              </div>
-              <div v-if="item.num === 29">
-                <el-button v-if="item.state === 1" type="text" @click="operationListHandle(item, 1)">{{operationList[item.num - 1][1-1]}}</el-button>
-                <el-button v-if="item.state !== 1" type="text" @click="operationListHandle(item, 2)">{{operationList[item.num - 1][2-1]}}</el-button>
-              </div>
-              <div v-if="item.num === 30">
-                <el-button v-if="item.state === 1" type="text" @click="operationListHandle(item, 1)">{{operationList[item.num - 1][1-1]}}</el-button>
-              </div>
-              <div v-if="item.num === 31">
-                <el-button v-if="item.state === 1" type="text" @click="operationListHandle(item, 1)">{{operationList[item.num - 1][1-1]}}</el-button>
-              </div>
-              <div v-if="item.num === 32">
-                <el-button type="text" @click="operationListHandle(item, 1)">{{operationList[item.num - 1][1-1]}}</el-button>
-              </div>
-              <div v-if="item.num === 33">
-                <el-button v-if="item.state === 1" type="text" @click="operationListHandle(item, 1)">{{operationList[item.num - 1][1-1]}}</el-button>
-              </div>
-              <div v-if="item.num === 34">
-                <el-button type="text" @click="operationListHandle(item, 1)">{{operationList[item.num - 1][1-1]}}</el-button>
-              </div>
-              <div v-if="item.num === 35">
-                <el-button v-if="item.state === 1" type="text" @click="operationListHandle(item, 1)">{{operationList[item.num - 1][1-1]}}</el-button>
-              </div>
-              <div v-if="item.num === 36">
-                <el-button v-if="item.state === 1" type="text" @click="operationListHandle(item, 1)">{{operationList[item.num - 1][1-1]}}</el-button>
-              </div>
-              <div v-if="item.num === 37">
-                <el-button v-if="item.state === 1" type="text" @click="operationListHandle(item, 1)">{{operationList[item.num - 1][1-1]}}</el-button>
-                <el-button type="text" @click="operationListHandle(item, 2)">{{operationList[item.num - 1][2-1]}}</el-button>
-              </div>
-              <div v-if="item.num === 38">
-                <el-button v-if="item.state === 1" type="text" @click="operationListHandle(item, 1)">{{operationList[item.num - 1][1-1]}}</el-button>
-                <!--<el-button type="text" @click="operationListHandle(item, 2)">{{operationList[item.num - 1][2-1]}}</el-button>-->
-              </div>
-              <div v-if="item.num === 39">
-                <el-button type="text" @click="operationListHandle(item, 1)">{{operationList[item.num - 1][1-1]}}</el-button>
-              </div>
-              <div v-if="item.num === 40">
-                <el-button v-if="item.state === 1" type="text" @click="operationListHandle(item, 1)">{{operationList[item.num - 1][1-1]}}</el-button>
-              </div>
-              <div v-if="item.num === 41">
-                <el-button v-if="item.state === 1" type="text" @click="operationListHandle(item, 1)">{{operationList[item.num - 1][1-1]}}</el-button>
+              <div>
+                <div v-if="item.num === 1">
+                  <el-button v-if="item.state !== 9" type="text" @click="operationListHandle(item, 1)">
+                    {{operationList[item.num - 1][1-1]}}
+                  </el-button>
+                </div>
+                <div v-if="item.num === 2">
+                  <el-button v-if="item.state === 1" type="text" @click="operationListHandle(item, 1)">
+                    {{operationList[item.num - 1][1-1]}}
+                  </el-button>
+                  <el-button v-if="item.state !== 9 && item.state !== 1" type="text"
+                             @click="operationListHandle(item, 2)">{{operationList[item.num - 1][2-1]}}
+                  </el-button>
+                </div>
+                <div v-if="item.num === 3">
+                  <el-button v-if="item.state === 1" type="text" @click="operationListHandle(item, 1)">
+                    {{operationList[item.num - 1][1-1]}}
+                  </el-button>
+                  <el-button v-if="item.state !== 9 && item.state !== 1" type="text"
+                             @click="operationListHandle(item, 2)">{{operationList[item.num - 1][2-1]}}
+                  </el-button>
+                </div>
+                <div v-if="item.num === 4">
+                  <el-button v-if="item.state !== 9" type="text" @click="operationListHandle(item, 1)">
+                    {{operationList[item.num - 1][1-1]}}
+                  </el-button>
+                </div>
+                <div v-if="item.num === 5">
+                  <el-button v-if="item.state !== 9" type="text" @click="operationListHandle(item, 1)">
+                    {{operationList[item.num - 1][1-1]}}
+                  </el-button>
+                </div>
+                <div v-if="item.num === 6">
+                  <el-button v-if="item.state === 1" type="text" @click="operationListHandle(item, 1)">
+                    {{operationList[item.num - 1][1-1]}}
+                  </el-button>
+                </div>
+                <div v-if="item.num === 7">
+                  <el-button v-if="item.state === 1" type="text" @click="operationListHandle(item, 1)">
+                    {{operationList[item.num - 1][1-1]}}
+                  </el-button>
+                  <el-button type="text" @click="operationListHandle(item, 2)">{{operationList[item.num - 1][2-1]}}
+                  </el-button>
+                </div>
+                <div v-if="item.num === 8">
+                  <el-button v-if="item.state !== 9" type="text" @click="operationListHandle(item, 1)">
+                    {{operationList[item.num - 1][1-1]}}
+                  </el-button>
+                  <el-button v-if="item.state !== 9" type="text" @click="operationListHandle(item, 2)">
+                    {{operationList[item.num - 1][2-1]}}
+                  </el-button>
+                </div>
+                <div v-if="item.num === 9">
+                  <el-button type="text" @click="operationListHandle(item, 1)">{{operationList[item.num - 1][1-1]}}
+                  </el-button>
+                </div>
+                <div v-if="item.num === 10">
+                  <el-button v-if="item.state === 3" type="text" @click="operationListHandle(item, 1)">
+                    {{operationList[item.num - 1][1-1]}}
+                  </el-button>
+                  <el-button v-if="item.state === 1" type="text" @click="operationListHandle(item, 2)">
+                    {{operationList[item.num - 1][2-1]}}
+                  </el-button>
+                </div>
+                <div v-if="item.num === 11">
+                  <el-button v-if="item.state === 3" type="text" @click="operationListHandle(item, 1)">
+                    {{operationList[item.num - 1][1-1]}}
+                  </el-button>
+                  <el-button v-if="item.state === 1" type="text" @click="operationListHandle(item, 2)">
+                    {{operationList[item.num - 1][2-1]}}
+                  </el-button>
+                </div>
+                <div v-if="item.num === 12">
+                  <el-button v-if="item.state === 3" type="text" @click="operationListHandle(item, 1)">
+                    {{operationList[item.num - 1][1-1]}}
+                  </el-button>
+                  <el-button v-if="item.state === 1" type="text" @click="operationListHandle(item, 2)">
+                    {{operationList[item.num - 1][2-1]}}
+                  </el-button>
+                </div>
+                <div v-if="item.num === 13">
+                  <el-button v-if="item.state === 3" type="text" @click="operationListHandle(item, 1)">
+                    {{operationList[item.num - 1][1-1]}}
+                  </el-button>
+                  <el-button v-if="item.state === 1" type="text" @click="operationListHandle(item, 2)">
+                    {{operationList[item.num - 1][2-1]}}
+                  </el-button>
+                </div>
+                <div v-if="item.num === 14">
+                  <el-button v-if="item.state === 3" type="text" @click="operationListHandle(item, 1)">
+                    {{operationList[item.num - 1][1-1]}}
+                  </el-button>
+                  <el-button v-if="item.state === 1" type="text" @click="operationListHandle(item, 2)">
+                    {{operationList[item.num - 1][2-1]}}
+                  </el-button>
+                </div>
+                <div v-if="item.num === 15">
+                  <el-button v-if="item.state === 3" type="text" @click="operationListHandle(item, 1)">
+                    {{operationList[item.num - 1][1-1]}}
+                  </el-button>
+                  <el-button v-if="item.state === 1" type="text" @click="operationListHandle(item, 2)">
+                    {{operationList[item.num - 1][2-1]}}
+                  </el-button>
+                </div>
+                <div v-if="item.num === 16">
+                  <el-button v-if="item.state === 3" type="text" @click="operationListHandle(item, 1)">
+                    {{operationList[item.num - 1][1-1]}}
+                  </el-button>
+                  <el-button v-if="item.state === 1" type="text" @click="operationListHandle(item, 2)">
+                    {{operationList[item.num - 1][2-1]}}
+                  </el-button>
+                </div>
+                <div v-if="item.num === 17">
+                  <el-button v-if="item.state === 3 || item.state === 5" type="text"
+                             @click="operationListHandle(item, 1)">{{operationList[item.num - 1][1-1]}}
+                  </el-button>
+                </div>
+                <div v-if="item.num === 18">
+                  <el-button v-if="item.state === 3 || item.state === 5" type="text"
+                             @click="operationListHandle(item, 1)">{{operationList[item.num - 1][1-1]}}
+                  </el-button>
+                </div>
+                <div v-if="item.num === 19">
+                  <el-button type="text" @click="operationListHandle(item, 1)">{{operationList[item.num - 1][1-1]}}
+                  </el-button>
+                </div>
+                <div v-if="item.num === 20">
+                  <el-button type="text" @click="operationListHandle(item, 1)">{{operationList[item.num - 1][1-1]}}
+                  </el-button>
+                </div>
+                <div v-if="item.num === 21">
+                  <el-button type="text" @click="operationListHandle(item, 1)">{{operationList[item.num - 1][1-1]}}
+                  </el-button>
+                </div>
+                <div v-if="item.num === 22">
+                  <el-button type="text" @click="operationListHandle(item, 1)">{{operationList[item.num - 1][1-1]}}
+                  </el-button>
+                </div>
+                <div v-if="item.num === 23">
+                  <el-button v-if="item.state === 1" type="text" @click="operationListHandle(item, 1)">
+                    {{operationList[item.num - 1][1-1]}}
+                  </el-button>
+                </div>
+                <div v-if="item.num === 24">
+                  <el-button v-if="item.state === 1" type="text" @click="operationListHandle(item, 1)">
+                    {{operationList[item.num - 1][1-1]}}
+                  </el-button>
+                </div>
+                <div v-if="item.num === 25">
+                  <el-button v-if="item.state === 1" type="text" @click="operationListHandle(item, 1)">
+                    {{operationList[item.num - 1][1-1]}}
+                  </el-button>
+                  <el-button v-if="item.state !== 1" type="text" @click="operationListHandle(item, 2)">
+                    {{operationList[item.num - 1][2-1]}}
+                  </el-button>
+                </div>
+                <div v-if="item.num === 26">
+                  <el-button v-if="item.state === 1" type="text" @click="operationListHandle(item, 1)">
+                    {{operationList[item.num - 1][1-1]}}
+                  </el-button>
+                </div>
+                <div v-if="item.num === 27">
+                  <el-button v-if="item.state === 3" type="text" @click="operationListHandle(item, 2)">
+                    {{operationList[item.num - 1][2-1]}}
+                  </el-button>
+                  <el-button v-if="item.state === 1" type="text" @click="operationListHandle(item, 3)">
+                    {{operationList[item.num - 1][3-1]}}
+                  </el-button>
+                </div>
+                <div v-if="item.num === 28">
+                  <el-button v-if="item.state === 1" type="text" @click="operationListHandle(item, 1)">
+                    {{operationList[item.num - 1][1-1]}}
+                  </el-button>
+                </div>
+                <div v-if="item.num === 29">
+                  <el-button v-if="item.state === 1" type="text" @click="operationListHandle(item, 1)">
+                    {{operationList[item.num - 1][1-1]}}
+                  </el-button>
+                  <el-button v-if="item.state !== 1" type="text" @click="operationListHandle(item, 2)">
+                    {{operationList[item.num - 1][2-1]}}
+                  </el-button>
+                </div>
+                <div v-if="item.num === 30">
+                  <el-button v-if="item.state === 1" type="text" @click="operationListHandle(item, 1)">
+                    {{operationList[item.num - 1][1-1]}}
+                  </el-button>
+                </div>
+                <div v-if="item.num === 31">
+                  <el-button v-if="item.state === 1" type="text" @click="operationListHandle(item, 1)">
+                    {{operationList[item.num - 1][1-1]}}
+                  </el-button>
+                </div>
+                <div v-if="item.num === 32">
+                  <el-button type="text" @click="operationListHandle(item, 1)">{{operationList[item.num - 1][1-1]}}
+                  </el-button>
+                </div>
+                <div v-if="item.num === 33">
+                  <el-button v-if="item.state === 1" type="text" @click="operationListHandle(item, 1)">
+                    {{operationList[item.num - 1][1-1]}}
+                  </el-button>
+                </div>
+                <div v-if="item.num === 34">
+                  <el-button type="text" @click="operationListHandle(item, 1)">{{operationList[item.num - 1][1-1]}}
+                  </el-button>
+                </div>
+                <div v-if="item.num === 35">
+                  <el-button v-if="item.state === 1" type="text" @click="operationListHandle(item, 1)">
+                    {{operationList[item.num - 1][1-1]}}
+                  </el-button>
+                </div>
+                <div v-if="item.num === 36">
+                  <el-button v-if="item.state === 1" type="text" @click="operationListHandle(item, 1)">
+                    {{operationList[item.num - 1][1-1]}}
+                  </el-button>
+                </div>
+                <div v-if="item.num === 37">
+                  <el-button v-if="item.state === 1" type="text" @click="operationListHandle(item, 1)">
+                    {{operationList[item.num - 1][1-1]}}
+                  </el-button>
+                  <el-button type="text" @click="operationListHandle(item, 2)">{{operationList[item.num - 1][2-1]}}
+                  </el-button>
+                </div>
+                <div v-if="item.num === 38">
+                  <el-button v-if="item.state === 1" type="text" @click="operationListHandle(item, 1)">
+                    {{operationList[item.num - 1][1-1]}}
+                  </el-button>
+                  <!--<el-button type="text" @click="operationListHandle(item, 2)">{{operationList[item.num - 1][2-1]}}</el-button>-->
+                </div>
+                <div v-if="item.num === 39">
+                  <el-button type="text" @click="operationListHandle(item, 1)">{{operationList[item.num - 1][1-1]}}
+                  </el-button>
+                </div>
+                <div v-if="item.num === 40">
+                  <el-button v-if="item.state === 1" type="text" @click="operationListHandle(item, 1)">
+                    {{operationList[item.num - 1][1-1]}}
+                  </el-button>
+                </div>
+                <div v-if="item.num === 41">
+                  <el-button v-if="item.state === 1" type="text" @click="operationListHandle(item, 1)">
+                    {{operationList[item.num - 1][1-1]}}
+                  </el-button>
+                </div>
               </div>
             </td>
           </tr>
@@ -533,6 +636,7 @@
 
 <style scoped lang="scss" rel="stylesheet/scss">
   @import "../../../../styles/common";
+
   .log-item {
     margin-bottom: 6px;
   }

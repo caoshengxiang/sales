@@ -10,7 +10,7 @@
         <td style="height: 50px;" class="td-center">{{item.serviceName}}[{{item.managerName}}]</td>
         <td colspan="5">
           <div class="com-icon-text-box com-icon-text-h"
-               @click="operateHandle(op, item)"
+               @click="operateHandle(op, item, false)"
                v-for="op in item.orderModuleComposites" :key="op.type">
             <img :src="'/static/images/'+ (op.state===2?'green':'red') + '/icon_gongdan_' + op.type + '.png'" alt="">
             <span class="com-icon-t">{{op.title}}</span>
@@ -24,6 +24,7 @@
         <td style="height: 50px;" class="td-center">{{item.serviceName}}[{{item.managerName}}]</td>
         <td colspan="5">
           <div class="com-icon-text-box com-icon-text-h"
+               @click="operateHandle(op, item, true)"
                v-for="op in item.orderModuleComposites" :key="op.type">
             <!--高亮是待处理state===2  完成state===1-->
             <img :src="'/static/images/'+ (op.state===2?'green':'gray') + '/icon_gongdan_' + op.type + '.png'" alt="">
@@ -64,8 +65,8 @@
       customerName: {
         default () {
           return {}
-        }
-      }
+        },
+      },
     },
     methods: {
       getOrderWorkingList () {
@@ -83,68 +84,71 @@
           })
         })
       },
-      operateHandle (numItem, typeItem) {
+      operateHandle (numItem, typeItem, isShow) {
         // 高亮是待处理state===1  完成state===2 type 1-21对应
         console.log('item:', numItem)
-        if (numItem.state && numItem.state === 1) {
-          if (numItem.type === 7) { // 7 客户票据审核
-            this.$router.push({name: 'customerBill'})
-          } else if (numItem.type === 8) { // 记账日常告知
-            this.$vDialog.modal(opItem22, {
-              title: numItem.title,
-              width: 1100,
-              height: 600,
-              params: {
-                numItem: numItem,
-                typeItem: typeItem,
-                customerName: this.customerName,
-                orderId: this.orderId,
-                workOrderId: typeItem.id,
-              },
-              callback: (data) => {
-                if (data.type === 'save') {
-                  this.getOrderWorkingList()
-                }
-              },
-            })
-           } else if (numItem.type === 16) { // 发送异常提醒
-            this.$vDialog.modal(opItem32, {
-              title: numItem.title,
-              width: 1100,
-              height: 600,
-              params: {
-                numItem: numItem,
-                typeItem: typeItem,
-                customerName: this.customerName,
-                orderId: this.orderId,
-                workOrderId: typeItem.id,
-              },
-              callback: (data) => {
-                if (data.type === 'save') {
-                  this.getOrderWorkingList()
-                }
-              },
-            })
-          } else if (numItem.type <= 21) {
-            this.$vDialog.modal(opItem, {
-              title: numItem.title,
-              width: 1100,
-              height: 600,
-              params: {
-                numItem: numItem,
-                typeItem: typeItem,
-                customerName: this.customerName,
-                orderId: this.orderId,
-                workOrderId: typeItem.id,
-              },
-              callback: (data) => {
-                if (data.type === 'save') {
-                  this.getOrderWorkingList()
-                }
-              },
-            })
-          }
+        // if (!isShow && numItem.state && numItem.state === 1) {
+        if (numItem.type === 7) { // 7 客户票据审核
+          this.$router.push({name: 'customerBill'})
+        } else if (numItem.type === 8) { // 记账日常告知
+          this.$vDialog.modal(opItem22, {
+            title: numItem.title,
+            width: 1100,
+            height: 600,
+            params: {
+              numItem: numItem,
+              typeItem: typeItem,
+              customerName: this.customerName,
+              orderId: this.orderId,
+              workOrderId: typeItem.id,
+              isShow: isShow,
+            },
+            callback: (data) => {
+              if (data.type === 'save') {
+                this.getOrderWorkingList()
+              }
+            },
+          })
+        } else if (numItem.type === 16) { // 发送异常提醒
+          this.$vDialog.modal(opItem32, {
+            title: numItem.title,
+            width: 1100,
+            height: 600,
+            params: {
+              numItem: numItem,
+              typeItem: typeItem,
+              customerName: this.customerName,
+              orderId: this.orderId,
+              workOrderId: typeItem.id,
+              isShow: isShow,
+            },
+            callback: (data) => {
+              if (data.type === 'save') {
+                this.getOrderWorkingList()
+              }
+            },
+          })
+        } else if (numItem.type <= 21) {
+          this.$vDialog.modal(opItem, {
+            title: numItem.title,
+            width: 1100,
+            height: 600,
+            params: {
+              numItem: numItem,
+              typeItem: typeItem,
+              customerName: this.customerName,
+              orderId: this.orderId,
+              workOrderId: typeItem.id,
+              isShow: isShow,
+            },
+            callback: (data) => {
+              if (data.type === 'save') {
+                this.getOrderWorkingList()
+              }
+            },
+          })
         }
+        // }
       },
     },
     created () {

@@ -43,7 +43,7 @@
         </el-form>
       </div>
       <div class="dialog-footer">
-        <el-button class="save-button" @click="saveSubmitForm('ruleForm')">发布纳税异常提醒</el-button>
+        <el-button class="save-button" :disabled="!params.isShow" @click="saveSubmitForm('ruleForm')">发布纳税异常提醒</el-button>
       </div>
     </div>
 
