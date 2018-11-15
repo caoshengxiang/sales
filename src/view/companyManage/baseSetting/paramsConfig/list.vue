@@ -53,7 +53,6 @@
                 fixed
                 type="selection"
                 align="center"
-                reserve-selection=""
                 width="40">
               </el-table-column>
               <el-table-column
@@ -98,7 +97,6 @@
           ],
         roleDefaultIndex: '1',
         roleDetail: {},
-        initBusinessSystemsIndex: '2',
         multipleSelection: [],
         businessSystemList: [],
         des: '客户级别',
@@ -143,6 +141,7 @@
       },
       getCodeConfig (id) {
         var that = this
+        that.multipleSelection = []
         that.roleDefaultIndex = id.toString()
         that.selectid = id
         that.loading = true

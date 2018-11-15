@@ -126,7 +126,7 @@
             value: 3,
             label: '我发起的审核',
           }],
-        value: null,
+        value: 1,
         tableData: [],
         multipleSelection: [],
         currentPage: 1,

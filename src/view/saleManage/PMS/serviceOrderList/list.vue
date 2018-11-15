@@ -180,6 +180,19 @@
           <el-table-column
             align="center"
             sortable="custom"
+            prop="orderType"
+            label="签单类型"
+            width="160"
+            show-overflow-tooltip
+          >
+            <template slot-scope="scope">
+              <span v-if="scope.row.orderType === 'FIRST'">客户首单</span>
+              <span v-if="scope.row.orderType === 'DERIVE'">衍生业务</span>
+            </template>
+          </el-table-column>
+          <el-table-column
+            align="center"
+            sortable="custom"
             prop="contractProperty"
             label="签约性质"
             width="160"
@@ -188,6 +201,15 @@
             <template slot-scope="scope">
               {{scope.row.contractProperty === 1 ? '新签订单' : '续费订单'}}
             </template>
+          </el-table-column>
+          <el-table-column
+            align="center"
+            sortable="custom"
+            prop="renewTimes"
+            label="续费次数"
+            width="100"
+            show-overflow-tooltip
+          >
           </el-table-column>
           <el-table-column
             align="center"
@@ -328,11 +350,14 @@
               managerType: item.managerType,
               serviceType: item.serviceType,
               orderId: row.orderId,
+              serviceOrderDetail: row,
+              excludeId: null,
               quickList: true, // true 快捷派单
             },
             callback: (data) => {
-              if (data.type === 'selectManager') {
+              if (data.type === 'quickSelectManager') {
                 console.log(data.manager)
+                this.getList()
               }
             },
           })

@@ -68,9 +68,16 @@
     },
     props: ['params'],
     methods: {
-      getManagerList (managerType) {
+      getManagerList () {
         API.serviceManager.assginOrderManagerList({
-          managerType: managerType,
+          managerType: this.params.managerType,
+          excludeId: this.params.excludeId,
+          orderId: this.params.serviceOrderDetail.orderId,
+          goodsId: this.params.serviceOrderDetail.goodsId,
+          provinceId: this.params.serviceOrderDetail.provinceId,
+          cityId: this.params.serviceOrderDetail.cityId,
+          areaId: this.params.serviceOrderDetail.areaId,
+          workState: 1,
         }, (res) => {
           this.managerList = res.data.content
         })
@@ -88,6 +95,7 @@
           }], (res) => {
             if (res.status) {
               this.$message.success('派单成功')
+              this.$vDialog.close({type: 'quickSelectManager', manager: this.multipleSelection[0]})
             }
           })
         } else {
@@ -96,7 +104,7 @@
       }
     },
     created () {
-      this.getManagerList(this.params.managerType)
+      this.getManagerList()
     }
   }
 </script>

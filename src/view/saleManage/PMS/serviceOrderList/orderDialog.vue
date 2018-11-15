@@ -60,18 +60,18 @@
             <td>
               <!--null-未指派、1-待接收、2-已拒绝、3-进行中、4-已完成、5-退单中、6-已退单-->
               <span v-if="!item.workOrderState && !item.managerName">
-                <a class="com-a-link" @click="selectManagerHandle(item)">请选择</a>
+                <a class="com-a-link" @click="selectManagerHandle(item, index)">请选择</a>
               </span>
               <span v-if="!item.workOrderState && item.managerName">
                 <span style="margin-left: 10px">{{item.managerName}}</span>
-                <a class="com-a-link" @click="selectManagerHandle(item)">重选</a>
+                <a class="com-a-link" @click="selectManagerHandle(item, index)">重选</a>
               </span>
               <span v-else-if="item.workOrderState == 2">
-                <a class="com-a-link" @click="selectManagerHandle(item)">{{item.managerName}}</a>
+                <a class="com-a-link" @click="selectManagerHandle(item, index)">{{item.managerName}}</a>
                 <label>已拒单</label>
               </span>
               <span v-else-if="item.workOrderState == 6">
-                <a @click="selectManagerHandle(item)">{{item.managerName}}</a>
+                <a @click="selectManagerHandle(item, index)">{{item.managerName}}</a>
                 <label>已退单</label>
               </span>
               <a v-else>{{ item.managerName }}</a>
@@ -157,15 +157,18 @@
             this.workOrderManagersOld = JSON.parse(JSON.stringify(res.data))
           })
       },
-      selectManagerHandle (item) {
+      selectManagerHandle (item, index) {
         // this.dialogTableVisible = true
         // this.getManagerList(managerType)
+        // console.log(this.workOrderManagersOld, index)
         this.$vDialog.modal(selectManager, {
           title: '选择管家',
           width: 800,
           height: 400,
           params: {
             managerType: item.managerType,
+            serviceOrderDetail: this.detail,
+            excludeId: this.workOrderManagersOld[index].id || null, // 排除原来得管家id
             quickList: false, // true 快捷派单
           },
           callback: (data) => {
