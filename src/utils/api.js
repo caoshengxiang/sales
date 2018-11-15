@@ -1082,6 +1082,15 @@ export default {
         }, 1000)
       })
     },
+    listOrgUser (success, error) { // 机构用户列表
+      $axios.get('user/listOrgUser').then((res) => {
+        success && success(res.data)
+      }).catch(() => {
+        setTimeout((err) => {
+          error && error(err)
+        }, 1000)
+      })
+    },
     userAdd (params, success, error) {
       $axios({
         method: 'post',

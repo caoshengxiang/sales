@@ -206,6 +206,13 @@
         </el-table-column>
         <el-table-column
           align="center"
+          prop="providerName"
+          label="需求提供人"
+          width="160"
+          show-overflow-tooltip>
+        </el-table-column>
+        <el-table-column
+          align="center"
           sortable="custom"
           prop="creatorName"
           label="创建人"

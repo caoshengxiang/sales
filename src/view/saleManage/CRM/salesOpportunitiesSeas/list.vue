@@ -213,6 +213,14 @@
         <el-table-column
           align="center"
           sortable="custom"
+          prop="providerName"
+          label="需求提供人"
+          width="160"
+          show-overflow-tooltip>
+        </el-table-column>
+        <el-table-column
+          align="center"
+          sortable="custom"
           prop="creatorName"
           label="需求创建人"
           width="160"
@@ -358,7 +366,7 @@
             this.$vDialog.modal(addDialog, {
               title: '新增销售机会',
               width: 900,
-              height: 400,
+              height: 480,
               params: {
                 salesState: this.salesState,
                 topSource: this.topSource, // 顶级客户来源
