@@ -230,7 +230,7 @@
                 </td>
                 <td>{{item.goodsName}}</td>
                 <td>{{item.created && $moment(item.created).format('YYYY-MM-DD HH:mm:ss')}}</td>
-                <td>todo</td>
+                <td>{{item.finishTime && $moment(item.finishTime).format('YYYY-MM-DD HH:mm:ss')}}</td>
               </tr>
             </table>
           </el-tab-pane>
@@ -321,7 +321,10 @@
         })
       },
       getOrderListNoAuth (customerId) {
-        API.serviceOrder.listNoAuth({customerId: customerId}, (da) => {
+        API.serviceOrder.listNoAuth({
+          customerId: customerId,
+          orderState: 3,
+        }, (da) => {
           this.orderListNoAuth = da.data.content
           this.orderListNoAuthTotal = da.data.totalElements
         })

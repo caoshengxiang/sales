@@ -10,7 +10,7 @@
         <td style="height: 50px;" class="td-center">{{item.serviceName}}[{{item.managerName}}]</td>
         <td colspan="5">
           <div class="com-icon-text-box com-icon-text-h"
-               @click="operateHandle(op, item, false)"
+               @click="operateHandle(op, item, op.state===2)"
                v-for="op in item.orderModuleComposites" :key="op.type">
             <img :src="'/static/images/'+ (op.state===2?'green':'red') + '/icon_gongdan_' + op.type + '.png'" alt="">
             <span class="com-icon-t">{{op.title}}</span>

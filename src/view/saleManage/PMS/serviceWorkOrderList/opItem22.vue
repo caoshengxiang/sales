@@ -43,7 +43,7 @@
         </el-form>
       </div>
       <div class="dialog-footer">
-        <el-button class="save-button" :disabled="!params.isShow" @click="saveSubmitForm('ruleForm')">发布记账日常告知</el-button>
+        <el-button class="save-button" :disabled="params.isShow" @click="saveSubmitForm('ruleForm')">发布记账日常告知</el-button>
       </div>
     </div>
 
@@ -93,7 +93,7 @@
   import API from '../../../../utils/api'
 
   export default {
-    name: 'opItem',
+    name: 'opItem22',
     data () {
       return {
         serviceLog: [],
