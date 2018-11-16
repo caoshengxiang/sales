@@ -46,7 +46,6 @@
           type="selection"
           align="center"
           prop=""
-          reserve-selection=""
           width="40">
         </el-table-column>
         <el-table-column

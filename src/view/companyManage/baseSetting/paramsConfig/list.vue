@@ -53,7 +53,6 @@
                 fixed
                 type="selection"
                 align="center"
-                reserve-selection=""
                 width="40">
               </el-table-column>
               <el-table-column

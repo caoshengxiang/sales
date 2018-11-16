@@ -37,7 +37,6 @@
           type="selection"
           align="center"
           prop="id"
-          reserve-selection=""
           width="40">
         </el-table-column>
         <el-table-column
