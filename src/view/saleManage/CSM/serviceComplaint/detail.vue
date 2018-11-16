@@ -45,13 +45,6 @@
           <li @click="stepClickHandle(5)" v-if="detail.state === 5">升级调查</li>
           <li @click="stepClickHandle(6)" v-if="detail.state === 6">升级处理</li>
         </ul>
-        <!--<ul class="com-info-op-group">
-          <li @click="stepClickHandle(2)">投诉调查</li>
-          <li @click="stepClickHandle(3)">投诉处理</li>
-          <li @click="stepClickHandle(4)">投诉回访</li>
-          <li @click="stepClickHandle(5)">升级调查</li>
-          <li @click="stepClickHandle(6)">升级处理</li>
-        </ul>-->
       </div>
       <div class="step-box">
         <div class="step">
@@ -122,11 +115,16 @@
             </td>
             <td colspan="4">
               <ul class="duty-ul">
+                <!--<li type="square"-->
+                    <!--v-if="detail.checkResultModel"-->
+                    <!--v-for="(item, index) in detail.checkResultModel.dutyTypes"-->
+                    <!--:key="index"-->
+                <!--&gt;{{item.codeName}}</li>-->
                 <li type="square"
                     v-if="detail.checkResultModel"
-                    v-for="(item, index) in detail.checkResultModel.dutyTypes"
+                    v-for="(item, index) in detail.serviceComplaintTypeModels"
                     :key="index"
-                >{{item}}</li>
+                >{{item.codeName}}</li>
               </ul>
             </td>
           </tr>

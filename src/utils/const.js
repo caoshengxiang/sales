@@ -20,7 +20,7 @@ export const agentRegister = 'http://king.dcstar-inc.com/#/account/registe?'
 * */
 
 export const pageMinWidth = 1100 // 页面最小宽度
-export const versionLogs = 'version: 1.0.0，20180723'
+export const versionLogs = 'version: 1.0.0，20181115'
 export const serverUrl = process.env.API_ROOT // server地址
 export const externalAPI = process.env.API_EXTERNAL // APP 外部地址
 

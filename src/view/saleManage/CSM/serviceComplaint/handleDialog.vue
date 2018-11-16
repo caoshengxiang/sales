@@ -29,21 +29,11 @@
                 <div class="flex-line" v-if="ruleForm2.checkResult.duty === true">
                   <label class="label-ti">有责任</label>
                   <div style="flex: 1;">
-                    <!--<div>-->
-                      <!--<el-checkbox v-model="ruleForm2.checkResult.serviceProcedure">服务质量未达预期</el-checkbox>-->
-                      <!--<el-checkbox v-model="ruleForm2.checkResult.contactCustomer">未及时与客户联系</el-checkbox>-->
-                      <!--<el-checkbox v-model="ruleForm2.checkResult.serviceFinishDelay">未按约定时间开始或完成服务</el-checkbox>-->
-                    <!--</div>-->
-                    <!--<div>-->
-                      <!--<el-checkbox v-model="ruleForm2.checkResult.serviceError">专业服务出现差错</el-checkbox>-->
-                      <!--<el-checkbox v-model="ruleForm2.checkResult.chargeExtraCost">私下额外收费</el-checkbox>-->
-                      <!--<el-checkbox v-model="ruleForm2.checkResult.serviceAttitudeBad">服务态度差</el-checkbox>-->
-                    <!--</div>-->
                     <div>
                       <el-checkbox-group v-model="ruleForm2.checkResult.dutyTypes">
                         <el-checkbox v-for="item in complaintTypes"
                                      :key="item.id"
-                                     :label="item.codeName" name="type"></el-checkbox>
+                                     :label="item" name="type">{{item.codeName}}</el-checkbox>
                       </el-checkbox-group>
                     </div>
                     <div>
@@ -178,14 +168,8 @@
             serviceContent: false,
             servicePrice: false,
             dutyTypes: [],
-            // serviceProcedure: false,
-            // chargeExtraCost: false,
-            // contactCustomer: false,
-            // intrduceOtherOrder: false,
-            // serviceAttitudeBad: false,
-            // serviceError: false,
-            // serviceFinishDelay: false,
           },
+          serviceComplaintTypeModels: [],
           handlePlan: '',
         },
         ruleForm3: {
@@ -230,6 +214,7 @@
             servicePrice: false,
             dutyTypes: [],
           },
+          serviceComplaintTypeModels: [],
           handlePlan: '',
         }
       },
@@ -256,6 +241,10 @@
         }
       },
       apiHandle2 () {
+        this.ruleForm2.checkResult.dutyTypes.forEach(item => {
+          console.log(item.id)
+          this.ruleForm2.serviceComplaintTypeModels.push({codeConfigId: item.id})
+        })
         let param = Object.assign({}, {id: this.params.id}, this.ruleForm2)
         API.serviceComplaint.inquire(param, (data) => {
           this.requireBack(data)

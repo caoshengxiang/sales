@@ -19,6 +19,7 @@
 
             <td class="td-title">投诉客户</td>
             <td class="td-text">
+              {{orderIdAboutDetail.serviceCustomerName}}
             </td>
 
             <td class="td-title">联系人</td>
@@ -29,31 +30,55 @@
             </td>
             <td class="td-title">商务电话</td>
             <td class="td-text">
-              <!--<el-form-item prop="customerPhone">-->
-                <!--<el-input type="text" v-model="addForm.customerPhone"></el-input>-->
-              <!--</el-form-item>-->
+              <el-form-item prop="contactPhone">
+                <el-input type="text" v-model="addForm.contactPhone"></el-input>
+              </el-form-item>
             </td>
           </tr>
           <tr>
             <td class="td-title">订单单号</td>
             <td class="td-text">
               <el-form-item prop="orderId">
-                <el-input type="text" v-model="addForm.orderId">
-                  <el-button slot="append" icon="el-icon-search"></el-button>
-                </el-input>
+                <!--<el-input type="text" v-model="searchOrderId">-->
+                  <!--<el-button slot="append" icon="el-icon-search" @click="searchOrderIdHandle"></el-button>-->
+                <!--</el-input>-->
+                <el-select
+                  v-model="addForm.orderId"
+                  filterable
+                  remote
+                  reserve-keyword
+                  placeholder="请输入订单单号关键词"
+                  :remote-method="searchOrderIdHandle"
+                  @change="selectOrderIdHandle"
+                  :loading="searchOrderIdLoading">
+                  <el-option
+                    v-for="(item, index) in orderListNoAuth"
+                    :key="index"
+                    :label="item.orderId"
+                    :value="item.orderId">
+                  </el-option>
+                </el-select>
               </el-form-item>
             <td class="td-title">服务产品</td>
             <td class="td-text">
+              {{orderIdAboutDetail.goodsName}}
             </td>
             <td class="td-title">服务状态</td>
             <td class="td-text">
+              <span v-if="orderIdAboutDetail.orderState === 1">待服务</span>
+              <span v-if="orderIdAboutDetail.orderState === 2">服务中</span>
+              <span v-if="orderIdAboutDetail.orderState === 3">已完成</span>
+              <span v-if="orderIdAboutDetail.orderState === 4">已退单</span>
             </td>
             <td class="td-title">投诉对象</td>
             <td class="td-text">
               <el-form-item prop="managerId">
                 <el-select v-model.number="addForm.managerId" placeholder="请选择管家">
-                  <el-option label="男fdg" :value="126"></el-option>
-                  <el-option label="男fdg" :value="126"></el-option>
+                  <el-option v-for="(item, index) in orderIdAboutDetail.serviceWorkOrderModels"
+                             :key="index"
+                             :label="item.managerName"
+                             :value="item.managerId"></el-option>
+
                 </el-select>
               </el-form-item>
             </td>
@@ -93,6 +118,7 @@
           managerId: '',
           content: '',
         },
+        searchOrderId: '',
         rules: {
           complaintTime: [
             {required: true, message: '请选择投诉日期', trigger: 'blur'},
@@ -100,7 +126,7 @@
           contactName: [
             {required: true, message: '请输入联系人', trigger: 'blur'},
           ],
-          customerPhone: [
+          contactPhone: [
             // {required: true, message: '请输入联系电话', trigger: 'blur'},
             chartLengthRule.validatePhone,
           ],
@@ -116,6 +142,11 @@
         },
         dialogType: 'add',
         customersList: [],
+        orderListNoAuth: [],
+        orderIdAboutDetail: {
+          // serviceWorkOrderModels: []
+        },
+        searchOrderIdLoading: false,
       }
     },
     props: ['params'],
@@ -165,6 +196,20 @@
           }
         })
       },
+      searchOrderIdHandle (query) {
+        this.searchOrderIdLoading = true
+        API.serviceOrder.listNoAuth({orderId: query}, (da) => {
+          this.searchOrderIdLoading = false
+          this.orderListNoAuth = da.data.content
+        })
+      },
+      selectOrderIdHandle () {
+        this.orderListNoAuth.forEach(item => {
+          if (item.orderId === this.addForm.orderId) {
+            this.orderIdAboutDetail = item
+          }
+        })
+      }
     },
     created () {
       if (this.params.detail) { // 联系人编辑

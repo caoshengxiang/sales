@@ -57,6 +57,15 @@
             width="160"
             show-overflow-tooltip
           >
+            <template slot-scope="scope">
+              <span v-if="scope.row.state === 1">待派单</span>
+              <span v-if="scope.row.state === 2">跟进中</span>
+              <span v-if="scope.row.state === 3">待处理</span>
+              <span v-if="scope.row.state === 4">待回访</span>
+              <span v-if="scope.row.state === 5">升级跟进中</span>
+              <span v-if="scope.row.state === 6">升级待处理</span>
+              <span v-if="scope.row.state === 7">已完成</span>
+            </template>
           </el-table-column>
           <el-table-column
             align="center"
