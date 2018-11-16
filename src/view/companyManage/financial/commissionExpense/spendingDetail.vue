@@ -173,8 +173,8 @@
           label="新客推荐人"
           show-overflow-tooltip>
           <template slot-scope="scope">
-            {{ scope.row.regionalManagerAmount }}({{ scope.row.regionalManagerPeriod }}/{{
-            scope.row.regionalManagerPeriodTotal }}期)
+            {{ scope.row.referenceAmount }}({{ scope.row.referencePeriod }}/{{
+            scope.row.referencePeriodTotal }}期)
           </template>
         </el-table-column>
         <el-table-column
@@ -182,7 +182,7 @@
           label="直接培训"
           show-overflow-tooltip>
           <template slot-scope="scope">
-            {{ scope.row.assistantAmount }}({{ scope.row.assistantPeriod }}/{{ scope.row.assistantPeriodTotal }}期)
+            {{ scope.row.directFosterAmount }}({{ scope.row.directFosterPeriod }}/{{ scope.row.directFosterPeriodTotal }}期)
           </template>
         </el-table-column>
         <el-table-column
@@ -190,7 +190,7 @@
           label="间接培训"
           show-overflow-tooltip>
           <template slot-scope="scope">
-            {{ scope.row.trainerAmount }}({{ scope.row.trainerPeriod }}/{{ scope.row.trainerPeriodTotal }}期)
+            {{ scope.row.indirectFosterAmount }}({{ scope.row.indirectFosterPeriod }}/{{ scope.row.indirectFosterPeriodTotal }}期)
           </template>
         </el-table-column>
 
