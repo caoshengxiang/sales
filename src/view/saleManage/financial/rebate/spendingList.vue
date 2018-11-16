@@ -36,8 +36,7 @@
           fixed
           type="selection"
           align="center"
-          prop=""
-          reserve-selection=""
+          prop="id"
           width="40">
         </el-table-column>
         <el-table-column
@@ -72,14 +71,13 @@
 
         <el-table-column
           align="center"
-          label="佣金状态"
+          label="返佣状态"
         >
           <template slot-scope="scope">
             <span v-for="(item, index) in paymentState" :key="index"
                   v-if="scope.row.paymentState === item.type">{{item.value}}</span>
           </template>
         </el-table-column>
-
         <el-table-column
           align="center"
           prop="saleCommission"
@@ -96,9 +94,10 @@
           label="服务佣金"
           width="100"
           prop="serviceCommission"
+          sortable="custom"
         >
           <!--<template slot-scope="scope">-->
-            <!--<a class="col-link">{{ scope.row.serviceCommission }}</a>-->
+          <!--<a class="col-link">{{ scope.row.serviceCommission }}</a>-->
           <!--</template>-->
         </el-table-column>
         <el-table-column

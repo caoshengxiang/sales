@@ -106,7 +106,7 @@
                 <td>新签</td>
                 <td v-for="col in cptSaleCommissionConfig[0]" :key="col.id">
                   <span v-if="col.commissionPercent !== -1">
-                    <el-input style="width: 72px" type="number" step="0.01" v-model.number="col.commissionPercent"
+                    <el-input style="width: 72px" type="tel" step="0.01" v-model.number="col.commissionPercent"
                               auto-complete="off" ></el-input>
                   %
                   </span>
@@ -117,7 +117,7 @@
                 <td>第二年续签</td>
                 <td v-for="col in cptSaleCommissionConfig[1]" :key="col.id">
                   <span v-if="col.commissionPercent !== -1">
-                    <el-input style="width: 72px" type="number" step="0.01" v-model.number="col.commissionPercent"
+                    <el-input style="width: 72px" type="tel" step="0.01" v-model.number="col.commissionPercent"
                               auto-complete="off" ></el-input>
                   %
                   </span>
@@ -128,7 +128,7 @@
                 <td>第三年至第五年</td>
                 <td v-for="col in cptSaleCommissionConfig[2]" :key="col.id">
                   <span v-if="col.commissionPercent !== -1">
-                    <el-input style="width: 72px" type="number" step="0.01" v-model.number="col.commissionPercent"
+                    <el-input style="width: 72px" type="tel" step="0.01" v-model.number="col.commissionPercent"
                               auto-complete="off" ></el-input>
                   %
                   </span>
@@ -139,7 +139,7 @@
                 <td>五年以后续签</td>
                 <td v-for="col in cptSaleCommissionConfig[3]" :key="col.id">
                   <span v-if="col.commissionPercent !== -1">
-                    <el-input style="width: 72px" type="number" step="0.01" v-model.number="col.commissionPercent"
+                    <el-input style="width: 72px" type="tel" step="0.01" v-model.number="col.commissionPercent"
                               auto-complete="off" ></el-input>
                   %
                   </span>
@@ -151,7 +151,7 @@
                 <td>新签</td>
                 <td v-for="col in cptSaleCommissionConfig[4]" :key="col.id">
                   <span v-if="col.commissionPercent !== -1">
-                    <el-input style="width: 72px" type="number" step="0.01" v-model.number="col.commissionPercent"
+                    <el-input style="width: 72px" type="tel" step="0.01" v-model.number="col.commissionPercent"
                               auto-complete="off" ></el-input>
                   %
                   </span>
@@ -162,7 +162,7 @@
                 <td>第二年续签</td>
                 <td v-for="col in cptSaleCommissionConfig[5]" :key="col.id">
                   <span v-if="col.commissionPercent !== -1">
-                    <el-input style="width: 72px" type="number" step="0.01" v-model.number="col.commissionPercent"
+                    <el-input style="width: 72px" type="tel" step="0.01" v-model.number="col.commissionPercent"
                               auto-complete="off" ></el-input>
                   %
                   </span>
@@ -173,7 +173,7 @@
                 <td>第三年至第五年</td>
                 <td v-for="col in cptSaleCommissionConfig[6]" :key="col.id">
                   <span v-if="col.commissionPercent !== -1">
-                    <el-input style="width: 72px" type="number" step="0.01" v-model.number="col.commissionPercent"
+                    <el-input style="width: 72px" type="tel" step="0.01" v-model.number="col.commissionPercent"
                               auto-complete="off" ></el-input>
                   %
                   </span>
@@ -184,7 +184,7 @@
                 <td>五年以后续签</td>
                 <td v-for="col in cptSaleCommissionConfig[7]" :key="col.id">
                   <span v-if="col.commissionPercent !== -1">
-                    <el-input style="width: 72px" type="number" step="0.01" v-model.number="col.commissionPercent"
+                    <el-input style="width: 72px" type="tel" step="0.01" v-model.number="col.commissionPercent"
                               auto-complete="off" ></el-input>
                   %
                   </span>
@@ -197,7 +197,7 @@
                 <td>新签</td>
                 <td v-for="col in cptSaleCommissionConfig[8]" :key="col.id">
                   <span v-if="col.commissionPercent !== -1">
-                    <el-input style="width: 72px" type="number" step="0.01" v-model.number="col.commissionPercent"
+                    <el-input style="width: 72px" type="tel" step="0.01" v-model.number="col.commissionPercent"
                               auto-complete="off" ></el-input>
                   %
                   </span>
@@ -209,7 +209,7 @@
                 <td>新签</td>
                 <td v-for="col in cptSaleCommissionConfig[9]" :key="col.id">
                   <span v-if="col.commissionPercent !== -1">
-                    <el-input style="width: 72px" type="number" step="0.01" v-model.number="col.commissionPercent"
+                    <el-input style="width: 72px" type="tel" step="0.01" v-model.number="col.commissionPercent"
                               auto-complete="off" ></el-input>
                   %
                   </span>
@@ -251,7 +251,7 @@
                 <td>新签</td>
                 <td v-for="col in cptSaleCommissionConfig[0]" :key="col.id">
                   <span v-if="col.commissionPercent !== -1">
-                    <el-input style="width: 72px" type="number" step="0.01" v-model.number="col.commissionPercent"
+                    <el-input style="width: 72px" type="tel" step="0.01" v-model.number="col.commissionPercent"
                               auto-complete="off" ></el-input>
                   %
                   </span>
@@ -262,7 +262,7 @@
                 <td>第二年续签</td>
                 <td v-for="col in cptSaleCommissionConfig[1]" :key="col.id">
                   <span v-if="col.commissionPercent !== -1">
-                    <el-input style="width: 72px" type="number" step="0.01" v-model.number="col.commissionPercent"
+                    <el-input style="width: 72px" type="tel" step="0.01" v-model.number="col.commissionPercent"
                               auto-complete="off" ></el-input>
                   %
                   </span>
@@ -273,7 +273,7 @@
                 <td>第三年至第五年</td>
                 <td v-for="col in cptSaleCommissionConfig[2]" :key="col.id">
                   <span v-if="col.commissionPercent !== -1">
-                    <el-input style="width: 72px" type="number" step="0.01" v-model.number="col.commissionPercent"
+                    <el-input style="width: 72px" type="tel" step="0.01" v-model.number="col.commissionPercent"
                               auto-complete="off" ></el-input>
                   %
                   </span>
@@ -284,7 +284,7 @@
                 <td>五年以后续签</td>
                 <td v-for="col in cptSaleCommissionConfig[3]" :key="col.id">
                   <span v-if="col.commissionPercent !== -1">
-                    <el-input style="width: 72px" type="number" step="0.01" v-model.number="col.commissionPercent"
+                    <el-input style="width: 72px" type="tel" step="0.01" v-model.number="col.commissionPercent"
                               auto-complete="off" ></el-input>
                   %
                   </span>
@@ -296,7 +296,7 @@
                 <td>新签</td>
                 <td v-for="col in cptSaleCommissionConfig[4]" :key="col.id">
                   <span v-if="col.commissionPercent !== -1">
-                    <el-input style="width: 72px" type="number" step="0.01" v-model.number="col.commissionPercent"
+                    <el-input style="width: 72px" type="tel" step="0.01" v-model.number="col.commissionPercent"
                               auto-complete="off" ></el-input>
                   %
                   </span>
@@ -307,7 +307,7 @@
                 <td>第二年续签</td>
                 <td v-for="col in cptSaleCommissionConfig[5]" :key="col.id">
                   <span v-if="col.commissionPercent !== -1">
-                    <el-input style="width: 72px" type="number" step="0.01" v-model.number="col.commissionPercent"
+                    <el-input style="width: 72px" type="tel" step="0.01" v-model.number="col.commissionPercent"
                               auto-complete="off" ></el-input>
                   %
                   </span>
@@ -318,7 +318,7 @@
                 <td>第三年至第五年</td>
                 <td v-for="col in cptSaleCommissionConfig[6]" :key="col.id">
                   <span v-if="col.commissionPercent !== -1">
-                    <el-input style="width: 72px" type="number" step="0.01" v-model.number="col.commissionPercent"
+                    <el-input style="width: 72px" type="tel" step="0.01" v-model.number="col.commissionPercent"
                               auto-complete="off" ></el-input>
                   %
                   </span>
@@ -329,7 +329,7 @@
                 <td>五年以后续签</td>
                 <td v-for="col in cptSaleCommissionConfig[7]" :key="col.id">
                   <span v-if="col.commissionPercent !== -1">
-                    <el-input style="width: 72px" type="number" step="0.01" v-model.number="col.commissionPercent"
+                    <el-input style="width: 72px" type="tel" step="0.01" v-model.number="col.commissionPercent"
                               auto-complete="off" ></el-input>
                   %
                   </span>
@@ -342,7 +342,7 @@
                 <td>新签</td>
                 <td v-for="col in cptSaleCommissionConfig[8]" :key="col.id">
                   <span v-if="col.commissionPercent !== -1">
-                    <el-input style="width: 72px" type="number" step="0.01" v-model.number="col.commissionPercent"
+                    <el-input style="width: 72px" type="tel" step="0.01" v-model.number="col.commissionPercent"
                               auto-complete="off" ></el-input>
                   %
                   </span>
@@ -354,7 +354,7 @@
                 <td>新签</td>
                 <td v-for="col in cptSaleCommissionConfig[9]" :key="col.id">
                   <span v-if="col.commissionPercent !== -1">
-                    <el-input style="width: 72px" type="number" step="0.01" v-model.number="col.commissionPercent"
+                    <el-input style="width: 72px" type="tel" step="0.01" v-model.number="col.commissionPercent"
                               auto-complete="off" ></el-input>
                   %
                   </span>
@@ -396,7 +396,7 @@
                 <td>新签</td>
                 <td v-for="col in cptSaleCommissionConfig[0]" :key="col.id">
                   <span v-if="col.commissionPercent !== -1">
-                    <el-input style="width: 72px" type="number" step="0.01" v-model.number="col.commissionPercent"
+                    <el-input style="width: 72px" type="tel" step="0.01" v-model.number="col.commissionPercent"
                               auto-complete="off" ></el-input>
                   %
                   </span>
@@ -407,7 +407,7 @@
                 <td>续签</td>
                 <td v-for="col in cptSaleCommissionConfig[1]" :key="col.id">
                   <span v-if="col.commissionPercent !== -1">
-                    <el-input style="width: 72px" type="number" step="0.01" v-model.number="col.commissionPercent"
+                    <el-input style="width: 72px" type="tel" step="0.01" v-model.number="col.commissionPercent"
                               auto-complete="off" ></el-input>
                   %
                   </span>
@@ -419,7 +419,7 @@
                 <td>新签</td>
                 <td v-for="col in cptSaleCommissionConfig[2]" :key="col.id">
                   <span v-if="col.commissionPercent !== -1">
-                    <el-input style="width: 72px" type="number" step="0.01" v-model.number="col.commissionPercent"
+                    <el-input style="width: 72px" type="tel" step="0.01" v-model.number="col.commissionPercent"
                               auto-complete="off" ></el-input>
                   %
                   </span>
@@ -430,7 +430,7 @@
                 <td>续签</td>
                 <td v-for="col in cptSaleCommissionConfig[3]" :key="col.id">
                   <span v-if="col.commissionPercent !== -1">
-                    <el-input style="width: 72px" type="number" step="0.01" v-model.number="col.commissionPercent"
+                    <el-input style="width: 72px" type="tel" step="0.01" v-model.number="col.commissionPercent"
                               auto-complete="off" ></el-input>
                   %
                   </span>
@@ -443,7 +443,7 @@
                 <td>新签</td>
                 <td v-for="col in cptSaleCommissionConfig[4]" :key="col.id">
                   <span v-if="col.commissionPercent !== -1">
-                    <el-input style="width: 72px" type="number" step="0.01" v-model.number="col.commissionPercent"
+                    <el-input style="width: 72px" type="tel" step="0.01" v-model.number="col.commissionPercent"
                               auto-complete="off" ></el-input>
                   %
                   </span>
@@ -455,7 +455,7 @@
                 <td>新签</td>
                 <td v-for="col in cptSaleCommissionConfig[5]" :key="col.id">
                   <span v-if="col.commissionPercent !== -1">
-                    <el-input style="width: 72px" type="number" step="0.01" v-model.number="col.commissionPercent"
+                    <el-input style="width: 72px" type="tel" step="0.01" v-model.number="col.commissionPercent"
                               auto-complete="off" ></el-input>
                   %
                   </span>

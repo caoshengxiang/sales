@@ -68,7 +68,6 @@
                     fixed
                     type="selection"
                     align="center"
-                    reserve-selection=""
                     width="40">
                   </el-table-column>
                   <el-table-column
@@ -142,7 +141,6 @@
                     fixed
                     type="selection"
                     align="center"
-                    reserve-selection=""
                     width="40">
                   </el-table-column>
                   <el-table-column
@@ -312,7 +310,6 @@
                     type="selection"
                     align="center"
                     prop="id"
-                    reserve-selection=""
                     width="40">
                   </el-table-column>
                   <el-table-column
