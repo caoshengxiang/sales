@@ -43,12 +43,6 @@
         <tr>
           <td class="td-title">操作</td>
           <td colspan="7">
-            <!--<com-button buttonType="backHighSeas" @click="auditTaskYes"-->
-            <!--v-if="detailInfo.state === 1 && detailInfo.principalId === userInfo.id">审核通过-->
-            <!--</com-button>-->
-            <!--<com-button buttonType="grey" @click="auditTaskNo"-->
-            <!--v-if="detailInfo.state === 1 && detailInfo.principalId === userInfo.id">审核拒绝-->
-            <!--</com-button>-->
             <com-button buttonType="backHighSeas" @click="auditTaskYes"
                         v-if="detailInfo.state === 1">审核通过
             </com-button>
@@ -164,14 +158,15 @@
           </table>
         </div>
 
-        <div v-if="detailInfo.approvalType === 5">
+        <!--服务工单派单-->
+        <div v-if="detailInfo.approvalType === 5 || detailInfo.approvalType === 4 || detailInfo.approvalType === 3">
+          <p class="table-title">服务订单信息</p>
           <table class="detail-table">
-            <tr>
-              <td rowspan="4" class="td-center">订单基本信息</td>
-            </tr>
             <tr>
               <td class="td-title">订单号</td>
               <td>{{orderDetail.orderId}}</td>
+              <td class="td-title">下单时间</td>
+              <td>{{orderDetail.orderTime && $moment(orderDetail.orderTime).format('YYYY-MM-DD HH:mm:ss')}}</td>
               <td class="td-title">订单状态</td>
               <td>
                 <span v-if="orderDetail.orderState === 1">待服务</span>
@@ -179,12 +174,14 @@
                 <span v-if="orderDetail.orderState === 3">已完成</span>
                 <span v-if="orderDetail.orderState === 4">已退单</span>
               </td>
-              <td class="td-title">服务类型</td>
-              <td>{{orderDetail.serviceType}}</td>
+              <!--<td class="td-title">服务类型</td>-->
+              <!--<td>{{orderDetail.serviceType}}</td>-->
             </tr>
             <tr>
-              <td class="td-title">下单时间</td>
-              <td>{{orderDetail.orderTime && $moment(orderDetail.orderTime).format('YYYY-MM-DD HH:mm:ss')}}</td>
+              <td class="td-title">预约服务时间</td>
+              <td>
+                {{orderDetail.reservationTime && $moment(orderDetail.reservationTime).format('YYYY-MM-DD HH:mm:ss')}}
+              </td>
               <td class="td-title">服务客户</td>
               <td>{{orderDetail.serviceCustomerName}}</td>
               <td class="td-title">联系人</td>
@@ -197,9 +194,6 @@
               <td>{{orderDetail.specificationName}}</td>
               <td class="td-title">购买数量</td>
               <td>{{orderDetail.goodsNum}}</td>
-            </tr>
-            <tr>
-              <td rowspan="5" class="td-center">订单发票信息</td>
             </tr>
             <tr>
               <td class="td-title">订单金额</td>
@@ -230,23 +224,78 @@
               <td colspan="5">{{orderDetail.invoiceMailAddress}}</td>
             </tr>
             <tr>
-              <td class="td-center" rowspan="3">订单其他信息</td>
-            </tr>
-            <tr>
-              <td class="td-title">预约服务时间</td>
-              <td colspan="5">
-                {{orderDetail.reservationTime && $moment(orderDetail.reservationTime).format('YYYY-MM-DD HH:mm:ss')}}
-              </td>
-            </tr>
-            <tr>
               <td class="td-title">订单备注</td>
               <td colspan="5">{{orderDetail.remark}}</td>
             </tr>
           </table>
+
+          <p class="table-title">订单商务信息</p>
+          <table class="detail-table">
+            <tr>
+              <td class="td-title">签约主体</td>
+              <td></td>
+              <td class="td-title">签约时间</td>
+              <td></td>
+              <td class="td-title">服务地</td>
+              <td></td>
+              <td class="td-title">签约金额</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td class="td-title">购买方式</td>
+              <td></td>
+              <td class="td-title">签约类型</td>
+              <td></td>
+              <td class="td-title">商务管家</td>
+              <td></td>
+              <td class="td-title">商务电话</td>
+              <td></td>
+            </tr>
+            <tr v-if="detailInfo.approvalType === 4 || detailInfo.approvalType === 3">
+              <td class="td-title">服务管家</td>
+              <td></td>
+              <td class="td-title">管家号</td>
+              <td></td>
+              <td class="td-title">管家类型</td>
+              <td></td>
+              <td class="td-title">服务主体</td>
+              <td></td>
+            </tr>
+          </table>
+          <!---->
+          <div v-if="detailInfo.approvalType === 4 || detailInfo.approvalType === 3"><!--审批类型 1:申请咨询师协同 2:申请移除咨询师 3:app订单退单 4:服务工单退单 5:服务工单派单 6:管家信息修改-->
+            <p class="table-title">服务退单信息</p>
+            <table class="detail-table">
+              <tr>
+                <td class="td-title">退单号</td>
+                <td></td>
+                <td class="td-title">申请日期</td>
+                <td></td>
+                <td class="td-title">退单申请人</td>
+                <td></td>
+                <td class="td-title">联系电话</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td class="td-title">退单原因</td>
+                <td colspan="7"></td>
+              </tr>
+              <tr v-if="detailInfo.approvalType === 3"> <!--审批类型 1:申请咨询师协同 2:申请移除咨询师 3:app订单退单 4:服务工单退单 5:服务工单派单 6:管家信息修改-->
+                <td class="td-title">退款金额</td>
+                <td></td>
+                <td class="td-title">退款账号</td>
+                <td></td>
+                <td class="td-title">开户行</td>
+                <td></td>
+                <td class="td-title">户名</td>
+                <td></td>
+              </tr>
+            </table>
+          </div>
         </div>
 
         <!--管家信息修改-->
-        <div v-if="orderInfo.approvalType === 6">
+        <div v-if="detailInfo.approvalType === 6">
           <table class="detail-table">
             <tr>
               <td class="td-title">平台用户</td>
@@ -406,7 +455,7 @@
   import API from '../../../../utils/api'
   import moment from 'moment'
   import { mapState } from 'vuex'
-  import webStorage from 'webStorage'
+  // import webStorage from 'webStorage'
   import photoView from '../../../../components/photo/photoView'
 
   export default {
@@ -416,7 +465,6 @@
         detailInfo: {},
         salesOpportunitiesDetail: {},
         customerDetail: {},
-        userInfo: {},
         managerDetail: {},
         orderDetail: {}, // 订单详细
       }
@@ -426,11 +474,6 @@
         'customerSourceType',
         'salesState',
       ]),
-    },
-    watch: {
-      '$route.query.view' (view) {
-        this.activeViewName = view
-      },
     },
     components: {
       comButton,
@@ -468,8 +511,10 @@
                 }, 500)
               })
             } else if (that.detailInfo.approvalType === 5) { // 服务工单派单
-              API.serviceOrder.detail(that.detailInfo.businessId, (da) => {
-                this.orderDetail = da.data
+              API.serviceOrder.detailAudit(that.detailInfo.businessId, (da) => {
+                if (da.status) {
+                  this.orderDetail = da.data
+                }
               })
             } else if (that.detailInfo.approvalType === 6) { // 管家信息修改
               API.serviceManager.updateDetail(that.detailInfo.businessId, (da) => {
@@ -520,8 +565,6 @@
     },
     created () {
       this.$options.methods.getTaskDetail.bind(this)()
-      this.activeViewName = this.$route.query.view
-      this.userInfo = webStorage.getItem('userInfo')
     },
   }
 </script>

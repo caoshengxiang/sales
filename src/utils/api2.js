@@ -160,6 +160,13 @@ export default {
         error && error(err)
       })
     },
+    detailAudit (params, success, error) { // 获取服务订单详情（服务工单主键-审批时查询）
+      $axios.get(`serviceOrder/byWorkOrderId/${params}`).then(res => {
+        success && success(res.data)
+      }).catch(err => {
+        error && error(err)
+      })
+    },
   },
   // 工单
   workOrder: {
