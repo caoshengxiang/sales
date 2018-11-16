@@ -31,8 +31,8 @@
           <td class="td-title">审批状态</td>
           <td>
             <span v-if="detailInfo.state === 1">审批中</span>
-            <span v-if="detailInfo.state === 2">已通过</span>
-            <span v-if="detailInfo.state === 3">已拒绝</span>
+            <span v-else-if="detailInfo.approved">已通过</span>
+            <span v-else>已拒绝</span>
           </td>
           <td class="td-title"></td>
           <td>
@@ -164,8 +164,89 @@
           </table>
         </div>
 
+        <div v-if="detailInfo.approvalType === 5">
+          <table class="detail-table">
+            <tr>
+              <td rowspan="4" class="td-center">订单基本信息</td>
+            </tr>
+            <tr>
+              <td class="td-title">订单号</td>
+              <td>{{orderDetail.orderId}}</td>
+              <td class="td-title">订单状态</td>
+              <td>
+                <span v-if="orderDetail.orderState === 1">待服务</span>
+                <span v-if="orderDetail.orderState === 2">服务中</span>
+                <span v-if="orderDetail.orderState === 3">已完成</span>
+                <span v-if="orderDetail.orderState === 4">已退单</span>
+              </td>
+              <td class="td-title">服务类型</td>
+              <td>{{orderDetail.serviceType}}</td>
+            </tr>
+            <tr>
+              <td class="td-title">下单时间</td>
+              <td>{{orderDetail.orderTime && $moment(orderDetail.orderTime).format('YYYY-MM-DD HH:mm:ss')}}</td>
+              <td class="td-title">服务客户</td>
+              <td>{{orderDetail.serviceCustomerName}}</td>
+              <td class="td-title">联系人</td>
+              <td>{{orderDetail.contactName}}[{{orderDetail.contactPhone}}]</td>
+            </tr>
+            <tr>
+              <td class="td-title">购买商品</td>
+              <td>{{orderDetail.goodsName}}</td>
+              <td class="td-title">商品规格</td>
+              <td>{{orderDetail.specificationName}}</td>
+              <td class="td-title">购买数量</td>
+              <td>{{orderDetail.goodsNum}}</td>
+            </tr>
+            <tr>
+              <td rowspan="5" class="td-center">订单发票信息</td>
+            </tr>
+            <tr>
+              <td class="td-title">订单金额</td>
+              <td>{{orderDetail.orderAmount}}</td>
+              <td class="td-title">订单优惠</td>
+              <td>{{orderDetail.orderReduction}}</td>
+              <td class="td-title">订单实付</td>
+              <td>{{orderDetail.orderPayment}}</td>
+            </tr>
+            <tr>
+              <td class="td-title">发票类型</td>
+              <td>{{orderDetail.invoiceType}}</td>
+              <td class="td-title">开票单位</td>
+              <td>{{orderDetail.invoiceUnit}}</td>
+              <td class="td-title">纳税识别号</td>
+              <td>{{orderDetail.taxIdentificationNum}}</td>
+            </tr>
+            <tr>
+              <td class="td-title">开户行信息</td>
+              <td>{{orderDetail.bankAddress}}</td>
+              <td class="td-title">银行账号</td>
+              <td>{{orderDetail.bankAccount}}</td>
+              <td class="td-title"></td>
+              <td></td>
+            </tr>
+            <tr>
+              <td class="td-title">发票邮寄地址</td>
+              <td colspan="5">{{orderDetail.invoiceMailAddress}}</td>
+            </tr>
+            <tr>
+              <td class="td-center" rowspan="3">订单其他信息</td>
+            </tr>
+            <tr>
+              <td class="td-title">预约服务时间</td>
+              <td colspan="5">
+                {{orderDetail.reservationTime && $moment(orderDetail.reservationTime).format('YYYY-MM-DD HH:mm:ss')}}
+              </td>
+            </tr>
+            <tr>
+              <td class="td-title">订单备注</td>
+              <td colspan="5">{{orderDetail.remark}}</td>
+            </tr>
+          </table>
+        </div>
+
         <!--管家信息修改-->
-        <div v-if="detailInfo.approvalType === 6">
+        <div v-if="orderInfo.approvalType === 6">
           <table class="detail-table">
             <tr>
               <td class="td-title">平台用户</td>
@@ -316,53 +397,6 @@
           </tr>
         </table>
       </div>
-      <!--团队成员-->
-      <!--<div class="detail-right com-box-padding">-->
-      <!--&lt;!&ndash;<team-member :detail="salesOpportunitiesDetail"></team-member>&ndash;&gt;-->
-
-      <!--<div class="team-title">-->
-      <!--<span class="title-text">团队成员</span>-->
-      <!--</div>-->
-      <!--<ul class="team-member">-->
-      <!--<li class="team-member-item">-->
-      <!--<div class="head">-->
-      <!--<img src="../../../../assets/icon/headDefault.png" alt="">-->
-      <!--</div>-->
-      <!--<div class="text">-->
-      <!--<h4>{{salesOpportunitiesDetail.team && salesOpportunitiesDetail.team.creatorName}}</h4>-->
-      <!--&lt;!&ndash;<p>{{salesOpportunitiesDetail.team && salesOpportunitiesDetail.team.creatorMobilePhone}}</p>&ndash;&gt;-->
-      <!--<p>******</p>-->
-      <!--</div>-->
-      <!--<div class="post">-->
-      <!--<span class="post-tag-1">创建人</span>-->
-      <!--</div>-->
-      <!--</li>-->
-      <!--<li class="team-member-item">-->
-      <!--<div class="head">-->
-      <!--<img src="../../../../assets/icon/headDefault.png" alt="">-->
-      <!--</div>-->
-      <!--<div class="text">-->
-      <!--<h4>{{salesOpportunitiesDetail.team && salesOpportunitiesDetail.team.salerName}}</h4>-->
-      <!--<p>{{salesOpportunitiesDetail.team && salesOpportunitiesDetail.team.salerMobilePhone}}</p>-->
-      <!--</div>-->
-      <!--<div class="post">-->
-      <!--<span class="post-tag-2">销售员</span>-->
-      <!--</div>-->
-      <!--</li>-->
-      <!--<li class="team-member-item">-->
-      <!--<div class="head">-->
-      <!--<img src="../../../../assets/icon/headDefault.png" alt="">-->
-      <!--</div>-->
-      <!--<div class="text">-->
-      <!--<h4>{{salesOpportunitiesDetail.team && salesOpportunitiesDetail.team.counselorName}}</h4>-->
-      <!--<p>{{salesOpportunitiesDetail.team && salesOpportunitiesDetail.team.counselorMobilePhone}}</p>-->
-      <!--</div>-->
-      <!--<div class="post">-->
-      <!--<span class="post-tag-2">咨询师</span>-->
-      <!--</div>-->
-      <!--</li>-->
-      <!--</ul>-->
-      <!--</div>-->
     </div>
   </div>
 </template>
@@ -384,6 +418,7 @@
         customerDetail: {},
         userInfo: {},
         managerDetail: {},
+        orderDetail: {}, // 订单详细
       }
     },
     computed: {
@@ -432,23 +467,16 @@
                   this.dataLoading = false
                 }, 500)
               })
-            } else if (that.detailInfo.approvalType === 6) {
+            } else if (that.detailInfo.approvalType === 5) { // 服务工单派单
+              API.serviceOrder.detail(that.detailInfo.businessId, (da) => {
+                this.orderDetail = da.data
+              })
+            } else if (that.detailInfo.approvalType === 6) { // 管家信息修改
               API.serviceManager.updateDetail(that.detailInfo.businessId, (da) => {
                 this.managerDetail = da.data
               })
             }
-          } else {
-            Message({
-              message: res.error.message,
-              type: 'error',
-            })
           }
-        }, (mock) => {
-          that.loading = false
-          Message({
-            message: '系统繁忙，请稍后再试！',
-            type: 'error',
-          })
         })
       },
       handleTabsClick (tab, event) {

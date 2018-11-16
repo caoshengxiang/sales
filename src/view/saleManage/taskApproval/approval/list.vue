@@ -10,6 +10,8 @@
     <!--控制栏-->
     <div class="com-bar">
       <div class="com-bar-left">
+        <el-button type="success" :disabled="multipleSelection.length !== 1" @click="auditTaskYes">审核通过</el-button>
+        <el-button type="danger" :disabled="multipleSelection.length !== 1" @click="auditTaskNo">审核拒绝</el-button>
       </div>
       <div class="com-bar-right">
         <el-select v-model="value" placeholder="请选择" @change="selectedOptionsHandleChange" class="com-el-select"
@@ -33,13 +35,23 @@
         :data="tableData"
         tooltip-effect="dark"
         style="width: 100%"
+        @selection-change="handleSelectionChange"
       >
+        <el-table-column
+          fixed
+          type="selection"
+          align="center"
+          width="40">
+        </el-table-column>
         <el-table-column
           fixed
           align="center"
           prop="id"
           label="审批单号"
         >
+          <template slot-scope="scope">
+            <a class="link" @click="handleRouter('detail', scope.row.id)">{{scope.row.id}}</a>
+          </template>
         </el-table-column>
         <el-table-column
           align="center"
@@ -70,15 +82,24 @@
         </el-table-column>
         <el-table-column
           align="center"
-          prop="address"
-          label="任务状态"
+          prop="state"
+          label="审批状态"
           show-overflow-tooltip>
           <template slot-scope="scope">
-            <!--principalId 负责人id-->
-            <a v-if="scope.row.state === 1 && userInfo.id === scope.row.principalId" class="button" @click="handleRouter('detail', scope.row.id)">办理</a>
-            <a v-if="scope.row.state === 1 && userInfo.id !== scope.row.principalId" class="button" @click="handleRouter('detail', scope.row.id)">查看</a>
-            <a v-if="scope.row.state === 2" class="link" @click="handleRouter('detail', scope.row.id)">已通过</a>
-            <a v-if="scope.row.state === 3" class="link" @click="handleRouter('detail', scope.row.id)">已拒绝</a>
+            <span v-if="scope.row.state === 1">待审批</span>
+            <span v-else-if="scope.row.approved">已通过</span>
+            <span v-else>已拒绝</span>
+          </template>
+        </el-table-column>
+        <el-table-column
+          align="center"
+          prop="state"
+          label="审批单状态"
+          show-overflow-tooltip>
+          <template slot-scope="scope">
+            <span v-if="scope.row.state === 1">审批中</span>
+            <span v-if="scope.row.state === 2">已完成</span>
+            <span v-if="scope.row.state === 3">已终止</span>
           </template>
         </el-table-column>
       </el-table>
@@ -113,10 +134,10 @@
       return {
         total: 0,
         options: [
-          /* {
+           { // todo del
             value: null,
             label: '全部任务',
-          }, */{
+          }, {
             value: 1,
             label: '我待办的审核',
           }, {
@@ -196,11 +217,39 @@
           }
         })
       },
-      addHandle () {
-        // alert('add btn')
+      auditTaskYes () {
+        this.auditTask(2)
       },
-      moveHandle () {
-        // alert('move')
+      auditTaskNo () {
+        this.auditTask(3)
+      },
+      auditTask (state) {
+        let param = {
+          // state: state,
+          processId: this.multipleSelection[0].id,
+          approved: state === 2,
+          opinion: '',
+        }
+        this.$prompt('请输入审核意见', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+        }).then(({value}) => {
+          param.opinion = value
+          API.task.auditTask(param, (res) => {
+            this.loading = false
+            if (res.status) {
+              this.getTaskList()
+              this.$message.success('审核成功')
+            } else {
+              this.$message.success(res.error.message)
+            }
+          })
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '取消输入',
+          })
+        })
       },
       handleSelectionChange (val) {
         this.multipleSelection = val
