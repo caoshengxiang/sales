@@ -147,10 +147,10 @@
             </td>
             <td class="td-title">需求提供人</td>
             <td class="td-text">
-              <el_form-item prop="provider">
+              <el-form-item prop="provider">
                 <el-input :disabled="(params.meetingCreatorId)?true:false"
                   type="text" v-model="providerName" placeholder="需求提供人不存在"></el-input>
-              </el_form-item>
+              </el-form-item>
             </td>
           </tr>
           <tr>

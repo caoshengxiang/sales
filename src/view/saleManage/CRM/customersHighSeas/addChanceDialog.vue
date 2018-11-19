@@ -86,7 +86,7 @@
             </td>
             <td class="td-title">需求提供人</td>
             <td class="td-text">
-              <el_form-item prop="provider">
+              <el-form-item prop="provider">
                 <el-select v-model="addForm.provider" filterable placeholder="请选择" style="width: 100%;">
                   <el-option
                     v-for="item in staffList"
@@ -95,7 +95,7 @@
                     :value="item.id">
                   </el-option>
                 </el-select>
-              </el_form-item>
+              </el-form-item>
             </td>
           </tr>
           <tr>

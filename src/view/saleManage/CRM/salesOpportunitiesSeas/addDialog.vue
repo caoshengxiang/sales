@@ -119,7 +119,7 @@
             </td>
             <td class="td-title">需求提供人</td>
             <td class="td-text">
-              <el_form-item prop="provider">
+              <el-form-item prop="provider">
                 <el-select :disabled="(addForm.provider && params.detail)?true:false"
                   v-model="addForm.provider" filterable clearable  placeholder="请选择" style="width: 100%;">
                   <el-option
@@ -129,7 +129,7 @@
                     :value="item.id">
                   </el-option>
                 </el-select>
-              </el_form-item>
+              </el-form-item>
             </td>
           </tr>
           <tr>
