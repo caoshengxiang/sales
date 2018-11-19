@@ -96,8 +96,12 @@
                                  label="请输入购买数量"></el-input-number>
               </el-form-item>
             </td>
-            <td class="td-title"></td>
+            <td class="td-title">需求提供人</td>
             <td class="td-text">
+              <el-form-item>
+                <el-input :disabled="(addForm.chanceId)?true:false"
+                          type="text" v-model="providerName" placeholder="需求提供人不存在"></el-input>
+              </el-form-item>
             </td>
           </tr>
           <tr>
@@ -151,6 +155,7 @@
         productsList: [], // 产品【规格】列表
         contractSubjects: [], // 签约主体
         allGoodsList: [],
+        providerName: '', // 需求提供人名字
         addForm: { // 添加表单
           customerId: '',
           contacterId: '',
@@ -168,6 +173,7 @@
           provinceId: '',
           cityId: '',
           areaId: '',
+          provider: '',
         },
         orderState: null,
         rules: {
@@ -372,6 +378,7 @@
       },
     },
     created () {
+      this.providerName = this.params.providerName
       this.getCustomersList()
       this.getAllGoodsList()
       if (this.params.orderDetail) { // 编辑
@@ -394,6 +401,7 @@
           provinceId: orD.provinceId,
           cityId: orD.cityId,
           areaId: orD.areaId,
+          provider: orD.provider,
         }
         this.getChanceList(this.params.orderDetail.customerId)
         this.getProductsList(this.params.orderDetail.productId)

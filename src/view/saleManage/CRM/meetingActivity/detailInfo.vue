@@ -634,7 +634,8 @@
             salesState: this.salesState,
             topSource: this.topSource, // 顶级客户来源
             meetingId: this.detailInfo.id,
-            meetingCreatorId: this.detailInfo.meetingCreatorId
+            meetingCreatorId: this.detailInfo.meetingCreatorId,
+            meetingCreatorName: this.detailInfo.meetingCreatorName
           },
           callback: (data) => {
             if (data.type === 'save') {
