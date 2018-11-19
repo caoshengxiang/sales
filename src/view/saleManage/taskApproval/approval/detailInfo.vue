@@ -233,37 +233,56 @@
           <table class="detail-table">
             <tr>
               <td class="td-title">签约主体</td>
-              <td></td>
+              <td>{{orderDetail.contractObject}}</td>
               <td class="td-title">签约时间</td>
-              <td></td>
+              <td>
+                {{orderDetail.contractTime && $moment(orderDetail.contractTime).format('YYYY-MM-DD HH:mm:ss')}}
+              </td>
               <td class="td-title">服务地</td>
-              <td></td>
+              <td>{{orderDetail.provinceName}}{{orderDetail.cityName}}{{orderDetail.areaName}}</td>
               <td class="td-title">签约金额</td>
-              <td></td>
+              <td>{{orderDetail.contractAccount}}</td>
             </tr>
             <tr>
               <td class="td-title">购买方式</td>
-              <td></td>
+              <td>todo</td>
               <td class="td-title">签约类型</td>
-              <td></td>
+              <td>
+                <span v-if="orderDetail.contractProperty === 1">新签</span>
+                <span v-if="orderDetail.contractProperty === 2">续费</span>
+              </td>
               <td class="td-title">商务管家</td>
-              <td></td>
+              <td>todo</td>
               <td class="td-title">商务电话</td>
+              <td>todo</td>
+            </tr>
+            <!--//  v-if="detailInfo.approvalType === 4 || detailInfo.approvalType === 3"-->
+            <tr v-if="detailInfo.approvalType === 4 || detailInfo.approvalType === 3" v-for="(item, index) in asignList"
+                :key="index">
+              <td class="td-title">派单单号</td>
+              <td>{{item.orderNum}}</td>
+              <td class="td-title">派单时间</td>
+              <td>{{item.assignDate && $moment(item.assignDate).format('YYYY-MM-DD HH:mm:ss')}}</td>
+              <td class="td-title">派单客服</td>
+              <td>todo</td>
+              <td class="td-title"></td>
               <td></td>
             </tr>
-            <tr v-if="detailInfo.approvalType === 4 || detailInfo.approvalType === 3">
+            <tr v-if="detailInfo.approvalType === 4 || detailInfo.approvalType === 3" v-for="(item, index) in asignList"
+                :key="index+1">
               <td class="td-title">服务管家</td>
-              <td></td>
+              <td>{{item.managerName}}</td>
               <td class="td-title">管家号</td>
-              <td></td>
+              <td>{{item.managerNo}}</td>
               <td class="td-title">管家类型</td>
-              <td></td>
+              <td>{{item.managerTypeName}}</td>
               <td class="td-title">服务主体</td>
-              <td></td>
+              <td>{{item.serviceName}}</td>
             </tr>
           </table>
           <!---->
-          <div v-if="detailInfo.approvalType === 4 || detailInfo.approvalType === 3"><!--审批类型 1:申请咨询师协同 2:申请移除咨询师 3:app订单退单 4:服务工单退单 5:服务工单派单 6:管家信息修改-->
+          <div v-if="detailInfo.approvalType === 4 || detailInfo.approvalType === 3">
+            <!--审批类型 1:申请咨询师协同 2:申请移除咨询师 3:app订单退单 4:服务工单退单 5:服务工单派单 6:管家信息修改-->
             <p class="table-title">服务退单信息</p>
             <table class="detail-table">
               <tr>
@@ -280,7 +299,8 @@
                 <td class="td-title">退单原因</td>
                 <td colspan="7"></td>
               </tr>
-              <tr v-if="detailInfo.approvalType === 3"> <!--审批类型 1:申请咨询师协同 2:申请移除咨询师 3:app订单退单 4:服务工单退单 5:服务工单派单 6:管家信息修改-->
+              <tr v-if="detailInfo.approvalType === 3">
+                <!--审批类型 1:申请咨询师协同 2:申请移除咨询师 3:app订单退单 4:服务工单退单 5:服务工单派单 6:管家信息修改-->
                 <td class="td-title">退款金额</td>
                 <td></td>
                 <td class="td-title">退款账号</td>
@@ -467,6 +487,7 @@
         customerDetail: {},
         managerDetail: {},
         orderDetail: {}, // 订单详细
+        asignList: [], // 派单
       }
     },
     computed: {
@@ -482,6 +503,7 @@
     methods: {
       getChanceDetail () {
       },
+      // 审批类型 1:申请咨询师协同 2:申请移除咨询师 3:app订单退单 4:服务工单退单 5:服务工单派单 6:管家信息修改
       getTaskDetail () {
         var that = this
         this.loading = true
@@ -510,10 +532,14 @@
                   this.dataLoading = false
                 }, 500)
               })
-            } else if (that.detailInfo.approvalType === 5) { // 服务工单派单
+            } else if (that.detailInfo.approvalType === 5 || that.detailInfo.approvalType === 4 ||
+              that.detailInfo.approvalType === 3) { // 服务工单派单
               API.serviceOrder.detailAudit(that.detailInfo.businessId, (da) => {
                 if (da.status) {
                   this.orderDetail = da.data
+                  API.workOrder.workOrderAsignListById({id: da.data.id}, (asignDa) => {
+                    that.asignList = asignDa.data
+                  })
                 }
               })
             } else if (that.detailInfo.approvalType === 6) { // 管家信息修改
@@ -541,26 +567,49 @@
           approved: state === 2,
           opinion: '',
         }
-        this.$prompt('请输入审核意见', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-        }).then(({value}) => {
-          param.opinion = value
-          API.task.auditTask(param, (res) => {
-            this.loading = false
-            if (res.status) {
-              this.getTaskDetail()
-              this.$message.success('审核成功')
-            } else {
-              this.$message.success(res.error.message)
-            }
+        if (state === 2) {
+          this.$confirm('确定审核通过, 是否继续?', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning',
+          }).then(() => {
+            API.task.auditTask(param, (res) => {
+              this.loading = false
+              if (res.status) {
+                this.getTaskDetail()
+                this.$message.success('审核成功')
+              } else {
+                this.$message.success(res.error.message)
+              }
+            })
+          }).catch(() => {
+            this.$message({
+              type: 'info',
+              message: '已取消',
+            })
           })
-        }).catch(() => {
-          this.$message({
-            type: 'info',
-            message: '取消输入',
+        } else {
+          this.$prompt('请输入审核意见', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+          }).then(({value}) => {
+            param.opinion = value
+            API.task.auditTask(param, (res) => {
+              this.loading = false
+              if (res.status) {
+                this.getTaskDetail()
+                this.$message.success('审核成功')
+              } else {
+                this.$message.success(res.error.message)
+              }
+            })
+          }).catch(() => {
+            this.$message({
+              type: 'info',
+              message: '取消输入',
+            })
           })
-        })
+        }
       },
     },
     created () {

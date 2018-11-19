@@ -57,9 +57,9 @@
                 <td class="td-title">服务类型</td>
                 <td>
                   <!--<span v-if="detail.serviceItemConfigModel">-->
-                    <!--<span v-for="item in serviceType" :key="item.type"-->
-                          <!--v-if="item.type === detail.serviceItemConfigModel.serviceType">-->
-                    <!--{{item.value}}-->
+                  <!--<span v-for="item in serviceType" :key="item.type"-->
+                  <!--v-if="item.type === detail.serviceItemConfigModel.serviceType">-->
+                  <!--{{item.value}}-->
                   <!--</span>-->
                   <!--</span>-->
                   {{detail.serviceType}}
@@ -276,6 +276,9 @@
     watch: {
       '$route.query.view' (view) {
         this.activeViewName = view
+      },
+      '$route.query.id' (to, from) {
+        this.$router.go(0)
       },
     },
     components: {

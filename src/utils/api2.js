@@ -204,6 +204,15 @@ export default {
         error && error(err)
       })
     },
+    workOrderAsignListById (params, success, error) { // 查询订单已指派工单列表（审批中订单详情下方服务派单列表 ）
+      $axios.get('serviceWorkOrder/assignList/byId', {
+        params: params,
+      }).then(res => {
+        success && success(res.data)
+      }).catch(err => {
+        error && error(err)
+      })
+    },
     addWorkOrder (params, success, error) { // 新增服务工单
       $axios.post('serviceWorkOrder', params).then(res => {
         success && success(res.data)

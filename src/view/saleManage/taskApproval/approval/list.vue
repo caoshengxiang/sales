@@ -134,10 +134,10 @@
       return {
         total: 0,
         options: [
-           { // todo del
+          /* { // todo del
             value: null,
             label: '全部任务',
-          }, {
+          }, */{
             value: 1,
             label: '我待办的审核',
           }, {
@@ -230,26 +230,49 @@
           approved: state === 2,
           opinion: '',
         }
-        this.$prompt('请输入审核意见', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-        }).then(({value}) => {
-          param.opinion = value
-          API.task.auditTask(param, (res) => {
-            this.loading = false
-            if (res.status) {
-              this.getTaskList()
-              this.$message.success('审核成功')
-            } else {
-              this.$message.success(res.error.message)
-            }
+        if (state === 2) {
+          this.$confirm('确定审核通过, 是否继续?', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning',
+          }).then(() => {
+            API.task.auditTask(param, (res) => {
+              this.loading = false
+              if (res.status) {
+                this.getTaskList()
+                this.$message.success('审核成功')
+              } else {
+                this.$message.success(res.error.message)
+              }
+            })
+          }).catch(() => {
+            this.$message({
+              type: 'info',
+              message: '已取消',
+            })
           })
-        }).catch(() => {
-          this.$message({
-            type: 'info',
-            message: '取消输入',
+        } else {
+          this.$prompt('请输入审核意见', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+          }).then(({value}) => {
+            param.opinion = value
+            API.task.auditTask(param, (res) => {
+              this.loading = false
+              if (res.status) {
+                this.getTaskList()
+                this.$message.success('审核成功')
+              } else {
+                this.$message.success(res.error.message)
+              }
+            })
+          }).catch(() => {
+            this.$message({
+              type: 'info',
+              message: '取消输入',
+            })
           })
-        })
+        }
       },
       handleSelectionChange (val) {
         this.multipleSelection = val

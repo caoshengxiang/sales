@@ -43,12 +43,12 @@
       getManagerList () {
         API.serviceManager.assginOrderManagerList({
           managerType: this.workOrderDetail.managerType,
-          // orderId: this.workOrderDetail.orderId,
-          // goodsId: this.workOrderDetail.goodsId,
-          // excludeId: this.params.excludeId,
-          // provinceId: this.params.serviceOrderDetail.provinceId,
-          // cityId: this.params.serviceOrderDetail.cityId,
-          // areaId: this.params.serviceOrderDetail.areaId,
+          orderId: this.workOrderDetail.orderId,
+          goodsId: this.workOrderDetail.goodsId,
+          excludeId: this.workOrderDetail.managerId,
+          provinceId: this.workOrderDetail.provinceId,
+          cityId: this.workOrderDetail.cityId,
+          areaId: this.workOrderDetail.areaId,
           workState: 1,
         }, (res) => {
           this.managerList = res.data.content
