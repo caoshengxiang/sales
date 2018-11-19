@@ -5,13 +5,13 @@
         <table class="detail-table">
           <tr>
             <td class="td-title">派工单号</td>
-            <td>todo</td>
+            <td>{{workOrderDetail.orderNum}}</td>
             <td class="td-title">派单时间</td>
             <td>{{workOrderDetail.assignDate && $moment(workOrderDetail.assignDate).format('YYYY-MM-DD HH:mm:ss')}}</td>
             <td class="td-title">商务管家</td>
-            <td>todo</td>
+            <td>{{orderDetail.businessManagerName}}</td>
             <td class="td-title">商务电话</td>
-            <td>todo</td>
+            <td>{{orderDetail.businessManagerName}}</td>
           </tr>
           <tr>
             <td class="td-title">订单单号</td>
@@ -21,7 +21,7 @@
             <td class="td-title"></td>
             <td></td>
             <td class="td-title">服务地</td>
-            <td>todo</td>
+            <td>{{orderDetail.provinceName}}{{orderDetail.cityName}}{{orderDetail.areaName}}</td>
           </tr>
           <tr>
             <td class="td-title">产品类别</td>
@@ -53,16 +53,16 @@
             <td class="td-title">服务主体</td>
             <td>todo</td>
           </tr>
-          <tr>
-            <td class="td-title">退单号</td>
-            <td>todo</td>
-            <td class="td-title">申请日期</td>
-            <td>todo</td>
-            <td class="td-title">退单申请人</td>
-            <td>todo</td>
-            <td class="td-title">联系电话</td>
-            <td>todo</td>
-          </tr>
+          <!--<tr>-->
+            <!--<td class="td-title">退单号</td>-->
+            <!--<td></td>-->
+            <!--<td class="td-title">申请日期</td>-->
+            <!--<td></td>-->
+            <!--<td class="td-title">退单申请人</td>-->
+            <!--<td></td>-->
+            <!--<td class="td-title">联系电话</td>-->
+            <!--<td></td>-->
+          <!--</tr>-->
           <tr>
             <td class="td-title">退单原因</td>
             <td colspan="7">

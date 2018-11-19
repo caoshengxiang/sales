@@ -5,11 +5,11 @@
         <table class="detail-table">
           <tr>
             <td class="td-title">派单时间</td>
-            <td>todo</td>
+            <td></td>
             <td class="td-title">商务管家</td>
-            <td>todo</td>
+            <td>{{detail.businessManagerName}}</td>
             <td class="td-title">商务电话</td>
-            <td>todo</td>
+            <td>{{detail.businessManagerName}}</td>
             <td class="td-title"></td>
             <td></td>
           </tr>
