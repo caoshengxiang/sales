@@ -364,6 +364,7 @@
               width: 900,
               height: 480,
               params: {
+                providerName: this.$route.params.providerName,
                 orderDetail: this.orderDetail,
                 topSource: this.topSource, // 顶级客户来源
                 isRenew: true,
