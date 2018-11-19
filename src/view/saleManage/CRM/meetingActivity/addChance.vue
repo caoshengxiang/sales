@@ -148,14 +148,8 @@
             <td class="td-title">需求提供人</td>
             <td class="td-text">
               <el_form-item prop="provider">
-                <el-select v-model="addForm.provider" filterable placeholder="请选择" style="width: 100%;">
-                  <el-option
-                    v-for="item in staffList"
-                    :key="item.id"
-                    :label="item.name"
-                    :value="item.id">
-                  </el-option>
-                </el-select>
+                <el-input :disabled="(params.meetingCreatorId)?true:false"
+                  type="text" v-model="providerName" placeholder="需求提供人不存在"></el-input>
               </el_form-item>
             </td>
           </tr>
@@ -209,6 +203,7 @@
           addType: 1, // 1主动添加 2扫活动二维码 3扫商务管家二维码
           provider: '', // 需求提供人
         },
+        providerName: '',
         customersList: [],
         salesState: [],
         intentProductCateList: [],
@@ -253,9 +248,6 @@
           ],
           chanceSeaId: [
             {required: true, message: '请选择机会公海', trigger: 'change'},
-          ],
-          provider: [
-            {required: true, message: '请选择需求提供人', trigger: 'change'},
           ],
         },
         chanceSourceType: [], // 客户来源
@@ -441,6 +433,8 @@
       },
     },
     created () {
+      this.providerName = this.params.meetingCreatorName
+      this.addForm.provider = this.params.meetingCreatorName
       this.getCustomersList()
       // this.getIntentProductCateList() // 新需求，没有分类
       this.getIntentProductList({goodsTypeId: null, goodsName: null})
@@ -462,7 +456,6 @@
       this.getConfigData(5, 0)
       this.getConfigData(3) // 行业
       this.getSeaList()
-      this.getStaffList()
     },
   }
 </script>
