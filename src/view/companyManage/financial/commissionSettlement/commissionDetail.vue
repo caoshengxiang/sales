@@ -202,21 +202,21 @@
             <el-table-column
               align="center"
               label="返佣对象"
-              prop=""
+              prop="referenceRebateSubjectName"
             >
             </el-table-column>
 
             <el-table-column
               align="center"
               label="工作人员"
-              prop=""
+              prop="referenceWorkerName"
             >
             </el-table-column>
 
             <el-table-column
               align="center"
               label="本期应反"
-              prop=""
+              prop="referenceAmount"
             >
             </el-table-column>
 
@@ -229,21 +229,21 @@
             <el-table-column
               align="center"
               label="返佣对象"
-              prop=""
+              prop="directForsterRebateSubjectName"
             >
             </el-table-column>
 
             <el-table-column
               align="center"
               label="工作人员"
-              prop=""
+              prop="directForsterWorkerName"
             >
             </el-table-column>
 
             <el-table-column
               align="center"
               label="本期应反"
-              prop=""
+              prop="directForsterAmount"
             >
             </el-table-column>
 
@@ -257,21 +257,21 @@
             <el-table-column
               align="center"
               label="返佣对象"
-              prop=""
+              prop="indirectForsterRebateSubjectName"
             >
             </el-table-column>
 
             <el-table-column
               align="center"
               label="工作人员"
-              prop=""
+              prop="indirectForsterWorkerName"
             >
             </el-table-column>
 
             <el-table-column
               align="center"
               label="本期应反"
-              prop=""
+              prop="indirectForsterAmount"
             >
             </el-table-column>
 
