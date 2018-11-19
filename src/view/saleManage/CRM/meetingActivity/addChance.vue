@@ -434,7 +434,7 @@
     },
     created () {
       this.providerName = this.params.meetingCreatorName
-      this.addForm.provider = this.params.meetingCreatorName
+      this.addForm.provider = this.params.meetingCreatorId
       this.getCustomersList()
       // this.getIntentProductCateList() // 新需求，没有分类
       this.getIntentProductList({goodsTypeId: null, goodsName: null})

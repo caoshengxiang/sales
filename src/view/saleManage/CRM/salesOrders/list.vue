@@ -78,7 +78,7 @@
         >
           <template slot-scope="scope">
             <!--<a class="col-link" @click="handleRouter('detail', scope.row.id)">{{ scope.row.billOrderId }}</a>-->
-            <a class="col-link" @click="handleRouter('detail', scope.row.id)">{{ scope.row.id}} <span
+            <a class="col-link" @click="handleRouter('detail', scope.row.id, scope.row.providerName)">{{ scope.row.id}} <span
               v-if="scope.row.orderId">-{{scope.row.orderId}}</span></a>
           </template>
         </el-table-column>
@@ -422,8 +422,8 @@
         this.currentPage = val
         this.getSalesOrderList()
       },
-      handleRouter (name, id) {
-        this.$router.push({name: 'salesOrdersDetail', query: {view: name, id: id}, params: {end: this.themeIndex === 0 ? 'FE' : 'ME'}})
+      handleRouter (name, id, providerName) {
+        this.$router.push({name: 'salesOrdersDetail', query: {view: name, id: id}, params: {providerName: providerName, end: this.themeIndex === 0 ? 'FE' : 'ME'}})
       },
       getSalesOrderList () {
         this.dataLoading = true
