@@ -99,7 +99,7 @@
             <td class="td-title">需求提供人</td>
             <td class="td-text">
               <el-form-item>
-                <el-input :disabled="(addForm.chanceId)?true:false"
+                <el-input :disabled="true"
                           type="text" v-model="providerName" placeholder="需求提供人不存在"></el-input>
               </el-form-item>
             </td>
