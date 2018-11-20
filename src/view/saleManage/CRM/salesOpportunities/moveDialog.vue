@@ -5,7 +5,9 @@
                class="demo-ruleForm">
         <el-form-item label="请选择新的销售人员" prop="newSalerId">
           <el-select v-model="moveCustomerForm.newSalerId" placeholder="请选择新的销售人员">
-            <el-option :disabled="currentUserId === item.id" v-for="item in salerList" :key="item.id" :label="item.name"
+            <!--<el-option :disabled="currentUserId === item.id" v-for="item in salerList" :key="item.id" :label="item.name"-->
+                       <!--:value="item.id"></el-option>-->
+            <el-option v-for="item in salerList" :key="item.id" :label="item.name"
                        :value="item.id"></el-option>
           </el-select>
         </el-form-item>
