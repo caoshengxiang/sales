@@ -318,7 +318,8 @@
           <ul>
             <li v-for="(item, index) in serviceItem"
                 :key="index"
-                v-if="item.itemRecord">工作成果：{{item.title}}
+                v-if="item.itemRecord">
+              工作成果：{{item.title}}  <a v-if="item.attachment" :href="item.attachment">附件下载</a>
             </li>
           </ul>
         </div>

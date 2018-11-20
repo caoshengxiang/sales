@@ -220,7 +220,7 @@
         <el-table-column
           align="center"
           sortable="custom"
-          prop="intentBillAmount"
+          prop="provinceName"
           label="地区"
           width="160"
           show-overflow-tooltip>
