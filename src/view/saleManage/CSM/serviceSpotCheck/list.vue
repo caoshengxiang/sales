@@ -11,8 +11,8 @@
     <!--控制栏-->
     <div class="com-bar">
       <div class="com-bar-left">
-        <el-button type="primary" :disabled="multipleSelection.length === 0" @click="assginOrderHandle">派单</el-button>
-        <el-button type="primary" :disabled="multipleSelection.length !== 1" @click="checkHandle">抽查</el-button>
+        <el-button type="primary" :disabled="multipleSelection.length === 0" icon="el-icon-edit-outline" @click="assginOrderHandle">派单</el-button>
+        <el-button type="primary" :disabled="multipleSelection.length !== 1" icon="el-icon-question" @click="checkHandle">抽查</el-button>
       </div>
       <div class="com-bar-right">
       </div>

@@ -12,15 +12,15 @@
     <!--控制栏-->
     <div class="com-bar">
       <div class="com-bar-left">
-        <com-button buttonType="add" icon="el-icon-plus" @click="orderHandle('back')"
+        <com-button buttonType="add" icon="el-icon-refresh" @click="orderHandle('back')"
                     :disabled="multipleSelection.length != 1">申请退单
         </com-button>
-        <com-button buttonType="add" icon="el-icon-plus" @click="orderHandle('move')"
+        <com-button buttonType="add" icon="el-icon-sort" @click="orderHandle('move')"
                     :disabled="multipleSelection.length != 1">转移
         </com-button>
       </div>
       <div class="com-bar-right">
-        <com-button buttonType="add" icon="el-icon-plus"
+        <com-button buttonType="add" icon=""
                     v-if="managerDetail"
                     @click="orderHandle('laze')">
           {{managerDetail.workState === 1 ? '服务中' : '打烊中'}}

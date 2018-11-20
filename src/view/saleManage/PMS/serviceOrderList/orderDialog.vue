@@ -29,7 +29,12 @@
           </tr>
           <tr>
             <td class="td-title">产品类别</td>
-            <td>todo</td>
+            <td>
+              <span v-if="detail.productType === 1">A类产品（记账/托管）</span>
+              <span v-if="detail.productType === 2">A类产品（财务顾问/财税金融咨询）</span>
+              <span v-if="detail.productType === 3">B类定制化产品</span>
+              <span v-if="detail.productType === 4">B类标准化产品</span>
+            </td>
             <td class="td-title">产品名称</td>
             <td>{{detail.goodsName}}</td>
             <td class="td-title">联系人</td>

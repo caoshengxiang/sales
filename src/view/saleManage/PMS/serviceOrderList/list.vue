@@ -12,7 +12,7 @@
     <!--控制栏-->
     <div class="com-bar">
       <div class="com-bar-left">
-        <com-button buttonType="add" icon="el-icon-plus" @click="orderHandle" :disabled="multipleSelection.length !== 1">派单</com-button>
+        <com-button buttonType="add" icon="el-icon-edit-outline" @click="orderHandle" :disabled="multipleSelection.length !== 1">派单</com-button>
       </div>
       <div class="com-bar-right">
       </div>

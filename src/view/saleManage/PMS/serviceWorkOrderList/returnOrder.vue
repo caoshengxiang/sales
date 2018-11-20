@@ -11,7 +11,7 @@
             <td class="td-title">商务管家</td>
             <td>{{orderDetail.businessManagerName}}</td>
             <td class="td-title">商务电话</td>
-            <td>{{orderDetail.businessManagerName}}</td>
+            <td>{{orderDetail.businessManagerPhone}}</td>
           </tr>
           <tr>
             <td class="td-title">订单单号</td>
@@ -25,7 +25,12 @@
           </tr>
           <tr>
             <td class="td-title">产品类别</td>
-            <td>todo</td>
+            <td>
+              <span v-if="orderDetail.productType === 1">A类产品（记账/托管）</span>
+              <span v-if="orderDetail.productType === 2">A类产品（财务顾问/财税金融咨询）</span>
+              <span v-if="orderDetail.productType === 3">B类定制化产品</span>
+              <span v-if="orderDetail.productType === 4">B类标准化产品</span>
+            </td>
             <td class="td-title">产品名称</td>
             <td>{{orderDetail.goodsName}}</td>
             <td class="td-title">联系人</td>
@@ -51,7 +56,7 @@
             <td class="td-title">管家类型</td>
             <td>{{workOrderDetail.managerType}}</td>
             <td class="td-title">服务主体</td>
-            <td>todo</td>
+            <td>{{workOrderDetail.serviceName}}</td>
           </tr>
           <!--<tr>-->
             <!--<td class="td-title">退单号</td>-->

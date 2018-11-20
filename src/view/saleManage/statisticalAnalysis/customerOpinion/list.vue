@@ -26,8 +26,8 @@
         <el-button @click="searchHandle">查询</el-button>
       </div>
       <div class="com-bar-right">
-        <el-button>打印</el-button>
-        <el-button>导出</el-button>
+        <!--<el-button>打印</el-button>-->
+        <!--<el-button>导出</el-button>-->
       </div>
     </div>
     <!--详细-->
