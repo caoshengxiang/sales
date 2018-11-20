@@ -158,10 +158,15 @@
       },
       getCodeConfig (id) {
         API.common.serviceContentConfigDetail({goodId: id}, (da) => {
-          this.serviceItemConfigList = da.data.serviceContentModelModels
-          this.serviceContent = JSON.parse(da.data.serviceContent)
+          if (da.data) {
+            this.serviceItemConfigList = da.data.serviceContentModelModels
+            this.serviceContent = JSON.parse(da.data.serviceContent)
+          } else {
+            this.serviceItemConfigList = []
+            this.serviceContent = []
+          }
         }, () => {
-          this.serviceItemConfigList = []
+          // this.serviceItemConfigList = []
         })
       },
       configHandle () {
@@ -194,8 +199,8 @@
           },
           callback: (data) => {
             if (data.type === 'configItem') {
-              console.log(data.serviceContent)
-              this.serviceContent = data.serviceContent
+              // console.log(data.serviceContent)
+              // this.serviceContent = data.serviceContent
             }
           },
         })
