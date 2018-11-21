@@ -42,8 +42,8 @@
             <template slot-scope="scope">
               <el-radio v-model="scope.row.productType" :label="1">A类产品（记账/托管）</el-radio>
               <el-radio v-model="scope.row.productType" :label="2">A类产品（税务顾问/财税金融咨询）</el-radio>
-              <el-radio v-model="scope.row.productType" :label="3">B类定制化产品</el-radio>
-              <el-radio v-model="scope.row.productType" :label="4">B类标准化产品</el-radio>
+              <el-radio v-model="scope.row.productType" :label="3">B类标准化产品</el-radio>
+              <el-radio v-model="scope.row.productType" :label="4">B类定制化产品</el-radio>
             </template>
           </el-table-column>
         </el-table>
