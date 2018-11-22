@@ -64,6 +64,7 @@
         border
         stripe
         :data="tableData"
+        :max-height='posheight'
         tooltip-effect="dark"
         style="width: 100%"
         @sort-change="sortChangeHandle"
@@ -256,6 +257,9 @@
     name: 'list',
     data () {
       return {
+        h: document.body.clientHeight,
+        posheight: 100,
+        timer: false,
         dataLoading: false,
         total: 0,
         tableData: [],
@@ -273,6 +277,36 @@
         organizationId: null, // 选择的组织
         sortObj: {sort: 'created,desc'}, // 排序
         advancedSearch: {},
+      }
+    },
+    watch: {
+      // 页面高度改变过后改变table的max_height高度
+      h (val) {
+        if(!this.timer) {
+          this.posheight = val - 260
+          this.timer = true
+          let that = this
+          setTimeout(function (){
+            that.timer = false
+          },400)
+        }
+      }
+    },
+    created () {
+      this.getCustomersSeaList()
+      if (this.themeIndex === 1) { // 后端， 拉取组织列表
+        this.getOrganization({pid: 1})
+      }
+      this.posTableHeight();            //根据屏幕高度设置table高度
+    },
+    mounted() {
+      // 监听页面高度
+      const that = this
+      window.onresize = () => {
+        return (() => {
+          let a = document.body.clientHeight
+          that.h = a
+        })()
       }
     },
     computed: {
@@ -370,6 +404,11 @@
             })
             break
         }
+      },
+      posTableHeight () {
+        let h = document.body.clientHeight,
+            new_h = h - 260;
+        this.posheight = new_h;
       },
       handleSelectionChange (val) {
         this.multipleSelection = val
@@ -499,12 +538,6 @@
           null) // 触发事件
         link.dispatchEvent(event)
       },
-    },
-    created () {
-      this.getCustomersSeaList()
-      if (this.themeIndex === 1) { // 后端， 拉取组织列表
-        this.getOrganization({pid: 1})
-      }
     },
   }
 </script>

@@ -27,6 +27,7 @@
         ref="multipleTable"
         border
         :data="tableData"
+        :max-height='posheight'
         tooltip-effect="dark"
         style="width: 100%"
         @sort-change="sortChangeHandle"
@@ -158,6 +159,9 @@
     name: 'list',
     data () {
       return {
+        h: document.body.clientHeight,
+        posheight: 100,
+        timer: false,
         tableData: [],
         tableDataTotal: 0,
         multipleSelection: [],
@@ -188,6 +192,33 @@
         ],
       }
     },
+    watch: {
+      // 页面高度改变过后改变table的max_height高度
+      h (val) {
+        if(!this.timer) {
+          this.posheight = val - 260
+          this.timer = true
+          let that = this
+          setTimeout(function (){
+            that.timer = false
+          },400)
+        }
+      }
+    },
+    mounted() {
+      // 监听页面高度
+      const that = this
+      window.onresize = () => {
+        return (() => {
+          let a = document.body.clientHeight
+          that.h = a
+        })()
+      }
+    },
+    created () {
+      this.getCommissionPayment()
+      this.posTableHeight();            //根据屏幕高度设置table高度
+    },
     computed: {
       ...mapState('constData', [
         'pagesOptions',
@@ -199,6 +230,11 @@
     methods: {
       addHandle () {
         this.$router.push({name: 'personal', query: {view: 'base'}})
+      },
+      posTableHeight () {
+        let h = document.body.clientHeight,
+            new_h = h - 260;
+        this.posheight = new_h;
       },
       commissionPaymentConfirm () {
         API.financial.commissionPaymentConfirm({ids: arrToStr(this.multipleSelection, 'id')}, (da) => {
@@ -274,9 +310,6 @@
           },
         })
       },
-    },
-    created () {
-      this.getCommissionPayment()
     },
   }
 </script>

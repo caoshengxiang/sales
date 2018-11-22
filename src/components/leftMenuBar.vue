@@ -101,7 +101,7 @@
         </el-submenu>
         <el-submenu index="statisticals"> <!--&lt;!&ndash;todo 加权限&ndash;&gt;-->
            <template slot="title">
-             <i class="iconfont icon-lvzhou_shebeipeizhi"></i>
+             <i class="iconfont icon-ene_mon_mes_sta"></i>
              <span>统计分析</span>
            </template>
            <el-menu-item-group>
