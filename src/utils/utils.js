@@ -271,7 +271,7 @@ export function lastMonthDate () { // 上个月1号
     vMon = '0' + vMon
   }
   var date = vYear + '-' + vMon + '-01'
-  console.log(date)
+  // console.log(date)
   return new Date(date)
 }
 

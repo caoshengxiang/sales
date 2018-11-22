@@ -1,0 +1,367 @@
+<template lang='pug'>
+  div.com-container(v-loading="dataLoading" element-loading-text="数据加载中...")
+    //- 头部
+    div.com-head
+      el-breadcrumb(separator-class="el-icon-arrow-right")
+        el-breadcrumb-item(v-if="themeIndex === 0" v-for="item in $route.meta.pos" :key="item.name" :to="{name: item.toName}") {{item.name}}
+        el-breadcrumb-item(v-if="themeIndex === 1" v-for="item in $route.meta.pos2" :key="item.name" :to="{name: item.toName}") {{item.name}}
+    //- 控制栏
+    div.com-bar
+      div.com-bar-left
+      //- 前端
+      div.com-bar-right(v-if="themeIndex === 0")
+        //- el-select.com-el-select(v-model="salesOpportunitiesOptionsType" placeholder="请选择")
+        //- el-option(v-for="item in salesOpportunitiesOptions" :key="item.type" :label="item.value" :value="item.type")
+        //- com-button(buttonType="search" @click="searchHandle") 搜索
+        com-button(buttonType="search" @click="advancedSearchHandle") 高级搜索
+      //- 后端
+      div.com-bar-right(v-if="themeIndex === 1")
+        el-select.com-el-select(v-model="organizationId" @change="searchHandle" placeholder="请选择组织" style="width: 200px")
+          el-option(label="全部组织的销售机会" :value="null")
+          el-option(v-for="item in organizationOptions" :key="item.id" :label="item.name" :value="item.id")
+        //- com-button(buttonType="search" @click="searchHandle") 搜索
+        com-button(buttonType="search" @click="advancedSearchHandle") 高级搜索
+    //- 详细
+    div.com-box.com-box-padding.com-list-box
+      el-table(ref="multipleTable" border stripe :max-height='posheight' :data="salesOpportunitiesList" tooltip-effect="dark" style="width: 100%" @sort-change="sortChangeHandle" @selection-change="handleSelectionChange")
+        el-table-column(fixed align="center" type="selection")
+        el-table-column(fixed align="center" sortable="" width='180' label="订单编号" show-overflow-tooltip)
+          template(slot-scope='scope')
+            span {{scope.row.saler_order_id.toString() + scope.row.app_order_id}}
+        el-table-column(fixed align="center" sortable="" prop="customer_name" width='180' label="客户名称" show-overflow-tooltip)
+        el-table-column(align="center" sortable="custom" width='180' label="所属区域")
+          template(slot-scope='scope')
+            span {{scope.row.province_name + scope.row.city_name + scope.row.area_name}}
+        el-table-column(align="center" sortable="custom" prop="industry" width='120' label="所属行业" show-overflow-tooltip)
+        el-table-column(align="center" sortable="custom" prop="contacter_name" width='120' label="联系人" show-overflow-tooltip)
+        el-table-column(align="center" sortable="custom" prop="contact_phone" width='180' label="联系方式" show-overflow-tooltip)
+        el-table-column(align="center" sortable="custom" prop="service_year" width='100' label="服务年度" show-overflow-tooltip)
+        el-table-column(align="center" sortable="custom" prop="product_name" width='200' label="购买商品" show-overflow-tooltip)
+        el-table-column(align="center" sortable="custom" prop="billing_type" width='100' label="商品类型" show-overflow-tooltip)
+        el-table-column(align="center" sortable="custom" prop="order_type" width='100' label="签单类型" show-overflow-tooltip)
+        el-table-column(align="center" sortable="custom" width='100' label="是否续费" show-overflow-tooltip)
+          template(slot-scope='scope')
+            span {{~~scope.row.is_renew ? '是' : '否'}}
+        el-table-column(align="center" sortable="custom" prop="renew_times" width='100' label="续费年度" show-overflow-tooltip)
+        el-table-column(align="center" sortable="custom" prop="price_amount" width='120' label="定价金额" show-overflow-tooltip)
+        el-table-column(align="center" sortable="custom" prop="bill_amount" width='120' label="签单金额" show-overflow-tooltip)
+        el-table-column(align="center" sortable="custom" prop="received_amount" width='120' label="回款金额" show-overflow-tooltip)
+        el-table-column(align="center" sortable="custom" prop="no_received_amount" width='120' label="待回款金额" show-overflow-tooltip)
+        el-table-column(align="center" sortable="custom" prop="order_status" width='100' label="订单状态" show-overflow-tooltip)
+        el-table-column(align="center" sortable="custom" prop="order_source" width='180' label="订单推荐来源" show-overflow-tooltip)
+        el-table-column(align="center" sortable="custom" prop="provider_name" width='120' label="需求提供人" show-overflow-tooltip)
+        el-table-column(align="center" sortable="custom" prop="creator_name" width='120' label="订单创建人" show-overflow-tooltip)
+        el-table-column(align="center" sortable="custom" prop="saler_name" width='100' label="销售员" show-overflow-tooltip)
+        el-table-column(align="center" sortable="custom" prop="counselor_name" width='100' label="咨询师" show-overflow-tooltip)
+        el-table-column(align="center" sortable="custom" prop="created" width='200' label="订单创建日期" show-overflow-tooltip)
+        el-table-column(align="center" sortable="custom" prop="chance_source_date" width='200' label="需求来源日期" show-overflow-tooltip)
+    //- 底部综合信息
+    //- 分页
+    div.com-pages-box
+      //- 总和数据
+      div.tatal-data
+        span 合计签单数：
+          span.tatal-data-color {{footerData.all_bill_num}}
+        span.tatal-data-line
+        span 合计销售额：
+          span.tatal-data-color {{footerData.all_sale_money.toLocaleString()}}
+        span.tatal-data-line
+        span 合计回款额：
+          span.tatal-data-color {{footerData.all_back_money.toLocaleString()}}
+      el-pagination(background :total="salesOpportunitiesTotal" @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage" :layout="pagesOptions.layout" :page-sizes="pagesOptions.pageSizes" :page-size="pagesOptions.pageSize")
+</template>
+
+<script>
+  import comButton from '../../../components/button/comButton'
+  import { mapState, mapActions } from 'vuex'
+  import API from '../../../utils/api'
+  import addDialog from '../CRM/salesOpportunities/addDialog'
+  import moveDialog from '../CRM/salesOpportunities/moveDialog'
+  import { arrToStr, underscoreName } from '../../../utils/utils'
+  import advancedSearch from './advancedSearch'
+
+  export default {
+    name: 'list',
+    data () {
+      return {
+        h: document.body.clientHeight,
+        posheight: 100,
+        timer: false,
+        dataLoading: false,
+        salesOpportunitiesOptionsType: null,
+        multipleSelection: [],
+        currentPage: 1,
+        customerId: null,                         // 路由参数中得客户id
+        defaultListParams: {                      // 默认顾客列表请求参数
+          page: null,
+          pageSize: null,
+          type: null,
+          customerId: null,
+          organizationId: null,
+        },
+        organizationOptions: [],                  // 组织列表
+        organizationId: null,                     // 选择的组织
+        sortObj: {sort: 'created,desc'},          // 排序
+        advancedSearch: {},                       // 高级搜索
+        footerData: {
+          all_bill_num: 256,                      //合计签单数
+          all_sale_money: 155484,                 //合计销售额
+          all_back_money: 3025154,                //合计回款额
+        },                                        
+      }
+    },
+    watch: {
+      // 页面高度改变过后改变table的max_height高度
+      h (val) {
+        if(!this.timer) {
+          this.posheight = val - 260
+          this.timer = true
+          let that = this
+          setTimeout(function (){
+            that.timer = false
+          },400)
+        }
+      }
+    },
+    created () {
+      this.getSalesOpportunititeisList()
+      if (this.themeIndex === 1) { // 后端， 拉取组织列表
+        this.getOrganization({pid: 1})
+      }
+      this.posTableHeight();            //根据屏幕高度设置table高度
+    },
+    mounted() {
+      // 监听页面高度
+      const that = this
+      window.onresize = () => {
+        return (() => {
+          let a = document.body.clientHeight
+          that.h = a
+        })()
+      }
+    },
+    computed: {
+      ...mapState('constData', [
+        'pagesOptions',
+        'salesState',
+        'orderType',
+        'productClass',
+        'demandSource',
+        'salesOpportunitiesOptions',
+        'themeIndex',
+        'topSource',
+        'orderState',
+        'orderStates'
+      ]),
+      ...mapState('salesOpportunities', [
+        'salesOpportunitiesList',
+        'salesOpportunitiesTotal',
+      ]),
+    },
+    components: {
+      comButton,
+      addDialog,
+      moveDialog,
+    },
+    methods: {
+      ...mapActions('salesOpportunities', [
+        'ac_salesOpportunitiesList',
+      ]),
+      posTableHeight () {
+        let h = document.body.clientHeight,
+            new_h = h - 260;
+        this.posheight = new_h;
+      },
+      handleSelectionChange (val) {
+        this.multipleSelection = val
+      },
+      getSalesOpportunititeisList () { // 获取列表
+        this.dataLoading = true
+        this.getQueryParams()
+        if (this.themeIndex === 0) {
+          API.salesOpportunities.list(Object.assign({}, this.defaultListParams, this.sortObj, this.advancedSearch),
+            (data) => {
+                let _data = {
+                    content: [
+                        {
+                            saler_order_id:       123,
+                            app_order_id:         456,
+                            customer_name:        '成都大光有限公司',
+                            province_name:        '四川省',
+                            city_name:            '成都市',
+                            area_name:            '高新区',
+                            industry:             '互联网',
+                            contacter_name:       '张三',
+                            contact_phone:        '13888888888',
+                            service_year:         '2017',
+                            product_name:         '财税金融全托管',
+                            billing_type:         '计时',
+                            order_type:           '客户首购',
+                            is_renew:             1,
+                            renew_times:          2,
+                            price_amount:         12525.00,
+                            bill_amount:          15000.00,
+                            received_amount:      10000.00,
+                            no_received_amount:   0,
+                            order_state:          2,
+                            order_status:         '',
+                            order_source:         '代理商',
+                            provider_name:        '李四',
+                            creator_name:         '王五',
+                            saler_name:           '王亮',
+                            counselor_name:       '王晓霞',
+                            created:              '2018-05-15 13:20',
+                            chance_source_date:   '2018-05-16 13:00'
+                        }
+                    ]
+                }
+              if(_data.content.length > 0 ) {
+                _data.content.forEach(a => {
+                  let _state = ~~a.order_state;
+                  // 支付状态赋值
+                  switch (_state) {
+                    case 1:
+                      a.order_status = '待支付';
+                      break;
+                    case 2:
+                      a.order_status = '已支付';
+                      break;
+                    case 3:
+                      a.order_status = '服务中';
+                      break;
+                    case 4:
+                      a.order_status = '已完成';
+                      break;
+                    case 5:
+                      a.order_status = '已取消';
+                      break;
+                    case 6: 
+                      a.order_status = '预下单';
+                      break;
+                    default:
+                      break;
+                  }
+                })
+              }
+              console.log(_data)
+              // this.ac_salesOpportunitiesList(data.data)
+              this.ac_salesOpportunitiesList(_data)
+              setTimeout(() => {
+                this.dataLoading = false
+              }, 500)
+            })
+        } else if (this.themeIndex === 1) {
+          API.salesOpportunities.listAdmin(Object.assign({}, this.defaultListParams, this.sortObj, this.advancedSearch),
+            (data) => {
+              this.ac_salesOpportunitiesList(data.data)
+              setTimeout(() => {
+                this.dataLoading = false
+              }, 500)
+            })
+        }
+      },
+      handleSizeChange (val) {
+        console.log(`每页 ${val} 条`)
+        this.getSalesOpportunititeisList()
+      },
+      handleCurrentChange (val) {
+        // console.log(`当前页: ${val}`)
+        this.currentPage = val
+        this.getSalesOpportunititeisList()
+      },
+      handleRouter (name, id) {
+        this.$router.push({
+          name: 'salesOpportunitiesDetail',
+          query: {view: name, id: id},
+          params: {end: this.themeIndex === 0 ? 'FE' : 'ME'},
+        })
+      },
+      handleRouter2 (name, id) {
+        this.$router.push({
+          name: 'customersDetail',
+          query: {view: name, customerId: id},
+          params: {end: this.themeIndex === 0 ? 'FE' : 'ME'},
+        })
+      },
+      searchHandle () {
+        this.getSalesOpportunititeisList()
+      },
+      sortChangeHandle (sortObj) {
+        // console.log(sortObj)
+        let order = null
+        if (sortObj.order === 'ascending') {
+          order = 'asc'
+        } else if (sortObj.order === 'descending') {
+          order = 'desc'
+        }
+        this.sortObj = {sort: underscoreName(sortObj.prop) + ',' + order}
+        this.getSalesOpportunititeisList()
+      },
+      advancedSearchHandle () {
+        this.$vDialog.modal(advancedSearch, {
+          title: '高级搜索',
+          width: 900,
+          height: 460,
+          params: {
+            salesState: this.orderType,               //签单类型赋值
+            productClass: this.productClass,           //商品类型赋值
+            demandSource: this.demandSource,
+            preAdvancedSearch: this.advancedSearch,
+
+            orderState: this.orderStates,               //订单类型赋值
+          },
+          callback: (data) => {
+            if (data.type === 'search') {
+              console.log('高级搜索数据：', data.params)
+              this.advancedSearch = data.params
+              this.getSalesOpportunititeisList()
+            }
+          },
+        })
+      },
+      getQueryParams () { // 请求参数配置
+        this.customerId = this.$route.query.customerId
+        this.defaultListParams = {
+          page: this.currentPage - 1,
+          pageSize: this.pagesOptions.pageSize,
+          type: this.salesOpportunitiesOptionsType,  // 前端
+          organizationId: this.organizationId,       // 后端
+        }
+        if (this.customerId) { // 更多
+          this.defaultListParams.customerId = this.customerId
+        }
+      },
+      getOrganization (pa) {
+        API.organization.queryAllList(pa, (data) => {
+          this.organizationOptions = data.data
+        })
+      },
+    },
+  }
+</script>
+
+<style scoped lang="scss" rel="stylesheet/scss">
+  @import "../../../styles/common";
+  .tatal-data {
+    height: 60px;
+    line-height: 70px;
+    color: #606266;
+    font-size: 13px;
+    position: absolute;
+    left: 65px;
+    bottom: 0;
+
+    .tatal-data-color {
+        color: #4BCF99;
+        font-weight: bold;
+    }
+
+    .tatal-data-line {
+        display: inline-block;
+        width: 1px;
+        height: 10px;
+        background: #606266;
+        margin: 0 8px;
+    }
+  }
+</style>

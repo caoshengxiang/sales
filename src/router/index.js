@@ -104,6 +104,13 @@ const taskApprovalList = resolve => require.ensure([],
 const taskApprovalDetail = resolve => require.ensure([],
   () => resolve(require('../view/saleManage/taskApproval/approval/detailInfo')),
   'taskApproval')
+
+// 订单分析，销售订单统计
+const salesOrdersStatic = resolve => require.ensure([],
+  () => resolve(require('../view/saleManage/statisticalAnalysis/salesOrderStatistics')),
+  'statisticalAnalysis')
+
+
 // 个人信息
 const personal = resolve => require.ensure([],
   () => resolve(require('../view/saleManage/personalCenter/personal')),
@@ -510,6 +517,14 @@ const router = new Router({
           meta: {
             title: '任务审批',
             pos: [{name: '销售管理系统', toName: 'saleHome'}, {name: '任务审批'}],
+          },
+        }, {
+          path: 'salesOrdersStatic',
+          name: 'salesOrdersStatic',
+          component: salesOrdersStatic,
+          meta: {
+            title: '销售订单统计',
+            pos: [{name: 'ERP管理系统', toName: 'saleHome'},{name: '系统分析'}, {name: '销售订单统计'}],
           },
         }, {
           path: 'todoItemList',

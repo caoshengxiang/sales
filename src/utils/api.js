@@ -1971,5 +1971,33 @@ export default {
         error && error(err)
       })
     },
+  },
+  // 统计分析
+  statistical: {
+      
+    //获取销售订单统计的列表数据
+    List (params, success, error) {               
+        $axios({
+            method: 'get',
+            url: 'sales/sales',
+            params: params,
+        }).then((res) => {
+            success && success(res.data)
+        }).catch((errorData) => {
+            error && error(errorData)
+        })
+    },
+    //高级搜索数据
+    Adsearch (params, success, error) {            
+        $axios({
+            method: 'get',
+            url: '',
+            params: params,
+        }).then((res) => {
+            success && success(res.data)
+        }).catch((errorData) => {
+            error && error(errorData)
+        })
+    },
   }
 }
