@@ -105,6 +105,7 @@
              <span>统计分析</span>
            </template>
            <el-menu-item-group>
+             <!-- <el-menu-item index="salesOrdersStatic" v-if="listPermissions(menus, 'statisticSalerOrder')">销售订单统计</el-menu-item> -->
              <el-menu-item index="salesOrdersStatic">销售订单统计</el-menu-item>
              <!-- <el-menu-item index="serviceTaskSta">服务任务统计</el-menu-item>
              <el-menu-item index="customerServiceTaskSta">客服任务统计</el-menu-item>
@@ -275,7 +276,7 @@
     created () {
       this.userInfo = utils.loginExamine(this)
       this.menus = this.userInfo.menus
-      console.log(1, this.menus)
+      // console.log(1, this.menus)
       this.ac_currentUser(this.userInfo)
       // console.log('tetssss', this.listPermissions(this.menus, 'statistical')) // 测试权限方法
       this.defaultActiveIndex = this.$route.name // 首次进入，或刷新菜单获取active【注意：defaultActiveIndex是path不是name,所以定义路由的时候path名和name名写成一样的】

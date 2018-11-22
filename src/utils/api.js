@@ -1976,10 +1976,10 @@ export default {
   statistical: {
       
     //获取销售订单统计的列表数据
-    List (params, success, error) {               
+    Lists (params, success, error) {               
         $axios({
             method: 'get',
-            url: 'sales/sales',
+            url: 'salerOrderStatistics',
             params: params,
         }).then((res) => {
             success && success(res.data)
@@ -1991,7 +1991,7 @@ export default {
     Adsearch (params, success, error) {            
         $axios({
             method: 'get',
-            url: '',
+            url: 'salerOrderStatistics',
             params: params,
         }).then((res) => {
             success && success(res.data)

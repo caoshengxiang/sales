@@ -5,33 +5,33 @@
         el-row.el-row-cla
           el-col(:span="8")
             el-form-item(label="订单编号：")
-              el-input(type="text" v-model="searchForm.order_sn" placeholder="订单编号")
+              el-input(type="text" v-model="searchForm.orderSn" placeholder="订单编号")
           el-col(:span="8")
             el-form-item(label="客户名称：")
-              el-input(type="text" v-model="searchForm.customer_name" placeholder='客户名称')
+              el-input(type="text" v-model="searchForm.customerName" placeholder='客户名称')
           el-col(:span="8")
             el-form-item(label="联系电话：")
-              el-input(type="text" v-model="searchForm.contact_phone" placeholder="联系电话")
+              el-input(type="text" v-model="searchForm.contactPhone" placeholder="联系电话")
         el-row.el-row-cla
           el-col(:span="8")
             el-form-item(label="联系人：")
-              el-input(type="text" v-model="searchForm.contacter_name" placeholder="联系人")
+              el-input(type="text" v-model="searchForm.contacterName" placeholder="联系人")
           el-col(:span="8")
             el-form-item(label="购买商品：")
-              el-input(type="text" v-model="searchForm.product_name" placeholder="购买商品")
+              el-input(type="text" v-model="searchForm.productName" placeholder="购买商品")
           el-col(:span="8")
             el-form-item(label="需求提供人：")
-              el-input(type="text" v-model="searchForm.provider_name" placeholder="需求提供人")
+              el-input(type="text" v-model="searchForm.providerName" placeholder="需求提供人")
         el-row.el-row-cla
           el-col(:span="8")
             el-form-item(label="订单创建人：")
-              el-input(type="text" v-model="searchForm.creator_name" placeholder="订单创建人")
+              el-input(type="text" v-model="searchForm.creatorName" placeholder="订单创建人")
           el-col(:span="8")
             el-form-item(label="销售员：")
-              el-input(type="text" v-model="searchForm.saler_name" placeholder="销售员")
+              el-input(type="text" v-model="searchForm.salerName" placeholder="销售员")
           el-col(:span="8")
             el-form-item(label="咨询师：")
-              el-input(type="text" v-model="searchForm.counselor_name" placeholder="咨询师")
+              el-input(type="text" v-model="searchForm.counselorName" placeholder="咨询师")
         el-row.el-row-cla
           el-col(:span="8")
             el-form-item(prop="provinceId" label="所属区域：")
@@ -42,20 +42,20 @@
                 el-option(v-for="(item, index) in industryList" :key="index" :label="item.codeName" :value="item.codeName")
           el-col(:span="8")
             el-form-item(label="商品类型：")
-              el-select(v-model="searchForm.billing_type" clearable placeholder="请选择商品类型")
+              el-select(v-model="searchForm.billingType" clearable placeholder="请选择商品类型")
                 el-option(v-for="item in salesState" :key="item.type" :label="item.value" :value="item.type")
         el-row.el-row-cla
           el-col(:span="8")
             el-form-item(label="签单类型：")
-              el-select(v-model="searchForm.order_type" clearable placeholder="请选择签单类型")
+              el-select(v-model="searchForm.orderType" clearable placeholder="请选择签单类型")
                 el-option(v-for="item in billState" :key="item.type" :label="item.value" :value="item.type")
           el-col(:span="8")
             el-form-item(label="是否续费：")
-              el-select(v-model="searchForm.is_renew" clearable placeholder="请选择是否续费")
+              el-select(v-model="searchForm.isRenew" clearable placeholder="请选择是否续费")
                 el-option(v-for="item in renewState" :key="item.value" :label="item.label" :value="item.value")
           el-col(:span="8")
             el-form-item(label="订单状态：")
-              el-select(v-model="searchForm.order_state" clearable placeholder="请选择订单状态")
+              el-select(v-model="searchForm.orderState" clearable placeholder="请选择订单状态")
                 el-option(v-for="item in orderState" :key="item.type" :label="item.value" :value="item.type")
         el-row.el-row-cla
           el-col(:span="8")
@@ -66,49 +66,49 @@
             el-form-item(label="服务年度：")
               el-row
                 el-col(:span="8")
-                  el-input(@change="intentServerYearStartHandle" type="number" placeholder="年度开始" v-model.number="searchForm.start_service_year")
+                  el-input(@change="intentServerYearStartHandle" type="number" placeholder="年度开始" v-model.number="searchForm.startServiceYear")
                 el-col(:span="2")
                   div(style="text-align: center") -
                 el-col(:span="8")
-                  el-input(@change="intentServerYearEndHandle" type="number" placeholder="年度结束" v-model.number="searchForm.end_service_year")
+                  el-input(@change="intentServerYearEndHandle" type="number" placeholder="年度结束" v-model.number="searchForm.endServiceYear")
           el-col(:span="12")
             el-form-item(label="付费次数：")
               el-row
                 el-col(:span="8")
-                  el-input(@change="intentPayNumStartHandle" type="number" placeholder="次数开始" v-model.number="searchForm.start_pay_num")
+                  el-input(@change="intentPayNumStartHandle" type="number" placeholder="次数开始" v-model.number="searchForm.startPayNum")
                 el-col(:span="2")
                   div(style="text-align: center") -
                 el-col(:span="8")
-                  el-input(@change="intentPayNumEndHandle" type="number" placeholder="次数结束" v-model.number="searchForm.end_pay_num")
+                  el-input(@change="intentPayNumEndHandle" type="number" placeholder="次数结束" v-model.number="searchForm.endPayNum")
         el-row.el-row-cla
           el-col(:span="12")
             el-form-item(label="定价金额：")
               el-row
                 el-col(:span="8")
-                  el-input(@change="intentPosMoneyStartHandle" type="number" placeholder="定价开始" v-model.number="searchForm.start_price_amount")
+                  el-input(@change="intentPosMoneyStartHandle" type="number" placeholder="定价开始" v-model.number="searchForm.startPriceAmount")
                 el-col(:span="2")
                   div(style="text-align: center") -
                 el-col(:span="8")
-                  el-input(@change="intentPosMoneyEndHandle" type="number" placeholder="定价结束" v-model.number="searchForm.end_price_amount")
+                  el-input(@change="intentPosMoneyEndHandle" type="number" placeholder="定价结束" v-model.number="searchForm.endPriceAmount")
           el-col(:span="12")
             el-form-item(label="签单金额：")
               el-row
                 el-col(:span="8")
-                  el-input(@change="intentBillMoneyStartHandle" type="number" placeholder="金额开始" v-model.number="searchForm.start_bill_amount")
+                  el-input(@change="intentBillMoneyStartHandle" type="number" placeholder="金额开始" v-model.number="searchForm.startBillAmount")
                 el-col(:span="2")
                   div(style="text-align: center") -
                 el-col(:span="8")
-                  el-input(@change="intentBillMoneyEndHandle" type="number" placeholder="金额结束" v-model.number="searchForm.end_bill_amount")
+                  el-input(@change="intentBillMoneyEndHandle" type="number" placeholder="金额结束" v-model.number="searchForm.endBillAmount")
         el-row(class="el-row-cla")
           el-col(:span="12")
             el-form-item(label="待回款金额：")
               el-row
                 el-col(:span="8")
-                  el-input(@change="intentReturnMoneyStartHandle" type="number" placeholder="金额开始" v-model.number="searchForm.start_no_received_amount")
+                  el-input(@change="intentReturnMoneyStartHandle" type="number" placeholder="金额开始" v-model.number="searchForm.startNoReceivedAmount")
                 el-col(:span="2")
                   div(style="text-align: center") -
                 el-col(:span="8")
-                  el-input(@change="intentReturnMoneyEndHandle" type="number" placeholder="金额结束" v-model.number="searchForm.end_no_received_amount")
+                  el-input(@change="intentReturnMoneyEndHandle" type="number" placeholder="金额结束" v-model.number="searchForm.endNoReceivedAmount")
         el-row.el-row-cla
           el-col(:span="14")
             el-form-item(label="订单创建日期：")
@@ -140,40 +140,40 @@
         ],                                //是否续费集合
         orderState: [],                   //订单状态集合
 
-        billing_type: null,               //选择的商品类型
-        order_type: null,                 //选择的签单类型
-        is_renew: null,                   //选择的是否续费
-        order_state: null,                //选择的订单状态
+        billingType: null,               //选择的商品类型
+        orderType: null,                 //选择的签单类型
+        isRenew: null,                   //选择的是否续费
+        orderState: null,                //选择的订单状态
 
         demandSource: [],                 // 需求来源
 
         searchForm: {                     // 表单
-          order_sn: null,                 //订单编号
-          customer_name: null,            //客户名称
-          contact_phone: null,            //联系电话
-          contacter_name: null,           //联系人
-          product_name: null,             //购买商品
+          orderSn: null,                 //订单编号
+          customerName: null,            //客户名称
+          contactPhone: null,            //联系电话
+          contacterName: null,           //联系人
+          productName: null,             //购买商品
           industry: null,                 //选择的所属行业
-          provider_name: null,            //需求提供人
-          creator_name: null,             //订单创建人
-          saler_name: null,               //销售员
-          counselor_name: null,           //咨询师
-          start_service_year: null,       //服务年度开始
-          end_service_year: null,         //服务年度结束
-          start_pay_num: null,            //付费次数开始
-          end_pay_num: null,              //付费次数结束
-          start_price_amount: null,       //定价金额开始
-          end_price_amount: null,         //定价金额结束
-          start_bill_amount: null,        //签单金额开始
-          end_bill_amount: null,          //签单金额结束
-          start_no_received_amount: null, //待回款金额开始
-          end_no_received_amount: null,   //待回款金额结束
+          providerName: null,            //需求提供人
+          creatorName: null,             //订单创建人
+          salerName: null,               //销售员
+          counselorName: null,           //咨询师
+          startServiceYear: null,       //服务年度开始
+          endServiceYear: null,         //服务年度结束
+          startPayNum: null,            //付费次数开始
+          endPayNum: null,              //付费次数结束
+          startPriceAmount: null,       //定价金额开始
+          endPriceAmount: null,         //定价金额结束
+          startBillAmount: null,        //签单金额开始
+          endBillAmount: null,          //签单金额结束
+          startNoReceivedAmount: null, //待回款金额开始
+          endNoReceivedAmount: null,   //待回款金额结束
           salerRelName: null,
           source: null,
-          start_created: null,            //开始订单创建日期
-          end_created: null,              //结束订单创建日期
-          start_chance_source_date: null, //开始订单来源日期
-          end_chance_source_date: null,   //结束订单来源日期
+          startCreated: null,            //开始订单创建日期
+          endCreated: null,              //结束订单创建日期
+          startChanceSourceDate: null, //开始订单来源日期
+          endChanceSourceDate: null,   //结束订单来源日期
         },
         timeInterval: [],
         timeInterval2: [],
@@ -195,79 +195,79 @@
       // 选择所属地区
       areaSelectedOptionsHandleChange (value) {
         let name = this.$refs.areaSe.getSelectedName(value)
-        this.searchForm.province_id = value[0] || ''          //省id
-        this.searchForm.city_id = value[1] || ''              //市id
-        this.searchForm.area_id = value[2] || ''              //区县id
-        this.searchForm.province_name = name[0] || ''         //省名称
-        this.searchForm.city_name = name[1] || ''             //市名称
-        this.searchForm.area_name = name[2] || ''             //区县名称
+        this.searchForm.provinceId = value[0] || ''          //省id
+        this.searchForm.cityId = value[1] || ''              //市id
+        this.searchForm.areaId = value[2] || ''              //区县id
+        this.searchForm.provinceName = name[0] || ''         //省名称
+        this.searchForm.cityName = name[1] || ''             //市名称
+        this.searchForm.areaName = name[2] || ''             //区县名称
       },
       lastMonthDate () {
         return lastMonthDate()
       },
       // 服务年度开始
       intentServerYearStartHandle() {
-        if (this.searchForm.start_service_year > this.searchForm.end_service_year && this.searchForm.end_service_year) {
-          this.searchForm.start_service_year = null
+        if (this.searchForm.startServiceYear > this.searchForm.endServiceYear && this.searchForm.endServiceYear) {
+          this.searchForm.startServiceYear = null
         }
       },
       // 服务年度结束
       intentServerYearEndHandle () {
-        if (this.searchForm.start_service_year && this.searchForm.start_service_year >
-          this.searchForm.end_service_year) {
-          this.searchForm.end_service_year = this.searchForm.start_service_year
+        if (this.searchForm.startServiceYear && this.searchForm.startServiceYear >
+          this.searchForm.endServiceYear) {
+          this.searchForm.endServiceYear = this.searchForm.startServiceYear
         }
       },
       // 付费次数开始
       intentPayNumStartHandle() {
-        if (this.searchForm.start_pay_num > this.searchForm.end_pay_num && this.searchForm.end_pay_num) {
-          this.searchForm.start_pay_num = null
+        if (this.searchForm.startPayNum > this.searchForm.endPayNum && this.searchForm.endPayNum) {
+          this.searchForm.startPayNum = null
         }
       },
       // 付费次数结束
       intentPayNumEndHandle () {
-        if (this.searchForm.start_pay_num && this.searchForm.start_pay_num >
-          this.searchForm.end_pay_num) {
-          this.searchForm.end_pay_num = this.searchForm.start_pay_num
+        if (this.searchForm.startPayNum && this.searchForm.startPayNum >
+          this.searchForm.endPayNum) {
+          this.searchForm.endPayNum = this.searchForm.startPayNum
         }
       },
       // 定价金额开始
       intentPosMoneyStartHandle() {
-        if (this.searchForm.start_price_amount > this.searchForm.end_price_amount && this.searchForm.end_price_amount) {
-          this.searchForm.start_price_amount = null
+        if (this.searchForm.startPriceAmount > this.searchForm.endPriceAmount && this.searchForm.endPriceAmount) {
+          this.searchForm.startPriceAmount = null
         }
       },
       // 定价金额结束
       intentPosMoneyEndHandle () {
-        if (this.searchForm.start_price_amount && this.searchForm.start_price_amount >
-          this.searchForm.end_price_amount) {
-          this.searchForm.end_price_amount = this.searchForm.start_price_amount
+        if (this.searchForm.startPriceAmount && this.searchForm.startPriceAmount >
+          this.searchForm.endPriceAmount) {
+          this.searchForm.endPriceAmount = this.searchForm.startPriceAmount
         }
       },
       // 签单金额开始
       intentBillMoneyStartHandle() {
-        if (this.searchForm.start_bill_amount > this.searchForm.end_bill_amount && this.searchForm.end_bill_amount) {
-          this.searchForm.start_bill_amount = null
+        if (this.searchForm.startBillAmount > this.searchForm.endBillAmount && this.searchForm.endBillAmount) {
+          this.searchForm.startBillAmount = null
         }
       },
       // 定价金额结束
       intentBillMoneyEndHandle () {
-        if (this.searchForm.start_bill_amount && this.searchForm.start_bill_amount >
-          this.searchForm.end_bill_amount) {
-          this.searchForm.end_bill_amount = this.searchForm.start_bill_amount
+        if (this.searchForm.startBillAmount && this.searchForm.startBillAmount >
+          this.searchForm.endBillAmount) {
+          this.searchForm.endBillAmount = this.searchForm.startBillAmount
         }
       },
       // 待回款金额开始
       intentReturnMoneyStartHandle() {
-        if (this.searchForm.start_no_received_amount > this.searchForm.end_no_received_amount && this.searchForm.end_no_received_amount) {
-          this.searchForm.start_no_received_amount = null
+        if (this.searchForm.startNoReceivedAmount > this.searchForm.endNoReceivedAmount && this.searchForm.endNoReceivedAmount) {
+          this.searchForm.startNoReceivedAmount = null
         }
       },
       // 待回款金额结束
       intentReturnMoneyEndHandle () {
-        if (this.searchForm.start_no_received_amount && this.searchForm.start_no_received_amount >
-          this.searchForm.end_no_received_amount) {
-          this.searchForm.end_no_received_amount = this.searchForm.start_no_received_amount
+        if (this.searchForm.startNoReceivedAmount && this.searchForm.startNoReceivedAmount >
+          this.searchForm.endNoReceivedAmount) {
+          this.searchForm.endNoReceivedAmount = this.searchForm.startNoReceivedAmount
         }
       },
       // 清楚显示数据
@@ -308,12 +308,12 @@
         this.$vDialog.close({type: 'search', params: this.searchForm})
       },
       timeIntervalHandle (value) {
-        this.searchForm.start_created = value[0] || ''
-        this.searchForm.end_created = value[1] || ''
+        this.searchForm.startCreated = value[0] || ''
+        this.searchForm.endCreated = value[1] || ''
       },
       timeBillDateIntervalHandle (value) {
-        this.searchForm.start_chance_source_date = value[0] || ''
-        this.searchForm.end_chance_source_date = value[1] || ''
+        this.searchForm.startChanceSourceDate = value[0] || ''
+        this.searchForm.endChanceSourceDate = value[1] || ''
       },
       getConfigData (type, pCode) {
         API.common.codeConfig({type: type, pCode: pCode}, ({data}) => {
@@ -380,11 +380,11 @@
       // 所属行业
       this.getConfigData(3)
       this.searchForm = this.params.preAdvancedSearch
-      if (this.searchForm.start_created) { // 日期
-        this.timeInterval = [this.searchForm.start_created, this.searchForm.end_created]
+      if (this.searchForm.startCreated) { // 日期
+        this.timeInterval = [this.searchForm.startCreated, this.searchForm.endCreated]
       }
-      if (this.searchForm.start_chance_source_date) { // 日期
-        this.timeInterval2 = [this.searchForm.start_chance_source_date, this.searchForm.end_chance_source_date]
+      if (this.searchForm.startChanceSourceDate) { // 日期
+        this.timeInterval2 = [this.searchForm.startChanceSourceDate, this.searchForm.endChanceSourceDate]
       }
     },
   }

@@ -24,37 +24,40 @@
     //- 详细
     div.com-box.com-box-padding.com-list-box
       el-table(ref="multipleTable" border stripe :max-height='posheight' :data="salesOpportunitiesList" tooltip-effect="dark" style="width: 100%" @sort-change="sortChangeHandle" @selection-change="handleSelectionChange")
-        el-table-column(fixed align="center" type="selection")
         el-table-column(fixed align="center" sortable="" width='180' label="订单编号" show-overflow-tooltip)
           template(slot-scope='scope')
-            span {{scope.row.saler_order_id.toString() + scope.row.app_order_id}}
-        el-table-column(fixed align="center" sortable="" prop="customer_name" width='180' label="客户名称" show-overflow-tooltip)
+            span {{scope.row.salerOrderId ? scope.row.salerOrderId.toString() + scope.row.appOrderId : ''}}
+        el-table-column(fixed align="center" sortable="" prop="customerName" width='180' label="客户名称" show-overflow-tooltip)
         el-table-column(align="center" sortable="custom" width='180' label="所属区域")
           template(slot-scope='scope')
-            span {{scope.row.province_name + scope.row.city_name + scope.row.area_name}}
+            span {{scope.row.provinceName + scope.row.cityName + scope.row.areaName}}
         el-table-column(align="center" sortable="custom" prop="industry" width='120' label="所属行业" show-overflow-tooltip)
-        el-table-column(align="center" sortable="custom" prop="contacter_name" width='120' label="联系人" show-overflow-tooltip)
-        el-table-column(align="center" sortable="custom" prop="contact_phone" width='180' label="联系方式" show-overflow-tooltip)
-        el-table-column(align="center" sortable="custom" prop="service_year" width='100' label="服务年度" show-overflow-tooltip)
-        el-table-column(align="center" sortable="custom" prop="product_name" width='200' label="购买商品" show-overflow-tooltip)
-        el-table-column(align="center" sortable="custom" prop="billing_type" width='100' label="商品类型" show-overflow-tooltip)
-        el-table-column(align="center" sortable="custom" prop="order_type" width='100' label="签单类型" show-overflow-tooltip)
+        el-table-column(align="center" sortable="custom" prop="contacterName" width='120' label="联系人" show-overflow-tooltip)
+        el-table-column(align="center" sortable="custom" prop="contactPhone" width='180' label="联系方式" show-overflow-tooltip)
+        el-table-column(align="center" sortable="custom" prop="serviceYear" width='100' label="服务年度" show-overflow-tooltip)
+        el-table-column(align="center" sortable="custom" prop="productName" width='200' label="购买商品" show-overflow-tooltip)
+        el-table-column(align="center" sortable="custom" prop="billingType" width='100' label="商品类型" show-overflow-tooltip)
+        el-table-column(align="center" sortable="custom" prop="orderType" width='100' label="签单类型" show-overflow-tooltip)
         el-table-column(align="center" sortable="custom" width='100' label="是否续费" show-overflow-tooltip)
           template(slot-scope='scope')
-            span {{~~scope.row.is_renew ? '是' : '否'}}
-        el-table-column(align="center" sortable="custom" prop="renew_times" width='100' label="续费年度" show-overflow-tooltip)
-        el-table-column(align="center" sortable="custom" prop="price_amount" width='120' label="定价金额" show-overflow-tooltip)
-        el-table-column(align="center" sortable="custom" prop="bill_amount" width='120' label="签单金额" show-overflow-tooltip)
-        el-table-column(align="center" sortable="custom" prop="received_amount" width='120' label="回款金额" show-overflow-tooltip)
-        el-table-column(align="center" sortable="custom" prop="no_received_amount" width='120' label="待回款金额" show-overflow-tooltip)
-        el-table-column(align="center" sortable="custom" prop="order_status" width='100' label="订单状态" show-overflow-tooltip)
-        el-table-column(align="center" sortable="custom" prop="order_source" width='180' label="订单推荐来源" show-overflow-tooltip)
-        el-table-column(align="center" sortable="custom" prop="provider_name" width='120' label="需求提供人" show-overflow-tooltip)
-        el-table-column(align="center" sortable="custom" prop="creator_name" width='120' label="订单创建人" show-overflow-tooltip)
-        el-table-column(align="center" sortable="custom" prop="saler_name" width='100' label="销售员" show-overflow-tooltip)
-        el-table-column(align="center" sortable="custom" prop="counselor_name" width='100' label="咨询师" show-overflow-tooltip)
-        el-table-column(align="center" sortable="custom" prop="created" width='200' label="订单创建日期" show-overflow-tooltip)
-        el-table-column(align="center" sortable="custom" prop="chance_source_date" width='200' label="需求来源日期" show-overflow-tooltip)
+            span {{~~scope.row.isRenew ? '是' : '否'}}
+        el-table-column(align="center" sortable="custom" prop="renewTimes" width='100' label="续费年度" show-overflow-tooltip)
+        el-table-column(align="center" sortable="custom" prop="priceAmount" width='120' label="定价金额" show-overflow-tooltip)
+        el-table-column(align="center" sortable="custom" prop="billAmount" width='120' label="签单金额" show-overflow-tooltip)
+        el-table-column(align="center" sortable="custom" prop="receivedAmount" width='120' label="回款金额" show-overflow-tooltip)
+        el-table-column(align="center" sortable="custom" prop="noReceivedAmount" width='120' label="待回款金额" show-overflow-tooltip)
+        el-table-column(align="center" sortable="custom" prop="orderStatus" width='100' label="订单状态" show-overflow-tooltip)
+        el-table-column(align="center" sortable="custom" prop="orderSource" width='180' label="订单推荐来源" show-overflow-tooltip)
+        el-table-column(align="center" sortable="custom" prop="providerName" width='120' label="需求提供人" show-overflow-tooltip)
+        el-table-column(align="center" sortable="custom" prop="creatorName" width='120' label="订单创建人" show-overflow-tooltip)
+        el-table-column(align="center" sortable="custom" prop="salerName" width='100' label="销售员" show-overflow-tooltip)
+        el-table-column(align="center" sortable="custom" prop="counselorName" width='100' label="咨询师" show-overflow-tooltip)
+        el-table-column(align="center" sortable="custom" width='200' label="订单创建日期" show-overflow-tooltip)
+          template(slot-scope='scope')
+            span {{formD(scope.row.created)}}
+        el-table-column(align="center" sortable="custom" width='200' label="需求来源日期" show-overflow-tooltip)
+          template(slot-scope='scope')
+            span {{formD(scope.row.chanceSourceDate)}}
     //- 底部综合信息
     //- 分页
     div.com-pages-box
@@ -77,7 +80,7 @@
   import API from '../../../utils/api'
   import addDialog from '../CRM/salesOpportunities/addDialog'
   import moveDialog from '../CRM/salesOpportunities/moveDialog'
-  import { arrToStr, underscoreName } from '../../../utils/utils'
+  import { arrToStr, underscoreName, formatDate} from '../../../utils/utils'
   import advancedSearch from './advancedSearch'
 
   export default {
@@ -104,7 +107,7 @@
         sortObj: {sort: 'created,desc'},          // 排序
         advancedSearch: {},                       // 高级搜索
         footerData: {
-          all_bill_num: 256,                      //合计签单数
+          all_bill_num: 0,                        //合计签单数
           all_sale_money: 155484,                 //合计销售额
           all_back_money: 3025154,                //合计回款额
         },                                        
@@ -167,6 +170,9 @@
       ...mapActions('salesOpportunities', [
         'ac_salesOpportunitiesList',
       ]),
+      formD(date) {
+        return formatDate(date)
+      },
       posTableHeight () {
         let h = document.body.clientHeight,
             new_h = h - 260;
@@ -179,83 +185,41 @@
         this.dataLoading = true
         this.getQueryParams()
         if (this.themeIndex === 0) {
-          API.salesOpportunities.list(Object.assign({}, this.defaultListParams, this.sortObj, this.advancedSearch),
+          API.statistical.Lists(Object.assign({}, this.defaultListParams, this.sortObj, this.advancedSearch),
             (data) => {
-                let _data = {
-                    content: [
-                        {
-                            saler_order_id:       123,
-                            app_order_id:         456,
-                            customer_name:        '成都大光有限公司',
-                            province_name:        '四川省',
-                            city_name:            '成都市',
-                            area_name:            '高新区',
-                            industry:             '互联网',
-                            contacter_name:       '张三',
-                            contact_phone:        '13888888888',
-                            service_year:         '2017',
-                            product_name:         '财税金融全托管',
-                            billing_type:         '计时',
-                            order_type:           '客户首购',
-                            is_renew:             1,
-                            renew_times:          2,
-                            price_amount:         12525.00,
-                            bill_amount:          15000.00,
-                            received_amount:      10000.00,
-                            no_received_amount:   0,
-                            order_state:          2,
-                            order_status:         '',
-                            order_source:         '代理商',
-                            provider_name:        '李四',
-                            creator_name:         '王五',
-                            saler_name:           '王亮',
-                            counselor_name:       '王晓霞',
-                            created:              '2018-05-15 13:20',
-                            chance_source_date:   '2018-05-16 13:00'
-                        }
-                    ]
-                }
-              if(_data.content.length > 0 ) {
-                _data.content.forEach(a => {
-                  let _state = ~~a.order_state;
+              this.footerData.all_bill_num = data.data.totalElements;    //签单总数
+              console.log(data)
+              if(data.data.content.length > 0 ) {
+                data.data.content.forEach(a => {
+                  let _state = ~~a.orderState;
                   // 支付状态赋值
                   switch (_state) {
                     case 1:
-                      a.order_status = '待支付';
+                      a.orderStatus = '待支付';
                       break;
                     case 2:
-                      a.order_status = '已支付';
+                      a.orderStatus = '已支付';
                       break;
                     case 3:
-                      a.order_status = '服务中';
+                      a.orderStatus = '服务中';
                       break;
                     case 4:
-                      a.order_status = '已完成';
+                      a.orderStatus = '已完成';
                       break;
                     case 5:
-                      a.order_status = '已取消';
+                      a.orderStatus = '已取消';
                       break;
                     case 6: 
-                      a.order_status = '预下单';
+                      a.orderStatus = '预下单';
                       break;
                     default:
                       break;
                   }
                 })
               }
-              console.log(_data)
-              // this.ac_salesOpportunitiesList(data.data)
-              this.ac_salesOpportunitiesList(_data)
+              this.ac_salesOpportunitiesList(data.data);
               setTimeout(() => {
-                this.dataLoading = false
-              }, 500)
-            })
-        } else if (this.themeIndex === 1) {
-          API.salesOpportunities.listAdmin(Object.assign({}, this.defaultListParams, this.sortObj, this.advancedSearch),
-            (data) => {
-              this.ac_salesOpportunitiesList(data.data)
-              setTimeout(() => {
-                this.dataLoading = false
+                this.dataLoading = false;
               }, 500)
             })
         }
@@ -287,7 +251,7 @@
         this.getSalesOpportunititeisList()
       },
       sortChangeHandle (sortObj) {
-        // console.log(sortObj)
+        console.log(111, sortObj)
         let order = null
         if (sortObj.order === 'ascending') {
           order = 'asc'

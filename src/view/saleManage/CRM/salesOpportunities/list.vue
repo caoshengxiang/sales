@@ -502,6 +502,8 @@
           API.salesOpportunities.list(Object.assign({}, this.defaultListParams, this.sortObj, this.advancedSearch),
             (data) => {
               this.ac_salesOpportunitiesList(data.data)
+              console.log(data.data)
+              console.log(this.salesOpportunitiesList)
               setTimeout(() => {
                 this.dataLoading = false
               }, 500)
