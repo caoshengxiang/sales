@@ -373,8 +373,6 @@
       this.orderState = this.params.orderState               //初始化订单状态
       this.demandSource = this.params.demandSource
 
-      this.clearForm();
-
       // 来源
       this.getConfigData(5, 0)
       // 所属行业
@@ -386,6 +384,9 @@
       if (this.searchForm.startChanceSourceDate) { // 日期
         this.timeInterval2 = [this.searchForm.startChanceSourceDate, this.searchForm.endChanceSourceDate]
       }
+    },
+    mounted () {
+      this.clearForm();
     },
   }
 </script>
