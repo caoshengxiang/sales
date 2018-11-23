@@ -43,12 +43,12 @@
           el-col(:span="8")
             el-form-item(label="商品类型：")
               el-select(v-model="searchForm.billingType" clearable placeholder="请选择商品类型")
-                el-option(v-for="item in salesState" :key="item.type" :label="item.value" :value="item.type")
+                el-option(v-for="item in salesState" :key="item.value" :label="item.type" :value="item.value")
         el-row.el-row-cla
           el-col(:span="8")
             el-form-item(label="签单类型：")
               el-select(v-model="searchForm.orderType" clearable placeholder="请选择签单类型")
-                el-option(v-for="item in billState" :key="item.type" :label="item.value" :value="item.type")
+                el-option(v-for="item in billState" :key="item.value" :label="item.type" :value="item.value")
           el-col(:span="8")
             el-form-item(label="是否续费：")
               el-select(v-model="searchForm.isRenew" clearable placeholder="请选择是否续费")
@@ -135,8 +135,8 @@
         billState: [],                    //签单类型集合
         industryList: [],                 //所属行业集合
         renewState: [
-          {value: '是', label: '是'},
-          {value: '否', label: '否'}
+          {value: 1, label: '是'},
+          {value: 0, label: '否'}
         ],                                //是否续费集合
         orderState: [],                   //订单状态集合
 

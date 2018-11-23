@@ -105,20 +105,20 @@ export default {
     ],
     productClass: [ //商品类型
       {
-        type: 'TIMES计次',
-        value: 'TIMES计次'
+        type: '计次',
+        value: 'TIMES'
       }, {
-        type: 'ANNUALLY计时',
-        value: 'ANNUALLY计时'
+        type: '计时',
+        value: 'ANNUALLY'
       }
     ],
     orderType: [ //签单类型
       {
         type: '客户首购',
-        value: '客户首购'
+        value: 'FIRST'
       }, {
         type: '客户复购',
-        value: '客户复购'
+        value: 'DERIVE'
       }
     ],
     salesState: [ // 销售阶段
