@@ -150,95 +150,7 @@
         agentTypeOption: null,
         agentTypeOptions: [],
         currentPage: 1,
-        tableData: [{
-          name: '1312313'
-        }, {
-          name: '1312313'
-        }, {
-          name: '1312313'
-        }, {
-          name: '1312313'
-        }, {
-          name: '1312313'
-        }, {
-          name: '1312313'
-        }, {
-          name: '1312313'
-        }, {
-          name: '1312313'
-        }, {
-          name: '1312313'
-        }, {
-          name: '1312313'
-        }, {
-          name: '1312313'
-        }, {
-          name: '1312313'
-        }, {
-          name: '1312313'
-        }, {
-          name: '1312313'
-        }, {
-          name: '1312313'
-        }, {
-          name: '1312313'
-        }, {
-          name: '1312313'
-        }, {
-          name: '1312313'
-        }, {
-          name: '1312313'
-        }, {
-          name: '1312313'
-        }, {
-          name: '1312313'
-        }, {
-          name: '1312313'
-        }, {
-          name: '1312313'
-        }, {
-          name: '1312313'
-        }, {
-          name: '1312313'
-        }, {
-          name: '1312313'
-        }, {
-          name: '1312313'
-        }, {
-          name: '1312313'
-        }, {
-          name: '1312313'
-        }, {
-          name: '1312313'
-        }, {
-          name: '1312313'
-        }, {
-          name: '1312313'
-        }, {
-          name: '1312313'
-        }, {
-          name: '1312313'
-        }, {
-          name: '1312313'
-        }, {
-          name: '1312313'
-        }, {
-          name: '1312313'
-        }, {
-          name: '1312313'
-        }, {
-          name: '1312313'
-        }, {
-          name: '1312313'
-        }, {
-          name: '1312313'
-        }, {
-          name: '1312313'
-        }, {
-          name: '1312313'
-        }, {
-          name: '1312313'
-        }, ],
+        tableData: [],
         tableDataTotal: 0,
         otherData: {},
         config: {
@@ -289,8 +201,8 @@
         this.dataLoading = true
         this.getQueryParams()
         API.agentDev.list(Object.assign({}, this.defaultListParams, this.sortObj, this.advancedSearch), (data) => {
-          // this.tableData = data.data.content
-          // this.tableDataTotal = data.data.totalElements
+          this.tableData = data.data.content
+          this.tableDataTotal = data.data.totalElements
           this.getCommission()
           setTimeout(() => {
             this.dataLoading = false
