@@ -1,6 +1,6 @@
 <template>
   <div class="sale-home">
-    <div class="welcome">欢迎进入服务商管理系统！</div>
+    <div class="welcome">欢迎进入众智联邦平台资源管理系统！</div>
     <div class="latest-announcement">
       <p class="com-title">最新公告</p>
       <p class="announcement-con" v-if="announcement">{{announcement.content}}</p>

@@ -217,7 +217,7 @@
           <el-table-column
             align="center"
             sortable="custom"
-            prop="contractObject"
+            prop="contractSubject"
             label="签约主体"
             width="160"
             show-overflow-tooltip
@@ -226,13 +226,13 @@
           <el-table-column
             align="center"
             sortable="custom"
-            prop="reservationTime"
+            prop="created"
             label="生成服务时间"
             width="160"
             show-overflow-tooltip
           >
             <template slot-scope="scope">
-              {{scope.row.reservationTime && $moment(scope.row.reservationTime).format('YYYY-MM-DD HH:mm')}}
+              {{scope.row.created && $moment(scope.row.created).format('YYYY-MM-DD HH:mm')}}
             </template>
           </el-table-column>
         </el-table>

@@ -390,7 +390,7 @@ export default {
     //     ],
     //   },
     //   CRM: {
-    //     name: 'CRM管理',
+    //     name: '销售管理',
     //     value: 'userManagementSub',
     //     children: [
     //       {name: '客户管理', value: 'userManagementSub'},
@@ -406,7 +406,7 @@ export default {
     //     ],
     //   },
     //   PMS: {
-    //     name: 'PMS管理',
+    //     name: '服务管理',
     //     value: 'userManagementSub',
     //     children: [
     //       {name: '服务管家管理', value: 'userManagementSub'},
@@ -416,7 +416,7 @@ export default {
     //     ],
     //   },
     //   CSM: {
-    //     name: 'CSM管理',
+    //     name: '客满管理',
     //     value: 'userManagementSub',
     //     children: [
     //       {name: '服务客户管理', value: 'userManagementSub'},

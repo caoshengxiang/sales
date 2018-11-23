@@ -1,6 +1,6 @@
 <template>
   <div class="page-header" v-bind:class="{'font-end-bg': themeIndex === 0, 'manage-bg': themeIndex === 1}">
-    <div class="left">众智联邦销售管理系统</div>
+    <div class="left">众智联邦平台资源管理系统（ERP）</div>
     <div class="right">
       <ul>
         <li class="item cursor" @click="logout">

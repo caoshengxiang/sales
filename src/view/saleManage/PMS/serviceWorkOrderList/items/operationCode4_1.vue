@@ -6,23 +6,24 @@
   <div class="com-dialog">
     <div class="operation-code-box">
       <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="140px">
-        <el-form-item label="服务开始时间" prop="startTime">
+        <el-form-item label="服务开始时间" prop="setTime">
           <el-date-picker
             style="width: 100%"
-            v-model="ruleForm.startTime"
+            v-model="ruleForm.setTime"
             type="datetime"
             value-format="timestamp"
             placeholder="服务开始时间">
           </el-date-picker>
         </el-form-item>
         <el-form-item label="服务完成时间" prop="endTime">
-          <el-date-picker
-            style="width: 100%"
-            v-model="ruleForm.endTime"
-            type="datetime"
-            value-format="timestamp"
-            placeholder="服务完成时间">
-          </el-date-picker>
+          <!--<el-date-picker-->
+            <!--style="width: 100%"-->
+            <!--v-model="ruleForm.endTime"-->
+            <!--type="datetime"-->
+            <!--value-format="timestamp"-->
+            <!--placeholder="服务完成时间">-->
+          <!--</el-date-picker>-->
+          {{orderDetail.periodEnd && $moment(orderDetail.periodEnd).format('YYYY-MM-DD HH:mm:ss')}}
         </el-form-item>
         <el-form-item label="备注" prop="remark">
           <el-input
@@ -47,18 +48,18 @@
     name: 'operationCode4_1',
     data () {
       return {
+        orderDetail: {},
         ruleForm: {
           remark: '',
-          startTime: '', // 存result
-          endTime: '', // 存result
+          setTime: '',
         },
         rules: {
-          startTime: [
+          setTime: [
             {required: true, message: '请选择服务开始时间', trigger: 'change'},
           ],
-          endTime: [
-            {required: true, message: '请选择服务完成时间', trigger: 'change'},
-          ],
+          // endTime: [
+          //   {required: true, message: '请选择服务完成时间', trigger: 'change'},
+          // ],
         },
       }
     },
@@ -67,13 +68,7 @@
       saveSubmitForm (formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            API.workOrder.serviceItemOperate(Object.assign({}, this.params.baseParam, {
-              remark: this.ruleForm.remark,
-              result: JSON.stringify({
-                startTime: this.ruleForm.startTime,
-                endTime: this.ruleForm.endTime
-              })
-            }), (res) => {
+            API.workOrder.serviceItemOperate(Object.assign({}, this.params.baseParam, this.ruleForm), (res) => {
               if (res.status) {
                 this.$message.success('操作成功')
                 this.$vDialog.close({type: 'itemSave'})
@@ -85,7 +80,15 @@
           }
         })
       },
+      getDetailByOrderId (orderId) {
+        API.serviceOrder.detailByOrderId(orderId, (da) => {
+          this.orderDetail = da.data
+        })
+      },
     },
+    created () {
+      this.getDetailByOrderId(this.props.orderId)
+    }
   }
 </script>
 

@@ -36,24 +36,28 @@ const customersDetail = resolve => require.ensure([],
 const contactsList = resolve => require.ensure([],
   () => resolve(require('../view/saleManage/CRM/contacts/list')), 'contacts')
 const contactsDetail = resolve => require.ensure([],
-  () => resolve(require('../view/saleManage/CRM/contacts/detailInfo')), 'customers')
+  () => resolve(require('../view/saleManage/CRM/contacts/detailInfo')),
+  'customers')
 // 销售机会
 const salesOpportunitiesList = resolve => require.ensure([],
   () => resolve(require('../view/saleManage/CRM/salesOpportunities/list')),
   'salesOpportunities')
 const salesOpportunitiesDetail = resolve => require.ensure([],
-  () => resolve(require('../view/saleManage/CRM/salesOpportunities/detailInfo')),
+  () => resolve(
+    require('../view/saleManage/CRM/salesOpportunities/detailInfo')),
   'salesOpportunities')
 // 销售机会
 const salesOpportunitiesListSeas = resolve => require.ensure([],
   () => resolve(require('../view/saleManage/CRM/salesOpportunitiesSeas/list')),
   'salesOpportunities')
 const salesOpportunitiesDetailSeas = resolve => require.ensure([],
-  () => resolve(require('../view/saleManage/CRM/salesOpportunitiesSeas/detailInfo')),
+  () => resolve(
+    require('../view/saleManage/CRM/salesOpportunitiesSeas/detailInfo')),
   'salesOpportunities')
 // 销售订单
 const salesOrdersList = resolve => require.ensure([],
-  () => resolve(require('../view/saleManage/CRM/salesOrders/list')), 'salesOrders')
+  () => resolve(require('../view/saleManage/CRM/salesOrders/list')),
+  'salesOrders')
 const salesOrdersDetail = resolve => require.ensure([],
   () => resolve(require('../view/saleManage/CRM/salesOrders/detailInfo')),
   'salesOrders')
@@ -63,7 +67,8 @@ const orderRecordsList = resolve => require.ensure([],
   'orderRecordsList')
 // 回款记录
 const returnRecordList = resolve => require.ensure([],
-  () => resolve(require('../view/saleManage/CRM/returnRecord/returnRecordList')),
+  () => resolve(
+    require('../view/saleManage/CRM/returnRecord/returnRecordList')),
   'returnRecordList')
 // 返佣记录
 const rebateRecordsList = resolve => require.ensure([],
@@ -105,10 +110,12 @@ const taskApprovalDetail = resolve => require.ensure([],
   () => resolve(require('../view/saleManage/taskApproval/approval/detailInfo')),
   'taskApproval')
 const housekeeperEnterList = resolve => require.ensure([],
-  () => resolve(require('../view/saleManage/taskApproval/housekeeperEnter/list')),
+  () => resolve(
+    require('../view/saleManage/taskApproval/housekeeperEnter/list')),
   'housekeeperEnter')
 const housekeeperEnterDetail = resolve => require.ensure([],
-  () => resolve(require('../view/saleManage/taskApproval/housekeeperEnter/detail')),
+  () => resolve(
+    require('../view/saleManage/taskApproval/housekeeperEnter/detail')),
   'housekeeperEnter')
 
 // 个人信息
@@ -124,7 +131,8 @@ const serviceHousekeeperList = resolve => require.ensure([],
   () => resolve(require('../view/saleManage/PMS/serviceHousekeeperList/list')),
   'serviceHousekeeperList')
 const serviceHousekeeperDetail = resolve => require.ensure([],
-  () => resolve(require('../view/saleManage/PMS/serviceHousekeeperList/ditail')),
+  () => resolve(
+    require('../view/saleManage/PMS/serviceHousekeeperList/ditail')),
   'serviceHousekeeperList')
 
 // PMS 服务订单管理
@@ -186,35 +194,43 @@ const customerComments = resolve => require.ensure([],
 // 统计
 // 客户任务统计
 const serviceTaskSta = resolve => require.ensure([],
-  () => resolve(require('../view/saleManage/statisticalAnalysis/serviceTask/list')),
+  () => resolve(
+    require('../view/saleManage/statisticalAnalysis/serviceTask/list')),
   'serviceTaskSta')
 // 客服任务统计
 const customerServiceTaskSta = resolve => require.ensure([],
-  () => resolve(require('../view/saleManage/statisticalAnalysis/customerServiceTask/list')),
+  () => resolve(
+    require('../view/saleManage/statisticalAnalysis/customerServiceTask/list')),
   'customerServiceTaskSta')
 // 服务客户统计
 const serviceCustomerSta = resolve => require.ensure([],
-  () => resolve(require('../view/saleManage/statisticalAnalysis/serviceCustomer/list')),
+  () => resolve(
+    require('../view/saleManage/statisticalAnalysis/serviceCustomer/list')),
   'serviceCustomerSta')
 // 服务票据统计
 const serviceBillSta = resolve => require.ensure([],
-  () => resolve(require('../view/saleManage/statisticalAnalysis/customerBill/list')),
+  () => resolve(
+    require('../view/saleManage/statisticalAnalysis/customerBill/list')),
   'serviceBillSta')
 // 拒单退单统计
 const refundOrderSta = resolve => require.ensure([],
-  () => resolve(require('../view/saleManage/statisticalAnalysis/refundOrder/list')),
+  () => resolve(
+    require('../view/saleManage/statisticalAnalysis/refundOrder/list')),
   'refundOrderSta')
 // 客户投诉统计
 const customerComplaintSta = resolve => require.ensure([],
-  () => resolve(require('../view/saleManage/statisticalAnalysis/customerComplaint/list')),
+  () => resolve(
+    require('../view/saleManage/statisticalAnalysis/customerComplaint/list')),
   'customerComplaintSta')
 // 客户评价统计
 const customerCommentsSta = resolve => require.ensure([],
-  () => resolve(require('../view/saleManage/statisticalAnalysis/customerComments/list')),
+  () => resolve(
+    require('../view/saleManage/statisticalAnalysis/customerComments/list')),
   'customerCommentsSta')
 // 客户意见统计
 const customerOpinionSta = resolve => require.ensure([],
-  () => resolve(require('../view/saleManage/statisticalAnalysis/customerOpinion/list')),
+  () => resolve(
+    require('../view/saleManage/statisticalAnalysis/customerOpinion/list')),
   'customerOpinionSta')
 
 // 销售前端 end
@@ -246,28 +262,34 @@ const roleList = resolve => require.ensure([],
 
 // 财务管理
 const settlementList = resolve => require.ensure([],
-  () => resolve(require('../view/companyManage/financial/commissionSettlement/settlementList')),
+  () => resolve(require(
+    '../view/companyManage/financial/commissionSettlement/settlementList')),
   'financial')
 // 财务管理 回款结算
 const returnSettlementList = resolve => require.ensure([],
-  () => resolve(require('../view/companyManage/financial/returnSettlement/list')),
+  () => resolve(
+    require('../view/companyManage/financial/returnSettlement/list')),
   'financial')
 // 财务管理
 const spendingList = resolve => require.ensure([],
-  () => resolve(require('../view/companyManage/financial/commissionExpense/spendingList')),
+  () => resolve(
+    require('../view/companyManage/financial/commissionExpense/spendingList')),
   'financial')
 
 // 组织管理
 const organizationList = resolve => require.ensure([],
-  () => resolve(require('../view/companyManage/organization/organization/list')),
+  () => resolve(
+    require('../view/companyManage/organization/organization/list')),
   'organization')
 // 客户池管理
 const customerPool = resolve => require.ensure([],
-  () => resolve(require('../view/companyManage/organization/customerPool/customerPool')),
+  () => resolve(
+    require('../view/companyManage/organization/customerPool/customerPool')),
   'organization')
 // 机会池管理
 const chancePool = resolve => require.ensure([],
-  () => resolve(require('../view/companyManage/organization/chancePool/chancePool')),
+  () => resolve(
+    require('../view/companyManage/organization/chancePool/chancePool')),
   'organization')
 
 const baseSettingList = resolve => require.ensure([],
@@ -276,12 +298,14 @@ const baseSettingList = resolve => require.ensure([],
 
 // 客户地区管理
 const customerAreaSetting = resolve => require.ensure([],
-  () => resolve(require('../view/companyManage/baseSetting/customerAareaSetting/index')),
+  () => resolve(
+    require('../view/companyManage/baseSetting/customerAareaSetting/index')),
   'customerAreaSetting')
 
 // 客户源管理
 const customerSource = resolve => require.ensure([],
-  () => resolve(require('../view/companyManage/baseSetting/customerSourceSetting/index')),
+  () => resolve(
+    require('../view/companyManage/baseSetting/customerSourceSetting/index')),
   'customerSource')
 
 // 站点开关设置
@@ -292,13 +316,15 @@ const siteList = resolve => require.ensure([],
 // 商品管理
 const organizationProductSetting = resolve => require.ensure([],
   () => resolve(
-    require('../view/companyManage/organization/organizationProductSetting/list')),
+    require(
+      '../view/companyManage/organization/organizationProductSetting/list')),
   'organizationProductSetting')
 
 // 商品类型设置
 const productType = resolve => require.ensure([],
   () => resolve(
-    require('../view/companyManage/baseSetting/serviceProductConfig/productType')),
+    require(
+      '../view/companyManage/baseSetting/serviceProductConfig/productType')),
   'productType')
 // 服务内容配置
 const serviceContent = resolve => require.ensure([],
@@ -476,7 +502,9 @@ const router = new Router({
           meta: {
             title: '销售机会公海',
             pos: [{name: '销售管理系统', toName: 'saleHome'}, {name: '销售机会公海'}],
-            pos2: [{name: '管理系统', toName: 'companyManageHome'}, {name: '销售机会公海'}],
+            pos2: [
+              {name: '管理系统', toName: 'companyManageHome'},
+              {name: '销售机会公海'}],
           },
         }, {
           path: 'salesOpportunitiesDetailSeas',
@@ -573,7 +601,7 @@ const router = new Router({
             title: '代理推荐管理',
             pos: [
               {name: '销售管理系统', toName: 'saleHome'},
-              {name: 'CRM管理'},
+              {name: '销售管理'},
               {name: '代理推荐管理'}],
           },
         }, {
@@ -584,7 +612,7 @@ const router = new Router({
             title: '会议活动管理',
             pos: [
               {name: '销售管理系统', toName: 'saleHome'},
-              {name: 'CRM管理'},
+              {name: '销售管理'},
               {name: '会议活动管理'}],
           },
         }, {
@@ -595,7 +623,7 @@ const router = new Router({
             title: '会议活动管理',
             pos: [
               {name: '销售管理系统', toName: 'saleHome'},
-              {name: 'CRM管理'},
+              {name: '销售管理'},
               {name: '会议活动管理'}],
           },
         }, {
@@ -639,7 +667,10 @@ const router = new Router({
           component: serviceHousekeeperList,
           meta: {
             title: '服务管家管理',
-            pos: [{name: '销售管理系统', toName: 'saleHome'}, {name: 'PMS管理'}, {name: '服务管家管理'}],
+            pos: [
+              {name: '销售管理系统', toName: 'saleHome'},
+              {name: '服务管理'},
+              {name: '服务管家管理'}],
           },
         }, {
           path: 'serviceHousekeeperDetail',
@@ -647,7 +678,10 @@ const router = new Router({
           component: serviceHousekeeperDetail,
           meta: {
             title: '服务管家管理',
-            pos: [{name: '销售管理系统', toName: 'saleHome'}, {name: 'PMS管理'}, {name: '服务管家管理'}],
+            pos: [
+              {name: '销售管理系统', toName: 'saleHome'},
+              {name: '服务管理'},
+              {name: '服务管家管理'}],
           },
         }, {
           path: 'serviceOrderList',
@@ -655,7 +689,10 @@ const router = new Router({
           component: serviceOrderList,
           meta: {
             title: '服务订单管理',
-            pos: [{name: '销售管理系统', toName: 'saleHome'}, {name: 'PMS管理'}, {name: '服务订单管理'}],
+            pos: [
+              {name: '销售管理系统', toName: 'saleHome'},
+              {name: '服务管理'},
+              {name: '服务订单管理'}],
           },
         }, {
           path: 'serviceOrderDetail',
@@ -663,7 +700,10 @@ const router = new Router({
           component: serviceOrderDetail,
           meta: {
             title: '服务订单管理',
-            pos: [{name: '销售管理系统', toName: 'saleHome'}, {name: 'PMS管理'}, {name: '服务订单管理'}],
+            pos: [
+              {name: '销售管理系统', toName: 'saleHome'},
+              {name: '服务管理'},
+              {name: '服务订单管理'}],
           },
         }, {
           path: 'serviceWorkOrderList',
@@ -671,7 +711,10 @@ const router = new Router({
           component: serviceWorkOrderList,
           meta: {
             title: '服务工单管理',
-            pos: [{name: '销售管理系统', toName: 'saleHome'}, {name: 'PMS管理'}, {name: '服务工单管理'}],
+            pos: [
+              {name: '销售管理系统', toName: 'saleHome'},
+              {name: '服务管理'},
+              {name: '服务工单管理'}],
           },
         }, {
           path: 'serviceWorkOrderDetail',
@@ -679,7 +722,10 @@ const router = new Router({
           component: serviceWorkOrderDetail,
           meta: {
             title: '服务工单管理',
-            pos: [{name: '销售管理系统', toName: 'saleHome'}, {name: 'PMS管理'}, {name: '服务工单管理'}],
+            pos: [
+              {name: '销售管理系统', toName: 'saleHome'},
+              {name: '服务管理'},
+              {name: '服务工单管理'}],
           },
         }, {
           path: 'customerBill',
@@ -687,7 +733,10 @@ const router = new Router({
           component: customerBill,
           meta: {
             title: '客户票据管理',
-            pos: [{name: '销售管理系统', toName: 'saleHome'}, {name: 'PMS管理'}, {name: '客户票据管理'}],
+            pos: [
+              {name: '销售管理系统', toName: 'saleHome'},
+              {name: '服务管理'},
+              {name: '客户票据管理'}],
           },
         }, {
           path: 'customerBillDetail',
@@ -695,7 +744,10 @@ const router = new Router({
           component: customerBillDetail,
           meta: {
             title: '客户票据管理',
-            pos: [{name: '销售管理系统', toName: 'saleHome'}, {name: 'PMS管理'}, {name: '客户票据管理'}],
+            pos: [
+              {name: '销售管理系统', toName: 'saleHome'},
+              {name: '服务管理'},
+              {name: '客户票据管理'}],
           },
         }, {
           path: 'serviceCustomer',
@@ -703,7 +755,10 @@ const router = new Router({
           component: serviceCustomer,
           meta: {
             title: '服务客户管理',
-            pos: [{name: '销售管理系统', toName: 'saleHome'}, {name: 'PMS管理'}, {name: '服务客户管理'}],
+            pos: [
+              {name: '销售管理系统', toName: 'saleHome'},
+              {name: '服务管理'},
+              {name: '服务客户管理'}],
           },
         }, {
           path: 'serviceCustomerDetail',
@@ -711,7 +766,10 @@ const router = new Router({
           component: serviceCustomerDetail,
           meta: {
             title: '服务客户管理',
-            pos: [{name: '销售管理系统', toName: 'saleHome'}, {name: 'PMS管理'}, {name: '服务客户管理'}],
+            pos: [
+              {name: '销售管理系统', toName: 'saleHome'},
+              {name: '服务管理'},
+              {name: '服务客户管理'}],
           },
         }, {
           path: 'serviceComplaint',
@@ -719,7 +777,10 @@ const router = new Router({
           component: serviceComplaint,
           meta: {
             title: '服务投诉管理',
-            pos: [{name: '销售管理系统', toName: 'saleHome'}, {name: 'CSM管理'}, {name: '服务投诉管理'}],
+            pos: [
+              {name: '销售管理系统', toName: 'saleHome'},
+              {name: '客满管理'},
+              {name: '服务投诉管理'}],
           },
         }, {
           path: 'serviceComplaintDetail',
@@ -727,7 +788,10 @@ const router = new Router({
           component: serviceComplaintDetail,
           meta: {
             title: '服务投诉管理',
-            pos: [{name: '销售管理系统', toName: 'saleHome'}, {name: 'CSM管理'}, {name: '服务投诉管理'}],
+            pos: [
+              {name: '销售管理系统', toName: 'saleHome'},
+              {name: '客满管理'},
+              {name: '服务投诉管理'}],
           },
         }, {
           path: 'serviceReturnVisit',
@@ -735,7 +799,10 @@ const router = new Router({
           component: serviceReturnVisit,
           meta: {
             title: '服务回访管理',
-            pos: [{name: '销售管理系统', toName: 'saleHome'}, {name: 'CSM管理'}, {name: '服务回访管理'}],
+            pos: [
+              {name: '销售管理系统', toName: 'saleHome'},
+              {name: '客满管理'},
+              {name: '服务回访管理'}],
           },
         }, {
           path: 'serviceReturnVisitDetail',
@@ -743,7 +810,10 @@ const router = new Router({
           component: serviceReturnVisitDetail,
           meta: {
             title: '服务回访管理',
-            pos: [{name: '销售管理系统', toName: 'saleHome'}, {name: 'CSM管理'}, {name: '服务回访管理'}],
+            pos: [
+              {name: '销售管理系统', toName: 'saleHome'},
+              {name: '客满管理'},
+              {name: '服务回访管理'}],
           },
         }, {
           path: 'serviceSpotCheck',
@@ -751,7 +821,10 @@ const router = new Router({
           component: serviceSpotCheck,
           meta: {
             title: '服务抽查管理',
-            pos: [{name: '销售管理系统', toName: 'saleHome'}, {name: 'CSM管理'}, {name: '服务抽查管理'}],
+            pos: [
+              {name: '销售管理系统', toName: 'saleHome'},
+              {name: '客满管理'},
+              {name: '服务抽查管理'}],
           },
         }, {
           path: 'serviceSpotCheckDetail',
@@ -759,7 +832,10 @@ const router = new Router({
           component: serviceSpotCheckDetail,
           meta: {
             title: '服务抽查管理',
-            pos: [{name: '销售管理系统', toName: 'saleHome'}, {name: 'CSM管理'}, {name: '服务抽查管理'}],
+            pos: [
+              {name: '销售管理系统', toName: 'saleHome'},
+              {name: '客满管理'},
+              {name: '服务抽查管理'}],
           },
         }, {
           path: 'customerComments',
@@ -767,7 +843,10 @@ const router = new Router({
           component: customerComments,
           meta: {
             title: '客户意见管理',
-            pos: [{name: '销售管理系统', toName: 'saleHome'}, {name: 'CSM管理'}, {name: '客户意见管理'}],
+            pos: [
+              {name: '销售管理系统', toName: 'saleHome'},
+              {name: '客满管理'},
+              {name: '客户意见管理'}],
           },
         }, {
           path: 'taskApprovalDetail',
@@ -816,7 +895,10 @@ const router = new Router({
           component: serviceTaskSta,
           meta: {
             title: '服务任务统计',
-            pos: [{name: '销售管理系统', toName: 'saleHome'}, {name: '统计分析'}, {name: '服务任务统计'}],
+            pos: [
+              {name: '销售管理系统', toName: 'saleHome'},
+              {name: '统计分析'},
+              {name: '服务任务统计'}],
           },
         }, {
           path: 'customerServiceTaskSta',
@@ -824,7 +906,10 @@ const router = new Router({
           component: customerServiceTaskSta,
           meta: {
             title: '客服任务统计',
-            pos: [{name: '销售管理系统', toName: 'saleHome'}, {name: '统计分析'}, {name: '客服任务统计'}],
+            pos: [
+              {name: '销售管理系统', toName: 'saleHome'},
+              {name: '统计分析'},
+              {name: '客服任务统计'}],
           },
         }, {
           path: 'serviceCustomerSta',
@@ -832,7 +917,10 @@ const router = new Router({
           component: serviceCustomerSta,
           meta: {
             title: '客户任务统计',
-            pos: [{name: '销售管理系统', toName: 'saleHome'}, {name: '统计分析'}, {name: '客户任务统计'}],
+            pos: [
+              {name: '销售管理系统', toName: 'saleHome'},
+              {name: '统计分析'},
+              {name: '客户任务统计'}],
           },
         }, {
           path: 'serviceBillSta',
@@ -840,7 +928,10 @@ const router = new Router({
           component: serviceBillSta,
           meta: {
             title: '服务票据统计',
-            pos: [{name: '销售管理系统', toName: 'saleHome'}, {name: '统计分析'}, {name: '服务票据统计'}],
+            pos: [
+              {name: '销售管理系统', toName: 'saleHome'},
+              {name: '统计分析'},
+              {name: '服务票据统计'}],
           },
         }, {
           path: 'refundOrderSta',
@@ -848,7 +939,10 @@ const router = new Router({
           component: refundOrderSta,
           meta: {
             title: '退单拒单统计',
-            pos: [{name: '销售管理系统', toName: 'saleHome'}, {name: '统计分析'}, {name: '退单拒单统计'}],
+            pos: [
+              {name: '销售管理系统', toName: 'saleHome'},
+              {name: '统计分析'},
+              {name: '退单拒单统计'}],
           },
         }, {
           path: 'customerComplaintSta',
@@ -856,7 +950,10 @@ const router = new Router({
           component: customerComplaintSta,
           meta: {
             title: '客户投诉统计',
-            pos: [{name: '销售管理系统', toName: 'saleHome'}, {name: '统计分析'}, {name: '客户投诉统计'}],
+            pos: [
+              {name: '销售管理系统', toName: 'saleHome'},
+              {name: '统计分析'},
+              {name: '客户投诉统计'}],
           },
         }, {
           path: 'customerCommentsSta',
@@ -864,7 +961,10 @@ const router = new Router({
           component: customerCommentsSta,
           meta: {
             title: '客户评价统计',
-            pos: [{name: '销售管理系统', toName: 'saleHome'}, {name: '统计分析'}, {name: '客户评价统计'}],
+            pos: [
+              {name: '销售管理系统', toName: 'saleHome'},
+              {name: '统计分析'},
+              {name: '客户评价统计'}],
           },
         }, {
           path: 'customerOpinionSta',
@@ -872,7 +972,10 @@ const router = new Router({
           component: customerOpinionSta,
           meta: {
             title: '客户意见统计',
-            pos: [{name: '销售管理系统', toName: 'saleHome'}, {name: '统计分析'}, {name: '客户意见统计'}],
+            pos: [
+              {name: '销售管理系统', toName: 'saleHome'},
+              {name: '统计分析'},
+              {name: '客户意见统计'}],
           },
         },
         // 企业管理
@@ -1146,7 +1249,7 @@ const router = new Router({
 // 路由钩子
 router.beforeEach((to, from, next) => {
   if (to.meta.title) {
-    document.title = to.meta.title
+    document.title = to.meta.title + '-众智联邦平台资源管理系统ERP'
   } else {
     document.title = 'sales'
   }

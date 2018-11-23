@@ -39,7 +39,7 @@
         <el-submenu index="CRM" v-if="listPermissions(menus, 'crmManageFront')">
           <template slot="title">
             <i class="iconfont icon-lvzhou_shebeipeizhi"></i>
-            <span>CRM管理</span>
+            <span>销售管理</span>
           </template>
           <el-menu-item-group>
             <el-menu-item index="salesOpportunitiesList" v-if="listPermissions(menus, 'salerChance')">销售机会管理</el-menu-item>
@@ -58,7 +58,7 @@
         <el-submenu index="PMS" v-if="listPermissions(menus, 'pmsManageFront')">
           <template slot="title">
             <i class="iconfont icon-lvzhou_shebeipeizhi"></i>
-            <span>PMS管理</span>
+            <span>服务管理</span>
           </template>
           <el-menu-item-group>
             <el-menu-item index="serviceHousekeeperList" v-if="listPermissions(menus, 'serviceManagerManage')">服务管家管理</el-menu-item>
@@ -71,7 +71,7 @@
         <el-submenu index="CSM" v-if="listPermissions(menus, 'csmManageFront')">
           <template slot="title">
             <i class="iconfont icon-lvzhou_shebeipeizhi"></i>
-            <span>CSM管理</span>
+            <span>客满管理</span>
           </template>
           <el-menu-item-group>
             <el-menu-item index="serviceComplaint" v-if="listPermissions(menus, 'serviceComplaintManage')">服务投诉管理</el-menu-item>
@@ -207,7 +207,7 @@
         <el-submenu index="crm" v-if="listPermissions(menus, 'crmManagement')">
           <template slot="title">
             <i class="iconfont icon-webicon319" style="transform: scale(1.1)"></i>
-            <span>CRM管理</span>
+            <span>销售管理</span>
           </template>
           <el-menu-item-group>
             <el-menu-item index="customersList" v-if="listPermissions(menus, 'customerManagement')">客户管理</el-menu-item>
@@ -223,7 +223,7 @@
         <el-submenu index="PMS" v-if="listPermissions(menus, 'pmsManagement')">
           <template slot="title">
             <i class="iconfont icon-lvzhou_shebeipeizhi"></i>
-            <span>PMS管理</span>
+            <span>服务管理</span>
           </template>
           <el-menu-item-group>
             <el-menu-item index="serviceHousekeeperList" v-if="listPermissions(menus, 'serviceManagerManagement')">服务管家管理</el-menu-item>
@@ -236,7 +236,7 @@
         <el-submenu index="CSM" v-if="listPermissions(menus, 'csmManagement')">
           <template slot="title">
             <i class="iconfont icon-lvzhou_shebeipeizhi"></i>
-            <span>CSM管理</span>
+            <span>客满管理</span>
           </template>
           <el-menu-item-group>
             <el-menu-item index="serviceComplaint" v-if="listPermissions(menus, 'serviceComplaintManagement')">服务投诉管理</el-menu-item>
