@@ -102,10 +102,11 @@
         </el-submenu>
          <el-submenu index="statistical" v-if="listPermissions(menus, 'statisticAnalysis')">
            <template slot="title">
-             <i class="iconfont icon-lvzhou_shebeipeizhi"></i>
+             <i class="iconfont icon-ene_mon_mes_sta"></i>
              <span>统计分析</span>
            </template>
            <el-menu-item-group>
+             <el-menu-item index="salesOrdersStatic" v-if="listPermissions(menus, 'statisticSalerOrder')">销售订单统计</el-menu-item>
              <el-menu-item index="serviceTaskSta" v-if="listPermissions(menus, 'statisticServiceTask')">服务任务统计</el-menu-item>
              <el-menu-item index="customerServiceTaskSta" v-if="listPermissions(menus, 'statisticCustomerServiceTask')">客服任务统计</el-menu-item>
              <el-menu-item index="serviceCustomerSta" v-if="listPermissions(menus, 'statisticServiceCustomer')">服务客户统计</el-menu-item>

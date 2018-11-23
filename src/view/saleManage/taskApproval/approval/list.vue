@@ -33,6 +33,7 @@
         border
         stripe
         :data="tableData"
+        :max-height='posheight'
         tooltip-effect="dark"
         style="width: 100%"
         @selection-change="handleSelectionChange"
@@ -132,6 +133,9 @@
     name: 'list',
     data () {
       return {
+        h: document.body.clientHeight,
+        posheight: 100,
+        timer: false,
         total: 0,
         options: [
           /* { // todo del
@@ -166,18 +170,47 @@
     components: {
       comButton,
     },
+    watch: {
+      // 页面高度改变过后改变table的max_height高度
+      h (val) {
+        if(!this.timer) {
+          this.posheight = val - 260
+          this.timer = true
+          let that = this
+          setTimeout(function (){
+            that.timer = false
+          },400)
+        }
+      }
+    },
+    mounted() {
+      // 监听页面高度
+      const that = this
+      window.onresize = () => {
+        return (() => {
+          let a = document.body.clientHeight
+          that.h = a
+        })()
+      }
+    },
     created () {
       var that = this
       // alert(1)
       that.userInfo = utils.loginExamine(that)
       // alert(that.userInfo.id)
       that.$options.methods.getTaskList.bind(that)()
+      this.posTableHeight();            //根据屏幕高度设置table高度
     },
     methods: {
       selectedOptionsHandleChange (value) {
         this.changeValue = value
         this.currentPage = 1
         this.getTaskList()
+      },
+      posTableHeight () {
+        let h = document.body.clientHeight,
+            new_h = h - 260;
+        this.posheight = new_h;
       },
       dateFormat: function (row, column) {
         var date = row[column.property]

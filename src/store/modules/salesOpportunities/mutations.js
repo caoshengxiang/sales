@@ -4,6 +4,7 @@
 
 export default {
   mut_salesOpportunitiesList (st, data) {
+    console.log(1, data)
     st.salesOpportunitiesList = data
   },
   mut_salesOpportunitiesTotal (st, data) {

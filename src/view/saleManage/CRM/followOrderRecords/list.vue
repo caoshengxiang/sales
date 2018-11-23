@@ -36,6 +36,7 @@
         border
         sortable="custom"
         :data="tableData"
+        :max-height='posheight'
         tooltip-effect="dark"
         style="width: 100%"
         @sort-change="sortChangeHandle"
@@ -139,6 +140,9 @@
     name: 'list',
     data () {
       return {
+        h: document.body.clientHeight,
+        posheight: 100,
+        timer: false,
         dataLoading: false,
         tableData: [],
         tableDataTotal: 0,
@@ -160,6 +164,33 @@
         type: 1, // 1：我创建的 2：我参与的
       }
     },
+    watch: {
+      // 页面高度改变过后改变table的max_height高度
+      h (val) {
+        if(!this.timer) {
+          this.posheight = val - 260
+          this.timer = true
+          let that = this
+          setTimeout(function (){
+            that.timer = false
+          },400)
+        }
+      }
+    },
+    mounted() {
+      // 监听页面高度
+      const that = this
+      window.onresize = () => {
+        return (() => {
+          let a = document.body.clientHeight
+          that.h = a
+        })()
+      }
+    },
+    created () {
+      this.getRecordsList()
+      this.posTableHeight();            //根据屏幕高度设置table高度
+    },
     computed: {
       ...mapState('constData', [
         'pagesOptions',
@@ -172,6 +203,11 @@
     methods: {
       addHandle () {
         // alert('add btn')
+      },
+      posTableHeight () {
+        let h = document.body.clientHeight,
+            new_h = h - 260;
+        this.posheight = new_h;
       },
       moveHandle () {
         // alert('move')
@@ -279,9 +315,6 @@
           null) // 触发事件
         link.dispatchEvent(event)
       },
-    },
-    created () {
-      this.getRecordsList()
     },
   }
 </script>

@@ -70,6 +70,7 @@
         border
         stripe
         :data="salesOpportunitiesList"
+        :max-height='posheight'
         tooltip-effect="dark"
         style="width: 100%"
         @sort-change="sortChangeHandle"
@@ -318,6 +319,9 @@
     name: 'list',
     data () {
       return {
+        h: document.body.clientHeight,
+        posheight: 100,
+        timer: false,
         dataLoading: false,
         salesOpportunitiesOptionsType: null,
         multipleSelection: [],
@@ -350,6 +354,37 @@
         'salesOpportunitiesTotal',
       ]),
     },
+    watch: {
+      // 页面高度改变过后改变table的max_height高度
+      h (val) {
+        if(!this.timer) {
+          this.posheight = val - 260
+          this.timer = true
+          let that = this
+          setTimeout(function (){
+            that.timer = false
+          },400)
+        }
+      }
+    },
+    created () {
+      this.getSalesOpportunititeisList()
+      if (this.themeIndex === 1) { // 后端， 拉取组织列表
+        this.getOrganization({pid: 1})
+      }
+      this.posTableHeight();            //根据屏幕高度设置table高度
+    },
+
+    mounted() {
+      // 监听页面高度
+      const that = this
+      window.onresize = () => {
+        return (() => {
+          let a = document.body.clientHeight
+          that.h = a
+        })()
+      }
+    },
     components: {
       comButton,
       addDialog,
@@ -359,6 +394,12 @@
       ...mapActions('salesOpportunities', [
         'ac_salesOpportunitiesList',
       ]),
+      
+      posTableHeight () {
+        let h = document.body.clientHeight,
+            new_h = h - 260;
+        this.posheight = new_h;
+      },
       operateOptions (op) {
         let that = this
         switch (op) {
@@ -559,13 +600,6 @@
         })
       },
     },
-    created () {
-      this.getSalesOpportunititeisList()
-      if (this.themeIndex === 1) { // 后端， 拉取组织列表
-        this.getOrganization({pid: 1})
-      }
-    }
-    ,
   }
 </script>
 

@@ -36,28 +36,24 @@ const customersDetail = resolve => require.ensure([],
 const contactsList = resolve => require.ensure([],
   () => resolve(require('../view/saleManage/CRM/contacts/list')), 'contacts')
 const contactsDetail = resolve => require.ensure([],
-  () => resolve(require('../view/saleManage/CRM/contacts/detailInfo')),
-  'customers')
+  () => resolve(require('../view/saleManage/CRM/contacts/detailInfo')), 'customers')
 // 销售机会
 const salesOpportunitiesList = resolve => require.ensure([],
   () => resolve(require('../view/saleManage/CRM/salesOpportunities/list')),
   'salesOpportunities')
 const salesOpportunitiesDetail = resolve => require.ensure([],
-  () => resolve(
-    require('../view/saleManage/CRM/salesOpportunities/detailInfo')),
+  () => resolve(require('../view/saleManage/CRM/salesOpportunities/detailInfo')),
   'salesOpportunities')
 // 销售机会
 const salesOpportunitiesListSeas = resolve => require.ensure([],
   () => resolve(require('../view/saleManage/CRM/salesOpportunitiesSeas/list')),
   'salesOpportunities')
 const salesOpportunitiesDetailSeas = resolve => require.ensure([],
-  () => resolve(
-    require('../view/saleManage/CRM/salesOpportunitiesSeas/detailInfo')),
+  () => resolve(require('../view/saleManage/CRM/salesOpportunitiesSeas/detailInfo')),
   'salesOpportunities')
 // 销售订单
 const salesOrdersList = resolve => require.ensure([],
-  () => resolve(require('../view/saleManage/CRM/salesOrders/list')),
-  'salesOrders')
+  () => resolve(require('../view/saleManage/CRM/salesOrders/list')), 'salesOrders')
 const salesOrdersDetail = resolve => require.ensure([],
   () => resolve(require('../view/saleManage/CRM/salesOrders/detailInfo')),
   'salesOrders')
@@ -67,8 +63,7 @@ const orderRecordsList = resolve => require.ensure([],
   'orderRecordsList')
 // 回款记录
 const returnRecordList = resolve => require.ensure([],
-  () => resolve(
-    require('../view/saleManage/CRM/returnRecord/returnRecordList')),
+  () => resolve(require('../view/saleManage/CRM/returnRecord/returnRecordList')),
   'returnRecordList')
 // 返佣记录
 const rebateRecordsList = resolve => require.ensure([],
@@ -109,6 +104,13 @@ const taskApprovalList = resolve => require.ensure([],
 const taskApprovalDetail = resolve => require.ensure([],
   () => resolve(require('../view/saleManage/taskApproval/approval/detailInfo')),
   'taskApproval')
+
+// 订单分析，销售订单统计
+const salesOrdersStatic = resolve => require.ensure([],
+  () => resolve(require('../view/saleManage/statisticalAnalysis/salesOrderStatistics')),
+  'statisticalAnalysis')
+
+
 const housekeeperEnterList = resolve => require.ensure([],
   () => resolve(
     require('../view/saleManage/taskApproval/housekeeperEnter/list')),
@@ -262,34 +264,28 @@ const roleList = resolve => require.ensure([],
 
 // 财务管理
 const settlementList = resolve => require.ensure([],
-  () => resolve(require(
-    '../view/companyManage/financial/commissionSettlement/settlementList')),
+  () => resolve(require('../view/companyManage/financial/commissionSettlement/settlementList')),
   'financial')
 // 财务管理 回款结算
 const returnSettlementList = resolve => require.ensure([],
-  () => resolve(
-    require('../view/companyManage/financial/returnSettlement/list')),
+  () => resolve(require('../view/companyManage/financial/returnSettlement/list')),
   'financial')
 // 财务管理
 const spendingList = resolve => require.ensure([],
-  () => resolve(
-    require('../view/companyManage/financial/commissionExpense/spendingList')),
+  () => resolve(require('../view/companyManage/financial/commissionExpense/spendingList')),
   'financial')
 
 // 组织管理
 const organizationList = resolve => require.ensure([],
-  () => resolve(
-    require('../view/companyManage/organization/organization/list')),
+  () => resolve(require('../view/companyManage/organization/organization/list')),
   'organization')
 // 客户池管理
 const customerPool = resolve => require.ensure([],
-  () => resolve(
-    require('../view/companyManage/organization/customerPool/customerPool')),
+  () => resolve(require('../view/companyManage/organization/customerPool/customerPool')),
   'organization')
 // 机会池管理
 const chancePool = resolve => require.ensure([],
-  () => resolve(
-    require('../view/companyManage/organization/chancePool/chancePool')),
+  () => resolve(require('../view/companyManage/organization/chancePool/chancePool')),
   'organization')
 
 const baseSettingList = resolve => require.ensure([],
@@ -298,14 +294,12 @@ const baseSettingList = resolve => require.ensure([],
 
 // 客户地区管理
 const customerAreaSetting = resolve => require.ensure([],
-  () => resolve(
-    require('../view/companyManage/baseSetting/customerAareaSetting/index')),
+  () => resolve(require('../view/companyManage/baseSetting/customerAareaSetting/index')),
   'customerAreaSetting')
 
 // 客户源管理
 const customerSource = resolve => require.ensure([],
-  () => resolve(
-    require('../view/companyManage/baseSetting/customerSourceSetting/index')),
+  () => resolve(require('../view/companyManage/baseSetting/customerSourceSetting/index')),
   'customerSource')
 
 // 站点开关设置
@@ -316,15 +310,13 @@ const siteList = resolve => require.ensure([],
 // 商品管理
 const organizationProductSetting = resolve => require.ensure([],
   () => resolve(
-    require(
-      '../view/companyManage/organization/organizationProductSetting/list')),
+    require('../view/companyManage/organization/organizationProductSetting/list')),
   'organizationProductSetting')
 
 // 商品类型设置
 const productType = resolve => require.ensure([],
   () => resolve(
-    require(
-      '../view/companyManage/baseSetting/serviceProductConfig/productType')),
+    require('../view/companyManage/baseSetting/serviceProductConfig/productType')),
   'productType')
 // 服务内容配置
 const serviceContent = resolve => require.ensure([],
@@ -502,9 +494,7 @@ const router = new Router({
           meta: {
             title: '销售机会公海',
             pos: [{name: '销售管理系统', toName: 'saleHome'}, {name: '销售机会公海'}],
-            pos2: [
-              {name: '管理系统', toName: 'companyManageHome'},
-              {name: '销售机会公海'}],
+            pos2: [{name: '管理系统', toName: 'companyManageHome'}, {name: '销售机会公海'}],
           },
         }, {
           path: 'salesOpportunitiesDetailSeas',
@@ -652,6 +642,14 @@ const router = new Router({
           meta: {
             title: '任务审批',
             pos: [{name: '销售管理系统', toName: 'saleHome'}, {name: '任务审批'}],
+          },
+        }, {
+          path: 'salesOrdersStatic',
+          name: 'salesOrdersStatic',
+          component: salesOrdersStatic,
+          meta: {
+            title: '销售订单统计',
+            pos: [{name: 'ERP管理系统', toName: 'saleHome'},{name: '系统分析'}, {name: '销售订单统计'}],
           },
         }, {
           path: 'todoItemList',
@@ -978,9 +976,6 @@ const router = new Router({
               {name: '客户意见统计'}],
           },
         },
-        // 企业管理
-        // 企业管理
-        // 企业管理
         // 企业管理
         {
           path: 'companyManageHome',

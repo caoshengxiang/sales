@@ -81,6 +81,7 @@
               border
               stripe
               :data="tableData"
+              :max-height='posheight'
               tooltip-effect="dark"
               style="width: 100%">
               <el-table-column
@@ -144,6 +145,9 @@
     name: 'list',
     data () {
       return {
+        h: document.body.clientHeight,
+        posheight: 100,
+        timer: false,
         dataLoading: false,
         agentType: 3,
         agentTypeData: null, // 接口返回
@@ -175,6 +179,38 @@
         'themeIndex',
       ]),
     },
+    watch: {
+      // 页面高度改变过后改变table的max_height高度
+      h (val) {
+        if(!this.timer) {
+          this.posheight = val - 300
+          this.timer = true
+          let that = this
+          setTimeout(function (){
+            that.timer = false
+          },400)
+        }
+      }
+    },
+    mounted() {
+      // 监听页面高度
+      const that = this
+      window.onresize = () => {
+        return (() => {
+          let a = document.body.clientHeight
+          that.h = a
+        })()
+      }
+    },
+    created () {
+      this.getDeptsType(() => {
+        this.getDepts(this.agentType, (id) => {
+          this.agentTypeOption = id
+          this.getList()
+        })
+      })
+      this.posTableHeight();            //根据屏幕高度设置table高度
+    },
     components: {
       comButton,
       VueQr,
@@ -183,6 +219,11 @@
       handleSizeChange (val) {
         // console.log(`每页 ${val} 条`)
         this.getList()
+      },
+      posTableHeight () {
+        let h = document.body.clientHeight,
+            new_h = h - 300;
+        this.posheight = new_h;
       },
       handleCurrentChange (val) {
         // console.log(`当前页: ${val}`)
@@ -261,14 +302,6 @@
       },
     },
     beforeCreate () {
-    },
-    created () {
-      this.getDeptsType(() => {
-        this.getDepts(this.agentType, (id) => {
-          this.agentTypeOption = id
-          this.getList()
-        })
-      })
     },
   }
 </script>
