@@ -109,6 +109,7 @@
               </el-table-column>
             </el-table>
           </div>
+          <div style="width: 20px;"></div>
         </div>
       </div>
     </div>
@@ -149,7 +150,95 @@
         agentTypeOption: null,
         agentTypeOptions: [],
         currentPage: 1,
-        tableData: [],
+        tableData: [{
+          name: '1312313'
+        }, {
+          name: '1312313'
+        }, {
+          name: '1312313'
+        }, {
+          name: '1312313'
+        }, {
+          name: '1312313'
+        }, {
+          name: '1312313'
+        }, {
+          name: '1312313'
+        }, {
+          name: '1312313'
+        }, {
+          name: '1312313'
+        }, {
+          name: '1312313'
+        }, {
+          name: '1312313'
+        }, {
+          name: '1312313'
+        }, {
+          name: '1312313'
+        }, {
+          name: '1312313'
+        }, {
+          name: '1312313'
+        }, {
+          name: '1312313'
+        }, {
+          name: '1312313'
+        }, {
+          name: '1312313'
+        }, {
+          name: '1312313'
+        }, {
+          name: '1312313'
+        }, {
+          name: '1312313'
+        }, {
+          name: '1312313'
+        }, {
+          name: '1312313'
+        }, {
+          name: '1312313'
+        }, {
+          name: '1312313'
+        }, {
+          name: '1312313'
+        }, {
+          name: '1312313'
+        }, {
+          name: '1312313'
+        }, {
+          name: '1312313'
+        }, {
+          name: '1312313'
+        }, {
+          name: '1312313'
+        }, {
+          name: '1312313'
+        }, {
+          name: '1312313'
+        }, {
+          name: '1312313'
+        }, {
+          name: '1312313'
+        }, {
+          name: '1312313'
+        }, {
+          name: '1312313'
+        }, {
+          name: '1312313'
+        }, {
+          name: '1312313'
+        }, {
+          name: '1312313'
+        }, {
+          name: '1312313'
+        }, {
+          name: '1312313'
+        }, {
+          name: '1312313'
+        }, {
+          name: '1312313'
+        }, ],
         tableDataTotal: 0,
         otherData: {},
         config: {
@@ -200,8 +289,8 @@
         this.dataLoading = true
         this.getQueryParams()
         API.agentDev.list(Object.assign({}, this.defaultListParams, this.sortObj, this.advancedSearch), (data) => {
-          this.tableData = data.data.content
-          this.tableDataTotal = data.data.totalElements
+          // this.tableData = data.data.content
+          // this.tableDataTotal = data.data.totalElements
           this.getCommission()
           setTimeout(() => {
             this.dataLoading = false
@@ -320,6 +409,8 @@
     .rec-table {
       flex: 1;
       padding: 20px;
+      height: 90%;
+      overflow-y: scroll;
     }
   }
 </style>
