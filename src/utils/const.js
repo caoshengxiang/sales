@@ -1,8 +1,8 @@
 export const pageMinWidth = 1100 // 页面最小宽度
 export const versionLogs = 'version: 1.0.0，20180723'
-export const serverUrl = 'http://192.168.2.38:8080' // server地址
+// export const serverUrl = 'http://192.168.2.38:8080' // server地址
 // export const serverUrl = 'http://erp.zzcfo.cn/sales' // server地址
-// export const serverUrl = process.env.API_ROOT // server地址
+export const serverUrl = process.env.API_ROOT // server地址
 export const externalAPI = process.env.API_EXTERNAL // APP 外部地址
 
 console.log(process.env.API_ROOT, 'test----环境地址')
