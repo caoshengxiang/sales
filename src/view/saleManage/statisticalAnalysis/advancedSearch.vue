@@ -5,7 +5,7 @@
         el-row.el-row-cla
           el-col(:span="8")
             el-form-item(label="订单编号：")
-              el-input(type="text" v-model="searchForm.orderSn" placeholder="订单编号")
+              el-input(type="text" v-model="searchForm.appOrderId" placeholder="订单编号")
           el-col(:span="8")
             el-form-item(label="客户名称：")
               el-input(type="text" v-model="searchForm.customerName" placeholder='客户名称')
@@ -148,7 +148,7 @@
         demandSource: [],                 // 需求来源
 
         searchForm: {                     // 表单
-          orderSn: null,                 //订单编号
+          appOrderId: null,                 //订单编号
           customerName: null,            //客户名称
           contactPhone: null,            //联系电话
           contacterName: null,           //联系人
