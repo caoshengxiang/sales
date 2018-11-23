@@ -87,7 +87,7 @@
       },
     },
     created () {
-      this.getDetailByOrderId(this.props.orderId)
+      this.getDetailByOrderId(this.params.orderId)
     }
   }
 </script>
