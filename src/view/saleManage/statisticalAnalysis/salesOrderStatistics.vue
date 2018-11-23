@@ -24,11 +24,11 @@
     //- 详细
     div.com-box.com-box-padding.com-list-box
       el-table(ref="multipleTable" border stripe :max-height='posheight' :data="salesOpportunitiesList" tooltip-effect="dark" style="width: 100%" @sort-change="sortChangeHandle" @selection-change="handleSelectionChange")
-        el-table-column(fixed align="center" sortable="" width='180' label="订单编号" show-overflow-tooltip)
+        el-table-column(fixed align="center" sortable="" prop="appOrderId" width='180' label="订单编号" show-overflow-tooltip)
           template(slot-scope='scope')
             span {{scope.row.salerOrderId ? scope.row.salerOrderId.toString() + scope.row.appOrderId : ''}}
         el-table-column(fixed align="center" sortable="" prop="customerName" width='180' label="客户名称" show-overflow-tooltip)
-        el-table-column(align="center" sortable="custom" width='180' label="所属区域")
+        el-table-column(align="center" sortable="custom" prop="provinceName" width='180' label="所属区域")
           template(slot-scope='scope')
             span {{scope.row.provinceName + scope.row.cityName + scope.row.areaName}}
         el-table-column(align="center" sortable="custom" prop="industry" width='120' label="所属行业" show-overflow-tooltip)
@@ -36,13 +36,13 @@
         el-table-column(align="center" sortable="custom" prop="contactPhone" width='180' label="联系方式" show-overflow-tooltip)
         el-table-column(align="center" sortable="custom" prop="serviceYear" width='100' label="服务年度" show-overflow-tooltip)
         el-table-column(align="center" sortable="custom" prop="productName" width='200' label="购买商品" show-overflow-tooltip)
-        el-table-column(align="center" sortable="custom" width='100' label="商品类型" show-overflow-tooltip)
+        el-table-column(align="center" sortable="custom" prop="billingType" width='100' label="商品类型" show-overflow-tooltip)
           template(slot-scope='scope')
-            span {{scope.row.billingType === 'ANNUALLY' ? 'ANNUALLY计时' : 'TIMES计次'}}
+            span {{scope.row.billingType === 'ANNUALLY' ? '计时' : '计次'}}
         el-table-column(align="center" sortable="custom" prop="orderType" width='100' label="签单类型" show-overflow-tooltip)
           template(slot-scope='scope')
             span {{scope.row.orderType === 'FIRST' ? '客户首购' : '客户复购'}}
-        el-table-column(align="center" sortable="custom" width='100' label="是否续费" show-overflow-tooltip)
+        el-table-column(align="center" sortable="custom" prop="isRenew" width='100' label="是否续费" show-overflow-tooltip)
           template(slot-scope='scope')
             span {{~~scope.row.isRenew ? '是' : '否'}}
         el-table-column(align="center" sortable="custom" prop="renewTimes" width='100' label="续费年度" show-overflow-tooltip)
@@ -51,15 +51,15 @@
         el-table-column(align="center" sortable="custom" prop="receivedAmount" width='120' label="回款金额" show-overflow-tooltip)
         el-table-column(align="center" sortable="custom" prop="noReceivedAmount" width='120' label="待回款金额" show-overflow-tooltip)
         el-table-column(align="center" sortable="custom" prop="orderStatus" width='100' label="订单状态" show-overflow-tooltip)
-        el-table-column(align="center" sortable="custom" prop="orderSource" width='180' label="订单推荐来源" show-overflow-tooltip)
+        el-table-column(align="center" sortable="custom" prop="orderSourceName" width='180' label="订单推荐来源" show-overflow-tooltip)
         el-table-column(align="center" sortable="custom" prop="providerName" width='120' label="需求提供人" show-overflow-tooltip)
         el-table-column(align="center" sortable="custom" prop="creatorName" width='120' label="订单创建人" show-overflow-tooltip)
         el-table-column(align="center" sortable="custom" prop="salerName" width='100' label="销售员" show-overflow-tooltip)
         el-table-column(align="center" sortable="custom" prop="counselorName" width='100' label="咨询师" show-overflow-tooltip)
-        el-table-column(align="center" sortable="custom" width='200' label="订单创建日期" show-overflow-tooltip)
+        el-table-column(align="center" sortable="custom" prop="created" width='200' label="订单创建日期" show-overflow-tooltip)
           template(slot-scope='scope')
             span {{formD(scope.row.created)}}
-        el-table-column(align="center" sortable="custom" width='200' label="需求来源日期" show-overflow-tooltip)
+        el-table-column(align="center" sortable="custom" prop="chanceSourceDate" width='200' label="需求来源日期" show-overflow-tooltip)
           template(slot-scope='scope')
             span {{formD(scope.row.chanceSourceDate)}}
     //- 底部综合信息
@@ -112,8 +112,8 @@
         advancedSearch: {},                       // 高级搜索
         footerData: {
           all_bill_num: 0,                        //合计签单数
-          all_sale_money: 155484,                 //合计销售额
-          all_back_money: 3025154,                //合计回款额
+          all_sale_money: 0,                      //合计销售额
+          all_back_money: 0,                      //合计回款额
         },                                        
       }
     },
@@ -132,7 +132,7 @@
     },
     created () {
       this.getSalesOpportunititeisList()
-      if (this.themeIndex === 1) { // 后端， 拉取组织列表
+      if (this.themeIndex === 1) {      // 后端， 拉取组织列表
         this.getOrganization({pid: 1})
       }
       this.posTableHeight();            //根据屏幕高度设置table高度
@@ -191,9 +191,6 @@
         if (this.themeIndex === 0) {
           API.statistical.Lists(Object.assign({}, this.defaultListParams, this.sortObj, this.advancedSearch),
             (data) => {
-              this.footerData.all_bill_num = data.data.totalElements;        //签单总数
-              this.footerData.all_sale_money = data.data.allBillAmount;      //销售总额
-              this.footerData.all_back_money = data.data.allReceivedAmount   //回款总额
               if(data.data.content.length > 0 ) {
                 data.data.content.forEach(a => {
                   let _state = ~~a.orderState;
@@ -223,6 +220,11 @@
                 })
               }
               this.ac_salesOpportunitiesList(data.data);
+              if(data.other) {
+                this.footerData.all_bill_num = data.other.counts;               //签单总数
+                this.footerData.all_sale_money = data.other.allbillAmount;      //销售总额
+                this.footerData.all_back_money = data.other.allreceivedAmount   //回款总额
+              }
               setTimeout(() => {
                 this.dataLoading = false;
               }, 500)
