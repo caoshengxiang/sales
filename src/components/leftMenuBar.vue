@@ -99,22 +99,24 @@
             <!--<el-menu-item index="housekeeperEnterList">管家入驻管理</el-menu-item>-->
           </el-menu-item-group>
         </el-submenu>
-        <!-- <el-submenu index="statistical"> &lt;!&ndash;todo 加权限&ndash;&gt;
+        <el-submenu index="statisticals"> <!--&lt;!&ndash;todo 加权限&ndash;&gt;-->
            <template slot="title">
-             <i class="iconfont icon-lvzhou_shebeipeizhi"></i>
+             <i class="iconfont icon-ene_mon_mes_sta"></i>
              <span>统计分析</span>
            </template>
            <el-menu-item-group>
-             <el-menu-item index="serviceTaskSta">服务任务统计</el-menu-item>
+             <el-menu-item index="salesOrdersStatic" v-if="listPermissions(menus, 'statisticSalerOrder')">销售订单统计</el-menu-item>
+             <!-- <el-menu-item index="salesOrdersStatic">销售订单统计</el-menu-item> -->
+             <!-- <el-menu-item index="serviceTaskSta">服务任务统计</el-menu-item>
              <el-menu-item index="customerServiceTaskSta">客服任务统计</el-menu-item>
              <el-menu-item index="serviceCustomerSta">服务客户统计</el-menu-item>
              <el-menu-item index="serviceBillSta">服务票据统计</el-menu-item>
              <el-menu-item index="refundOrderSta">退单拒单统计</el-menu-item>
              <el-menu-item index="customerComplaintSta">客户投诉统计</el-menu-item>
              <el-menu-item index="customerCommentsSta">客户评价统计</el-menu-item>
-             <el-menu-item index="customerOpinionSta">客户意见统计</el-menu-item>
+             <el-menu-item index="customerOpinionSta">客户意见统计</el-menu-item> -->
            </el-menu-item-group>
-         </el-submenu>-->
+         </el-submenu>
       </div>
       <!--前端 菜单 end-->
       <!--前端 菜单 end-->
@@ -245,16 +247,16 @@
       return {
         userInfo: {},
         menus: [],
-        // routeerIndexName: [
-        //   'saleHome', 'customersList', 'contactsList', 'salesOpportunitiesList', 'salesOrdersList',
-        //   'orderRecordsList', 'remittanceRecords', 'rebateRecordsList', 'customersHighSeasList', 'taskApprovalList',
-        //   'companyManageHome',
-        //   'userList', 'roleList', 'agentList',
-        //   'organizationList', 'customerPool', 'organizationProductSetting',
-        //   'settlementList', 'spendingList',
-        //   'meMessageList',
-        //   'siteList', 'customerAreaSetting', 'baseSettingList', 'settlementRulesList'
-        // ],
+        routeerIndexName: [
+          // 'saleHome', 'customersList', 'contactsList', 'salesOpportunitiesList', 'salesOrdersList',
+          // 'orderRecordsList', 'remittanceRecords', 'rebateRecordsList', 'customersHighSeasList', 'taskApprovalList',
+          // 'companyManageHome',
+          // 'userList', 'roleList', 'agentList',
+          // 'organizationList', 'customerPool', 'organizationProductSetting',
+          // 'settlementList', 'spendingList',
+          // 'meMessageList',
+          // 'siteList', 'customerAreaSetting', 'baseSettingList', 'settlementRulesList', 'salesOrderStatistics'
+        ],
         defaultActiveIndex: 'saleHome',
       }
     },
@@ -274,8 +276,9 @@
     created () {
       this.userInfo = utils.loginExamine(this)
       this.menus = this.userInfo.menus
+      // console.log(1, this.menus)
       this.ac_currentUser(this.userInfo)
-      // console.log('tetssss', this.listPermissions(this.menus, 'salerHome')) // 测试权限方法
+      // console.log('tetssss', this.listPermissions(this.menus, 'statistical')) // 测试权限方法
       this.defaultActiveIndex = this.$route.name // 首次进入，或刷新菜单获取active【注意：defaultActiveIndex是path不是name,所以定义路由的时候path名和name名写成一样的】
     },
     methods: {

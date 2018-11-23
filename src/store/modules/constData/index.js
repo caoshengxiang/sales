@@ -103,6 +103,24 @@ export default {
         value: '已作废',
       },
     ],
+    productClass: [ //商品类型
+      {
+        type: '计次',
+        value: 'TIMES'
+      }, {
+        type: '计时',
+        value: 'ANNUALLY'
+      }
+    ],
+    orderType: [ //签单类型
+      {
+        type: '客户首购',
+        value: 'FIRST'
+      }, {
+        type: '客户复购',
+        value: 'DERIVE'
+      }
+    ],
     salesState: [ // 销售阶段
       {
         type: -1, // 机会详细直接使用
@@ -176,6 +194,27 @@ export default {
         value: '已取消',
       }, { // 因为APP订单预览有个进度条，所以6改为了0
         type: 0, // 注意：修改值得时候注意有页面直接使用了0这个值【订单详细，APP订单预览】
+        value: '预下单',
+      },
+    ],
+    orderStates: [ //销售订单统计专用订单状态
+      {
+        type: 1,
+        value: '待支付',
+      }, {
+        type: 2,
+        value: '已支付',
+      }, {
+        type: 3,
+        value: '服务中',
+      }, {
+        type: 4,
+        value: '已完成',
+      }, {
+        type: 5,
+        value: '已取消',
+      }, {
+        type: 6,
         value: '预下单',
       },
     ],
@@ -438,6 +477,7 @@ export default {
         name: '统计分析',
         value: 'userManagementSub',
         children: [
+          {name: '销售订单统计', value: 'userManagementSub'},
           {name: '服务任务统计', value: 'userManagementSub'},
           {name: '客服任务统计', value: 'userManagementSub'},
           {name: '服务客户统计', value: 'userManagementSub'},

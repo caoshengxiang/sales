@@ -271,8 +271,21 @@ export function lastMonthDate () { // 上个月1号
     vMon = '0' + vMon
   }
   var date = vYear + '-' + vMon + '-01'
-  console.log(date)
+  // console.log(date)
   return new Date(date)
+}
+
+// 格式化时间
+export function formatDate (d) {
+  let _date = new Date(d);
+  let y = _date.getFullYear(),
+      mon = (_date.getMonth() + 1) < 10 ? '0' + (_date.getMonth() + 1) : _date.getMonth() + 1,
+      day = _date.getDate() < 10 ? '0' + _date.getDate() : _date.getDate(),
+      s = _date.getHours() < 10 ? '0' + _date.getHours() : _date.getHours(),
+      f = _date.getMinutes() < 10 ? '0' + _date.getMinutes() : _date.getMinutes(),
+      m = _date.getSeconds() < 10 ? '0' + _date.getSeconds() : _date.getSeconds(),
+      new_date = y + '-' + mon + '-' + day + ' ' + s + ':' + f + ':' + m;
+  return new_date
 }
 
 /*
