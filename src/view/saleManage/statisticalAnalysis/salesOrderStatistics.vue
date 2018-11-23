@@ -36,8 +36,12 @@
         el-table-column(align="center" sortable="custom" prop="contactPhone" width='180' label="联系方式" show-overflow-tooltip)
         el-table-column(align="center" sortable="custom" prop="serviceYear" width='100' label="服务年度" show-overflow-tooltip)
         el-table-column(align="center" sortable="custom" prop="productName" width='200' label="购买商品" show-overflow-tooltip)
-        el-table-column(align="center" sortable="custom" prop="billingType" width='100' label="商品类型" show-overflow-tooltip)
+        el-table-column(align="center" sortable="custom" width='100' label="商品类型" show-overflow-tooltip)
+          template(slot-scope='scope')
+            span {{scope.row.billingType === 'ANNUALLY' ? 'ANNUALLY计时' : 'TIMES计次'}}
         el-table-column(align="center" sortable="custom" prop="orderType" width='100' label="签单类型" show-overflow-tooltip)
+          template(slot-scope='scope')
+            span {{scope.row.orderType === 'FIRST' ? '客户首购' : '客户复购'}}
         el-table-column(align="center" sortable="custom" width='100' label="是否续费" show-overflow-tooltip)
           template(slot-scope='scope')
             span {{~~scope.row.isRenew ? '是' : '否'}}
@@ -67,10 +71,10 @@
           span.tatal-data-color {{footerData.all_bill_num}}
         span.tatal-data-line
         span 合计销售额：
-          span.tatal-data-color {{footerData.all_sale_money.toLocaleString()}}
+          span.tatal-data-color {{footerData.all_sale_money ? footerData.all_sale_money.toLocaleString() : 0}}
         span.tatal-data-line
         span 合计回款额：
-          span.tatal-data-color {{footerData.all_back_money.toLocaleString()}}
+          span.tatal-data-color {{footerData.all_back_money ? footerData.all_back_money.toLocaleString() : 0}}
       el-pagination(background :total="salesOpportunitiesTotal" @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage" :layout="pagesOptions.layout" :page-sizes="pagesOptions.pageSizes" :page-size="pagesOptions.pageSize")
 </template>
 
@@ -187,8 +191,9 @@
         if (this.themeIndex === 0) {
           API.statistical.Lists(Object.assign({}, this.defaultListParams, this.sortObj, this.advancedSearch),
             (data) => {
-              this.footerData.all_bill_num = data.data.totalElements;    //签单总数
-              console.log(data)
+              this.footerData.all_bill_num = data.data.totalElements;        //签单总数
+              this.footerData.all_sale_money = data.data.allBillAmount;      //销售总额
+              this.footerData.all_back_money = data.data.allReceivedAmount   //回款总额
               if(data.data.content.length > 0 ) {
                 data.data.content.forEach(a => {
                   let _state = ~~a.orderState;
@@ -251,7 +256,6 @@
         this.getSalesOpportunititeisList()
       },
       sortChangeHandle (sortObj) {
-        console.log(111, sortObj)
         let order = null
         if (sortObj.order === 'ascending') {
           order = 'asc'
@@ -267,12 +271,11 @@
           width: 900,
           height: 460,
           params: {
-            salesState: this.orderType,               //签单类型赋值
+            salesState: this.orderType,                //签单类型赋值
             productClass: this.productClass,           //商品类型赋值
             demandSource: this.demandSource,
             preAdvancedSearch: this.advancedSearch,
-
-            orderState: this.orderStates,               //订单类型赋值
+            orderState: this.orderStates,              //订单类型赋值
           },
           callback: (data) => {
             if (data.type === 'search') {
@@ -283,7 +286,7 @@
           },
         })
       },
-      getQueryParams () { // 请求参数配置
+      getQueryParams () {                            // 请求参数配置
         this.customerId = this.$route.query.customerId
         this.defaultListParams = {
           page: this.currentPage - 1,
@@ -291,7 +294,7 @@
           type: this.salesOpportunitiesOptionsType,  // 前端
           organizationId: this.organizationId,       // 后端
         }
-        if (this.customerId) { // 更多
+        if (this.customerId) {                       // 更多
           this.defaultListParams.customerId = this.customerId
         }
       },
