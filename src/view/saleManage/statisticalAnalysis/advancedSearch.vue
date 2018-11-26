@@ -137,47 +137,47 @@
         renewState: [
           {value: 1, label: '是'},
           {value: 0, label: '否'}
-        ],                                //是否续费集合
-        orderState: [],                   //订单状态集合
+        ],                              //是否续费集合
+        orderState: [],                 //订单状态集合
 
-        billingType: null,               //选择的商品类型
-        orderType: null,                 //选择的签单类型
-        isRenew: null,                   //选择的是否续费
-        orderState: null,                //选择的订单状态
+        billingType: null,              //选择的商品类型
+        orderType: null,                //选择的签单类型
+        isRenew: null,                  //选择的是否续费
+        orderState: null,               //选择的订单状态
 
-        demandSource: [],                 // 需求来源
+        demandSource: [],               // 需求来源
 
-        searchForm: {                     // 表单
-          appOrderId: null,                 //订单编号
-          customerName: null,            //客户名称
-          contactPhone: null,            //联系电话
-          contacterName: null,           //联系人
-          productName: null,             //购买商品
-          industry: null,                 //选择的所属行业
-          providerName: null,            //需求提供人
-          creatorName: null,             //订单创建人
-          salerName: null,               //销售员
-          counselorName: null,           //咨询师
+        searchForm: {                   // 表单
+          appOrderId: null,             //订单编号
+          customerName: null,           //客户名称
+          contactPhone: null,           //联系电话
+          contacterName: null,          //联系人
+          productName: null,            //购买商品
+          industry: null,               //选择的所属行业
+          providerName: null,           //需求提供人
+          creatorName: null,            //订单创建人
+          salerName: null,              //销售员
+          counselorName: null,          //咨询师
           startServiceYear: null,       //服务年度开始
           endServiceYear: null,         //服务年度结束
-          startPayNum: null,            //付费次数开始
-          endPayNum: null,              //付费次数结束
+          startRenewTimes: null,        //付费次数开始
+          endRenewTimes: null,          //付费次数结束
           startPriceAmount: null,       //定价金额开始
           endPriceAmount: null,         //定价金额结束
           startBillAmount: null,        //签单金额开始
           endBillAmount: null,          //签单金额结束
-          startNoReceivedAmount: null, //待回款金额开始
-          endNoReceivedAmount: null,   //待回款金额结束
+          startNoReceivedAmount: null,  //待回款金额开始
+          endNoReceivedAmount: null,    //待回款金额结束
           salerRelName: null,
           source: null,
-          startCreated: null,            //开始订单创建日期
-          endCreated: null,              //结束订单创建日期
-          startChanceSourceDate: null, //开始订单来源日期
-          endChanceSourceDate: null,   //结束订单来源日期
+          startCreated: null,           //开始订单创建日期
+          endCreated: null,             //结束订单创建日期
+          startChanceSourceDate: null,  //开始订单来源日期
+          endChanceSourceDate: null,    //结束订单来源日期
         },
         timeInterval: [],
         timeInterval2: [],
-        chanceSourceType: [],              //订单推荐来源
+        chanceSourceType: [],           //订单推荐来源
         chanceSourceArr: [],
         props: {
           value: 'id',
@@ -304,7 +304,7 @@
         return this.sourceNameArr.join('-')
       },
       saveSubmitForm () {
-        this.searchForm.source_name = this.traverseTree(this.searchForm.chanceSource)
+        this.searchForm.source_name = this.traverseTree(this.searchForm.orderSource)
         this.$vDialog.close({type: 'search', params: this.searchForm})
       },
       timeIntervalHandle (value) {
@@ -350,7 +350,7 @@
             this.targetObj.children = null
           }
         })
-        this.searchForm.chanceSource = va.join('-')
+        this.searchForm.orderSource = va.join('-')
       },
       getLastItem (list, vals, key) { // 获取点击得目标对象, key 对应得 值vals 数组
         let LIST = list || []
