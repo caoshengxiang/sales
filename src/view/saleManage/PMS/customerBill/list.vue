@@ -13,10 +13,10 @@
     <div class="com-bar">
       <div class="com-bar-left">
         <com-button buttonType="add" icon="el-icon-circle-check-outline" @click="operateOptions('pass')"
-                    :disabled="multipleSelection.length !== 1">审核通过
+                    :disabled="multipleSelection.length !== 1||(multipleSelection[0]&&multipleSelection[0].auditState!==1)">审核通过
         </com-button>
         <com-button buttonType="delete" icon="el-icon-remove-outline" @click="operateOptions('refuse')"
-                    :disabled="multipleSelection.length !== 1">审核拒绝
+                    :disabled="multipleSelection.length !== 1||(multipleSelection[0]&&multipleSelection[0].auditState!==1)">审核拒绝
         </com-button>
       </div>
       <div class="com-bar-right">
