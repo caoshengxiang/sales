@@ -999,18 +999,6 @@ const API1 = {
   },
   // 跟单记录
   orderRecords: {
-    //获取销售订单统计的列表数据
-    Lists (params, success, error) {               
-        $axios({
-            method: 'get',
-            url: 'salerOrderStatistics',
-            params: params,
-        }).then((res) => {
-            success && success(res.data)
-        }).catch((errorData) => {
-            error && error(errorData)
-        })
-    },
     listNoAuth (params, success, error) { // 跟单记录列表，权限得
       $axios({
         method: 'get',
@@ -2018,7 +2006,19 @@ const API1 = {
     },
   },
   // 统计分析
-  statistical: {
+  zhuxinStatistical: {
+    //获取销售订单统计的列表数据
+    Lists (params, success, error) {               
+        $axios({
+            method: 'get',
+            url: 'salerOrderStatistics',
+            params: params,
+        }).then((res) => {
+            success && success(res.data)
+        }).catch((errorData) => {
+            error && error(errorData)
+        })
+    },
     //高级搜索数据
     Adsearch (params, success, error) {            
         $axios({
