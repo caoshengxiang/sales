@@ -31,7 +31,7 @@
           <td class="td-title">审批状态</td>
           <td>
             <span v-if="detailInfo.state === 1">审批中</span>
-            <span v-else-if="detailInfo.approved">已通过</span>
+            <span v-else-if="detailInfo.state === 2">已通过</span>
             <span v-else>已拒绝</span>
           </td>
           <td class="td-title"></td>
