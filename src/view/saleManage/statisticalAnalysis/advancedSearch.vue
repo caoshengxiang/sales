@@ -75,11 +75,11 @@
             el-form-item(label="付费次数：")
               el-row
                 el-col(:span="8")
-                  el-input(@change="intentPayNumStartHandle" type="number" placeholder="次数开始" v-model.number="searchForm.startPayNum")
+                  el-input(@change="intentPayNumStartHandle" type="number" placeholder="次数开始" v-model.number="searchForm.startRenewTimes")
                 el-col(:span="2")
                   div(style="text-align: center") -
                 el-col(:span="8")
-                  el-input(@change="intentPayNumEndHandle" type="number" placeholder="次数结束" v-model.number="searchForm.endPayNum")
+                  el-input(@change="intentPayNumEndHandle" type="number" placeholder="次数结束" v-model.number="searchForm.endRenewTimes")
         el-row.el-row-cla
           el-col(:span="12")
             el-form-item(label="定价金额：")
@@ -220,15 +220,15 @@
       },
       // 付费次数开始
       intentPayNumStartHandle() {
-        if (this.searchForm.startPayNum > this.searchForm.endPayNum && this.searchForm.endPayNum) {
-          this.searchForm.startPayNum = null
+        if (this.searchForm.startRenewTimes > this.searchForm.endRenewTimes && this.searchForm.endRenewTimes) {
+          this.searchForm.startRenewTimes = null
         }
       },
       // 付费次数结束
       intentPayNumEndHandle () {
-        if (this.searchForm.startPayNum && this.searchForm.startPayNum >
-          this.searchForm.endPayNum) {
-          this.searchForm.endPayNum = this.searchForm.startPayNum
+        if (this.searchForm.startRenewTimes && this.searchForm.startRenewTimes >
+          this.searchForm.endRenewTimes) {
+          this.searchForm.endRenewTimes = this.searchForm.startRenewTimes
         }
       },
       // 定价金额开始
