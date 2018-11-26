@@ -81,7 +81,7 @@
         })
       },
       onSuccessHandle (response, file, fileList) {
-        this.ruleForm.attachment = response.data.path
+        this.ruleForm.attachment = response.data.url
       }
     },
   }

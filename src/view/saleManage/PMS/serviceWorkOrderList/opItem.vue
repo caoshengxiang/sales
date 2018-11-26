@@ -361,6 +361,7 @@
   import operationCode341 from './items/operationCode34_1'
   import operationCode351 from './items/operationCode35_1'
   import operationCode371 from './items/operationCode37_1'
+  // import { serverUrl } from '../../../../utils/const'
 
   export default {
     name: 'opItem',
@@ -419,6 +420,11 @@
         },
       }
     },
+    // computed: {
+    //   serverUrl () {
+    //     return serverUrl
+    //   }
+    // },
     props: ['params'],
     methods: {
       getServiceLog () {
