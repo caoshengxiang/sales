@@ -71,7 +71,7 @@
             <td class="td-title">投诉单号</td>
             <td>{{detail.num}}</td>
             <td class="td-title">首次投诉日期</td>
-            <td>todo</td>
+            <td>{{detail.created && $moment(detail.created).format('YYYY-MM-DD HH:mm:ss')}}</td>
             <td class="td-title">客服坐席</td>
             <td>{{detail.cusServiceName}}</td>
           </tr>
@@ -98,9 +98,9 @@
           </tr>
           <tr>
             <td class="td-title">被投诉对象</td>
-            <td>todo</td>
+            <td>{{detail.managerName}}</td>
             <td class="td-title">管家号</td>
-            <td>todo</td>
+            <td>{{detail.managerNo}}</td>
             <td class="td-title">投诉跟踪人</td>
             <td>{{detail.cusName}}</td>
           </tr>
