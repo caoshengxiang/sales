@@ -167,7 +167,7 @@
           <el-table-column
             align="center"
             sortable="custom"
-            prop="test"
+            prop="assignDate"
             label="服务派单时间"
             width="160"
             show-overflow-tooltip
@@ -215,8 +215,7 @@
           page: null,
           pageSize: null,
         },
-        // sortObj: {sort: 'created,desc'},
-        sortObj: {}, // 排序
+        sortObj: {sort: 'assign_date,desc'},
         advancedSearch: {}, // 高级搜索
         tableData: [],
         tableDataTotal: 0,
