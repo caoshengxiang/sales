@@ -174,14 +174,43 @@
             })
             break
           case 'refuse':
-            this.$confirm('确定审核拒绝, 是否继续?', '提示', {
+            // this.$confirm('确定审核拒绝, 是否继续?', '提示', {
+            //   confirmButtonText: '确定',
+            //   cancelButtonText: '取消',
+            //   type: 'warning',
+            // }).then(() => {
+            //   this.dataLoading = true
+            //   API2.customerBill.audit({
+            //     id: this.billDetail.id,
+            //     auditState: 2,
+            //   }, (data) => {
+            //     if (data.status) {
+            //       this.$message.success(`操作成功`)
+            //       setTimeout(() => {
+            //         this.dataLoading = false
+            //         this.getDetail()
+            //       }, 500)
+            //     } else {
+            //       setTimeout(() => {
+            //         this.dataLoading = false
+            //       }, 500)
+            //     }
+            //   })
+            // }).catch(() => {
+            //   this.$message({
+            //     type: 'info',
+            //     message: '已取消删除',
+            //   })
+            // })
+
+            this.$prompt('请输入审核意见', '提示', {
               confirmButtonText: '确定',
               cancelButtonText: '取消',
-              type: 'warning',
-            }).then(() => {
+            }).then(({value}) => {
               this.dataLoading = true
               API2.customerBill.audit({
                 id: this.billDetail.id,
+                auditRemark: value,
                 auditState: 2,
               }, (data) => {
                 if (data.status) {
@@ -199,7 +228,7 @@
             }).catch(() => {
               this.$message({
                 type: 'info',
-                message: '已取消删除',
+                message: '取消输入',
               })
             })
             break

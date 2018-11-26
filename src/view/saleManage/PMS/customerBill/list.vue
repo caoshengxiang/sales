@@ -274,15 +274,15 @@
             })
             break
           case 'refuse':
-            this.$confirm('确定审核拒绝, 是否继续?', '提示', {
+            this.$prompt('请输入审核意见', '提示', {
               confirmButtonText: '确定',
               cancelButtonText: '取消',
-              type: 'warning',
-            }).then(() => {
+            }).then(({value}) => {
               this.dataLoading = true
               API2.customerBill.audit({
                 id: arrToStr(this.multipleSelection, 'id'),
                 auditState: 2,
+                auditRemark: value,
               }, (data) => {
                 if (data.status) {
                   this.$message.success(`操作成功`)
