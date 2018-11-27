@@ -55,7 +55,10 @@
         this.$refs[formName].validate((valid) => {
           if (valid) {
             API.workOrder.serviceItemOperate(Object.assign({}, this.params.baseParam,
-              this.ruleForm
+              {
+                remark: this.ruleForm.remark,
+                setTime: Date.parse(new Date(this.ruleForm.setTime))
+              },
             ), (res) => {
               if (res.status) {
                 this.$message.success('操作成功')
