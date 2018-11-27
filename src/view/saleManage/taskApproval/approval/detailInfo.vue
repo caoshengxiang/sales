@@ -233,7 +233,7 @@
           <table class="detail-table">
             <tr>
               <td class="td-title">签约主体</td>
-              <td>{{orderDetail.contractObject}}</td>
+              <td>{{orderDetail.contractSubject}}</td>
               <td class="td-title">签约时间</td>
               <td>
                 {{orderDetail.contractTime && $moment(orderDetail.contractTime).format('YYYY-MM-DD HH:mm:ss')}}
@@ -252,9 +252,9 @@
                 <span v-if="orderDetail.contractProperty === 2">续费</span>
               </td>
               <td class="td-title">商务管家</td>
-              <td>todo</td>
+              <td>{{orderDetail.businessManagerName}}</td>
               <td class="td-title">商务电话</td>
-              <td>todo</td>
+              <td>{{orderDetail.businessManagerPhone}}</td>
             </tr>
             <!--//  v-if="detailInfo.approvalType === 4 || detailInfo.approvalType === 3"-->
             <tr v-if="detailInfo.approvalType === 4 || detailInfo.approvalType === 3" v-for="(item, index) in asignList"

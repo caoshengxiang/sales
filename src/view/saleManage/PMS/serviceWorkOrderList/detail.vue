@@ -15,10 +15,10 @@
       <div class="com-info-left">
         <img class="com-info-img" src="../../../../assets/icon/company.png" alt="">
         <div class="com-info-text">
-          <h3>订单派单号 <span>{{detail.orderNum}}</span></h3>
+          <h3>工单派单号 <span>{{detail.orderNum}}</span></h3>
           <p>
-            <span class="com-d-item">服务客户: <span>{{detail.serviceName}}</span></span>
-            <span class="com-d-item">联系商品: <span>{{detail.goodsName}}</span></span>
+            <span class="com-d-item">服务客户: <span>{{detail.customerName}}</span></span>
+            <span class="com-d-item">服务商品: <span>{{detail.goodsName}}</span></span>
             <span class="com-d-item">派单时间: <span>{{detail.assignDate && $moment(detail.assignDate).format('YYYY-MM-DD HH:mm:ss')}}</span></span>
           </p>
         </div>
@@ -79,7 +79,7 @@
                   <span v-if="orderDetail.orderState === 4">已退单</span>
                 </td>
                 <td>{{orderDetail.goodsName}}</td>
-                <td>{{orderDetail.created && $moment(orderDetail.created).format('YYYY-MM-DD HH:mm:ss')}}</td>
+                <td>{{orderDetail.assignTime && $moment(orderDetail.assignTime).format('YYYY-MM-DD HH:mm:ss')}}</td>
                 <td>{{orderDetail.orderTime && $moment(orderDetail.orderTime).format('YYYY-MM-DD HH:mm:ss')}}</td>
               </tr>
             </table>

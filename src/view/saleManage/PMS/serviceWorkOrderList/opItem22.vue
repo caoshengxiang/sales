@@ -63,7 +63,7 @@
         <td style="width: 100px;">{{item.result}}</td>
         <td style="width: 100px;">{{item.created && $moment(item.created).format('YYYY-MM-DD HH:mm:ss')}}
         </td>
-        <td style="width: 100px;">{{item.operator}}</td>
+        <td style="width: 100px;">{{item.operatorName}}</td>
         </tr>
       </table>
     </div>
@@ -147,6 +147,9 @@
             this.$message.success('操作成功')
             this.getServiceLog()
             this.getServiceItem()
+            this.ruleForm = {
+              message: '',
+            }
           }
         })
       },

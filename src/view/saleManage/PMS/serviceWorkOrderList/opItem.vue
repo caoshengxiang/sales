@@ -38,8 +38,7 @@
             <td class="td-title" style="width: 100px;">计划完成时限</td>
             <td class="td-title" style="width: 100px;">完成日期</td>
             <td class="td-title" style="width: 50px;">完成状态</td>
-            <!--<td class="td-title" v-if="!params.isShow">操作</td>-->
-            <td class="td-title">操作</td>
+            <td class="td-title" v-if="!params.isShow">操作</td>
           </tr>
           <tr v-for="(item, index) in serviceItem" :key="index">
             <td style="width: 30px;">{{index+1}}</td>
@@ -55,8 +54,7 @@
               <span v-if="item.state === 5">重新发起审核</span>
               <span v-if="item.state === 9">已完成</span>
             </td>
-            <!--<td v-if="!params.isShow">-->
-            <td>
+            <td v-if="!params.isShow">
               <!--<el-button type="text"-->
               <!--@click="operationListHandle(item, oplIndex + 1)"-->
               <!--v-for="(opl, oplIndex) in operationList[item.num - 1]"-->
@@ -321,7 +319,7 @@
             <li v-for="(item, index) in serviceItem"
                 :key="index"
                 v-if="item.itemRecord">
-              工作成果：{{item.title}}  <a v-if="item.attachment" :href="item.attachment">附件下载</a>
+              工作成果：{{item.title}} <a v-if="item.attachment" :href="item.attachment">附件下载</a>
             </li>
           </ul>
         </div>
@@ -433,7 +431,7 @@
         })
       },
       getServiceItem () {
-        API.workOrder.serviceItem(this.form, (da) => {
+        API.workOrder.serviceItem(Object.assign({}, this.form), (da) => {
           this.serviceItem = da.data.content
         })
       },
@@ -510,7 +508,7 @@
             height: 320,
             params: {
               baseParam: baseParam,
-              orderId: this.params.orderId
+              orderId: this.params.orderId,
             },
             callback: (data) => {
               if (data.type === 'itemSave') {

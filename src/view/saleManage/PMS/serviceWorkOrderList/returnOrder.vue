@@ -46,7 +46,7 @@
             <td class="td-title">签约性质</td>
             <td>{{orderDetail.contractProperty === 1 ? '新签订单' : '续费订单'}}</td>
             <td class="td-title">签约主体</td>
-            <td>{{orderDetail.contractObject}}</td>
+            <td>{{orderDetail.contractSubject}}</td>
           </tr>
           <tr>
             <td class="td-title">服务管家</td>

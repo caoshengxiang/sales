@@ -138,10 +138,7 @@
         timer: false,
         total: 0,
         options: [
-           { // todo del
-            value: null,
-            label: '全部任务',
-          }, {
+           {
             value: 1,
             label: '我待办的审核',
           }, {
