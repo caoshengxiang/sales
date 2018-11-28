@@ -6,7 +6,8 @@
         <span>服务年度</span>
         <el-date-picker
           style="width: 160px;"
-          v-model="form.year"
+          v-model="form.serviceYear"
+          :disabled="dateDisabled"
           type="year"
           value-format="yyyy"
           @change="yearChangeHandle"
@@ -14,7 +15,7 @@
         </el-date-picker>
         &nbsp;&nbsp;
         <span>服务月度</span>
-        <el-select v-model="form.month" placeholder="请选择月" style="width: 100px;">
+        <el-select v-model="form.serviceMonth" :disabled="dateDisabled" placeholder="请选择月" style="width: 100px;">
           <el-option
             v-for="item in 12"
             :key="item"
@@ -207,12 +208,12 @@
                   </el-button>
                 </div>
                 <div v-if="item.num === 23">
-                  <el-button v-if="item.state === 1" type="text" @click="operationListHandle(item, 1)">
+                  <el-button v-if="item.state !== 9" type="text" @click="operationListHandle(item, 1)">
                     {{operationList[item.num - 1][1-1]}}
                   </el-button>
                 </div>
                 <div v-if="item.num === 24">
-                  <el-button v-if="item.state === 1" type="text" @click="operationListHandle(item, 1)">
+                  <el-button v-if="item.state !== 9" type="text" @click="operationListHandle(item, 1)">
                     {{operationList[item.num - 1][1-1]}}
                   </el-button>
                 </div>
@@ -220,7 +221,7 @@
                   <el-button v-if="item.state === 1" type="text" @click="operationListHandle(item, 1)">
                     {{operationList[item.num - 1][1-1]}}
                   </el-button>
-                  <el-button v-if="item.state !== 1" type="text" @click="operationListHandle(item, 2)">
+                  <el-button v-if="item.state !== 9" type="text" @click="operationListHandle(item, 2)">
                     {{operationList[item.num - 1][2-1]}}
                   </el-button>
                 </div>
@@ -246,7 +247,7 @@
                   <el-button v-if="item.state === 1" type="text" @click="operationListHandle(item, 1)">
                     {{operationList[item.num - 1][1-1]}}
                   </el-button>
-                  <el-button v-if="item.state !== 1" type="text" @click="operationListHandle(item, 2)">
+                  <el-button v-if="item.state !== 9" type="text" @click="operationListHandle(item, 2)">
                     {{operationList[item.num - 1][2-1]}}
                   </el-button>
                 </div>
@@ -411,11 +412,13 @@
           ['上传服务成果'], // num 41
         ],
         form: {
-          year: null,
-          month: null,
+          // serviceYear: new Date().getFullYear(),
+          serviceYear: new Date(),
+          serviceMonth: new Date().getMonth() + 1,
           orderId: this.params.orderId,
           type: this.params.numItem.type,
         },
+        dateDisabled: true,
       }
     },
     // computed: {
@@ -431,12 +434,24 @@
         })
       },
       getServiceItem () {
-        API.workOrder.serviceItem(Object.assign({}, this.form), (da) => {
+        var p = {}
+        if (this.params.isSetInterval) {
+          p = JSON.parse(JSON.stringify(this.form))
+          if (typeof this.form.serviceYear === 'object') {
+            p.serviceYear = new Date().getFullYear()
+          }
+        } else {
+          p = {
+            orderId: this.params.orderId,
+            type: this.params.numItem.type,
+          }
+        }
+        API.workOrder.serviceItem(Object.assign({}, p), (da) => {
           this.serviceItem = da.data.content
         })
       },
       yearChangeHandle () {
-        this.form.month = null
+        this.form.serviceMonth = null
       },
       operationListHandle (item, operationCode) {
         let baseParam = {
@@ -636,6 +651,7 @@
       },
     },
     created () {
+      this.dateDisabled = !this.params.isSetInterval
       this.getServiceLog()
       this.getServiceItem()
     },

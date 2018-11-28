@@ -6,15 +6,16 @@
         <span>服务年度</span>
         <el-date-picker
           style="width: 160px;"
-          v-model="form.year"
+          v-model="form.serviceYear"
           type="year"
           value-format="yyyy"
+          :disabled="dateDisabled"
           @change="yearChangeHandle"
           placeholder="请选择年">
         </el-date-picker>
         &nbsp;&nbsp;
         <span>服务月度</span>
-        <el-select v-model="form.month" placeholder="请选择月" style="width: 100px;">
+        <el-select v-model="form.serviceMonth"  :disabled="dateDisabled" placeholder="请选择月" style="width: 100px;">
           <el-option
             v-for="item in 12"
             :key="item"
@@ -99,8 +100,8 @@
         serviceLog: [],
         serviceItem: [],
         form: {
-          year: null,
-          month: null,
+          serviceYear: new Date(),
+          serviceMonth: new Date().getMonth() + 1,
           orderId: this.params.orderId,
           type: this.params.numItem.type,
         },
@@ -112,6 +113,7 @@
             {required: true, message: '请输入记账日常告知', trigger: 'blur'},
           ],
         },
+        dateDisabled: false,
       }
     },
     props: ['params'],
@@ -122,12 +124,24 @@
         })
       },
       getServiceItem () {
-        API.workOrder.serviceItem(this.form, (da) => {
+        var p = {}
+        if (this.params.isSetInterval) {
+          p = JSON.parse(JSON.stringify(this.form))
+          if (typeof this.form.serviceYear === 'object') {
+            p.serviceYear = new Date().getFullYear()
+          }
+        } else {
+          p = {
+            orderId: this.params.orderId,
+            type: this.params.numItem.type,
+          }
+        }
+        API.workOrder.serviceItem(p, (da) => {
           this.serviceItem = da.data.content
         })
       },
       yearChangeHandle () {
-        this.form.month = null
+        this.form.serviceMonth = null
       },
       saveSubmitForm (item) {
         let baseParam = {
@@ -155,6 +169,7 @@
       },
     },
     created () {
+      this.dateDisabled = !this.params.isSetInterval
       this.getServiceLog()
       this.getServiceItem()
     },

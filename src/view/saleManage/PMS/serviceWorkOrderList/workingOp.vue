@@ -26,7 +26,7 @@
           <div class="com-icon-text-box com-icon-text-h"
                @click="operateHandle(op, item, true)"
                v-for="op in item.orderModuleComposites" :key="op.type">
-            <!--高亮是待处理state===2  完成state===1-->
+            <!--高亮是待处理state===1  完成state===2-->
             <img :src="'/static/images/'+ (op.state===2?'green':'gray') + '/icon_gongdan_' + op.type + '.png'" alt="">
             <span class="com-icon-t">{{op.title}}</span>
           </div>
@@ -88,6 +88,10 @@
         // 高亮是待处理state===1  完成state===2 type 1-21对应
         console.log('item:', numItem)
         // if (!isShow && numItem.state && numItem.state === 1) {
+        let isSetInterval = false
+        if (numItem.type === 4 || numItem.type === 9 || numItem.type === 10 || numItem.type === 14 || numItem.type === 15) {
+          isSetInterval = true
+        }
         if (numItem.type === 7) { // 7 客户票据审核
           this.$router.push({name: 'customerBill'})
         } else if (numItem.type === 8) { // 记账日常告知
@@ -102,6 +106,7 @@
               orderId: this.orderId,
               workOrderId: typeItem.id,
               isShow: isShow,
+              isSetInterval: isSetInterval,
             },
             callback: (data) => {
               if (data.type === 'save') {
@@ -121,6 +126,7 @@
               orderId: this.orderId,
               workOrderId: typeItem.id,
               isShow: isShow,
+              isSetInterval: isSetInterval,
             },
             callback: (data) => {
               if (data.type === 'save') {
@@ -140,6 +146,7 @@
               orderId: this.orderId,
               workOrderId: typeItem.id,
               isShow: isShow,
+              isSetInterval: isSetInterval,
             },
             callback: (data) => {
               if (data.type === 'save') {
