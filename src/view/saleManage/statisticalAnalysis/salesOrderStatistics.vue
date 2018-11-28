@@ -189,7 +189,7 @@
         this.dataLoading = true
         this.getQueryParams()
         if (this.themeIndex === 0) {
-          API.orderRecords.Lists(Object.assign({}, this.defaultListParams, this.sortObj, this.advancedSearch),
+          API.zhuxinStatistical.Lists(Object.assign({}, this.defaultListParams, this.sortObj, this.advancedSearch),
             (data) => {
               if(data.data.content.length > 0 ) {
                 data.data.content.forEach(a => {
