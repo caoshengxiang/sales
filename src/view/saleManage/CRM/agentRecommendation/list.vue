@@ -42,9 +42,9 @@
         <div class="agent-rec">
           <div class="code-rec">
             <div class="code-rec-1">
-              <div ref="downloadCode">
+              <div>
                 <p class="title">推荐代理商扫码加入平台</p>
-                <div class="code-show">
+                <div class="code-show"  ref="downloadCode">
                   <vue-qr
                     :logoSrc="config.logo"
                     :text="config.value"
