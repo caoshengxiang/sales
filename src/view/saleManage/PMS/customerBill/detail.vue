@@ -91,6 +91,7 @@
   import photoView from '../../../../components/photo/photoView'
   import API2 from '../../../../utils/api2'
   import { arrToStr } from '../../../../utils/utils'
+
   export default {
     name: 'detail',
     data () {
@@ -126,18 +127,24 @@
     methods: {
       getDetail () {
         this.dataLoading = true
+        console.log(1)
         API2.customerBill.detail(this.$route.query.id, (da) => {
+          console.log(2)
           this.billDetail = da.data
-          let images = da.data.attachment.split(',')
-          this.bills = images.map((item, index) => {
-            return {
-              image: item,
-              text: '',
-              id: index,
-            }
-          })
+          if (da.data.attachment) {
+            let images = da.data.attachment.split(',')
+            this.bills = images.map((item, index) => {
+              return {
+                image: item,
+                text: '',
+                id: index,
+              }
+            })
+          }
+          console.log(3)
           setTimeout(() => {
             this.dataLoading = false
+            console.log(65)
           }, 500)
         })
       },

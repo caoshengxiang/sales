@@ -334,13 +334,14 @@
       }
       .code-show {
         min-height: 200px;
-        margin: 20px;
+        margin: 0 20px;
+        padding: 20px 0;
       }
       .name {
         font-weight: bold;
       }
       .down-code {
-        margin: 30px 0;
+        margin: 10px 0 30px 0;
         a {
           padding: 10px 40px;
           border-radius: 3px;

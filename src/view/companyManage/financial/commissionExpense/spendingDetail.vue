@@ -65,14 +65,18 @@
         <el-table-column
           align="center"
           label="来源渠道"
-          prop=""
+          prop="orderSource"
           show-overflow-tooltip>
         </el-table-column>
         <el-table-column
           align="center"
           label="签约类型"
-          prop=""
+          prop="orderType"
           show-overflow-tooltip>
+          <template slot-scope="scope">
+            <span v-if="scope.row.orderType === 'FIRST'">客户首单</span>
+            <span v-if="scope.row.orderType === 'DERIVE'">衍生业务</span>
+          </template>
         </el-table-column>
         <el-table-column
           align="center"
@@ -85,7 +89,7 @@
         <el-table-column
           align="center"
           label="续费次数"
-          prop=""
+          prop="renewTimes"
           show-overflow-tooltip>
         </el-table-column>
         <el-table-column
@@ -109,7 +113,7 @@
 
         <el-table-column
           align="center"
-          prop=""
+          prop="totalAmount"
           label="实发合计"
           show-overflow-tooltip>
         </el-table-column>

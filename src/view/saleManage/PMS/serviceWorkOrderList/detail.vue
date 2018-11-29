@@ -35,7 +35,7 @@
       <div class="com-box-padding">
         <el-tabs v-model="activeViewName" type="card" @tab-click="handleTabsClick">
           <el-tab-pane label="服务派单加工" name="operate">
-            <working-op :order-id="$route.query.orderId" :customerName="detail.serviceName"></working-op>
+            <working-op :order-id="$route.query.orderId" :customerName="detail.customerName"></working-op>
           </el-tab-pane>
           <el-tab-pane label="工单相关信息" name="related">
             <p class="table-title">服务客户</p>

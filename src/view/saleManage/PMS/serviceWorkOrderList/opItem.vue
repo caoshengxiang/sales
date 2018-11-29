@@ -320,7 +320,9 @@
             <li v-for="(item, index) in serviceItem"
                 :key="index"
                 v-if="item.itemRecord">
-              工作成果：{{item.title}} <a v-if="item.attachment" :href="item.attachment">附件下载</a>
+              工作成果：{{item.title}} &nbsp;&nbsp;
+              <a v-if="item.attachment" :href="item.attachment">附件下载</a>
+              <span v-if="item.setTime">{{$moment(item.setTime).format('YYYY-MM-DD HH:mm:ss')}}</span>
             </li>
           </ul>
         </div>

@@ -189,6 +189,7 @@
       },
       saveSubmitForm () {
         let paramsArr = []
+        this.dataLoading = true
         this.workOrderManagers.forEach((item, index) => {
           // （null-未指派、1-待接收、2-已拒绝、3-进行中、4-已完成、5-退单中、6-已退单）
           if (item.managerId && (!item.workOrderState || item.workOrderState === 2 || item.workOrderState === 6)) { // 待派单，已拒绝
@@ -217,6 +218,7 @@
           return
         }
         API.workOrder.addWorkOrder(paramsArr, (res) => {
+          this.dataLoading = false
           if (res.status) {
             this.$message.success('派单成功')
             this.$vDialog.close({type: 'save'})
