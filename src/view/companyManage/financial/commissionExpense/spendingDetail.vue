@@ -191,7 +191,7 @@
         </el-table-column>
         <el-table-column
           align="center"
-          label="间接培训"
+          label="间接培育"
           show-overflow-tooltip>
           <template slot-scope="scope">
             {{ scope.row.indirectFosterAmount }}({{ scope.row.indirectFosterPeriod }}/{{ scope.row.indirectFosterPeriodTotal }}期)
