@@ -15,6 +15,7 @@
         <com-button buttonType="add" icon="el-icon-edit-outline" @click="orderHandle" :disabled="multipleSelection.length !== 1">派单</com-button>
       </div>
       <div class="com-bar-right">
+        <com-button buttonType="search" @click="advancedSearchHandle" style="">高级搜索</com-button>
       </div>
     </div>
     <!--详细-->
@@ -262,6 +263,7 @@
   import comButton from '../../../../components/button/comButton'
   import orderDialog from './orderDialog'
   import selectManager from './selectManager'
+  import advancedSearch from './advancedSearch'
 
   export default {
     name: 'list',
@@ -369,6 +371,23 @@
         } else if (type === 3) {
           // todo 3进入工单详情
         }
+      },
+      advancedSearchHandle () { // 高级搜索
+        this.$vDialog.modal(advancedSearch, {
+          title: '高级搜索',
+          width: 900,
+          height: 360,
+          params: {
+            preAdvancedSearch: this.advancedSearch,
+          },
+          callback: (data) => {
+            if (data.type === 'search') {
+              console.log('高级搜索数据：', data.params)
+              this.advancedSearch = data.params
+              this.getList()
+            }
+          },
+        })
       },
     },
     created () {

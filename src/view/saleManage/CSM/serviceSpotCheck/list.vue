@@ -15,6 +15,7 @@
         <el-button type="primary" :disabled="multipleSelection.length !== 1" icon="el-icon-question" @click="checkHandle">抽查</el-button>
       </div>
       <div class="com-bar-right">
+        <com-button buttonType="search" @click="advancedSearchHandle" style="">高级搜索</com-button>
       </div>
     </div>
     <!--详细-->
@@ -146,6 +147,7 @@
   import API from '../../../../utils/api'
   import assginOrder from './assginOrder'
   import checkHandle from './checkHandle'
+  import advancedSearch from './advancedSearch'
 
   export default {
     name: 'list',
@@ -240,7 +242,24 @@
             }
           },
         })
-      }
+      },
+      advancedSearchHandle () { // 高级搜索
+        this.$vDialog.modal(advancedSearch, {
+          title: '高级搜索',
+          width: 900,
+          height: 360,
+          params: {
+            preAdvancedSearch: this.advancedSearch,
+          },
+          callback: (data) => {
+            if (data.type === 'search') {
+              console.log('高级搜索数据：', data.params)
+              this.advancedSearch = data.params
+              this.getList()
+            }
+          },
+        })
+      },
     },
     created () {
       this.getList()

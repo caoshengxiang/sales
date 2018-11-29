@@ -25,6 +25,7 @@
                     @click="orderHandle('laze')">
           {{managerDetail.workState === 1 ? '服务中' : '打烊中'}}
         </com-button>
+        <com-button buttonType="search" @click="advancedSearchHandle" style="">高级搜索</com-button>
       </div>
     </div>
     <!--详细-->
@@ -204,6 +205,7 @@
   import returnOrder from './returnOrder'
   import selectManager from './selectManager'
   import webStorage from 'webStorage'
+  import advancedSearch from './advancedSearch'
 
   export default {
     name: 'list',
@@ -319,7 +321,24 @@
         API.serviceManager.detailByUserId(id, (da) => {
           this.managerDetail = da.data
         })
-      }
+      },
+      advancedSearchHandle () { // 高级搜索
+        this.$vDialog.modal(advancedSearch, {
+          title: '高级搜索',
+          width: 900,
+          height: 360,
+          params: {
+            preAdvancedSearch: this.advancedSearch,
+          },
+          callback: (data) => {
+            if (data.type === 'search') {
+              console.log('高级搜索数据：', data.params)
+              this.advancedSearch = data.params
+              this.getList()
+            }
+          },
+        })
+      },
     },
     created () {
       this.userInfo = webStorage.getItem('userInfo')

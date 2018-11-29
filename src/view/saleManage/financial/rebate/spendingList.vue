@@ -19,6 +19,7 @@
       </div>
       <div class="com-bar-right">
         <com-button buttonType="cardNum" icon="el-icon-plus" @click="addHandle">设置银行卡账户信息</com-button>
+        <com-button buttonType="search" @click="advancedSearchHandle" style="">高级搜索</com-button>
       </div>
     </div>
     <!--详细-->
@@ -154,6 +155,7 @@
   import API from '../../../../utils/api'
   import { underscoreName, arrToStr } from '../../../../utils/utils'
   import spendingDetail from '../../../companyManage/financial/commissionExpense/spendingDetail'
+  import advancedSearch from './advancedSearch'
 
   export default {
     name: 'list',
@@ -263,7 +265,8 @@
       },
       getCommissionPayment () {
         this.getQueryParams()
-        API.financial.queryPaymentListPersonal(Object.assign({}, this.defaultListParams, this.sortObj, this.advancedSearch),
+        API.financial.queryPaymentListPersonal(
+          Object.assign({}, this.defaultListParams, this.sortObj, this.advancedSearch),
           da => {
             this.tableData = da.data.content
             this.tableDataTotal = da.data.totalElements
@@ -281,21 +284,24 @@
         this.getCommissionPayment()
       },
       advancedSearchHandle () {
-        //   this.$vDialog.modal(advancedSearch, {
-        //     title: '高级搜索',
-        //     width: 900,
-        //     height: 460,
-        //     params: {
-        //     },
-        //     callback: (data) => {
-        //       if (data.type === 'search') {
-        //         console.log('高级搜索数据：', data.params)
-        //         this.advancedSearch = data.params
-        //         this.getCommissionPayment()
-        //       }
-        //     },
-        //   })
-        // },
+        this.$vDialog.modal(advancedSearch, {
+          title: '高级搜索',
+          width: 900,
+          height: 460,
+          params: {
+            salesState: this.salesState,
+            demandSource: this.demandSource,
+            type: 1,
+            preAdvancedSearch: this.advancedSearch,
+          },
+          callback: (data) => {
+            if (data.type === 'search') {
+              console.log('高级搜索数据：', data.params)
+              this.advancedSearch = data.params
+              this.getCommissionPayment()
+            }
+          },
+        })
       },
       saleCommission (row) {
         var that = this

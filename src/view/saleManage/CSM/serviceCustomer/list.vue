@@ -15,6 +15,7 @@
       </div>
       <div class="com-bar-right">
         <com-button buttonType="export" icon="el-icon-download" @click="excelExport">导出</com-button>
+        <com-button buttonType="search" @click="advancedSearchHandle" style="">高级搜索</com-button>
       </div>
     </div>
     <!--详细-->
@@ -407,6 +408,7 @@
   import webStorage from 'webStorage'
   import comButton from '../../../../components/button/comButton'
   import API from '../../../../utils/api'
+  import advancedSearch from './advancedSearch'
 
   export default {
     name: 'list',
@@ -502,6 +504,23 @@
         event.initMouseEvent('click', true, true, document.defaultView, 0, 0, 0, 0, 0, false, false, false, false, 0,
           null) // 触发事件
         link.dispatchEvent(event)
+      },
+      advancedSearchHandle () { // 高级搜索
+        this.$vDialog.modal(advancedSearch, {
+          title: '高级搜索',
+          width: 900,
+          height: 360,
+          params: {
+            preAdvancedSearch: this.advancedSearch,
+          },
+          callback: (data) => {
+            if (data.type === 'search') {
+              console.log('高级搜索数据：', data.params)
+              this.advancedSearch = data.params
+              this.getList()
+            }
+          },
+        })
       },
     },
     created () {

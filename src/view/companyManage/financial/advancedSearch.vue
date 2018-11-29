@@ -98,7 +98,7 @@
                 value-format="yyyyMM"
                 placeholder="选择开始月份"
                 :editable="false"
-                >
+              >
               </el-date-picker>
             </el-form-item>
           </el-col>
@@ -110,7 +110,7 @@
                 value-format="yyyyMM"
                 placeholder="选择结束月份"
                 :editable="false"
-                >
+              >
               </el-date-picker>
             </el-form-item>
           </el-col>

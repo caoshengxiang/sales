@@ -20,6 +20,7 @@
         </com-button>
       </div>
       <div class="com-bar-right">
+        <com-button buttonType="search" @click="advancedSearchHandle" style="">高级搜索</com-button>
       </div>
     </div>
     <!--详细-->
@@ -136,7 +137,7 @@
           <el-table-column
             align="center"
             sortable="custom"
-            prop="test"
+            prop=""
             label="服务管家"
             width="160"
             show-overflow-tooltip
@@ -172,6 +173,7 @@
   import { underscoreName, arrToStr } from '../../../../utils/utils'
   import API2 from '../../../../utils/api2'
   import comButton from '../../../../components/button/comButton'
+  import advancedSearch from './advancedSearch'
 
   export default {
     name: 'list',
@@ -305,6 +307,23 @@
             break
           default:
         }
+      },
+      advancedSearchHandle () { // 高级搜索
+        this.$vDialog.modal(advancedSearch, {
+          title: '高级搜索',
+          width: 900,
+          height: 360,
+          params: {
+            preAdvancedSearch: this.advancedSearch,
+          },
+          callback: (data) => {
+            if (data.type === 'search') {
+              console.log('高级搜索数据：', data.params)
+              this.advancedSearch = data.params
+              this.getList()
+            }
+          },
+        })
       },
     },
     created () {
