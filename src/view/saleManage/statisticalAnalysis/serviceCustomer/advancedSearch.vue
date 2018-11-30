@@ -1,43 +1,46 @@
 <template>
   <div class="com-dialog-container">
     <div class="com-dialog">
-      <el-form :model="searchForm" ref="searchForm" label-width="100px">
+      <el-form :model="searchForm" ref="searchForm" label-width="110px">
         <el-row class="el-row-cla">
           <el-col :span="8">
-            <el-form-item label="业务编号：">
-              <el-input type="text" v-model="searchForm.bizNum"></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="客户名称：">
-              <el-input type="text" v-model="searchForm.customerName"></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="上传人：">
-              <el-input type="text" v-model="searchForm.uploadUserName"></el-input>
+            <el-form-item label="服务客户名称：">
+              <el-input type="text" v-model="searchForm.name"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item label="服务管家：">
-              <el-input type="text" v-model="searchForm.serviceManagerName"></el-input>
+              <el-input type="text" v-model="searchForm.managerName"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="账期年份：">
-              <el-input type="text" v-model="searchForm.accountPeriodYear"></el-input>
+            <el-form-item label="客户联系人：">
+              <el-input type="text" v-model="searchForm.contactName"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="账期月份：">
-              <el-input type="text" v-model="searchForm.accountPeriodMonth"></el-input>
+            <el-form-item label="电话：">
+              <el-input type="text" v-model="searchForm.contactPhone"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="审核状态：">
-              <el-select v-model="searchForm.auditState" placeholder="请选择审核状态">
+            <el-form-item label="统一信用码：">
+              <el-input type="text" v-model="searchForm.creditCode"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="所属行业：">
+              <el-input type="text" v-model="searchForm.industry"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <!--筛选-->
+        <el-row class="el-row-cla">
+          <el-col :span="8">
+            <el-form-item label="服务状态：">
+              <el-select v-model="searchForm.orderState" placeholder="请选择">
                 <el-option
-                  v-for="(item, index) in auditStateList"
+                  v-for="(item, index) in orderStateList"
                   :key="index"
                   :label="item.label"
                   :value="item.value">
@@ -45,49 +48,22 @@
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="8">
-            <el-form-item label="业务类型：">
-              <el-select v-model="searchForm.bizType" placeholder="请选择评价状态">
-                <el-option v-for="(item, index) in bizTypeList" :key="index" :label="item.label"
-                           :value="item.value"></el-option>
-              </el-select>
-            </el-form-item>
-          </el-col>
         </el-row>
         <!--范围-->
         <el-row class="el-row-cla">
           <el-col :span="14">
-            <el-form-item label="业务金额：">
+            <el-form-item label="注册资本金：">
               <el-row>
                 <el-col :span="10">
-                  <el-input @change="numberStartHandle('startBizAmount', 'endBizAmount')" type="number"
-                            v-model.number="searchForm.startBizAmount"></el-input>
+                  <el-input @change="numberStartHandle('registeredCapitalStart', 'registeredCapitalEnd')" type="number"
+                            v-model.number="searchForm.registeredCapitalStart"></el-input>
                 </el-col>
                 <el-col :span="2">
                   <div style="text-align: center">-</div>
                 </el-col>
                 <el-col :span="10">
-                  <el-input @change="numberEndHandle('startBizAmount', 'endBizAmount')" type="number"
-                            v-model.number="searchForm.endBizAmount"></el-input>
-                </el-col>
-              </el-row>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row class="el-row-cla">
-          <el-col :span="14">
-            <el-form-item label="票据数量：">
-              <el-row>
-                <el-col :span="10">
-                  <el-input @change="numberStartHandle('startBillNum', 'endBillNum')" type="number"
-                            v-model.number="searchForm.startBillNum"></el-input>
-                </el-col>
-                <el-col :span="2">
-                  <div style="text-align: center">-</div>
-                </el-col>
-                <el-col :span="10">
-                  <el-input @change="numberEndHandle('startBillNum', 'endBillNum')" type="number"
-                            v-model.number="searchForm.endBillNum"></el-input>
+                  <el-input @change="numberEndHandle('registeredCapitalStart', 'registeredCapitalEnd')" type="number"
+                            v-model.number="searchForm.registeredCapitalEnd"></el-input>
                 </el-col>
               </el-row>
             </el-form-item>
@@ -112,26 +88,13 @@
       return {
         searchForm: { // 表单
         },
-        auditStateList: [{
-          value: 1,
-          label: '待审核'
+        orderStateList: [{
+          value: '1',
+          label: '服务中'
         }, {
-          value: 2,
-          label: '已拒绝'
-        }, {
-          value: 3,
-          label: '已通过'
+          value: '2',
+          label: '历史客户'
         }],
-        bizTypeList: [{
-          value: 1,
-          label: '收入'
-        }, {
-          value: 2,
-          label: '支出'
-        }, {
-          value: 3,
-          label: '其他'
-        } ],
         timeInterval: [],
         timeInterval2: [],
       }

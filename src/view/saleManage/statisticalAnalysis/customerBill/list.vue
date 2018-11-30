@@ -227,7 +227,7 @@
             if (data.type === 'search') {
               console.log('高级搜索数据：', data.params)
               this.advancedSearch = data.params
-              this.getList()
+              this.getData()
             }
           },
         })

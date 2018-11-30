@@ -11,23 +11,25 @@
     </div>
     <!--控制栏-->
     <div class="com-bar">
-      <div class="com-bar-left" style="display: flex">
-        <com-button buttonType="add" :disabled="multipleSelection.length === 0" icon="el-icon-edit-outline" @click="orderHandle('assginOrder')">回访派单</com-button>
-        <!--<com-button buttonType="add" icon="el-icon-plus" @click="orderHandle('returnVisit')">回访</com-button>-->
-        <div>
-          <el-dropdown @command="handleCommand" trigger="click" style="margin-left: 10px">
-            <el-button type="primary">
-              回访<i class="el-icon-arrow-down el-icon--right"></i>
-            </el-button>
-            <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item v-for="item in visitTypes"
-                                :key="item.type"
-                                :command="item.type"
-                                :disabled="returnVisitDisabled(item.type)">
-                {{item.value}}
-              </el-dropdown-item>
-            </el-dropdown-menu>
-          </el-dropdown>
+      <div class="com-bar-left" style="">
+        <div style="display: flex">
+          <com-button buttonType="add" :disabled="multipleSelection.length === 0" icon="el-icon-edit-outline" @click="orderHandle('assginOrder')">回访派单</com-button>
+          <!--<com-button buttonType="add" icon="el-icon-plus" @click="orderHandle('returnVisit')">回访</com-button>-->
+          <div>
+            <el-dropdown @command="handleCommand" trigger="click" style="margin-left: 10px">
+              <el-button type="primary">
+                回访<i class="el-icon-arrow-down el-icon--right"></i>
+              </el-button>
+              <el-dropdown-menu slot="dropdown">
+                <el-dropdown-item v-for="item in visitTypes"
+                                  :key="item.type"
+                                  :command="item.type"
+                                  :disabled="returnVisitDisabled(item.type)">
+                  {{item.value}}
+                </el-dropdown-item>
+              </el-dropdown-menu>
+            </el-dropdown>
+          </div>
         </div>
       </div>
       <div class="com-bar-right">
@@ -156,7 +158,7 @@
           <el-table-column
             align="center"
             sortable="custom"
-            prop="cusserviceName"
+            prop="customerName"
             label="回访客服"
             width="160"
             show-overflow-tooltip
@@ -320,7 +322,7 @@
         this.$vDialog.modal(advancedSearch, {
           title: '高级搜索',
           width: 900,
-          height: 360,
+          height: 460,
           params: {
             preAdvancedSearch: this.advancedSearch,
           },

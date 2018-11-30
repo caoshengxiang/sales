@@ -326,7 +326,7 @@
         this.$vDialog.modal(advancedSearch, {
           title: '高级搜索',
           width: 900,
-          height: 360,
+          height: 460,
           params: {
             preAdvancedSearch: this.advancedSearch,
           },

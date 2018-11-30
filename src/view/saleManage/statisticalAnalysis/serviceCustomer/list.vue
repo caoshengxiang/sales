@@ -78,8 +78,8 @@
             show-overflow-tooltip
           >
             <template slot-scope="scope">
-              <span v-if="scope.row.orderState === 1">服务中</span>
-              <span v-if="scope.row.orderState === 2">历史客户</span>
+              <span v-if="scope.row.orderState === '1'">服务中</span>
+              <span v-if="scope.row.orderState === '2'">历史客户</span>
             </template>
           </el-table-column>
           <el-table-column
@@ -143,7 +143,7 @@
       handleCurrentChange (val) {
         console.log(`当前页: ${val}`)
         this.currentPage = val
-        this.getData()
+        this.getList()
       },
       sortChangeHandle (sortObj) {
         let order = null
@@ -153,7 +153,7 @@
           order = 'desc'
         }
         this.sortObj = {sort: underscoreName(sortObj.prop) + ',' + order}
-        this.getData()
+        this.getList()
       },
       getQueryParams () { // 请求参数配置
         this.defaultListParams = {
@@ -161,7 +161,7 @@
           pageSize: this.pagesOptions.pageSize,
         }
       },
-      getData () {
+      getList () {
         this.getQueryParams()
         API.statistical.serviceCustomer(Object.assign({}, this.defaultListParams, this.sortObj, this.advancedSearch),
           (da) => {
@@ -173,7 +173,7 @@
         this.$vDialog.modal(advancedSearch, {
           title: '高级搜索',
           width: 900,
-          height: 360,
+          height: 460,
           params: {
             preAdvancedSearch: this.advancedSearch,
           },
@@ -188,7 +188,7 @@
       },
     },
     created () {
-      this.getData()
+      this.getList()
     }
   }
 </script>

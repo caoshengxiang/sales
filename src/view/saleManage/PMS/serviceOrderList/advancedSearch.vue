@@ -1,7 +1,7 @@
 <template>
   <div class="com-dialog-container">
     <div class="com-dialog">
-      <el-form :model="searchForm" ref="searchForm" label-width="100px">
+      <el-form :model="searchForm" ref="searchForm" label-width="110px">
         <el-row class="el-row-cla">
           <el-col :span="8">
             <el-form-item label="订单单号：">
@@ -15,11 +15,9 @@
           </el-col>
           <el-col :span="8">
             <el-form-item label="服务客户：">
-              <el-input type="text" v-model="searchForm.serviceCustomerName"></el-input>
+              <el-input type="text" v-model="searchForm.customerName"></el-input>
             </el-form-item>
           </el-col>
-        </el-row>
-        <el-row class="el-row-cla">
           <el-col :span="8">
             <el-form-item label="客户联系人：">
               <el-input type="text" v-model="searchForm.contactName"></el-input>
@@ -40,7 +38,7 @@
         <el-row class="el-row-cla">
           <el-col :span="8">
             <el-form-item label="派单状态：">
-              <el-select v-model="searchForm.assignState" placeholder="请选择派单状态">
+              <el-select v-model="searchForm.assignState" placeholder="请选择">
                 <el-option
                   v-for="(item, index) in assignStateList"
                   :key="index"
@@ -52,7 +50,7 @@
           </el-col>
           <el-col :span="8">
             <el-form-item label="订单状态：">
-              <el-select v-model="searchForm.orderState" placeholder="请选择订单状态">
+              <el-select v-model="searchForm.orderState" placeholder="请选择">
                 <el-option v-for="(item, index) in orderStateList" :key="index" :label="item.label"
                            :value="item.value"></el-option>
               </el-select>
@@ -60,7 +58,7 @@
           </el-col>
           <el-col :span="8">
             <el-form-item label="评价状态：">
-              <el-select v-model="searchForm.reviewState" placeholder="请选择评价状态">
+              <el-select v-model="searchForm.reviewState" placeholder="请选择评">
                 <el-option v-for="(item, index) in reviewStateList" :key="index" :label="item.label"
                            :value="item.value"></el-option>
               </el-select>
@@ -76,7 +74,7 @@
           </el-col>
           <el-col :span="8">
             <el-form-item label="签约性质：">
-              <el-select v-model="searchForm.contractProperty" placeholder="请选择签约性质">
+              <el-select v-model="searchForm.contractProperty" placeholder="请选择">
                 <el-option v-for="(item, index) in contractPropertyList" :key="index" :label="item.label"
                            :value="item.value"></el-option>
               </el-select>

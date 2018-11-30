@@ -1,7 +1,7 @@
 <template>
   <div class="com-dialog-container">
     <div class="com-dialog">
-      <el-form :model="searchForm" ref="searchForm" label-width="100px">
+      <el-form :model="searchForm" ref="searchForm" label-width="110px">
         <el-row class="el-row-cla">
           <el-col :span="8">
             <el-form-item label="客户名称：">
@@ -47,7 +47,7 @@
           </el-col>
         <!--筛选-->
           <el-col :span="8">
-            <el-form-item label="服务地区：">
+            <el-form-item label="注册地区：">
               <AreaSelect ref="areaSe"
                           :area="(searchForm.provinceName?searchForm.provinceName:'') + ' ' + (searchForm.cityName?searchForm.cityName:'')  + ' ' + (searchForm.areaName?searchForm.areaName:'')"
                           @change="areaSelectedOptionsHandleChange"
@@ -56,7 +56,7 @@
           </el-col>
         </el-row>
         <!--范围-->
-        <el-row class="el-row-cla">
+        <!--<el-row class="el-row-cla">
           <el-col :span="14">
             <el-form-item label="注册时间：">
               <el-date-picker
@@ -112,6 +112,70 @@
         </el-row>
         <el-row class="el-row-cla">
           <el-col :span="14">
+            <el-form-item label="分子机构数量：">
+              <el-row>
+                <el-col :span="10">
+                  <el-input @change="numberStartHandle('branchCountStart', 'branchCountEnd')" type="number"
+                            v-model.number="searchForm.branchCountStart"></el-input>
+                </el-col>
+                <el-col :span="2">
+                  <div style="text-align: center">-</div>
+                </el-col>
+                <el-col :span="10">
+                  <el-input @change="numberEndHandle('branchCountStart', 'branchCountEnd')" type="number"
+                            v-model.number="searchForm.branchCountEnd"></el-input>
+                </el-col>
+              </el-row>
+            </el-form-item>
+            <el-form-item label="员工数量：">
+              <el-row>
+                <el-col :span="10">
+                  <el-input @change="numberStartHandle('staffCountStart', 'staffCountEnd')" type="number"
+                            v-model.number="searchForm.staffCountStart"></el-input>
+                </el-col>
+                <el-col :span="2">
+                  <div style="text-align: center">-</div>
+                </el-col>
+                <el-col :span="10">
+                  <el-input @change="numberEndHandle('staffCountStart', 'staffCountEnd')" type="number"
+                            v-model.number="searchForm.staffCountEnd"></el-input>
+                </el-col>
+              </el-row>
+            </el-form-item>
+            <el-form-item label="产品数量：">
+              <el-row>
+                <el-col :span="10">
+                  <el-input @change="numberStartHandle('productCountStart', 'productCountEnd')" type="number"
+                            v-model.number="searchForm.productCountStart"></el-input>
+                </el-col>
+                <el-col :span="2">
+                  <div style="text-align: center">-</div>
+                </el-col>
+                <el-col :span="10">
+                  <el-input @change="numberEndHandle('productCountStart', 'productCountEnd')" type="number"
+                            v-model.number="searchForm.productCountEnd"></el-input>
+                </el-col>
+              </el-row>
+            </el-form-item>
+            <el-form-item label="党员数量：">
+              <el-row>
+                <el-col :span="10">
+                  <el-input @change="numberStartHandle('partyPersonNumStart', 'partyPersonNumEnd')" type="number"
+                            v-model.number="searchForm.partyPersonNumStart"></el-input>
+                </el-col>
+                <el-col :span="2">
+                  <div style="text-align: center">-</div>
+                </el-col>
+                <el-col :span="10">
+                  <el-input @change="numberEndHandle('partyPersonNumStart', 'partyPersonNumEnd')" type="number"
+                            v-model.number="searchForm.partyPersonNumEnd"></el-input>
+                </el-col>
+              </el-row>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row class="el-row-cla">
+          <el-col :span="14">
             <el-form-item label="生成服务时间：">
               <el-date-picker
                 v-model="timeInterval2"
@@ -125,7 +189,7 @@
               </el-date-picker>
             </el-form-item>
           </el-col>
-        </el-row>
+        </el-row>-->
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button class="cancel-button" @click="$vDialog.close({type: 'cancel'})">取 消</el-button>

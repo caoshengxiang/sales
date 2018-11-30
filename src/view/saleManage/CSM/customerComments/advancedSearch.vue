@@ -4,40 +4,40 @@
       <el-form :model="searchForm" ref="searchForm" label-width="100px">
         <el-row class="el-row-cla">
           <el-col :span="8">
-            <el-form-item label="业务编号：">
-              <el-input type="text" v-model="searchForm.bizNum"></el-input>
+            <el-form-item label="回访单号：">
+              <el-input type="text" v-model="searchForm.retVisitNum"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="客户名称：">
+            <el-form-item label="来自客户：">
               <el-input type="text" v-model="searchForm.customerName"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="上传人：">
-              <el-input type="text" v-model="searchForm.uploadUserName"></el-input>
+            <el-form-item label="来自订单：">
+              <el-input type="text" v-model="searchForm.orderNum"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row class="el-row-cla">
+          <el-col :span="8">
+            <el-form-item label="回访人：">
+              <el-input type="text" v-model="searchForm.cusServiceName"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="服务管家：">
-              <el-input type="text" v-model="searchForm.serviceManagerName"></el-input>
+            <el-form-item label="意见类型：">
+              <el-input type="text" v-model="searchForm.suggestionType"></el-input>
             </el-form-item>
           </el-col>
+        </el-row>
+        <!--筛选-->
+        <el-row class="el-row-cla">
           <el-col :span="8">
-            <el-form-item label="账期年份：">
-              <el-input type="text" v-model="searchForm.accountPeriodYear"></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="账期月份：">
-              <el-input type="text" v-model="searchForm.accountPeriodMonth"></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="审核状态：">
-              <el-select v-model="searchForm.auditState" placeholder="请选择审核状态">
+            <el-form-item label="回访类型：">
+              <el-select v-model="searchForm.type" placeholder="请选择">
                 <el-option
-                  v-for="(item, index) in auditStateList"
+                  v-for="(item, index) in typeList"
                   :key="index"
                   :label="item.label"
                   :value="item.value">
@@ -45,51 +45,33 @@
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="8">
-            <el-form-item label="业务类型：">
-              <el-select v-model="searchForm.bizType" placeholder="请选择评价状态">
-                <el-option v-for="(item, index) in bizTypeList" :key="index" :label="item.label"
-                           :value="item.value"></el-option>
-              </el-select>
-            </el-form-item>
-          </el-col>
+          <!--<el-col :span="8">-->
+            <!--<el-form-item label="意见类型：">-->
+              <!--<el-select v-model="searchForm.type" placeholder="请选择">-->
+                <!--<el-option-->
+                  <!--v-for="(item, index) in typeList"-->
+                  <!--:key="index"-->
+                  <!--:label="item.label"-->
+                  <!--:value="item.value">-->
+                <!--</el-option>-->
+              <!--</el-select>-->
+            <!--</el-form-item>-->
+          <!--</el-col>-->
         </el-row>
         <!--范围-->
         <el-row class="el-row-cla">
           <el-col :span="14">
-            <el-form-item label="业务金额：">
-              <el-row>
-                <el-col :span="10">
-                  <el-input @change="numberStartHandle('startBizAmount', 'endBizAmount')" type="number"
-                            v-model.number="searchForm.startBizAmount"></el-input>
-                </el-col>
-                <el-col :span="2">
-                  <div style="text-align: center">-</div>
-                </el-col>
-                <el-col :span="10">
-                  <el-input @change="numberEndHandle('startBizAmount', 'endBizAmount')" type="number"
-                            v-model.number="searchForm.endBizAmount"></el-input>
-                </el-col>
-              </el-row>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row class="el-row-cla">
-          <el-col :span="14">
-            <el-form-item label="票据数量：">
-              <el-row>
-                <el-col :span="10">
-                  <el-input @change="numberStartHandle('startBillNum', 'endBillNum')" type="number"
-                            v-model.number="searchForm.startBillNum"></el-input>
-                </el-col>
-                <el-col :span="2">
-                  <div style="text-align: center">-</div>
-                </el-col>
-                <el-col :span="10">
-                  <el-input @change="numberEndHandle('startBillNum', 'endBillNum')" type="number"
-                            v-model.number="searchForm.endBillNum"></el-input>
-                </el-col>
-              </el-row>
+            <el-form-item label="生成日期：">
+              <el-date-picker
+                v-model="timeInterval"
+                type="datetimerange"
+                value-format="yyyy-MM-dd HH:mm:ss"
+                @change="(value) => {this.timeBillDateIntervalHandle(value, 'createdStart', 'createdEnd')}"
+                :unlink-panels="true"
+                range-separator="至"
+                start-placeholder="开始日期"
+                end-placeholder="结束日期">
+              </el-date-picker>
             </el-form-item>
           </el-col>
         </el-row>
@@ -112,26 +94,28 @@
       return {
         searchForm: { // 表单
         },
-        auditStateList: [{
+        typeList: [{
           value: 1,
-          label: '待审核'
+          label: '客户主动退单订单回访'
         }, {
           value: 2,
-          label: '已拒绝'
+          label: '回款异常订单回访'
         }, {
           value: 3,
-          label: '已通过'
-        }],
-        bizTypeList: [{
-          value: 1,
-          label: '收入'
+          label: 'A类产品续费异常订单回访'
         }, {
-          value: 2,
-          label: '支出'
+          value: 4,
+          label: '非记账托管业务首次沟通订单回访'
         }, {
-          value: 3,
-          label: '其他'
-        } ],
+          value: 5,
+          label: '外勤首次上门回访'
+        }, {
+          value: 6,
+          label: '2-3星评价回访'
+        }, {
+          value: 7,
+          label: '未评价订单回访'
+        }, ],
         timeInterval: [],
         timeInterval2: [],
       }
@@ -181,9 +165,6 @@
       this.getCodeConfig()
 
       /* 日期 */
-      if (this.searchForm.contractTimeStart) { // 日期
-        this.timeInterval = [this.searchForm.contractTimeStart, this.searchForm.contractTimeEnd]
-      }
       if (this.searchForm.createdStart) { // 日期
         this.timeInterval = [this.searchForm.createdStart, this.searchForm.createdEnd]
       }

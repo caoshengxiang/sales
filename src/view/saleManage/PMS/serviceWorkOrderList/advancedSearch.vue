@@ -1,7 +1,7 @@
 <template>
   <div class="com-dialog-container">
     <div class="com-dialog">
-      <el-form :model="searchForm" ref="searchForm" label-width="100px">
+      <el-form :model="searchForm" ref="searchForm" label-width="110px">
         <el-row class="el-row-cla">
           <el-col :span="8">
             <el-form-item label="派单单号：">
@@ -35,17 +35,16 @@
               <el-input type="text" v-model="searchForm.managerName"></el-input>
             </el-form-item>
           </el-col>
-        </el-row>
-        <!--筛选-->
-        <el-col :span="8">
-          <el-form-item label="订单状态：">
-            <el-select v-model="searchForm.serviceState" placeholder="请选择订单状态">
-              <el-option v-for="(item, index) in serviceStateList" :key="index" :label="item.label"
-                         :value="item.value"></el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-row class="el-row-cla">
+          <el-col :span="8">
+            <el-form-item label="订单状态：">
+              <el-select v-model="searchForm.serviceState" placeholder="请选择订单状态">
+                <el-option v-for="(item, index) in serviceStateList"
+                           :key="index"
+                           :label="item.label"
+                           :value="item.value"></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
           <el-col :span="8">
             <el-form-item label="工单状态：">
               <el-select v-model="searchForm.orderState" placeholder="请选择工单状态">
