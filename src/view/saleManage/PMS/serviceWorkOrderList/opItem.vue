@@ -609,6 +609,7 @@
             height: 600,
             params: {
               baseParam: baseParam,
+              customerName: this.params.customerName,
             },
             callback: (data) => {
               if (data.type === 'itemSave') {

@@ -231,8 +231,10 @@
       getDetailByOrderId (orderId) {
         API.serviceOrder.detailByOrderId(orderId, (da) => {
           this.orderDetail = da.data
-          this.getOrderListNoAuth(this.orderDetail.customerId)
-          this.getCustomerAbout(this.orderDetail.customerId, this.orderDetail.orderId)
+          if (this.orderDetail.customerId) { // 没有客户id,就不查，免得接口报错
+            this.getOrderListNoAuth(this.orderDetail.customerId)
+            this.getCustomerAbout(this.orderDetail.customerId, this.orderDetail.orderId)
+          }
         })
       },
       orderHandle (type) {

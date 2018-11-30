@@ -10,11 +10,13 @@
             <td class="td-title">客户名称</td>
             <td class="td-text">
               <el-form-item prop="customerId">
-                <el-select
-                  v-model.number="addForm.customerId" placeholder="请选择客户">
-                  <el-option v-for="item in customersList" :key="item.id" :label="item.name"
-                             :value="item.id"></el-option>
-                </el-select>
+                <!--<el-select-->
+                  <!--v-model.number="addForm.customerName" placeholder="请选择客户">-->
+                  <!--<el-option v-for="item in customersList" :key="item.id" :label="item.name"-->
+                             <!--:value="item.id"></el-option>-->
+                <!--</el-select>-->
+                <!--<el-input type="text" v-model="addForm.customerName"></el-input>-->
+                {{addForm.customerName}}
               </el-form-item>
             </td>
 
@@ -139,15 +141,12 @@
     name: 'operationCode1_1',
     data () {
       return {
+        customersList: [],
         addForm: {},
         ruleForm: {
-          setTime: '',
           remark: '',
         },
         rules: {
-          setTime: [
-            {required: true, message: '请选择上门时间', trigger: 'change'},
-          ],
         },
       }
     },
@@ -157,12 +156,8 @@
         this.$refs[formName].validate((valid) => {
           if (valid) {
             API.workOrder.serviceItemOperate(Object.assign({}, this.params.baseParam, {
-              setTime: this.ruleForm.setTime,
               remark: this.ruleForm.remark,
-              // result: JSON.stringify({
-              //   isSendMsg: this.ruleForm.isSendMsg,
-              //   message: this.ruleForm.message,
-              // }),
+              result: JSON.stringify(Object.assign({}, {customerDetail: this.addForm}))
             }), (res) => {
               if (res.status) {
                 this.$message.success('操作成功')
@@ -175,7 +170,17 @@
           }
         })
       },
+      getCustomersList () { // 当前登陆用户所有的拥有团队成员权限的客户信息
+        API.customer.teamAboutCustomerlist(null, data => {
+          if (data.status) {
+            this.customersList = data.data
+          }
+        })
+      },
     },
+    created () {
+      this.addForm.customerName = this.params.customerName
+    }
   }
 </script>
 
