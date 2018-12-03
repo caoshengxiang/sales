@@ -302,9 +302,11 @@
         API.serviceOrder.detail(this.$route.query.id, (da) => {
           this.detail = da.data
           this.getAssignOrderList(this.detail.orderId)
-          this.getCustomerAbout(this.detail.customerId, this.detail.orderId)
-          this.getOrderListNoAuth(this.detail.customerId)
           this.getCsInOrderList(this.detail.orderId)
+          if (this.detail.customerId) {
+            this.getCustomerAbout(this.detail.customerId, this.detail.orderId)
+            this.getOrderListNoAuth(this.detail.customerId)
+          }
           setTimeout(() => {
             this.dataLoading = false
           }, 500)

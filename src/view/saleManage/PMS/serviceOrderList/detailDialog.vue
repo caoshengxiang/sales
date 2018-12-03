@@ -16,10 +16,12 @@
           </td>
           <td class="td-title">服务类型</td>
           <td>
-                  <span v-for="item in serviceType" :key="item.type"
-                        v-if="item.type === detail.serviceItemConfigModel.serviceType">
+            <span v-if="detail.serviceItemConfigModel">
+              <span v-for="item in serviceType" :key="item.type"
+                    v-if="item.type === detail.serviceItemConfigModel.serviceType">
                     {{item.value}}
                   </span>
+            </span>
           </td>
         </tr>
         <tr>

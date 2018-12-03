@@ -245,7 +245,7 @@
             </tr>
             <tr>
               <td class="td-title">购买方式</td>
-              <td>todo</td>
+              <td></td><!--todo 展示没有这个字段-->
               <td class="td-title">签约类型</td>
               <td>
                 <span v-if="orderDetail.contractProperty === 1">新签</span>
