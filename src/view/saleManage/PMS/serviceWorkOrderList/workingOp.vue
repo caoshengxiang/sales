@@ -10,7 +10,7 @@
         <td style="height: 50px;" class="td-center">{{item.serviceName}}[{{item.managerName}}]</td>
         <td colspan="5">
           <div class="com-icon-text-box com-icon-text-h"
-               @click="operateHandle(op, item, op.state===2)"
+               @click="operateHandle(op, item, op.state===2, 'my')"
                v-for="op in item.orderModuleComposites" :key="op.type">
             <img :src="'/static/images/'+ (op.state===2?'green':'red') + '/icon_gongdan_' + op.type + '.png'" alt="">
             <span class="com-icon-t">{{op.title}}</span>
@@ -24,7 +24,7 @@
         <td style="height: 50px;" class="td-center">{{item.serviceName}}[{{item.managerName}}]</td>
         <td colspan="5">
           <div class="com-icon-text-box com-icon-text-h"
-               @click="operateHandle(op, item, true)"
+               @click="operateHandle(op, item, true, 'about')"
                v-for="op in item.orderModuleComposites" :key="op.type">
             <!--高亮是待处理state===1  完成state===2-->
             <img :src="'/static/images/'+ (op.state===2?'green':'gray') + '/icon_gongdan_' + op.type + '.png'" alt="">
@@ -84,7 +84,7 @@
           })
         })
       },
-      operateHandle (numItem, typeItem, isShow) {
+      operateHandle (numItem, typeItem, isShow, from) {
         // 高亮是待处理state===1  完成state===2 type 1-21对应
         console.log('item:', numItem)
         // if (!isShow && numItem.state && numItem.state === 1) {
@@ -105,7 +105,7 @@
               customerName: this.customerName,
               orderId: this.orderId,
               workOrderId: typeItem.id,
-              isShow: isShow,
+              isShow: from === 'about',
               isSetInterval: isSetInterval,
             },
             callback: (data) => {
@@ -125,7 +125,7 @@
               customerName: this.customerName,
               orderId: this.orderId,
               workOrderId: typeItem.id,
-              isShow: isShow,
+              isShow: from === 'about', // 类似记账日常告知操作只要是我的服务，一直可操作
               isSetInterval: isSetInterval,
             },
             callback: (data) => {

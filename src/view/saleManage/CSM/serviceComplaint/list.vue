@@ -145,7 +145,7 @@
             align="center"
             sortable="custom"
             prop="complaintTime"
-            label="一般诉讼日期"
+            label="一般投诉日期"
             width="160"
             show-overflow-tooltip
           >
@@ -166,7 +166,7 @@
             align="center"
             sortable="custom"
             prop="cusName"
-            label="一般诉讼跟踪人"
+            label="一般投诉跟踪人"
             width="160"
             show-overflow-tooltip
           >

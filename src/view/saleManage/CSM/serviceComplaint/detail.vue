@@ -111,7 +111,8 @@
           <tr>
             <td class="td-title" rowspan="2">首次调查结果</td>
             <td rowspan="2">
-              {{detail.checkResultModel.duty == true ? '有责任' : '无责任'}}
+              <span v-if="detail.checkResultModel.duty == true">有责任</span>
+              <span v-if="detail.checkResultModel.duty == false">无责任</span>
             </td>
             <td colspan="4">
               <ul class="duty-ul">
@@ -122,7 +123,7 @@
                 <!--&gt;{{item.codeName}}</li>-->
                 <li type="square"
                     v-if="detail.checkResultModel"
-                    v-for="(item, index) in detail.serviceComplaintTypeModels"
+                    v-for="(item, index) in detail.checkResultModel.dutyTypes"
                     :key="index"
                 >{{item.codeName}}</li>
               </ul>
@@ -147,7 +148,8 @@
           <tr>
             <td class="td-title">首次处理结果回访</td>
             <td colspan="5">
-              {{detail.handleVisitModel.state == 1 ? '满意' : '不满意'}}
+              <span v-if="detail.handleVisitModel.state == 1">满意</span>
+              <span v-if="detail.handleVisitModel.state == 2">不满意</span>
               &nbsp;
               &nbsp;
               &nbsp;

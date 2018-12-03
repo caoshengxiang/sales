@@ -20,8 +20,11 @@
         <el-table-column property="provinceId" label="可服务地">
           <template slot-scope="scope">
               <span v-for="(item, index) in scope.row.serviceManagerAreaModels" :key="index">
+                <span v-if="index < 2">
                 <span v-if="index > 0">、</span>{{item.provinceName + item.cityName + item.areaName}}
+                  </span>
               </span>
+            <span v-if="scope.row.serviceManagerAreaModels && scope.row.serviceManagerAreaModels.length > 2">......</span>
           </template>
         </el-table-column>
         <el-table-column property="serviceName" label="平台分子机构" width="160"></el-table-column>

@@ -45,6 +45,7 @@
       </div>
       <div class="dialog-footer">
         <el-button class="save-button" :disabled="params.isShow" @click="saveSubmitForm('ruleForm')">发布记账日常告知</el-button>
+        <!--类似记账日常告知，因为不是要必须操作的选择，所以为已完成的状态，但是无法成功发布信息（按理说这种，是完成后，依旧可以再操作的）-->
       </div>
     </div>
 

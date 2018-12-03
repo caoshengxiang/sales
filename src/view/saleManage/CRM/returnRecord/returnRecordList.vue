@@ -166,6 +166,10 @@
           sortable="custom"
           show-overflow-tooltip
         >
+          <template slot-scope="scope">
+            <span v-if="scope.row.orderType === 'FIRST'">客户首单</span>
+            <span v-if="scope.row.orderType === 'DERIVE'">衍生业务</span>
+          </template>
         </el-table-column>
         <el-table-column
           align="center"

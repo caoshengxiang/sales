@@ -322,7 +322,10 @@
                 v-if="item.itemRecord">
               工作成果：{{item.title}} &nbsp;&nbsp;
               <a v-if="item.attachment" :href="item.attachment">附件下载</a>
-              <span v-if="item.setTime">{{$moment(item.setTime).format('YYYY-MM-DD HH:mm:ss')}}</span>
+              <span v-if="item.setTime">
+                <span v-if="item.num == 5">{{$moment(item.setTime).format('YYYY')}}</span>
+                <span v-if="item.num !== 5">{{$moment(item.setTime).format('YYYY-MM-DD HH:mm:ss')}}</span>
+              </span>
             </li>
           </ul>
         </div>
