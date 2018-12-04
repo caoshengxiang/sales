@@ -47,7 +47,7 @@
           </el-col>
           <el-col :span="8">
             <el-form-item label="业务类型：">
-              <el-select v-model="searchForm.bizType" placeholder="请选择评价状态">
+              <el-select v-model="searchForm.bizType" placeholder="请选择业务类型">
                 <el-option v-for="(item, index) in bizTypeList" :key="index" :label="item.label"
                            :value="item.value"></el-option>
               </el-select>

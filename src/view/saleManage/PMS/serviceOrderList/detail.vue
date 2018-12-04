@@ -180,24 +180,26 @@
               </tr>
               <tr v-for="(item, index) in csInOrderList" :key="index">
                 <td>
+                  <!--bug 1582 提交修改 不跳转-->
+                  {{item.num}}
                   <!--投诉-->
-                  <router-link class="col-link"
-                               v-if="item.type === 3"
-                               :to="{name: 'serviceComplaintDetail', query: {id: item.id}}">
-                    {{item.num}}
-                  </router-link>
-                  <!--回访-->
-                  <router-link class="col-link"
-                               v-if="item.type === 2"
-                               :to="{name: 'serviceReturnVisitDetail', query: {id: item.id, view: 'service'}}">
-                    {{item.num}}
-                  </router-link>
-                  <!--抽查-->
-                  <router-link class="col-link"
-                               v-if="item.type === 1"
-                               :to="{name: 'serviceSpotCheckDetail', query: {id: item.id, view: 'order'}}">
-                    {{item.num}}
-                  </router-link>
+                  <!--<router-link class="col-link"-->
+                               <!--v-if="item.type === 3"-->
+                               <!--:to="{name: 'serviceComplaintDetail', query: {id: item.id}}">-->
+                    <!--{{item.num}}-->
+                  <!--</router-link>-->
+                  <!--&lt;!&ndash;回访&ndash;&gt;-->
+                  <!--<router-link class="col-link"-->
+                               <!--v-if="item.type === 2"-->
+                               <!--:to="{name: 'serviceReturnVisitDetail', query: {id: item.id, view: 'service'}}">-->
+                    <!--{{item.num}}-->
+                  <!--</router-link>-->
+                  <!--&lt;!&ndash;抽查&ndash;&gt;-->
+                  <!--<router-link class="col-link"-->
+                               <!--v-if="item.type === 1"-->
+                               <!--:to="{name: 'serviceSpotCheckDetail', query: {id: item.id, view: 'order'}}">-->
+                    <!--{{item.num}}-->
+                  <!--</router-link>-->
                 </td>
                 <td>{{item.subjectName}}</td>
                 <td>{{item.stateName}}</td>
@@ -314,8 +316,8 @@
           }, 500)
         })
       },
-      getAssignOrderList (orderId) { // 获取管家类型名称
-        API.workOrder.workOrderAsignList({orderId: orderId}, (res) => { // 6 管家类型
+      getAssignOrderList (orderId) { // 订单下得派单列表
+        API.workOrder.workOrderAsignList({orderId: orderId}, (res) => {
             if (res.status) {
               this.assignOrderList = res.data
             }

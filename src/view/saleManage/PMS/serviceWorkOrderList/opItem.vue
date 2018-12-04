@@ -291,7 +291,7 @@
                   <el-button v-if="item.state === 1" type="text" @click="operationListHandle(item, 1)">
                     {{operationList[item.num - 1][1-1]}}
                   </el-button>
-                  <el-button type="text" @click="operationListHandle(item, 2)">{{operationList[item.num - 1][2-1]}}
+                  <el-button v-if="item.state !== 9" type="text" @click="operationListHandle(item, 2)">{{operationList[item.num - 1][2-1]}}
                   </el-button>
                 </div>
                 <div v-if="item.num === 38">
@@ -324,7 +324,10 @@
                 :key="index"
                 v-if="item.itemRecord">
               工作成果：{{item.title}} &nbsp;&nbsp;
-              <a v-if="item.attachment" :href="item.attachment">附件下载</a>
+              <span v-if="item.attachment">
+                <span>{{getFileNameFromUrl(item.attachment)}}</span>
+                <a :href="item.attachment">附件下载</a>
+              </span>
               <span v-if="item.setTime">
                 <span v-if="item.num == 5">{{$moment(item.setTime).format('YYYY')}}</span>
                 <span v-if="item.num !== 5">{{$moment(item.setTime).format('YYYY-MM-DD HH:mm:ss')}}</span>
@@ -436,6 +439,17 @@
     // },
     props: ['params'],
     methods: {
+      getFileNameFromUrl (url) {
+        if (!url) {
+          return ''
+        }
+        let arr = url.split('/')
+        if (arr.length) {
+          return arr[arr.length - 1]
+        } else {
+          return ''
+        }
+      },
       getServiceLog () {
         API.workOrder.serviceLog({orderId: this.params.orderId}, (da) => {
           this.serviceLog = da.data

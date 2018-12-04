@@ -35,20 +35,20 @@
           </el-col>
         </el-row>
         <!--筛选-->
-        <el-row class="el-row-cla">
-          <el-col :span="8">
-            <el-form-item label="服务状态：">
-              <el-select v-model="searchForm.orderState" placeholder="请选择">
-                <el-option
-                  v-for="(item, index) in orderStateList"
-                  :key="index"
-                  :label="item.label"
-                  :value="item.value">
-                </el-option>
-              </el-select>
-            </el-form-item>
-          </el-col>
-        </el-row>
+        <!--<el-row class="el-row-cla">-->
+          <!--<el-col :span="8">-->
+            <!--<el-form-item label="服务状态：">-->
+              <!--<el-select v-model="searchForm.orderState" placeholder="请选择">-->
+                <!--<el-option-->
+                  <!--v-for="(item, index) in orderStateList"-->
+                  <!--:key="index"-->
+                  <!--:label="item.label"-->
+                  <!--:value="item.value">-->
+                <!--</el-option>-->
+              <!--</el-select>-->
+            <!--</el-form-item>-->
+          <!--</el-col>-->
+        <!--</el-row>-->
         <!--范围-->
         <el-row class="el-row-cla">
           <el-col :span="14">

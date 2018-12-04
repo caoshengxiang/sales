@@ -99,14 +99,14 @@
               name: '升级投诉',
             },
           ]
-          let reason = da.data.reason || {}
+          let reason = da.data.reasons || []
           this.reasonData = []
-          for (let key in reason) {
-            this.reasonData.push({
-              value: reason[key],
-              name: key,
-            })
-          }
+          this.reasonData = reason.map(item => {
+            return {
+              value: item.count,
+              name: item.name,
+            }
+          })
         })
       },
     },

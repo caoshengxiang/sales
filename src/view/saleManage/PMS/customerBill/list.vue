@@ -114,7 +114,7 @@
           <el-table-column
             align="center"
             sortable="custom"
-            prop="test"
+            prop="bizType"
             label="业务类型"
             width="160"
             show-overflow-tooltip
@@ -223,7 +223,7 @@
           order = 'desc'
         }
         this.sortObj = {sort: underscoreName(sortObj.prop) + ',' + order}
-        // this.getCustomerList()
+        this.getList()
       },
       getQueryParams () { // 请求参数配置
         this.defaultListParams = {

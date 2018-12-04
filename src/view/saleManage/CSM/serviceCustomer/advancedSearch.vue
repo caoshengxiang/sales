@@ -35,16 +35,16 @@
               <el-input type="text" v-model="searchForm.industry"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="8">
-            <el-form-item label="银行信用等级：">
-              <el-input type="text" v-model="searchForm.bankCreditLevel"></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="税务等级：">
-              <el-input type="text" v-model="searchForm.taxLevel"></el-input>
-            </el-form-item>
-          </el-col>
+          <!--<el-col :span="8">-->
+            <!--<el-form-item label="银行信用等级：">-->
+              <!--<el-input type="text" v-model="searchForm.bankCreditLevel"></el-input>-->
+            <!--</el-form-item>-->
+          <!--</el-col>-->
+          <!--<el-col :span="8">-->
+            <!--<el-form-item label="税务等级：">-->
+              <!--<el-input type="text" v-model="searchForm.taxLevel"></el-input>-->
+            <!--</el-form-item>-->
+          <!--</el-col>-->
         <!--筛选-->
           <el-col :span="8">
             <el-form-item label="注册地区：">

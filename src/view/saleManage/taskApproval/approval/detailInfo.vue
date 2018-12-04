@@ -248,8 +248,8 @@
               <td></td><!--todo 展示没有这个字段-->
               <td class="td-title">签约类型</td>
               <td>
-                <span v-if="orderDetail.contractProperty === 1">新签</span>
-                <span v-if="orderDetail.contractProperty === 2">续费</span>
+                <span v-if="orderDetail.contractProperty === 1">客户首购</span>
+                <span v-if="orderDetail.contractProperty === 2">客户复购</span>
               </td>
               <td class="td-title">商务管家</td>
               <td>{{orderDetail.businessManagerName}}</td>
@@ -461,7 +461,10 @@
             <td>{{item.taskId}}</td>
             <td>{{item.taskName}}</td>
             <td>{{item.approvalUserName}}</td>
-            <td>{{item.opinion}}</td>
+            <td>
+              <span v-if="item.approved == true">通过</span>
+              <span v-if="item.approved == false">拒绝</span>
+            </td>
             <td>{{item.approvalTime && $moment(item.approvalTime).format('YYYY-MM-DD HH:mm:ss')}}</td>
           </tr>
         </table>

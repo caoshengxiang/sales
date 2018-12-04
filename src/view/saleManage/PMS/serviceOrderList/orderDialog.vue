@@ -72,8 +72,9 @@
                 <a class="com-a-link" @click="selectManagerHandle(item, index)">重选</a>
               </span>
               <span v-else-if="item.workOrderState == 2">
-                <a class="com-a-link" @click="selectManagerHandle(item, index)">{{item.managerName}}</a>
-                <label>已拒单</label>
+                <!--<a class="com-a-link" @click="selectManagerHandle(item, index)">{{item.managerName}}</a>-->
+                <!--<label>已拒单</label>-->
+                <a class="com-a-link" @click="selectManagerHandle(item, index)">请选择</a><!--客户要求 又只显示这个了-->
               </span>
               <span v-else-if="item.workOrderState == 6">
                 <a @click="selectManagerHandle(item, index)">{{item.managerName}}</a>

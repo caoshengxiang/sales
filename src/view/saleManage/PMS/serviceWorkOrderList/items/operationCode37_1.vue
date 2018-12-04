@@ -5,10 +5,10 @@
   <div class="com-dialog">
     <div class="operation-code-box">
       <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="80px">
-        <el-form-item label="阶段名称" prop="stepName">
-          <el-select style="width: 220px;" v-model="ruleForm.stepName" placeholder="请选择阶段名称">
-            <el-option label="服务阶段" value="服务阶段"></el-option>
-            <el-option label="完成阶段" value="完成阶段"></el-option>
+        <el-form-item label="款项名称" prop="stepName">
+          <el-select style="width: 220px;" v-model="ruleForm.stepName" placeholder="请选择款项名称">
+            <el-option label="阶段服务费" value="阶段服务费"></el-option>
+            <el-option label="服务成果费" value="服务成果费"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="金额" prop="money">
