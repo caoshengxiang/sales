@@ -167,6 +167,13 @@ export default {
         error && error(err)
       })
     },
+    shedule (params, success, error) { // 获取服务订单计划完成时间
+      $axios.post('serviceOrder/shedule', params).then(res => {
+        success && success(res.data)
+      }).catch(err => {
+        error && error(err)
+      })
+    },
   },
   // 工单
   workOrder: {

@@ -158,7 +158,7 @@
           <el-table-column
             align="center"
             sortable="custom"
-            prop="customerName"
+            prop="cusserviceName"
             label="回访客服"
             width="160"
             show-overflow-tooltip

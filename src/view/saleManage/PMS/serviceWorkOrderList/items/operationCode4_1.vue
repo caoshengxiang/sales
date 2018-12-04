@@ -12,6 +12,7 @@
             v-model="ruleForm.setTime"
             type="datetime"
             value-format="timestamp"
+            @change="timeChangeHandle"
             placeholder="服务开始时间">
           </el-date-picker>
         </el-form-item>
@@ -23,7 +24,7 @@
             <!--value-format="timestamp"-->
             <!--placeholder="服务完成时间">-->
           <!--</el-date-picker>-->
-          {{orderDetail.periodEnd && $moment(orderDetail.periodEnd).format('YYYY-MM-DD HH:mm:ss')}}
+          {{periodEnd && $moment(periodEnd).format('YYYY-MM-DD HH:mm:ss')}}
         </el-form-item>
         <el-form-item label="备注" prop="remark">
           <el-input
@@ -61,6 +62,7 @@
           //   {required: true, message: '请选择服务完成时间', trigger: 'change'},
           // ],
         },
+        periodEnd: '',
       }
     },
     props: ['params'],
@@ -85,6 +87,14 @@
           this.orderDetail = da.data
         })
       },
+      getShedule (orderId, setTime) {
+        API.serviceOrder.shedule({orderId: orderId, setTime: setTime}, (da) => {
+          this.periodEnd = da.data.periodEnd
+        })
+      },
+      timeChangeHandle () {
+        this.getShedule(this.params.orderId, this.ruleForm.setTime)
+      }
     },
     created () {
       this.getDetailByOrderId(this.params.orderId)

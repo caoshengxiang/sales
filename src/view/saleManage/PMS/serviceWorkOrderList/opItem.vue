@@ -40,6 +40,7 @@
             <td class="td-title" style="width: 100px;">完成日期</td>
             <td class="td-title" style="width: 50px;">完成状态</td>
             <td class="td-title" v-if="!params.isShow">操作</td>
+            <!--<td class="td-title">操作</td>-->
           </tr>
           <tr v-for="(item, index) in serviceItem" :key="index">
             <td style="width: 30px;">{{index+1}}</td>
@@ -56,6 +57,7 @@
               <span v-if="item.state === 9">已完成</span>
             </td>
             <td v-if="!params.isShow">
+            <!--<td>-->
               <!--<el-button type="text"-->
               <!--@click="operationListHandle(item, oplIndex + 1)"-->
               <!--v-for="(opl, oplIndex) in operationList[item.num - 1]"-->
@@ -110,6 +112,7 @@
                   <el-button v-if="item.state === 1" type="text" @click="operationListHandle(item, 1)">
                     {{operationList[item.num - 1][1-1]}}
                   </el-button>
+                  <!--todo 加状态state-->
                   <el-button type="text" @click="operationListHandle(item, 2)">{{operationList[item.num - 1][2-1]}}
                   </el-button>
                 </div>
@@ -521,7 +524,7 @@
               this.getServiceItem()
             }
           })
-        } else if ((item.num === 4 && operationCode === 1)) {
+        } else if ((item.num === 4 && operationCode === 1) || (item.num === 40 && operationCode === 1)) {
           this.$vDialog.modal(operationCode41, {
             title: this.operationList[item.num - 1][operationCode - 1],
             width: 500,
@@ -613,6 +616,7 @@
             params: {
               baseParam: baseParam,
               customerName: this.params.customerName,
+              customerId: this.params.customerId,
             },
             callback: (data) => {
               if (data.type === 'itemSave') {
@@ -621,7 +625,7 @@
               }
             },
           })
-        } else if ((item.num === 35 && operationCode === 1) || (item.num === 40 && operationCode === 1)) {
+        } else if ((item.num === 35 && operationCode === 1)) {
           this.$vDialog.modal(operationCode351, {
             title: this.operationList[item.num - 1][operationCode - 1],
             width: 500,

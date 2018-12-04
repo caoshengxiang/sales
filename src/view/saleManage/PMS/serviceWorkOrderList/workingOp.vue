@@ -67,6 +67,11 @@
           return {}
         },
       },
+      customerId: {
+        default () {
+          return ''
+        },
+      },
     },
     methods: {
       getOrderWorkingList () {
@@ -103,10 +108,11 @@
               numItem: numItem,
               typeItem: typeItem,
               customerName: this.customerName,
+              customerId: this.customerId,
               orderId: this.orderId,
               workOrderId: typeItem.id,
-              isShow: from === 'about',
-              isSetInterval: isSetInterval,
+              isShow: from === 'about', // 控制操作的显示；类似记账日常告知操作只要是我的服务，一直可操作
+              isSetInterval: isSetInterval, // 周期服务，用于服务年月删选禁用
             },
             callback: (data) => {
               if (data.type === 'save') {
@@ -123,9 +129,10 @@
               numItem: numItem,
               typeItem: typeItem,
               customerName: this.customerName,
+              customerId: this.customerId,
               orderId: this.orderId,
               workOrderId: typeItem.id,
-              isShow: from === 'about', // 类似记账日常告知操作只要是我的服务，一直可操作
+              isShow: from === 'about',
               isSetInterval: isSetInterval,
             },
             callback: (data) => {
@@ -143,6 +150,7 @@
               numItem: numItem,
               typeItem: typeItem,
               customerName: this.customerName,
+              customerId: this.customerId,
               orderId: this.orderId,
               workOrderId: typeItem.id,
               isShow: isShow,

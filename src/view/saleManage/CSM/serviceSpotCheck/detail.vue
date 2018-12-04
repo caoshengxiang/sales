@@ -149,7 +149,10 @@
             </table>
           </el-tab-pane>
           <el-tab-pane label="订单加工信息" name="operate">
-            <working-op v-if="detail.orderId" :order-id="detail.orderId" :customerName="detail.customerName"></working-op>
+            <working-op v-if="detail.orderId"
+                        :order-id="detail.orderId"
+                        :customerName="detail.customerName"
+                        :customerId="detail.customerId"></working-op>
           </el-tab-pane>
         </el-tabs>
       </div>
