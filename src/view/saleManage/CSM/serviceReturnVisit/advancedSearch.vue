@@ -37,7 +37,7 @@
           <!--</el-col>-->
           <el-col :span="8">
             <el-form-item label="回访客服：">
-              <el-input type="text" v-model="searchForm.customerName"></el-input>
+              <el-input type="text" v-model="searchForm.cusserviceName"></el-input>
             </el-form-item>
           </el-col>
         </el-row>

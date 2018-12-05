@@ -48,9 +48,10 @@
         </ul>
       </div>
       <div class="bar-tips-box">
-        <p class="modify" v-if="managerDetail.updateDataTime"> 提示：{{$moment(managerDetail.updateDataTime).format('YYYY年M月D日')}}进行了服务管家基本信息修改<a class="com-a-link" @click="historyHandle">点击可查看</a></p>
+        <p class="modify" v-if="managerDetail.checkStatus == 1 && managerDetail.updateDataTime"> 提示：{{$moment(managerDetail.updateDataTime).format('YYYY年M月D日')}}进行了服务管家基本信息修改<a class="com-a-link" @click="historyHandle">点击可查看</a></p>
         <!--<p class="modify"> 提示：{{$moment(managerDetail.dataUpdateTime).format('YYYY年M月D日')}}进行了服务管家基本信息修改<a class="com-a-link" @click="historyHandle">点击可查看</a></p>-->
-        <p class="review" v-if="managerDetail.checkStatus"> 提示：修改资料{{modifyCheckStatus(managerDetail.checkStatus)}},审核备注：{{managerDetail.checkResult}}</p>
+        <p class="review" v-if="managerDetail.checkStatus === 2 || managerDetail.checkStatus === 3"> 提示：修改资料{{modifyCheckStatus(managerDetail.checkStatus)}},审核备注：{{managerDetail.checkResult}}</p>
+        <p class="review" v-if="managerDetail.checkStatus === 4"> 提示：修改资料{{modifyCheckStatus(managerDetail.checkStatus)}}</p>
       </div>
     </div>
     <!--详细-->

@@ -216,6 +216,7 @@
         })
         if (!paramsArr.length) {
           this.$message.warning('未选择派单管家')
+          this.dataLoading = false
           return
         }
         API.workOrder.addWorkOrder(paramsArr, (res) => {
@@ -223,6 +224,9 @@
           if (res.status) {
             this.$message.success('派单成功')
             this.$vDialog.close({type: 'save'})
+          }
+          if (data.data.fail > 0) {
+            this.$message.warning(`成功${res.data.success}, 失败${res.data.fail}, 失败原因：${res.data.errorMessage}`)
           }
         })
       }

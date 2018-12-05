@@ -330,7 +330,12 @@
               </span>
               <span v-if="item.setTime">
                 <span v-if="item.num == 5">{{$moment(item.setTime).format('YYYY')}}</span>
-                <span v-if="item.num !== 5">{{$moment(item.setTime).format('YYYY-MM-DD HH:mm:ss')}}</span>
+                <span v-else-if="item.num === 4 || item.num===40">
+                  {{$moment(item.setTime).format('YYYY-MM-DD HH:mm:ss')}}
+                  &nbsp;&nbsp;
+                  {{orderDetail.periodEnd && $moment(orderDetail.periodEnd).format('YYYY-MM-DD HH:mm:ss')}}
+                </span>
+                <span v-else>{{$moment(item.setTime).format('YYYY-MM-DD HH:mm:ss')}}</span>
               </span>
             </li>
           </ul>
@@ -430,6 +435,7 @@
           type: this.params.numItem.type,
         },
         dateDisabled: true,
+        orderDetail: '',
       }
     },
     // computed: {
@@ -439,6 +445,11 @@
     // },
     props: ['params'],
     methods: {
+      getOrderDetail (orderId) {
+        API.serviceOrder.detailByOrderId(orderId, (da) => {
+          this.orderDetail = da.data
+        })
+      },
       getFileNameFromUrl (url) {
         if (!url) {
           return ''
@@ -678,6 +689,7 @@
       this.dateDisabled = !this.params.isSetInterval
       this.getServiceLog()
       this.getServiceItem()
+      this.getOrderDetail(this.params.orderId)
     },
   }
 </script>

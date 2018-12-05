@@ -390,7 +390,14 @@
             areaName: name[2] || '',
           }
           // console.log(serviceManagerAreaModel)
-          this.addForm.serviceManagerAreaModels.push(serviceManagerAreaModel)
+          let isRepeat = this.addForm.serviceManagerAreaModels.some(item => {
+            return item.areaId === serviceManagerAreaModel.areaId
+          })
+          if (isRepeat) {
+            this.$message.warning('地区已存在')
+          } else {
+            this.addForm.serviceManagerAreaModels.push(serviceManagerAreaModel)
+          }
         }
       },
     },
