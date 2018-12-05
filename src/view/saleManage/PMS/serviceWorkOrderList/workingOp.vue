@@ -144,7 +144,7 @@
         } else if (numItem.type <= 21) {
           this.$vDialog.modal(opItem, {
             title: numItem.title,
-            width: 1100,
+            width: 1200,
             height: 600,
             params: {
               numItem: numItem,

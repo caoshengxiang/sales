@@ -337,6 +337,7 @@
                 </span>
                 <span v-else>{{$moment(item.setTime).format('YYYY-MM-DD HH:mm:ss')}}</span>
               </span>
+              <a style="color: blue" v-if="item.num === 34 || item.num === 39" @click="showContactDetail(item)">查看客户信息表</a>
             </li>
           </ul>
         </div>
@@ -377,6 +378,7 @@
   import operationCode351 from './items/operationCode35_1'
   import operationCode371 from './items/operationCode37_1'
   // import { serverUrl } from '../../../../utils/const'
+  import recordContact from './items/recordContact'
 
   export default {
     name: 'opItem',
@@ -487,13 +489,17 @@
         this.form.serviceMonth = null
       },
       operationListHandle (item, operationCode) {
+        let contactId = null // 完善联系人信息时判断 编辑用， 有id就是编辑
+        if (item.num === 34 || item.num === 39) {
+          contactId = JSON.parse(item.result).id
+        }
         let baseParam = {
           orderId: this.params.orderId,
           workOrderId: this.params.workOrderId,
           id: item.id,
           type: item.type,
           num: item.num,
-          operationCode: operationCode,
+          operationCode: contactId ? operationCode : (operationCode + 1),
         }
         console.log(item, operationCode)
         if (item.num === 1 && operationCode === 1) {
@@ -642,6 +648,7 @@
               baseParam: baseParam,
               customerName: this.params.customerName,
               customerId: this.params.customerId,
+              contactId: contactId,
             },
             callback: (data) => {
               if (data.type === 'itemSave') {
@@ -684,6 +691,18 @@
           alert('else')
         }
       },
+      showContactDetail (item) {
+        this.$vDialog.modal(recordContact, {
+          title: '查看联系人',
+          width: 860,
+          height: 400,
+          params: {
+            contactId: JSON.parse(item.result).id,
+          },
+          callback: (data) => {
+          },
+        })
+      }
     },
     created () {
       this.dateDisabled = !this.params.isSetInterval

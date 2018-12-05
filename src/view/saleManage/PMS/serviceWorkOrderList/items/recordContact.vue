@@ -23,13 +23,13 @@
             <td class="td-title">联系人姓名</td>
             <td class="td-text">
               <el-form-item prop="contacterName">
-                <el-input type="text" v-model="addForm.contacterName"></el-input>
+                <el-input type="text" v-model="addForm.contacterName" :disabled="true"></el-input>
               </el-form-item>
             </td>
             <td class="td-title">联系人电话</td>
             <td class="td-text">
               <el-form-item prop="phone">
-                <el-input type="text" v-model="addForm.phone"></el-input>
+                <el-input type="text" v-model="addForm.phone" :disabled="true"></el-input>
               </el-form-item>
             </td>
           </tr>
@@ -37,18 +37,18 @@
             <td class="td-title">任职部门</td>
             <td class="td-text">
               <el-form-item prop="department">
-                <el-input type="text" v-model="addForm.department"></el-input>
+                <el-input type="text" v-model="addForm.department" :disabled="true"></el-input>
               </el-form-item>
             <td class="td-title">公司职务</td>
             <td class="td-text">
               <el-form-item prop="position">
-                <el-input type="text" v-model="addForm.position"></el-input>
+                <el-input type="text" v-model="addForm.position" :disabled="true"></el-input>
               </el-form-item>
             </td>
             <td class="td-title">联系QQ</td>
             <td class="td-text">
               <el-form-item prop="qq">
-                <el-input type="text" v-model="addForm.qq"></el-input>
+                <el-input type="text" v-model="addForm.qq" :disabled="true"></el-input>
               </el-form-item>
             </td>
           </tr>
@@ -61,14 +61,14 @@
                   v-model="addForm.birthday"
                   type="date"
                   value-format="timestamp"
-                  placeholder="选择日期">
+                  placeholder="选择日期" :disabled="true">
                 </el-date-picker>
               </el-form-item>
             </td>
             <td class="td-title">性别</td>
             <td class="td-text">
               <el-form-item prop="sex">
-                <el-select v-model.number="addForm.sex" placeholder="请选择性别">
+                <el-select v-model.number="addForm.sex" placeholder="请选择性别" :disabled="true">
                   <el-option label="男" value="男"></el-option>
                   <el-option label="女" value="女"></el-option>
                 </el-select>
@@ -78,7 +78,7 @@
             <td class="td-text">
               <!--<input type="text" v-model="addForm.shortName">-->
               <el-form-item prop="wx">
-                <el-input type="text" v-model="addForm.wx"></el-input>
+                <el-input type="text" v-model="addForm.wx" :disabled="true"></el-input>
               </el-form-item>
             </td>
           </tr>
@@ -86,13 +86,13 @@
             <td class="td-title">备用电话</td>
             <td class="td-text">
               <el-form-item prop="bakPhone">
-                <el-input type="text" v-model="addForm.bakPhone"></el-input>
+                <el-input type="text" v-model="addForm.bakPhone" :disabled="true"></el-input>
               </el-form-item>
             </td>
             <td class="td-title">电子邮件</td>
             <td class="td-text">
               <el-form-item prop="mail">
-                <el-input type="text" v-model="addForm.mail"></el-input>
+                <el-input type="text" v-model="addForm.mail" :disabled="true"></el-input>
               </el-form-item>
             </td>
             <td class="td-title"></td>
@@ -103,7 +103,7 @@
             <td class="td-title">联系地址</td>
             <td class="td-text" colspan="5">
               <el-form-item prop="address">
-                <el-input type="text" v-model="addForm.address"></el-input>
+                <el-input type="text" v-model="addForm.address" :disabled="true"></el-input>
               </el-form-item>
             </td>
           </tr>
@@ -111,25 +111,25 @@
             <td class="td-title">备注</td>
             <td class="td-text" colspan="5">
               <el-form-item prop="remark">
-                <el-input type="text" v-model="addForm.remark"></el-input>
+                <el-input type="text" v-model="addForm.remark" :disabled="true"></el-input>
               </el-form-item>
             </td>
           </tr>
         </table>
       </el-form>
-      <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="80">
-        <el-form-item label="备注" prop="remark">
-          <el-input
-            type="textarea"
-            placeholder="请输入备注"
-            :rows="3"
-            v-model="ruleForm.remark">
-          </el-input>
-        </el-form-item>
-      </el-form>
+      <!--<el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="80">-->
+        <!--<el-form-item label="备注" prop="remark">-->
+          <!--<el-input-->
+            <!--type="textarea"-->
+            <!--placeholder="请输入备注"-->
+            <!--:rows="3"-->
+            <!--v-model="ruleForm.remark">-->
+          <!--</el-input>-->
+        <!--</el-form-item>-->
+      <!--</el-form>-->
     </div>
     <div class="dialog-footer">
-      <el-button class="save-button" @click="saveSubmitForm('addForm')">确 定</el-button>
+      <!--<el-button class="save-button" @click="saveSubmitForm('addForm')">确 定</el-button>-->
     </div>
   </div>
 </template>
@@ -212,16 +212,16 @@
           if (valid) {
             // API.contacts.add(this.addForm, (data) => {
             //   if (data.status) {
-                API.workOrder.serviceItemOperate(Object.assign({}, this.params.baseParam, {
-                  remark: this.ruleForm.remark,
-                  result: JSON.stringify(Object.assign({}, this.addForm)),
-                }), (res) => {
-                  if (res.status) {
-                    this.$message.success('操作成功')
-                    this.$vDialog.close({type: 'itemSave'})
-                  }
-                })
-              // }
+            API.workOrder.serviceItemOperate(Object.assign({}, this.params.baseParam, {
+              remark: this.ruleForm.remark,
+              result: JSON.stringify(Object.assign({}, this.addForm)),
+            }), (res) => {
+              if (res.status) {
+                this.$message.success('操作成功')
+                this.$vDialog.close({type: 'itemSave'})
+              }
+            })
+            // }
             // })
           } else {
             console.log('error submit!!')
@@ -229,13 +229,6 @@
           }
         })
       },
-      // getCustomersList () { // 当前登陆用户所有的拥有团队成员权限的客户信息
-      //   API.customer.teamAboutCustomerlist(null, data => {
-      //     if (data.status) {
-      //       this.customersList = data.data
-      //     }
-      //   })
-      // },
       getContactsDetail (id) {
         API.contacts.detail(id, (data) => {
           this.addForm = data.data
