@@ -491,7 +491,7 @@
       operationListHandle (item, operationCode) {
         let contactId = null // 完善联系人信息时判断 编辑用， 有id就是编辑
         if (item.num === 34 || item.num === 39) {
-          contactId = JSON.parse(item.result).id
+          contactId = item.result ? JSON.parse(item.result).id : null
         }
         let baseParam = {
           orderId: this.params.orderId,
@@ -499,7 +499,7 @@
           id: item.id,
           type: item.type,
           num: item.num,
-          operationCode: contactId ? operationCode : (operationCode + 1),
+          operationCode: contactId ? (operationCode + 1) : operationCode,
         }
         console.log(item, operationCode)
         if (item.num === 1 && operationCode === 1) {
@@ -568,6 +568,7 @@
               if (data.type === 'itemSave') {
                 this.getServiceLog()
                 this.getServiceItem()
+                this.getOrderDetail(this.params.orderId)
               }
             },
           })
@@ -697,7 +698,7 @@
           width: 860,
           height: 400,
           params: {
-            contactId: JSON.parse(item.result).id,
+            contactId: item.result ? JSON.parse(item.result).id : null,
           },
           callback: (data) => {
           },

@@ -128,6 +128,9 @@
       getDetailByOrderId (orderId) {
         API.serviceOrder.detailByOrderId(orderId, (da) => {
           this.detail = da.data
+          if (!this.detail.serviceItemConfigModel) {
+            this.detail.serviceItemConfigModel = JSON.parse(da.data.itemConfig)
+          }
         })
       },
     },

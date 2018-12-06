@@ -28,7 +28,7 @@
                 <span v-if="index > 0">、</span>{{item.provinceName + item.cityName + item.areaName}}
                  </span>
               </span>
-              <span v-if="managerDetail.serviceManagerAreaModel && managerDetail.serviceManagerAreaModel.length > 2">...</span>
+              <span v-if="managerDetail.serviceManagerAreaModels && managerDetail.serviceManagerAreaModels.length > 2">...</span>
             </span>
             <span class="com-d-item">联系电话: <span>{{managerDetail.mobilePhone}}</span></span>
             <span class="com-d-item">服务类目:
