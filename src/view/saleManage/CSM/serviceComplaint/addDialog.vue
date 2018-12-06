@@ -74,7 +74,7 @@
             <td class="td-text">
               <el-form-item prop="managerId">
                 <el-select v-model.number="addForm.managerId" placeholder="请选择管家">
-                  <el-option v-for="(item, index) in orderIdAboutDetail.serviceWorkOrderModels"
+                  <el-option v-for="(item, index) in serviceWorkOrderModels"
                              :key="index"
                              :label="item.managerName"
                              :value="item.managerId"></el-option>
@@ -147,6 +147,7 @@
           // serviceWorkOrderModels: []
         },
         searchOrderIdLoading: false,
+        serviceWorkOrderModels: [],
       }
     },
     props: ['params'],
@@ -207,6 +208,17 @@
         this.orderListNoAuth.forEach(item => {
           if (item.orderId === this.addForm.orderId) {
             this.orderIdAboutDetail = item
+            let tempOjb = {}
+            if (item.serviceWorkOrderModels) {
+              this.serviceWorkOrderModels = item.serviceWorkOrderModels.filter(manager => {
+                if (!tempOjb[manager.managerId]) {
+                  tempOjb[manager.managerId] = 1
+                  return manager
+                }
+              })
+            } else {
+              this.serviceWorkOrderModels = []
+            }
           }
         })
       }

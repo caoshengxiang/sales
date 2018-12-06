@@ -66,7 +66,7 @@
                 v-model="timeInterval"
                 type="datetimerange"
                 value-format="yyyy-MM-dd HH:mm:ss"
-                @change="(value) => {this.timeBillDateIntervalHandle(value, 'createdStart', 'createdEnd')}"
+                @change="(value) => {this.timeBillDateIntervalHandle(value, 'buildTimeStart', 'buildTimeEnd')}"
                 :unlink-panels="true"
                 range-separator="至"
                 start-placeholder="开始日期"
@@ -165,8 +165,8 @@
       this.getCodeConfig()
 
       /* 日期 */
-      if (this.searchForm.createdStart) { // 日期
-        this.timeInterval = [this.searchForm.createdStart, this.searchForm.createdEnd]
+      if (this.searchForm.buildTimeStart) { // 日期
+        this.timeInterval = [this.searchForm.buildTimeStart, this.searchForm.buildTimeEnd]
       }
     },
   }

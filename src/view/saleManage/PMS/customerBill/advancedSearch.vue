@@ -142,6 +142,11 @@
         this.searchForm = {}
       },
       saveSubmitForm () {
+        for (let key in this.searchForm) {
+          if (!this.searchForm[key]) {
+            delete this.searchForm[key]
+          }
+        }
         this.$vDialog.close({type: 'search', params: this.searchForm})
       },
       areaSelectedOptionsHandleChange (value) {

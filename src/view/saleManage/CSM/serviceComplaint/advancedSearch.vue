@@ -1,7 +1,7 @@
 <template>
   <div class="com-dialog-container">
     <div class="com-dialog">
-      <el-form :model="searchForm" ref="searchForm" label-width="100px">
+      <el-form :model="searchForm" ref="searchForm" label-width="130px">
         <el-row class="el-row-cla">
           <el-col :span="8">
             <el-form-item label="投诉单号：">
@@ -90,7 +90,7 @@
                 v-model="timeInterval"
                 type="datetimerange"
                 value-format="yyyy-MM-dd HH:mm:ss"
-                @change="(value) => {this.timeBillDateIntervalHandle(value, 'contractTimeStart', 'contractTimeEnd')}"
+                @change="(value) => {this.timeBillDateIntervalHandle(value, 'complaintTimeStart', 'complaintTimeEnd')}"
                 :unlink-panels="true"
                 range-separator="至"
                 start-placeholder="开始日期"
@@ -106,7 +106,7 @@
                 v-model="timeInterval2"
                 type="datetimerange"
                 value-format="yyyy-MM-dd HH:mm:ss"
-                @change="(value) => {this.timeBillDateIntervalHandle(value, 'createdStart', 'createdEnd')}"
+                @change="(value) => {this.timeBillDateIntervalHandle(value, 'upgradeTimeStart', 'upgradeTimeEnd')}"
                 :unlink-panels="true"
                 range-separator="至"
                 start-placeholder="开始日期"
@@ -225,11 +225,11 @@
       this.getCodeConfig()
 
       /* 日期 */
-      if (this.searchForm.contractTimeStart) { // 日期
-        this.timeInterval = [this.searchForm.contractTimeStart, this.searchForm.contractTimeEnd]
+      if (this.searchForm.complaintTimeStart) { // 日期
+        this.timeInterval = [this.searchForm.complaintTimeStart, this.searchForm.complaintTimeEnd]
       }
-      if (this.searchForm.createdStart) { // 日期
-        this.timeInterval = [this.searchForm.createdStart, this.searchForm.createdEnd]
+      if (this.searchForm.upgradeTimeStart) { // 日期
+        this.timeInterval2 = [this.searchForm.upgradeTimeStart, this.searchForm.upgradeTimeEnd]
       }
     },
   }
