@@ -14,21 +14,22 @@
       <div class="com-bar-left" style="">
         <div style="display: flex">
           <com-button buttonType="add" :disabled="multipleSelection.length === 0" icon="el-icon-edit-outline" @click="orderHandle('assginOrder')">回访派单</com-button>
+          <com-button buttonType="add" :disabled="multipleSelection.length !== 1" @click="handleCommandAuto" style="">回访</com-button>
           <!--<com-button buttonType="add" icon="el-icon-plus" @click="orderHandle('returnVisit')">回访</com-button>-->
           <div>
-            <el-dropdown @command="handleCommand" trigger="click" style="margin-left: 10px">
-              <el-button type="primary">
-                回访<i class="el-icon-arrow-down el-icon--right"></i>
-              </el-button>
-              <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item v-for="item in visitTypes"
-                                  :key="item.type"
-                                  :command="item.type"
-                                  :disabled="returnVisitDisabled(item.type)">
-                  {{item.value}}
-                </el-dropdown-item>
-              </el-dropdown-menu>
-            </el-dropdown>
+            <!--<el-dropdown @command="handleCommand" trigger="click" style="margin-left: 10px">-->
+              <!--<el-button type="primary">-->
+                <!--回访<i class="el-icon-arrow-down el-icon&#45;&#45;right"></i>-->
+              <!--</el-button>-->
+              <!--<el-dropdown-menu slot="dropdown">-->
+                <!--<el-dropdown-item v-for="item in visitTypes"-->
+                                  <!--:key="item.type"-->
+                                  <!--:command="item.type"-->
+                                  <!--:disabled="returnVisitDisabled(item.type)">-->
+                  <!--{{item.value}}-->
+                <!--</el-dropdown-item>-->
+              <!--</el-dropdown-menu>-->
+            <!--</el-dropdown>-->
           </div>
         </div>
       </div>
@@ -317,6 +318,22 @@
         } else {
           return true
         }
+      },
+      handleCommandAuto () {
+        this.$vDialog.modal(returnVisit, {
+          title: this.visitTypes[this.multipleSelection[0].type - 1].value,
+          width: 950,
+          height: 560,
+          params: {
+            ids: arrToStr(this.multipleSelection, 'id'),
+            type: this.multipleSelection[0].type
+          },
+          callback: (data) => {
+            if (data.type === 'save') {
+              this.getList()
+            }
+          },
+        })
       },
       advancedSearchHandle () { // 高级搜索
         this.$vDialog.modal(advancedSearch, {

@@ -48,10 +48,11 @@
         <!--筛选-->
           <el-col :span="8">
             <el-form-item label="注册地区：">
-              <AreaSelect ref="areaSe"
-                          :area="(searchForm.provinceName?searchForm.provinceName:'') + ' ' + (searchForm.cityName?searchForm.cityName:'')  + ' ' + (searchForm.areaName?searchForm.areaName:'')"
-                          @change="areaSelectedOptionsHandleChange"
-                          :selectLastLevelMode="true"></AreaSelect>
+              <!--<AreaSelect ref="areaSe"-->
+                          <!--:area="(searchForm.provinceName?searchForm.provinceName:'') + ' ' + (searchForm.cityName?searchForm.cityName:'')  + ' ' + (searchForm.areaName?searchForm.areaName:'')"-->
+                          <!--@change="areaSelectedOptionsHandleChange"-->
+                          <!--:selectLastLevelMode="true"></AreaSelect>-->
+              <el-input type="text" v-model="searchForm.registryAddress"></el-input>
             </el-form-item>
           </el-col>
         </el-row>

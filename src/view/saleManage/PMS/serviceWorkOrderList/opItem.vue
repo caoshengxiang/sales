@@ -112,15 +112,18 @@
                   <el-button v-if="item.state === 1" type="text" @click="operationListHandle(item, 1)">
                     {{operationList[item.num - 1][1-1]}}
                   </el-button>
-                  <!--todo 加状态state-->
-                  <el-button type="text" @click="operationListHandle(item, 2)">{{operationList[item.num - 1][2-1]}}
+                  <!--<el-button type="text" @click="operationListHandle(item, 1)">-->
+                    <!--{{operationList[item.num - 1][1-1]}}-->
+                  <!--</el-button>-->
+                  <!--审核未通过，状态-审核失败（隐藏录入按钮，显示修改按钮）-->
+                  <el-button type="text"  v-if=" item.state === 4" @click="operationListHandle(item, 2)">{{operationList[item.num - 1][2-1]}}
                   </el-button>
                 </div>
                 <div v-if="item.num === 8">
-                  <el-button v-if="item.state !== 9" type="text" @click="operationListHandle(item, 1)">
+                  <el-button v-if="item.state !== 1" type="text" @click="operationListHandle(item, 1)">
                     {{operationList[item.num - 1][1-1]}}
                   </el-button>
-                  <el-button v-if="item.state !== 9" type="text" @click="operationListHandle(item, 2)">
+                  <el-button v-if="item.state !== 4" type="text" @click="operationListHandle(item, 2)">
                     {{operationList[item.num - 1][2-1]}}
                   </el-button>
                 </div>
@@ -337,7 +340,8 @@
                 </span>
                 <span v-else>{{$moment(item.setTime).format('YYYY-MM-DD HH:mm:ss')}}</span>
               </span>
-              <a style="color: blue" v-if="item.num === 34 || item.num === 39" @click="showContactDetail(item)">查看客户信息表</a>
+              <a style="color: blue" v-if="item.num === 34 || item.num === 39" @click="showContactDetail(item)">查看联系人信息</a>
+              <a style="color: blue" v-if="item.num === 7" @click="showCustomerDetail(item)">查看客户信息表</a>
             </li>
           </ul>
         </div>
@@ -379,6 +383,9 @@
   import operationCode371 from './items/operationCode37_1'
   // import { serverUrl } from '../../../../utils/const'
   import recordContact from './items/recordContact'
+  import operationCode71 from './items/operationCode7_1'
+  import operationCode171 from './items/operationCode17_1'
+  import operationCode181 from './items/operationCode18_1'
 
   export default {
     name: 'opItem',
@@ -518,7 +525,6 @@
             },
           })
         } else if ((item.num === 2 && operationCode === 1) || (item.num === 3 && operationCode === 1) ||
-          (item.num === 7 && operationCode === 1) || (item.num === 7 && operationCode === 2) ||
           (item.num === 9 && operationCode === 1) || (item.num === 19 && operationCode === 1) ||
           (item.num === 20 && operationCode === 1) ||
           (item.num === 23 && operationCode === 1) || (item.num === 24 && operationCode === 1) ||
@@ -599,6 +605,65 @@
             height: 300,
             params: {
               baseParam: baseParam,
+            },
+            callback: (data) => {
+              if (data.type === 'itemSave') {
+                this.getServiceLog()
+                this.getServiceItem()
+              }
+            },
+          })
+        } else if ((item.num === 7 && operationCode === 1) || (item.num === 7 && operationCode === 2)) {
+          let type = 'show'
+          if (operationCode === 1) {
+            type = 'add'
+          } else if (operationCode === 2) {
+            type = 'edit'
+          } else {
+            type = 'show'
+          }
+          this.$vDialog.modal(operationCode71, {
+            title: this.operationList[item.num - 1][operationCode - 1],
+            width: 1200,
+            height: 700,
+            params: {
+              baseParam: baseParam,
+              customerName: this.params.customerName,
+              customerId: this.params.customerId,
+              type: type,
+              result: item.result,
+            },
+            callback: (data) => {
+              if (data.type === 'itemSave') {
+                this.getServiceLog()
+                this.getServiceItem()
+              }
+            },
+          })
+        } else if ((item.num === 17 && operationCode === 1)) { // 审核客户资料
+          this.$vDialog.modal(operationCode171, {
+            title: this.operationList[item.num - 1][operationCode - 1],
+            width: 1200,
+            height: 700,
+            params: {
+              baseParam: baseParam,
+              operateItem: item,
+            },
+            callback: (data) => {
+              if (data.type === 'itemSave') {
+                this.getServiceLog()
+                this.getServiceItem()
+              }
+            },
+          })
+        } else if ((item.num === 18 && operationCode === 1)) { // 用户财务资料审核
+          this.$vDialog.modal(operationCode181, {
+            title: this.operationList[item.num - 1][operationCode - 1],
+            width: 500,
+            height: 300,
+            params: {
+              baseParam: baseParam,
+              operateItem: item,
             },
             callback: (data) => {
               if (data.type === 'itemSave') {
@@ -702,6 +767,21 @@
           },
           callback: (data) => {
           },
+        })
+      },
+      showCustomerDetail (item) {
+        this.$vDialog.modal(operationCode71, {
+          title: '查看客户信息表',
+          width: 1200,
+          height: 700,
+          params: {
+            baseParam: null,
+            customerName: this.params.customerName,
+            customerId: this.params.customerId,
+            type: 'show',
+            result: item.result,
+          },
+          callback: (data) => {},
         })
       }
     },

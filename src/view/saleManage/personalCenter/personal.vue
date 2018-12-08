@@ -348,7 +348,7 @@
         formData.append('file', files[0])
         API.common.uploadFile({path: 'avatar', body: formData}, upImg => {
           if (upImg.status) {
-            this.ruleForm.avatar = upImg.data.path
+            this.ruleForm.avatar = upImg.data.url
             // this.ac_userHead(upImg.data.url)
             API.user.userModify(this.ruleForm, (da) => {
               if (da.status) {

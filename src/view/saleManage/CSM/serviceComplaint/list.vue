@@ -14,7 +14,7 @@
     <div class="com-bar">
       <div class="com-bar-left">
         <com-button buttonType="add" icon="el-icon-plus" @click="addHandle">添加</com-button>
-        <el-button buttonType="add" type="primary" :disabled="multipleSelection.length === 0" icon="" @click="assginOrderHandle">坐席派单</el-button>
+        <com-button buttonType="add" type="primary" :disabled="multipleSelection.length === 0" icon="" @click="assginOrderHandle">坐席派单</com-button>
       </div>
       <div class="com-bar-right">
         <com-button buttonType="search" @click="advancedSearchHandle" style="">高级搜索</com-button>

@@ -288,7 +288,7 @@ export default {
         error && error(err)
       })
     },
-    detail (params, success, error) { // 管家详情
+    detail (params, success, error) { // 详情
       $axios.get('customer/servicecustomer/' + params).then(res => {
         success && success(res.data)
       }).catch(err => {
@@ -298,6 +298,13 @@ export default {
     detailAbout (params, success, error) { // 详情页获取服务客户部分信息（订单相关）
       $axios.get('customer/sampleServiceCustomerOfDetail',
         {params: params}).then(res => {
+        success && success(res.data)
+      }).catch(err => {
+        error && error(err)
+      })
+    },
+    checkParmasBeforeSubmit (params, success, error) { // 服务客户参数校验接口
+      $axios.post('customer/checkParmasBeforeSubmit', params).then(res => {
         success && success(res.data)
       }).catch(err => {
         error && error(err)

@@ -9,7 +9,7 @@
             <td class="td-title">商务管家</td>
             <td>{{detail.businessManagerName}}</td>
             <td class="td-title">商务电话</td>
-            <td>{{detail.businessManagerName}}</td>
+            <td>{{detail.businessManagerPhone}}</td>
             <td class="td-title"></td>
             <td></td>
           </tr>
@@ -50,7 +50,7 @@
             <td class="td-title">签约性质</td>
             <td>{{detail.contractProperty===1?'新签':'续费'}}</td>
             <td class="td-title">签约主体</td>
-            <td>{{detail.contractObject}}</td>
+            <td>{{detail.contractSubject}}</td>
           </tr>
         </table>
 
@@ -82,7 +82,7 @@
               </span>
               <a v-else>{{ item.managerName }}</a>
             </td>
-            <td></td>
+            <td>{{item.serviceName}}</td>
           </tr>
         </table>
       </el-form>

@@ -108,7 +108,7 @@
           <el-table-column
             align="center"
             sortable="custom"
-            prop="businessTerm"
+            prop="businessTime"
             label="营业期限"
             width="160"
             show-overflow-tooltip
@@ -126,16 +126,16 @@
           <el-table-column
             align="center"
             sortable="custom"
-            prop="provinceId"
+            prop="registryAddress"
             label="注册地区"
             width="160"
             show-overflow-tooltip
           >
-            <template slot-scope="scope">
-              {{ scope.row.provinceName }}
-              {{ scope.row.cityName }}
-              {{ scope.row.areaName }}
-            </template>
+            <!--<template slot-scope="scope">-->
+              <!--{{ scope.row.provinceName }}-->
+              <!--{{ scope.row.cityName }}-->
+              <!--{{ scope.row.areaName }}-->
+            <!--</template>-->
           </el-table-column>
           <el-table-column
             align="center"
@@ -146,15 +146,15 @@
             show-overflow-tooltip
           >
           </el-table-column>
-          <el-table-column
-            align="center"
-            sortable="custom"
-            prop="localTaxBureau"
-            label="地税主管税务机关"
-            width="160"
-            show-overflow-tooltip
-          >
-          </el-table-column>
+          <!--<el-table-column-->
+            <!--align="center"-->
+            <!--sortable="custom"-->
+            <!--prop="localTaxBureau"-->
+            <!--label="地税主管税务机关"-->
+            <!--width="160"-->
+            <!--show-overflow-tooltip-->
+          <!--&gt;-->
+          <!--</el-table-column>-->
           <el-table-column
             align="center"
             sortable="custom"

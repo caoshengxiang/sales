@@ -228,7 +228,7 @@ const API1 = {
       })
     },
     uploadFile (params, success, error) { // 文件上传,avatar：用户头像；
-      $axios.post('file/' + params.path, params.body).then((res) => {
+      $axios.post('file/upload', params.body).then((res) => { // 之前有个type,现在全部用upload
         success && success(res.data)
       }).catch((err) => {
         error && error(err)
@@ -2008,7 +2008,7 @@ const API1 = {
   // 统计分析
   zhuxinStatistical: {
     //获取销售订单统计的列表数据
-    Lists (params, success, error) {               
+    Lists (params, success, error) {
         $axios({
             method: 'get',
             url: 'salerOrderStatistics',
@@ -2020,7 +2020,7 @@ const API1 = {
         })
     },
     //高级搜索数据
-    Adsearch (params, success, error) {            
+    Adsearch (params, success, error) {
         $axios({
             method: 'get',
             url: 'salerOrderStatistics',

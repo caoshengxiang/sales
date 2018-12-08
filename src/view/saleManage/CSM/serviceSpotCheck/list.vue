@@ -11,8 +11,8 @@
     <!--控制栏-->
     <div class="com-bar">
       <div class="com-bar-left">
-        <el-button type="primary" :disabled="multipleSelection.length === 0" icon="el-icon-edit-outline" @click="assginOrderHandle">派单</el-button>
-        <el-button type="primary" :disabled="multipleSelection.length !== 1" icon="el-icon-question" @click="checkHandle">抽查</el-button>
+        <com-button buttonType="add" :disabled="multipleSelection.length === 0" icon="el-icon-edit-outline" @click="assginOrderHandle">派单</com-button>
+        <com-button buttonType="add" type="primary" :disabled="multipleSelection.length !== 1" icon="el-icon-question" @click="checkHandle">抽查</com-button>
       </div>
       <div class="com-bar-right">
         <com-button buttonType="search" @click="advancedSearchHandle" style="">高级搜索</com-button>
