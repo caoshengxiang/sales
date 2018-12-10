@@ -132,58 +132,58 @@
                   </el-button>
                 </div>
                 <div v-if="item.num === 10">
-                  <el-button v-if="item.state === 3" type="text" @click="operationListHandle(item, 1)">
+                  <el-button v-if="item.state === 3 || item.state === 5" type="text" @click="operationListHandle(item, 2)">
                     {{operationList[item.num - 1][1-1]}}
                   </el-button>
-                  <el-button v-if="item.state === 1" type="text" @click="operationListHandle(item, 2)">
+                  <el-button v-if="item.state === 1" type="text" @click="operationListHandle(item, 3)">
                     {{operationList[item.num - 1][2-1]}}
                   </el-button>
                 </div>
                 <div v-if="item.num === 11">
-                  <el-button v-if="item.state === 3" type="text" @click="operationListHandle(item, 1)">
+                  <el-button v-if="item.state === 3 || item.state === 5" type="text" @click="operationListHandle(item, 2)">
                     {{operationList[item.num - 1][1-1]}}
                   </el-button>
-                  <el-button v-if="item.state === 1" type="text" @click="operationListHandle(item, 2)">
+                  <el-button v-if="item.state === 1" type="text" @click="operationListHandle(item, 3)">
                     {{operationList[item.num - 1][2-1]}}
                   </el-button>
                 </div>
                 <div v-if="item.num === 12">
-                  <el-button v-if="item.state === 3" type="text" @click="operationListHandle(item, 1)">
+                  <el-button v-if="item.state === 3 || item.state === 5" type="text" @click="operationListHandle(item, 2)">
                     {{operationList[item.num - 1][1-1]}}
                   </el-button>
-                  <el-button v-if="item.state === 1" type="text" @click="operationListHandle(item, 2)">
+                  <el-button v-if="item.state === 1" type="text" @click="operationListHandle(item, 3)">
                     {{operationList[item.num - 1][2-1]}}
                   </el-button>
                 </div>
                 <div v-if="item.num === 13">
-                  <el-button v-if="item.state === 3" type="text" @click="operationListHandle(item, 1)">
+                  <el-button v-if="item.state === 3 || item.state === 5" type="text" @click="operationListHandle(item, 2)">
                     {{operationList[item.num - 1][1-1]}}
                   </el-button>
-                  <el-button v-if="item.state === 1" type="text" @click="operationListHandle(item, 2)">
+                  <el-button v-if="item.state === 1" type="text" @click="operationListHandle(item, 3)">
                     {{operationList[item.num - 1][2-1]}}
                   </el-button>
                 </div>
                 <div v-if="item.num === 14">
-                  <el-button v-if="item.state === 3" type="text" @click="operationListHandle(item, 1)">
+                  <el-button v-if="item.state === 3 || item.state === 5" type="text" @click="operationListHandle(item, 2)">
                     {{operationList[item.num - 1][1-1]}}
                   </el-button>
-                  <el-button v-if="item.state === 1" type="text" @click="operationListHandle(item, 2)">
+                  <el-button v-if="item.state === 1" type="text" @click="operationListHandle(item, 3)">
                     {{operationList[item.num - 1][2-1]}}
                   </el-button>
                 </div>
                 <div v-if="item.num === 15">
-                  <el-button v-if="item.state === 3" type="text" @click="operationListHandle(item, 1)">
+                  <el-button v-if="item.state === 3 || item.state === 5" type="text" @click="operationListHandle(item, 2)">
                     {{operationList[item.num - 1][1-1]}}
                   </el-button>
-                  <el-button v-if="item.state === 1" type="text" @click="operationListHandle(item, 2)">
+                  <el-button v-if="item.state === 1" type="text" @click="operationListHandle(item, 3)">
                     {{operationList[item.num - 1][2-1]}}
                   </el-button>
                 </div>
                 <div v-if="item.num === 16">
-                  <el-button v-if="item.state === 3" type="text" @click="operationListHandle(item, 1)">
+                  <el-button v-if="item.state === 3 || item.state === 5" type="text" @click="operationListHandle(item, 2)">
                     {{operationList[item.num - 1][1-1]}}
                   </el-button>
-                  <el-button v-if="item.state === 1" type="text" @click="operationListHandle(item, 2)">
+                  <el-button v-if="item.state === 1" type="text" @click="operationListHandle(item, 3)">
                     {{operationList[item.num - 1][2-1]}}
                   </el-button>
                 </div>
@@ -237,7 +237,7 @@
                   </el-button>
                 </div>
                 <div v-if="item.num === 27">
-                  <el-button v-if="item.state === 3" type="text" @click="operationListHandle(item, 2)">
+                  <el-button v-if="item.state === 3 || item.state === 5" type="text" @click="operationListHandle(item, 2)">
                     {{operationList[item.num - 1][2-1]}}
                   </el-button>
                   <el-button v-if="item.state === 1" type="text" @click="operationListHandle(item, 3)">
@@ -403,13 +403,13 @@
           ['录入客户信息表', '修改客户信息'], // num 7
           ['上传客户财务资料', '修改客户财务资料'], // num 8
           ['完成装订凭证'], // num 9,  '客户确认装订凭证'
-          ['用户请求生成', '事项任务审核'], // num 10
-          ['用户请求生成', '事项任务审核'], // num 11
-          ['用户请求生成', '事项任务审核'], // num 12
-          ['用户请求生成', '事项任务审核'], // num 13
-          ['用户请求生成', '事项任务审核'], // num 14
-          ['用户请求生成', '事项任务审核'], // num 15
-          ['用户请求生成', '事项任务审核'], // num 16
+          ['', '事项任务审核', '完成服务'], // num 10
+          ['', '事项任务审核', '完成服务'], // num 11
+          ['', '事项任务审核', '完成服务'], // num 12
+          ['', '事项任务审核', '完成服务'], // num 13
+          ['', '事项任务审核', '完成服务'], // num 14
+          ['', '事项任务审核', '完成服务'], // num 15
+          ['', '事项任务审核', '完成服务'], // num 16
           ['审核客户信息表'], // num 17
           ['审核客户财务资料'], // num 18
           ['完成资料存档'], // num 19
@@ -594,7 +594,7 @@
             },
           })
         } else if ((item.num === 6 && operationCode === 1) || (item.num === 8 && operationCode === 1) ||
-          (item.num === 8 && operationCode === 2) || ((item.num >= 10 && item.num <= 16) && operationCode === 2) ||
+          (item.num === 8 && operationCode === 2) || ((item.num >= 10 && item.num <= 16) && operationCode === 3) ||
           (item.num === 27 && operationCode === 3) || (item.num === 28 && operationCode === 1) ||
           (item.num === 30 && operationCode === 1) || (item.num === 33 && operationCode === 1) ||
           (item.num === 36 && operationCode === 1) || (item.num === 41 && operationCode === 1)
@@ -672,7 +672,7 @@
               }
             },
           })
-        } else if (((item.num >= 10 && item.num <= 18) && operationCode === 1) ||
+        } else if (((item.num >= 10 && item.num <= 16) && operationCode === 2) ||
           (item.num === 27 && operationCode === 2)
         ) { // 审核
           this.$vDialog.modal(operationCode101, {
