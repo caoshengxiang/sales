@@ -690,7 +690,8 @@
           if (valid) {
             API.workOrder.serviceItemOperate(Object.assign({}, this.params.baseParam, {
               remark: this.ruleForm.remark,
-              state: state
+              state: state,
+              result: this.addForm,
             }), (res) => {
               if (res.status) {
                 this.$message.success('操作成功')

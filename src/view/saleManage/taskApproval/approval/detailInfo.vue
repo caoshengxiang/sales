@@ -245,7 +245,13 @@
             </tr>
             <tr>
               <td class="td-title">购买方式</td>
-              <td></td><!--todo 展示没有这个字段-->
+              <td>
+                <span v-if="orderDetail.paymentMethod === 'ALIPAY'">支付宝</span>
+                <span v-if="orderDetail.paymentMethod === 'WECHAT'">微信</span>
+                <span v-if="orderDetail.paymentMethod === 'LINE_DOWN'">线下支付</span>
+                <span v-if="orderDetail.paymentMethod === 'ONEPAY'">一网通</span>
+                <span v-if="orderDetail.paymentMethod === 'UNIONPAY'">银联</span>
+              </td>
               <td class="td-title">签约类型</td>
               <td>
                 <span v-if="orderDetail.contractProperty === 1">客户首购</span>

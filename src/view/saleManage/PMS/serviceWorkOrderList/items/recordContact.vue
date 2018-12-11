@@ -230,7 +230,7 @@
         })
       },
       getContactsDetail (id) {
-        API.contacts.detail(id, (data) => {
+        API.contacts.detailNoAuth(id, (data) => {
           this.addForm = data.data
         })
       },

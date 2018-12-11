@@ -39,8 +39,8 @@
             <td class="td-title" style="width: 100px;">计划完成时限</td>
             <td class="td-title" style="width: 100px;">完成日期</td>
             <td class="td-title" style="width: 50px;">完成状态</td>
-            <td class="td-title" v-if="!params.isShow">操作</td>
-            <!--<td class="td-title">操作</td>-->
+            <!--<td class="td-title" v-if="!params.isShow">操作</td>-->
+            <td class="td-title">操作</td>
           </tr>
           <tr v-for="(item, index) in serviceItem" :key="index">
             <td style="width: 30px;">{{index+1}}</td>
@@ -317,6 +317,12 @@
                     {{operationList[item.num - 1][1-1]}}
                   </el-button>
                 </div>
+              </div>
+            </td>
+            <td v-else>
+              <div v-if="item.num === 34 || item.num === 39">
+                <el-button type="text" @click="operationListHandle(item, 1)">{{operationList[item.num - 1][1-1]}}
+                </el-button>
               </div>
             </td>
           </tr>

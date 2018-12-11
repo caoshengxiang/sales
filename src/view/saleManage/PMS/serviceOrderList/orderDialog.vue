@@ -75,9 +75,12 @@
                 <!--<a class="com-a-link" @click="selectManagerHandle(item, index)">{{item.managerName}}</a>-->
                 <!--<label>已拒单</label>-->
                 <a class="com-a-link" @click="selectManagerHandle(item, index)">请选择</a><!--客户要求 又只显示这个了-->
+                <label>已拒单</label>
               </span>
               <span v-else-if="item.workOrderState == 6">
-                <a @click="selectManagerHandle(item, index)">{{item.managerName}}</a>
+                <!--<a @click="selectManagerHandle(item, index)">{{item.managerName}}</a>-->
+                <!--<label>已退单</label>-->
+                <a class="com-a-link" @click="selectManagerHandle(item, index)">请选择</a><!--客户要求 又只显示这个了-->
                 <label>已退单</label>
               </span>
               <a v-else>{{ item.managerName }}</a>
@@ -222,11 +225,12 @@
         API.workOrder.addWorkOrder(paramsArr, (res) => {
           this.dataLoading = false
           if (res.status) {
-            this.$message.success('派单成功')
-            this.$vDialog.close({type: 'save'})
-          }
-          if (data.data.fail > 0) {
-            this.$message.warning(`成功${res.data.success}, 失败${res.data.fail}, 失败原因：${res.data.errorMessage}`)
+            if (data.data.fail > 0) {
+              this.$message.warning(`成功${res.data.success}, 失败${res.data.fail}, 失败原因：${res.data.errorMessage}`)
+            } else {
+              this.$message.success('派单成功')
+              this.$vDialog.close({type: 'save'})
+            }
           }
         })
       }

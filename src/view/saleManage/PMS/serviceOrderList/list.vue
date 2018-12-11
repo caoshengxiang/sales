@@ -88,7 +88,7 @@
             <template slot-scope="scope">
               <!--null-未指派、1-待接收、2-已拒绝、3-进行中、4-已完成、5-退单中、6-已退单-->
               <span v-for="(item, index) in scope.row.workOrderManagers" :key="index">
-                <a @click="selectManagerHandle(item, 1, scope.row)" v-if="!item.serviceState" class="col-link">{{ item.managerTypeName }}</a>
+                <a @click="selectManagerHandle(item, 1, scope.row)" v-if="!item.serviceState || item.serviceState == 3 || item.serviceState == 6" class="col-link">{{ item.managerTypeName }}</a>
                 <a @click="selectManagerHandle(item, 2, scope.row)" v-else-if="item.serviceState == 1 || item.serviceState == 2">{{ item.managerName }}</a>
                 <!--<a v-else-if="item.serviceState == 3 || item.serviceState == 4">{{ item.managerName }}</a>-->
                 <a @click="selectManagerHandle(item, 3, scope.row)" v-else>{{ item.managerName }}</a>
@@ -190,8 +190,8 @@
             show-overflow-tooltip
           >
             <template slot-scope="scope">
-              <span v-if="scope.row.orderType === 'FIRST'">客户首单</span>
-              <span v-if="scope.row.orderType === 'DERIVE'">衍生业务</span>
+              <span v-if="scope.row.orderType === 'FIRST'">首购订单</span>
+              <span v-if="scope.row.orderType === 'DERIVE'">复购订单</span>
             </template>
           </el-table-column>
           <el-table-column
