@@ -225,7 +225,7 @@
         API.workOrder.addWorkOrder(paramsArr, (res) => {
           this.dataLoading = false
           if (res.status) {
-            if (data.data.fail > 0) {
+            if (res.data.fail > 0) {
               this.$message.warning(`成功${res.data.success}, 失败${res.data.fail}, 失败原因：${res.data.errorMessage}`)
             } else {
               this.$message.success('派单成功')

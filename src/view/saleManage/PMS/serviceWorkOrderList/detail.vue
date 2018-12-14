@@ -144,7 +144,7 @@
                 </td>
                 <td>{{item.goodsName}}</td>
                 <td>{{item.created && $moment(item.created).format('YYYY-MM-DD HH:mm:ss')}}</td>
-                <td>todo</td>
+                <td>{{item.periodEnd && $moment(item.periodEnd).format('YYYY-MM-DD HH:mm:ss')}}</td>
               </tr>
             </table>
           </el-tab-pane>

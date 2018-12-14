@@ -9,7 +9,7 @@
         <el-form-item label="选择文件" prop="attachment">
           <el-upload
             class="upload-demo"
-            :action="serverUrl + '/file/upload'"
+            :action="uploadUrl"
             :headers="{authKey: userInfo.authKey}"
             :on-success="onSuccessHandle"
             multiple
@@ -35,7 +35,7 @@
 </template>
 
 <script>
-  import { serverUrl } from '../../../../../utils/const'
+  import { uploadUrl } from '../../../../../utils/const'
   import API from '../../../../../utils/api'
   import webStorage from 'webStorage'
   export default {
@@ -55,8 +55,8 @@
       }
     },
     computed: {
-      serverUrl () {
-        return serverUrl
+      uploadUrl () {
+        return uploadUrl
       }
     },
     props: ['params'],

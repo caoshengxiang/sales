@@ -101,18 +101,7 @@
               this.loading = false
               if (res.status) {
                 this.signIn()
-              } else {
-                this.$message({
-                  message: '系统繁忙，请稍后再试！',
-                  type: 'error',
-                })
               }
-            }, (mock) => {
-              this.loading = false
-              this.$message({
-                message: '系统繁忙，请稍后再试！',
-                type: 'error',
-              })
             })
           } else {
             return false

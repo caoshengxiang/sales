@@ -696,7 +696,7 @@
             },
           })
         } else if ((item.num === 29 && operationCode === 1)
-        ) { //
+        ) { // 发送纳税确认函
           this.$vDialog.modal(operationCode291, {
             title: this.operationList[item.num - 1][operationCode - 1],
             width: 500,
