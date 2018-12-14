@@ -81,7 +81,7 @@
                   <span v-if="orderDetail.orderState === 4">已退单</span>
                 </td>
                 <td>{{orderDetail.goodsName}}</td>
-                <td>{{orderDetail.assignTime && $moment(orderDetail.assignTime).format('YYYY-MM-DD HH:mm:ss')}}</td>
+                <td>{{orderDetail.assignDate && $moment(orderDetail.assignDate).format('YYYY-MM-DD HH:mm:ss')}}</td>
                 <td>{{orderDetail.orderTime && $moment(orderDetail.orderTime).format('YYYY-MM-DD HH:mm:ss')}}</td>
               </tr>
             </table>

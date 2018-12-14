@@ -185,6 +185,7 @@
               console.log(data)
               item.managerName = data.manager.name
               item.managerId = data.manager.userId
+              item.serviceName = data.manager.serviceName
               // console.log(item)
               // this.getDetail()
             }

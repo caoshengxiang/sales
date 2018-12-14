@@ -217,7 +217,7 @@
         this.$vDialog.modal(assginOrder, {
           title: '派单',
           width: 600,
-          height: 260,
+          height: 210,
           params: {
             ids: arrToStr(this.multipleSelection, 'id')
           },
@@ -247,7 +247,7 @@
         this.$vDialog.modal(advancedSearch, {
           title: '高级搜索',
           width: 900,
-          height: 460,
+          height: 360,
           params: {
             preAdvancedSearch: this.advancedSearch,
           },

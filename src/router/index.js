@@ -914,11 +914,11 @@ const router = new Router({
           name: 'serviceCustomerSta',
           component: serviceCustomerSta,
           meta: {
-            title: '客户任务统计',
+            title: '服务客户统计',
             pos: [
               {name: '销售管理系统', toName: 'saleHome'},
               {name: '统计分析'},
-              {name: '客户任务统计'}],
+              {name: '服务客户统计'}],
           },
         }, {
           path: 'serviceBillSta',

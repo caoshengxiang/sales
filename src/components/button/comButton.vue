@@ -124,7 +124,7 @@
   }
 
   .export {
-    @include btn-style(#4BCF99)
+    @include btn-style(#FF7700)
   }
 
   .import {

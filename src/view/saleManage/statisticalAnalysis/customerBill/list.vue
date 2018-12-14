@@ -31,7 +31,8 @@
             :value="index + 1">
           </el-option>
         </el-select>
-        <el-button @click="searchHandle">查询</el-button>
+        <!--<el-button @click="searchHandle">查询</el-button>-->
+        <com-button buttonType="search" @click="searchHandle">查询</com-button>
       </div>
       <div class="com-bar-right">
         <!--<el-button>打印</el-button>-->
