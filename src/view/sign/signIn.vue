@@ -215,12 +215,6 @@
                   this.$router.push({name: 'resetPassword', params: {end: this.clientPathParam}})
                 }
               }
-            }, (mock) => {
-              this.loading = false
-              this.$message({
-                message: '系统繁忙，请稍后再试！',
-                type: 'error',
-              })
             })
           } else {
             console.log('error submit!!')

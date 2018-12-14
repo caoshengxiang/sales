@@ -134,9 +134,11 @@
           @include font-style($font-color-1, $font-size-small)
         }
         .com-d-tap {
-          border: 1px solid #ccc;
-          font-size: 14px;
+          border: 1px solid #ff9130;
+          font-size: 13px;
           padding: 3px 5px;
+          color: #ff9130;
+          border-radius: 10px;
         }
         .com-d-item {
           display: inline-block;
