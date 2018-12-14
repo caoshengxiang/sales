@@ -120,10 +120,10 @@
                   </el-button>
                 </div>
                 <div v-if="item.num === 8">
-                  <el-button v-if="item.state !== 1" type="text" @click="operationListHandle(item, 1)">
+                  <el-button v-if="item.state === 1" type="text" @click="operationListHandle(item, 1)">
                     {{operationList[item.num - 1][1-1]}}
                   </el-button>
-                  <el-button v-if="item.state !== 4" type="text" @click="operationListHandle(item, 2)">
+                  <el-button v-if="item.state === 4" type="text" @click="operationListHandle(item, 2)">
                     {{operationList[item.num - 1][2-1]}}
                   </el-button>
                 </div>
@@ -335,7 +335,7 @@
               工作成果：{{item.title}} &nbsp;&nbsp;
               <span v-if="item.attachment">
                 <span>{{getFileNameFromUrl(item.attachment)}}</span>
-                <a :href="item.attachment">附件下载</a>
+                <a target="_blank" :href="item.attachment">附件下载</a>
               </span>
               <span v-if="item.setTime">
                 <span v-if="item.num == 5">{{$moment(item.setTime).format('YYYY')}}</span>

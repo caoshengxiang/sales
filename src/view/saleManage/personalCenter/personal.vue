@@ -397,7 +397,7 @@
           let data
           if (typeof e.target.result === 'object') {
             // 把Array Buffer转化为blob 如果是base64不需要
-            data = window.URL.createObjectURL(new Blob([e.target.result]))
+            data = window.URL.createObjectURL(new Blob([e.target.result], {type: 'image/png'}))
           } else {
             data = e.target.result
           }
@@ -436,7 +436,7 @@
           this.ac_user(da.data)
           webStorage.setItem('userInfo', da.data)
         })
-      }
+      },
     },
     created () {
       this.activeViewName = this.$route.query.view

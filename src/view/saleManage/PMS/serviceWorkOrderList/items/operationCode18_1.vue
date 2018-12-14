@@ -4,7 +4,7 @@
     <div class="operation-code-box">
       <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="120px">
         <el-form-item label="用户财务资料">
-          <a style="cursor: pointer;color:blue;" :href="params.operateItem.attachment">下载用户财务资料</a>
+          <a target="_blank" style="cursor: pointer;color:blue;" :href="params.operateItem.attachment">下载用户财务资料</a>
         </el-form-item>
         <el-form-item label="备注" prop="remark">
           <el-input
@@ -39,6 +39,10 @@
     props: ['params'],
     methods: {
       saveSubmitForm (formName, state) {
+        if (state === 4 && !this.ruleForm.remark) {
+          this.$message.warning('请输入拒绝理由')
+          return
+        }
         this.$refs[formName].validate((valid) => {
           if (valid) {
             API.workOrder.serviceItemOperate(Object.assign({}, this.params.baseParam, {

@@ -33,13 +33,13 @@
     <!--详细-->
     <div class="com-box com-list-box">
       <div class="home-row">
-        <el-row>
-          <el-col :span="12">
+        <el-row style="height: 100%;">
+          <el-col :span="12" class="set-height">
             <div class="col-box">
               <pie-origin :originData="originData"></pie-origin>
             </div>
           </el-col>
-          <el-col :span="12" class="l-border-6">
+          <el-col :span="12" class="l-border-6 set-height">
             <div class="col-box">
               <pie-reason :reasonData="reasonData"></pie-reason>
             </div>
@@ -120,12 +120,20 @@
   @import "../../../../styles/common";
 
   .home-row {
+    position: absolute;
+    top: 110px;
+    right: 0;
+    bottom: 0;
+    left: 0;
     &.home-row-2 {
       border-top: 6px solid $part-color;
       border-bottom: 6px solid $part-color;
       .col-box {
         height: 320px;
       }
+    }
+    .set-height {
+      height: 100%;
     }
     .l-border-6 {
       border-left: 6px solid $part-color;
