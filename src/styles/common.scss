@@ -136,7 +136,7 @@
         .com-d-tap {
           border: 1px solid #ff9130;
           font-size: 13px;
-          padding: 3px 5px;
+          padding: 3px 10px;
           color: #ff9130;
           border-radius: 10px;
         }
@@ -187,7 +187,7 @@
 
   .com-box {
     &.com-list-box {
-      margin-bottom: 60px;
+      //margin-bottom: 60px;
     }
     &.detail-info-box {
       display: flex;
@@ -361,7 +361,7 @@
     background-color: $color-white;
     height: 60px;
     text-align: right;
-    position: absolute;
+    position: relative;
     bottom: 0;
     right: 50px;
     width: 100%;

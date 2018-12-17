@@ -47,7 +47,7 @@
         </ul>
       </div>
       <div class="step-box">
-        <div class="step">
+        <div class="step" style="margin-top: 20px">
           <el-steps :active="detail.state - 1" align-center>
             <!--<el-step @click.native="stepClickHandle(item)" v-for="(item, index) in complaintState" :key="index"-->
             <!--:title="item.value"></el-step>-->

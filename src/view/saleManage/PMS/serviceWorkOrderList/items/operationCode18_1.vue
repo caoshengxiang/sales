@@ -17,7 +17,7 @@
       </el-form>
     </div>
     <div class="dialog-footer">
-      <el-button type="success" @click="saveSubmitForm('ruleForm', 1)">审核通过</el-button>
+      <el-button type="success" @click="saveSubmitForm('ruleForm', 9)">审核通过</el-button>
       <el-button type="danger" @click="saveSubmitForm('ruleForm', 4)">审核拒绝</el-button>
     </div>
   </div>

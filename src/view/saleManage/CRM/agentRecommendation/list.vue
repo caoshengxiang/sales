@@ -308,6 +308,9 @@
 
 <style scoped lang="scss" rel="stylesheet/scss">
   @import "../../../../styles/common";
+  .com-pages-box {
+    position: absolute !important;
+  }
 
   .agent-rec-p {
     position: absolute;
