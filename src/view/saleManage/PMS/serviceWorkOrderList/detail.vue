@@ -82,7 +82,7 @@
                 </td>
                 <td>{{orderDetail.goodsName}}</td>
                 <td>{{orderDetail.assignDate && $moment(orderDetail.assignDate).format('YYYY-MM-DD HH:mm:ss')}}</td>
-                <td>{{orderDetail.orderTime && $moment(orderDetail.orderTime).format('YYYY-MM-DD HH:mm:ss')}}</td>
+                <td>{{orderDetail.createdDate && $moment(orderDetail.createdDate).format('YYYY-MM-DD HH:mm:ss')}}</td>
               </tr>
             </table>
 

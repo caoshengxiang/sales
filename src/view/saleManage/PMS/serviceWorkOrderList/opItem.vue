@@ -392,6 +392,7 @@
   import operationCode71 from './items/operationCode7_1'
   import operationCode171 from './items/operationCode17_1'
   import operationCode181 from './items/operationCode18_1'
+  import operationCode261 from './items/operationCode26_1'
 
   export default {
     name: 'opItem',
@@ -534,7 +535,7 @@
           (item.num === 9 && operationCode === 1) || (item.num === 19 && operationCode === 1) ||
           (item.num === 20 && operationCode === 1) ||
           (item.num === 23 && operationCode === 1) || (item.num === 24 && operationCode === 1) ||
-          (item.num === 25 && operationCode === 1) || (item.num === 26 && operationCode === 1) ||
+          (item.num === 25 && operationCode === 1) ||
           (item.num === 37 && operationCode === 2) ||
           (item.num === 38 && operationCode === 1)
         ) { // 备注
@@ -685,6 +686,21 @@
             title: this.operationList[item.num - 1][operationCode - 1],
             width: 500,
             height: 250,
+            params: {
+              baseParam: baseParam,
+            },
+            callback: (data) => {
+              if (data.type === 'itemSave') {
+                this.getServiceLog()
+                this.getServiceItem()
+              }
+            },
+          })
+        } else if ((item.num === 26 && operationCode === 1)) {
+          this.$vDialog.modal(operationCode261, {
+            title: this.operationList[item.num - 1][operationCode - 1],
+            width: 500,
+            height: 280,
             params: {
               baseParam: baseParam,
             },

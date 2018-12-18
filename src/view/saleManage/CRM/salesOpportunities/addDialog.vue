@@ -7,10 +7,10 @@
             <td class="td-title">客户名称</td>
             <td class="td-text">
               <el-form-item v-if="params.type === 'confirmation'" prop="customerId">
-                <el-select :disabled="params.detailCustomersId?true:false"
+                <el-select :disabled="true"
                            filterable
                            v-model.number="addForm.customerId"
-                           placeholder="请选择客户" style="width: 100%">
+                           placeholder="请选择或绑定客户" style="width: 100%">
                   <el-option v-for="item in customersList" :key="item.id" :label="item.name"
                              :value="item.id"></el-option>
                 </el-select>
@@ -78,6 +78,7 @@
             <td class="td-text">
               <el-form-item prop="provinceId">
                 <AreaSelect ref="areaSe"
+                            :disabled="params.type === 'confirmation'"
                             :area="(addForm.provinceName?addForm.provinceName:'') + ' ' + (addForm.cityName?addForm.cityName:'')  + ' ' + (addForm.areaName?addForm.areaName:'')"
                             @change="areaSelectedOptionsHandleChange"
                             :selectLastLevelMode="true"></AreaSelect>
@@ -216,7 +217,7 @@
         staffList: [], // 机构用户
         rules: {
           customerId: [
-            {required: true, message: '请选择客户', trigger: 'blur'},
+            {required: true, message: '请绑定客户', trigger: 'blur'},
           ],
           state: [
             // {required: true, message: '请选择需求阶段', trigger: 'change'},

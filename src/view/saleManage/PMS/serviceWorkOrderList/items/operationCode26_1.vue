@@ -1,20 +1,13 @@
 <!--
   num-operationCode
+  2-1 3-1 复用
 -->
+
 <template>
   <div class="com-dialog">
     <div class="operation-code-box">
-      <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="120px">
-        <el-form-item label="纳税申报时间" prop="setTime">
-          <el-date-picker
-            style="width: 100%"
-            v-model="ruleForm.setTime"
-            type="datetime"
-            value-format="timestamp"
-            placeholder="请选择纳税申报时间">
-          </el-date-picker>
-        </el-form-item>
-        <!--<el-form-item label="选择文件" prop="attachment">
+      <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px">
+        <el-form-item label="选择文件" prop="attachment">
           <el-upload
             class="upload-demo"
             :action="uploadUrl"
@@ -25,7 +18,7 @@
           >
             <el-button size="small" type="primary">点击上传</el-button>
           </el-upload>
-        </el-form-item>-->
+        </el-form-item>
         <el-form-item label="备注" prop="remark">
           <el-input
             type="textarea"
@@ -44,24 +37,19 @@
 
 <script>
   import API from '../../../../../utils/api'
-  import { uploadUrl } from '../../../../../utils/const'
   import webStorage from 'webStorage'
+  import { uploadUrl } from '../../../../../utils/const'
 
   export default {
-    name: 'operationCode29_1',
+    name: 'operationCode2_1',
     data () {
       return {
         ruleForm: {
-          setTime: '',
           remark: '',
-          attachment: null,
+          attachment: '',
         },
-        rules: {
-          setTime: [
-            {required: true, message: '请选择纳税申报时间', trigger: 'change'},
-          ],
-        },
-        userInfo: webStorage.getItem('userInfo')
+        rules: {},
+        userInfo: webStorage.getItem('userInfo'),
       }
     },
     computed: {
@@ -75,13 +63,8 @@
         this.$refs[formName].validate((valid) => {
           if (valid) {
             API.workOrder.serviceItemOperate(Object.assign({}, this.params.baseParam, {
-              setTime: this.ruleForm.setTime,
-              remark: this.ruleForm.remark,
               attachment: this.ruleForm.attachment,
-              // result: JSON.stringify({
-              //   isSendMsg: this.ruleForm.isSendMsg,
-              //   message: this.ruleForm.message
-              // })
+              remark: this.ruleForm.remark,
             }), (res) => {
               if (res.status) {
                 this.$message.success('操作成功')
@@ -96,7 +79,7 @@
       },
       onSuccessHandle (response, file, fileList) {
         this.ruleForm.attachment = response.data.url
-      }
+      },
     },
   }
 </script>

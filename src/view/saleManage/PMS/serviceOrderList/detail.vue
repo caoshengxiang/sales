@@ -94,7 +94,13 @@
               </tr>
               <tr>
                 <td class="td-title">发票类型</td>
-                <td>{{detail.invoiceType}}</td>
+                <td>
+                  <span v-if="detail.invoiceType == 'ALIPAY'">支付宝</span>
+                  <span v-if="detail.invoiceType == 'WECHAT'">微信</span>
+                  <span v-if="detail.invoiceType == 'LINE_DOWN'">线下支付</span>
+                  <span v-if="detail.invoiceType == 'ONEPAY'">一网通</span>
+                  <span v-if="detail.invoiceType == 'UNIONPAY'">银联</span>
+                </td>
                 <td class="td-title">开票单位</td>
                 <td>{{detail.invoiceUnit}}</td>
                 <td class="td-title">纳税识别号</td>

@@ -26,7 +26,7 @@
       <div class="config-view-con">
         <el-form :model="settlementForm" ref="settlementForm">
           <div>
-            <h3 class="item-title">佣金结算规则设置</h3>
+            <h3 class="item-title-config-view">佣金结算规则设置</h3>
             <table class="com-dialog-table">
               <tr>
                 <td class="td-title">
@@ -57,7 +57,7 @@
           </div>
           <!---->
           <div class="com-dialog">
-            <h3 class="item-title">
+            <h3 class="item-title-config-view">
               请设置销售佣金比例设置
               <el-select v-model="billType"
                          @change="billTypeOptionsChangeHandle"
@@ -470,7 +470,7 @@
           </div>
           <!---->
           <div class="com-dialog">
-            <h3 class="item-title">请设置服务佣金比例设置</h3>
+            <h3 class="item-title-config-view">请设置服务佣金比例设置</h3>
             <table class="com-dialog-table">
               <tr>
                 <td rowspan="2" class="td-title">签单产品</td>
@@ -651,9 +651,11 @@
   @import "../../../../styles/common";
 
   .config-view-con {
-    .item-title {
+    .item-title-config-view {
       color: #426585;
       padding: 20px 0;
+      width: 100%;
+      box-sizing: border-box;
     }
     .com-dialog {
       table {
