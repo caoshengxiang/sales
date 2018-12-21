@@ -54,10 +54,10 @@
             <td colspan="5">
               <div style="display: flex;align-items: center;">
                 <span>
-                <!--<el-form-item prop="idCard" style="width: 200px;">-->
-                  <!--<el-input type="text" v-model="addForm.idCard"></el-input>-->
-                <!--</el-form-item>-->
-                  {{addForm.idCard}}
+                <el-form-item prop="idCard" style="width: 200px;">
+                  <el-input type="text" v-model="addForm.idCard"></el-input>
+                </el-form-item>
+                  <!--{{addForm.idCard}}-->
               </span>
                 <photo-view v-if="addForm.identityCardPhoto" :photo-data="{
                 text: '身份证查看大图',

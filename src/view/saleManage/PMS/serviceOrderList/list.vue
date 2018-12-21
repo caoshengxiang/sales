@@ -107,6 +107,7 @@
             <template slot-scope="scope">
               <span v-if="scope.row.reviewState === 1">未评价</span>
               <span v-if="scope.row.reviewState === 2">已评价</span>
+              <span v-if="scope.row.reviewState === 3">已评价</span>
             </template>
           </el-table-column>
           <el-table-column

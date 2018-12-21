@@ -100,6 +100,7 @@
                   <span v-if="detail.invoiceType == 'LINE_DOWN'">线下支付</span>
                   <span v-if="detail.invoiceType == 'ONEPAY'">一网通</span>
                   <span v-if="detail.invoiceType == 'UNIONPAY'">银联</span>
+                  <span v-else>{{detail.invoiceType}}</span>
                 </td>
                 <td class="td-title">开票单位</td>
                 <td>{{detail.invoiceUnit}}</td>
