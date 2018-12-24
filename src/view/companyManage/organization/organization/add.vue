@@ -26,11 +26,11 @@
               </el-form-item>
             </td>
           </tr>
-          <tr v-if="params.action === 'add'">
+          <tr v-if="params.action === 'add' && form.type === 1">
             <td class="td-title">请选择{{title}}区号</td>
             <td class="td-text">
               <el-form-item prop="areaCode">
-                <el-input type="number" v-model.number="form.areaCode" :placeholder="'请输入'+title+'区号'" :maxlength="30"></el-input>
+                <el-input type="number" v-model="form.areaCode" :placeholder="'请输入'+title+'区号'" :maxlength="30"></el-input>
               </el-form-item>
             </td>
           </tr>

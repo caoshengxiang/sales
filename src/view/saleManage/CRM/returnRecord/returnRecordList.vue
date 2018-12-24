@@ -219,7 +219,7 @@
           <el-table-column
             align="center"
             prop=""
-            label="需求所有人"
+            label="需求提供人"
             width="115"
           >
             <el-table-column
@@ -295,29 +295,6 @@
           <el-table-column
             align="center"
             prop=""
-            label="大区总监"
-          >
-            <el-table-column
-              align="center"
-              prop="regionChiefName"
-              label="名称"
-              width="100"
-              sortable="custom"
-              show-overflow-tooltip
-            ></el-table-column>
-            <el-table-column
-              align="center"
-              prop="regionChiefCommission"
-              label="金额"
-              width="90"
-              sortable="custom"
-              show-overflow-tooltip
-            ></el-table-column>
-          </el-table-column>
-          <!---->
-          <el-table-column
-            align="center"
-            prop=""
             label="区域经理"
           >
             <el-table-column
@@ -339,56 +316,80 @@
             >
             </el-table-column>
           </el-table-column>
-          <!---->
           <el-table-column
             align="center"
-            prop="trainerName"
-            label="培训师"
+            prop=""
+            label="大区总监"
           >
             <el-table-column
               align="center"
-              prop="trainerName"
-              label="名称"
-              width="90"
-              sortable="custom"
-              show-overflow-tooltip
-            >
-            </el-table-column>
-            <el-table-column
-              align="center"
-              prop="trainerCommission"
-              label="金额"
-              width="90"
-              sortable="custom"
-              show-overflow-tooltip
-            >
-            </el-table-column>
-          </el-table-column>
-          <!---->
-          <el-table-column
-            align="center"
-            prop="assistantName"
-            label="销售助理"
-          >
-            <el-table-column
-              align="center"
-              prop="assistantName"
+              prop="regionChiefName"
               label="名称"
               width="100"
               sortable="custom"
               show-overflow-tooltip
-            >
-            </el-table-column>
+            ></el-table-column>
             <el-table-column
               align="center"
-              prop="assistantCommission"
+              prop="regionChiefCommission"
               label="金额"
               width="90"
               sortable="custom"
               show-overflow-tooltip
-            >
-            </el-table-column>
+            ></el-table-column>
           </el-table-column>
+          <!---->
+
+          <!---->
+          <!--<el-table-column-->
+            <!--align="center"-->
+            <!--prop="trainerName"-->
+            <!--label="培训师"-->
+          <!--&gt;-->
+            <!--<el-table-column-->
+              <!--align="center"-->
+              <!--prop="trainerName"-->
+              <!--label="名称"-->
+              <!--width="90"-->
+              <!--sortable="custom"-->
+              <!--show-overflow-tooltip-->
+            <!--&gt;-->
+            <!--</el-table-column>-->
+            <!--<el-table-column-->
+              <!--align="center"-->
+              <!--prop="trainerCommission"-->
+              <!--label="金额"-->
+              <!--width="90"-->
+              <!--sortable="custom"-->
+              <!--show-overflow-tooltip-->
+            <!--&gt;-->
+            <!--</el-table-column>-->
+          <!--</el-table-column>-->
+          <!---->
+          <!--<el-table-column-->
+            <!--align="center"-->
+            <!--prop="assistantName"-->
+            <!--label="销售助理"-->
+          <!--&gt;-->
+            <!--<el-table-column-->
+              <!--align="center"-->
+              <!--prop="assistantName"-->
+              <!--label="名称"-->
+              <!--width="100"-->
+              <!--sortable="custom"-->
+              <!--show-overflow-tooltip-->
+            <!--&gt;-->
+            <!--</el-table-column>-->
+            <!--<el-table-column-->
+              <!--align="center"-->
+              <!--prop="assistantCommission"-->
+              <!--label="金额"-->
+              <!--width="90"-->
+              <!--sortable="custom"-->
+              <!--show-overflow-tooltip-->
+            <!--&gt;-->
+            <!--</el-table-column>-->
+          <!--</el-table-column>-->
           <!---->
           <el-table-column
             align="center"
@@ -415,6 +416,84 @@
             </el-table-column>
           </el-table-column>
 
+        </el-table-column>
+        <el-table-column
+          align="center"
+          prop=""
+          label="">
+          <el-table-column
+            align="center"
+            prop=""
+            label="新客推荐人"
+          >
+            <el-table-column
+              align="center"
+              prop="referenceName"
+              label="名称"
+              width="100"
+              sortable="custom"
+              show-overflow-tooltip
+            >
+            </el-table-column>
+            <el-table-column
+              align="center"
+              prop="referenceCommission"
+              label="金额"
+              width="90"
+              sortable="custom"
+              show-overflow-tooltip
+            >
+            </el-table-column>
+          </el-table-column>
+          <el-table-column
+            align="center"
+            prop=""
+            label="直接招募人"
+          >
+            <el-table-column
+              align="center"
+              prop="directFosterName"
+              label="名称"
+              width="100"
+              sortable="custom"
+              show-overflow-tooltip
+            >
+            </el-table-column>
+            <el-table-column
+              align="center"
+              prop="directFosterCommission"
+              label="金额"
+              width="90"
+              sortable="custom"
+              show-overflow-tooltip
+            >
+            </el-table-column>
+          </el-table-column>
+
+          <el-table-column
+            align="center"
+            prop=""
+            label="间接招募人"
+          >
+            <el-table-column
+              align="center"
+              prop="indirectFosterName"
+              label="名称"
+              width="100"
+              sortable="custom"
+              show-overflow-tooltip
+            >
+            </el-table-column>
+            <el-table-column
+              align="center"
+              prop="indirectFosterCommission"
+              label="金额"
+              width="90"
+              sortable="custom"
+              show-overflow-tooltip
+            >
+            </el-table-column>
+          </el-table-column>
         </el-table-column>
       </el-table>
     </div>
