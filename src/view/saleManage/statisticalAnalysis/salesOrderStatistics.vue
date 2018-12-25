@@ -51,7 +51,8 @@
         el-table-column(align="center" sortable="custom" prop="receivedAmount" width='120' label="回款金额" show-overflow-tooltip)
         el-table-column(align="center" sortable="custom" prop="noReceivedAmount" width='120' label="待回款金额" show-overflow-tooltip)
         el-table-column(align="center" sortable="custom" prop="orderStatus" width='100' label="订单状态" show-overflow-tooltip)
-        el-table-column(align="center" sortable="custom" prop="orderSourceName" width='180' label="订单推荐来源" show-overflow-tooltip)
+        el-table-column(align="center" sortable="custom" prop="customerSourceName" width='200' label="客户推荐来源" show-overflow-tooltip)
+        el-table-column(align="center" sortable="custom" prop="orderSourceName" width='200' label="订单推荐来源" show-overflow-tooltip)
         el-table-column(align="center" sortable="custom" prop="providerName" width='120' label="需求提供人" show-overflow-tooltip)
         el-table-column(align="center" sortable="custom" prop="creatorName" width='120' label="订单创建人" show-overflow-tooltip)
         el-table-column(align="center" sortable="custom" prop="salerName" width='100' label="销售员" show-overflow-tooltip)
@@ -211,8 +212,14 @@
                     case 5:
                       a.orderStatus = '已取消';
                       break;
-                    case 6: 
+                    case 0: 
                       a.orderStatus = '预下单';
+                      break;
+                    case 7: 
+                      a.orderStatus = '待服务';
+                      break;
+                    case 8: 
+                      a.orderStatus = '已中止';
                       break;
                     default:
                       break;

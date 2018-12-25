@@ -214,8 +214,14 @@ export default {
         type: 5,
         value: '已取消',
       }, {
-        type: 6,
+        type: 0,
         value: '预下单',
+      }, {
+        type: 7,
+        value: '待服务',
+      }, {
+        type: 8,
+        value: '已中止',
       },
     ],
     orderSource: [ // 订单来源

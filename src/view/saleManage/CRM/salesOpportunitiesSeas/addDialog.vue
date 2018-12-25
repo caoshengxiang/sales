@@ -10,6 +10,7 @@
                 <el-select :disabled="params.detailCustomersId?true:false"
                            filterable
                            v-model.number="addForm.customerId"
+                           @change="selectedcustomer"
                            placeholder="请选择客户" style="width: 100%">
                   <el-option v-for="item in customersList" :key="item.id" :label="item.name"
                              :value="item.id"></el-option>
@@ -317,10 +318,29 @@
           this.intentProductCateList = data.content
         })
       },
+      selectedcustomer (value) {   //选择客户后
+        let _id = value, _cate;
+        this.customersList.forEach(a => {
+          if(_id == a.id) {
+            _cate = a.cate
+          }
+        })
+        let servicePrincipalType = _cate == 1 ? 'Person' : 'Company';
+        this.addForm.intentProductId = '';
+        // 新需求，没有分类
+        this.getIntentProductList({goodsTypeId: null, goodsName: null, servicePrincipalType})
+
+        // if (this.params.detail) { // 编辑
+        //   this.addForm = this.params.detail // 需要根据分类id获取商品列表进行展示
+        //   this.area = this.addF
+        //   this.getIntentProductList({goodsTypeId: this.addForm.intentProductCate, servicePrincipalType})
+        // }
+      },
       getIntentProductList (p) {
         API.common.organizationGoodsConf({ // 这个接口该来不调用外部接口
           goodsTypeId: p.goodsTypeId,
           goodsName: p.goodsName,
+          servicePrincipalType: p.servicePrincipalType,
           organizationId: webStorage.getItem('userInfo').organizationId,
           saleable: 1,
         }, (data) => {
@@ -426,11 +446,14 @@
     created () {
       this.getCustomersList()
       // this.getIntentProductCateList()
-      this.getIntentProductList({goodsTypeId: null, goodsName: null})
+      // this.getIntentProductList({goodsTypeId: null, goodsName: null})
       this.salesState = this.params.salesState
       if (this.params.detail) { // 编辑
+        let servicePrincipalType = this.params.detail.customerCate == 1 ? 'Person' : 'Company';
         this.addForm = this.params.detail // 需要根据分类id获取商品列表进行展示
-        this.getIntentProductList({goodsTypeId: this.addForm.intentProductCate})
+        this.addForm.intentProductId = this.params.detail.intentProductName;
+        // this.getIntentProductList({goodsTypeId: this.addForm.intentProductCate})
+        this.getIntentProductList({goodsTypeId: null, goodsName: null, servicePrincipalType})
       }
       if (this.params.stateValue) { // 设置默认2，销售阶段；[公海1]
         this.addForm.state = this.params.stateValue

@@ -350,6 +350,9 @@
                   codeName: this.params.topSource[0].name,
                   id: this.params.topSource[0].value,
                   children: [],
+                },{
+                  codeName: this.params.topSource[3].name,
+                  id: this.params.topSource[3].value,
                 }]
               // this.selectedBindValue.push(this.topSource[0].value)
               if (this.params.detail) { // 编辑

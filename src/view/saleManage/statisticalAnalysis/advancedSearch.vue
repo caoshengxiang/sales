@@ -58,9 +58,12 @@
               el-select(v-model="searchForm.orderState" clearable placeholder="请选择订单状态")
                 el-option(v-for="item in orderState" :key="item.type" :label="item.value" :value="item.type")
         el-row.el-row-cla
-          el-col(:span="8")
+          el-col(:span="10")
             el-form-item(label="订单推荐来源：")
-              el-cascader(style="width: 100%" clearable :change-on-select="selectLastLevelMode" :options="chanceSourceType" v-model="chanceSourceArr" @active-item-change="chanceSourceChangeHandle" @change="chanceSourceChangeHandle" :props="props" :placeholder="searchForm.source_name")
+              el-cascader(style="width: 100%" clearable :change-on-select="selectLastLevelMode" :options="chanceSourceType" v-model="chanceSourceArr" @active-item-change="chanceSourceChangeHandle" @change="chanceSourceChangeHandle" :props="props" :placeholder="searchForm.orderSourceName")
+          el-col(:span="10" style='margin-left: 20px;')
+            el-form-item(label="客户推荐来源：")
+              el-cascader(style="width: 100%" clearable :change-on-select="selectLastLevelModes" :options="chanceSourceType" v-model="customerSourceArr" @active-item-change="chanceSourceChangeHandles" @change="chanceSourceChangeHandles" :props="props" :placeholder="searchForm.customerSourceName")
         el-row.el-row-cla
           el-col(:span="12")
             el-form-item(label="服务年度：")
@@ -178,16 +181,21 @@
         timeInterval: [],
         timeInterval2: [],
         chanceSourceType: [],           //订单推荐来源
+        chanceSourceTypes: [],           //客户推荐来源
         chanceSourceArr: [],
+        customerSourceArr: [],
         props: {
           value: 'id',
           label: 'codeName',
         },
         targetObj: null,
+        targetObjs: null,
         // selectedBindValue: [],
-        selectLastLevelMode: true,
+        selectLastLevelMode: true,       //订单推荐来源true
+        selectLastLevelModes: true,       //客户推荐来源true
         selectIdyMode: true,
         sourceNameArr: [],
+        customerSourceNameArr: [],
       }
     },
     props: ['params'],
@@ -275,6 +283,7 @@
         this.searchForm = {}
         this.timeInterval = []
         this.timeInterval2 = []
+        this.chanceSourceArr = []
       },
       treeGetName (id, node) { // 遍历树获取名称
         if (!node) {
@@ -292,6 +301,22 @@
           }
         }
       },
+      treeGetNames (id, node) { // 遍历树获取名称
+        if (!node) {
+          return ''
+        }
+        if (node && node.length > 0) {
+          var i = 0
+          for (i = 0; i < node.length; i++) {
+            if (id === node[i].id) {
+              this.customerSourceNameArr.push(node[i].codeName)
+              return node[i].codeName
+            } else {
+              this.treeGetNames(id, node[i].children)
+            }
+          }
+        }
+      },
       traverseTree (source, node) {         // 遍历树
         if (!source) {
           return
@@ -303,8 +328,20 @@
         })
         return this.sourceNameArr.join('-')
       },
+      traverseTrees (source, node) {         // 遍历树
+        if (!source) {
+          return
+        }
+        let sourceArr = source.split('-')
+        this.customerSourceNameArr = []             // 初始
+        sourceArr.forEach((item, index) => {
+          this.treeGetNames(parseInt(item, 10), this.chanceSourceTypes)
+        })
+        return this.customerSourceNameArr.join('-')
+      },
       saveSubmitForm () {
-        this.searchForm.source_name = this.traverseTree(this.searchForm.orderSource)
+        this.searchForm.orderSourceName = this.traverseTree(this.searchForm.orderSource)
+        this.searchForm.customerSourceName = this.traverseTrees(this.searchForm.customerSource)
         this.$vDialog.close({type: 'search', params: this.searchForm})
       },
       timeIntervalHandle (value) {
@@ -328,6 +365,7 @@
             })
             if (this.chanceSourceType.length === 0) {
               this.chanceSourceType = arr
+              this.chanceSourceTypes = arr
             } else {
 
             }
@@ -362,6 +400,34 @@
             break
           } else {
             this.getLastItem(item.children, vals, key)
+          }
+        }
+      },
+      chanceSourceChangeHandles (va) {
+        this.getLastItems(this.chanceSourceTypes, va, 'id')
+        API.common.codeConfig({type: 5, pCode: va[va.length - 1]}, (data) => {
+          if (data.data.length) {
+            let arr = data.data.map((item) => {
+              item.children = []
+              return item
+            })
+            this.targetObjs.children = arr
+          } else {
+            this.targetObjs.children = null
+          }
+        })
+        this.searchForm.customerSource = va.join('-')
+      },
+      getLastItems (list, vals, key) { // 获取点击得目标对象, key 对应得 值vals 数组
+        let LIST = list || []
+        // console.log(LIST, vals, key)
+        for (let item of LIST) {
+          if (item[key] === vals[vals.length - 1]) {
+            this.targetObjs = item
+            // this.selectedBindValue.push(item[key])
+            break
+          } else {
+            this.getLastItems(item.children, vals, key)
           }
         }
       },
