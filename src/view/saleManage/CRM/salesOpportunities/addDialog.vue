@@ -374,10 +374,6 @@
           organizationId: webStorage.getItem('userInfo').organizationId,
           saleable: 1,
         }, (data) => {
-          if(p.show) {
-            this.showList = data.data;
-            return
-          }
           this.intentProductList = data.data
         })
       },

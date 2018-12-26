@@ -206,6 +206,7 @@
         intentProductList: [],
         industryList: [], // 行业
         seaList: [], // 公海
+        showList: [],
         rules: {
           customerId: [
             // {required: true, message: '请输入客户名称', trigger: 'blur'},
@@ -270,6 +271,19 @@
       saveSubmitForm (formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
+            
+            // 防止老数据可能选择的不是对应的商品而保存时获取商品id
+            let _cusid = this.addForm.intentProductId;
+            if(typeof(_cusid) === 'string') {
+              if(this.showList.length > 0) {
+                this.showList.forEach(pro => {
+                  if(_cusid === pro.goodsName) {
+                    this.addForm.intentProductId = pro.goodsId
+                  }
+                })
+              }
+            }
+
             this.dataLoading = true
             if (this.params.detail) { // 编辑
               API.salesOpportunitiesSea.editChance(this.addForm, (data) => {
@@ -467,6 +481,15 @@
       this.getConfigData(3) // 行业
       this.getSeaList()
       this.getStaffList()
+      
+
+      // 防止老数据可能选择的不是对应的商品而保存时获取商品id 调取所有商品
+      API.common.organizationGoodsConf({ 
+        organizationId: webStorage.getItem('userInfo').organizationId,
+        saleable: 1,
+      }, (data) => {
+          this.showList = data.data;
+      })
     },
   }
 </script>

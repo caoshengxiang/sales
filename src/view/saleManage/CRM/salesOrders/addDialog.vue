@@ -230,9 +230,9 @@
     props: ['params'],
     methods: {
       saveSubmitForm (formName) {
-        this.addForm.productId = this.productIds;
         this.$refs[formName].validate((valid) => {
           if (valid) {
+            this.addForm.productId = this.productIds;
             this.dataLoading = true
             if (this.params.orderDetail) { // 编辑
               API.salesOrder.edit({path: this.addForm.id, body: this.addForm}, (da) => {
