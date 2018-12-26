@@ -187,6 +187,7 @@
         this.$refs[formName].validate((valid) => {
           if (valid) {
             this.dataLoading = true
+            console.log(this.params); return;
             if (this.params.detail) { // 编辑
               // API.salesOpportunities.confirm({path: this.addForm.id, body: this.addForm}, (data) => {
               //   if (data.status) {
@@ -234,10 +235,11 @@
           this.intentProductCateList = data.content
         })
       },
-      getIntentProductList (id) {
+      getIntentProductList (p) {
         API.common.organizationGoodsConf({
-          goodsTypeId: id,
+          goodsTypeId: p.id,
           organizationId: webStorage.getItem('userInfo').organizationId,
+          servicePrincipalType: p.servicePrincipalType,
           saleable: 1,
         }, (data) => {
           this.intentProductList = data.data
@@ -251,7 +253,18 @@
         })
       },
       intentProductCateChangeHandle (id) { // 分类
-        this.getIntentProductList(id) // 分类id获取商品
+
+        let _cusid = this.addForm.customerId, _cate = '', _cuslist = this.customersList, servicePrincipalType = null;
+        if(_cuslist.length > 0) {
+          _cuslist.forEach(a => {
+            if(_cusid == a.id) {
+              _cate = a.cate;
+            }
+          })
+        }
+        servicePrincipalType = _cate == 1 ? 'Person' : 'Company';
+
+        this.getIntentProductList({id, servicePrincipalType}) // 分类id获取商品
         this.addForm.intentProductName = ''
         this.addForm.intentProductId = ''
         this.intentProductCateList.forEach(item => {
@@ -303,7 +316,7 @@
             this.targetObj.children = null
           }
         })
-        console.log(va)
+        // console.log(va)
         this.addForm.chanceSource = va.join('-')
       },
       // chanceSourceChange (va) {
@@ -333,8 +346,9 @@
       this.getIntentProductCateList()
       this.salesState = this.params.salesState
       if (this.params.detail) { // 编辑
+        let servicePrincipalType = this.params.detail.customerCate == 1 ? 'Person' : 'Company';
         this.addForm = this.params.detail // 需要根据分类id获取商品列表进行展示
-        this.getIntentProductList(this.addForm.intentProductCate)
+        this.getIntentProductList({id: this.addForm.intentProductCate, servicePrincipalType})
       }
       if (this.params.stateValue) { // 设置默认2，销售阶段；[公海1]
         this.addForm.state = this.params.stateValue
