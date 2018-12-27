@@ -159,6 +159,7 @@
         contractSubjects: [], // 签约主体
         allProviderList: [], // 需求提供人列表
         allGoodsList: [],
+        productIds: '',
         addForm: { // 添加表单
           customerId: '',
           contacterId: '',
@@ -231,6 +232,7 @@
       saveSubmitForm (formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
+            this.addForm.productId = this.productIds;
             this.dataLoading = true
             if (this.params.orderDetail) { // 编辑
               API.salesOrder.edit({path: this.addForm.id, body: this.addForm}, (da) => {
@@ -263,6 +265,21 @@
         API.customer.teamAboutCustomerlist(null, data => {
           if (data.status) {
             this.customersList = data.data
+            
+            // 客户详情快捷添加销售机会时默认有客户调取商品
+            if(this.params.detailCustomersId > 0) {
+              let _cate = '';
+              if(this.customersList.length > 0) {
+                let _list = this.customersList;
+                _list.forEach(a => {
+                  if(this.params.detailCustomersId == a.id) {
+                    _cate = a.cate;
+                  }
+                })
+              }
+              let servicePrincipalType = _cate == 1 ? 'Person' : 'Company';
+              this.getAllGoodsList({goodsTypeId: null, servicePrincipalType})
+            }
           }
         })
       },
@@ -277,6 +294,12 @@
             this.addForm.chanceId = this.params.detailChanceId
             this.intentProductChange() // 对应购买商品
           }
+          
+          this.chanceList.forEach(item => {
+            this.productIds = item.intentProductId
+            this.addForm.productId = item.intentProductName
+            console.log(this.addForm)
+          })
         })
       },
       getContactList (customerId) {
@@ -285,9 +308,10 @@
           // this.contactTotal = da.data.totalElements
         })
       },
-      getAllGoodsList () { // 获取所有分类商品
+      getAllGoodsList (p) { // 获取所有分类商品
         API.common.organizationGoodsConf({ // 这个接口改来不调用外部接口
           goodsTypeId: null,
+          servicePrincipalType: p.servicePrincipalType,
           organizationId: webStorage.getItem('userInfo').organizationId,
           saleable: 1,
         }, (da) => {
@@ -317,7 +341,8 @@
       intentProductChange () { // 机会change
         this.chanceList.forEach(item => {
           if (item.id === this.addForm.chanceId) {
-            this.addForm.productId = item.intentProductId
+            this.productIds = item.intentProductId
+            this.addForm.productId = item.intentProductName
             this.addForm.productName = item.intentProductName
 
             this.addForm.provinceId = item.provinceId
@@ -370,9 +395,20 @@
           }
         })
       },
-      customerChange () { // 客户对应的机会和联系人
+      customerChange (value) { // 客户对应的机会和联系人
         this.getChanceList(this.addForm.customerId)
         this.getContactList(this.addForm.customerId)
+
+        let _id = value, _cate;
+        this.customersList.forEach(a => {
+          if(_id == a.id) {
+            _cate = a.cate
+          }
+        })
+        let servicePrincipalType = _cate == 1 ? 'Person' : 'Company';
+        this.addForm.intentProductId = '';
+        // 新需求，没有分类
+        this.getAllGoodsList({goodsTypeId: null, servicePrincipalType})
 
         // 清除其他联动数据
         this.addForm = { // 添加表单
@@ -471,7 +507,7 @@
     },
     created () {
       this.getCustomersList()
-      this.getAllGoodsList()
+      // this.getAllGoodsList()
       this.getAllProviderList()
       if (this.params.orderDetail) { // 编辑
         this.addForm = JSON.parse(JSON.stringify(this.params.orderDetail))

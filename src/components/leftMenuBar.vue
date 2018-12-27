@@ -48,7 +48,7 @@
             <el-menu-item index="returnRecordList" v-if="listPermissions(menus, 'refund')">回款记录管理</el-menu-item>
             <el-menu-item index="orderRecordsList" v-if="listPermissions(menus, 'followOrder')">跟单记录管理</el-menu-item>
             <el-menu-item index="customersList" v-if="listPermissions(menus, 'customer')">客户管理</el-menu-item>
-            <el-menu-item index="customersHighSeasList" v-if="listPermissions(menus, 'customerSea')">客户公海管理</el-menu-item>
+            <!-- <el-menu-item index="customersHighSeasList" v-if="listPermissions(menus, 'customerSea')">客户公海管理</el-menu-item> -->
             <el-menu-item index="contactsList" v-if="listPermissions(menus, 'contacts')">联系人管理</el-menu-item>
             <el-menu-item index="meetingActivity" v-if="listPermissions(menus, 'meetingActivity')"><span slot="title">会议活动管理</span></el-menu-item>
             <el-menu-item index="agentRecommendation" v-if="listPermissions(menus, 'agentCultivate')"><span slot="title">代理培育管理</span>

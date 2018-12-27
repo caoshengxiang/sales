@@ -223,7 +223,7 @@
       },
       posTableHeight () {
         let h = document.body.clientHeight,
-            new_h = h - 300;
+            new_h = h - 320;
         this.posheight = new_h;
       },
       handleCurrentChange (val) {
@@ -361,7 +361,7 @@
       flex: 1;
       padding: 20px;
       height: 90%;
-      overflow-y: scroll;
+      // overflow-y: scroll;
     }
   }
 </style>
