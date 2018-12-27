@@ -119,7 +119,7 @@
         </el-table-column>
         <el-table-column
           align="center"
-          label="回款日期"
+          label="回款生成日期"
           width="120"
           sortable="custom"
           show-overflow-tooltip
@@ -149,7 +149,7 @@
         <el-table-column
           align="center"
           prop="auditDate"
-          label="审核日期"
+          label="回款审核日期"
           width="120"
           sortable="custom"
           show-overflow-tooltip
@@ -183,7 +183,7 @@
         </el-table-column>
         <el-table-column
           align="center"
-          prop="auditStatus"
+          prop="renewTimes"
           label="续费次数"
           width="120"
           sortable="custom"

@@ -53,7 +53,7 @@
                     :callback="agentRecCallback"
                     qid="agentRec"></vue-qr>
                 </div>
-                <p class="name">{{otherData.directName}}</p>
+                <p class="name">{{otherData.directName || otherDataOldApi.directName}}</p>
               </div>
               <p class="down-code">
                 <!--<a v-if="codeImgBase64" :href="codeImgBase64" download="二维码">下载二维码</a>-->
@@ -157,6 +157,7 @@
         tableData: [],
         tableDataTotal: 0,
         otherData: {},
+        otherDataOldApi: {},
         config: {
           value: '', // 显示的值、跳转的地址(要加http)
           logo: 'static/favicon.ico', // 中间logo的地址
@@ -244,6 +245,7 @@
         API.agentDev.list(Object.assign({}, this.defaultListParams, this.sortObj, this.advancedSearch), (data) => {
           this.tableData = data.data.content
           this.tableDataTotal = data.data.totalElements
+          this.otherDataOldApi = data.other
           this.getCommission()
           setTimeout(() => {
             this.dataLoading = false
