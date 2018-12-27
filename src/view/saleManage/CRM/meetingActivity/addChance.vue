@@ -338,6 +338,21 @@
         API.customer.teamAboutCustomerlist(null, data => {
           if (data.status) {
             this.customersList = data.data
+
+            // 客户详情快捷添加销售机会时默认有客户调取商品
+            if(this.params.detail.customerId > 0) {
+              let _cate = '';
+              if(this.customersList.length > 0) {
+                let _list = this.customersList;
+                _list.forEach(a => {
+                  if(this.params.detail.customerId == a.id) {
+                    _cate = a.cate;
+                  }
+                })
+              }
+              let servicePrincipalType = _cate == 1 ? 'Person' : 'Company';
+              this.getIntentProductList({goodsTypeId: null, goodsName: null, servicePrincipalType})
+            }
           }
         })
       },
@@ -479,21 +494,6 @@
       this.getConfigData(5, 0)
       this.getConfigData(3) // 行业
       this.getSeaList()
-
-      // 客户详情快捷添加销售机会时默认有客户调取商品
-      if(this.params.detailCustomersId > 0) {
-        let _cate = '';
-        if(this.customersList.length > 0) {
-          let _list = this.customersList;
-          _list.forEach(a => {
-            if(this.params.detailCustomersId == a.id) {
-              _cate = a.cate;
-            }
-          })
-        }
-        let servicePrincipalType = _cate == 1 ? 'Person' : 'Company';
-        this.getIntentProductList({goodsTypeId: null, goodsName: null, servicePrincipalType})
-      }
     },
   }
 </script>

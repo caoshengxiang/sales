@@ -324,6 +324,20 @@
         API.customer.teamAboutCustomerlist(null, data => {
           if (data.status) {
             this.customersList = data.data
+            
+          if (this.params.detail) { // 编辑
+              let _cate = '';
+              if(this.customersList.length > 0) {
+                let _list = this.customersList;
+                _list.forEach(a => {
+                  if(this.params.detail.customerId == a.id) {
+                    _cate = a.cate;
+                  }
+                })
+              }
+              let servicePrincipalType = _cate == 1 ? 'Person' : 'Company';
+              this.getIntentProductList({goodsTypeId: null, goodsName: null, servicePrincipalType})
+          }
           }
         })
       },
@@ -463,7 +477,7 @@
       // this.getIntentProductList({goodsTypeId: null, goodsName: null})
       this.salesState = this.params.salesState
       if (this.params.detail) { // 编辑
-        let servicePrincipalType = this.params.detail.customerCate == 1 ? 'Person' : 'Company';
+        let servicePrincipalType = this.params.detail.customerId == 1 ? 'Person' : 'Company';
         this.addForm = this.params.detail // 需要根据分类id获取商品列表进行展示
         this.addForm.intentProductId = this.params.detail.intentProductName;
         // this.getIntentProductList({goodsTypeId: this.addForm.intentProductCate})
