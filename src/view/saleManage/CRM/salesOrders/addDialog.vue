@@ -236,6 +236,9 @@
             this.dataLoading = true
             if (this.params.orderDetail) { // 编辑
               API.salesOrder.edit({path: this.addForm.id, body: this.addForm}, (da) => {
+                if(!da.status) {
+                  this.addForm.productId = this.addForm.productName;
+                }
                 setTimeout(() => {
                   this.dataLoading = false
                   if (da.status) {
@@ -246,6 +249,9 @@
               })
             } else {
               API.salesOrder.add(this.addForm, (da) => {
+                if(!da.status) {
+                  this.addForm.productId = this.addForm.productName;
+                }
                 setTimeout(() => {
                   this.dataLoading = false
                   if (da.status) {
@@ -295,11 +301,11 @@
             this.intentProductChange() // 对应购买商品
           }
           
-          this.chanceList.forEach(item => {
-            this.productIds = item.intentProductId
-            this.addForm.productId = item.intentProductName
-            console.log(this.addForm)
-          })
+          // this.chanceList.forEach(item => {
+          //   console.log(13, item)
+          //   this.productIds = item.intentProductId
+          //   this.addForm.productId = item.intentProductName
+          // })
         })
       },
       getContactList (customerId) {
@@ -375,6 +381,7 @@
         this.allGoodsList.forEach(item => {
           if (item.goodsId === id) {
             this.addForm.productName = item.goodsName
+            this.productIds = item.goodsId;
           }
         })
         // 清除规格
@@ -411,6 +418,7 @@
         this.getAllGoodsList({goodsTypeId: null, servicePrincipalType})
 
         // 清除其他联动数据
+        this.productIds = '';
         this.addForm = { // 添加表单
           customerId: this.addForm.customerId,
           contacterId: '',
@@ -516,6 +524,8 @@
         this.getContractSubjects(this.params.orderDetail.productId) // 签约主体
         this.getContactList(this.params.orderDetail.customerId)
         this.orderState = this.params.orderDetail.orderState // 订单状态 【销售订单-修改，预下订单后，客户、机会、商品信息不可更改，客户签单后，所有信息都不可修改】
+        this.addForm.productId = this.params.orderDetail.productName;
+        this.productIds = this.params.orderDetail.productId;
       }
       if (this.params.detailCustomersId) { // 详细页面的添加, 并禁用下拉列表
         this.addForm.customerId = this.params.detailCustomersId
