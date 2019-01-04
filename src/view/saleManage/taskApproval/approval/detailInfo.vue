@@ -3,7 +3,7 @@
     <!--头部-->
     <div class="com-head">
       <el-breadcrumb separator-class="el-icon-arrow-right">
-        <el-breadcrumb-item v-for="item in $route.meta.pos" :key="item.name" :to="{name: item.toName}">{{item.name}}
+        <el-breadcrumb-item v-for="(item, index) in $route.meta.pos" :key="index" :to="{name: item.toName}">{{item.name}}
         </el-breadcrumb-item>
       </el-breadcrumb>
     </div>
@@ -211,8 +211,8 @@
                 <span v-if="orderDetail.invoiceType == 'LINE_DOWN'">线下支付</span>
                 <span v-if="orderDetail.invoiceType == 'ONEPAY'">一网通</span>
                 <span v-if="orderDetail.invoiceType == 'UNIONPAY'">银联</span>
-                <span v-if="detail.invoiceType == 'COMMON'">普通发票</span>
-                <span v-if="detail.invoiceType == 'VALUE_ADD_TAX'">专用发票</span>
+                <span v-if="orderDetail.invoiceType == 'COMMON'">普通发票</span>
+                <span v-if="orderDetail.invoiceType == 'VALUE_ADD_TAX'">专用发票</span>
               </td>
               <td class="td-title">开票单位</td>
               <td>{{orderDetail.invoiceUnit}}</td>

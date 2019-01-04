@@ -160,12 +160,13 @@
         </el-table-column>
         <el-table-column
           align="center"
-          prop=""
+          prop="orderType"
           label="签单类型"
           width="120"
           sortable="custom"
           show-overflow-tooltip
         >
+          <!--todo 无字段-->
           <template slot-scope="scope">
             <span v-if="scope.row.orderType === 'FIRST'">首购订单</span>
             <span v-if="scope.row.orderType === 'DERIVE'">复购订单</span>
@@ -393,7 +394,7 @@
           <!---->
           <el-table-column
             align="center"
-            prop="deputyManagerName"
+            prop=""
             label="营销副总"
           >
             <el-table-column
