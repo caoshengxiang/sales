@@ -121,6 +121,10 @@ export default {
         value: 'DERIVE'
       }
     ],
+    orderTypeNews: {       //销售订单统计所shi'yong
+      'FIRST': '客户首购',
+      'DERIVE': '客户复购',
+    },
     salesState: [ // 销售阶段
       {
         type: -1, // 机会详细直接使用
@@ -195,6 +199,12 @@ export default {
       }, { // 因为APP订单预览有个进度条，所以6改为了0
         type: 0, // 注意：修改值得时候注意有页面直接使用了0这个值【订单详细，APP订单预览】
         value: '预下单',
+      }, {
+        type: 7,
+        value: '待服务',
+      }, {
+        type: 8,
+        value: '已中止',
       },
     ],
     orderStates: [ //销售订单统计专用订单状态
