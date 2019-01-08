@@ -41,7 +41,7 @@
             span {{scope.row.billingType === 'ANNUALLY' ? '计时' : '计次'}}
         el-table-column(align="center" sortable="custom" prop="orderType" width='100' label="签单类型" show-overflow-tooltip)
           template(slot-scope='scope')
-            span {{scope.row.orderType === 'FIRST' ? '客户首购' : '客户复购'}}
+            span {{orderTypeNews[scope.row.orderType]}}
         el-table-column(align="center" sortable="custom" prop="isRenew" width='100' label="是否续费" show-overflow-tooltip)
           template(slot-scope='scope')
             span {{~~scope.row.isRenew ? '是' : '否'}}
@@ -153,6 +153,7 @@
         'pagesOptions',
         'salesState',
         'orderType',
+        'orderTypeNews',
         'productClass',
         'demandSource',
         'salesOpportunitiesOptions',
