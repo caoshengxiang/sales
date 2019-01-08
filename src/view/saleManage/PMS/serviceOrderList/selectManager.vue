@@ -81,7 +81,7 @@
           cityId: this.params.serviceOrderDetail.cityId,
           areaId: this.params.serviceOrderDetail.areaId,
           workState: 1,
-          pageSize: 2000
+          pageSize: 200000
         }, (res) => {
           this.managerList = res.data.content
         })
