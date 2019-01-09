@@ -201,7 +201,7 @@
         <el-table-column
           align="center"
           prop="orderSourceName"
-          label="订单来源"
+          label="需求来源"
           width="160"
           show-overflow-tooltip>
         </el-table-column>
@@ -209,6 +209,20 @@
           align="center"
           prop="providerName"
           label="需求提供人"
+          width="160"
+          show-overflow-tooltip>
+        </el-table-column>
+        <el-table-column
+          align="center"
+          prop="recommenderSourceName"
+          label="新客推荐来源"
+          width="160"
+          show-overflow-tooltip>
+        </el-table-column>
+        <el-table-column
+          align="center"
+          prop="recommenderName"
+          label="新客推荐人"
           width="160"
           show-overflow-tooltip>
         </el-table-column>

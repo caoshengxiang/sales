@@ -97,12 +97,20 @@
                 <td>{{orderDetail.notRefundAmount}}</td>
               </tr>
               <tr>
-                <td class="td-title">订单来源</td>
+                <td class="td-title">需求来源</td>
                 <td colspan="5">{{orderDetail.orderSourceName}}</td>
               </tr>
               <tr>
+                <td class="td-title">需求提供人</td>
+                <td>{{orderDetail.providerName}}</td>
+                <td class="td-title">新客推荐来源</td>
+                <td>{{orderDetail.recommenderSource}}</td>
+                <td class="td-title">新客推荐人</td>
+                <td>{{orderDetail.recommenderName}}</td>
+              </tr>
+              <tr>
                 <td class="td-title">订单备注</td>
-                <td colspan="5">{{orderDetail.remark}}</td>
+                <td>{{orderDetail.remark}}</td>
               </tr>
             </table>
 
