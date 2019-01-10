@@ -215,6 +215,8 @@
         this.searchForm = {}
         this.timeIntervalRefundDate = []
         this.timeIntervalAuditTime = []
+        this.orderSourceArr = []
+        this.recommenderSourceArr = []
       },
       traverseTree (source, node) { // 遍历树
         if (!source) {

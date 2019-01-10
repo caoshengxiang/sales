@@ -250,6 +250,8 @@
       clearForm () {
         this.searchForm = {}
         this.timeInterval = []
+        this.recommenderSourceArr = []
+        this.orderSourceArr = []
       },
       treeGetName (id, node) { // 遍历树获取名称
         if (!node) {

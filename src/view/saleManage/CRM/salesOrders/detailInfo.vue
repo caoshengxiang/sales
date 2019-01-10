@@ -104,7 +104,7 @@
                 <td class="td-title">需求提供人</td>
                 <td>{{orderDetail.providerName}}</td>
                 <td class="td-title">新客推荐来源</td>
-                <td>{{orderDetail.recommenderSource}}</td>
+                <td>{{orderDetail.recommenderSourceName}}</td>
                 <td class="td-title">新客推荐人</td>
                 <td>{{orderDetail.recommenderName}}</td>
               </tr>
