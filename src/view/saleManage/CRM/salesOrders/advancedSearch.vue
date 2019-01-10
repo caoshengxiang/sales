@@ -41,7 +41,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="订单来源：">
+            <el-form-item label="需求来源：">
               <el-cascader
                 style="width: 100%"
                 :change-on-select="selectLastLevelMode"
@@ -61,6 +61,33 @@
                 <el-option label="续费订单" :value="true"></el-option>
                 <el-option label="新签订单" :value="false"></el-option>
               </el-select>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row class="el-row-cla">
+          <el-col :span="8">
+            <el-form-item label="需求提供人：">
+              <el-input type="text" v-model="searchForm.providerName"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="新客推荐来源：">
+              <el-cascader
+                style="width: 100%"
+                :change-on-select="selectLastLevelMode"
+                :options="recommenderSourceType"
+                v-model="recommenderSourceArr"
+                @active-item-change="recommenderSourceChangeHandle"
+                @change="recommenderSourceChangeHandle"
+                :props="props"
+                :placeholder="searchForm.recommenderSourcename"
+              >
+              </el-cascader>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="新客推荐人：">
+              <el-input type="text" v-model="searchForm.recommenderName"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -154,6 +181,7 @@
       return {
         orderState: [], // 订单状态
         orderSource: [], // 订单来源
+        recommenderSource: [], // 订单来源
         searchForm: { // 表单
           id: null,
           customerName: null,
@@ -163,6 +191,9 @@
           orderState: null,
           source: null,
           isRenew: null,
+          providerName: null,
+          recommenderSourcename: null,
+          sourceName: null,
           startDate: null,
           endDate: null,
           startBillAmount: null, // 签单金额
@@ -174,7 +205,9 @@
         },
         timeInterval: [],
         orderSourceType: [], // 客户来源
+        recommenderSourceType: [], // 客户来源
         orderSourceArr: [],
+        recommenderSourceArr: [],
         props: {
           value: 'id',
           label: 'codeName',
@@ -183,6 +216,7 @@
         // selectedBindValue: [],
         selectLastLevelMode: true,
         sourceNameArr: [],
+        recommendersourceNameArr: [],
       }
     },
     props: ['params'],
@@ -216,6 +250,8 @@
       clearForm () {
         this.searchForm = {}
         this.timeInterval = []
+        this.recommenderSourceArr = []
+        this.orderSourceArr = []
       },
       treeGetName (id, node) { // 遍历树获取名称
         if (!node) {
@@ -233,6 +269,22 @@
           }
         }
       },
+      treeGetName2 (id, node) { // 遍历树获取名称
+        if (!node) {
+          return ''
+        }
+        if (node && node.length > 0) {
+          var i = 0
+          for (i = 0; i < node.length; i++) {
+            if (id === node[i].id) {
+              this.recommendersourceNameArr.push(node[i].codeName)
+              return node[i].codeName
+            } else {
+              this.treeGetName2(id, node[i].children)
+            }
+          }
+        }
+      },
       traverseTree (source, node) { // 遍历树
         if (!source) {
           return
@@ -244,8 +296,20 @@
         })
         return this.sourceNameArr.join('-')
       },
+      traverseTree2 (source, node) { // 遍历树
+        if (!source) {
+          return
+        }
+        let sourceArr = source.split('-')
+        this.recommendersourceNameArr = [] // 初始
+        sourceArr.forEach((item, index) => {
+          this.treeGetName2(parseInt(item, 10), this.recommenderSourceType)
+        })
+        return this.recommendersourceNameArr.join('-')
+      },
       saveSubmitForm () {
         this.searchForm.sourceName = this.traverseTree(this.searchForm.orderSource)
+        this.searchForm.recommenderSourcename = this.traverseTree2(this.searchForm.recommenderSource)
         this.$vDialog.close({type: 'search', params: this.searchForm})
       },
       timeIntervalHandle (value) {
@@ -263,6 +327,9 @@
               item.children = []
               return item
             })
+            if (this.recommenderSourceType.length === 0) {
+              this.recommenderSourceType = arr
+            }
             if (this.orderSourceType.length === 0) {
               this.orderSourceType = arr
             } else {
@@ -289,6 +356,21 @@
         })
         this.searchForm.orderSource = va.join('-')
       },
+      recommenderSourceChangeHandle (va) {
+        this.getLastItem(this.recommenderSourceType, va, 'id')
+        API.common.codeConfig({type: 5, pCode: va[va.length - 1]}, (data) => {
+          if (data.data.length) {
+            let arr = data.data.map((item) => {
+              item.children = []
+              return item
+            })
+            this.targetObj.children = arr
+          } else {
+            this.targetObj.children = null
+          }
+        })
+        this.searchForm.recommenderSource = va.join('-')
+      },
       getLastItem (list, vals, key) { // 获取点击得目标对象, key 对应得 值vals 数组
         let LIST = list || []
         // console.log(LIST, vals, key)
@@ -305,6 +387,7 @@
     created () {
       this.orderState = this.params.orderState
       this.orderSource = this.params.orderSource
+      this.recommenderSource = this.params.recommenderSource
       // 来源
       this.getConfigData(5, 0)
       this.searchForm = this.params.preAdvancedSearch
