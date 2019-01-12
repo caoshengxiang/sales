@@ -7,10 +7,18 @@
     <div class="operation-code-box">
       <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="140px">
         <el-form-item label="服务开始时间" prop="setTime">
+          <!--<el-date-picker-->
+            <!--style="width: 100%"-->
+            <!--v-model="ruleForm.setTime"-->
+            <!--type="datetime"-->
+            <!--value-format="timestamp"-->
+            <!--@change="timeChangeHandle"-->
+            <!--placeholder="服务开始时间">-->
+          <!--</el-date-picker>-->
           <el-date-picker
-            style="width: 100%"
+            style="width: 100%;"
             v-model="ruleForm.setTime"
-            type="datetime"
+            type="month"
             value-format="timestamp"
             @change="timeChangeHandle"
             placeholder="服务开始时间">

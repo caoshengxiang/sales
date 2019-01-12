@@ -225,7 +225,7 @@
           <tr>
             <td class="td-title">认证商品</td>
             <td colspan="5">
-              <el-select style="width: 100%;" v-model="serviceManagerGoodsModels" multiple placeholder="请选择认证商品">
+              <el-select style="width: 500px;" v-model="serviceManagerGoodsModels" multiple placeholder="请选择认证商品">
                 <el-option
                   v-for="(item, index) in goodsList"
                   :key="index"

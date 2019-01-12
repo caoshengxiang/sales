@@ -176,7 +176,11 @@
           label="是否续费"
           width="160"
           show-overflow-tooltip>
-          <template slot-scope="scope">{{scope.row.isRenew?'续费订单':'新签订单'}}</template>
+          <template slot-scope="scope">
+            <!--{{scope.row.isRenew?'续费订单':'新签订单'}}-->
+            <span v-if="scope.row.isRenew == false">新签订单</span>
+            <span v-if="scope.row.isRenew == true">续费订单</span>
+          </template>
         </el-table-column>
         <el-table-column
           align="center"
