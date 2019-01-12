@@ -715,7 +715,8 @@
                   salesState: this.salesState,
                   detail: JSON.parse(JSON.stringify(this.salesOpportunitiesDetail)),
                   topSource: this.topSource, // 顶级客户来源
-                  type: 'confirmation'
+                  type: 'confirmation',
+                  detailCustomersId: this.salesOpportunitiesDetail.customerId
                 },
                 callback: (data) => {
                   if (data.type === 'save') {
