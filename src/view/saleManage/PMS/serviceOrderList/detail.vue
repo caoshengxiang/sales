@@ -54,7 +54,7 @@
                   <span v-if="detail.orderState === 3">已完成</span>
                   <span v-if="detail.orderState === 4">已退单</span>
                 </td>
-                <td class="td-title">服务类型</td>
+                <td class="td-title">服务地区</td>
                 <td>
                   <!--<span v-if="detail.serviceItemConfigModel">-->
                   <!--<span v-for="item in serviceType" :key="item.type"-->
@@ -62,7 +62,9 @@
                   <!--{{item.value}}-->
                   <!--</span>-->
                   <!--</span>-->
-                  {{detail.serviceType}}
+                  {{ detail.provinceName }}
+                  {{ detail.cityName }}
+                  {{ detail.areaName }}
                 </td>
               </tr>
               <tr>
