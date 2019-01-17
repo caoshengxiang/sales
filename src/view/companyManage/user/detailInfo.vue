@@ -50,11 +50,13 @@
                 <td class="td-title">微信号</td>
                 <td>{{userDetail.wx}}</td>
                 <td class="td-title">联系地址</td>
-                <td colspan="3">{{ userDetail.provinceName }}
+                <td>{{ userDetail.provinceName }}
                   {{ userDetail.cityName }}
                   {{ userDetail.areaName }}
                   {{ userDetail.address}}
                 </td>
+                <td class="td-title">加入时间</td>
+                <td>{{userDetail.created && $moment(userDetail.created).format('YYYY-MM-DD')}}</td>
               </tr>
             </table>
             <p class="table-title">组织信息</p>

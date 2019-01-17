@@ -206,15 +206,27 @@
         >
         </el-table-column>
         <el-table-column
+        show-overflow-tooltip
+        align="center"
+        prop="birthday"
+        label="出生日期"
+        width="100"
+        sortable="custom"
+      >
+        <template slot-scope="scope">
+          {{scope.row.birthday && $moment(scope.row.birthday).format('YYYY-MM-DD')}}
+        </template>
+      </el-table-column>
+        <el-table-column
           show-overflow-tooltip
           align="center"
-          prop="birthday"
-          label="出生日期"
+          prop="created"
+          label="加入时间"
           width="100"
           sortable="custom"
         >
           <template slot-scope="scope">
-            {{scope.row.birthday && $moment(scope.row.birthday).format('YYYY-MM-DD')}}
+            {{scope.row.created && $moment(scope.row.created).format('YYYY-MM-DD')}}
           </template>
         </el-table-column>
         <el-table-column
