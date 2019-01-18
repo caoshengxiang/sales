@@ -225,7 +225,7 @@
           <tr>
             <td class="td-title">认证商品</td>
             <td colspan="5">
-              <el-select style="width: 500px;" v-model="serviceManagerGoodsModels" multiple placeholder="请选择认证商品">
+              <el-select style="width: 700px;" v-model="serviceManagerGoodsModels" multiple placeholder="请选择认证商品">
                 <el-option
                   v-for="(item, index) in goodsList"
                   :key="index"
@@ -372,11 +372,15 @@
         })
       },
       getGoodsList () { // 组织商品列表
-        API.common.organizationGoodsConf({
-          // saleable: 1,
-          organizationId: webStorage.getItem('userInfo').organizationId,
-        }, (da) => {
-          this.goodsList = da.data
+        // API.common.organizationGoodsConf({
+        //   // saleable: 1,
+        //   organizationId: webStorage.getItem('userInfo').organizationId,
+        // }, (da) => {
+        //   this.goodsList = da.data
+        // })
+
+        API.baseSetting.getProductType({}, (res) => {
+          this.goodsList = res.data.content
         })
       },
       areaSelectedOptionsHandleChange (value) {
