@@ -98,8 +98,12 @@
             managerType: this.params.managerType
           }], (res) => {
             if (res.status) {
-              this.$message.success('派单成功')
-              this.$vDialog.close({type: 'quickSelectManager', manager: this.multipleSelection[0]})
+              if (res.data.fail > 0) {
+                this.$message.warning(`成功${res.data.success}, 失败${res.data.fail}, 失败原因：${res.data.errorMessage}`)
+              } else {
+                this.$message.success('派单成功')
+                this.$vDialog.close({type: 'quickSelectManager', manager: this.multipleSelection[0]})
+              }
             }
           })
         } else {

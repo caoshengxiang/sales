@@ -183,9 +183,11 @@
                 {{orderDetail.reservationTime && $moment(orderDetail.reservationTime).format('YYYY-MM-DD HH:mm:ss')}}
               </td>
               <td class="td-title">服务客户</td>
-              <td>{{orderDetail.serviceCustomerName}}</td>
+              <!--<td>{{orderDetail.serviceCustomerName}}</td>-->
+              <td>******</td>
               <td class="td-title">联系人</td>
-              <td>{{orderDetail.contactName}}[{{orderDetail.contactPhone}}]</td>
+              <!--<td>{{orderDetail.contactName}}[{{orderDetail.contactPhone}}]</td>-->
+              <td>******</td>
             </tr>
             <tr>
               <td class="td-title">购买商品</td>
@@ -195,46 +197,46 @@
               <td class="td-title">购买数量</td>
               <td>{{orderDetail.goodsNum}}</td>
             </tr>
-            <tr>
-              <td class="td-title">订单金额</td>
-              <td>{{orderDetail.orderAmount}}</td>
-              <td class="td-title">订单优惠</td>
-              <td>{{orderDetail.orderReduction}}</td>
-              <td class="td-title">订单实付</td>
-              <td>{{orderDetail.orderPayment}}</td>
-            </tr>
-            <tr>
-              <td class="td-title">发票类型</td>
-              <td>
-                <span v-if="orderDetail.invoiceType == 'ALIPAY'">支付宝</span>
-                <span v-if="orderDetail.invoiceType == 'WECHAT'">微信</span>
-                <span v-if="orderDetail.invoiceType == 'LINE_DOWN'">线下支付</span>
-                <span v-if="orderDetail.invoiceType == 'ONEPAY'">一网通</span>
-                <span v-if="orderDetail.invoiceType == 'UNIONPAY'">银联</span>
-                <span v-if="orderDetail.invoiceType == 'COMMON'">普通发票</span>
-                <span v-if="orderDetail.invoiceType == 'VALUE_ADD_TAX'">专用发票</span>
-              </td>
-              <td class="td-title">开票单位</td>
-              <td>{{orderDetail.invoiceUnit}}</td>
-              <td class="td-title">纳税识别号</td>
-              <td>{{orderDetail.taxIdentificationNum}}</td>
-            </tr>
-            <tr>
-              <td class="td-title">开户行信息</td>
-              <td>{{orderDetail.bankAddress}}</td>
-              <td class="td-title">银行账号</td>
-              <td>{{orderDetail.bankAccount}}</td>
-              <td class="td-title"></td>
-              <td></td>
-            </tr>
-            <tr>
-              <td class="td-title">发票邮寄地址</td>
-              <td colspan="5">{{orderDetail.invoiceMailAddress}}</td>
-            </tr>
-            <tr>
-              <td class="td-title">订单备注</td>
-              <td colspan="5">{{orderDetail.remark}}</td>
-            </tr>
+            <!--<tr>-->
+              <!--<td class="td-title">订单金额</td>-->
+              <!--<td>{{orderDetail.orderAmount}}</td>-->
+              <!--<td class="td-title">订单优惠</td>-->
+              <!--<td>{{orderDetail.orderReduction}}</td>-->
+              <!--<td class="td-title">订单实付</td>-->
+              <!--<td>{{orderDetail.orderPayment}}</td>-->
+            <!--</tr>-->
+            <!--<tr>-->
+              <!--<td class="td-title">发票类型</td>-->
+              <!--<td>-->
+                <!--<span v-if="orderDetail.invoiceType == 'ALIPAY'">支付宝</span>-->
+                <!--<span v-if="orderDetail.invoiceType == 'WECHAT'">微信</span>-->
+                <!--<span v-if="orderDetail.invoiceType == 'LINE_DOWN'">线下支付</span>-->
+                <!--<span v-if="orderDetail.invoiceType == 'ONEPAY'">一网通</span>-->
+                <!--<span v-if="orderDetail.invoiceType == 'UNIONPAY'">银联</span>-->
+                <!--<span v-if="orderDetail.invoiceType == 'COMMON'">普通发票</span>-->
+                <!--<span v-if="orderDetail.invoiceType == 'VALUE_ADD_TAX'">专用发票</span>-->
+              <!--</td>-->
+              <!--<td class="td-title">开票单位</td>-->
+              <!--<td>{{orderDetail.invoiceUnit}}</td>-->
+              <!--<td class="td-title">纳税识别号</td>-->
+              <!--<td>{{orderDetail.taxIdentificationNum}}</td>-->
+            <!--</tr>-->
+            <!--<tr>-->
+              <!--<td class="td-title">开户行信息</td>-->
+              <!--<td>{{orderDetail.bankAddress}}</td>-->
+              <!--<td class="td-title">银行账号</td>-->
+              <!--<td>{{orderDetail.bankAccount}}</td>-->
+              <!--<td class="td-title"></td>-->
+              <!--<td></td>-->
+            <!--</tr>-->
+            <!--<tr>-->
+              <!--<td class="td-title">发票邮寄地址</td>-->
+              <!--<td colspan="5">{{orderDetail.invoiceMailAddress}}</td>-->
+            <!--</tr>-->
+            <!--<tr>-->
+              <!--<td class="td-title">订单备注</td>-->
+              <!--<td colspan="5">{{orderDetail.remark}}</td>-->
+            <!--</tr>-->
           </table>
 
           <p class="table-title">订单商务信息</p>
@@ -249,7 +251,8 @@
               <td class="td-title">服务地</td>
               <td>{{orderDetail.provinceName}}{{orderDetail.cityName}}{{orderDetail.areaName}}</td>
               <td class="td-title">签约金额</td>
-              <td>{{orderDetail.contractAccount}}</td>
+              <!--<td>{{orderDetail.contractAccount}}</td>-->
+              <td>******</td>
             </tr>
             <tr>
               <td class="td-title">购买方式</td>
@@ -266,9 +269,11 @@
                 <span v-if="orderDetail.contractProperty === 2">客户复购</span>
               </td>
               <td class="td-title">商务管家</td>
-              <td>{{orderDetail.businessManagerName}}</td>
+              <!--<td>{{orderDetail.businessManagerName}}</td>-->
+              <td>******</td>
               <td class="td-title">商务电话</td>
-              <td>{{orderDetail.businessManagerPhone}}</td>
+              <!--<td>{{orderDetail.businessManagerPhone}}</td>-->
+              <td>******</td>
             </tr>
             <!--//  v-if="detailInfo.approvalType === 4 || detailInfo.approvalType === 3"-->
             <tr v-if="detailInfo.approvalType === 4 || detailInfo.approvalType === 3" v-for="(item, index) in asignList"
@@ -278,7 +283,7 @@
               <td class="td-title">派单时间</td>
               <td>{{item.assignDate && $moment(item.assignDate).format('YYYY-MM-DD HH:mm:ss')}}</td>
               <td class="td-title">派单客服</td>
-              <td>todo</td>
+              <td>{{item.assignUserName}}</td>
               <td class="td-title"></td>
               <td></td>
             </tr>
@@ -301,17 +306,17 @@
             <table class="detail-table">
               <tr>
                 <td class="td-title">退单号</td>
-                <td></td>
+                <td>{{wordOrderDetail.backNum}}</td>
                 <td class="td-title">申请日期</td>
-                <td></td>
+                <td>{{wordOrderDetail.backTime && $moment(wordOrderDetail.backTime).format('YYYY-MM-DD')}}</td>
                 <td class="td-title">退单申请人</td>
-                <td></td>
+                <td>{{wordOrderDetail.managerName}}</td>
                 <td class="td-title">联系电话</td>
-                <td></td>
+                <td>{{wordOrderDetail.mobilePhone}}</td>
               </tr>
               <tr>
                 <td class="td-title">退单原因</td>
-                <td colspan="7"></td>
+                <td colspan="7">{{wordOrderDetail.backReason}}</td>
               </tr>
               <tr v-if="detailInfo.approvalType === 3">
                 <!--审批类型 1:申请咨询师协同 2:申请移除咨询师 3:app订单退单 4:服务工单退单 5:服务工单派单 6:管家信息修改-->
@@ -505,6 +510,7 @@
         managerDetail: {},
         orderDetail: {}, // 订单详细
         asignList: [], // 派单
+        wordOrderDetail: {}, // 工单详情
       }
     },
     computed: {
@@ -557,6 +563,11 @@
                   API.workOrder.workOrderAsignListById({id: da.data.id}, (asignDa) => {
                     that.asignList = asignDa.data
                   })
+                }
+              })
+              API.workOrder.detail(that.detailInfo.businessId, (da) => {
+                if (da.status) {
+                  this.wordOrderDetail = da.data
                 }
               })
             } else if (that.detailInfo.approvalType === 6) { // 管家信息修改

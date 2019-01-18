@@ -260,7 +260,7 @@
           this.config.value = agentRegister + QS.stringify({ // 拼装二维码参数
             type: this.agentType,
             id: this.agentTypeOption,
-            name: this.otherData.directName,
+            name: this.otherData.directName || this.otherDataOldApi.directName,
             phone: '',
           })
         })

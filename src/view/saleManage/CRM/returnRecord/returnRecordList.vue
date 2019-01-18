@@ -67,6 +67,15 @@
         </el-table-column>
         <el-table-column
           align="center"
+          prop="orderSourceName"
+          label="来源渠道"
+          width="115px"
+          sortable="custom"
+          show-overflow-tooltip
+        >
+        </el-table-column>
+        <el-table-column
+          align="center"
           prop="customerName"
           label="来自客户"
           width="115px"
@@ -166,7 +175,6 @@
           sortable="custom"
           show-overflow-tooltip
         >
-          <!--todo 无字段-->
           <template slot-scope="scope">
             <span v-if="scope.row.orderType === 'FIRST'">首购订单</span>
             <span v-if="scope.row.orderType === 'DERIVE'">复购订单</span>
@@ -180,7 +188,10 @@
           sortable="custom"
           show-overflow-tooltip
         >
-          <template slot-scope="scope">{{scope.row.isRenew?'是':'否'}}</template>
+          <template slot-scope="scope">
+            <span v-if="scope.row.isRenew == false">新签订单</span>
+            <span v-if="scope.row.isRenew == true">续费订单</span>
+          </template>
         </el-table-column>
         <el-table-column
           align="center"
@@ -450,7 +461,7 @@
           >
             <el-table-column
               align="center"
-              prop="referenceName"
+              prop="referenceOwnerName"
               label="名称"
               width="100"
               sortable="custom"
@@ -474,7 +485,7 @@
           >
             <el-table-column
               align="center"
-              prop="directFosterName"
+              prop="directFosterOwnerName"
               label="名称"
               width="100"
               sortable="custom"
@@ -499,7 +510,7 @@
           >
             <el-table-column
               align="center"
-              prop="indirectFosterName"
+              prop="indirectFosterOwnerName"
               label="名称"
               width="100"
               sortable="custom"

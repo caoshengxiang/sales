@@ -78,9 +78,18 @@
           <tr>
             <td class="td-title">地区</td>
             <td class="td-text">
+              <!--<el-form-item prop="provinceId">-->
+                <!--<AreaSelect ref="areaSe"-->
+                            <!--:disabled="params.type === 'confirmation'"-->
+                            <!--:area="(addForm.provinceName?addForm.provinceName:'') + ' ' + (addForm.cityName?addForm.cityName:'')  + ' ' + (addForm.areaName?addForm.areaName:'')"-->
+                            <!--@change="areaSelectedOptionsHandleChange"-->
+                            <!--:selectLastLevelMode="true"></AreaSelect>-->
+              <!--</el-form-item>-->
+              <!--调整为可以更改地区信息。
+
+ps：该弹框除客户名称、需求来源渠道、需求提供人三个字段不可变更，其他均可变更。-->
               <el-form-item prop="provinceId">
                 <AreaSelect ref="areaSe"
-                            :disabled="params.type === 'confirmation'"
                             :area="(addForm.provinceName?addForm.provinceName:'') + ' ' + (addForm.cityName?addForm.cityName:'')  + ' ' + (addForm.areaName?addForm.areaName:'')"
                             @change="areaSelectedOptionsHandleChange"
                             :selectLastLevelMode="true"></AreaSelect>
