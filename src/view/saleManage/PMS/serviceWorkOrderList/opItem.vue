@@ -23,7 +23,7 @@
           </el-option>
         </el-select>
         &nbsp;&nbsp;
-        <el-button type="primary" @click="getServiceItem">搜索</el-button>
+        <el-button type="primary" @click="getServiceItem" >搜索</el-button>
         &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
         <span>服务客户: {{params.customerName}}</span>
         &nbsp;&nbsp;
@@ -293,8 +293,11 @@
                   </el-button>
                 </div>
                 <div v-if="item.num === 38">
-                  <el-button v-if="item.state === 1" type="text" @click="operationListHandle(item, 1)">
+                  <el-button v-if="item.state === 1" type="text" @click="operationListHandle(item, 1) ">
                     {{operationList[item.num - 1][1-1]}}
+                  </el-button>
+                  <el-button v-if="item.state === 2" type="text" @click="operationListHandle(item, 3)" :disabled="((other.currentData - item.modified) >= date_num  && other.isServiceDirector) ? false : true">
+                    {{operationList[item.num - 1][3-1]}}
                   </el-button>
                   <!--<el-button type="text" @click="operationListHandle(item, 2)">{{operationList[item.num - 1][2-1]}}</el-button>-->
                 </div>
@@ -368,6 +371,8 @@
       return {
         serviceLog: [],
         serviceItem: [],
+        other: null,
+        date_num: 1000 * 60 * 60 * 24 * 7,
         operationList: [ // 根据num值确定按钮
           ['设置上门日期'], // num 1
           ['推送客户告知书', '提醒用户查看'], // num 2 客户确认
@@ -406,7 +411,7 @@
           ['确认开始服务时间'], // num 35
           ['上传服务成果'], // num 36
           ['添加服务阶段款项', '完成阶段款项添加'], // num 37
-          ['确认完成', '提醒用户确认'], // num 38, '用户确认'
+          ['确认完成', '提醒用户确认', '确认完成服务'], // num 38, '用户确认'
           ['完善联系人信息'], // num 39
           ['设置服务周期'], // num 40
           ['上传服务成果'], // num 41
@@ -428,7 +433,9 @@
       },
       getServiceItem () {
         API.workOrder.serviceItem(this.form, (da) => {
+          console.log(111, da)
           this.serviceItem = da.data.content
+          this.other = da.other
         })
       },
       yearChangeHandle () {
@@ -491,6 +498,15 @@
             // remark: this.ruleForm.remark,
             // result: JSON.stringify({})
           }), (res) => {
+            if (res.status) {
+              this.$message.success('操作成功')
+              this.getServiceLog()
+              this.getServiceItem()
+            }
+          })
+        } else if (item.num === 38 && operationCode === 3) { // 无弹窗
+          console.log(item, operationCode)
+          API.workOrder.serviceItemOperate(baseParam, (res) => {
             if (res.status) {
               this.$message.success('操作成功')
               this.getServiceLog()

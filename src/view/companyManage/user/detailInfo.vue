@@ -55,7 +55,7 @@
                   {{ userDetail.areaName }}
                   {{ userDetail.address}}
                 </td>
-                <td class="td-title">加入时间</td>
+                <td class="td-title">注册日期</td>
                 <td>{{userDetail.created && $moment(userDetail.created).format('YYYY-MM-DD')}}</td>
               </tr>
             </table>

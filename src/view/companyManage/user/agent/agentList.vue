@@ -221,7 +221,7 @@
           show-overflow-tooltip
           align="center"
           prop="created"
-          label="加入时间"
+          label="注册日期"
           width="100"
           sortable="custom"
         >
