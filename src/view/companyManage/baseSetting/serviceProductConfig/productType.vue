@@ -25,6 +25,7 @@
           border
           tooltip-effect="dark"
           :data="roleDetail"
+          :max-height='posheight'
         >
           <el-table-column
             align="center"
@@ -76,6 +77,9 @@
     name: 'roleList',
     data () {
       return {
+        h: document.body.clientHeight,
+        posheight: 100,
+        timer: false,
         loading: false,
         currentPage: 1, // 当前页
         roleList: [],
@@ -88,6 +92,19 @@
         organizationIndex: '1',
         goodsConfs: [],
         totle: 0,
+      }
+    },
+    watch: {
+      // 页面高度改变过后改变table的max_height高度
+      h (val) {
+        if(!this.timer) {
+          this.posheight = val - 260
+          this.timer = true
+          let that = this
+          setTimeout(function (){
+            that.timer = false
+          },400)
+        }
       }
     },
     computed: {
@@ -106,8 +123,24 @@
     created () {
       var that = this
       that.$options.methods.getOrganizationList.bind(that)()
+      this.posTableHeight();            //根据屏幕高度设置table高度
+    },
+    mounted() {
+      // 监听页面高度
+      const that = this
+      window.onresize = () => {
+        return (() => {
+          let a = document.body.clientHeight
+          that.h = a
+        })()
+      }
     },
     methods: {
+      posTableHeight () {
+        let h = document.body.clientHeight,
+            new_h = h - 260;
+        this.posheight = new_h;
+      },
       getOrganizationList () {
         var that = this
         let params = {

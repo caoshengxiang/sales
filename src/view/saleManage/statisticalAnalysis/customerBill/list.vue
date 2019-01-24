@@ -46,6 +46,7 @@
           border
           stripe
           :data="tableData"
+          :max-height='posheight'
           tooltip-effect="dark"
           @sort-change="sortChangeHandle"
           @selection-change="handleSelectionChange"
@@ -114,6 +115,9 @@
     name: 'list',
     data () {
       return {
+        h: document.body.clientHeight,
+        posheight: 100,
+        timer: false,
         currentPage: 1,
         defaultListParams: { // 默认顾客列表请求参数
           page: null,
@@ -125,6 +129,19 @@
         advancedSearch: {}, // 高级搜索
         tableData: [],
         tableDataTotal: 0,
+      }
+    },
+    watch: {
+      // 页面高度改变过后改变table的max_height高度
+      h (val) {
+        if(!this.timer) {
+          this.posheight = val - 260
+          this.timer = true
+          let that = this
+          setTimeout(function (){
+            that.timer = false
+          },400)
+        }
       }
     },
     components: {
@@ -148,6 +165,11 @@
       },
     },
     methods: {
+      posTableHeight () {
+        let h = document.body.clientHeight,
+            new_h = h - 260;
+        this.posheight = new_h;
+      },
       handleSizeChange (val) {
         console.log(`每页 ${val} 条`)
       },
@@ -216,7 +238,18 @@
     },
     created () {
       this.getData()
-    }
+      this.posTableHeight();            //根据屏幕高度设置table高度
+    },
+    mounted() {
+      // 监听页面高度
+      const that = this
+      window.onresize = () => {
+        return (() => {
+          let a = document.body.clientHeight
+          that.h = a
+        })()
+      }
+    },
   }
 </script>
 
