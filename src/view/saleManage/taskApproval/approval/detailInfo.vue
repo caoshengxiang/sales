@@ -565,13 +565,13 @@
                   })
                 }
               })
-              API.workOrder.detail(that.detailInfo.businessId, (da) => {
+              API.workOrder.detailNoAuth(that.detailInfo.businessId, (da) => {
                 if (da.status) {
                   this.wordOrderDetail = da.data
                 }
               })
             } else if (that.detailInfo.approvalType === 6) { // 管家信息修改
-              API.serviceManager.updateDetail(that.detailInfo.businessId, (da) => {
+              API.serviceManager.updateDetailNoAuth(that.detailInfo.businessId, (da) => {
                 this.managerDetail = da.data
               })
             }

@@ -47,6 +47,13 @@ export default {
         error && error(err)
       })
     },
+    updateDetailNoAuth (params, success, error) { // 修改历史详细,noAuth
+      $axios.get('serviceManager/' + params + '/noAuth/updateData').then(res => {
+        success && success(res.data)
+      }).catch(err => {
+        error && error(err)
+      })
+    },
     edit (params, success, error) { // 修改历史详细
       $axios.put('serviceManager/' + params.id, params).then(res => {
         success && success(res.data)
@@ -193,8 +200,24 @@ export default {
         error && error(err)
       })
     },
+    detailNoAuth (params, success, error) { // 详情,noAuth
+      $axios.get('serviceWorkOrder/noAuth/' + params).then(res => {
+        success && success(res.data)
+      }).catch(err => {
+        error && error(err)
+      })
+    },
     orderWorkingList (params, success, error) { // 工单加工
       $axios.get('serviceWorkOrder/byOrder/' + params.orderId, {
+        params: params,
+      }).then(res => {
+        success && success(res.data)
+      }).catch(err => {
+        error && error(err)
+      })
+    },
+    orderWorkingListNoAuth (params, success, error) { // 工单加工,无权限
+      $axios.get('serviceWorkOrder/byOrder/noAuth/' + params.orderId, {
         params: params,
       }).then(res => {
         success && success(res.data)

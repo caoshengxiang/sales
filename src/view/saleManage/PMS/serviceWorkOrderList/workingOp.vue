@@ -75,7 +75,7 @@
     },
     methods: {
       getOrderWorkingList () {
-        API.workOrder.orderWorkingList({orderId: this.orderId}, (da) => {
+        API.workOrder.orderWorkingListNoAuth({orderId: this.orderId}, (da) => {
           this.workingListMy = []
           this.workingListAbout = []
           let data = da.data || []
