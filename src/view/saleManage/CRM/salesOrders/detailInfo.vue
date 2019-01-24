@@ -67,8 +67,8 @@
               <tr>
                 <td class="td-title">签单类型</td>
                 <td>
-                  <span v-if="orderDetail.orderType === 'FIRST'">客户首单</span>
-                  <span v-if="orderDetail.orderType === 'DERIVE'">衍生业务</span>
+                  <span v-if="orderDetail.orderType === 'FIRST'">首购订单</span>
+                  <span v-if="orderDetail.orderType === 'DERIVE'">复购订单</span>
                 </td>
                 <td class="td-title">是否续费</td>
                 <td>{{orderDetail.isRenew?'续费订单':'新签订单'}}</td>

@@ -132,6 +132,10 @@
             width="100"
             show-overflow-tooltip
           >
+            <template slot-scope="scope">
+              <span v-if="scope.row.orderType === 'FIRST'">首购订单</span>
+              <span v-if="scope.row.orderType === 'DERIVE'">复购订单</span>
+            </template>
           </el-table-column>
           <el-table-column
             align="center"
@@ -198,12 +202,13 @@
 
           <el-table-column
             align="center"
-            prop="totalAmount"
-            sortable="settlementAmount"
+            prop="settlementAmount"
+            sortable="custom"
             label="结算收支金额"
             width="120"
           >
           </el-table-column>
+
           <el-table-column
             align="center"
             label="结算生成时间"
@@ -280,29 +285,7 @@
           },
         ],
         organizationOptions: [],
-        tableData: [
-          {
-            customerName: '成都凡特塞科技有限公司',
-            businessLicense: '',
-            date: '2016-05-03',
-            name: '王小虎',
-            address: '上海市普陀区金沙江路 1518 弄',
-            status: 1,
-          }, {
-            customerName: '成都凡特塞科技有限公司',
-            businessLicense: '',
-            date: '2016-05-03',
-            name: '王小虎',
-            address: '上海市普陀区金沙江路 1518 弄',
-            status: 2,
-          }, {
-            customerName: '成都凡特塞科技有限公司',
-            businessLicense: '',
-            date: '2016-05-03',
-            name: '王小虎',
-            address: '上海市普陀区金沙江路 1518 弄',
-            status: 3,
-          }],
+        tableData: [],
         multipleSelection: [],
         currentPage: 1,
         searchForm: {

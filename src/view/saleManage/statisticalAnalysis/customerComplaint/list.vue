@@ -23,7 +23,8 @@
           start-placeholder="开始日期"
           end-placeholder="结束日期">
         </el-date-picker>
-        <el-button @click="searchHandle">查询</el-button>
+        <!--<el-button @click="searchHandle">查询</el-button>-->
+        <com-button buttonType="search" @click="searchHandle">查询</com-button>
       </div>
       <div class="com-bar-right">
         <!--<el-button>打印</el-button>-->
@@ -33,13 +34,13 @@
     <!--详细-->
     <div class="com-box com-list-box">
       <div class="home-row">
-        <el-row>
-          <el-col :span="12">
+        <el-row style="height: 100%;">
+          <el-col :span="12" class="set-height">
             <div class="col-box">
               <pie-origin :originData="originData"></pie-origin>
             </div>
           </el-col>
-          <el-col :span="12" class="l-border-6">
+          <el-col :span="12" class="l-border-6 set-height">
             <div class="col-box">
               <pie-reason :reasonData="reasonData"></pie-reason>
             </div>
@@ -99,14 +100,14 @@
               name: '升级投诉',
             },
           ]
-          let reason = da.data.reason || {}
+          let reason = da.data.reasons || []
           this.reasonData = []
-          for (let key in reason) {
-            this.reasonData.push({
-              value: reason[key],
-              name: key,
-            })
-          }
+          this.reasonData = reason.map(item => {
+            return {
+              value: item.count,
+              name: item.name,
+            }
+          })
         })
       },
     },
@@ -120,12 +121,20 @@
   @import "../../../../styles/common";
 
   .home-row {
+    position: absolute;
+    top: 110px;
+    right: 0;
+    bottom: 0;
+    left: 0;
     &.home-row-2 {
       border-top: 6px solid $part-color;
       border-bottom: 6px solid $part-color;
       .col-box {
         height: 320px;
       }
+    }
+    .set-height {
+      height: 100%;
     }
     .l-border-6 {
       border-left: 6px solid $part-color;

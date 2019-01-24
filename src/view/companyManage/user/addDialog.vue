@@ -114,6 +114,7 @@
 </template>
 <script>
   import API from '../../../utils/api'
+  import { chartLengthRule } from '../../../utils/const'
 
   export default {
     name: 'addDialog',
@@ -144,6 +145,7 @@
           ],
           mobilePhone: [
             {required: true, message: '请输入用户手机号', trigger: 'blur'},
+            chartLengthRule.validatePhone
           ],
           sex: [
             {required: true, message: '请选择用户性别', trigger: 'blur'},

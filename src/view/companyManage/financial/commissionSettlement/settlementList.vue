@@ -138,6 +138,10 @@
           width="100"
           show-overflow-tooltip
         >
+          <template slot-scope="scope">
+            <span v-if="scope.row.orderType === 'FIRST'">首购订单</span>
+            <span v-if="scope.row.orderType === 'DERIVE'">复购订单</span>
+          </template>
         </el-table-column>
         <el-table-column
           align="center"

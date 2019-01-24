@@ -25,6 +25,7 @@
                     @click="orderHandle('laze')">
           {{managerDetail.workState === 1 ? '服务中' : '打烊中'}}
         </com-button>
+        <com-button buttonType="search" @click="advancedSearchHandle" style="">高级搜索</com-button>
       </div>
     </div>
     <!--详细-->
@@ -168,7 +169,7 @@
           <el-table-column
             align="center"
             sortable="custom"
-            prop="test"
+            prop="assignDate"
             label="服务派单时间"
             width="160"
             show-overflow-tooltip
@@ -205,6 +206,7 @@
   import returnOrder from './returnOrder'
   import selectManager from './selectManager'
   import webStorage from 'webStorage'
+  import advancedSearch from './advancedSearch'
 
   export default {
     name: 'list',
@@ -219,8 +221,7 @@
           page: null,
           pageSize: null,
         },
-        // sortObj: {sort: 'created,desc'},
-        sortObj: {}, // 排序
+        sortObj: {sort: 'assign_date,desc'},
         advancedSearch: {}, // 高级搜索
         tableData: [],
         tableDataTotal: 0,
@@ -342,7 +343,24 @@
         API.serviceManager.detailByUserId(id, (da) => {
           this.managerDetail = da.data
         })
-      }
+      },
+      advancedSearchHandle () { // 高级搜索
+        this.$vDialog.modal(advancedSearch, {
+          title: '高级搜索',
+          width: 900,
+          height: 460,
+          params: {
+            preAdvancedSearch: this.advancedSearch,
+          },
+          callback: (data) => {
+            if (data.type === 'search') {
+              console.log('高级搜索数据：', data.params)
+              this.advancedSearch = data.params
+              this.getList()
+            }
+          },
+        })
+      },
     },
     created () {
       this.userInfo = webStorage.getItem('userInfo')

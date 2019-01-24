@@ -22,13 +22,23 @@
           </span>
           </h3>
           <p>
-            <span class="com-d-item">服务地区: <span v-for="(item, index) in managerDetail.serviceManagerAreaModels" :key="index">
+            <span class="com-d-item">服务地区:
+              <span v-for="(item, index) in managerDetail.serviceManagerAreaModels" :key="index">
+                 <span v-if="index < 2">
                 <span v-if="index > 0">、</span>{{item.provinceName + item.cityName + item.areaName}}
-              </span></span>
+                 </span>
+              </span>
+              <span v-if="managerDetail.serviceManagerAreaModels && managerDetail.serviceManagerAreaModels.length > 2">...</span>
+            </span>
             <span class="com-d-item">联系电话: <span>{{managerDetail.mobilePhone}}</span></span>
-            <span class="com-d-item">服务类目: <span v-for="(item, index) in managerDetail.serviceManagerGoodsModels" :key="index">
+            <span class="com-d-item">服务类目:
+              <span v-for="(item, index) in managerDetail.serviceManagerGoodsModels" :key="index">
+                <span v-if="index < 2">
                 <span v-if="index > 0">、</span>{{item.goodsName}}
-              </span></span>
+                </span>
+              </span>
+              <span v-if="managerDetail.serviceManagerGoodsModels && managerDetail.serviceManagerGoodsModels.length > 2">...</span>
+            </span>
           </p>
         </div>
       </div>
@@ -38,9 +48,10 @@
         </ul>
       </div>
       <div class="bar-tips-box">
-        <p class="modify" v-if="managerDetail.updateDataTime"> 提示：{{$moment(managerDetail.updateDataTime).format('YYYY年M月D日')}}进行了服务管家基本信息修改<a class="com-a-link" @click="historyHandle">点击可查看</a></p>
+        <p class="modify" v-if="managerDetail.checkStatus == 1 && managerDetail.updateDataTime"> 提示：{{$moment(managerDetail.updateDataTime).format('YYYY年M月D日')}}进行了服务管家基本信息修改<a class="com-a-link" @click="historyHandle">点击可查看</a></p>
         <!--<p class="modify"> 提示：{{$moment(managerDetail.dataUpdateTime).format('YYYY年M月D日')}}进行了服务管家基本信息修改<a class="com-a-link" @click="historyHandle">点击可查看</a></p>-->
-        <p class="review" v-if="managerDetail.checkStatus"> 提示：修改资料{{modifyCheckStatus(managerDetail.checkStatus)}},审核备注：{{managerDetail.checkResult}}</p>
+        <p class="review" v-if="managerDetail.checkStatus === 2 || managerDetail.checkStatus === 3"> 提示：修改资料{{modifyCheckStatus(managerDetail.checkStatus)}},审核备注：{{managerDetail.checkResult}}</p>
+        <p class="review" v-if="managerDetail.checkStatus === 4"> 提示：修改资料{{modifyCheckStatus(managerDetail.checkStatus)}}</p>
       </div>
     </div>
     <!--详细-->

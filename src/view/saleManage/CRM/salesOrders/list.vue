@@ -165,8 +165,8 @@
           width="160"
           show-overflow-tooltip>
           <template slot-scope="scope">
-            <span v-if="scope.row.orderType === 'FIRST'">客户首单</span>
-            <span v-if="scope.row.orderType === 'DERIVE'">衍生业务</span>
+            <span v-if="scope.row.orderType === 'FIRST'">首购订单</span>
+            <span v-if="scope.row.orderType === 'DERIVE'">复购订单</span>
           </template>
         </el-table-column>
         <el-table-column
@@ -176,7 +176,11 @@
           label="是否续费"
           width="160"
           show-overflow-tooltip>
-          <template slot-scope="scope">{{scope.row.isRenew?'续费订单':'新签订单'}}</template>
+          <template slot-scope="scope">
+            <!--{{scope.row.isRenew?'续费订单':'新签订单'}}-->
+            <span v-if="scope.row.isRenew == false">新签订单</span>
+            <span v-if="scope.row.isRenew == true">续费订单</span>
+          </template>
         </el-table-column>
         <el-table-column
           align="center"

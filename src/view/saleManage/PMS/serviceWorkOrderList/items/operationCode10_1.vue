@@ -40,6 +40,10 @@
     props: ['params'],
     methods: {
       saveSubmitForm (formName, state) {
+        if (state === 4 && !this.ruleForm.remark) {
+          this.$message.warnings('请输入拒绝理由')
+          return
+        }
         this.$refs[formName].validate((valid) => {
           if (valid) {
             API.workOrder.serviceItemOperate(Object.assign({}, this.params.baseParam, {

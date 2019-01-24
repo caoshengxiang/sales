@@ -348,7 +348,7 @@
         formData.append('file', files[0])
         API.common.uploadFile({path: 'avatar', body: formData}, upImg => {
           if (upImg.status) {
-            this.ruleForm.avatar = upImg.data.path
+            this.ruleForm.avatar = upImg.data.url
             // this.ac_userHead(upImg.data.url)
             API.user.userModify(this.ruleForm, (da) => {
               if (da.status) {
@@ -397,7 +397,7 @@
           let data
           if (typeof e.target.result === 'object') {
             // 把Array Buffer转化为blob 如果是base64不需要
-            data = window.URL.createObjectURL(new Blob([e.target.result]))
+            data = window.URL.createObjectURL(new Blob([e.target.result], {type: 'image/png'}))
           } else {
             data = e.target.result
           }
@@ -419,7 +419,7 @@
           formData.append('file', data)
           API.common.uploadFile({path: 'avatar', body: formData}, upImg => {
             if (upImg.status) {
-              this.ruleForm.avatar = upImg.data.path
+              this.ruleForm.avatar = upImg.data.url
               API.user.userModify(this.ruleForm, (da) => {
                 if (da.status) {
                   this.$message.success('保存成功')
@@ -436,7 +436,7 @@
           this.ac_user(da.data)
           webStorage.setItem('userInfo', da.data)
         })
-      }
+      },
     },
     created () {
       this.activeViewName = this.$route.query.view

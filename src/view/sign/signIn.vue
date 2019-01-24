@@ -48,7 +48,7 @@
       <div class="sign-box">
         <div class="logo-box">
           <img src="../../assets/icon/logo.png" alt="">
-          <span>众智联邦销企业资源管理系统</span>
+          <span>众智联邦平台资源管理系统-系统管理</span>
         </div>
         <div class="sign-form-box">
           <el-form label-width="60px" class="el-form-w" :model="formData" :rules="rules" ref="ruleForm">
@@ -73,7 +73,7 @@
         </div>
       </div>
       <div class="footer">
-        <p>众智联邦企业资源管理系统 2017-2017 @凡特赛科技</p>
+        <p>众智联邦平台资源管理系统 2017-2019@成都凡特赛科技有限公司</p>
       </div>
       <div class="waveWrapper waveAnimation">
         <div class="waveWrapperInner bgTop">
@@ -215,12 +215,6 @@
                   this.$router.push({name: 'resetPassword', params: {end: this.clientPathParam}})
                 }
               }
-            }, (mock) => {
-              this.loading = false
-              this.$message({
-                message: '系统繁忙，请稍后再试！',
-                type: 'error',
-              })
             })
           } else {
             console.log('error submit!!')

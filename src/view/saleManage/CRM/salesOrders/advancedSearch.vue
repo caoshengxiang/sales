@@ -5,7 +5,7 @@
         <el-row class="el-row-cla">
           <el-col :span="8">
             <el-form-item label="订单编号：">
-              <el-input type="text" v-model="searchForm.billOrderId"></el-input>
+              <el-input type="text" v-model="searchForm.id"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -183,7 +183,7 @@
         orderSource: [], // 订单来源
         recommenderSource: [], // 订单来源
         searchForm: { // 表单
-          billOrderId: null,
+          id: null,
           customerName: null,
           contacterName: null,
           productName: null,

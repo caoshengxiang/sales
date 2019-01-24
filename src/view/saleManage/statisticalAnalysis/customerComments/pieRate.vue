@@ -41,7 +41,7 @@
               name: '访问来源',
               type: 'pie',
               radius: '55%',
-              center: ['50%', '60%'],
+              center: ['50%', '50%'],
               data: [],
               itemStyle: {
                 emphasis: {

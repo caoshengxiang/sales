@@ -20,8 +20,11 @@
         <el-table-column property="provinceId" label="可服务地">
           <template slot-scope="scope">
               <span v-for="(item, index) in scope.row.serviceManagerAreaModels" :key="index">
+                <span v-if="index < 2">
                 <span v-if="index > 0">、</span>{{item.provinceName + item.cityName + item.areaName}}
+                  </span>
               </span>
+            <span v-if="scope.row.serviceManagerAreaModels && scope.row.serviceManagerAreaModels.length > 2">......</span>
           </template>
         </el-table-column>
         <el-table-column property="serviceName" label="平台分子机构" width="160"></el-table-column>
@@ -78,6 +81,7 @@
           cityId: this.params.serviceOrderDetail.cityId,
           areaId: this.params.serviceOrderDetail.areaId,
           workState: 1,
+          pageSize: 200000
         }, (res) => {
           this.managerList = res.data.content
         })
@@ -94,8 +98,12 @@
             managerType: this.params.managerType
           }], (res) => {
             if (res.status) {
-              this.$message.success('派单成功')
-              this.$vDialog.close({type: 'quickSelectManager', manager: this.multipleSelection[0]})
+              if (res.data.fail > 0) {
+                this.$message.warning(`成功${res.data.success}, 失败${res.data.fail}, 失败原因：${res.data.errorMessage}`)
+              } else {
+                this.$message.success('派单成功')
+                this.$vDialog.close({type: 'quickSelectManager', manager: this.multipleSelection[0]})
+              }
             }
           })
         } else {

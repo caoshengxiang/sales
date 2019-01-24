@@ -50,6 +50,7 @@
           cityId: this.workOrderDetail.cityId,
           areaId: this.workOrderDetail.areaId,
           workState: 1,
+          pageSize: 200000
         }, (res) => {
           this.managerList = res.data.content
         })

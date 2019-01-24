@@ -17,9 +17,9 @@
         <div class="com-info-text">
           <h3>{{detail.name}}</h3>
           <p>
-            <span class="com-d-item">存续状态: <span>{{detail.remainderState}}</span></span>
+            <!--<span class="com-d-item">存续状态: <span>{{detail.remainderState}}</span></span>-->
             <span class="com-d-item">注册日期: <span>{{detail.registryTime && $moment(detail.registryTime).format('YYYY-MM-DD')}}</span></span>
-            <span class="com-d-item">注册地区: <span>{{detail.areaName}}</span></span>
+            <span class="com-d-item">注册地区: <span>{{detail.registryAddress}}</span></span>
             <span class="com-d-item">所属行业: <span>{{detail.industry}}</span></span>
           </p>
         </div>
@@ -39,7 +39,7 @@
             <table class="detail-table">
               <tr>
                 <td class="td-title">企业名称</td>
-                <td>{{detail.customerName}}</td>
+                <td>{{detail.name}}</td>
                 <td class="td-title">英文名称</td>
                 <td>{{detail.englishName}}</td>
                 <td class="td-title">社会信用代码</td>
@@ -55,19 +55,19 @@
               </tr>
               <tr>
                 <td class="td-title">公司状态</td>
-                <td>todo</td>
+                <td>{{detail.companyState}}</td>
                 <td class="td-title">企业类型</td>
-                <td>todo</td>
+                <td>{{detail.typesBusiness}}</td>
                 <td class="td-title">核准时间</td>
                 <td>{{detail.checkTime && $moment(detail.checkTime).format('YYYY-MM-DD')}}</td>
               </tr>
               <tr>
                 <td class="td-title">营业期限</td>
-                <td>{{detail.businessTerm}}</td>
+                <td>{{detail.businessTime}}</td>
                 <td class="td-title">所属行业</td>
                 <td>{{detail.industry}}</td>
                 <td class="td-title">登记机关</td>
-                <td></td>
+                <td>{{detail.registryDepartment}}</td>
               </tr>
               <tr>
                 <td class="td-title">注册地址</td>
@@ -97,14 +97,14 @@
                 <td class="td-title">联系电话</td>
                 <td>{{detail.nationalTaxBureauTel}}</td>
               </tr>
-              <tr>
-                <td class="td-title">地税主管机关</td>
-                <td>{{detail.localTaxBureau}}</td>
-                <td class="td-title">联系电话</td>
-                <td>{{detail.localTaxBureauTel}}</td>
-                <td class="td-title">联系地址</td>
-                <td>{{detail.localTaxBureauAddr}}</td>
-              </tr>
+              <!--<tr>-->
+                <!--<td class="td-title">地税主管机关</td>-->
+                <!--<td>{{detail.localTaxBureau}}</td>-->
+                <!--<td class="td-title">联系电话</td>-->
+                <!--<td>{{detail.localTaxBureauTel}}</td>-->
+                <!--<td class="td-title">联系地址</td>-->
+                <!--<td>{{detail.localTaxBureauAddr}}</td>-->
+              <!--</tr>-->
             </table>
 
             <p class="table-title">主要人员信息</p>
@@ -113,7 +113,7 @@
                 <td class="td-title">姓名</td>
                 <td class="td-title">职务</td>
                 <td class="td-title">身份证号</td>
-                <td class="td-title">移动电话</td>
+                <!--<td class="td-title">移动电话</td>-->
                 <td class="td-title">固定电话</td>
                 <td class="td-title">邮箱</td>
               </tr>
@@ -121,7 +121,7 @@
                 <td>{{item.name}}</td>
                 <td>{{item.job}}</td>
                 <td>{{item.idCard}}</td>
-                <td>{{item.cell}}</td>
+                <!--<td>{{item.cell}}</td>-->
                 <td>{{item.tel}}</td>
                 <td>{{item.mail}}</td>
               </tr>
@@ -201,15 +201,15 @@
             <table class="detail-table">
               <tr>
                 <td class="td-title">产品名称</td>
-                <td class="td-title">产品简称</td>
+                <!--<td class="td-title">产品简称</td>-->
                 <td class="td-title">产品类别</td>
                 <td class="td-title">领域</td>
                 <td class="td-title">产品描述</td>
                 <td class="td-title">售价范围</td>
               </tr>
               <tr v-for="(item, index) in detail.serviceCustomerProductModels" :key="index">
-                <td>todo todo</td>
-                <td>{{item.abbreviations}}</td>
+                <td>{{item.name}}</td>
+                <!--<td>{{item.abbreviations}}</td>-->
                 <td>{{item.type}}</td>
                 <td>{{item.field}}</td>
                 <td>{{item.describe}}</td>
@@ -268,73 +268,73 @@
                 <td>{{item.functionMsg}}</td>
               </tr>
             </table>
-            <p class="table-title">公司网站</p>
-            <table class="detail-table">
-              <tr>
-                <td class="td-title">网站名称</td>
-                <td class="td-title">域名</td>
-                <td class="td-title">备案号</td>
-                <td class="td-title">备案时间</td>
-                <td class="td-title">网站介绍</td>
-              </tr>
-              <tr v-for="(item, index) in detail.serviceCustomerWebsiteModels" :key="index">
-                <td>{{item.websiteName}}</td>
-                <td>{{item.domainName}}</td>
-                <td>{{item.recordNo}}</td>
-                <td>{{item.recordDate && $moment(item.recordDate).format('YYYY-MM-DD')}}</td>
-                <td>{{item.introduce}}</td>
-              </tr>
-            </table>
-            <p class="table-title">员工信息</p>
-            <table class="detail-table">
-              <tr>
-                <td class="td-title">年份</td>
-                <td class="td-title">总人数</td>
-                <td class="td-title">大学以下</td>
-                <td class="td-title">大学</td>
-                <td class="td-title">本科</td>
-                <td class="td-title">研究生</td>
-                <td class="td-title">博士</td>
-                <td class="td-title">伤残人</td>
-                <td class="td-title">专业军人</td>
-                <td class="td-title">平均年龄</td>
-              </tr>
-              <tr v-for="(item, index) in detail.serviceCustomerStaffModels" :key="index">
-                <td>{{item.year}}</td>
-                <td>{{item.totalNum}}</td>
-                <td>{{item.underCollegeNum}} | {{item.underCollegeNumRate}}</td>
-                <td>{{item.collegeNum}} | {{item.collegeNumRate}}</td>
-                <td>{{item.universityDiplomaNum}} | {{item.universityDiplomaNumRate}}</td>
-                <td>{{item.postgraduateNum}} | {{item.postgraduateNumRate}}</td>
-                <td>{{item.doctorNum}} | {{item.doctorNumRate}}</td>
-                <td>{{item.handicappedNum}} | {{item.handicappedNumRate}}</td>
-                <td>{{item.soldierNum}} | {{item.soldierNum}}</td>
-                <td>{{item.averageAge}}</td>
-              </tr>
-            </table>
-            <p class="table-title">建党信息</p>
-            <table class="detail-table">
-              <tr>
-                <td class="td-title">党支书名称</td>
-                <td>{{detail.partyName}}</td>
-                <td class="td-title">成立时间</td>
-                <td>{{detail.partyEstablishDate && $moment(detail.partyEstablishDate).format('YYYY-MM-DD')}}</td>
-                <td class="td-title">党员人数</td>
-                <td>{{detail.partyPersonNum}}</td>
-              </tr>
-              <tr>
-                <td class="td-title">党委书记姓名</td>
-                <td>{{detail.partyCommittee}}</td>
-                <td class="td-title"></td>
-                <td></td>
-                <td class="td-title"></td>
-                <td></td>
-              </tr>
-              <tr>
-                <td class="td-title">组织介绍</td>
-                <td colspan="5">{{detail.partyBrief}}</td>
-              </tr>
-            </table>
+            <!--<p class="table-title">公司网站</p>-->
+            <!--<table class="detail-table">-->
+              <!--<tr>-->
+                <!--<td class="td-title">网站名称</td>-->
+                <!--<td class="td-title">域名</td>-->
+                <!--<td class="td-title">备案号</td>-->
+                <!--<td class="td-title">备案时间</td>-->
+                <!--<td class="td-title">网站介绍</td>-->
+              <!--</tr>-->
+              <!--<tr v-for="(item, index) in detail.serviceCustomerWebsiteModels" :key="index">-->
+                <!--<td>{{item.websiteName}}</td>-->
+                <!--<td>{{item.domainName}}</td>-->
+                <!--<td>{{item.recordNo}}</td>-->
+                <!--<td>{{item.recordDate && $moment(item.recordDate).format('YYYY-MM-DD')}}</td>-->
+                <!--<td>{{item.introduce}}</td>-->
+              <!--</tr>-->
+            <!--</table>-->
+            <!--<p class="table-title">员工信息</p>-->
+            <!--<table class="detail-table">-->
+              <!--<tr>-->
+                <!--<td class="td-title">年份</td>-->
+                <!--<td class="td-title">总人数</td>-->
+                <!--<td class="td-title">大学以下</td>-->
+                <!--<td class="td-title">大学</td>-->
+                <!--<td class="td-title">本科</td>-->
+                <!--<td class="td-title">研究生</td>-->
+                <!--<td class="td-title">博士</td>-->
+                <!--<td class="td-title">伤残人</td>-->
+                <!--<td class="td-title">专业军人</td>-->
+                <!--<td class="td-title">平均年龄</td>-->
+              <!--</tr>-->
+              <!--<tr v-for="(item, index) in detail.serviceCustomerStaffModels" :key="index">-->
+                <!--<td>{{item.year}}</td>-->
+                <!--<td>{{item.totalNum}}</td>-->
+                <!--<td>{{item.underCollegeNum}} | {{item.underCollegeNumRate}}</td>-->
+                <!--<td>{{item.collegeNum}} | {{item.collegeNumRate}}</td>-->
+                <!--<td>{{item.universityDiplomaNum}} | {{item.universityDiplomaNumRate}}</td>-->
+                <!--<td>{{item.postgraduateNum}} | {{item.postgraduateNumRate}}</td>-->
+                <!--<td>{{item.doctorNum}} | {{item.doctorNumRate}}</td>-->
+                <!--<td>{{item.handicappedNum}} | {{item.handicappedNumRate}}</td>-->
+                <!--<td>{{item.soldierNum}} | {{item.soldierNum}}</td>-->
+                <!--<td>{{item.averageAge}}</td>-->
+              <!--</tr>-->
+            <!--</table>-->
+            <!--<p class="table-title">建党信息</p>-->
+            <!--<table class="detail-table">-->
+              <!--<tr>-->
+                <!--<td class="td-title">党支书名称</td>-->
+                <!--<td>{{detail.partyName}}</td>-->
+                <!--<td class="td-title">成立时间</td>-->
+                <!--<td>{{detail.partyEstablishDate && $moment(detail.partyEstablishDate).format('YYYY-MM-DD')}}</td>-->
+                <!--<td class="td-title">党员人数</td>-->
+                <!--<td>{{detail.partyPersonNum}}</td>-->
+              <!--</tr>-->
+              <!--<tr>-->
+                <!--<td class="td-title">党委书记姓名</td>-->
+                <!--<td>{{detail.partyCommittee}}</td>-->
+                <!--<td class="td-title"></td>-->
+                <!--<td></td>-->
+                <!--<td class="td-title"></td>-->
+                <!--<td></td>-->
+              <!--</tr>-->
+              <!--<tr>-->
+                <!--<td class="td-title">组织介绍</td>-->
+                <!--<td colspan="5">{{detail.partyBrief}}</td>-->
+              <!--</tr>-->
+            <!--</table>-->
           </el-tab-pane>
           <el-tab-pane label="企业发展信息" name="dev"></el-tab-pane>
           <el-tab-pane label="企业经营信息" name="man"></el-tab-pane>

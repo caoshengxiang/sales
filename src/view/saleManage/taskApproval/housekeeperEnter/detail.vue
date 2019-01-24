@@ -23,15 +23,23 @@
           </span>
           </h3>
           <p>
-            <span class="com-d-item">服务地区: <span v-for="(item, index) in managerDetail.serviceManagerAreaModels"
-                                                 :key="index">
+            <span class="com-d-item">服务地区:
+              <span v-for="(item, index) in managerDetail.serviceManagerAreaModels" :key="index">
+                 <span v-if="index < 2">
                 <span v-if="index > 0">、</span>{{item.provinceName + item.cityName + item.areaName}}
-              </span></span>
+                 </span>
+              </span>
+            <span v-if="managerDetail.serviceManagerAreaModel && managerDetail.serviceManagerAreaModel.length > 2">...</span>
+            </span>
             <span class="com-d-item">联系电话: <span>{{managerDetail.mobilePhone}}</span></span>
-            <span class="com-d-item">服务类目: <span v-for="(item, index) in managerDetail.serviceManagerGoodsModels"
-                                                 :key="index">
+            <span class="com-d-item">服务类目:
+            <span v-for="(item, index) in managerDetail.serviceManagerGoodsModels" :key="index">
+                <span v-if="index < 2">
                 <span v-if="index > 0">、</span>{{item.goodsName}}
-              </span></span>
+                </span>
+              </span>
+              <span v-if="managerDetail.serviceManagerGoodsModels && managerDetail.serviceManagerGoodsModels.length > 2">...</span>
+            </span>
           </p>
         </div>
       </div>

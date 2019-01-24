@@ -13,13 +13,14 @@
     <div class="com-bar">
       <div class="com-bar-left">
         <com-button buttonType="add" icon="el-icon-circle-check-outline" @click="operateOptions('pass')"
-                    :disabled="multipleSelection.length !== 1">审核通过
+                    :disabled="multipleSelection.length !== 1||(multipleSelection[0]&&multipleSelection[0].auditState!==1)">审核通过
         </com-button>
         <com-button buttonType="delete" icon="el-icon-remove-outline" @click="operateOptions('refuse')"
-                    :disabled="multipleSelection.length !== 1">审核拒绝
+                    :disabled="multipleSelection.length !== 1||(multipleSelection[0]&&multipleSelection[0].auditState!==1)">审核拒绝
         </com-button>
       </div>
       <div class="com-bar-right">
+        <com-button buttonType="search" @click="advancedSearchHandle" style="">高级搜索</com-button>
       </div>
     </div>
     <!--详细-->
@@ -114,7 +115,7 @@
           <el-table-column
             align="center"
             sortable="custom"
-            prop="test"
+            prop="bizType"
             label="业务类型"
             width="160"
             show-overflow-tooltip
@@ -137,7 +138,7 @@
           <el-table-column
             align="center"
             sortable="custom"
-            prop="test"
+            prop=""
             label="服务管家"
             width="160"
             show-overflow-tooltip
@@ -173,6 +174,7 @@
   import { underscoreName, arrToStr } from '../../../../utils/utils'
   import API2 from '../../../../utils/api2'
   import comButton from '../../../../components/button/comButton'
+  import advancedSearch from './advancedSearch'
 
   export default {
     name: 'list',
@@ -243,7 +245,7 @@
           order = 'desc'
         }
         this.sortObj = {sort: underscoreName(sortObj.prop) + ',' + order}
-        // this.getCustomerList()
+        this.getList()
       },
       getQueryParams () { // 请求参数配置
         this.defaultListParams = {
@@ -296,15 +298,15 @@
             })
             break
           case 'refuse':
-            this.$confirm('确定审核拒绝, 是否继续?', '提示', {
+            this.$prompt('请输入审核意见', '提示', {
               confirmButtonText: '确定',
               cancelButtonText: '取消',
-              type: 'warning',
-            }).then(() => {
+            }).then(({value}) => {
               this.dataLoading = true
               API2.customerBill.audit({
                 id: arrToStr(this.multipleSelection, 'id'),
                 auditState: 2,
+                auditRemark: value,
               }, (data) => {
                 if (data.status) {
                   this.$message.success(`操作成功`)
@@ -327,6 +329,23 @@
             break
           default:
         }
+      },
+      advancedSearchHandle () { // 高级搜索
+        this.$vDialog.modal(advancedSearch, {
+          title: '高级搜索',
+          width: 900,
+          height: 460,
+          params: {
+            preAdvancedSearch: this.advancedSearch,
+          },
+          callback: (data) => {
+            if (data.type === 'search') {
+              console.log('高级搜索数据：', data.params)
+              this.advancedSearch = data.params
+              this.getList()
+            }
+          },
+        })
       },
     },
     created () {

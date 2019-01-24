@@ -81,17 +81,17 @@
           :formatter="dateFormat"
         >
         </el-table-column>
-        <el-table-column
-          align="center"
-          prop="state"
-          label="审批状态"
-          show-overflow-tooltip>
-          <template slot-scope="scope">
-            <span v-if="scope.row.state === 1">待审批</span>
-            <span v-else-if="scope.row.approved">已通过</span>
-            <span v-else>已拒绝</span>
-          </template>
-        </el-table-column>
+        <!--<el-table-column-->
+          <!--align="center"-->
+          <!--prop="state"-->
+          <!--label="审批状态"-->
+          <!--show-overflow-tooltip>-->
+          <!--<template slot-scope="scope">-->
+            <!--<span v-if="scope.row.state === 1">待审批</span>-->
+            <!--<span v-else-if="scope.row.state === 2">已通过</span>-->
+            <!--<span v-else>已拒绝</span>-->
+          <!--</template>-->
+        <!--</el-table-column>-->
         <el-table-column
           align="center"
           prop="state"
@@ -99,8 +99,8 @@
           show-overflow-tooltip>
           <template slot-scope="scope">
             <span v-if="scope.row.state === 1">审批中</span>
-            <span v-if="scope.row.state === 2">已完成</span>
-            <span v-if="scope.row.state === 3">已终止</span>
+            <span v-if="scope.row.state === 2">已通过</span>
+            <span v-if="scope.row.state === 3">已拒绝</span>
           </template>
         </el-table-column>
       </el-table>
@@ -138,10 +138,7 @@
         timer: false,
         total: 0,
         options: [
-          /* { // todo del
-            value: null,
-            label: '全部任务',
-          }, */{
+           {
             value: 1,
             label: '我待办的审核',
           }, {

@@ -9,7 +9,7 @@
             <td class="td-title">商务管家</td>
             <td>{{detail.businessManagerName}}</td>
             <td class="td-title">商务电话</td>
-            <td>{{detail.businessManagerName}}</td>
+            <td>{{detail.businessManagerPhone}}</td>
             <td class="td-title"></td>
             <td></td>
           </tr>
@@ -50,7 +50,7 @@
             <td class="td-title">签约性质</td>
             <td>{{detail.contractProperty===1?'新签':'续费'}}</td>
             <td class="td-title">签约主体</td>
-            <td>{{detail.contractObject}}</td>
+            <td>{{detail.contractSubject}}</td>
           </tr>
         </table>
 
@@ -72,16 +72,20 @@
                 <a class="com-a-link" @click="selectManagerHandle(item, index)">重选</a>
               </span>
               <span v-else-if="item.workOrderState == 2">
-                <a class="com-a-link" @click="selectManagerHandle(item, index)">{{item.managerName}}</a>
+                <!--<a class="com-a-link" @click="selectManagerHandle(item, index)">{{item.managerName}}</a>-->
+                <!--<label>已拒单</label>-->
+                <a class="com-a-link" @click="selectManagerHandle(item, index)">请选择</a><!--客户要求 又只显示这个了-->
                 <label>已拒单</label>
               </span>
               <span v-else-if="item.workOrderState == 6">
-                <a @click="selectManagerHandle(item, index)">{{item.managerName}}</a>
+                <!--<a @click="selectManagerHandle(item, index)">{{item.managerName}}</a>-->
+                <!--<label>已退单</label>-->
+                <a class="com-a-link" @click="selectManagerHandle(item, index)">请选择</a><!--客户要求 又只显示这个了-->
                 <label>已退单</label>
               </span>
               <a v-else>{{ item.managerName }}</a>
             </td>
-            <td></td>
+            <td>{{item.serviceName}}</td>
           </tr>
         </table>
       </el-form>
@@ -181,6 +185,7 @@
               console.log(data)
               item.managerName = data.manager.name
               item.managerId = data.manager.userId
+              item.serviceName = data.manager.serviceName
               // console.log(item)
               // this.getDetail()
             }
@@ -189,6 +194,7 @@
       },
       saveSubmitForm () {
         let paramsArr = []
+        this.dataLoading = true
         this.workOrderManagers.forEach((item, index) => {
           // （null-未指派、1-待接收、2-已拒绝、3-进行中、4-已完成、5-退单中、6-已退单）
           if (item.managerId && (!item.workOrderState || item.workOrderState === 2 || item.workOrderState === 6)) { // 待派单，已拒绝
@@ -214,12 +220,18 @@
         })
         if (!paramsArr.length) {
           this.$message.warning('未选择派单管家')
+          this.dataLoading = false
           return
         }
         API.workOrder.addWorkOrder(paramsArr, (res) => {
+          this.dataLoading = false
           if (res.status) {
-            this.$message.success('派单成功')
-            this.$vDialog.close({type: 'save'})
+            if (res.data.fail > 0) {
+              this.$message.warning(`成功${res.data.success}, 失败${res.data.fail}, 失败原因：${res.data.errorMessage}`)
+            } else {
+              this.$message.success('派单成功')
+              this.$vDialog.close({type: 'save'})
+            }
           }
         })
       }

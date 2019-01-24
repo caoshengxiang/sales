@@ -15,10 +15,10 @@
       <div class="com-info-left">
         <img class="com-info-img" src="../../../../assets/icon/company.png" alt="">
         <div class="com-info-text">
-          <h3>订单派单号 <span>{{detail.orderNum}}</span></h3>
+          <h3>工单派单号 <span>{{detail.orderNum}}</span></h3>
           <p>
-            <span class="com-d-item">服务客户: <span>{{detail.serviceName}}</span></span>
-            <span class="com-d-item">联系商品: <span>{{detail.goodsName}}</span></span>
+            <span class="com-d-item">服务客户: <span>{{detail.customerName}}</span></span>
+            <span class="com-d-item">服务商品: <span>{{detail.goodsName}}</span></span>
             <span class="com-d-item">派单时间: <span>{{detail.assignDate && $moment(detail.assignDate).format('YYYY-MM-DD HH:mm:ss')}}</span></span>
           </p>
         </div>
@@ -35,7 +35,9 @@
       <div class="com-box-padding">
         <el-tabs v-model="activeViewName" type="card" @tab-click="handleTabsClick">
           <el-tab-pane label="服务派单加工" name="operate">
-            <working-op :order-id="$route.query.orderId" :customerName="detail.serviceName"></working-op>
+            <working-op :order-id="$route.query.orderId"
+                        :customerName="detail.customerName"
+                        :customerId="orderDetail.customerId"></working-op><!--注意数据太乱，客户，订单工单-->
           </el-tab-pane>
           <el-tab-pane label="工单相关信息" name="related">
             <p class="table-title">服务客户</p>
@@ -80,7 +82,7 @@
                 </td>
                 <td>{{orderDetail.goodsName}}</td>
                 <td>{{orderDetail.created && $moment(orderDetail.created).format('YYYY-MM-DD HH:mm:ss')}}</td>
-                <td>{{orderDetail.orderTime && $moment(orderDetail.orderTime).format('YYYY-MM-DD HH:mm:ss')}}</td>
+                <td>{{orderDetail.createdDate && $moment(orderDetail.createdDate).format('YYYY-MM-DD HH:mm:ss')}}</td>
               </tr>
             </table>
 
@@ -95,24 +97,26 @@
               </tr>
               <tr v-for="(item, index) in csInOrderList" :key="index">
                 <td>
+                  <!--bug 1582 提交修改 不跳转-->
+                  {{item.num}}
                   <!--投诉-->
-                  <router-link class="col-link"
-                               v-if="item.type === 3"
-                               :to="{name: 'serviceComplaintDetail', query: {id: item.id}}">
-                    {{item.num}}
-                  </router-link>
+                  <!--<router-link class="col-link"-->
+                               <!--v-if="item.type === 3"-->
+                               <!--:to="{name: 'serviceComplaintDetail', query: {id: item.id}}">-->
+                    <!--{{item.num}}-->
+                  <!--</router-link>-->
                   <!--回访-->
-                  <router-link class="col-link"
-                               v-if="item.type === 2"
-                               :to="{name: 'serviceReturnVisitDetail', query: {id: item.id, view: 'service'}}">
-                    {{item.num}}
-                  </router-link>
+                  <!--<router-link class="col-link"-->
+                               <!--v-if="item.type === 2"-->
+                               <!--:to="{name: 'serviceReturnVisitDetail', query: {id: item.id, view: 'service'}}">-->
+                    <!--{{item.num}}-->
+                  <!--</router-link>-->
                   <!--抽查-->
-                  <router-link class="col-link"
-                               v-if="item.type === 1"
-                               :to="{name: 'serviceSpotCheckDetail', query: {id: item.id, view: 'order'}}">
-                    {{item.num}}
-                  </router-link>
+                  <!--<router-link class="col-link"-->
+                               <!--v-if="item.type === 1"-->
+                               <!--:to="{name: 'serviceSpotCheckDetail', query: {id: item.id, view: 'order'}}">-->
+                    <!--{{item.num}}-->
+                  <!--</router-link>-->
                 </td>
                 <td>{{item.subjectName}}</td>
                 <td>{{item.stateName}}</td>
@@ -140,7 +144,7 @@
                 </td>
                 <td>{{item.goodsName}}</td>
                 <td>{{item.created && $moment(item.created).format('YYYY-MM-DD HH:mm:ss')}}</td>
-                <td>todo</td>
+                <td>{{item.finishTime && $moment(item.finishTime).format('YYYY-MM-DD HH:mm:ss')}}</td>
               </tr>
             </table>
           </el-tab-pane>
@@ -231,8 +235,10 @@
       getDetailByOrderId (orderId) {
         API.serviceOrder.detailByOrderId(orderId, (da) => {
           this.orderDetail = da.data
-          this.getOrderListNoAuth(this.orderDetail.customerId)
-          this.getCustomerAbout(this.orderDetail.customerId, this.orderDetail.orderId)
+          if (this.orderDetail.customerId) { // 没有客户id,就不查，免得接口报错
+            this.getOrderListNoAuth(this.orderDetail.customerId)
+            this.getCustomerAbout(this.orderDetail.customerId, this.orderDetail.orderId)
+          }
         })
       },
       orderHandle (type) {

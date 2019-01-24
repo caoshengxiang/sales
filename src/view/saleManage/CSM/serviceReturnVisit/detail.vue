@@ -36,19 +36,20 @@
           <!-- 回访状态（1待派单2待回访3已回访4拒绝回访5待再回访）-->
           <li @click="operateOptions('assginOrder')" v-if="detail.state === 1">派单</li>
         </ul>
-        <el-dropdown @command="handleCommand" trigger="click" v-if="detail.state === 2 || detail.state === 5">
-          <el-button type="primary">
-            回访<i class="el-icon-arrow-down el-icon--right"></i>
-          </el-button>
-          <el-dropdown-menu slot="dropdown" v-if="detail.type">
-            <el-dropdown-item v-for="item in visitTypes"
-                              :key="item.type"
-                              :command="item.type"
-                              :disabled="returnVisitDisabled(item.type)">
-              {{item.value}}
-            </el-dropdown-item>
-          </el-dropdown-menu>
-        </el-dropdown>
+        <!--<el-dropdown @command="handleCommand" trigger="click" v-if="detail.state === 2 || detail.state === 5">-->
+          <!--<el-button type="primary">-->
+            <!--回访<i class="el-icon-arrow-down el-icon&#45;&#45;right"></i>-->
+          <!--</el-button>-->
+          <!--<el-dropdown-menu slot="dropdown" v-if="detail.type">-->
+            <!--<el-dropdown-item v-for="item in visitTypes"-->
+                              <!--:key="item.type"-->
+                              <!--:command="item.type"-->
+                              <!--:disabled="returnVisitDisabled(item.type)">-->
+              <!--{{item.value}}-->
+            <!--</el-dropdown-item>-->
+          <!--</el-dropdown-menu>-->
+        <!--</el-dropdown>-->
+        <com-button v-if="(detail.state === 2 || detail.state === 5) && detail.type" buttonType="add" @click="handleCommandAuto" style="">回访</com-button>
       </div>
     </div>
     <!--详细-->
@@ -207,7 +208,10 @@
             </table>
           </el-tab-pane>
           <el-tab-pane label="服务加工" name="operate">
-            <working-op v-if="detail.orderId" :order-id="detail.orderId" :customerName="detail.customerName"></working-op>
+            <working-op v-if="detail.orderId"
+                        :order-id="detail.orderId"
+                        :customerName="detail.customerName"
+                        :customerId="detail.customerId"></working-op>
           </el-tab-pane>
         </el-tabs>
       </div>
@@ -350,6 +354,22 @@
         } else {
           return true
         }
+      },
+      handleCommandAuto () {
+        this.$vDialog.modal(returnVisit, {
+          title: this.visitTypes[this.detail.type - 1].value,
+          width: 950,
+          height: 560,
+          params: {
+            ids: this.detail.id,
+            type: this.detail.type
+          },
+          callback: (data) => {
+            if (data.type === 'save') {
+              this.getList()
+            }
+          },
+        })
       },
       showOrderDetail (orderId) {
         this.$vDialog.modal(orderDetailDialog, {

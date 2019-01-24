@@ -16,6 +16,10 @@
         <com-button buttonType="grey" icon="el-icon-remove-outline" @click="save">保存
         </com-button>
       </div>
+      <div class="com-bar-right">
+        <el-input style="width: 160px;" type="text" placeholder="请输入商品名称" v-model="searchGoodsName"></el-input>
+        <com-button buttonType="search" @click="getOrganizationList">搜索</com-button>
+      </div>
     </div>
     <!--详细-->
     <div class="com-box com-box-padding com-list-box">
@@ -92,6 +96,7 @@
         organizationIndex: '1',
         goodsConfs: [],
         totle: 0,
+        searchGoodsName: null,
       }
     },
     watch: {
@@ -146,12 +151,13 @@
         let params = {
           page: this.currentPage - 1,
           pageSize: this.pagesOptions.pageSize,
+          goodsName: this.searchGoodsName,
         }
         API.baseSetting.getProductType(params, (res) => {
           that.roleDetail = res.data.content
           that.totle = res.data.totalElements
         }, (mock) => {
-          this.alldepartments = mock.data
+          // this.alldepartments = mock.data
           this.loading = false
         })
       },

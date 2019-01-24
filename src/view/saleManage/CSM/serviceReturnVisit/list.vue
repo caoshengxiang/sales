@@ -11,26 +11,30 @@
     </div>
     <!--控制栏-->
     <div class="com-bar">
-      <div class="com-bar-left" style="display: flex">
-        <com-button buttonType="add" :disabled="multipleSelection.length === 0" icon="el-icon-edit-outline" @click="orderHandle('assginOrder')">回访派单</com-button>
-        <!--<com-button buttonType="add" icon="el-icon-plus" @click="orderHandle('returnVisit')">回访</com-button>-->
-        <div>
-          <el-dropdown @command="handleCommand" trigger="click" style="margin-left: 10px">
-            <el-button type="primary">
-              回访<i class="el-icon-arrow-down el-icon--right"></i>
-            </el-button>
-            <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item v-for="item in visitTypes"
-                                :key="item.type"
-                                :command="item.type"
-                                :disabled="returnVisitDisabled(item.type)">
-                {{item.value}}
-              </el-dropdown-item>
-            </el-dropdown-menu>
-          </el-dropdown>
+      <div class="com-bar-left" style="">
+        <div style="display: flex">
+          <com-button buttonType="add" :disabled="multipleSelection.length === 0" icon="el-icon-edit-outline" @click="orderHandle('assginOrder')">回访派单</com-button>
+          <com-button buttonType="import" :disabled="multipleSelection.length !== 1" @click="handleCommandAuto" style="">回访</com-button>
+          <!--<com-button buttonType="add" icon="el-icon-plus" @click="orderHandle('returnVisit')">回访</com-button>-->
+          <div>
+            <!--<el-dropdown @command="handleCommand" trigger="click" style="margin-left: 10px">-->
+              <!--<el-button type="primary">-->
+                <!--回访<i class="el-icon-arrow-down el-icon&#45;&#45;right"></i>-->
+              <!--</el-button>-->
+              <!--<el-dropdown-menu slot="dropdown">-->
+                <!--<el-dropdown-item v-for="item in visitTypes"-->
+                                  <!--:key="item.type"-->
+                                  <!--:command="item.type"-->
+                                  <!--:disabled="returnVisitDisabled(item.type)">-->
+                  <!--{{item.value}}-->
+                <!--</el-dropdown-item>-->
+              <!--</el-dropdown-menu>-->
+            <!--</el-dropdown>-->
+          </div>
         </div>
       </div>
       <div class="com-bar-right">
+        <com-button buttonType="search" @click="advancedSearchHandle" style="">高级搜索</com-button>
       </div>
     </div>
     <!--详细-->
@@ -201,6 +205,7 @@
   import API from '../../../../utils/api'
   import assginOrder from './assginOrder'
   import returnVisit from './returnVisit'
+  import advancedSearch from './advancedSearch'
 
   export default {
     name: 'list',
@@ -335,7 +340,40 @@
         } else {
           return true
         }
-      }
+      },
+      handleCommandAuto () {
+        this.$vDialog.modal(returnVisit, {
+          title: this.visitTypes[this.multipleSelection[0].type - 1].value,
+          width: 950,
+          height: 560,
+          params: {
+            ids: arrToStr(this.multipleSelection, 'id'),
+            type: this.multipleSelection[0].type
+          },
+          callback: (data) => {
+            if (data.type === 'save') {
+              this.getList()
+            }
+          },
+        })
+      },
+      advancedSearchHandle () { // 高级搜索
+        this.$vDialog.modal(advancedSearch, {
+          title: '高级搜索',
+          width: 900,
+          height: 460,
+          params: {
+            preAdvancedSearch: this.advancedSearch,
+          },
+          callback: (data) => {
+            if (data.type === 'search') {
+              console.log('高级搜索数据：', data.params)
+              this.advancedSearch = data.params
+              this.getList()
+            }
+          },
+        })
+      },
     },
     created () {
       this.getList()

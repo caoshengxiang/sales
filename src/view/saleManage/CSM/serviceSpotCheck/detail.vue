@@ -144,12 +144,15 @@
                 </td>
                 <td>{{item.goodsName}}</td>
                 <td>{{item.created && $moment(item.created).format('YYYY-MM-DD HH:mm:ss')}}</td>
-                <td>todo</td>
+                <td>{{item.finishTime && $moment(item.finishTime).format('YYYY-MM-DD HH:mm:ss')}}</td>
               </tr>
             </table>
           </el-tab-pane>
           <el-tab-pane label="订单加工信息" name="operate">
-            <working-op v-if="detail.orderId" :order-id="detail.orderId" :customerName="detail.customerName"></working-op>
+            <working-op v-if="detail.orderId"
+                        :order-id="detail.orderId"
+                        :customerName="detail.customerName"
+                        :customerId="detail.customerId"></working-op>
           </el-tab-pane>
         </el-tabs>
       </div>

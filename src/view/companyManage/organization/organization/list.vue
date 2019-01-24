@@ -694,6 +694,7 @@
         API.organization.queryUserForList({id: id}, (res) => {
           if (res.status) {
             that.userForList = res.data
+            that.userForList.unshift({id: null, name: '无'})
           } else {
             Message({
               message: res.error.message,

@@ -14,9 +14,10 @@
     <div class="com-bar">
       <div class="com-bar-left">
         <com-button buttonType="add" icon="el-icon-plus" @click="addHandle">添加</com-button>
-        <el-button buttonType="add" type="primary" :disabled="multipleSelection.length === 0" icon="" @click="assginOrderHandle">坐席派单</el-button>
+        <com-button buttonType="import" type="primary" :disabled="multipleSelection.length === 0" icon="" @click="assginOrderHandle">坐席派单</com-button>
       </div>
       <div class="com-bar-right">
+        <com-button buttonType="search" @click="advancedSearchHandle" style="">高级搜索</com-button>
       </div>
     </div>
     <!--详细-->
@@ -145,7 +146,7 @@
             align="center"
             sortable="custom"
             prop="complaintTime"
-            label="一般诉讼日期"
+            label="一般投诉日期"
             width="160"
             show-overflow-tooltip
           >
@@ -166,7 +167,7 @@
             align="center"
             sortable="custom"
             prop="cusName"
-            label="一般诉讼跟踪人"
+            label="一般投诉跟踪人"
             width="160"
             show-overflow-tooltip
           >
@@ -219,6 +220,7 @@
   import API from '../../../../utils/api'
   import addDialog from './addDialog'
   import assginOrder from './assginOrder'
+  import advancedSearch from './advancedSearch'
 
   export default {
     name: 'list',
@@ -333,7 +335,24 @@
             }
           },
         })
-      }
+      },
+      advancedSearchHandle () { // 高级搜索
+        this.$vDialog.modal(advancedSearch, {
+          title: '高级搜索',
+          width: 900,
+          height: 560,
+          params: {
+            preAdvancedSearch: this.advancedSearch,
+          },
+          callback: (data) => {
+            if (data.type === 'search') {
+              console.log('高级搜索数据：', data.params)
+              this.advancedSearch = data.params
+              this.getList()
+            }
+          },
+        })
+      },
     },
     created () {
       this.getList()

@@ -10,7 +10,7 @@
           <el-date-picker
             style="width: 100%;"
             value-format="yyyy"
-            v-model="ruleForm.year"
+            v-model="ruleForm.setTime"
             type="year"
             placeholder="请选择年份">
           </el-date-picker>
@@ -40,10 +40,10 @@
       return {
         ruleForm: {
           remark: '',
-          year: '', // 存result
+          setTime: '',
         },
         rules: {
-          year: [
+          setTime: [
             {required: true, message: '请选择年份', trigger: 'change'},
           ],
         },
@@ -54,12 +54,12 @@
       saveSubmitForm (formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            API.workOrder.serviceItemOperate(Object.assign({}, this.params.baseParam, {
-              remark: this.ruleForm.remark,
-              result: JSON.stringify({
-                year: this.ruleForm.year,
-              })
-            }), (res) => {
+            API.workOrder.serviceItemOperate(Object.assign({}, this.params.baseParam,
+              {
+                remark: this.ruleForm.remark,
+                setTime: Date.parse(new Date(this.ruleForm.setTime))
+              },
+            ), (res) => {
               if (res.status) {
                 this.$message.success('操作成功')
                 this.$vDialog.close({type: 'itemSave'})

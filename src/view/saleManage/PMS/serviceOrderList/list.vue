@@ -15,6 +15,7 @@
         <com-button buttonType="add" icon="el-icon-edit-outline" @click="orderHandle" :disabled="multipleSelection.length !== 1">派单</com-button>
       </div>
       <div class="com-bar-right">
+        <com-button buttonType="search" @click="advancedSearchHandle" style="">高级搜索</com-button>
       </div>
     </div>
     <!--详细-->
@@ -88,8 +89,8 @@
             <template slot-scope="scope">
               <!--null-未指派、1-待接收、2-已拒绝、3-进行中、4-已完成、5-退单中、6-已退单-->
               <span v-for="(item, index) in scope.row.workOrderManagers" :key="index">
-                <a @click="selectManagerHandle(item, 1, scope.row)" v-if="!item.serviceState" class="col-link">{{ item.managerTypeName }}</a>
-                <a @click="selectManagerHandle(item, 2, scope.row)" v-else-if="item.serviceState == 1 || item.serviceState == 2">{{ item.managerName }}</a>
+                <a @click="selectManagerHandle(item, 1, scope.row)" v-if="!item.serviceState || item.serviceState == 2 || item.serviceState == 6" class="col-link">{{ item.managerTypeName }}</a>
+                <!--<a @click="selectManagerHandle(item, 2, scope.row)" v-else-if="item.serviceState == 1 || item.serviceState == 2">{{ item.managerName }}</a>-->
                 <!--<a v-else-if="item.serviceState == 3 || item.serviceState == 4">{{ item.managerName }}</a>-->
                 <a @click="selectManagerHandle(item, 3, scope.row)" v-else>{{ item.managerName }}</a>
                 &nbsp;&nbsp;
@@ -107,6 +108,7 @@
             <template slot-scope="scope">
               <span v-if="scope.row.reviewState === 1">未评价</span>
               <span v-if="scope.row.reviewState === 2">已评价</span>
+              <span v-if="scope.row.reviewState === 3">已评价</span>
             </template>
           </el-table-column>
           <el-table-column
@@ -190,8 +192,8 @@
             show-overflow-tooltip
           >
             <template slot-scope="scope">
-              <span v-if="scope.row.orderType === 'FIRST'">客户首单</span>
-              <span v-if="scope.row.orderType === 'DERIVE'">衍生业务</span>
+              <span v-if="scope.row.orderType === 'FIRST'">首购订单</span>
+              <span v-if="scope.row.orderType === 'DERIVE'">复购订单</span>
             </template>
           </el-table-column>
           <el-table-column
@@ -263,6 +265,7 @@
   import comButton from '../../../../components/button/comButton'
   import orderDialog from './orderDialog'
   import selectManager from './selectManager'
+  import advancedSearch from './advancedSearch'
 
   export default {
     name: 'list',
@@ -391,6 +394,23 @@
         } else if (type === 3) {
           // todo 3进入工单详情
         }
+      },
+      advancedSearchHandle () { // 高级搜索
+        this.$vDialog.modal(advancedSearch, {
+          title: '高级搜索',
+          width: 900,
+          height: 560,
+          params: {
+            preAdvancedSearch: this.advancedSearch,
+          },
+          callback: (data) => {
+            if (data.type === 'search') {
+              console.log('高级搜索数据：', data.params)
+              this.advancedSearch = data.params
+              this.getList()
+            }
+          },
+        })
       },
     },
     created () {

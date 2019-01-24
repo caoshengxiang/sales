@@ -46,24 +46,28 @@
         </table>
 
         <!--图片，排序-->
-        <div class="imgs-box">
-            <div class="imgs-box-item" v-for="(bill, index) in bills" :key="index"
-                 v-dragging="{ item: bill, list: bills, group: 'customerBill' }">
-              <photo-view :photo-data="{
-                text: '',
-                images: [
-                  {url: bill.image, previewText: bill.text},
-                ]}">
-                <img :src="bill.image" alt="">
-              </photo-view>
+        <div class="imgs-box" ref="viewerBillShow" id="viewerBillS">
+          <div class="imgs-box-item" v-for="(bill, index) in bills" :key="index"
+               v-dragging="{ item: bill, list: bills, group: 'customerBill' }">
+            <!--<photo-view :photo-data="{-->
+            <!--text: '',-->
+            <!--images: [-->
+            <!--{url: bill.image, previewText: bill.text},-->
+            <!--]}">-->
+            <!--<img :src="bill.image" alt="">-->
+            <!--</photo-view>-->
+            <div>
+              <img :src="bill.image" alt="">
               <p>{{bill.text}}</p>
             </div>
+          </div>
         </div>
+
         <!--操纵-->
         <div style="background-color: #F9FCFB; padding: 10px 30px;">
           <b>操作</b>
-          <span  v-if="billDetail.auditState === 1" class="op-btn" @click="operateOptions('pass')">审核通过</span>
-          <span  v-if="billDetail.auditState === 1" class="op-btn" @click="operateOptions('refuse')">审核拒绝</span>
+          <span v-if="billDetail.auditState === 1" class="op-btn" @click="operateOptions('pass')">审核通过</span>
+          <span v-if="billDetail.auditState === 1" class="op-btn" @click="operateOptions('refuse')">审核拒绝</span>
           <span class="op-tips">
             <span v-if="billDetail.auditState === 1">待审核</span>
             <span v-if="billDetail.auditState === 2">审核已拒绝</span>
@@ -91,33 +95,17 @@
   import photoView from '../../../../components/photo/photoView'
   import API2 from '../../../../utils/api2'
   import { arrToStr } from '../../../../utils/utils'
+  import Viewer from 'viewerjs'
+  import 'viewerjs/dist/viewer.css'
+
   export default {
     name: 'detail',
     data () {
       return {
         dataLoading: false,
-        bills: [
-          // {
-          //   image: '../../../../../static/images/wave-bot-2.png',
-          //   text: '图片描述1',
-          //   id: 1,
-          // },
-          // {
-          //   image: '../../../../../static/images/wave-bot.png',
-          //   text: '图片描述2',
-          //   id: 2,
-          // },
-          // {
-          //   image: '../../../../../static/images/wave-mid.png',
-          //   text: '图片描述3',
-          //   id: 3,
-          // }, {
-          //   image: '../../../../../static/images/wave-mid-2.png',
-          //   text: '图片描述4',
-          //   id: 4,
-          // },
-        ],
+        bills: [],
         billDetail: {},
+        viewerDom: '',
       }
     },
     components: {
@@ -126,18 +114,28 @@
     methods: {
       getDetail () {
         this.dataLoading = true
+        console.log(1)
         API2.customerBill.detail(this.$route.query.id, (da) => {
+          console.log(2)
           this.billDetail = da.data
-          let images = da.data.attachment.split(',')
-          this.bills = images.map((item, index) => {
-            return {
-              image: item,
-              text: '',
-              id: index,
-            }
-          })
+          if (da.data.attachment) {
+            let images = da.data.attachment.split(',')
+            this.bills = images.map((item, index) => {
+              return {
+                image: item,
+                text: '',
+                id: index,
+              }
+            })
+            this.$nextTick(() => {
+              this.viewerDom && this.viewerDom.destroy()
+              this.viewerDom = new Viewer(this.$refs.viewerBillShow)
+            })
+          }
+          console.log(3)
           setTimeout(() => {
             this.dataLoading = false
+            console.log(65)
           }, 500)
         })
       },
@@ -174,14 +172,43 @@
             })
             break
           case 'refuse':
-            this.$confirm('确定审核拒绝, 是否继续?', '提示', {
+            // this.$confirm('确定审核拒绝, 是否继续?', '提示', {
+            //   confirmButtonText: '确定',
+            //   cancelButtonText: '取消',
+            //   type: 'warning',
+            // }).then(() => {
+            //   this.dataLoading = true
+            //   API2.customerBill.audit({
+            //     id: this.billDetail.id,
+            //     auditState: 2,
+            //   }, (data) => {
+            //     if (data.status) {
+            //       this.$message.success(`操作成功`)
+            //       setTimeout(() => {
+            //         this.dataLoading = false
+            //         this.getDetail()
+            //       }, 500)
+            //     } else {
+            //       setTimeout(() => {
+            //         this.dataLoading = false
+            //       }, 500)
+            //     }
+            //   })
+            // }).catch(() => {
+            //   this.$message({
+            //     type: 'info',
+            //     message: '已取消删除',
+            //   })
+            // })
+
+            this.$prompt('请输入审核意见', '提示', {
               confirmButtonText: '确定',
               cancelButtonText: '取消',
-              type: 'warning',
-            }).then(() => {
+            }).then(({value}) => {
               this.dataLoading = true
               API2.customerBill.audit({
                 id: this.billDetail.id,
+                auditRemark: value,
                 auditState: 2,
               }, (data) => {
                 if (data.status) {
@@ -199,19 +226,18 @@
             }).catch(() => {
               this.$message({
                 type: 'info',
-                message: '已取消删除',
+                message: '取消输入',
               })
             })
             break
           default:
         }
-      }
-    },
-    created () {
-      this.getDetail()
+      },
     },
     mounted () {
-      this.$dragging.$on('dragged', ({ value }) => {
+      this.getDetail()
+
+      this.$dragging.$on('dragged', ({value}) => {
         console.log(value.item)
         console.log(value.list)
         console.log(value.group)
@@ -220,12 +246,13 @@
           console.log(da)
         })
       })
-    }
+    },
   }
 </script>
 
 <style scoped lang="scss" rel="stylesheet/scss">
   @import "../../../../styles/common";
+
   .op-btn {
     color: #4BCF99;
     border: 1px solid #4BCF99;
@@ -238,11 +265,13 @@
       background-color: #39c189;
     }
   }
+
   .op-tips {
     color: #FF7700;
     margin-left: 30px;
   }
-  .imgs-box{
+
+  .imgs-box {
     padding: 0 0 40px 0;
     display: flex;
     flex-wrap: wrap;
@@ -259,6 +288,7 @@
       }
     }
   }
+
   .box-card {
     margin-top: 50px;
     margin-bottom: 50px;

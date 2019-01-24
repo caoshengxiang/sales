@@ -46,7 +46,7 @@
             <td class="td-title">签约性质</td>
             <td>{{orderDetail.contractProperty === 1 ? '新签订单' : '续费订单'}}</td>
             <td class="td-title">签约主体</td>
-            <td>{{orderDetail.contractObject}}</td>
+            <td>{{orderDetail.contractSubject}}</td>
           </tr>
           <tr>
             <td class="td-title">服务管家</td>
@@ -58,16 +58,16 @@
             <td class="td-title">服务主体</td>
             <td>{{workOrderDetail.serviceName}}</td>
           </tr>
-          <!--<tr>-->
-            <!--<td class="td-title">退单号</td>-->
-            <!--<td></td>-->
-            <!--<td class="td-title">申请日期</td>-->
-            <!--<td></td>-->
-            <!--<td class="td-title">退单申请人</td>-->
-            <!--<td></td>-->
-            <!--<td class="td-title">联系电话</td>-->
-            <!--<td></td>-->
-          <!--</tr>-->
+          <tr>
+            <td class="td-title">退单号</td>
+            <td></td>
+            <td class="td-title">申请日期</td>
+            <td>{{$moment().format('YYYY-MM-DD')}}</td>
+            <td class="td-title">退单申请人</td>
+            <td>{{userInfo.name}}</td>
+            <td class="td-title">联系电话</td>
+            <td>{{userInfo.account}}</td>
+          </tr>
           <tr>
             <td class="td-title">退单原因</td>
             <td colspan="7">
@@ -88,6 +88,7 @@
 
 <script>
   import API from '../../../../utils/api'
+  import webStorage from 'webStorage'
   export default {
     name: 'returnOrder',
     data () {
@@ -99,6 +100,7 @@
         },
         workOrderDetail: {},
         orderDetail: {},
+        userInfo: {},
       }
     },
     props: ['params'],
@@ -121,6 +123,7 @@
       this.workOrderDetail = this.params.workOrder
       this.addForm.id = this.workOrderDetail.id
       this.getOrderDetail(this.workOrderDetail.orderId)
+      this.userInfo = webStorage.getItem('userInfo')
     }
   }
 </script>

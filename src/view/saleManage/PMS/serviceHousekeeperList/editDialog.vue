@@ -57,6 +57,7 @@
                 <el-form-item prop="idCard" style="width: 200px;">
                   <el-input type="text" v-model="addForm.idCard"></el-input>
                 </el-form-item>
+                  <!--{{addForm.idCard}}-->
               </span>
                 <photo-view v-if="addForm.identityCardPhoto" :photo-data="{
                 text: '身份证查看大图',
@@ -224,7 +225,7 @@
           <tr>
             <td class="td-title">认证商品</td>
             <td colspan="5">
-              <el-select style="width: 100%;" v-model="serviceManagerGoodsModels" multiple placeholder="请选择认证商品">
+              <el-select style="width: 700px;" v-model="serviceManagerGoodsModels" multiple placeholder="请选择认证商品">
                 <el-option
                   v-for="(item, index) in goodsList"
                   :key="index"
@@ -371,11 +372,15 @@
         })
       },
       getGoodsList () { // 组织商品列表
-        API.common.organizationGoodsConf({
-          // saleable: 1,
-          organizationId: webStorage.getItem('userInfo').organizationId,
-        }, (da) => {
-          this.goodsList = da.data
+        // API.common.organizationGoodsConf({
+        //   // saleable: 1,
+        //   organizationId: webStorage.getItem('userInfo').organizationId,
+        // }, (da) => {
+        //   this.goodsList = da.data
+        // })
+
+        API.baseSetting.getProductType({}, (res) => {
+          this.goodsList = res.data.content
         })
       },
       areaSelectedOptionsHandleChange (value) {
@@ -390,7 +395,14 @@
             areaName: name[2] || '',
           }
           // console.log(serviceManagerAreaModel)
-          this.addForm.serviceManagerAreaModels.push(serviceManagerAreaModel)
+          let isRepeat = this.addForm.serviceManagerAreaModels.some(item => {
+            return item.areaId === serviceManagerAreaModel.areaId
+          })
+          if (isRepeat) {
+            this.$message.warning('地区已存在')
+          } else {
+            this.addForm.serviceManagerAreaModels.push(serviceManagerAreaModel)
+          }
         }
       },
     },

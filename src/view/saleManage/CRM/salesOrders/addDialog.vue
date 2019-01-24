@@ -78,7 +78,7 @@
             <td class="td-title">购买数量</td>
             <td class="td-text">
               <el-form-item prop="quantity">
-                <el-input-number style="width: 100%" v-model="addForm.quantity" :min="1" :max="10"
+                <el-input-number style="width: 100%" v-model="addForm.quantity" :min="1" :max="100"
                                  label="请输入购买数量"></el-input-number>
               </el-form-item>
             </td>
@@ -175,7 +175,7 @@
           remark: '',
           orderSource: '',
           // orderSourceName: '',
-          isRenew: false,
+          isRenew: null,
           provinceId: '',
           provinceName: '',
           cityId: '',
@@ -271,7 +271,7 @@
         API.customer.teamAboutCustomerlist(null, data => {
           if (data.status) {
             this.customersList = data.data
-            
+
             // 客户详情快捷添加销售机会时默认有客户调取商品
             if(this.params.detailCustomersId > 0) {
               let _cate = '';
@@ -300,7 +300,7 @@
             this.addForm.chanceId = this.params.detailChanceId
             this.intentProductChange() // 对应购买商品
           }
-          
+
           // this.chanceList.forEach(item => {
           //   console.log(13, item)
           //   this.productIds = item.intentProductId
@@ -432,7 +432,8 @@
           quantity: '',
           remark: '',
           orderSource: this.orderSourceArr.join('-'),
-          isRenew: this.params.orderDetail || false,
+          // isRenew: this.params.orderDetail || false,
+          isRenew: null,
           provinceId: this.addForm.provinceId,
           cityId: this.addForm.cityId,
           areaId: this.addForm.areaId,

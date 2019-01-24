@@ -15,6 +15,10 @@
       <div class="com-bar-left">
         <com-button buttonType="grey" icon="el-icon-remove-outline" @click="configHandle">配置</com-button>
       </div>
+      <div class="com-bar-right">
+        <el-input style="width: 160px;" type="text" placeholder="请输入商品名称" v-model="searchGoodsName"></el-input>
+        <com-button buttonType="search" @click="getOrganizationList">搜索</com-button>
+      </div>
     </div>
     <!--详细-->
     <div class="com-box com-box-padding com-list-box">
@@ -116,6 +120,7 @@
         produceListTotal: 0,
         serviceItemConfigList: [],
         serviceContent: [],
+        searchGoodsName: null, // 搜索
       }
     },
     computed: {
@@ -134,13 +139,18 @@
         let params = {
           page: this.currentPage - 1,
           pageSize: this.pagesOptions.pageSize,
+          goodsName: this.searchGoodsName,
         }
         this.dataLoading = true
         API.baseSetting.getProductType(params, (res) => {
           that.produceList = res.data.content
           that.produceListTotal = res.data.totalElements
           // alert(typeof that.produceList[0].goodsId.toString())
-          this.selectGood(that.produceList[0].goodsId) // 初始第一个商品
+          this.serviceItemConfigList = [] // 清除表格数据
+          this.serviceContent = []
+          if (that.produceList[0]) {
+            this.selectGood(that.produceList[0].goodsId) // 初始第一个商品
+          }
           this.dataLoading = false
         })
       },

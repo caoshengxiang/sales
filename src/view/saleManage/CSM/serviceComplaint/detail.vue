@@ -47,7 +47,7 @@
         </ul>
       </div>
       <div class="step-box">
-        <div class="step">
+        <div class="step" style="margin-top: 20px">
           <el-steps :active="detail.state - 1" align-center>
             <!--<el-step @click.native="stepClickHandle(item)" v-for="(item, index) in complaintState" :key="index"-->
             <!--:title="item.value"></el-step>-->
@@ -71,7 +71,7 @@
             <td class="td-title">投诉单号</td>
             <td>{{detail.num}}</td>
             <td class="td-title">首次投诉日期</td>
-            <td>todo</td>
+            <td>{{detail.created && $moment(detail.created).format('YYYY-MM-DD HH:mm:ss')}}</td>
             <td class="td-title">客服坐席</td>
             <td>{{detail.cusServiceName}}</td>
           </tr>
@@ -98,9 +98,9 @@
           </tr>
           <tr>
             <td class="td-title">被投诉对象</td>
-            <td>todo</td>
+            <td>{{detail.managerName}}</td>
             <td class="td-title">管家号</td>
-            <td>todo</td>
+            <td>{{detail.managerNo}}</td>
             <td class="td-title">投诉跟踪人</td>
             <td>{{detail.cusName}}</td>
           </tr>
@@ -111,7 +111,8 @@
           <tr>
             <td class="td-title" rowspan="2">首次调查结果</td>
             <td rowspan="2">
-              {{detail.checkResultModel.duty == true ? '有责任' : '无责任'}}
+              <span v-if="detail.checkResultModel.duty == true">有责任</span>
+              <span v-if="detail.checkResultModel.duty == false">无责任</span>
             </td>
             <td colspan="4">
               <ul class="duty-ul">
@@ -122,7 +123,7 @@
                 <!--&gt;{{item.codeName}}</li>-->
                 <li type="square"
                     v-if="detail.checkResultModel"
-                    v-for="(item, index) in detail.serviceComplaintTypeModels"
+                    v-for="(item, index) in detail.checkResultModel.dutyTypes"
                     :key="index"
                 >{{item.codeName}}</li>
               </ul>
@@ -147,7 +148,8 @@
           <tr>
             <td class="td-title">首次处理结果回访</td>
             <td colspan="5">
-              {{detail.handleVisitModel.state == 1 ? '满意' : '不满意'}}
+              <span v-if="detail.handleVisitModel.state == 1">满意</span>
+              <span v-if="detail.handleVisitModel.state == 2">不满意</span>
               &nbsp;
               &nbsp;
               &nbsp;

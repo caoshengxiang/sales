@@ -1,6 +1,6 @@
 <template>
   <div class="sale-home">
-    <div class="welcome">欢迎进入销售管理系统 — 系统设置！</div>
+    <div class="welcome">欢迎进入众智联邦平台资源管理系统 - 系统设置</div>
     <div class="latest-announcement">
       <!--<p class="com-title"></p>-->
       <p></p>

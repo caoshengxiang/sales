@@ -11,7 +11,7 @@
                            filterable
                            v-model.number="addForm.customerId"
                            @change="selectedcustomer"
-                           placeholder="请选择客户" style="width: 100%">
+                           placeholder="请选择或绑定客户" style="width: 100%">
                   <el-option v-for="item in customersList" :key="item.id" :label="item.name"
                              :value="item.id"></el-option>
                 </el-select>
@@ -78,6 +78,16 @@
           <tr>
             <td class="td-title">地区</td>
             <td class="td-text">
+              <!--<el-form-item prop="provinceId">-->
+                <!--<AreaSelect ref="areaSe"-->
+                            <!--:disabled="params.type === 'confirmation'"-->
+                            <!--:area="(addForm.provinceName?addForm.provinceName:'') + ' ' + (addForm.cityName?addForm.cityName:'')  + ' ' + (addForm.areaName?addForm.areaName:'')"-->
+                            <!--@change="areaSelectedOptionsHandleChange"-->
+                            <!--:selectLastLevelMode="true"></AreaSelect>-->
+              <!--</el-form-item>-->
+              <!--调整为可以更改地区信息。
+
+ps：该弹框除客户名称、需求来源渠道、需求提供人三个字段不可变更，其他均可变更。-->
               <el-form-item prop="provinceId">
                 <AreaSelect ref="areaSe"
                             :area="(addForm.provinceName?addForm.provinceName:'') + ' ' + (addForm.cityName?addForm.cityName:'')  + ' ' + (addForm.areaName?addForm.areaName:'')"
@@ -219,7 +229,7 @@
         showList: [],
         rules: {
           customerId: [
-            {required: true, message: '请选择客户', trigger: 'blur'},
+            {required: true, message: '请绑定客户', trigger: 'blur'},
           ],
           state: [
             // {required: true, message: '请选择需求阶段', trigger: 'change'},
@@ -286,7 +296,7 @@
       saveSubmitForm (formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            
+
             // 防止老数据可能选择的不是对应的商品而保存时获取商品id
             let _cusid = this.addForm.intentProductId;
             if(typeof(_cusid) === 'string') {
@@ -338,7 +348,6 @@
       getCustomersList () { // 当前登陆用户所有的拥有团队成员权限的客户信息
         API.customer.teamAboutCustomerlist(null, data => {
           if (data.status) {
-            // console.log('客户信息：', data.data)
             this.customersList = data.data
 
             // 客户详情快捷添加销售机会时默认有客户调取商品
@@ -518,7 +527,7 @@
       this.getStaffList()
 
       // 防止老数据可能选择的不是对应的商品而保存时获取商品id 调取所有商品
-      API.common.organizationGoodsConf({ 
+      API.common.organizationGoodsConf({
         organizationId: webStorage.getItem('userInfo').organizationId,
         saleable: 1,
       }, (data) => {

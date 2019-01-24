@@ -17,7 +17,7 @@
       v-loading="uploadConfig.loading"
       element-loading-text="正在上传..."
       element-loading-background="rgba(0, 0, 0, 0.6)"
-      :action="uploadConfig.uploadFileApiUrl+'/'+flag"
+      :action="uploadConfig.uploadFileApiUrl+'/'+upload"
       :show-file-list="true"
       :on-success="handleImageSuccess"
       :before-upload="beforeImageUpload"

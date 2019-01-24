@@ -196,8 +196,15 @@
           that.loading = false
           if (res.status) {
             that.form = res.data
-            that.form.businessSystems = []
+            // that.form.businessSystems = []
             that.businessSystemsOptions = Array.from(that.form.businessSystems, (x) => x.id)
+            that.roleBilitysOptions = Array.from(that.form.bilities, (x) => x.id)
+
+            API.role.getBilityList({businessSystemIds: that.businessSystemsOptions.join(',')}, function (res) {
+              if (res.status) {
+                that.bilityList = res.data
+              }
+            })
           } else {
             Message({
               message: res.error.message,
@@ -215,7 +222,8 @@
       changeBusinessSystem () {
         var that = this
         that.bilityList = []
-        that.form.businessSystems = that.businessSystemsOptions
+        that.roleBilitysOptions = []
+        // that.form.businessSystems = that.businessSystemsOptions
         console.log(that.businessSystemsOptions)
         API.role.getBilityList({businessSystemIds: that.businessSystemsOptions.join(',')}, function (res) {
           if (res.status) {

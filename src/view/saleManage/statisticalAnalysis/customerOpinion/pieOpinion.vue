@@ -3,7 +3,7 @@
     <div class="">
       <span>统计期客户意见数量合计：{{tableDataTotal}}</span>
     </div>
-    <div style="width: 100%;height: 320px" id="pieOpinion"></div>
+    <div style="width: 100%;height: 400px" id="pieOpinion"></div>
   </div>
 </template>
 
@@ -38,7 +38,7 @@
               name: '访问来源',
               type: 'pie',
               radius: '55%',
-              center: ['50%', '60%'],
+              center: ['50%', '50%'],
               data: [],
               itemStyle: {
                 emphasis: {

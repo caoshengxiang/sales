@@ -15,6 +15,7 @@
       </div>
       <div class="com-bar-right">
         <com-button buttonType="export" icon="el-icon-download" @click="excelExport">导出</com-button>
+        <com-button buttonType="search" @click="advancedSearchHandle" style="">高级搜索</com-button>
       </div>
     </div>
     <!--详细-->
@@ -108,7 +109,7 @@
           <el-table-column
             align="center"
             sortable="custom"
-            prop="businessTerm"
+            prop="businessTime"
             label="营业期限"
             width="160"
             show-overflow-tooltip
@@ -126,16 +127,16 @@
           <el-table-column
             align="center"
             sortable="custom"
-            prop="provinceId"
+            prop="registryAddress"
             label="注册地区"
             width="160"
             show-overflow-tooltip
           >
-            <template slot-scope="scope">
-              {{ scope.row.provinceName }}
-              {{ scope.row.cityName }}
-              {{ scope.row.areaName }}
-            </template>
+            <!--<template slot-scope="scope">-->
+              <!--{{ scope.row.provinceName }}-->
+              <!--{{ scope.row.cityName }}-->
+              <!--{{ scope.row.areaName }}-->
+            <!--</template>-->
           </el-table-column>
           <el-table-column
             align="center"
@@ -146,15 +147,15 @@
             show-overflow-tooltip
           >
           </el-table-column>
-          <el-table-column
-            align="center"
-            sortable="custom"
-            prop="localTaxBureau"
-            label="地税主管税务机关"
-            width="160"
-            show-overflow-tooltip
-          >
-          </el-table-column>
+          <!--<el-table-column-->
+            <!--align="center"-->
+            <!--sortable="custom"-->
+            <!--prop="localTaxBureau"-->
+            <!--label="地税主管税务机关"-->
+            <!--width="160"-->
+            <!--show-overflow-tooltip-->
+          <!--&gt;-->
+          <!--</el-table-column>-->
           <el-table-column
             align="center"
             sortable="custom"
@@ -194,192 +195,192 @@
           <el-table-column
             align="center"
             sortable="custom"
-            prop="staffCount"
-            label="员工数量"
-            width="160"
-            show-overflow-tooltip
-          >
-          </el-table-column>
-          <el-table-column
-            align="center"
-            sortable="custom"
             prop="partyPersonNum"
             label="党员数量"
             width="160"
             show-overflow-tooltip
           >
           </el-table-column>
-          <el-table-column
-            align="center"
-            sortable="custom"
-            prop="financingHistoryCount"
-            label="融资历史"
-            width="160"
-            show-overflow-tooltip
-          >
-          </el-table-column>
-          <el-table-column
-            align="center"
-            sortable="custom"
-            prop="investmentCount"
-            label="投资事件"
-            width="160"
-            show-overflow-tooltip
-          >
-          </el-table-column>
-          <el-table-column
-            align="center"
-            sortable="custom"
-            prop="qualificationCount"
-            label="资质证书数量"
-            width="160"
-            show-overflow-tooltip
-          >
-          </el-table-column>
-          <el-table-column
-            align="center"
-            sortable="custom"
-            prop="bankCreditLevel"
-            label="银行信用级别"
-            width="160"
-            show-overflow-tooltip
-          >
-          </el-table-column>
-          <el-table-column
-            align="center"
-            sortable="custom"
-            prop="taxLevel"
-            label="税务等级"
-            width="160"
-            show-overflow-tooltip
-          >
-          </el-table-column>
-          <el-table-column
-            align="center"
-            sortable="custom"
-            prop="taxInspectionCount"
-            label="税务稽查"
-            width="160"
-            show-overflow-tooltip
-          >
-          </el-table-column>
-          <el-table-column
-            align="center"
-            sortable="custom"
-            prop="governmentSubsides"
-            label="政府补贴"
-            width="160"
-            show-overflow-tooltip
-          >
-          </el-table-column>
-          <el-table-column
-            align="center"
-            sortable="custom"
-            prop="legalProceeding"
-            label="法律诉讼"
-            width="160"
-            show-overflow-tooltip
-          >
-          </el-table-column>
-          <el-table-column
-            align="center"
-            sortable="custom"
-            prop="discreditInfo"
-            label="失信信息"
-            width="160"
-            show-overflow-tooltip
-          >
-          </el-table-column>
-          <el-table-column
-            align="center"
-            sortable="custom"
-            prop="InfoOfExecuto"
-            label="被执行人信息"
-            width="160"
-            show-overflow-tooltip
-          >
-          </el-table-column>
-          <el-table-column
-            align="center"
-            sortable="custom"
-            prop="administrativeSanction"
-            label="行政处罚"
-            width="160"
-            show-overflow-tooltip
-          >
-          </el-table-column>
-          <el-table-column
-            align="center"
-            sortable="custom"
-            prop="equityCapitalContribution"
-            label="股权出资"
-            width="160"
-            show-overflow-tooltip
-          >
-          </el-table-column>
-          <el-table-column
-            align="center"
-            sortable="custom"
-            prop="chattelMortgage"
-            label="动产抵押"
-            width="160"
-            show-overflow-tooltip
-          >
-          </el-table-column>
-          <el-table-column
-            align="center"
-            sortable="custom"
-            prop="owingTaxesNotice"
-            label="欠税公告"
-            width="160"
-            show-overflow-tooltip
-          >
-          </el-table-column>
-          <el-table-column
-            align="center"
-            sortable="custom"
-            prop="judicialSale"
-            label="司法拍卖"
-            width="160"
-            show-overflow-tooltip
-          >
-          </el-table-column>
-          <el-table-column
-            align="center"
-            sortable="custom"
-            prop="businessIcon"
-            label="商标"
-            width="160"
-            show-overflow-tooltip
-          >
-          </el-table-column>
-          <el-table-column
-            align="center"
-            sortable="custom"
-            prop="patent"
-            label="专利"
-            width="160"
-            show-overflow-tooltip
-          >
-          </el-table-column>
-          <el-table-column
-            align="center"
-            sortable="custom"
-            prop="softwareCopyright"
-            label="软件著作权"
-            width="160"
-            show-overflow-tooltip
-          >
-          </el-table-column>
-          <el-table-column
-            align="center"
-            sortable="custom"
-            prop="worksCopyright"
-            label="作品著作权"
-            width="160"
-            show-overflow-tooltip
-          >
-          </el-table-column>
+          <!--<el-table-column-->
+            <!--align="center"-->
+            <!--sortable="custom"-->
+            <!--prop="staffCount"-->
+            <!--label="员工数量"-->
+            <!--width="160"-->
+            <!--show-overflow-tooltip-->
+          <!--&gt;-->
+          <!--</el-table-column>-->
+          <!--<el-table-column-->
+            <!--align="center"-->
+            <!--sortable="custom"-->
+            <!--prop="financingHistoryCount"-->
+            <!--label="融资历史"-->
+            <!--width="160"-->
+            <!--show-overflow-tooltip-->
+          <!--&gt;-->
+          <!--</el-table-column>-->
+          <!--<el-table-column-->
+            <!--align="center"-->
+            <!--sortable="custom"-->
+            <!--prop="investmentCount"-->
+            <!--label="投资事件"-->
+            <!--width="160"-->
+            <!--show-overflow-tooltip-->
+          <!--&gt;-->
+          <!--</el-table-column>-->
+          <!--<el-table-column-->
+            <!--align="center"-->
+            <!--sortable="custom"-->
+            <!--prop="qualificationCount"-->
+            <!--label="资质证书数量"-->
+            <!--width="160"-->
+            <!--show-overflow-tooltip-->
+          <!--&gt;-->
+          <!--</el-table-column>-->
+          <!--<el-table-column-->
+            <!--align="center"-->
+            <!--sortable="custom"-->
+            <!--prop="bankCreditLevel"-->
+            <!--label="银行信用级别"-->
+            <!--width="160"-->
+            <!--show-overflow-tooltip-->
+          <!--&gt;-->
+          <!--</el-table-column>-->
+          <!--<el-table-column-->
+            <!--align="center"-->
+            <!--sortable="custom"-->
+            <!--prop="taxLevel"-->
+            <!--label="税务等级"-->
+            <!--width="160"-->
+            <!--show-overflow-tooltip-->
+          <!--&gt;-->
+          <!--</el-table-column>-->
+          <!--<el-table-column-->
+            <!--align="center"-->
+            <!--sortable="custom"-->
+            <!--prop="taxInspectionCount"-->
+            <!--label="税务稽查"-->
+            <!--width="160"-->
+            <!--show-overflow-tooltip-->
+          <!--&gt;-->
+          <!--</el-table-column>-->
+          <!--<el-table-column-->
+            <!--align="center"-->
+            <!--sortable="custom"-->
+            <!--prop="governmentSubsides"-->
+            <!--label="政府补贴"-->
+            <!--width="160"-->
+            <!--show-overflow-tooltip-->
+          <!--&gt;-->
+          <!--</el-table-column>-->
+          <!--<el-table-column-->
+            <!--align="center"-->
+            <!--sortable="custom"-->
+            <!--prop="legalProceeding"-->
+            <!--label="法律诉讼"-->
+            <!--width="160"-->
+            <!--show-overflow-tooltip-->
+          <!--&gt;-->
+          <!--</el-table-column>-->
+          <!--<el-table-column-->
+            <!--align="center"-->
+            <!--sortable="custom"-->
+            <!--prop="discreditInfo"-->
+            <!--label="失信信息"-->
+            <!--width="160"-->
+            <!--show-overflow-tooltip-->
+          <!--&gt;-->
+          <!--</el-table-column>-->
+          <!--<el-table-column-->
+            <!--align="center"-->
+            <!--sortable="custom"-->
+            <!--prop="InfoOfExecuto"-->
+            <!--label="被执行人信息"-->
+            <!--width="160"-->
+            <!--show-overflow-tooltip-->
+          <!--&gt;-->
+          <!--</el-table-column>-->
+          <!--<el-table-column-->
+            <!--align="center"-->
+            <!--sortable="custom"-->
+            <!--prop="administrativeSanction"-->
+            <!--label="行政处罚"-->
+            <!--width="160"-->
+            <!--show-overflow-tooltip-->
+          <!--&gt;-->
+          <!--</el-table-column>-->
+          <!--<el-table-column-->
+            <!--align="center"-->
+            <!--sortable="custom"-->
+            <!--prop="equityCapitalContribution"-->
+            <!--label="股权出资"-->
+            <!--width="160"-->
+            <!--show-overflow-tooltip-->
+          <!--&gt;-->
+          <!--</el-table-column>-->
+          <!--<el-table-column-->
+            <!--align="center"-->
+            <!--sortable="custom"-->
+            <!--prop="chattelMortgage"-->
+            <!--label="动产抵押"-->
+            <!--width="160"-->
+            <!--show-overflow-tooltip-->
+          <!--&gt;-->
+          <!--</el-table-column>-->
+          <!--<el-table-column-->
+            <!--align="center"-->
+            <!--sortable="custom"-->
+            <!--prop="owingTaxesNotice"-->
+            <!--label="欠税公告"-->
+            <!--width="160"-->
+            <!--show-overflow-tooltip-->
+          <!--&gt;-->
+          <!--</el-table-column>-->
+          <!--<el-table-column-->
+            <!--align="center"-->
+            <!--sortable="custom"-->
+            <!--prop="judicialSale"-->
+            <!--label="司法拍卖"-->
+            <!--width="160"-->
+            <!--show-overflow-tooltip-->
+          <!--&gt;-->
+          <!--</el-table-column>-->
+          <!--<el-table-column-->
+            <!--align="center"-->
+            <!--sortable="custom"-->
+            <!--prop="businessIcon"-->
+            <!--label="商标"-->
+            <!--width="160"-->
+            <!--show-overflow-tooltip-->
+          <!--&gt;-->
+          <!--</el-table-column>-->
+          <!--<el-table-column-->
+            <!--align="center"-->
+            <!--sortable="custom"-->
+            <!--prop="patent"-->
+            <!--label="专利"-->
+            <!--width="160"-->
+            <!--show-overflow-tooltip-->
+          <!--&gt;-->
+          <!--</el-table-column>-->
+          <!--<el-table-column-->
+            <!--align="center"-->
+            <!--sortable="custom"-->
+            <!--prop="softwareCopyright"-->
+            <!--label="软件著作权"-->
+            <!--width="160"-->
+            <!--show-overflow-tooltip-->
+          <!--&gt;-->
+          <!--</el-table-column>-->
+          <!--<el-table-column-->
+            <!--align="center"-->
+            <!--sortable="custom"-->
+            <!--prop="worksCopyright"-->
+            <!--label="作品著作权"-->
+            <!--width="160"-->
+            <!--show-overflow-tooltip-->
+          <!--&gt;-->
+          <!--</el-table-column>-->
         </el-table>
       </div>
 
@@ -408,6 +409,7 @@
   import webStorage from 'webStorage'
   import comButton from '../../../../components/button/comButton'
   import API from '../../../../utils/api'
+  import advancedSearch from './advancedSearch'
 
   export default {
     name: 'list',
@@ -524,6 +526,23 @@
         event.initMouseEvent('click', true, true, document.defaultView, 0, 0, 0, 0, 0, false, false, false, false, 0,
           null) // 触发事件
         link.dispatchEvent(event)
+      },
+      advancedSearchHandle () { // 高级搜索
+        this.$vDialog.modal(advancedSearch, {
+          title: '高级搜索',
+          width: 900,
+          height: 500,
+          params: {
+            preAdvancedSearch: this.advancedSearch,
+          },
+          callback: (data) => {
+            if (data.type === 'search') {
+              console.log('高级搜索数据：', data.params)
+              this.advancedSearch = data.params
+              this.getList()
+            }
+          },
+        })
       },
     },
     created () {

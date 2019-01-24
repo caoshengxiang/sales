@@ -26,6 +26,14 @@
               </el-form-item>
             </td>
           </tr>
+          <tr v-if="params.action === 'add' && form.type === 1">
+            <td class="td-title">请选择{{title}}区号</td>
+            <td class="td-text">
+              <el-form-item prop="areaCode">
+                <el-input type="number" v-model="form.areaCode" :placeholder="'请输入'+title+'区号'" :maxlength="30"></el-input>
+              </el-form-item>
+            </td>
+          </tr>
           <tr v-if="params.action === 'add'">
             <td class="td-title">上级{{title}}</td>
             <td class="td-text">
@@ -62,6 +70,9 @@
           ],
           type: [
             {required: true, message: '请选择类型', trigger: 'blur'},
+          ],
+          areaCode: [
+            {required: true, message: '请输入区号', trigger: 'blur'},
           ],
         },
         pName: '',

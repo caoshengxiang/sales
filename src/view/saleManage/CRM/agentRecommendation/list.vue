@@ -42,9 +42,9 @@
         <div class="agent-rec">
           <div class="code-rec">
             <div class="code-rec-1">
-              <div ref="downloadCode">
+              <div>
                 <p class="title">推荐代理商扫码加入平台</p>
-                <div class="code-show">
+                <div class="code-show"  ref="downloadCode">
                   <vue-qr
                     :logoSrc="config.logo"
                     :text="config.value"
@@ -53,7 +53,7 @@
                     :callback="agentRecCallback"
                     qid="agentRec"></vue-qr>
                 </div>
-                <p class="name">{{otherData.directName}}</p>
+                <p class="name">{{otherData.directName || otherDataOldApi.directName}}</p>
               </div>
               <p class="down-code">
                 <!--<a v-if="codeImgBase64" :href="codeImgBase64" download="二维码">下载二维码</a>-->
@@ -157,6 +157,7 @@
         tableData: [],
         tableDataTotal: 0,
         otherData: {},
+        otherDataOldApi: {},
         config: {
           value: '', // 显示的值、跳转的地址(要加http)
           logo: 'static/favicon.ico', // 中间logo的地址
@@ -244,6 +245,7 @@
         API.agentDev.list(Object.assign({}, this.defaultListParams, this.sortObj, this.advancedSearch), (data) => {
           this.tableData = data.data.content
           this.tableDataTotal = data.data.totalElements
+          this.otherDataOldApi = data.other
           this.getCommission()
           setTimeout(() => {
             this.dataLoading = false
@@ -258,7 +260,7 @@
           this.config.value = agentRegister + QS.stringify({ // 拼装二维码参数
             type: this.agentType,
             id: this.agentTypeOption,
-            name: this.otherData.directName,
+            name: this.otherData.directName || this.otherDataOldApi.directName,
             phone: '',
           })
         })
@@ -308,6 +310,9 @@
 
 <style scoped lang="scss" rel="stylesheet/scss">
   @import "../../../../styles/common";
+  .com-pages-box {
+    position: absolute !important;
+  }
 
   .agent-rec-p {
     position: absolute;
@@ -334,13 +339,14 @@
       }
       .code-show {
         min-height: 200px;
-        margin: 20px;
+        margin: 0 20px;
+        padding: 20px 0;
       }
       .name {
         font-weight: bold;
       }
       .down-code {
-        margin: 30px 0;
+        margin: 10px 0 30px 0;
         a {
           padding: 10px 40px;
           border-radius: 3px;

@@ -14,10 +14,22 @@
             placeholder="请选择纳税申报时间">
           </el-date-picker>
         </el-form-item>
+        <!--<el-form-item label="选择文件" prop="attachment">
+          <el-upload
+            class="upload-demo"
+            :action="uploadUrl"
+            :headers="{authKey: userInfo.authKey}"
+            :on-success="onSuccessHandle"
+            multiple
+            :limit="1"
+          >
+            <el-button size="small" type="primary">点击上传</el-button>
+          </el-upload>
+        </el-form-item>-->
         <el-form-item label="备注" prop="remark">
           <el-input
             type="textarea"
-            placeholder="请选择纳税申报时间"
+            placeholder="请输入备注"
             :rows="3"
             v-model="ruleForm.remark">
           </el-input>
@@ -32,6 +44,8 @@
 
 <script>
   import API from '../../../../../utils/api'
+  import { uploadUrl } from '../../../../../utils/const'
+  import webStorage from 'webStorage'
 
   export default {
     name: 'operationCode29_1',
@@ -40,12 +54,19 @@
         ruleForm: {
           setTime: '',
           remark: '',
+          attachment: null,
         },
         rules: {
           setTime: [
             {required: true, message: '请选择纳税申报时间', trigger: 'change'},
           ],
         },
+        userInfo: webStorage.getItem('userInfo')
+      }
+    },
+    computed: {
+      uploadUrl () {
+        return uploadUrl
       }
     },
     props: ['params'],
@@ -56,6 +77,7 @@
             API.workOrder.serviceItemOperate(Object.assign({}, this.params.baseParam, {
               setTime: this.ruleForm.setTime,
               remark: this.ruleForm.remark,
+              attachment: this.ruleForm.attachment,
               // result: JSON.stringify({
               //   isSendMsg: this.ruleForm.isSendMsg,
               //   message: this.ruleForm.message
@@ -72,6 +94,9 @@
           }
         })
       },
+      onSuccessHandle (response, file, fileList) {
+        this.ruleForm.attachment = response.data.url
+      }
     },
   }
 </script>

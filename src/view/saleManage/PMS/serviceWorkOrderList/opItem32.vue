@@ -6,15 +6,16 @@
         <span>服务年度</span>
         <el-date-picker
           style="width: 160px;"
-          v-model="form.year"
+          v-model="form.serviceYear"
           type="year"
+          :disabled="dateDisabled"
           value-format="yyyy"
           @change="yearChangeHandle"
           placeholder="请选择年">
         </el-date-picker>
         &nbsp;&nbsp;
         <span>服务月度</span>
-        <el-select v-model="form.month" placeholder="请选择月" style="width: 100px;">
+        <el-select v-model="form.serviceMonth" :disabled="dateDisabled" placeholder="请选择月" style="width: 100px;">
           <el-option
             v-for="item in 12"
             :key="item"
@@ -33,17 +34,22 @@
       <div class="operation-code-box">
         <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="0px">
           <el-form-item label="" prop="remark">
-            <el-input
-              type="textarea"
-              placeholder="请输入纳税异常提醒"
-              :rows="3"
-              v-model="ruleForm.message">
-            </el-input>
+            <!--<el-input-->
+              <!--type="textarea"-->
+              <!--placeholder="请输入纳税异常提醒"-->
+              <!--:rows="3"-->
+              <!--v-model="ruleForm.message">-->
+            <!--</el-input>-->
+            <el-radio-group v-model="ruleForm.message">
+              <el-radio label="税款不足"></el-radio>
+              <el-radio label="无法正常登陆"></el-radio>
+            </el-radio-group>
           </el-form-item>
         </el-form>
       </div>
       <div class="dialog-footer">
         <el-button class="save-button" :disabled="params.isShow" @click="saveSubmitForm('ruleForm')">发布纳税异常提醒</el-button>
+        <!--类似记账日常告知，因为不是要必须操作的选择，所以为已完成的状态，但是无法成功发布信息（按理说这种，是完成后，依旧可以再操作的）-->
       </div>
     </div>
 
@@ -63,7 +69,7 @@
           <td style="width: 100px;">{{item.result}}</td>
           <td style="width: 100px;">{{item.created && $moment(item.created).format('YYYY-MM-DD HH:mm:ss')}}
           </td>
-          <td style="width: 100px;">{{item.operator}}</td>
+          <td style="width: 100px;">{{item.operatorName}}</td>
         </tr>
       </table>
     </div>
@@ -99,19 +105,20 @@
         serviceLog: [],
         serviceItem: [],
         form: {
-          year: null,
-          month: null,
+          serviceYear: new Date(),
+          serviceMonth: new Date().getMonth() + 1,
           orderId: this.params.orderId,
           type: this.params.numItem.type,
         },
         ruleForm: {
-          message: '', // 存result
+          message: '税款不足', // 存result
         },
         rules: {
           message: [
             {required: true, message: '请输入纳税异常提醒', trigger: 'blur'},
           ],
         },
+        dateDisabled: false,
       }
     },
     props: ['params'],
@@ -122,12 +129,24 @@
         })
       },
       getServiceItem () {
-        API.workOrder.serviceItem(this.form, (da) => {
+        var p = {}
+        if (this.params.isSetInterval) {
+          p = JSON.parse(JSON.stringify(this.form))
+          if (typeof this.form.serviceYear === 'object') {
+            p.serviceYear = new Date().getFullYear()
+          }
+        } else {
+          p = {
+            orderId: this.params.orderId,
+            type: this.params.numItem.type,
+          }
+        }
+        API.workOrder.serviceItem(p, (da) => {
           this.serviceItem = da.data.content
         })
       },
       yearChangeHandle () {
-        this.form.month = null
+        this.form.serviceMonth = null
       },
       saveSubmitForm (item) {
         let baseParam = {

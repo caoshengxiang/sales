@@ -95,24 +95,14 @@
               account: this.formData.phone,
               pwd: sha1(this.formData.oldpassword),
               newPwd: sha1(this.formData.password),
-              client: webStorage.getItem('client'),
+              // client: webStorage.getItem('client'), // 这个获取， 应该是登录页面的设置有点问题
+              client: 1, // pc 端1,2随便传
             }
             API.login.resetPwd(params, (res) => {
               this.loading = false
               if (res.status) {
                 this.signIn()
-              } else {
-                this.$message({
-                  message: '系统繁忙，请稍后再试！',
-                  type: 'error',
-                })
               }
-            }, (mock) => {
-              this.loading = false
-              this.$message({
-                message: '系统繁忙，请稍后再试！',
-                type: 'error',
-              })
             })
           } else {
             return false
