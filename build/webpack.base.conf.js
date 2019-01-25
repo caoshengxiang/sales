@@ -4,6 +4,7 @@ const utils = require('./utils')
 const config = require('../config')
 const vueLoaderConfig = require('./vue-loader.conf')
 const webpack = require('webpack')
+const BuildReportPlugin = require('webpack-build-report')
 
 function resolve (dir) {
   return path.join(__dirname, '..', dir)
@@ -109,5 +110,10 @@ module.exports = {
       context: path.resolve(__dirname, '..'),
       manifest: require('./vendor-manifest.json')
     }),
+    new BuildReportPlugin({
+      assets: true,
+      // output: `${SRC_DIR}/doc/build-report.md`,
+      output:  path.join(__dirname + '/../doc/build-report.md'),
+    })
   ],
 }

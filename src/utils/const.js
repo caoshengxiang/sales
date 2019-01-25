@@ -3,18 +3,10 @@
 * 二维码前缀
 * 二维码前缀,打包需要更改
 * */
-// 本地测试地址
-// export const activityCodePre = 'http://192.168.0.109:8080/#/activityAddCustomer/index?'
-// export const agentRegister = 'http://192.168.0.109:8080/#/account/registe?'
-
-// 微信测试地址
-// export const activityCodePre = 'http://king.dcstar-inc.com/#/activityAddCustomer/index?'
-// export const agentRegister = 'http://king.dcstar-inc.com/#/account/registe?'
-
-// 微信正式地址
-export const activityCodePre = 'http://jys.zzcfo.cn/#/activityAddCustomer/index?'
-export const agentRegister = 'http://jys.zzcfo.cn/#/account/registe?'
-
+// 之前这里需要打包配置得内容，已经优化，不用配置了,直接写入到下面命令
+// npm run dev
+// npm run build:test
+// npm run build:prod
 /*
 * 部署需要配置得变量 end
 * */
@@ -23,10 +15,12 @@ export const pageMinWidth = 1100 // 页面最小宽度
 export const versionLogs = 'version: 1.0.0，20181115'
 export const serverUrl = process.env.API_ROOT // server地址
 export const externalAPI = process.env.API_EXTERNAL // APP 外部地址
+export const activityCodePre = process.env.ACTICITY_CODE_PRE // 微信扫描二维码添加客户
+export const agentRegister = process.env.AGENT_REGISTER // 微信代理培育
 export const uploadUrl = serverUrl + '/file/upload'
 
-console.log(process.env.API_ROOT, 'test----环境地址')
-console.log(process.env.API_EXTERNAL, 'test APP----环境地址')
+// console.log(process.env.API_ROOT, 'test----环境地址')
+// console.log(process.env.API_EXTERNAL, 'test APP----环境地址')
 
 // 表单验证
 const validatePhone = (rule, value, callback) => { // 自定义规则验证手机号
