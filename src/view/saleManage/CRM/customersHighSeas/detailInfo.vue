@@ -506,7 +506,7 @@
               this.$vDialog.modal(addChanceDialog, {
                 title: '新增销售机会',
                 width: 900,
-                height: 400,
+                height: 500,
                 params: {
                   salesState: this.salesState,
                   stateValue: 1, // 设置默认，销售阶段

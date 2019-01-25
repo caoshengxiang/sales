@@ -394,7 +394,7 @@
       ...mapActions('salesOpportunities', [
         'ac_salesOpportunitiesList',
       ]),
-      
+
       posTableHeight () {
         let h = document.body.clientHeight,
             new_h = h - 260;
@@ -407,7 +407,7 @@
             this.$vDialog.modal(addDialog, {
               title: '新增销售机会',
               width: 900,
-              height: 480,
+              height: 500,
               params: {
                 salesState: this.salesState,
                 topSource: this.topSource, // 顶级客户来源

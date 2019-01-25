@@ -8,12 +8,12 @@
 // export const agentRegister = 'http://192.168.0.109:8080/#/account/registe?'
 
 // 微信测试地址
-export const activityCodePre = 'http://king.dcstar-inc.com/#/activityAddCustomer/index?'
-export const agentRegister = 'http://king.dcstar-inc.com/#/account/registe?'
+// export const activityCodePre = 'http://king.dcstar-inc.com/#/activityAddCustomer/index?'
+// export const agentRegister = 'http://king.dcstar-inc.com/#/account/registe?'
 
 // 微信正式地址
-// export const activityCodePre = 'http://jys.zzcfo.cn/#/activityAddCustomer/index?'
-// export const agentRegister = 'http://jys.zzcfo.cn/#/account/registe?'
+export const activityCodePre = 'http://jys.zzcfo.cn/#/activityAddCustomer/index?'
+export const agentRegister = 'http://jys.zzcfo.cn/#/account/registe?'
 
 /*
 * 部署需要配置得变量 end

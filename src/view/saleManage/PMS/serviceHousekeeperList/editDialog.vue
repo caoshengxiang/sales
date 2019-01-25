@@ -379,7 +379,7 @@
         //   this.goodsList = da.data
         // })
 
-        API.baseSetting.getProductType({}, (res) => {
+        API.baseSetting.getProductType({pageSize: 20000000}, (res) => {
           this.goodsList = res.data.content
         })
       },

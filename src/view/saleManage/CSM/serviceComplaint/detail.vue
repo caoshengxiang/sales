@@ -126,6 +126,8 @@
                     v-for="(item, index) in detail.checkResultModel.dutyTypes"
                     :key="index"
                 >{{item.codeName}}</li>
+                <li type="square" v-if="detail.checkResultModel.serviceContent">服务内容</li>
+                <li type="square" v-if="detail.checkResultModel.servicePrice">服务价格</li>
               </ul>
             </td>
           </tr>
@@ -157,7 +159,7 @@
               {{detail.handleVisitModel.content}}
             </td>
           </tr>
-          <tr>
+          <tr v-if="detail.state >= 5">
             <td class="td-title">升级投诉单号</td>
             <td>{{detail.upgradeNum}}</td>
             <td class="td-title">升级投诉日期</td>
@@ -165,15 +167,15 @@
             <td class="td-title">升级投诉跟踪人</td>
             <td>{{detail.upgradeCusName}}</td>
           </tr>
-          <tr>
+          <tr v-if="detail.state >= 5">
             <td class="td-title">升级投诉处理方案</td>
             <td colspan="5">{{detail.upgradePlan}}</td>
           </tr>
-          <tr>
+          <tr v-if="detail.state >= 5">
             <td class="td-title">处理结果</td>
             <td colspan="5">{{detail.upgradeReuslt}}</td>
           </tr>
-          <tr>
+          <tr v-if="detail.state >= 5">
             <td class="td-title">投诉处理</td>
             <td colspan="5">
               <ul class="duty-ul">
