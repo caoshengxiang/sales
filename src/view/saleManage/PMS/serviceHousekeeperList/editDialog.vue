@@ -1,5 +1,5 @@
 <template>
-  <div class="com-dialog-container" v-loading="dataLoading">
+  <div class="com-dialog-container shkl-deit" v-loading="dataLoading">
     <div class="com-dialog com-container">
       <el-form :model="addForm" ref="addForm" label-width="0px" :rules="rules">
         <table class="detail-table">
@@ -225,7 +225,11 @@
           <tr>
             <td class="td-title">认证商品</td>
             <td colspan="5">
-              <el-select style="width: 700px;" v-model="serviceManagerGoodsModels" multiple placeholder="请选择认证商品">
+              <el-select style="width: 700px;" v-model="serviceManagerGoodsModels"
+                         multiple
+                         filterable
+                         class="select-word-lg"
+                         placeholder="请选择认证商品">
                 <el-option
                   v-for="(item, index) in goodsList"
                   :key="index"
@@ -436,4 +440,17 @@
   .el-form-item--mini.el-form-item, .el-form-item--small.el-form-item {
     margin: 0;
   }
+</style>
+<style lang="scss" rel="stylesheet/scss">
+  /*.shkl-deit {*/
+    .el-select-dropdown__item {
+      span {
+        display: inline-block;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        width: 650px;
+      }
+    }
+  /*}*/
 </style>
