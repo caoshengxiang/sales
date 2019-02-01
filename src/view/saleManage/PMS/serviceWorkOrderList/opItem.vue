@@ -338,8 +338,8 @@
               工作成果：
               <span>
                    <span v-if="item.num == 1">服务管家设置外勤上门时间</span>
-                   <span v-if="item.num == 2">客户已查看并确认“客户告知书”</span>
-                   <span v-if="item.num == 3">客户已查看并确认“众智金管家服务首次交接资料清单”</span>
+                   <span v-else-if="item.num == 2">客户已查看并确认“客户告知书”</span>
+                   <span v-else-if="item.num == 3">客户已查看并确认“众智金管家服务首次交接资料清单”</span>
                    <span v-else>{{item.title}}</span>&nbsp;&nbsp;
               </span>
 

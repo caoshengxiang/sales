@@ -74,14 +74,14 @@
               <span v-else-if="item.workOrderState == 2">
                 <!--<a class="com-a-link" @click="selectManagerHandle(item, index)">{{item.managerName}}</a>-->
                 <!--<label>已拒单</label>-->
-                <span>{{item.managerName}}</span>
+                <span v-if="workOrderManagersOld[index].managerName != item.managerName">{{item.managerName}}</span>
                 <a class="com-a-link" @click="selectManagerHandle(item, index)">请选择</a><!--客户要求 又只显示这个了-->
                 <label>已拒单</label>
               </span>
               <span v-else-if="item.workOrderState == 6">
                 <!--<a @click="selectManagerHandle(item, index)">{{item.managerName}}</a>-->
                 <!--<label>已退单</label>-->
-                <span>{{item.managerName}}</span>
+                <span v-if="workOrderManagersOld[index].managerName != item.managerName">{{item.managerName}}</span>
                 <a class="com-a-link" @click="selectManagerHandle(item, index)">请选择</a><!--客户要求 又只显示这个了-->
                 <label>已退单</label>
               </span>
