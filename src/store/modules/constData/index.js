@@ -29,7 +29,7 @@ export default {
     customerSourceType: [ // 客户来源
       {
         type: 1,
-        value: '销售自建',
+        value: '商务挖掘',
       }, {
         type: 2,
         value: '代理商',
@@ -156,7 +156,7 @@ export default {
     demandSource: [
       {
         type: 1,
-        value: '销售自建',
+        value: '商务挖掘',
       }, {
         type: 2,
         value: '代理商',
@@ -237,7 +237,7 @@ export default {
     orderSource: [ // 订单来源
       {
         type: 1,
-        value: '销售自建',
+        value: '商务挖掘',
       }, {
         type: 2,
         value: '代理商',
@@ -346,7 +346,7 @@ export default {
     // 顶级来源
     topSource: [
       {
-        name: '销售自建',
+        name: '商务挖掘',
         value: 101,
       }, {
         name: '代理商',
