@@ -208,7 +208,8 @@
                 managerType: item.managerType
               })
             } else {
-              if (item.managerId !== this.workOrderManagersOld[index].managerId) { // 修改了管家，重派单,需要工单id,(id即为工单id)
+              // if (item.managerId !== this.workOrderManagersOld[index].managerId) { // 修改了管家，重派单,需要工单id,(id即为工单id)
+              if (item.workOrderState === 2 || item.workOrderState === 6) {
                 paramsArr.push({
                   id: item.id,
                   orderId: this.detail.orderId,

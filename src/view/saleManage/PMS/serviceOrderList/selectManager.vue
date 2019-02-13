@@ -74,7 +74,7 @@
       getManagerList () {
         API.serviceManager.assginOrderManagerList({
           managerType: this.params.managerType,
-          excludeId: this.params.excludeId,
+          // excludeId: this.params.excludeId,
           orderId: this.params.serviceOrderDetail.orderId,
           goodsId: this.params.serviceOrderDetail.goodsId,
           provinceId: this.params.serviceOrderDetail.provinceId,
