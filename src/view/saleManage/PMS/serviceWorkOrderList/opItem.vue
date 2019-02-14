@@ -56,7 +56,7 @@
               <span v-if="item.state === 5">重新发起审核</span>
               <span v-if="item.state === 9">已完成</span>
             </td>
-            <td v-if="!params.isShow">
+            <td v-if="!params.isShow || other.isServiceDirector">
             <!--<td v-if="true">-->
               <!--<el-button type="text"-->
               <!--@click="operationListHandle(item, oplIndex + 1)"-->
