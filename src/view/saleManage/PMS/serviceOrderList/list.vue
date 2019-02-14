@@ -375,6 +375,7 @@
             width: 800,
             height: 400,
             params: {
+              managerObj: item,
               managerType: item.managerType,
               serviceType: item.serviceType,
               orderId: row.orderId,

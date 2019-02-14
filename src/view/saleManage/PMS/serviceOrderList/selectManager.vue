@@ -91,7 +91,9 @@
       },
       saveSubmitForm () {
         if (this.params.quickList) {
+          let ID = (this.params.managerObj.serviceState === 2 || this.params.managerObj.serviceState === 6) ? this.params.managerObj.id : null
           API.workOrder.addWorkOrder([{
+            id: ID,
             orderId: this.params.orderId,
             managerId: this.multipleSelection[0].userId,
             serviceType: this.params.serviceType,
