@@ -205,6 +205,9 @@ export default {
       }, {
         type: 8,
         value: '已中止',
+      }, {
+        type: 9,
+        value: '退单中',
       },
     ],
     orderStates: [ //销售订单统计专用订单状态
@@ -232,6 +235,9 @@ export default {
       }, {
         type: 8,
         value: '已中止',
+      }, {
+        type: 9,
+        value: '退单中',
       },
     ],
     orderSource: [ // 订单来源

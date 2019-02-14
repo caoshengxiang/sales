@@ -346,11 +346,12 @@
               // 其他模块中新增调取销售自建，
               // 金钥匙微信端调取代理商并不让用户填写直接把字段传后台
               this.customerSourceType = [
-                { // 销售自建
-                  codeName: this.params.topSource[0].name,
-                  id: this.params.topSource[0].value,
-                  children: [],
-                },{
+//                 { // 销售自建
+//                   codeName: this.params.topSource[0].name,
+//                   id: this.params.topSource[0].value,
+//                   children: [],
+//                 },
+								{
                   codeName: this.params.topSource[3].name,
                   id: this.params.topSource[3].value,
                 }]
