@@ -21,6 +21,7 @@
             <span v-if="detailInfo.approvalType === 4">服务工单退单</span>
             <span v-if="detailInfo.approvalType === 5">服务工单派单</span>
             <span v-if="detailInfo.approvalType === 6">管家信息修改</span>
+            <span v-if="detailInfo.approvalType === 7">erp订单退单</span>
           </td>
           <td class="td-title">发布人</td>
           <td>{{detailInfo.publisherName}}</td>
@@ -467,6 +468,106 @@
             </tr>
           </table>
         </div>
+				
+				<!-- erp订单退单 -->
+				<div v-if="detailInfo.approvalType === 7">
+				<!-- <div> -->
+					<p class="table-title">订单基本信息</p>
+					<table class="detail-table">
+						<tr>
+							<td class="td-title">订单号</td>
+							<td>{{orderDetail.salerOrderModel.orderId}}</td>
+							<td class="td-title">服务客户</td>
+							<!-- <td>{{orderDetail.serviceCustomerName}}</td> -->
+							<td>******</td>
+							<td class="td-title">订单状态</td>
+							<td>
+								<span v-for="item in orderState" :key="item.type"
+								                                    v-if="orderDetail.salerOrderModel.orderState === item.type">{{item.value}}</span></span>
+							</td>
+						</tr>
+						<tr>
+							<td class="td-title">购买商品</td>
+							<td>{{orderDetail.salerOrderModel.productName}}</td>
+							<td class="td-title">商品规格</td>
+							<td>{{orderDetail.salerOrderModel.specificationName}}</td>
+							<td class="td-title">客户联系人</td>
+							<!-- <td>{{orderDetail.contactName}}[{{orderDetail.contactPhone}}]</td> -->
+							<td>******</td>
+						</tr>
+						<tr>
+							<td class="td-title">签约时间</td>
+							<td>{{orderDetail.salerOrderModel.orderDate && $moment(orderDetail.salerOrderModel.orderDate).format('YYYY-MM-DD HH:mm:ss')}}</td>
+							<td class="td-title">订单应付合计</td>
+							<td>{{orderDetail.salerOrderModel.billAmount}}</td>
+							<td class="td-title">订单实付合计</td>
+							<td>{{orderDetail.salerOrderModel.totalAmount}}</td>
+						</tr>
+					</table>
+					<p class="table-title">订单回款信息</p>
+					<table class="detail-table">
+						<tr v-for="item in orderDetail.salerOrderModel.refundRecordList">
+							<td class="td-title">回款金额</td>
+							<td>{{item.receivable}}</td>
+							<td class="td-title">付款方式</td>
+							<td>{{item.paymentMethod}}</td>
+							<td class="td-title">回款到账时间</td>
+							<td>{{$moment(item.date).format('YYYY-MM-DD')}}</td>
+						</tr>
+					</table>
+					<p class="table-title">商务服务信息</p>
+					<table class="detail-table">
+						<tr>
+							<td class="td-title">商务管家</td>
+							<td>{{orderDetail.salerOrderModel.team.salerName + '[' + orderDetail.salerOrderModel.team.salerMobilePhone + ']'}}</td>
+							<td class="td-title">咨询师</td>
+							<td>{{orderDetail.salerOrderModel.team.counselorName + '[' + orderDetail.salerOrderModel.team.counselorMobilePhone + ']'}}</td>
+							<td class="td-title">销售主体</td>
+							<td>{{orderDetail.salerOrderModel.contractSubjectName}}</td>
+						</tr>
+						<tr v-for="item in businessServiceInformation">
+							<td class="td-title">{{item.managerTypeName}}</td>
+							<td>{{item.managerName + '[' + item.mobilePhone + ']'}}</td>
+							<td class="td-title">派工单号</td>
+							<td>{{item.orderNum}}</td>
+							<td class="td-title">服务主体</td>
+							<td>{{item.serviceName}}</td>
+						</tr>
+					</table>
+					<p class="table-title">订单退单信息</p>
+					<table class="detail-table">
+						<tr>
+							<td class="td-title">退单号</td>
+							<td>{{orderDetail.id}}</td>
+							<td class="td-title">退单金额</td>
+							<td>{{orderDetail.refundAmount}}</td>
+							<td class="td-title">退单申请日期</td>
+							<td>{{$moment(orderDetail.created).format('YYYY-MM-DD')}}</td>
+						</tr>
+						<tr>
+							<td class="td-title" style="height: 60px;">退单原因</td>
+							<td colspan="5" style="height: 60px;">{{orderDetail.refundReason}}</td>
+						</tr>
+						<tr>
+							<td class="td-title">退款户名</td>
+							<td>{{orderDetail.accountName}}</td>
+							<td class="td-title">退款账号</td>
+							<td>{{orderDetail.refundAccount}}</td>
+							<td class="td-title">开户行</td>
+							<td>{{orderDetail.bankName}}</td>
+						</tr>
+						<tr>
+							<td class="td-title" style="height: 60px;">退单备注</td>
+							<td colspan="5" style="height: 60px;">{{orderDetail.refundRemark}}</td>
+						</tr>
+						<tr>
+							<td class="td-title">退单附件</td>
+							<td colspan="5">
+								<a :href="orderDetail.attachment" style="color: black;">退单申请表</a>
+							</td>
+						</tr>
+					</table>
+				</div>
 
         <table class="detail-table" style="text-align: center">
           <tr>
@@ -487,6 +588,8 @@
             <td>{{item.approvalTime && $moment(item.approvalTime).format('YYYY-MM-DD HH:mm:ss')}}</td>
           </tr>
         </table>
+
+
       </div>
     </div>
   </div>
@@ -508,7 +611,13 @@
         salesOpportunitiesDetail: {},
         customerDetail: {},
         managerDetail: {},
-        orderDetail: {}, // 订单详细
+				businessServiceInformation: [],  //商务服务信息
+        orderDetail: {
+					salerOrderModel: {
+						team: {},
+						refundRecordList: [],
+					},
+				},              // 订单详细
         asignList: [], // 派单
         wordOrderDetail: {}, // 工单详情
       }
@@ -517,6 +626,7 @@
       ...mapState('constData', [
         'customerSourceType',
         'salesState',
+				'orderState',
       ]),
     },
     components: {
@@ -526,7 +636,7 @@
     methods: {
       getChanceDetail () {
       },
-      // 审批类型 1:申请咨询师协同 2:申请移除咨询师 3:app订单退单 4:服务工单退单 5:服务工单派单 6:管家信息修改
+      // 审批类型 1:申请咨询师协同 2:申请移除咨询师 3:app订单退单 4:服务工单退单 5:服务工单派单 6:管家信息修改 7:erp订单退单
       getTaskDetail () {
         var that = this
         this.loading = true
@@ -573,6 +683,13 @@
             } else if (that.detailInfo.approvalType === 6) { // 管家信息修改
               API.serviceManager.updateDetailNoAuth(that.detailInfo.businessId, (da) => {
                 this.managerDetail = da.data
+              })
+            } else if (that.detailInfo.approvalType === 7) { // erp订单退单详情
+              API.serviceOrder.editZxDetail(that.detailInfo.businessId, (da) => {
+								if(da.status) {
+									this.orderDetail = da.data
+									this.businessServiceInformation = da.data.orderServiceWorkCompositeList;
+								}
               })
             }
           }
