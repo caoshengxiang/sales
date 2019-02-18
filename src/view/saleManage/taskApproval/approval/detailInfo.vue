@@ -478,8 +478,8 @@
 							<td class="td-title">订单号</td>
 							<td>{{orderDetail.salerOrderModel.orderId}}</td>
 							<td class="td-title">服务客户</td>
-							<!-- <td>{{orderDetail.serviceCustomerName}}</td> -->
-							<td>******</td>
+							<td>{{orderDetail.serviceCustomerName}}</td>
+							<!-- <td>******</td> -->
 							<td class="td-title">订单状态</td>
 							<td>
 								<span v-for="item in orderState" :key="item.type"
@@ -492,8 +492,8 @@
 							<td class="td-title">商品规格</td>
 							<td>{{orderDetail.salerOrderModel.specificationName}}</td>
 							<td class="td-title">客户联系人</td>
-							<!-- <td>{{orderDetail.contactName}}[{{orderDetail.contactPhone}}]</td> -->
-							<td>******</td>
+							<td>{{orderDetail.contactName}}[{{orderDetail.contactPhone}}]</td>
+							<!-- <td>******</td> -->
 						</tr>
 						<tr>
 							<td class="td-title">签约时间</td>
