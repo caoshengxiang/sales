@@ -478,7 +478,7 @@
 							<td class="td-title">订单号</td>
 							<td>{{orderDetail.salerOrderModel.orderId}}</td>
 							<td class="td-title">服务客户</td>
-							<td>{{orderDetail.serviceCustomerName}}</td>
+							<td>{{orderDetail.salerOrderModel.customerName}}</td>
 							<!-- <td>******</td> -->
 							<td class="td-title">订单状态</td>
 							<td>
@@ -492,7 +492,7 @@
 							<td class="td-title">商品规格</td>
 							<td>{{orderDetail.salerOrderModel.specificationName}}</td>
 							<td class="td-title">客户联系人</td>
-							<td>{{orderDetail.contactName}}[{{orderDetail.contactPhone}}]</td>
+							<td>{{orderDetail.salerOrderModel.contacterName}}[{{orderDetail.salerOrderModel.contacterPhone}}]</td>
 							<!-- <td>******</td> -->
 						</tr>
 						<tr>
