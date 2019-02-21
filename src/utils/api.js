@@ -1006,6 +1006,13 @@ const API1 = {
         error && error(err)
       })
     },
+		zhuxinRefund (params, success, error) { // 退单申请
+      $axios.post('/salerOrderRefund', params).then((res) => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+		},
   },
   // 跟单记录
   orderRecords: {

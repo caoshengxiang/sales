@@ -55,6 +55,25 @@
               <el-input type="text" v-model="searchForm.trainer"></el-input>
             </el-form-item>
           </el-col>
+          <el-col :span="8" v-if="type===1">
+            <el-form-item label="直接培育人：">
+              <el-input type="text" v-model="searchForm.directName"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="10" v-if="type===1">
+            <el-form-item label="注册日期：">
+              <el-date-picker
+                v-model="created"
+                value-format="timestamp"
+                type="daterange"
+                @change="createdTimeIntervalHandle"
+                :unlink-panels="true"
+                range-separator="至"
+                start-placeholder="开始日期"
+                end-placeholder="结束日期">
+              </el-date-picker>
+            </el-form-item>
+          </el-col>
         </el-row>
         <el-row class="el-row-cla">
           <el-col :span="8" v-if="type===0">
@@ -167,12 +186,16 @@
           sex: null,
           agentNo: null,
           wx: null,
+					directName: null,           //直接培育人
+					createdStart: null,         //注册开始时间
+					createdEnd: null,           //注册结束时间
         },
         organizationOptions: [], // 组织列表
         timeIntervalRefundDate: '',
         timeIntervalAuditTime: '',
         allroles: [],
         birthday: '',
+				created: '',
         type: 0,
       }
     },
@@ -182,6 +205,11 @@
         this.searchForm.birthdayStart = value[0] || ''
         this.searchForm.birthdayEnd = value[1] || ''
       },
+			createdTimeIntervalHandle (value) {
+				// 86399000  23:59:59的毫秒数
+				this.searchForm.createdStart = value[0] || ''
+				this.searchForm.createdEnd = (value[1] + 86399000) || ''
+			},
       selectedOptionsHandleChange (value) {
         var that = this
         that.organizationId = value
@@ -193,10 +221,16 @@
         })
       },
       clearForm () {
+				this.searchForm.createdStart = '';
+				this.searchForm.createdEnd = '';
         this.searchForm = {}
         this.birthday = []
+				this.created = []
       },
       saveSubmitForm () {
+				if(this.searchForm.created) {
+					this.searchForm.created = +this.searchForm.created;
+				}
         this.$vDialog.close({type: 'search', params: this.searchForm})
       },
       timeIntervalRefundDateHandle (value) {
@@ -234,6 +268,9 @@
       this.searchForm = this.params.preAdvancedSearch
       if (this.searchForm.birthdayStart) { // 日期
         this.birthday = [this.searchForm.birthdayStart, this.searchForm.birthdayEnd]
+      }
+      if (this.searchForm.createdStart) { // 日期
+        this.created = [this.searchForm.createdStart, this.searchForm.createdEnd]
       }
       this.type = this.params.type
     },

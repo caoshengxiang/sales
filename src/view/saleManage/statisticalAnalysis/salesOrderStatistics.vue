@@ -222,6 +222,9 @@
                     case 8: 
                       a.orderStatus = '已中止';
                       break;
+                    case 9: 
+                      a.orderStatus = '退单中';
+                      break;
                     default:
                       break;
                   }

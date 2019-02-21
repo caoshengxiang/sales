@@ -163,6 +163,33 @@
         <el-table-column
           show-overflow-tooltip
           align="center"
+          prop="directNum"
+          label="直接代理商数"
+					sortable="custom"
+          width="160"
+        >
+        </el-table-column>
+        <el-table-column
+          show-overflow-tooltip
+          align="center"
+          prop="validDirectNum"
+          label="直接培育的有效代理商数"
+          sortable="custom"
+          width="180"
+        >
+        </el-table-column>
+        <el-table-column
+          show-overflow-tooltip
+          align="center"
+          prop="directDemandNum"
+          label="直接代理商推荐需求数"
+          sortable="custom"
+          width="170"
+        >
+        </el-table-column>
+        <el-table-column
+          show-overflow-tooltip
+          align="center"
           prop="directName"
           label="直接上级"
           width="140"

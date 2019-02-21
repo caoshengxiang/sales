@@ -40,6 +40,9 @@
           </li>
           <li class="btn-edit" v-if="isFollower" @click="operateOptions('edit')">修改</li>
           <li class="btn-delete" v-if="isFollower" @click="operateOptions('delete')">删除</li>
+          <!-- 退单按钮，跟进人并且状态再待支付，已支付，待服务， 服务中，显示 -->
+          <li style='float: right; margin-left: 5px;' v-if='isFollower && (orderDetail.orderState === 1 || orderDetail.orderState === 2 || orderDetail.orderState === 3 || orderDetail.orderState === 7) && orderDetail.orderState != 9' @click='goRetreat'><el-button type="success">订单退单</el-button></li>
+         <li style='float: right; margin-left: 5px;' v-if='isFollower && orderDetail.orderState === 9'><el-button type="info" disabled>订单退单</el-button></li>
           <!--续费按钮出现的条件：-->
           <!--1.订单中的商品为计时类商品；-->
           <!--2.订单处于服务中或已完成状态。-->
@@ -252,6 +255,7 @@
 <script>
   import comButton from '../../../../components/button/comButton'
   import addDialog from './addDialog'
+  import retreatModel from './retreatModel'
   import addRenew from './addRenew'
   import order from './order'
   import orderInfo from './orderInfo'
@@ -292,6 +296,22 @@
       comButton,
     },
     methods: {
+      // 退单弹框
+      goRetreat () {
+        this.$vDialog.modal(retreatModel, {
+          title: '退单申请',
+          width: 1000,
+          height: 500,
+          params: {
+            orderDetail: this.orderDetail,
+          },
+          callback: (data) => {
+            if (data.type === 'save') {
+				this.getSalesOrderDetail()
+            }
+          },
+        })
+      },
       handleTabsClick (tab, event) {
         // console.log(tab.name)
         this.$router.push(
@@ -450,6 +470,12 @@
     @extend .btn-base;
     color: #FE5455;
     border-color: #FE5455;
+  }
+
+  .btn-retreat {
+    @extend .btn-base;
+    color: #4BCF99;
+    border-color: #4BCF99;
   }
 
   .order-info {
