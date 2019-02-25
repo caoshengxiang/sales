@@ -36,10 +36,10 @@
         <el-col :span="18">
           <div class="role-head-con">
             描述：<span style="padding-right: 10px;">{{roleDetail.name}}</span>
-<!-- 						<div class='search-product'>
+						<div class='search-product'>
 							<el-input style="width: 160px;" type="text" placeholder="请输入商品名称" v-model="searchGoodsName"></el-input>
 							<com-button buttonType="search" @click="getGoodsList">搜索</com-button>
-						</div> -->
+						</div>
           </div>
           <div class="com-box com-box-padding com-list-box">
             <el-table
@@ -135,11 +135,35 @@
       that.$options.methods.getOrganizationList.bind(that)()
     },
     methods: {
-// 			getGoodsList () {   //搜索商品
-// 				let _name = this.searchGoodsName, id = this.roleDefaultIndex;
-// 				console.log(id, _name);
-// 				
-// 			},
+			getGoodsList () {   //搜索商品
+				let that = this;
+				let params = {
+          page: 0,
+          pageSize: this.pagesOptions.pageSize,
+					goodsName: this.searchGoodsName,
+					organizationId: this.roleDefaultIndex
+				};
+        that.loading = true;
+        API.baseSetting.getOrganizationGoodsConf(params, function (res) {
+          that.loading = false
+          if (res.status) {
+            that.roleDetail = res.data.content
+            that.totles = res.data.totalElements
+          } else {
+            Message({
+              message: res.error.message,
+              type: 'error',
+            })
+          }
+        }, function () {
+          that.loading = false
+          Message({
+            message: '系统繁忙，请稍后再试1！',
+            type: 'error',
+          })
+        })
+				
+			},
       getOrganizationList () {
         var that = this
         let params = {
@@ -247,7 +271,9 @@
           page: this.currentPage - 1,
           pageSize: this.pagesOptions.pageSize,
           organizationId: id,
-        }
+					goodsName: this.searchGoodsName,
+        };
+				if(!this.searchGoodsName) delete params.goodsName;
         API.baseSetting.getOrganizationGoodsConf(params, function (res) {
           that.loading = false
           if (res.status) {
@@ -380,6 +406,5 @@
   }
 	.search-product {
 		float: right;
-		margin-right: 15px;
 	}
 </style>
