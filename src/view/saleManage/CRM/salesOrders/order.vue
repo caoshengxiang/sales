@@ -10,6 +10,18 @@
         <el-form-item prop="authCode" label="请输入客户联系人所获取的的验证码" style="margin-top: 20px;">
           <el-input type="age" v-model="addForm.authCode" placeholder="请输入短信验证码"></el-input>
         </el-form-item>
+        <el-form-item prop="annexRemarks" label="附件备注" style="margin-top: 20px;">
+					<el-upload
+							class="upload-demo"
+							:action="uploadUrl"
+							:on-remove="onRemoveHandle"
+							:headers="{authKey: userInfo.authKey}"
+							:on-success="onSuccessHandle"
+							multiple
+							:limit="1">
+							<el-button size="small" type="primary">上传附件</el-button>
+					</el-upload>
+        </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button class="cancel-button" @click="$vDialog.close({type: 'cancel'})">取 消</el-button>
@@ -22,6 +34,8 @@
 <script>
   // import { mapState } from 'vuex'
   import API from '../../../../utils/api'
+  import webStorage from 'webStorage'
+  import { uploadUrl } from '../../../../utils/const'
 
   export default {
     name: 'order',
@@ -33,6 +47,7 @@
           salerOrderId: '',
           mobilePhone: '',
           authCode: '',
+					annexRemarks: '',   //附件
         },
         time: 0,
         timer: '',
@@ -42,9 +57,15 @@
             // {type: 'number', message: '验证码必须为数字值'},
           ],
         },
+        userInfo: webStorage.getItem('userInfo'),
       }
     },
     props: ['params'],
+		computed: {
+				uploadUrl () {
+						return uploadUrl
+				}
+		},
     methods: {
       saveSubmitForm (formName) {
         this.$refs[formName].validate((valid) => {
@@ -79,6 +100,14 @@
           }
         })
       },
+			// 文件成功上传
+			onSuccessHandle (response, file, fileList) {
+					this.addForm.annexRemarks = response.data.url
+			},
+			// 删除已上传文件
+			onRemoveHandle () {
+					this.addForm.annexRemarks = '';
+			}
     },
     created () {
       if (this.params.orderDetail) {

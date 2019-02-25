@@ -81,7 +81,7 @@
           <td colspan="5">{{detail.invoiceMailAddress}}</td>
         </tr>
         <tr>
-          <td class="td-center" rowspan="3">订单其他信息</td>
+          <td class="td-center" rowspan="4">订单其他信息</td>
         </tr>
         <tr>
           <td class="td-title">预约服务时间</td>
@@ -93,6 +93,19 @@
           <td class="td-title">订单备注</td>
           <td colspan="5">{{detail.remark}}</td>
         </tr>
+        <tr>
+          <td class="td-title">附件备注</td>
+          <td colspan="5">
+						<a :href="detail.annexRemarks" style="cursor:pointer; color: #000;" download=""  target="_blank">{{detail.annexRemarks}}</a>
+					</td>
+        </tr>
+        <tr>
+          <td class="td-center" rowspan="2">订单商务信息</td>
+        </tr>
+				<tr>
+					<td class="td-title">商务管家</td>
+          <td colspan="5">{{detail.businessManagerName}}[{{detail.businessManagerPhone}}]</td>
+				</tr>
       </table>
     </div>
 </template>
@@ -145,6 +158,7 @@
     },
     created () {
       this.getDetailByOrderId(this.params.orderId)
+			console.log(this.detail)
     },
   }
 </script>

@@ -36,6 +36,10 @@
         <el-col :span="18">
           <div class="role-head-con">
             描述：<span style="padding-right: 10px;">{{roleDetail.name}}</span>
+<!-- 						<div class='search-product'>
+							<el-input style="width: 160px;" type="text" placeholder="请输入商品名称" v-model="searchGoodsName"></el-input>
+							<com-button buttonType="search" @click="getGoodsList">搜索</com-button>
+						</div> -->
           </div>
           <div class="com-box com-box-padding com-list-box">
             <el-table
@@ -114,6 +118,7 @@
         organizationIndex: '1',
         goodsConfs: [],
         currentPage: 1, // 当前页
+				searchGoodsName: '',     //搜索的商品名称
       }
     },
     computed: {
@@ -130,6 +135,11 @@
       that.$options.methods.getOrganizationList.bind(that)()
     },
     methods: {
+// 			getGoodsList () {   //搜索商品
+// 				let _name = this.searchGoodsName, id = this.roleDefaultIndex;
+// 				console.log(id, _name);
+// 				
+// 			},
       getOrganizationList () {
         var that = this
         let params = {
@@ -224,6 +234,7 @@
         this.getRoleDetail(this.roleDefaultIndex)
       },
       selectRole (index) {
+				this.searchGoodsName = '';    //选择组织名称清空搜索内容
         var that = this
         this.currentPage = 1
         that.$options.methods.getRoleDetail.bind(that)(index)
@@ -367,4 +378,8 @@
       background-color: $select_bg;
     }
   }
+	.search-product {
+		float: right;
+		margin-right: 15px;
+	}
 </style>
