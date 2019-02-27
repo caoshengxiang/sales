@@ -60,6 +60,21 @@
               <el-input type="text" v-model="searchForm.directName"></el-input>
             </el-form-item>
           </el-col>
+          <el-col :span="8" v-if="type===1">
+            <el-form-item label="身份类型：">
+              <el-select v-model="identityType" @change="selectedIdentityChange"
+                         placeholder="请选择身份类型"
+                         style="width: 140px">
+                <el-option
+                  v-for="item in identityList"
+                  :key="item.code"
+                  :label="item.codeName"
+                  :value="item.codeName"
+                >
+                </el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
           <el-col :span="10" v-if="type===1">
             <el-form-item label="注册日期：">
               <el-date-picker
@@ -171,6 +186,7 @@
         seaList: [], // 公海
         customerSourceType: [], // 客户来源
         customerState: [], // 客户状态
+				identityType: '',
         searchForm: { // 表单
           mobilePhone: null,
           jobNo: null,
@@ -189,8 +205,10 @@
 					directName: null,           //直接培育人
 					createdStart: null,         //注册开始时间
 					createdEnd: null,           //注册结束时间
+					identityType: null,         //选择的身份类型
         },
         organizationOptions: [], // 组织列表
+				identityList: [],        //所有身份类型
         timeIntervalRefundDate: '',
         timeIntervalAuditTime: '',
         allroles: [],
@@ -200,7 +218,22 @@
       }
     },
     props: ['params'],
+		// zxIdentity
     methods: {
+			getIdentity () {
+				API.organization.zxIdentity({type: 15}, (res) => {
+					if(res.status) {
+						this.identityList = res.data;
+					}
+				})
+			},
+			selectedIdentityChange () {
+				this.identityList.forEach(a => {
+					if(a.codeName === this.identityType) {
+						this.searchForm.identityType = a.code;
+					}
+				})
+			},
       timeIntervalHandle (value) {
         this.searchForm.birthdayStart = value[0] || ''
         this.searchForm.birthdayEnd = value[1] || ''
@@ -223,6 +256,8 @@
       clearForm () {
 				this.searchForm.createdStart = '';
 				this.searchForm.createdEnd = '';
+				this.identityType = '';
+				this.searchForm.identityType = '';
         this.searchForm = {}
         this.birthday = []
 				this.created = []
@@ -273,6 +308,8 @@
         this.created = [this.searchForm.createdStart, this.searchForm.createdEnd]
       }
       this.type = this.params.type
+			
+			this.getIdentity();
     },
   }
 </script>

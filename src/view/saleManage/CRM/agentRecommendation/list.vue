@@ -101,6 +101,13 @@
               <el-table-column
                 show-overflow-tooltip
                 align="center"
+                label="身份类型"
+                prop="identityTypeRemark"
+              >
+              </el-table-column>
+              <el-table-column
+                show-overflow-tooltip
+                align="center"
                 prop="created"
                 label="加入时间"
               >
