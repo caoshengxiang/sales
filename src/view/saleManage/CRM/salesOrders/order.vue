@@ -48,6 +48,7 @@
           mobilePhone: '',
           authCode: '',
 					annexRemarks: '',   //附件
+					annexName: '',   //附件名称
         },
         time: 0,
         timer: '',
@@ -103,10 +104,12 @@
 			// 文件成功上传
 			onSuccessHandle (response, file, fileList) {
 					this.addForm.annexRemarks = response.data.url
+					this.addForm.annexName = response.data.name
 			},
 			// 删除已上传文件
 			onRemoveHandle () {
 					this.addForm.annexRemarks = '';
+					this.addForm.annexName = '';
 			}
     },
     created () {

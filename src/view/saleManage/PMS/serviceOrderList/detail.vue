@@ -138,7 +138,7 @@
               <tr>
                 <td class="td-title">附件备注</td>
                 <td colspan="5">
-									<a :href="detail.annexRemarks" style="cursor:pointer; color: #000;" download=""  target="_blank">{{detail.annexRemarks}}</a>
+									<a :href="detail.annexRemarks" style="cursor:pointer; color: #000;" download=""  target="_blank">{{detail.annexName}}</a>
 								</td>
               </tr>
               <tr>

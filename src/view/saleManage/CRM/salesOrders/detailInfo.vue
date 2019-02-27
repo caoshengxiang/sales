@@ -114,10 +114,10 @@
               <tr>
                 <td class="td-title">订单备注</td>
                 <td>{{orderDetail.remark}}</td>
-								<td class="td-title">附件备注</td>
-								<td colspan="3">
-									<a :href="orderDetail.annexRemarks" style="cursor:pointer; color: #000;" download=""  target="_blank">{{orderDetail.annexRemarks}}</a>
-								</td>
+				<td class="td-title">附件备注</td>
+				<td colspan="3">
+					<a :href="orderDetail.annexRemarks" style="cursor:pointer; color: #000;" download=""  target="_blank">{{orderDetail.annexName}}</a>
+				</td>
               </tr>
             </table>
 
