@@ -69,6 +69,18 @@
           <el-input style="width: 200px;" v-model="addForm.authCode"
                     placeholder="请输入短信验证码"></el-input>
         </el-form-item>
+        <el-form-item prop="annexRemarks" label="附件备注" style="margin-top: 20px;">
+					<el-upload
+							class="upload-demo"
+							:action="uploadUrl"
+							:on-remove="onRemoveHandle"
+							:headers="{authKey: userInfo.authKey}"
+							:on-success="onSuccessHandle"
+							multiple
+							:limit="1">
+							<el-button size="small" type="primary">上传附件</el-button>
+					</el-upload>
+        </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button class="cancel-button" @click="$vDialog.close({type: 'cancel'})">取 消</el-button>
@@ -83,6 +95,8 @@
 <script>
   import API from '../../../../utils/api'
   // import { arrToStr } from '../../../utils/utils'
+  import webStorage from 'webStorage'
+  import { uploadUrl } from '../../../../utils/const'
 
   export default {
     name: 'order',
@@ -97,6 +111,8 @@
           mobilePhone: '',
           authCode: '',
           chanceId: null,
+					annexRemarks: '',   //附件
+					annexName: '',   //附件
         },
         time: 0,
         timer: '',
@@ -108,9 +124,15 @@
         },
         multipleSelection: [],
         orderState: [],
+        userInfo: webStorage.getItem('userInfo'),
       }
     },
     props: ['params'],
+		computed: {
+				uploadUrl () {
+						return uploadUrl
+				}
+		},
     methods: {
       handleSelectionChange (val) {
         this.multipleSelection = val
@@ -165,6 +187,16 @@
           this.$message.warning('电话不存在！')
         }
       },
+			// 文件成功上传
+			onSuccessHandle (response, file, fileList) {
+					this.addForm.annexRemarks = response.data.url
+					this.addForm.annexName = response.data.name
+			},
+			// 删除已上传文件
+			onRemoveHandle () {
+					this.addForm.annexRemarks = '';
+					this.addForm.annexName = '';
+			}
     },
     created () {
       if (this.params.salesOpportunitiesDetail) {

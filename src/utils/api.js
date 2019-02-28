@@ -1359,6 +1359,16 @@ const API1 = {
         error && error(errorData)
       })
     },
+    zxIdentity (params, success, error) {
+      $axios({
+        method: 'get',
+        url: '/codeConfig?type=' + params.type,
+      }).then((res) => {
+        success && success(res.data)
+      }).catch((errorData) => {
+        error && error(errorData)
+      })
+    },
     queryUserList (params, success, error) {
       $axios({
         method: 'get',

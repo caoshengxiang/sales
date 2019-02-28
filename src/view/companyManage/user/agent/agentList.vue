@@ -101,6 +101,14 @@
         <el-table-column
           show-overflow-tooltip
           align="center"
+          label="身份类型"
+          width="100"
+          prop="identityTypeRemark"
+        >
+        </el-table-column>
+        <el-table-column
+          show-overflow-tooltip
+          align="center"
           prop="mobilePhone"
           label="手机号"
           width="140"
@@ -182,9 +190,9 @@
           show-overflow-tooltip
           align="center"
           prop="directDemandNum"
-          label="直接代理商推荐需求数"
+          label="需求数"
           sortable="custom"
-          width="170"
+          width="100"
         >
         </el-table-column>
         <el-table-column
@@ -459,6 +467,7 @@
         depparams.type = 2 // 查询出部门
         API.organization.queryList(depparams, (res) => {
           that.alldepartments = res.data
+					console.log(11111111111111111, that.alldepartments)
           if (that.params.id > 0) {
             var tempid = that.form.departmentId
             var loopDo = function (list, id) {
