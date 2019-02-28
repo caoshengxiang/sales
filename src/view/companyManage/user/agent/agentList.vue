@@ -190,9 +190,9 @@
           show-overflow-tooltip
           align="center"
           prop="directDemandNum"
-          label="直接代理商推荐需求数"
+          label="需求数"
           sortable="custom"
-          width="170"
+          width="100"
         >
         </el-table-column>
         <el-table-column
