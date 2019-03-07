@@ -28,7 +28,7 @@
       </div>
       <div class="com-bar-right">
         <!--<el-button>打印</el-button>-->
-        <com-button buttonType="export" icon="el-icon-download" @click="excelExports">导出明细数据</com-button>
+        <com-button buttonType="export" icon="el-icon-download" @click="excelExports">导出派单明细</com-button>
         <com-button buttonType="export" icon="el-icon-download" @click="excelExport">导出统计数据</com-button>
       </div>
       <div>
