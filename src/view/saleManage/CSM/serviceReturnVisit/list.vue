@@ -178,6 +178,26 @@
               {{scope.row.assignTime && $moment(scope.row.assignTime).format('YYYY-MM-DD HH:mm')}}
             </template>
           </el-table-column>
+          <el-table-column
+            align="center"
+            sortable="custom"
+            prop="returnVisitTime"
+            label="待再回访时间"
+            width="160"
+            show-overflow-tooltip
+          >
+            <template slot-scope="scope">
+              {{scope.row.returnVisitTime && $moment(scope.row.returnVisitTime).format('YYYY-MM-DD HH:mm')}}
+            </template>
+          </el-table-column>
+          <el-table-column
+            align="center"
+            prop="revisitRemark"
+            label="备注信息"
+            width="180"
+            show-overflow-tooltip
+          >
+          </el-table-column>
         </el-table>
       </div>
 

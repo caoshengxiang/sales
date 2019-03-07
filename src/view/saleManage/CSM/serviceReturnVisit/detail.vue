@@ -97,6 +97,14 @@
                 <td class="td-title"></td>
                 <td></td>
               </tr>
+              <tr>
+                <td class="td-title">待再回访时间</td>
+                <td>{{detail.returnVisitTime && $moment(detail.returnVisitTime).format('YYYY-MM-DD HH:mm')}}</td>
+                <td class="td-title"></td>
+                <td></td>
+                <td class="td-title"></td>
+                <td></td>
+              </tr>
             </table>
 
             <!--<p class="table-title"></p>-->
@@ -112,6 +120,12 @@
                 <td class="td-title">其他意见</td>
                 <td colspan="5">
                   <p>{{detail.retvisitContentModel.otherSuggestion.otherSuggestionDesc}}</p>
+                </td>
+              </tr>
+              <tr>
+                <td class="td-title">备注信息</td>
+                <td colspan="5">
+                  <p>{{detail.revisitRemark}}</p>
                 </td>
               </tr>
             </table>

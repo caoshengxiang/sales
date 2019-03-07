@@ -19,9 +19,23 @@
         </table>
       </el-form>
       <el-form :model="dialogRuleForm" :rules="rules" ref="dialogRuleForm2" label-width="0px"
-               :disabled="dialogRuleForm.state != 3"
                class="demo-ruleForm">
         <table class="com-dialog-table">
+					<!-- 回访时间 -->
+					<tr v-if='dialogRuleForm.state === 5'>
+            <td class="td-title" style="width: 20%">待再回访时间</td>
+						<td>
+							<el-form-item label="">
+								<el-date-picker
+									v-model="dialogRuleForm.returnVisitTime"
+									type="datetime"
+									format="yyyy-MM-dd HH:mm"
+									placeholder="选择待再回访时间"
+									style="margin-top: 15px;">
+								</el-date-picker>
+							</el-form-item>
+						</td>
+					</tr>
           <!-- 客户主动退单回访 -->
           <tr v-if="params.type === 1">
             <td class="td-title" style="width: 20%">回访内容</td>
@@ -29,7 +43,7 @@
               <el-form-item label="">
                 <div class="flex-line">
                   <label class="label-ti">退单原因</label>
-                  <el-checkbox-group v-model="dialogRuleForm.types">
+                  <el-checkbox-group v-model="dialogRuleForm.types" :disabled="dialogRuleForm.state != 3">
                     <el-checkbox :label="1" name="type">服务质量未达预期</el-checkbox>
                     <el-checkbox :label="2" name="type">企业跳单</el-checkbox>
                     <el-checkbox :label="3" name="type">企业注销</el-checkbox>
@@ -38,7 +52,7 @@
                 </div>
                 <div class="flex-line">
                   <label class="label-ti">原因描述</label>
-                  <el-input style="margin-left: 8px;" type="textarea" v-model="dialogRuleForm.reasonDesc"></el-input>
+                  <el-input style="margin-left: 8px;" type="textarea" v-model="dialogRuleForm.reasonDesc" :disabled="dialogRuleForm.state != 3"></el-input>
                 </div>
               </el-form-item>
             </td>
@@ -50,7 +64,7 @@
               <el-form-item label="">
                 <div class="flex-line">
                   <label class="label-ti">服务管家责:</label>
-                  <el-checkbox-group v-model="dialogRuleForm.types">
+                  <el-checkbox-group v-model="dialogRuleForm.types" :disabled="dialogRuleForm.state != 3">
                     <el-checkbox :label="5" name="type">服务成果不满意</el-checkbox>
                     <el-checkbox :label="6" name="type">服务态度不满意</el-checkbox>
                     <el-checkbox :label="7" name="type">专业性不强</el-checkbox>
@@ -58,7 +72,7 @@
                 </div>
                 <div class="flex-line">
                   <label class="label-ti">商务管家责任:</label>
-                  <el-checkbox-group v-model="dialogRuleForm.types">
+                  <el-checkbox-group v-model="dialogRuleForm.types" :disabled="dialogRuleForm.state != 3">
                     <el-checkbox :label="8" name="type">未及时催收</el-checkbox>
                     <el-checkbox :label="9" name="type">服务态度不满意</el-checkbox>
                     <el-checkbox :label="10" name="type">承诺与实际服务内容不符</el-checkbox>
@@ -66,7 +80,7 @@
                 </div>
                 <div class="flex-line">
                   <label class="label-ti">客户原因责任:</label>
-                  <el-checkbox-group v-model="dialogRuleForm.types">
+                  <el-checkbox-group v-model="dialogRuleForm.types" :disabled="dialogRuleForm.state != 3">
                     <el-checkbox :label="11" name="type">公司经营问题</el-checkbox>
                     <el-checkbox :label="12" name="type">借故拖欠</el-checkbox>
                   </el-checkbox-group>
@@ -81,7 +95,7 @@
               <el-form-item label="">
                 <div class="flex-line">
                   <label class="label-ti">服务管家责任:</label>
-                  <el-checkbox-group v-model="dialogRuleForm.types">
+                  <el-checkbox-group v-model="dialogRuleForm.types" :disabled="dialogRuleForm.state != 3">
                     <el-checkbox :label="13" name="type">服务质量不满意</el-checkbox>
                     <el-checkbox :label="14" name="type">服务效率不满意</el-checkbox>
                     <el-checkbox :label="15" name="type">服务态度不满意</el-checkbox>
@@ -89,14 +103,14 @@
                 </div>
                 <div class="flex-line">
                   <label class="label-ti">商务管家责任:</label>
-                  <el-checkbox-group v-model="dialogRuleForm.types">
+                  <el-checkbox-group v-model="dialogRuleForm.types" :disabled="dialogRuleForm.state != 3">
                     <el-checkbox :label="16" name="type">未及时跟单</el-checkbox>
                     <el-checkbox :label="17" name="type">增值服务未达标</el-checkbox>
                   </el-checkbox-group>
                 </div>
                 <div class="flex-line">
                   <label class="label-ti">客户原因责任:</label>
-                  <el-checkbox-group v-model="dialogRuleForm.types">
+                  <el-checkbox-group v-model="dialogRuleForm.types" :disabled="dialogRuleForm.state != 3">
                     <el-checkbox :label="18" name="type">服务价格不满意</el-checkbox>
                     <el-checkbox :label="19" name="type">公司注销</el-checkbox>
                   </el-checkbox-group>
@@ -117,7 +131,7 @@
                   <tr>
                     <td>是否按约定时间进行联系与开展服务</td>
                     <td>
-                      <el-radio-group v-model="dialogRuleForm.type1">
+                      <el-radio-group v-model="dialogRuleForm.type1" :disabled="dialogRuleForm.state != 3">
                         <el-radio :label="20">是</el-radio>
                         <el-radio :label="21">否</el-radio>
                       </el-radio-group>
@@ -126,7 +140,7 @@
                   <tr>
                     <td>是否以平台服务管家身份与客户联系</td>
                     <td>
-                      <el-radio-group v-model="dialogRuleForm.type2">
+                      <el-radio-group v-model="dialogRuleForm.type2" :disabled="dialogRuleForm.state != 3">
                         <el-radio :label="22">是</el-radio>
                         <el-radio :label="23">否</el-radio>
                       </el-radio-group>
@@ -135,7 +149,7 @@
                   <tr>
                     <td>是否有推荐或介绍其他服务机构</td>
                     <td>
-                      <el-radio-group v-model="dialogRuleForm.type3">
+                      <el-radio-group v-model="dialogRuleForm.type3" :disabled="dialogRuleForm.state != 3">
                         <el-radio :label="24">是</el-radio>
                         <el-radio :label="25">否</el-radio>
                       </el-radio-group>
@@ -158,7 +172,7 @@
                   <tr>
                     <td>外勤管家对《客户告知书》的介绍是否解释详尽</td>
                     <td>
-                      <el-radio-group v-model="dialogRuleForm.type1">
+                      <el-radio-group v-model="dialogRuleForm.type1" :disabled="dialogRuleForm.state != 3">
                         <el-radio :label="26">是</el-radio>
                         <el-radio :label="27">否</el-radio>
                       </el-radio-group>
@@ -167,7 +181,7 @@
                   <tr>
                     <td>在采集客户信息时外勤管家引导是否恰当</td>
                     <td>
-                      <el-radio-group v-model="dialogRuleForm.type2">
+                      <el-radio-group v-model="dialogRuleForm.type2" :disabled="dialogRuleForm.state != 3">
                         <el-radio :label="28">是</el-radio>
                         <el-radio :label="29">否</el-radio>
                       </el-radio-group>
@@ -176,7 +190,7 @@
                   <tr>
                     <td>外勤管家是否对帮助客户安装APP并指导使用</td>
                     <td>
-                      <el-radio-group v-model="dialogRuleForm.type3">
+                      <el-radio-group v-model="dialogRuleForm.type3" :disabled="dialogRuleForm.state != 3">
                         <el-radio :label="30">是</el-radio>
                         <el-radio :label="31">否</el-radio>
                       </el-radio-group>
@@ -205,7 +219,7 @@
               <el-form-item label="">
                 <div class="flex-line">
                   <label class="label-ti">意见类型</label>
-                  <el-select v-model="dialogRuleForm.commentSuggestionName" placeholder="请选择其他意见类型">
+                  <el-select v-model="dialogRuleForm.commentSuggestionName" placeholder="请选择其他意见类型" :disabled="dialogRuleForm.state != 3">
                     <el-option v-for="item in commentsTypes" :key="item.id" :label="item.codeName"
                                :value="item.codeName"></el-option>
                   </el-select>
@@ -213,7 +227,7 @@
                 <div class="flex-line">
                   <label class="label-ti" style="margin-top: 10px;">意见描述</label>
                   <el-input style="margin-left: 8px;margin-top: 10px;" type="textarea"
-                            v-model="dialogRuleForm.commentSuggestionDesc"></el-input>
+                            v-model="dialogRuleForm.commentSuggestionDesc" :disabled="dialogRuleForm.state != 3"></el-input>
                 </div>
               </el-form-item>
             </td>
@@ -236,7 +250,7 @@
               <el-form-item label="">
                 <div class="flex-line">
                   <label class="label-ti">意见类型</label>
-                  <el-select v-model="dialogRuleForm.commentSuggestionName" placeholder="请选择其他意见类型">
+                  <el-select v-model="dialogRuleForm.commentSuggestionName" placeholder="请选择其他意见类型" :disabled="dialogRuleForm.state != 3">
                     <el-option v-for="item in commentsTypes" :key="item.id" :label="item.codeName"
                                :value="item.codeName"></el-option>
                   </el-select>
@@ -244,7 +258,7 @@
                 <div class="flex-line">
                   <label class="label-ti" style="margin-top: 10px;">意见描述</label>
                   <el-input style="margin-left: 8px;margin-top: 10px;" type="textarea"
-                            v-model="dialogRuleForm.commentSuggestionDesc"></el-input>
+                            v-model="dialogRuleForm.commentSuggestionDesc" :disabled="dialogRuleForm.state != 3"></el-input>
                 </div>
               </el-form-item>
             </td>
@@ -256,7 +270,7 @@
               <el-form-item label="" disabled>
                 <div class="flex-line">
                   <label class="label-ti">意见类型</label>
-                  <el-select v-model="dialogRuleForm.otherSuggestionName" placeholder="请选择其他意见类型">
+                  <el-select v-model="dialogRuleForm.otherSuggestionName" placeholder="请选择其他意见类型" :disabled="dialogRuleForm.state != 3">
                     <el-option v-for="item in commentsTypes" :key="item.id" :label="item.codeName"
                                :value="item.codeName"></el-option>
                   </el-select>
@@ -264,11 +278,18 @@
                 <div class="flex-line">
                   <label class="label-ti" style="margin-top: 10px;">意见描述</label>
                   <el-input style="margin-left: 8px;margin-top: 10px;" type="textarea"
-                            v-model="dialogRuleForm.otherSuggestionDesc"></el-input>
+                            v-model="dialogRuleForm.otherSuggestionDesc" :disabled="dialogRuleForm.state != 3"></el-input>
                 </div>
               </el-form-item>
             </td>
           </tr>
+					<!-- 备注信息 -->
+					<tr>
+            <td class="td-title" style="width: 20%">备注信息</td>
+						<td>
+              <el-input style="margin: 5px 0;" type="textarea" v-model='dialogRuleForm.revisitRemark' resize='none' rows='4' placeholder="备注信息"></el-input>
+						</td>
+					</tr>
         </table>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -302,6 +323,8 @@
           originStar: 0,
           commentSuggestionName: '',
           commentSuggestionDesc: '',
+					returnVisitTime: '',              //回访时间
+					revisitRemark: '',            //回访备注
         },
         currentUserId: '', // 当前登录用户id
         rules: {
@@ -336,6 +359,8 @@
           originStar: 0,
           commentSuggestionName: '',
           commentSuggestionDesc: '',
+					returnVisitTime: '',              //回访时间
+					revisitRemark: '',            //回访备注
         }
       },
       cancelSubmitForm () {
@@ -352,6 +377,10 @@
         param.state = this.dialogRuleForm.state
         param.otherSuggestion.otherSuggestionName = this.dialogRuleForm.otherSuggestionName // 其他意见
         param.otherSuggestion.otherSuggestionDesc = this.dialogRuleForm.otherSuggestionDesc
+				param.revisitRemark = this.dialogRuleForm.revisitRemark
+				if(this.dialogRuleForm.state === 5) {
+					param.returnVisitTime = +this.dialogRuleForm.returnVisitTime
+				}
         if (this.params.type === 1) {
           param.innerContent.types = this.dialogRuleForm.types.join(',')
           param.innerContent.reasonDesc = this.dialogRuleForm.reasonDesc
@@ -368,6 +397,16 @@
         return param
       },
       saveSubmitForm (formName) {
+				let yesShow = 1;
+				if(this.dialogRuleForm.state === 5) {
+					if(!this.dialogRuleForm.returnVisitTime) {
+						yesShow = 0;
+					}
+				};
+				if(!yesShow) {
+					this.$message('请选择待再回访时间');
+					return;
+				}
         this.$refs[formName].validate((valid) => {
           if (valid) {
             console.log(this.getParam())
