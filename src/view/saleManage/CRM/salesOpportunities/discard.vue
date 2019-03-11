@@ -3,7 +3,13 @@
     <div class="com-dialog">
       <el-form :model="moveCustomerForm" :rules="rules" ref="moveCustomerForm" label-width="160px"
                class="demo-ruleForm">
-        <el-form-item label="请输入输单备注信息" prop="discardRemark">
+        <el-form-item  label="输单原因" prop="discardCause">
+          <el-select v-model="moveCustomerForm.discardCause" placeholder="请选择客户行业">
+            <el-option v-for="item in discardCauseList" :key="item.id" :label="item.codeName"
+                       :value="item.codeName"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="输单描述" prop="discardRemark">
           <el-input
             type="textarea"
             :autosize="{ minRows: 5, maxRows: 20}"
@@ -29,12 +35,17 @@
     data () {
       return {
         dataLoading: false,
+        discardCauseList: [], // 输单原因
         moveCustomerForm: {
           discardRemark: '',
+          discardCause: '',
         },
         rules: {
           discardRemark: [
             {required: true, message: '请输入输单备注信息', trigger: 'blur'},
+          ],
+          discardCause: [
+            {required: true, message: '请输入输单原因', trigger: 'blur'},
           ],
         },
       }
@@ -44,10 +55,20 @@
       cancelSubmitForm () {
         this.$vDialog.close({type: 'cancel'})
       },
+      getConfigData (type, pCode) {
+        API.common.codeConfig({type: type, pCode: pCode}, (data) => {
+            this.discardCauseList = data.data
+        })
+      },
       saveSubmitForm (formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
             this.dataLoading = true
+            this.discardCauseList.forEach(a => {
+              if (a.codeName === this.moveCustomerForm.discardCause) {
+                this.moveCustomerForm.discardCause = a.id;
+              }
+            })
             API.salesOpportunities.discard({path: this.params.detail.id, body: this.moveCustomerForm}, (data) => {
               if (data.status) {
                 this.$message.success('输单成功!')
@@ -69,6 +90,7 @@
       },
     },
     created () {
+      this.getConfigData(16)
     },
   }
 </script>

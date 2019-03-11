@@ -185,6 +185,10 @@
                 </td>
               </tr>
               <tr>
+                <td class="td-title">机会输单原因</td>
+                <td colspan="5">{{salesOpportunitiesDetail.discardCauseName}}</td>
+              </tr>
+              <tr>
                 <td class="td-title">机会输单备注</td>
                 <td colspan="5">{{salesOpportunitiesDetail.discardRemark || '暂无备注信息'}}</td>
               </tr>
