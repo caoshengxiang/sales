@@ -301,7 +301,7 @@
                   <el-button v-if="item.state === 1" type="text" @click="operationListHandle(item, 1)">
                     {{operationList[item.num - 1][1-1]}}
                   </el-button>
-                  <el-button v-if="item.state === 2" type="text" @click="operationListHandle(item, 3)" :disabled="((other.currentData - item.modified) >= date_num  && other.isServiceDirector) ? false : true">
+                  <el-button v-if="item.state === 2" type="text" @click="operationListHandle(item, 3)" :disabled="other.isServiceDirector ? false : true">
                     {{operationList[item.num - 1][3-1]}}
                   </el-button>
                   <!--<el-button type="text" @click="operationListHandle(item, 2)">{{operationList[item.num - 1][2-1]}}</el-button>-->
