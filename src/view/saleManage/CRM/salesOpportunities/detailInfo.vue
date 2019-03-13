@@ -73,7 +73,7 @@
           </el-steps>
         </div>
         <!--输单后隐藏删除以外得按钮， 调整为更近人操作-->
-        <a v-if="salesOpportunitiesDetail.stage !== -1 && isChanceCreater" class="lose-bill"
+        <a v-if="salesOpportunitiesDetail.stage !== -1 && isChangeFollower" class="lose-bill"
            @click="operateOptions('discard')">输单</a>
       </div>
 
