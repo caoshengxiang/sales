@@ -16,23 +16,23 @@
         <!--  <com-button buttonType="delete" icon="el-icon-delete" :disabled="this.multipleSelection.length <= 0"
                       @click="deleteHandle">刪除
           </com-button>-->
-        <com-button buttonType="grey" icon="el-icon-edit" :disabled="this.multipleSelection.length !== 1"
-                    @click="modifyHandle">修改
+        <com-button buttonType="grey" icon="el-icon-edit" :disabled="this.multipleSelection.length < 1"
+                    @click="modifyHandle">分配
         </com-button>
         <!--<com-button buttonType="grey" icon="el-icon-remove-outline" :disabled="this.multipleSelection.length <= 0"-->
         <!--@click="disableHandle">禁用-->
         <!--</com-button>-->
-        <com-button buttonType="grey" icon="el-icon-remove-outline"
+<!--        <com-button buttonType="grey" icon="el-icon-remove-outline"
                     :disabled="this.multipleSelection.length <= 0 || disableUserHandle"
                     @click="disableHandle(0)">禁用
-        </com-button>
-        <com-button buttonType="grey" icon="el-icon-check"
+        </com-button> -->
+<!--        <com-button buttonType="grey" icon="el-icon-check"
                     :disabled="this.multipleSelection.length <= 0 || enableUserHandle"
                     @click="disableHandle(1)">启用
         </com-button>
         <com-button buttonType="grey" icon="el-icon-setting" :disabled="this.multipleSelection.length !== 1"
                     @click="resetPassword">重置密码
-        </com-button>
+        </com-button> -->
       </div>
       <div class="com-bar-right" style="float: right">
         <com-button buttonType="search" @click="searchHandle">搜索</com-button>
@@ -275,14 +275,6 @@
           width="80"
         >
         </el-table-column>
-        <el-table-column
-          show-overflow-tooltip
-          align="center"
-          prop="managerName"
-					width='100'
-          label="代理商维护者"
-        >
-        </el-table-column>
       </el-table>
     </div>
     <!--分页-->
@@ -306,7 +298,8 @@
   import API from '../../../../utils/api'
   import { mapState, mapActions } from 'vuex'
   import addDialog from '../addDialog'
-  import advancedSearch from '../advancedSearch'
+  import personnelSetup from '../personnelSetup'
+  import advancedSearch from './advancedSearch'
   import { underscoreName } from '../../../../utils/utils'
 
   export default {
@@ -360,7 +353,7 @@
         this.enableUserHandle = false
         this.disableUserHandle = false
         va.forEach(item => {
-          console.log(item.status, item)
+          // console.log(item.status, item)
           if (item.status === 1) { // 有效
             this.enableUserHandle = true
           } else if (item.status === 3) { // 禁用
@@ -475,7 +468,7 @@
         depparams.type = 2 // 查询出部门
         API.organization.queryList(depparams, (res) => {
           that.alldepartments = res.data
-					console.log(11111111111111111, that.alldepartments)
+					// console.log(11111111111111111, that.alldepartments)
           if (that.params.id > 0) {
             var tempid = that.form.departmentId
             var loopDo = function (list, id) {
@@ -536,7 +529,7 @@
           organizationId: that.form.organizationId,
         }
         that.dataLoading = true
-        API.user.userList(Object.assign({}, param, that.sortObj, that.advancedSearch), (res) => {
+        API.user.userListWaters(Object.assign({}, param, that.sortObj, that.advancedSearch), (res) => {
           that.userList = res.data.content
           that.userTotal = res.data.totalElements
           setTimeout(() => {
@@ -570,10 +563,10 @@
       },
       modifyHandle () {
         var that = this
-        this.$vDialog.modal(addDialog, {
-          title: '修改用户',
+        this.$vDialog.modal(personnelSetup, {
+          title: '代理商维护人员设置',
           width: 700,
-          height: 500,
+          height: 300,
           params: {
             id: that.multipleSelection.map(item => item.id).join(),
             store: that.$store, // 弹窗组件如果需要用到vuex，必须传值过去赋值
@@ -581,7 +574,7 @@
           },
           callback: function (data) {
             that.searchHandle()
-            that.$refs.multipleTable.clearSelection()
+            // that.$refs.multipleTable.clearSelection()
           },
         })
       },

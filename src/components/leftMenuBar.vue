@@ -140,6 +140,7 @@
             <el-menu-item index="userList" v-if="listPermissions(menus, 'userManagementSub')">用戶管理</el-menu-item>
             <el-menu-item index="roleList" v-if="listPermissions(menus, 'roleManagement')">角色管理</el-menu-item>
             <el-menu-item index="agentList" v-if="listPermissions(menus, 'agentManagement')">代理商管理</el-menu-item>
+            <el-menu-item index="agentWaters" v-if="listPermissions(menus, 'agentSeaManagement')">代理商公海</el-menu-item>
           </el-menu-item-group>
         </el-submenu>
         <el-submenu index="organization" v-if="listPermissions(menus, 'orgManagement')">

@@ -257,6 +257,9 @@ const userDetail = resolve => require.ensure([],
 // 代理商管理
 const agentList = resolve => require.ensure([],
   () => resolve(require('../view/companyManage/user/agent/agentList')), 'user')
+// 代理商管理
+const agentWaters = resolve => require.ensure([],
+  () => resolve(require('../view/companyManage/user/agent/agentWaters')), 'user')
 
 // 角色管理
 const roleList = resolve => require.ensure([],
@@ -1022,6 +1025,19 @@ const router = new Router({
               {name: '管理系统', toName: 'companyManageHome'},
               {name: '用户管理'},
               {name: '代理商管理'}],
+          },
+        },
+        // 企业管理 -- 代理商公海
+        {
+          path: 'agentWaters',
+          name: 'agentWaters',
+          component: agentWaters,
+          meta: {
+            title: '代理商公海',
+            pos: [
+              {name: '管理系统', toName: 'companyManageHome'},
+              {name: '用户管理'},
+              {name: '代理商公海'}],
           },
         },
         // 企业管理 -- 角色管理

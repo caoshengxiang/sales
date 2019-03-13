@@ -1132,6 +1132,30 @@ const API1 = {
         }, 1000)
       })
     },
+    userListWaters (params, success, error) { // 代理商公海用户列表
+      $axios.get('/user/fosterPersonSea/list', {
+        params: params,
+      }).then((res) => {
+        success && success(res.data)
+      }).catch(() => {
+        setTimeout((err) => {
+          error && error(err)
+        }, 1000)
+      })
+    },
+    setUserListWatersPer (params, success, error) { // 代理商公海分配招商经理
+      $axios({
+		  method: 'put',
+		  url: '/foster/fosterPerson/updateManager',
+		  params: params
+	  }).then((res) => {
+        success && success(res.data)
+      }).catch(() => {
+        setTimeout((err) => {
+          error && error(err)
+        }, 1000)
+      })
+    },
     listOrgUser (success, error) { // 机构用户列表
       $axios.get('user/listOrgUser').then((res) => {
         success && success(res.data)
@@ -1157,6 +1181,17 @@ const API1 = {
         method: 'put',
         url: `/user/${params.id}`,
         data: params,
+      }).then(res => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+    },
+	// 招商经理
+    userWatersZx (params, success, error) {
+      $axios({
+        method: 'GET',
+        url: '/user/role/93',
       }).then(res => {
         success && success(res.data)
       }).catch((err) => {
