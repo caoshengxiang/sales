@@ -734,7 +734,7 @@
             })
           })
         } else {
-          this.$prompt('请输入审核意见', '提示', {
+          this.$prompt('请输入审核意见(注意:拒绝后此工单将不能重派给该管家)', '提示', {
             confirmButtonText: '确定',
             cancelButtonText: '取消',
           }).then(({value}) => {
