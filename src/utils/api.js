@@ -1191,7 +1191,7 @@ const API1 = {
     userWatersZx (params, success, error) {
       $axios({
         method: 'GET',
-        url: '/user/role/93',
+        url: '/user/role/67',
       }).then(res => {
         success && success(res.data)
       }).catch((err) => {
