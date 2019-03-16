@@ -134,13 +134,14 @@
           value: 4,
           label: '已退单'
         }, ],
-        orderStateList: [{
+        orderStateList: [
+          /* {
           value: 1,
           label: '待接收'
         }, {
           value: 2,
           label: '已拒绝'
-        }, {
+        }, */ {
           value: 3,
           label: '进行中'
         }, {
