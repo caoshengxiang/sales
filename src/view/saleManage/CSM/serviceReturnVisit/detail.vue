@@ -380,7 +380,7 @@
           },
           callback: (data) => {
             if (data.type === 'save') {
-              this.getList()
+              this.getDetail()
             }
           },
         })
