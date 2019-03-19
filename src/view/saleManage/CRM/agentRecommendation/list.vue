@@ -108,6 +108,15 @@
               <el-table-column
                 show-overflow-tooltip
                 align="center"
+                label="注册来源"
+              >
+							<template slot-scope='scope'>
+								<span>{{sourceStateszx[scope.row.source]}}</span>
+							</template>
+              </el-table-column>
+              <el-table-column
+                show-overflow-tooltip
+                align="center"
                 prop="created"
                 label="加入时间"
               >
@@ -184,6 +193,7 @@
     computed: {
       ...mapState('constData', [
         'pagesOptions',
+				'sourceStateszx',
         'themeIndex',
       ]),
     },

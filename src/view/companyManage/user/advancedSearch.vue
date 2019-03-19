@@ -76,6 +76,21 @@
             </el-form-item>
           </el-col>
           <el-col :span="8" v-if="type===1">
+            <el-form-item label="注册来源：">
+              <el-select v-model="searchForm.agentSource"
+                         placeholder="请选择注册来源"
+                         style="width: 140px">
+                <el-option
+                  v-for="item in sourceState"
+                  :key="item.id"
+                  :label="item.label"
+                  :value="item.id"
+                >
+                </el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8" v-if="type===1">
             <el-form-item label="代理商维护者：">
               <el-input type="text" v-model="searchForm.managerName"></el-input>
             </el-form-item>
@@ -191,6 +206,7 @@
         seaList: [], // 公海
         customerSourceType: [], // 客户来源
         customerState: [], // 客户状态
+				sourceState: [],   //注册来源
 				identityType: '',
         searchForm: { // 表单
           mobilePhone: null,
@@ -207,6 +223,7 @@
           sex: null,
           agentNo: null,
           wx: null,
+					agentSource: '',            //注册来源
 					directName: null,           //直接培育人
 					createdStart: null,         //注册开始时间
 					createdEnd: null,           //注册结束时间
@@ -265,6 +282,7 @@
 				this.identityType = '';
 				this.searchForm.identityType = '';
 				this.searchForm.managerName = '';
+				this.searchForm.agentSource = '';
         this.searchForm = {}
         this.birthday = []
 				this.created = []
@@ -315,6 +333,7 @@
         this.created = [this.searchForm.createdStart, this.searchForm.createdEnd]
       }
       this.type = this.params.type
+			this.sourceState = this.params.sourceState;
 			
 			this.getIdentity();
     },

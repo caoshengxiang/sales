@@ -117,6 +117,16 @@
         <el-table-column
           show-overflow-tooltip
           align="center"
+          label="注册来源"
+          width="140"
+        >
+		<template slot-scope='scope'>
+			<span>{{sourceStateszx[scope.row.agentSource]}}</span>
+		</template>
+        </el-table-column>
+        <el-table-column
+          show-overflow-tooltip
+          align="center"
           prop="wx"
           label="微信号"
           width="140"
@@ -350,6 +360,8 @@
       ...mapState('constData', [
         'userTypeOptions',
         'userourceType',
+		'sourceState',
+		'sourceStateszx',
         'usertate',
         'pagesOptions',
       ]),
@@ -437,6 +449,7 @@
           height: 460,
           params: {
             salesState: this.salesState,
+			sourceState: this.sourceState,
             demandSource: this.demandSource,
             type: 1,
             preAdvancedSearch: this.advancedSearch,

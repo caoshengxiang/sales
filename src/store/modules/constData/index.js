@@ -125,6 +125,23 @@ export default {
       'FIRST': '客户首购',
       'DERIVE': '客户复购',
     },
+		sourceState: [
+			{
+				id: 1,
+				label: '公司员工'
+			}, {
+				id: 2,
+				label: '代理商'
+			}, {
+				id: 3,
+				label: '自然注册'
+			}
+		],
+		sourceStateszx: {
+			1: '公司员工',
+			2: '代理商',
+			3: '自然注册'
+		},
     salesState: [ // 销售阶段
       {
         type: -1, // 机会详细直接使用
