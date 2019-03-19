@@ -461,6 +461,8 @@
           serviceMonth: new Date().getMonth() + 1,
           orderId: this.params.orderId,
           type: this.params.numItem.type,
+          current: 1,
+          pageSize: 10000,
         },
         dateDisabled: true,
         orderDetail: '',

@@ -110,7 +110,6 @@ const salesOrdersStatic = resolve => require.ensure([],
   () => resolve(require('../view/saleManage/statisticalAnalysis/salesOrderStatistics')),
   'statisticalAnalysis')
 
-
 const housekeeperEnterList = resolve => require.ensure([],
   () => resolve(
     require('../view/saleManage/taskApproval/housekeeperEnter/list')),
@@ -652,7 +651,7 @@ const router = new Router({
           component: salesOrdersStatic,
           meta: {
             title: '销售订单统计',
-            pos: [{name: 'ERP管理系统', toName: 'saleHome'},{name: '系统分析'}, {name: '销售订单统计'}],
+            pos: [{name: 'ERP管理系统', toName: 'saleHome'}, {name: '系统分析'}, {name: '销售订单统计'}],
           },
         }, {
           path: 'todoItemList',

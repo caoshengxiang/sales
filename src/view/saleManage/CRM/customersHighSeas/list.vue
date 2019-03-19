@@ -440,7 +440,7 @@
         this.$vDialog.modal(advancedSearch, {
           title: '高级搜索',
           width: 900,
-          height: 560,
+          height: 430,
           params: {
             customerSourceType: this.customerSourceType,
             customerState: this.customerState,
