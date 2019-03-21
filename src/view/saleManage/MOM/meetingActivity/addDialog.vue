@@ -175,7 +175,8 @@
 			if(query.length == 11) {
 				// let reg = /^[1-9]\d*$/;
 				this.loading = true;
-				API.user.userSearch({type: 2}, (data) => {
+				console.log(query)
+				API.user.userSearch({type: 2, mobilePhone: query}, (data) => {
 					this.loading = false;
 					if(data.status) {
 						this.agentList = data.data;
