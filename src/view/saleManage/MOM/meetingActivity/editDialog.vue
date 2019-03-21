@@ -98,6 +98,7 @@
 								:on-remove="onRemoveHandle"
 								:headers="{authKey: userInfo.authKey}"
 								:on-success="onSuccessHandle"
+								accept=".doc,.docx,.zip,.rar,.xlsx,.xls,.ppt,.pptx"
 								:file-list="fileList"
 								:limit="1">
 								<el-button size="small" class='edit-upload-button'>上传</el-button>
@@ -112,6 +113,7 @@
 								:on-remove="onRemoveHandles"
 								:headers="{authKey: userInfo.authKey}"
 								:on-success="onSuccessHandles"
+								accept=".doc,.docx,.zip,.rar,.xlsx,.xls,.ppt,.pptx"
 								:file-list="fileLists"
 								:limit="1">
 								<el-button size="small" class='edit-upload-button'>上传</el-button>
