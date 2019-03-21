@@ -65,7 +65,7 @@
             <span>会议管理</span>
           </template>
           <el-menu-item-group>
-            <el-menu-item index="meetingActivity" v-if="listPermissions(menus, 'meetingActivityManage')"><span slot="title">会议活动管理</span></el-menu-item>
+            <el-menu-item index="meetingActivity" v-if="listPermissions(menus, 'meetingActivity')"><span slot="title">会议活动管理</span></el-menu-item>
             </el-menu-item>
           </el-menu-item-group>
         </el-submenu>
