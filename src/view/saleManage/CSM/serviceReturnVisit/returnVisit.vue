@@ -410,6 +410,12 @@
         this.$refs[formName].validate((valid) => {
           if (valid) {
             console.log(this.getParam())
+            if (this.params.type === 6) {
+              if (this.dialogRuleForm.state === 3 && this.dialogRuleForm.retEvaluation === 0) { // 完成回访
+                this.$message.warning('请对回访进行评价')
+                return false
+              }
+            }
             this.dataLoading = true
             API.serviceRetVisit.revisit(this.getParam(), (data) => {
               if (data.status) {

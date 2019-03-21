@@ -38,7 +38,7 @@
         </el-menu-item>
         <el-submenu index="CRM" v-if="listPermissions(menus, 'crmManageFront')">
           <template slot="title">
-            <i class="iconfont icon-lvzhou_shebeipeizhi"></i>
+            <i class="iconfont icon-qunzu"></i>
             <span>销售管理</span>
           </template>
           <el-menu-item-group>
@@ -87,7 +87,7 @@
         </el-submenu>
         <el-submenu index="CSM" v-if="listPermissions(menus, 'csmManageFront')">
           <template slot="title">
-            <i class="iconfont icon-lvzhou_shebeipeizhi"></i>
+            <i class="iconfont icon-kehuguanxiguanli"></i>
             <span>客满管理</span>
           </template>
           <el-menu-item-group>

@@ -364,7 +364,7 @@
         var that = this
         that.$vDialog.modal(spendingDetail, {
           title: '销售返佣详情',
-          width: 1024,
+          width: 800,
           height: 500,
           params: {
             id: row.id,

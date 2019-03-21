@@ -109,19 +109,6 @@ const taskApprovalDetail = resolve => require.ensure([],
 const salesOrdersStatic = resolve => require.ensure([],
   () => resolve(require('../view/saleManage/statisticalAnalysis/salesOrderStatistics')),
   'statisticalAnalysis')
-
-
-// --------------会议管理----------------
-// 活动会议
-const meetingActivity = resolve => require.ensure([],
-  () => resolve(require('../view/saleManage/MOM/meetingActivity/list')),
-  'meetingActivity')
-// 活动会议详细
-const meetingActivityDetail = resolve => require.ensure([],
-  () => resolve(require('../view/saleManage/MOM/meetingActivity/detailInfo')),
-  'meetingActivity')
-
-
 const housekeeperEnterList = resolve => require.ensure([],
   () => resolve(
     require('../view/saleManage/taskApproval/housekeeperEnter/list')),
@@ -130,6 +117,16 @@ const housekeeperEnterDetail = resolve => require.ensure([],
   () => resolve(
     require('../view/saleManage/taskApproval/housekeeperEnter/detail')),
   'housekeeperEnter')
+  
+// --------------会议管理----------------
+// 活动会议
+const meetingActivity = resolve => require.ensure([],
+	() => resolve(require('../view/saleManage/MOM/meetingActivity/list')),
+	'meetingActivity')
+// 活动会议详细
+const meetingActivityDetail = resolve => require.ensure([],
+	() => resolve(require('../view/saleManage/MOM/meetingActivity/detailInfo')),
+	'meetingActivity')
 
 // 个人信息
 const personal = resolve => require.ensure([],
@@ -662,7 +659,7 @@ const router = new Router({
           component: salesOrdersStatic,
           meta: {
             title: '销售订单统计',
-            pos: [{name: 'ERP管理系统', toName: 'saleHome'},{name: '系统分析'}, {name: '销售订单统计'}],
+            pos: [{name: 'ERP管理系统', toName: 'saleHome'}, {name: '系统分析'}, {name: '销售订单统计'}],
           },
         }, {
           path: 'todoItemList',
