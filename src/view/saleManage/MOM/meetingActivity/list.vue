@@ -130,8 +130,12 @@
           sortable="custom"
           prop="hostUnit"
           label="主办单位"
-          width="160"
+          width="220"
           show-overflow-tooltip>
+		  <template slot-scope='scope'>
+			  <span style='margin-right: 5px;' v-for='item in scope.row.hostUnitAgent'>{{item.mobilePhone + ','}}</span>
+			  <span style='margin-right: 5px;' v-for='item in scope.row.hostUnitCooperationChannel'>{{item.channelName + ','}}</span>
+		  </template>
         </el-table-column>
         <el-table-column
           align="center"
