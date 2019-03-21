@@ -471,7 +471,7 @@
         that.$vDialog.modal(commissionDetail, {
           title: '销售佣金返佣详情',
           width: 1200,
-          height: 800,
+          height: 500,
           params: {
             id: id,
           },

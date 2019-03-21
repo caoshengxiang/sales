@@ -14,9 +14,11 @@
 export const pageMinWidth = 1100 // 页面最小宽度
 export const versionLogs = 'version: 1.0.0，20181115'
 export const serverUrl = process.env.API_ROOT // server地址
-// export const serverUrl = 'http://192.168.2.99:8080' // server地址
+// export const serverUrl = 'http://192.168.2.9:8080' // server地址
+// export const serverUrl = 'http://192.168.2.38:8080' // server地址
 export const externalAPI = process.env.API_EXTERNAL // APP 外部地址
-export const activityCodePre = process.env.ACTICITY_CODE_PRE // 微信扫描二维码添加客户
+export const activityCodePre = process.env.ACTICITY_CODE_PRE // 微信扫描二维码添加需求
+export const activityCodePres = process.env.ACTICITY_CODE_PRES // 微信扫描二维码会务报名
 export const agentRegister = process.env.AGENT_REGISTER // 微信代理培育
 export const uploadUrl = serverUrl + '/file/upload'
 

@@ -82,13 +82,13 @@ const agentRecommendation = resolve => require.ensure([],
   () => resolve(require('../view/saleManage/CRM/agentRecommendation/list')),
   'agentRecommendation')
 // 活动会议
-const meetingActivity = resolve => require.ensure([],
-  () => resolve(require('../view/saleManage/CRM/meetingActivity/list')),
-  'meetingActivity')
-// 活动会议详细
-const meetingActivityDetail = resolve => require.ensure([],
-  () => resolve(require('../view/saleManage/CRM/meetingActivity/detailInfo')),
-  'meetingActivity')
+// const meetingActivity = resolve => require.ensure([],
+//   () => resolve(require('../view/saleManage/CRM/meetingActivity/list')),
+//   'meetingActivity')
+// // 活动会议详细
+// const meetingActivityDetail = resolve => require.ensure([],
+//   () => resolve(require('../view/saleManage/CRM/meetingActivity/detailInfo')),
+//   'meetingActivity')
 
 // 消息
 const messageList = resolve => require.ensure([],
@@ -109,6 +109,17 @@ const taskApprovalDetail = resolve => require.ensure([],
 const salesOrdersStatic = resolve => require.ensure([],
   () => resolve(require('../view/saleManage/statisticalAnalysis/salesOrderStatistics')),
   'statisticalAnalysis')
+
+
+// --------------会议管理----------------
+// 活动会议
+const meetingActivity = resolve => require.ensure([],
+  () => resolve(require('../view/saleManage/MOM/meetingActivity/list')),
+  'meetingActivity')
+// 活动会议详细
+const meetingActivityDetail = resolve => require.ensure([],
+  () => resolve(require('../view/saleManage/MOM/meetingActivity/detailInfo')),
+  'meetingActivity')
 
 
 const housekeeperEnterList = resolve => require.ensure([],
@@ -605,7 +616,6 @@ const router = new Router({
             title: '会议活动管理',
             pos: [
               {name: '销售管理系统', toName: 'saleHome'},
-              {name: '销售管理'},
               {name: '会议活动管理'}],
           },
         }, {
@@ -613,11 +623,11 @@ const router = new Router({
           name: 'meetingActivityDetail',
           component: meetingActivityDetail,
           meta: {
-            title: '会议活动管理',
+            title: '会议活动详情',
             pos: [
               {name: '销售管理系统', toName: 'saleHome'},
-              {name: '销售管理'},
-              {name: '会议活动管理'}],
+              {name: '会议活动管理', toName: 'meetingActivity'},
+              {name: '会议活动详情'}],
           },
         }, {
           path: 'messageList',

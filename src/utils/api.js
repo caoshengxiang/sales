@@ -134,6 +134,43 @@ const API1 = {
         error && error(err)
       })
     },
+	cooperationChannel (params, success, error) {  //合作渠道
+      $axios.get('/meetingCooperationChannel').then((res) => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+	},
+	customerIntentionZX (params, success, error) {  //用户意向
+      $axios.get('/applyIntention').then((res) => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+	},
+	meetingLecturerZX (params, success, error) {  //会议讲师
+      $axios.get('/meetingLecturer').then((res) => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+	},
+	staffZX (params, success, error) {  //会议负责人 / 会议专员
+      $axios.get('/user/listMeetingUser').then((res) => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+	},
+	applyUserZX (params, success, error) {  //报名列表
+      $axios.get('/applyUser', {params: params}).then((res) => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+	},
+	
+	
     end  (params, success, error) { // 新增
       // console.log(params)
       $axios.post('meetingSale/meetingSaleBatchEnd', null, {params: params}).then((res) => {
