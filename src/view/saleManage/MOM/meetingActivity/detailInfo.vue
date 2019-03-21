@@ -165,6 +165,7 @@
 			<span>-</span>
 			<span>{{salesOpportunitiesTotal}}</span>
 			<span class='fr click-btn' style='margin-right: 20px;'>高级搜索</span>
+			<!-- <span class='fr click-btn' @click='addChanceHandle()'>新增客户需求</span> -->
 			<span class='fr click-btn'>新增客户需求</span>
 			<span class='fr click-btn' v-if='!vuewS'>导出签到表</span>
 			<span class='fr click-btn' v-if='!vuewS'>已签到</span>
@@ -202,7 +203,8 @@
           width="200"
         >
           <template slot-scope="scope">
-            <a class="col-link" @click="handleRouter('detail', scope.row.id)">{{ scope.row.name}}</a>
+            <!-- <a class="col-link" @click="handleRouter('detail', scope.row.id)">{{ scope.row.name}}</a> -->
+            <a class="col-link">{{ scope.row.name}}</a>
           </template>
         </el-table-column>
 				<el-table-column
@@ -235,7 +237,7 @@
           label="用户地区"
           width="250">
 					<template slot-scope='scope'>
-						<span>{{scope.row.areaName + '-' + scope.row.cityName + '-' + scope.row.provinceName}}</span>
+						<span>{{scope.row.provinceName + '-' + scope.row.cityName + '-' + scope.row.areaName}}</span>
 					</template>
 				</el-table-column>
 				<el-table-column
@@ -999,7 +1001,7 @@
       },
       addChanceHandle () {
         this.$vDialog.modal(addChance, {
-          title: '新增销售机会',
+          title: '新增客户需求',
           width: 900,
           height: 500,
           params: {
@@ -1011,7 +1013,8 @@
           },
           callback: (data) => {
             if (data.type === 'save') {
-              this.getSalesOpportunititeisList()
+							this.vuewS = 1;
+              this.getDemandList()
             }
           },
         })
