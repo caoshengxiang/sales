@@ -50,11 +50,28 @@
             <el-menu-item index="customersList" v-if="listPermissions(menus, 'customer')">客户管理</el-menu-item>
             <el-menu-item index="customersHighSeasList" v-if="listPermissions(menus, 'customerSea')">客户公海管理</el-menu-item>
             <el-menu-item index="contactsList" v-if="listPermissions(menus, 'contacts')">联系人管理</el-menu-item>
-            <el-menu-item index="meetingActivity" v-if="listPermissions(menus, 'meetingActivity')"><span slot="title">会议活动管理</span></el-menu-item>
+            <!-- <el-menu-item index="meetingActivity" v-if="listPermissions(menus, 'meetingActivity')"><span slot="title">会议活动管理</span></el-menu-item> -->
             <el-menu-item index="agentRecommendation" v-if="listPermissions(menus, 'agentCultivate')"><span slot="title">代理培育管理</span>
             </el-menu-item>
           </el-menu-item-group>
         </el-submenu>
+		
+		
+		
+        <!-- <el-submenu index="MOM" v-if="listPermissions(menus, 'crmManageFront')"> -->
+        <el-submenu index="MOM" v-if="listPermissions(menus, 'meetingManage')">
+          <template slot="title">
+            <i class="iconfont icon-user"></i>
+            <span>会议管理</span>
+          </template>
+          <el-menu-item-group>
+            <el-menu-item index="meetingActivity" v-if="listPermissions(menus, 'meetingActivity')"><span slot="title">会议活动管理</span></el-menu-item>
+            </el-menu-item>
+          </el-menu-item-group>
+        </el-submenu>
+		
+		
+		
         <el-submenu index="PMS" v-if="listPermissions(menus, 'pmsManageFront')">
           <template slot="title">
             <i class="iconfont icon-lvzhou_shebeipeizhi"></i>

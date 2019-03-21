@@ -5,5 +5,6 @@ module.exports = {
   API_ROOT: '"'+ process.env.server_url + '"',
   API_EXTERNAL: '"'+ process.env.external_url + '"',
   ACTICITY_CODE_PRE: '"'+ process.env.activityCodePre + '"',
+  ACTICITY_CODE_PRES: '"'+ process.env.activityCodePres + '"',
   AGENT_REGISTER: '"'+ process.env.agentRegister + '"'
 }
