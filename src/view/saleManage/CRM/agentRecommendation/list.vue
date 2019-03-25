@@ -117,6 +117,48 @@
               <el-table-column
                 show-overflow-tooltip
                 align="center"
+                label="有效需求数"
+                prop="chanceCount"
+              >
+              </el-table-column>
+              <el-table-column
+                show-overflow-tooltip
+                align="center"
+                label="直接招募代理商数"
+                prop="fosterCount"
+              >
+              </el-table-column>
+              <el-table-column
+                show-overflow-tooltip
+                align="center"
+                label="直接招募有效代理商数"
+                prop="validfosterNum"
+              >
+              </el-table-column>
+              <el-table-column
+                show-overflow-tooltip
+                align="center"
+                label="佣金收益"
+                prop="commissionSum"
+              >
+              </el-table-column>
+              <el-table-column
+                show-overflow-tooltip
+                align="center"
+                label="招募人"
+                prop="directName"
+              >
+              </el-table-column>
+              <el-table-column
+                show-overflow-tooltip
+                align="center"
+                label="招募人部门"
+                prop="directOrgName"
+              >
+              </el-table-column>
+              <el-table-column
+                show-overflow-tooltip
+                align="center"
                 prop="created"
                 label="加入时间"
               >

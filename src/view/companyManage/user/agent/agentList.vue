@@ -165,6 +165,14 @@
         <el-table-column
           show-overflow-tooltip
           align="center"
+          prop="commissionSum"
+          label="佣金收益"
+          width="140"
+        >
+        </el-table-column>
+        <el-table-column
+          show-overflow-tooltip
+          align="center"
           prop="directName"
           label="直接培育人"
           width="160"
@@ -380,7 +388,7 @@
           }
         })
       },
-      
+
       // 页面高度改变过后改变table的max_height高度
       h (val) {
         if(!this.timer) {
