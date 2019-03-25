@@ -94,7 +94,7 @@
         <el-table-column
           align="center"
           sortable="custom"
-          prop="meetingCreatorName"
+          prop="meetingHeadName"
           label="负责人"
           width="160"
           show-overflow-tooltip>
