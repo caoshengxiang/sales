@@ -508,7 +508,7 @@ ps：该弹框除客户名称、需求来源渠道、需求提供人三个字段
       if (this.params.detail) { // 编辑
         let servicePrincipalType = this.params.detail.customerCate == 1 ? 'Person' : 'Company';
         this.addForm = this.params.detail // 需要根据分类id获取商品列表进行展示
-        this.addForm.intentProductId = this.params.detail.intentProductName;
+        this.addForm.intentProductId = this.params.detail.intentProductName.trim();
         this.area = this.addF
         // this.getIntentProductList({goodsTypeId: this.addForm.intentProductCate})
         this.getIntentProductList({goodsTypeId: null, goodsName: null, servicePrincipalType})
