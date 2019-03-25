@@ -57,11 +57,22 @@
           sortable="custom"
           prop="meetingName"
           label="活动名称"
-          width="200"
-        >
+          width="200">
           <template slot-scope="scope">
             <a class="col-link" @click="handleRouter('detail', scope.row.id)">{{ scope.row.meetingName }}</a>
           </template>
+        </el-table-column>
+        <el-table-column
+          show-overflow-tooltip
+          align="center"
+          sortable="custom"
+          label="活动立项状态"
+          :formatter="formatterHandleState"
+          prop=""
+          width="180">
+					<template slot-scope='scope'>
+						<span>{{meetingState[scope.row.meetingProjectState]}}</span>
+					</template>
         </el-table-column>
         <el-table-column
           show-overflow-tooltip
@@ -72,19 +83,27 @@
           prop="state"
           width="180">
         </el-table-column>
-        <el-table-column
+<!--        <el-table-column
           show-overflow-tooltip
           align="center"
           sortable="custom"
           prop="meetingCreatorDepartmentName"
           label="负责部门"
           width="160">
-        </el-table-column>
+        </el-table-column> -->
         <el-table-column
           align="center"
           sortable="custom"
           prop="meetingCreatorName"
           label="负责人"
+          width="160"
+          show-overflow-tooltip>
+        </el-table-column>
+        <el-table-column
+          align="center"
+          sortable="custom"
+          prop="meetingLecturer"
+          label="讲师"
           width="160"
           show-overflow-tooltip>
         </el-table-column>
@@ -112,8 +131,16 @@
         <el-table-column
           align="center"
           sortable="custom"
-          prop="personCount"
-          label="活动人数"
+          prop="winCustomerNum"
+          label="获客目标"
+          width="160"
+          show-overflow-tooltip>
+        </el-table-column>
+        <el-table-column
+          align="center"
+          sortable="custom"
+          prop="applyUserCount"
+          label="参会(报名)人数"
           width="160"
           show-overflow-tooltip>
         </el-table-column>
@@ -132,10 +159,10 @@
           label="主办单位"
           width="220"
           show-overflow-tooltip>
-		  <template slot-scope='scope'>
-			  <span style='margin-right: 5px;' v-for='item in scope.row.hostUnitAgent'>{{item.mobilePhone + ','}}</span>
-			  <span style='margin-right: 5px;' v-for='item in scope.row.hostUnitCooperationChannel'>{{item.channelName + ','}}</span>
-		  </template>
+					<template slot-scope='scope'>
+						<span style='margin-right: 5px;' v-for='item in scope.row.hostUnitAgent'>{{item.mobilePhone + ','}}</span>
+						<span style='margin-right: 5px;' v-for='item in scope.row.hostUnitCooperationChannel'>{{item.channelName + ','}}</span>
+					</template>
         </el-table-column>
         <el-table-column
           align="center"
@@ -189,6 +216,11 @@
         dataLoading: false,
         multipleSelection: [],
         currentPage: 1,
+				meetingState: {
+					1: '未立项',
+					2: '已立项',
+					3: '失败',
+				},
         defaultListParams: {              // 默认顾客列表请求参数
           page: null,
           pageSize: null,
