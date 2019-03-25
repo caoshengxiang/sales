@@ -211,7 +211,7 @@
           show-overflow-tooltip
           align="center"
           sortable="custom"
-          prop="applySourceName"
+          prop="channelName"
           label="报名来源"
           width="200">
 				</el-table-column>
@@ -1149,6 +1149,7 @@
 <style scoped lang="scss" rel="stylesheet/scss">
 	.meeting-detail-all {
 		width: 100%;
+		min-width: 1380px;
 		background: #fff;
 		border-bottom: 10px solid #F0F3F6;
 		border-right: 5px solid #F0F3F6;
@@ -1159,6 +1160,7 @@
 		float: left;
 		box-sizing: border-box;
 		border-right: 10px solid #F0F3F6;
+		min-width: 880px;
 		width: calc(100% - 490px);
 		
 		.detail-all-right-table {
