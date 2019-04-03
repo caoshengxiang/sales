@@ -5,6 +5,16 @@
 				<el-form-item label='合作方名称'>
 					<el-input placeholder='请输入合作方名称' v-model='addForm.channelName'></el-input>
 				</el-form-item>
+				<el-form-item label='合作方来源'>
+					<el-select v-model="addForm.cooperationSource" clearable disabled placeholder="请选择合作方来源">
+						<el-option
+							v-for="item in sourceList"
+							:key="item.id"
+							:label="item.name"
+							:value="item.id">
+						</el-option>
+					</el-select>
+				</el-form-item>
 				<el-form-item label='合作方性质'>
 					<el-input placeholder='请输入合作方性质' v-model='addForm.organizationNature'></el-input>
 				</el-form-item>
@@ -13,16 +23,6 @@
 				</el-form-item>
 				<el-form-item label='联系方式'>
 					<el-input type='number' placeholder='联系方式' v-model.number='addForm.contactPhone'></el-input>
-				</el-form-item>
-				<el-form-item label='合作方来源'>
-					<el-select v-model="addForm.cooperationSource" clearable placeholder="请选择合作方来源">
-						<el-option
-							v-for="item in sourceList"
-							:key="item.id"
-							:label="item.name"
-							:value="item.id">
-						</el-option>
-					</el-select>
 				</el-form-item>
 			</el-form>
 			<div slot="footer" class="dialog-footer">
@@ -56,7 +56,7 @@
 					organizationNature: '',     //机构性质
 					contacter: '',              //联系人
 					contactPhone: '',           //联系方式
-					cooperationSource: '',      //合作方来源
+					cooperationSource: 1,      //合作方来源
 				},
 			}
 		},
