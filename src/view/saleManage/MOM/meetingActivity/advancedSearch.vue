@@ -5,94 +5,47 @@
         <el-row class="el-row-cla">
           <el-col :span="8">
             <el-form-item label="活动名称：">
-              <el-input type="text" v-model="searchForm.meetingName"></el-input>
+              <el-input type="text" v-model="searchForm.name"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="主办单位：">
-              <el-input type="text" v-model="searchForm.hostUnit"></el-input>
+            <el-form-item label="联系方式：">
+              <el-input type="number" v-model.number="searchForm.contactPhone"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="协办单位：">
-              <el-input type="text" v-model="searchForm.coOrganizer"></el-input>
+            <el-form-item label="联系人：">
+              <el-input type="text" v-model="searchForm.contacter"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
-        <el-row class="el-row-cla">
+				<el-row class="el-row-cla">
+					<el-col :span="8">
+						<el-form-item label='客户地区'>
+							<AreaSelect ref="areaSe"
+													:area="(searchForm.provinceName?searchForm.provinceName:'') + ' ' + (searchForm.cityName?searchForm.cityName:'')  + ' ' + (searchForm.areaName?searchForm.areaName:'')"
+													@change="areaSelectedOptionsHandleChange"
+													:selectLastLevelMode="true"></AreaSelect>
+						</el-form-item>
+					</el-col>
           <el-col :span="8">
-            <el-form-item label="承办单位：">
-              <el-input type="text" v-model="searchForm.organizer"></el-input>
+            <el-form-item label="是否签到：">
+							<el-select v-model="searchForm.sign" placeholder="">
+								<el-option v-for="item in signList" :key="item.id" :label="item.name"
+													 :value="item.id"></el-option>
+							</el-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="负责部门：">
-              <el-input type="text" v-model="searchForm.meetingCreatorDepartmentName"></el-input>
+            <el-form-item label="报名意向：">
+							<el-select v-model="applyIntention" placeholder="" @change='selectApplyIntention'>
+								<el-option v-for="item in intentionInformationList" :key="item.id" :label="item.name"
+													 :value="item.id"></el-option>
+							</el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="8">
-            <el-form-item label="负责人：">
-              <el-input type="text" v-model="searchForm.meetingCreatorName"></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="活动地址：">
-              <el-input type="text" v-model="searchForm.address"></el-input>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row class="el-row-cla">
-          <el-form-item label="活动经费：">
-            <el-row>
-              <el-col :span="6">
-                <el-input @change="numberIntervalHandle(0, 'meetingMoneyStart', 'meetingMoneyEnd')" type="number"
-                          v-model.number="searchForm.meetingMoneyStart"></el-input>
-              </el-col>
-              <el-col :span="2">
-                <div style="text-align: center">-</div>
-              </el-col>
-              <el-col :span="6">
-                <el-input @change="numberIntervalHandle(1, 'meetingMoneyStart', 'meetingMoneyEnd')" type="number"
-                          v-model.number="searchForm.meetingMoneyEnd"></el-input>
-              </el-col>
-            </el-row>
-          </el-form-item>
-        </el-row>
-        <el-row class="el-row-cla">
-          <el-form-item label="活动人数：">
-            <el-row>
-              <el-col :span="6">
-                <el-input @change="numberIntervalHandle(0, 'personCountStart', 'personCountEnd')" type="number"
-                          v-model.number="searchForm.personCountStart"></el-input>
-              </el-col>
-              <el-col :span="2">
-                <div style="text-align: center">-</div>
-              </el-col>
-              <el-col :span="6">
-                <el-input @change="numberIntervalHandle(1, 'personCountStart', 'personCountEnd')" type="number"
-                          v-model.number="searchForm.personCountEnd"></el-input>
-              </el-col>
-            </el-row>
-          </el-form-item>
-        </el-row>
-        <el-row class="el-row-cla">
-          <el-form-item label="意向客户数：">
-            <el-row>
-              <el-col :span="6">
-                <el-input @change="numberIntervalHandle(0, 'intentCustomerCountStart', 'intentCustomerCountEnd')" type="number"
-                          v-model.number="searchForm.intentCustomerCountStart"></el-input>
-              </el-col>
-              <el-col :span="2">
-                <div style="text-align: center">-</div>
-              </el-col>
-              <el-col :span="6">
-                <el-input @change="numberIntervalHandle(1, 'intentCustomerCountStart', 'intentCustomerCountEnd')" type="number"
-                          v-model.number="searchForm.intentCustomerCountEnd"></el-input>
-              </el-col>
-            </el-row>
-          </el-form-item>
-        </el-row>
-        <el-row class="el-row-cla">
+				</el-row>
+<!--        <el-row class="el-row-cla">
           <el-col :span="16">
             <el-form-item label="活动时间：">
               <el-form-item prop="meetingTimeStart">
@@ -109,7 +62,7 @@
               </el-form-item>
             </el-form-item>
           </el-col>
-        </el-row>
+        </el-row> -->
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button class="cancel-button" @click="$vDialog.close({type: 'cancel'})">取 消</el-button>
@@ -121,29 +74,38 @@
 </template>
 
 <script>
-  // import API from '../../../utils/api'
+  import API from '../../../../utils/api'
 
   export default {
     name: 'advancedSearch',
     data () {
       return {
-        contactsStatus: [], // 联系人状态
+        contactsStatus: [],                             // 联系人状态
+				signList: [
+					{
+						id: 1,
+						name: '是'
+					}, {
+						id: 0,
+						name: '否'
+					}
+				],
+				applyIntention: '',
+				intentionInformationList: [],                   //所有客户意向信息
         searchForm: { // 表单
-          meetingName: '',
-          coOrganizer: '',
-          hostUnit: '',
-          organizer: '',
-          meetingCreatorDepartmentName: '',
-          meetingCreatorName: '',
-          address: '',
-          meetingTimeStart2: '', // 活动开始时间
-          meetingTimeEnd2: '',
-          meetingMoneyStart: '', // 最小经费
-          meetingMoneyEnd: '',
-          personCountStart: '', // 最小活动人数
-          personCountEnd: '',
-          intentCustomerCountStart: '', // 最小意向客户数
-          intentCustomerCountEnd: '',
+          name: '',                                     //用户名臣
+					contactPhone: '',                             //联系方式
+          contacter: '',                                //联系人
+					provinceId: '',                               //省份id
+					cityId: '',                                   //市id
+					areaId: '',                                   //区id
+					provinceName: '',                             //省名称
+					cityName: '',                                 //市名称
+					areaName: '',                                 //区名称
+					sign: '',                                     //是否签到
+					applyIntention: '',                           //报名用户意向
+//           meetingTimeStart2: '', // 活动开始时间
+//           meetingTimeEnd2: '',
         },
         meetingTimeInterval: [],
       }
@@ -152,15 +114,16 @@
     methods: {
       clearForm () {
         this.searchForm = {}
+				this.applyIntention = ''
         this.meetingTimeInterval = []
       },
       saveSubmitForm () {
         this.$vDialog.close({type: 'search', params: this.searchForm})
       },
-      timeIntervalHandle (value) {
-        this.searchForm.meetingTimeStart2 = value[0] || ''
-        this.searchForm.meetingTimeEnd2 = value[1] || ''
-      },
+//       timeIntervalHandle (value) {
+//         this.searchForm.meetingTimeStart2 = value[0] || ''
+//         this.searchForm.meetingTimeEnd2 = value[1] || ''
+//       },
       numberIntervalHandle (type, start, end) {
         if (type === 0) {
           if (this.searchForm[start] > this.searchForm[end]) {
@@ -173,12 +136,49 @@
           }
         }
       },
+      areaSelectedOptionsHandleChange (value) {
+        let name = this.$refs.areaSe.getSelectedName(value)
+        this.searchForm.provinceId = value[0] || ''
+        this.searchForm.cityId = value[1] || ''
+        this.searchForm.areaId = value[2] || ''
+        this.searchForm.provinceName = name[0] || ''
+        this.searchForm.cityName = name[1] || ''
+        this.searchForm.areaName = name[2] || ''
+      },
+			// 获取所有客户意向
+			getAllCustomerIntentionZX () {
+				API.activity.customerIntentionZX('', (data) => {
+					if(data.status) {
+						let _list = data.data.content, newList = [];
+						_list.forEach(a => {
+							if(a.children.length > 0) {
+								a.children.forEach(b => {
+									newList.push(b)
+								})
+							}
+						})
+						this.intentionInformationList = newList;
+						console.log(this.intentionInformationList)
+					}
+				})
+			},
+			// 选择报名意向
+			selectApplyIntention () {
+				console.log(this.applyIntention)
+				let _list = this.intentionInformationList;
+				_list.forEach(a => {
+					if(this.applyIntention == a.id) {
+						this.searchForm.applyIntention = a.pid + '-' + a.id;
+					}
+				})
+			},
     },
     created () {
       this.searchForm = this.params.preAdvancedSearch
-      if (this.searchForm.meetingTimeStart2) { // 日期
-        this.meetingTimeInterval = [this.searchForm.meetingTimeStart2, this.searchForm.meetingTimeEnd2]
-      }
+			this.getAllCustomerIntentionZX();
+//       if (this.searchForm.meetingTimeStart2) { // 日期
+//         this.meetingTimeInterval = [this.searchForm.meetingTimeStart2, this.searchForm.meetingTimeEnd2]
+//       }
     },
   }
 </script>

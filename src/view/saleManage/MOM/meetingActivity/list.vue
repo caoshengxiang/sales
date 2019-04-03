@@ -203,7 +203,8 @@
   import API from '../../../../utils/api'
   import addDialog from './addDialog'
   import editDialog from './editDialog'
-  import advancedSearch from './advancedSearch'
+  // import advancedSearch from './advancedSearch'
+  import listAdvancedSearch from './listAdvancedSearch'
   import { underscoreName, arrToStr } from '../../../../utils/utils'
 
   export default {
@@ -450,7 +451,7 @@
         this.getList()
       },
       advancedSearchHandle () {
-        this.$vDialog.modal(advancedSearch, {
+        this.$vDialog.modal(listAdvancedSearch, {
           title: '高级搜索',
           width: 900,
           height: 540,

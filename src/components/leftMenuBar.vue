@@ -66,6 +66,10 @@
           </template>
           <el-menu-item-group>
             <el-menu-item index="meetingActivity" v-if="listPermissions(menus, 'meetingActivity')"><span slot="title">会议活动管理</span></el-menu-item>
+            <!-- <el-menu-item index="meetingActivity" v-if="listPermissions(menus, 'meetingActivity')"><span slot="title">会议合作渠道管理</span></el-menu-item> -->
+            <el-menu-item index="meetingCooperationChannel" v-if="listPermissions(menus, 'meetingCooperationChannel')"><span slot="title">会议合作渠道管理</span></el-menu-item>
+            <el-menu-item index="meetingConferenceLecturer" v-if="listPermissions(menus, 'meetingLecturer')"><span slot="title">会议讲师管理</span></el-menu-item>
+            <el-menu-item index="meetingApplicationIntention" v-if="listPermissions(menus, 'applyIntention')"><span slot="title">报名意向管理</span></el-menu-item>
             </el-menu-item>
           </el-menu-item-group>
         </el-submenu>

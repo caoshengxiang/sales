@@ -135,21 +135,21 @@ const API1 = {
       })
     },
 	cooperationChannel (params, success, error) {  //合作渠道
-      $axios.get('/meetingCooperationChannel').then((res) => {
+      $axios.get('/meetingCooperationChannel/list').then((res) => {
         success && success(res.data)
       }).catch((err) => {
         error && error(err)
       })
 	},
 	customerIntentionZX (params, success, error) {  //用户意向
-      $axios.get('/applyIntention').then((res) => {
+      $axios.get('/applyIntention/list').then((res) => {
         success && success(res.data)
       }).catch((err) => {
         error && error(err)
       })
 	},
 	meetingLecturerZX (params, success, error) {  //会议讲师
-      $axios.get('/meetingLecturer').then((res) => {
+      $axios.get('/meetingLecturer/list').then((res) => {
         success && success(res.data)
       }).catch((err) => {
         error && error(err)
@@ -168,6 +168,112 @@ const API1 = {
       }).catch((err) => {
         error && error(err)
       })
+	},
+	applyUserSourceZX (params, success, error) {  //完善中的需求来源
+      $axios.get('/applyUser/source', {params: params}).then((res) => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+	},
+	applySignInZX (params, success, error) { //报名签到
+		$axios.put('/applyUser/sign', null, {params: params}).then((res) => {
+			success && success(res.data)
+		}).catch((err) => {
+			error && error(err)
+		})
+	},
+	cooperationChannelList (params, success, error) { // 会议合作渠道列表
+		// console.log(params)
+		$axios.get('/meetingCooperationChannel', {params: params}).then((res) => {
+			success && success(res.data)
+		}).catch((err) => {
+			error && error(err)
+		})
+	},
+	addCooperationChannelList (params, success, error) { // 新增会议合作渠道
+		// console.log(params)
+		$axios.post('/meetingCooperationChannel', params).then((res) => {
+			success && success(res.data)
+		}).catch((err) => {
+			error && error(err)
+		})
+	},
+	editCooperationChannelList (params, success, error) { // 修改会议合作渠道
+		$axios.put('/meetingCooperationChannel/' + params.id, params).then((res) => {
+			success && success(res.data)
+		}).catch((err) => {
+			error && error(err)
+		})
+	},
+	conferenceLecturerList (params, success, error) { // 会议讲师列表
+		// console.log(params)
+		$axios.get('/meetingLecturer', {params: params}).then((res) => {
+			success && success(res.data)
+		}).catch((err) => {
+			error && error(err)
+		})
+	},
+	addconferenceLecturerList (params, success, error) { // 新增会议讲师
+		// console.log(params)
+		$axios.post('/meetingLecturer', params).then((res) => {
+			success && success(res.data)
+		}).catch((err) => {
+			error && error(err)
+		})
+	},
+	editconferenceLecturerList (params, success, error) { // 修改会议讲师
+		$axios.put('/meetingLecturer/' + params.id, params).then((res) => {
+			success && success(res.data)
+		}).catch((err) => {
+			error && error(err)
+		})
+	},
+	getLecturerUserInfo (params, success, error) { // 根据所选人员id获取人员具体信息
+		// console.log(params)
+		$axios.get('/user/' + params.id).then((res) => {
+			success && success(res.data)
+		}).catch((err) => {
+			error && error(err)
+		})
+	},
+	applyIntentionListZX (params, success, error) { // 报名意向管理列表
+		// console.log(params)
+		$axios.get('/applyIntention', {params: params}).then((res) => {
+			success && success(res.data)
+		}).catch((err) => {
+			error && error(err)
+		})
+	},
+	applyIntentionListZXs (params, success, error) { // 点击查报名意向管理列表
+		// console.log(params)
+		$axios.get('/applyIntention/Children', {params: params}).then((res) => {
+			success && success(res.data)
+		}).catch((err) => {
+			error && error(err)
+		})
+	},
+	addapplyIntentionListZX (params, success, error) { // 新增报名意向
+		// console.log(params)
+		$axios.post('/applyIntention', params).then((res) => {
+			success && success(res.data)
+		}).catch((err) => {
+			error && error(err)
+		})
+	},
+	editapplyIntentionListZX (params, success, error) { // 修改报名意向
+		$axios.put('/applyIntention/' + params.id, params).then((res) => {
+			success && success(res.data)
+		}).catch((err) => {
+			error && error(err)
+		})
+	},
+	deleteApplyIntentionListZX (params, success, error) { // 删除报名意向
+		$axios.put('/applyIntention/del', null, {params: params}).then((res) => {
+			success && success(res.data)
+		}).catch((err) => {
+			error && error(err)
+		})
 	},
 	
 	

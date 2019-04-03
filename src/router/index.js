@@ -127,6 +127,19 @@ const meetingActivity = resolve => require.ensure([],
 const meetingActivityDetail = resolve => require.ensure([],
 	() => resolve(require('../view/saleManage/MOM/meetingActivity/detailInfo')),
 	'meetingActivity')
+// 会议合作渠道管理
+const meetingCooperationChannel = resolve => require.ensure([],
+	() => resolve(require('../view/saleManage/MOM/meetingCooperationChannel/list')),
+	'meetingCooperationChannel')
+// 活动讲师管理
+const meetingConferenceLecturer = resolve => require.ensure([],
+	() => resolve(require('../view/saleManage/MOM/meetingConferenceLecturer/list')),
+	'meetingConferenceLecturer')
+// 活动报名意向管理
+const meetingApplicationIntention = resolve => require.ensure([],
+	() => resolve(require('../view/saleManage/MOM/meetingApplicationIntention/list')),
+	'meetingApplicationIntention')
+
 
 // 个人信息
 const personal = resolve => require.ensure([],
@@ -627,6 +640,36 @@ const router = new Router({
               {name: '会议活动详情'}],
           },
         }, {
+					path: 'meetingCooperationChannel',
+					name: 'meetingCooperationChannel',
+					component: meetingCooperationChannel,
+          meta: {
+            title: '会议合作渠道管理',
+            pos: [
+              {name: '销售管理系统', toName: 'saleHome'},
+              {name: '会议合作渠道管理'}],
+          },
+				}, {
+					path: 'meetingConferenceLecturer',
+					name: 'meetingConferenceLecturer',
+					component: meetingConferenceLecturer,
+          meta: {
+            title: '会议讲师管理',
+            pos: [
+              {name: '销售管理系统', toName: 'saleHome'},
+              {name: '会议讲师管理'}],
+          },
+				},  {
+					path: 'meetingApplicationIntention',
+					name: 'meetingApplicationIntention',
+					component: meetingApplicationIntention,
+          meta: {
+            title: '报名意向管理',
+            pos: [
+              {name: '销售管理系统', toName: 'saleHome'},
+              {name: '报名意向管理'}],
+          },
+				}, {
           path: 'messageList',
           name: 'messageList',
           component: messageList,
