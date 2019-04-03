@@ -26,18 +26,8 @@
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="服务商品：">
-              <el-input type="text" v-model="searchForm.goodsName"></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="服务管家：">
-              <el-input type="text" v-model="searchForm.managerName"></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
             <el-form-item label="订单状态：">
-              <el-select v-model="searchForm.serviceState" placeholder="请选择订单状态">
+              <el-select v-model="searchForm.serviceStateStr" filterable multiple placeholder="请选择订单状态">
                 <el-option v-for="(item, index) in serviceStateList"
                            :key="index"
                            :label="item.label"
@@ -47,7 +37,7 @@
           </el-col>
           <el-col :span="8">
             <el-form-item label="工单状态：">
-              <el-select v-model="searchForm.orderState" placeholder="请选择工单状态">
+              <el-select v-model="searchForm.orderStateStr" filterable multiple placeholder="请选择工单状态">
                 <el-option
                   v-for="(item, index) in orderStateList"
                   :key="index"
@@ -65,6 +55,51 @@
               </el-select>
             </el-form-item>
           </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="24">
+            <el-form-item label="服务商品：">
+              <!-- <el-input type="text" v-model="searchForm.goodsName"></el-input> -->
+              <el-select 
+                  v-model="val1"
+                  filterable 
+                  multiple  
+                  remote
+                  reserve-keyword
+                  :remote-method='selectProduce'
+                  placeholder="请选择"
+                  style="width:100%" 
+                  >
+                <el-option
+                  v-for="item in server_pro_options"
+                  :key="item.id"
+                  :label="item.goodsName"
+                  :value="item.id">
+                </el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+         <el-col :span="24">
+            <el-form-item label="服务管家：">
+              <!-- <el-input type="text" v-model="searchForm.managerName"></el-input> -->
+              <el-select v-model="searchForm.managerIdStr" 
+                  filterable 
+                  multiple 
+                  placeholder="请选择" 
+                  reserve-keyword
+                  :remote-method='selectProduceHouser'
+                  @focus='getServerHouserKeeper()'
+                  style="width:100%" 
+                  >
+                <el-option
+                  v-for="item in server_housekeeper_options"
+                  :key="item.id"
+                  :label="item.name"
+                  :value="item.id">
+                </el-option>
+              </el-select>
+            </el-form-item>
+          </el-col> 
         </el-row>
         <!--范围-->
         <el-row class="el-row-cla">
@@ -114,14 +149,16 @@
 
 <script>
   import API from '../../../../utils/api'
+  import webStorage from 'webStorage'
 
   export default {
     name: 'advancedSearch',
     data () {
       return {
         searchForm: { // 表单
+
         },
-        serviceStateList: [{
+        serviceStateList: [{  //订单状态
           value: 1,
           label: '待服务'
         }, {
@@ -132,16 +169,37 @@
           label: '已完成'
         }, {
           value: 4,
+          label: '退单中'
+        },  {
+          value: 5,
           label: '已退单'
-        }, ],
-        orderStateList: [
-          /* {
+        },  {
+          value: 6,
+          label: '待支付'
+        },{
+          value: 7,
+          label: '已取消'
+        }, {
+          value: 8,
+          label: '待支付'
+        }, {
+          value: 9,
+          label: '已支付'
+        }, {
+          value: 10,
+          label: '已中止'
+        },  {
+          value: 11,
+          label: '失败'
+        },  ],
+        orderStateList: [  //工单状态
+           {
           value: 1,
           label: '待接收'
         }, {
           value: 2,
           label: '已拒绝'
-        }, */ {
+        }, {
           value: 3,
           label: '进行中'
         }, {
@@ -179,14 +237,29 @@
           },
         ],
         timeInterval: [],
+
+        // server_pro_options:[],
+        server_housekeeper_options: [],
+        server_pro_options : [],
+        val1:[]   //服务商品被选中的
+
       }
     },
     props: ['params'],
     methods: {
       clearForm () {
         this.searchForm = {}
+        this.searchForm.managerIdStr = [];
+        this.val1 = [];
       },
       saveSubmitForm () {
+        
+        this.searchForm.goodsIdStr =  this.val1.toLocaleString();
+        this.searchForm.managerIdStr =  this.searchForm.managerIdStr.toLocaleString();
+        this.searchForm.orderStateStr =  this.searchForm.orderStateStr.toLocaleString();
+        this.searchForm.serviceStateStr =  this.searchForm.serviceStateStr.toLocaleString();
+
+
         this.$vDialog.close({type: 'search', params: this.searchForm})
       },
       areaSelectedOptionsHandleChange (value) {
@@ -205,25 +278,70 @@
           }
         })
       },
+      //订单实付金额开始
       numberStartHandle (start, end) {
         if (this.searchForm[start] > this.searchForm[end]) {
           this.searchForm[end] = null
         }
       },
+      //订单实付金额结束
       numberEndHandle () {
         if (this.searchForm[start] && this.searchForm[start] >
           this.searchForm[end]) {
           this.searchForm[end] = this.searchForm[start]
         }
       },
+      //查询日期
       timeBillDateIntervalHandle (value, start, end) {
         this.searchForm[start] = value[0] || ''
         this.searchForm[end] = value[1] || ''
       },
+      //获取服务商品
+      getServer(val){
+        let data ={ organizationId: webStorage.getItem('userInfo').organizationId };
+        if(val) data.goodsName = val;
+        API.serviceOrder.getServerProduce(data , ({data})=>{
+            data.map(rel=>{
+              // 显示商品状态异常的时候
+              if(rel.status == 1){
+                  if(rel.pullOff == 1){
+                      rel.goodsName = rel.goodsName +'(已下架)'
+                  }
+              }else{
+                rel.goodsName = rel.goodsName +'(已删除)'
+              }
+            })
+            this.server_pro_options = data;
+        })
+      },
+      //获取服务管家
+      getServerHouserKeeper(val){
+        let data ={auditStatus:6 };
+        if(val) data.name = val;
+        API.serviceOrder.housekeeperQuery(data , ({data})=>{
+            this.server_housekeeper_options = data;
+        })
+      },
+      //服务商品的远程搜索
+      selectProduce(query){
+        if(query.length > 1){
+          this.getServer(query)
+        }else{
+          this.server_pro_options = [];
+        }
+      },
+      //服务管家的远程搜索
+      selectProduceHouser(query){
+        if(query.length > 1){
+          this.getServerHouserKeeper(query)
+        }
+      }
     },
     created () {
       this.searchForm = this.params.preAdvancedSearch
-      this.getCodeConfig()
+      this.searchForm.managerIdStr = [];
+      this.val1= [];
+      this.getCodeConfig();
       /* 日期 */
       if (this.searchForm.assignDateStart) { // 日期
         this.timeInterval = [this.searchForm.assignDateStart, this.searchForm.assignDateEnd]

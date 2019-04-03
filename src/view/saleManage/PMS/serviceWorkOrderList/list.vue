@@ -355,7 +355,8 @@
           callback: (data) => {
             if (data.type === 'search') {
               console.log('高级搜索数据：', data.params)
-              this.advancedSearch = data.params
+              this.advancedSearch =  data.params
+              this.currentPage = 1; //当搜索的时候刷新跳转到当前页
               this.getList()
             }
           },

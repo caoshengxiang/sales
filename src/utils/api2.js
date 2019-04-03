@@ -188,6 +188,20 @@ export default {
         error && error(err)
       })
     },
+    housekeeperQuery (params, success, error) { // 获取服务管家的信息
+      $axios.get('serviceManager/simpleList', {params:params}).then(res => {
+        success && success(res.data)
+      }).catch(err => {
+        error && error(err)
+      })
+    },
+    getServerProduce (params, success, error) { // 获取服务商品的信息
+      $axios.get('organizationGoodsConf/list', {params:params}).then(res => {
+        success && success(res.data)
+      }).catch(err => {
+        error && error(err)
+      })
+    },
   },
   // 工单
   workOrder: {
