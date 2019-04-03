@@ -27,7 +27,7 @@
           </el-col>
           <el-col :span="8">
             <el-form-item label="订单状态：">
-              <el-select v-model="searchForm.serviceStateStr" filterable multiple placeholder="请选择订单状态">
+              <el-select v-model="serviceStateStr" filterable multiple placeholder="请选择订单状态">
                 <el-option v-for="(item, index) in serviceStateList"
                            :key="index"
                            :label="item.label"
@@ -37,7 +37,7 @@
           </el-col>
           <el-col :span="8">
             <el-form-item label="工单状态：">
-              <el-select v-model="searchForm.orderStateStr" filterable multiple placeholder="请选择工单状态">
+              <el-select v-model="orderStateStr" filterable multiple placeholder="请选择工单状态">
                 <el-option
                   v-for="(item, index) in orderStateList"
                   :key="index"
@@ -93,9 +93,9 @@
                   >
                 <el-option
                   v-for="item in server_housekeeper_options"
-                  :key="item.id"
+                  :key="item.userId"
                   :label="item.name"
-                  :value="item.id">
+                  :value="item.userId">
                 </el-option>
               </el-select>
             </el-form-item>
@@ -241,7 +241,9 @@
         // server_pro_options:[],
         server_housekeeper_options: [],
         server_pro_options : [],
-        val1:[]   //服务商品被选中的
+        val1:[],   //服务商品被选中的
+        orderStateStr:[],  //工单状态的被选中的
+        serviceStateStr:[],  //订单状态的被选中的
 
       }
     },
@@ -251,13 +253,15 @@
         this.searchForm = {}
         this.searchForm.managerIdStr = [];
         this.val1 = [];
+        this.orderStateStr = [];
+        this.serviceStateStr = [];
       },
       saveSubmitForm () {
         
         this.searchForm.goodsIdStr =  this.val1.toLocaleString();
         this.searchForm.managerIdStr =  this.searchForm.managerIdStr.toLocaleString();
-        this.searchForm.orderStateStr =  this.searchForm.orderStateStr.toLocaleString();
-        this.searchForm.serviceStateStr =  this.searchForm.serviceStateStr.toLocaleString();
+        this.searchForm.orderStateStr =  this.orderStateStr.toLocaleString();
+        this.searchForm.serviceStateStr =  this.serviceStateStr.toLocaleString();
 
 
         this.$vDialog.close({type: 'search', params: this.searchForm})
@@ -341,6 +345,8 @@
       this.searchForm = this.params.preAdvancedSearch
       this.searchForm.managerIdStr = [];
       this.val1= [];
+      this.orderStateStr = [];
+      this.serviceStateStr = [];
       this.getCodeConfig();
       /* 日期 */
       if (this.searchForm.assignDateStart) { // 日期
