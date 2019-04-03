@@ -4,15 +4,15 @@
       <el-form :model="searchForm" ref="searchForm" label-width="100px">
         <el-row class="el-row-cla">
           <el-col :span="8">
-            <el-form-item label="活动名称：">
+            <el-form-item label="客户名称：">
               <el-input type="text" v-model="searchForm.name"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="联系方式：">
-              <el-input type="number" v-model.number="searchForm.contactPhone"></el-input>
+            <el-form-item label="报名来源：">
+              <el-input type="text" v-model="searchForm.channelName"></el-input>
             </el-form-item>
-          </el-col>
+					</el-col>
           <el-col :span="8">
             <el-form-item label="联系人：">
               <el-input type="text" v-model="searchForm.contacter"></el-input>
@@ -20,26 +20,31 @@
           </el-col>
         </el-row>
 				<el-row class="el-row-cla">
-					<el-col :span="8">
+          <el-col :span="8">
+            <el-form-item label="联系方式：">
+              <el-input type="number" v-model.number="searchForm.contactPhone"></el-input>
+            </el-form-item>
+          </el-col>
+<!-- 					<el-col :span="8">
 						<el-form-item label='客户地区'>
 							<AreaSelect ref="areaSe"
 													:area="(searchForm.provinceName?searchForm.provinceName:'') + ' ' + (searchForm.cityName?searchForm.cityName:'')  + ' ' + (searchForm.areaName?searchForm.areaName:'')"
 													@change="areaSelectedOptionsHandleChange"
 													:selectLastLevelMode="true"></AreaSelect>
 						</el-form-item>
-					</el-col>
+					</el-col> -->
           <el-col :span="8">
-            <el-form-item label="是否签到：">
-							<el-select v-model="searchForm.sign" placeholder="">
-								<el-option v-for="item in signList" :key="item.id" :label="item.name"
+            <el-form-item label="报名意向：">
+							<el-select v-model="applyIntention" placeholder="" @change='selectApplyIntention'>
+								<el-option v-for="item in intentionInformationList" :key="item.id" :label="item.name"
 													 :value="item.id"></el-option>
 							</el-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="报名意向：">
-							<el-select v-model="applyIntention" placeholder="" @change='selectApplyIntention'>
-								<el-option v-for="item in intentionInformationList" :key="item.id" :label="item.name"
+            <el-form-item label="是否到场：">
+							<el-select v-model="searchForm.sign" placeholder="">
+								<el-option v-for="item in signList" :key="item.id" :label="item.name"
 													 :value="item.id"></el-option>
 							</el-select>
             </el-form-item>
@@ -93,15 +98,16 @@
 				applyIntention: '',
 				intentionInformationList: [],                   //所有客户意向信息
         searchForm: { // 表单
-          name: '',                                     //用户名臣
+          name: '',                                     //客户名称
+					channelName: '',                              //报名来源
 					contactPhone: '',                             //联系方式
           contacter: '',                                //联系人
-					provinceId: '',                               //省份id
-					cityId: '',                                   //市id
-					areaId: '',                                   //区id
-					provinceName: '',                             //省名称
-					cityName: '',                                 //市名称
-					areaName: '',                                 //区名称
+// 					provinceId: '',                               //省份id
+// 					cityId: '',                                   //市id
+// 					areaId: '',                                   //区id
+// 					provinceName: '',                             //省名称
+// 					cityName: '',                                 //市名称
+// 					areaName: '',                                 //区名称
 					sign: '',                                     //是否签到
 					applyIntention: '',                           //报名用户意向
 //           meetingTimeStart2: '', // 活动开始时间

@@ -1134,29 +1134,29 @@ export default {
 		},
 		// 导出报名用户列表
 		excelExports() {
-			let as = {};
-			for (let key in this.advancedSearch) {
-				// 去除null
-				if (this.advancedSearch[key]) {
-					as[key] = this.advancedSearch[key];
-				}
-			}
-			let dlp = {};
-			for (let key in this.defaultListParams) {
-				// 去除分页
-				if (key !== 'page' && key !== 'pageSize') {
-					dlp[key] = this.defaultListParams[key];
-				}
-			}
-			let link = document.createElement('a'); // 创建事件对象
-			// let query = QS.stringify({authKey: webStorage.getItem('userInfo').authKey}))
-			let query = JSON.stringify(webStorage.getItem('userInfo').authKey);
-			// console.log('下载参数：', query)
-			link.setAttribute('href', serverUrl + '/applyUser/export?authKey=' + query);
-			link.setAttribute('download', '报名用户统计');
-			let event = document.createEvent('MouseEvents'); // 初始化事件对象
-			event.initMouseEvent('click', true, true, document.defaultView, 0, 0, 0, 0, 0, false, false, false, false, 0, null); // 触发事件
-			link.dispatchEvent(event);
+			  this.getQueryParams()
+			  let as = {}
+			  for (let key in this.advancedSearch) { // 去除null
+			    if (this.advancedSearch[key]) {
+			      as[key] = this.advancedSearch[key]
+			    }
+			  }
+			  let dlp = {}
+			  for (let key in this.defaultListParams) { // 去除分页
+			    if (key !== 'page' && key !== 'pageSize') {
+			      dlp[key] = this.defaultListParams[key]
+			    }
+			  }
+			  let link = document.createElement('a') // 创建事件对象
+			  let query = Qs.stringify(Object.assign({}, dlp, this.sortObj, as,
+			    {authKey: webStorage.getItem('userInfo').authKey}))
+			  // console.log('下载参数：', query)
+			  link.setAttribute('href', serverUrl + '/applyUser/export?' + query)
+			  link.setAttribute('download', '报名用户统计')
+			  let event = document.createEvent('MouseEvents') // 初始化事件对象
+			  event.initMouseEvent('click', true, true, document.defaultView, 0, 0, 0, 0, 0, false, false, false, false, 0,
+			    null) // 触发事件
+			  link.dispatchEvent(event)
 		}
 	},
 	created() {
