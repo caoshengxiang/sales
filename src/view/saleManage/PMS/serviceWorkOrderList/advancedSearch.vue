@@ -26,28 +26,6 @@
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="订单状态：">
-              <el-select v-model="serviceStateStr" filterable multiple placeholder="请选择订单状态">
-                <el-option v-for="(item, index) in serviceStateList"
-                           :key="index"
-                           :label="item.label"
-                           :value="item.value"></el-option>
-              </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="工单状态：">
-              <el-select v-model="orderStateStr" filterable multiple placeholder="请选择工单状态">
-                <el-option
-                  v-for="(item, index) in orderStateList"
-                  :key="index"
-                  :label="item.label"
-                  :value="item.value">
-                </el-option>
-              </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
             <el-form-item label="派单类型：">
               <el-select v-model="searchForm.serviceType" placeholder="请选择派单类型">
                 <el-option v-for="(item, index) in serviceTypeList" :key="index" :label="item.value"
@@ -61,20 +39,21 @@
             <el-form-item label="服务商品：">
               <!-- <el-input type="text" v-model="searchForm.goodsName"></el-input> -->
               <el-select 
-                  v-model="val1"
+                  v-model="goodsIdStr"
                   filterable 
                   multiple  
                   remote
                   reserve-keyword
                   :remote-method='selectProduce'
                   placeholder="请选择"
+                  @change='checkedProduce'
                   style="width:100%" 
                   >
                 <el-option
                   v-for="item in server_pro_options"
-                  :key="item.id"
+                  :key="item.goodsId"
                   :label="item.goodsName"
-                  :value="item.id">
+                  :value="item.goodsId">
                 </el-option>
               </el-select>
             </el-form-item>
@@ -82,13 +61,12 @@
          <el-col :span="24">
             <el-form-item label="服务管家：">
               <!-- <el-input type="text" v-model="searchForm.managerName"></el-input> -->
-              <el-select v-model="searchForm.managerIdStr" 
+              <el-select v-model="managerIdStr" 
                   filterable 
                   multiple 
                   placeholder="请选择" 
                   reserve-keyword
                   :remote-method='selectProduceHouser'
-                  @focus='getServerHouserKeeper()'
                   style="width:100%" 
                   >
                 <el-option
@@ -100,6 +78,31 @@
               </el-select>
             </el-form-item>
           </el-col> 
+        </el-row>
+        <el-row>
+            <el-col :span="24">
+              <el-form-item label="订单状态：">
+                <el-select v-model="serviceStateStr" filterable multiple placeholder="请选择订单状态" style="width:100%">
+                  <el-option v-for="(item, index) in serviceStateList"
+                            :key="index"
+                            :label="item.label"
+                            :value="item.value"></el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="24">
+              <el-form-item label="工单状态：">
+                <el-select v-model="orderStateStr" filterable multiple placeholder="请选择工单状态" style="width:100%">
+                  <el-option
+                    v-for="(item, index) in orderStateList"
+                    :key="index"
+                    :label="item.label"
+                    :value="item.value">
+                  </el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+
         </el-row>
         <!--范围-->
         <el-row class="el-row-cla">
@@ -241,29 +244,43 @@
         // server_pro_options:[],
         server_housekeeper_options: [],
         server_pro_options : [],
-        val1:[],   //服务商品被选中的
+        goodsIdStr:[],   //服务商品被选中的
+        managerIdStr:[], //服务管家被选中的
         orderStateStr:[],  //工单状态的被选中的
         serviceStateStr:[],  //订单状态的被选中的
+
+        checked_arry:[],
 
       }
     },
     props: ['params'],
     methods: {
       clearForm () {
+
         this.searchForm = {}
         this.searchForm.managerIdStr = [];
-        this.val1 = [];
+        this.goodsIdStr = [];
+        this.managerIdStr = [];
         this.orderStateStr = [];
         this.serviceStateStr = [];
+
       },
       saveSubmitForm () {
         
-        this.searchForm.goodsIdStr =  this.val1.toLocaleString();
-        this.searchForm.managerIdStr =  this.searchForm.managerIdStr.toLocaleString();
-        this.searchForm.orderStateStr =  this.orderStateStr.toLocaleString();
-        this.searchForm.serviceStateStr =  this.serviceStateStr.toLocaleString();
+        this.searchForm.goodsIdStr =  this.goodsIdStr.toString();
+        this.searchForm.managerIdStr =  this.managerIdStr.toString();
+        this.searchForm.orderStateStr =  this.orderStateStr.toString();
+        this.searchForm.serviceStateStr =  this.serviceStateStr.toString();
+        
+       
+        //去重商品选择重复的
+        let hash = {}; 
+        this.checked_arry = this.checked_arry.reduce(function(item, next) { 
+              hash[next.goodsId] ? '' : hash[next.goodsId] = true && item.push(next); 
+              return item 
+        }, []) 
 
-
+        localStorage.setItem('TEMPRODUCESTORAGE' , JSON.stringify(this.checked_arry))
         this.$vDialog.close({type: 'search', params: this.searchForm})
       },
       areaSelectedOptionsHandleChange (value) {
@@ -316,6 +333,17 @@
               }
             })
             this.server_pro_options = data;
+
+        })
+      },
+      //选择服务服务商品的时候触发的事件
+      checkedProduce(val){
+        val.map(rel=>{
+          this.server_pro_options.map(res=>{
+            if(res.goodsId === rel){
+              this.checked_arry.push(res);
+            }
+          })
         })
       },
       //获取服务管家
@@ -330,8 +358,6 @@
       selectProduce(query){
         if(query.length > 1){
           this.getServer(query)
-        }else{
-          this.server_pro_options = [];
         }
       },
       //服务管家的远程搜索
@@ -342,11 +368,51 @@
       }
     },
     created () {
-      this.searchForm = this.params.preAdvancedSearch
-      this.searchForm.managerIdStr = [];
-      this.val1= [];
-      this.orderStateStr = [];
-      this.serviceStateStr = [];
+      this.searchForm = this.params.preAdvancedSearch;
+
+      let pro_1 = [], 
+          pro_2 = [],
+          pro_3 =[],
+          pro_4 =[] ,
+          prev_checked_produce = JSON.parse(JSON.stringify(localStorage.getItem('TEMPRODUCESTORAGE')));
+
+      this.server_pro_options = (JSON.parse(prev_checked_produce));
+       if(this.searchForm.goodsIdStr){
+        pro_1 = this.searchForm.goodsIdStr.split(',');
+        pro_1.map(rel =>{
+          this.goodsIdStr.push(Number(rel))
+        })
+      }
+
+      this.checked_arry = [];
+
+      //工单状态
+      if(this.searchForm.orderStateStr){
+        pro_2 = this.searchForm.orderStateStr.split(',');
+        pro_2.map(rel =>{
+          this.orderStateStr.push(Number(rel))
+        })
+      }
+      //订单状态
+      if(this.searchForm.serviceStateStr){
+        pro_3 = this.searchForm.serviceStateStr.split(',');
+        pro_3.map(rel =>{
+          this.serviceStateStr.push(Number(rel))
+        })
+      }
+
+      //服务管家
+      if(this.searchForm.managerIdStr){
+        pro_4 = this.searchForm.managerIdStr.split(',');
+        pro_4.map(rel =>{
+          this.managerIdStr.push(Number(rel))
+        })
+      }
+      
+      
+
+
+      this.getServerHouserKeeper();
       this.getCodeConfig();
       /* 日期 */
       if (this.searchForm.assignDateStart) { // 日期

@@ -228,6 +228,8 @@
         multipleSelection: [],
         userInfo: {},
         managerDetail: {},
+
+        show_page_status:false,
       }
     },
     watch: {
@@ -241,6 +243,11 @@
             that.timer = false
           },400)
         }
+      },
+      show_page_status(val){ //监听页面是否刷新，状态是否改变，去清楚缓存的商品
+          if(!val){
+            localStorage.removeItem('TEMPRODUCESTORAGE')
+          }
       }
     },
     computed: {
@@ -345,6 +352,7 @@
         })
       },
       advancedSearchHandle () { // 高级搜索
+        this.show_page_status = true;
         this.$vDialog.modal(advancedSearch, {
           title: '高级搜索',
           width: 900,
@@ -354,8 +362,9 @@
           },
           callback: (data) => {
             if (data.type === 'search') {
-              console.log('高级搜索数据：', data.params)
+              // console.log('高级搜索数据：', data.params)
               this.advancedSearch =  data.params
+              this.show_page_status = true;
               this.currentPage = 1; //当搜索的时候刷新跳转到当前页
               this.getList()
             }
