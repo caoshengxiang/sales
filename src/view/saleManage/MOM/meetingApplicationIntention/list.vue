@@ -142,7 +142,7 @@
       },
       deleteInfo (ids) {
         var that = this
-        this.$confirm('是否确认删除?', '提示', {
+        this.$confirm('是否确认删除当前分类以及其下所有分类?', '提示', {
           type: 'warning',
         }).then(() => {
           that.loading = true

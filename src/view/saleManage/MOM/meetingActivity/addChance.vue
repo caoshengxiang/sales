@@ -249,6 +249,15 @@
 				this.dataLoading = true
 				this.addForm.meetingId = this.params.meetingId
 				this.addForm.meetingSaleCreator = this.params.meetingCreatorId
+				if(this.addForm.intentProductIds.length > 0 && this.intentProductList.length > 0) {
+					this.addForm.intentProductIds.forEach(a => {
+						this.intentProductList.forEach(b => {
+							if(a == b.goodsId) {
+								this.addForm.intentProductNames.push(b.goodsName);
+							}
+						})
+					})
+				}
 				if (this.params.detail) { // 编辑
 					API.activity.addChance2(this.addForm, (data) => {
 						if (data.status) {
@@ -265,15 +274,6 @@
 					})
 				} else {
 					this.addForm.chanceSourceName = this.traverseTree(this.addForm.chanceSource)
-					if(this.addForm.intentProductIds.length > 0 && this.intentProductList.length > 0) {
-						this.addForm.intentProductIds.forEach(a => {
-							this.intentProductList.forEach(b => {
-								if(a == b.goodsId) {
-									this.addForm.intentProductNames.push(b.goodsName);
-								}
-							})
-						})
-					}
 					// this.addForm.intentProductIds = this.addForm.intentProductIds.map(a => a).join()
 					console.log(this.addForm);
 					API.activity.addChance2(this.addForm, (data) => {
