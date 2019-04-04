@@ -386,11 +386,13 @@
 			</span>
 		</el-dialog>
 		<el-dialog title="报名客户意向信息" :visible.sync="dialogVisibles" append-to-body width="500px">
-			<div><el-tree :data="intentionInformationList" node-key="id" default-expand-all highlight-current :props="defaultProps"></el-tree></div>
-			<span slot="footer" class="dialog-footer">
-				<el-button @click="dialogVisibles = false">取 消</el-button>
-				<el-button type="primary" @click="dialogVisibles = false">确 定</el-button>
-			</span>
+			<div class='over-dialog'>
+				<div><el-tree :data="intentionInformationList" node-key="id" default-expand-all highlight-current :props="defaultProps"></el-tree></div>
+				<span slot="footer" class="dialog-footer">
+					<el-button @click="dialogVisibles = false">取 消</el-button>
+					<el-button type="primary" @click="dialogVisibles = false">确 定</el-button>
+				</span>
+			</div>
 		</el-dialog>
 		<el-dialog :title="meetConfig.type ? '报名二维码' : '需求二维码'" :visible.sync="dialogVisiblesErWeiMa" width="250px">
 			<div ref="meetingErWeiMa">
@@ -1384,5 +1386,17 @@ export default {
 .erweiBtn {
 	margin-top: 20px;
 	margin-left: 60px;
+}
+.over-dialog {
+	max-height: 300px;
+	overflow-y: auto;
+	padding-bottom: 20px;
+}
+.over-dialog>div {
+	margin-bottom: 15px;
+}
+.over-dialog>span {
+	float: right;
+	margin-right: 15px;
 }
 </style>

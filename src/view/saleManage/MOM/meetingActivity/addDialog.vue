@@ -103,22 +103,24 @@
 		  :visible.sync="dialogVisible"
 		  append-to-body
 		  width="500px">
-			<div>
-				<el-tree
-				  :data="intentionInformationList"
-				  show-checkbox
-				  node-key="id"
-				  default-expand-all
-				  highlight-current
-				  :default-checked-keys="defaultCheckedKeys"
-				  @check-change="handleCheckChange"
-				  :props="defaultProps">
-				</el-tree>
+			<div class="over-dialog">
+				<div>
+					<el-tree
+					  :data="intentionInformationList"
+					  show-checkbox
+					  node-key="id"
+					  default-expand-all
+					  highlight-current
+					  :default-checked-keys="defaultCheckedKeys"
+					  @check-change="handleCheckChange"
+					  :props="defaultProps">
+					</el-tree>
+				</div>
+				<span slot="footer" class="dialog-footer">
+					<el-button @click="dialogVisible = false">取 消</el-button>
+					<el-button type="primary" @click="subdialogVisible">确 定</el-button>
+				</span>
 			</div>
-			<span slot="footer" class="dialog-footer">
-				<el-button @click="dialogVisible = false">取 消</el-button>
-				<el-button type="primary" @click="subdialogVisible">确 定</el-button>
-			</span>
 		</el-dialog>
     </div>
   </div>
@@ -359,5 +361,17 @@
 		color: #2587e0;
 		font-size: 14px;
 		cursor: pointer;
+	}
+	.over-dialog {
+		max-height: 300px;
+		overflow-y: auto;
+		padding-bottom: 20px;
+	}
+	.over-dialog>div {
+		margin-bottom: 15px;
+	}
+	.over-dialog>span {
+		float: right;
+		margin-right: 15px;
 	}
 </style>
