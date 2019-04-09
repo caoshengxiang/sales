@@ -339,6 +339,7 @@
           servicePrincipalType: p.servicePrincipalType,
           organizationId: webStorage.getItem('userInfo').organizationId,
           saleable: 1,
+		  status: 1,
         }, (data) => {
           this.intentProductList = data.data
         })
