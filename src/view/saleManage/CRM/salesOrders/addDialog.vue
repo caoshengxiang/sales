@@ -321,6 +321,7 @@
           organizationId: webStorage.getItem('userInfo').organizationId,
           saleable: 1,
 					status: 1,
+          pullOff: false
         }, (da) => {
           this.allGoodsList = da.data
         })

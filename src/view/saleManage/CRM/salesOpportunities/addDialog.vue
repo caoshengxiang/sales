@@ -400,6 +400,7 @@ ps：该弹框除客户名称、需求来源渠道、需求提供人三个字段
           organizationId: webStorage.getItem('userInfo').organizationId,
           saleable: 1,
 					status: 1,
+          pullOff: false
         }, (data) => {
           this.intentProductList = data.data
         })

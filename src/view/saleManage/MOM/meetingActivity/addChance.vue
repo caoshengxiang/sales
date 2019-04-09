@@ -182,7 +182,7 @@
         },
         providerName: '',
         customersList: [],
-        salesState: [], 
+        salesState: [],
         intentProductCateList: [],
         intentProductList: [],
         industryList: [],                     // 行业
@@ -227,7 +227,7 @@
 			})
 		},
       saveSubmitForm (formName) {
-			let message = !this.addForm.customerName && '请输入客户名称' || 
+			let message = !this.addForm.customerName && '请输入客户名称' ||
 						  (this.addForm.customerCate === '2' && !this.addForm.customerBusinessLicense) && '请输入客户证件号' ||
 										(this.addForm.customerCate === '2' && !this.addForm.contacter) && '请输入客户联系人' ||
 										!this.addForm.contactPhone && '请输入客户联系电话' ||
@@ -237,7 +237,7 @@
 										!this.addForm.chanceSource && '请选择需求来源' ||
 										!this.addForm.provider && '请选择需求提供人' ||
 										this.addForm.intentProductIds.length < 1 && '请选择客户意向商品' || null;
-				
+
 				if(message) {
 					this.$message({
 						type: 'error',
@@ -245,7 +245,7 @@
 						duration: 1000
 					})
 					return;
-				}        
+				}
 				this.dataLoading = true
 				this.addForm.meetingId = this.params.meetingId
 				this.addForm.meetingSaleCreator = this.params.meetingCreatorId
@@ -339,7 +339,8 @@
           servicePrincipalType: p.servicePrincipalType,
           organizationId: webStorage.getItem('userInfo').organizationId,
           saleable: 1,
-		  status: 1,
+		      status: 1,
+          pullOff: false
         }, (data) => {
           this.intentProductList = data.data
         })
@@ -464,7 +465,7 @@
       // this.getIntentProductCateList() // 新需求，没有分类
       // this.getIntentProductList({goodsTypeId: null, goodsName: null})
       this.salesState = this.params.salesState
-			
+
 			 let servicePrincipalType = this.addForm.customerCate === '1' ? 'Person' : 'Company';
 			 this.getIntentProductList({goodsTypeId: null, goodsName: null, servicePrincipalType})
 
@@ -497,7 +498,7 @@
 
 <style scoped lang="scss" rel="stylesheet/scss">
   @import "../../../../styles/common";
-	
+
 	.sponsor-unit-left-selects {
 		display: inline-block;
 		height: 33px;

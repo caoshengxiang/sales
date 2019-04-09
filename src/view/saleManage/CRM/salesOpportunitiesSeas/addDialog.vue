@@ -271,7 +271,7 @@
       saveSubmitForm (formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            
+
             // 防止老数据可能选择的不是对应的商品而保存时获取商品id
             let _cusid = this.addForm.intentProductId;
             if(typeof(_cusid) === 'string') {
@@ -324,7 +324,7 @@
         API.customer.teamAboutCustomerlist(null, data => {
           if (data.status) {
             this.customersList = data.data
-            
+
           if (this.params.detail) { // 编辑
               let _cate = '';
               if(this.customersList.length > 0) {
@@ -372,6 +372,7 @@
           organizationId: webStorage.getItem('userInfo').organizationId,
           saleable: 1,
 					status: 1,
+          pullOff: false
         }, (data) => {
           this.intentProductList = data.data
         })
@@ -496,10 +497,10 @@
       this.getConfigData(3) // 行业
       this.getSeaList()
       this.getStaffList()
-      
+
 
       // 防止老数据可能选择的不是对应的商品而保存时获取商品id 调取所有商品
-      API.common.organizationGoodsConf({ 
+      API.common.organizationGoodsConf({
         organizationId: webStorage.getItem('userInfo').organizationId,
         saleable: 1,
       }, (data) => {
