@@ -267,7 +267,7 @@
 				</el-table-column>
 				<el-table-column align="center" label="操作" width="80">
 					<template slot-scope="scope">
-						<span class="to-examine" @click="editChanceHandle(scope.row)">审核</span>
+						<span class="to-examine" v-if="scope.row.applyCheck == 0" @click="editChanceHandle(scope.row)">审核</span>
 					</template>
 				</el-table-column>
 			</el-table>
@@ -944,7 +944,9 @@ export default {
 					callback: data => {
 						if (data.type === 'search') {
 							console.log('高级搜索数据：', data.params);
-							data.params.applyIntention = data.params.applyIntention.toString();
+							if(data.params.applyIntention) {
+								data.params.applyIntention = data.params.applyIntention.toString();
+							}
 							this.advancedSearch = data.params;
 							this.getDemandList();
 						}
