@@ -320,6 +320,7 @@
           servicePrincipalType: p.servicePrincipalType,
           organizationId: webStorage.getItem('userInfo').organizationId,
           saleable: 1,
+					status: 1,
         }, (da) => {
           this.allGoodsList = da.data
         })
