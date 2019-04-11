@@ -186,7 +186,7 @@
         // var that = this
         this.getQueryParams()
         this.dataLoading = true
-        API.message.messageList(Object.assign({}, this.defaultListParams, this.sortObj, this.advancedSearch),
+        API.message.messageList(Object.assign({type: 1}, this.defaultListParams, this.sortObj, this.advancedSearch),
           da => {
             this.tableData = da.data.content
             this.total = da.data.totalElements

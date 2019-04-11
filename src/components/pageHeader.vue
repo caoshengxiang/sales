@@ -153,7 +153,7 @@
 				let _params = {
 					mandatory: 1,        //是否强制阅读
 					readStatus: 0,       //是否阅读
-					pageSize: 1000,      //条数
+					pageSize: 1,      //条数
 				};
 				API.message.personalMessage(_params, (data) => {
 					if(data.status) {
