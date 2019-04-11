@@ -9,6 +9,8 @@ const recoverPassword = resolve => require.ensure([],
   () => resolve(require('../view/sign/recoverPassword')), 'sign')
 const resetPassword = resolve => require.ensure([],
   () => resolve(require('../view/sign/resetPassword')), 'sign')
+const versionRecord = resolve => require.ensure([],
+  () => resolve(require('../view/saleManage/message/versionRecord')), 'versionRecord')
 
 // 合同
 const onetimeContract = resolve => require.ensure([],
@@ -574,6 +576,14 @@ const router = new Router({
           meta: {
             title: '回款记录',
             pos: [{name: '销售管理系统', toName: 'saleHome'}, {name: '回款记录'}],
+          },
+        }, {
+          path: 'versionRecord',
+          name: 'versionRecord',
+          component: versionRecord, // remittanceRecords 之前命名
+          meta: {
+            title: '版本记录',
+            pos: [{name: '销售管理系统', toName: 'saleHome'}, {name: '版本记录'}],
           },
         }, {
           path: 'rebateRecordsList',

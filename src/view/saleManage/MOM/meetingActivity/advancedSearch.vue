@@ -157,11 +157,14 @@
 					if(data.status) {
 						let _list = data.data.content, newList = [];
 						_list.forEach(a => {
-							if(a.children.length > 0) {
-								a.children.forEach(b => {
-									newList.push(b)
-								})
-							}
+// 							if(a.children.length > 0) {
+// 								a.children.forEach(b => {
+// 									newList.push(b)
+// 								})
+// 							}
+								if(a.name) {
+									newList.push(a)
+								}
 						})
 						this.intentionInformationList = newList;
 						console.log(this.intentionInformationList)
@@ -174,13 +177,18 @@
 				let _list = this.intentionInformationList;
 				_list.forEach(a => {
 					if(this.applyIntention == a.id) {
-						this.searchForm.applyIntention = a.pid + '-' + a.id;
+						// this.searchForm.applyIntention = a.pid + '-' + a.id;
+						this.searchForm.applyIntention = a.id;
 					}
 				})
 			},
     },
     created () {
       this.searchForm = this.params.preAdvancedSearch
+			if(this.searchForm.applyIntention) {
+				this.applyIntention = this.params.preAdvancedSearch.applyIntention
+			}
+			console.log(this.applyIntention)
 			this.getAllCustomerIntentionZX();
 //       if (this.searchForm.meetingTimeStart2) { // 日期
 //         this.meetingTimeInterval = [this.searchForm.meetingTimeStart2, this.searchForm.meetingTimeEnd2]

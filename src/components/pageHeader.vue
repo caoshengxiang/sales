@@ -1,6 +1,6 @@
 <template>
   <div class="page-header" v-bind:class="{'font-end-bg': themeIndex === 0, 'manage-bg': themeIndex === 1}">
-    <div class="left">众智联邦平台资源管理系统（ERP）</div>
+    <div class="left">众智联邦平台资源管理系统（<span @click='goVersionRecordPage' class='version-record'>{{version || 'ERP'}}</span>）</div>
     <div class="right">
       <ul>
         <li class="item cursor" @click="logout">
@@ -23,6 +23,25 @@
         <li class="item item-hello">您好，{{userInfo.name}}!</li>
       </ul>
     </div>
+		
+		<el-dialog
+		:title="message.type == 1 ? '消息提醒': '版本更新'"
+		:visible.sync="dialogVisible"
+		:close-on-click-modal="false"
+		:close-on-press-escape="false"
+		width="40%">
+			<div>
+				<p class='message-title'>
+					<span class='message-title-name'>{{message.title}}</span>
+					<span class='message-title-time'>({{message.created && $moment(message.created).format('YYYY-MM-DD HH:mm')}})</span>
+				</p>
+				<p class='message-content'>{{message.content}}</p>
+			</div>
+			<span slot="footer" class="dialog-footer">
+				<el-button type="primary" @click='readFinsh(message)'>阅读完成</el-button>
+			</span>
+		</el-dialog>
+	
   </div>
 </template>
 
@@ -38,6 +57,9 @@
       return {
         userInfo: '',
         menus: '',
+				dialogVisible: false,
+				version: 'ERP',     //版本名称
+				message: {},        //消息
       }
     },
     computed: {
@@ -126,13 +148,55 @@
           }
         })
       },
+			// 获取版本消息
+			getVersionRecord () {
+				let _params = {
+					mandatory: 1,        //是否强制阅读
+					readStatus: 0,       //是否阅读
+					pageSize: 1000,      //条数
+				};
+				API.message.personalMessage(_params, (data) => {
+					if(data.status) {
+						this.version = data.other;
+						if(data.data.content != null) {
+							if(data.data.content.length > 0) {
+								let _list = data.data.content;
+								this.message = _list[0];
+								this.dialogVisible = true;
+							}else {
+								this.dialogVisible = false;
+							}
+						}else {
+							this.dialogVisible = false;
+						}
+					}
+				})
+			},
+			// 阅读完成
+			readFinsh (item) {
+				let _id = item.id;
+				API.message.msgRead({ids: _id}, (data) => {
+					console.log(data)
+					if(data.status && data.data == 1) {
+						this.dialogVisible = false;
+						this.getVersionRecord();
+					}else {
+						this.dialogVisible = false;
+					}
+				})
+			},
+			// 进入版本记录页面
+			goVersionRecordPage () {
+				this.$router.push('versionRecord')
+			},
     },
     created () {
       this.shareSessionStorage()
       this.userInfo = utils.loginExamine(this)
       this.menus = this.userInfo.menus
       this.getTodoItemTotal()
-      this.getMessageTotal()
+      this.getMessageTotal();
+			this.getVersionRecord();
     },
   }
 </script>
@@ -140,7 +204,28 @@
 <style scoped lang="scss" rel="stylesheet/scss">
   @import "../../static/iconFont/iconfont.css";
   @import "../styles/var";
-
+	
+	.version-record {
+		cursor: pointer;
+	}
+	.message-title {
+		line-height: 30px;
+		.message-title-name {
+			font-size: 15px;
+			color: #000;
+			margin-right: 5px;
+		}
+		.message-title-time {
+			font-size: 13px;
+			color: #aaa;
+		}
+	}
+	.message-content {
+		font-size: 13px;
+		color: #aaa;
+		line-height: 25px;
+		text-indent: 25px;
+	}
   .page-header {
     height: 52px;
     display: flex;
