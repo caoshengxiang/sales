@@ -201,9 +201,8 @@
 			// 获取最新版本
 			getVsion () {
 				API.message.getVersions((data) => {
-					console.log('version',data)
 					if(data.status) {
-							this.version = data.versions;
+							this.version = data.data;
 					}
 				})
 			},
