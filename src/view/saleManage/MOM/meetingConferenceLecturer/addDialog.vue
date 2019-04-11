@@ -204,8 +204,8 @@
 							this.addForm.lectureName = _list.name;
 							this.addForm.idCard = _list.idCard;
 							this.addForm.bankDeposit = _list.bankDeposit;
-							this.addForm.bankAccount = _list.bankAccount;
-							this.addForm.lecturePhone = _list.mobilePhone;
+							this.addForm.bankAccount = _list.bankAccount.trim();
+							this.addForm.lecturePhone = _list.mobilePhone.trim();
 							this.addForm.address = _list.address;
 							this.sex = _list.sex === '男' && '1' || _list.sex === '女' && '2' || '';
 							this.addForm.deptName = _list.organizationName;
