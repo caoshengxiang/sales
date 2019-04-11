@@ -161,7 +161,7 @@
         var obj = {}
         if (that.$refs.uploadControl.getFileListStr().length > 0) {
           obj.name = that.$refs.uploadControl.getFileListStr()[0].name
-          obj.path = that.$refs.uploadControl.getFileListStr()[0].path
+          obj.path = that.$refs.uploadControl.getFileListStr()[0].url
           that.form.attachments.push(obj)
         }
 				let assData = {
