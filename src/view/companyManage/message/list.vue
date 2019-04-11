@@ -18,7 +18,9 @@
       </div>
     </div>
     <!--详细-->
-    <div class="com-box com-box-padding com-list-box">
+    <div class="com-box com-box-padding com-list-box"
+        v-loading="dataLoading"
+        element-loading-text="数据加载中...">
       <el-table
         ref="multipleTable"
         border
@@ -182,17 +184,15 @@
       },
       init () {
         // var that = this
-        this.loading = true
         this.getQueryParams()
         this.dataLoading = true
         API.message.messageList(Object.assign({}, this.defaultListParams, this.sortObj, this.advancedSearch),
           da => {
             this.tableData = da.data.content
             this.total = da.data.totalElements
-            setTimeout(() => {
-              this.dataLoading = false
-            }, 300)
-          }, () => {
+            this.dataLoading = false
+          }, (data) => {
+						this.dataLoading = false
           })
       },
       getQueryParams () { // 请求参数配置
@@ -252,10 +252,13 @@
         this.multipleSelection = val
       },
       handleSizeChange (val) {
-        console.log(`每页 ${val} 条`)
+        // console.log(`每页 ${val} 条`)
+				this.init()
       },
       handleCurrentChange (val) {
-        console.log(`当前页: ${val}`)
+        // console.log(`当前页: ${val}`)
+				this.currentPage = val
+				this.init()
       },
       handleRouter (name, id) {
         API.message.msgRead({ids: id}, (da) => { // 先标记为已读

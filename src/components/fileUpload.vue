@@ -17,7 +17,7 @@
       v-loading="uploadConfig.loading"
       element-loading-text="正在上传..."
       element-loading-background="rgba(0, 0, 0, 0.6)"
-      :action="uploadConfig.uploadFileApiUrl+'/'+upload"
+      :action="uploadConfig.uploadFileApiUrl+'/'+'upload'"
       :show-file-list="true"
       :on-success="handleImageSuccess"
       :before-upload="beforeImageUpload"
@@ -230,6 +230,7 @@
         }
       },
       handleImagePreview (file) {
+				console.log(file.url)
         if (file.url.lastIndexOf('_') > -1) {
           this.uploadConfig.previewImageUrl = file.url.substring(0, file.url.lastIndexOf('_'))
         } else {

@@ -14,10 +14,10 @@
 		  </el-breadcrumb>
 		</div>
 		<div class="com-box com-box-padding com-list-box"><el-collapse accordion>
-		  <el-collapse-item v-for="item in list">
+		  <el-collapse-item v-for="item in list" style='position: relative;'>
 			<template slot="title">
 				<p>{{item.title}} <span style='color: #aaa; margin-left: 10px;'>{{'(' + (item.created && $moment(item.created).format('YYYY-MM-DD HH:mm')) + ')'}}</span></p>
-				<div style='position: absolute; right: 50px;'>
+				<div style='position: absolute;right: 25px; top: 0;'>
 					<el-button style='background: #4bcf99; color: #fff;' v-if='item.readStatus == 0' @click='readFinsh(item)'>标记已读</el-button>
 					<el-button style='background: #4bcf99; color: #fff;'>查看</el-button>
 				</div>
@@ -135,7 +135,6 @@
 
 <style scoped lang="scss" rel="stylesheet/scss">
   @import "../../../styles/commons";
-  
   .grad-bg {
 	  background: #F0F3F6;
 	  padding: 15px 10px;
