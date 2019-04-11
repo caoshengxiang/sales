@@ -2176,6 +2176,13 @@ const API1 = {
         error && error(err)
       })
     },
+    getVersions (success, error) { // 获取版本消息消息列表
+      $axios.get('message/version').then(res => {
+        success && success(res.data)
+      }).catch(err => {
+        error && error(err)
+      })
+    },
   },
   syslog: {
     logList (params, success, error) {

@@ -161,7 +161,6 @@
 					};
 					API.message.personalMessage(_params, (data) => {
 						if(data.status) {
-							this.version = data.other;
 							if(data.data.content != null) {
 								if(data.data.content.length > 0) {
 									let _list = data.data.content;
@@ -199,6 +198,15 @@
 				localStorage.removeItem('IDENTIFICATION');
 				this.dialogVisible = false;
 			},
+			// 获取最新版本
+			getVsion () {
+				API.message.getVersions((data) => {
+					console.log('version',data)
+					if(data.status) {
+							this.version = data.versions;
+					}
+				})
+			},
     },
     created () {
       this.shareSessionStorage()
@@ -206,6 +214,7 @@
       this.menus = this.userInfo.menus
       this.getTodoItemTotal()
       this.getMessageTotal();
+			this.getVsion();
 			this.getVersionRecord();
     },
   }
