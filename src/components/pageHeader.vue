@@ -153,12 +153,12 @@
 			// 获取版本消息
 			getVersionRecord () {
 				let _show = localStorage.getItem('IDENTIFICATION');
+				let _params = {
+					mandatory: 1,        //是否强制阅读
+					readStatus: 0,       //是否阅读
+					pageSize: 1,         //条数
+				};
 				if(_show) {
-					let _params = {
-						mandatory: 1,        //是否强制阅读
-						readStatus: 0,       //是否阅读
-						pageSize: 1,      //条数
-					};
 					API.message.personalMessage(_params, (data) => {
 						if(data.status) {
 							if(data.data.content != null) {
@@ -213,8 +213,8 @@
       this.menus = this.userInfo.menus
       this.getTodoItemTotal()
       this.getMessageTotal();
-			this.getVsion();
 			this.getVersionRecord();
+			this.getVsion();
     },
   }
 </script>
