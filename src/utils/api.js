@@ -2177,7 +2177,7 @@ const API1 = {
       })
     },
     getVersions (success, error) { // 获取版本消息消息列表
-      $axios.get('message/version').then(res => {
+      $axios.get('message/versions').then(res => {
         success && success(res.data)
       }).catch(err => {
         error && error(err)
