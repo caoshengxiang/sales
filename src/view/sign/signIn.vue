@@ -205,6 +205,7 @@
                 sessionStorage.setItem('HASLG', 'T')
                 this.getClient()
                 this.ac_currentUser(res.data)
+								localStorage.setItem('IDENTIFICATION', 'indentification');                      //用于判断是否允许弹强制消息
                 if (this.client === 1) {
                   this.$router.push({name: 'saleHome', params: {end: this.clientPathParam}})
                 } else {

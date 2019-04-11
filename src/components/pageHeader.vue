@@ -29,6 +29,7 @@
 		:visible.sync="dialogVisible"
 		:close-on-click-modal="false"
 		:close-on-press-escape="false"
+		:before-close="closeIng"
 		width="40%">
 			<div>
 				<p class='message-title'>
@@ -87,6 +88,7 @@
           if (res.status) {
             sessionStorage.removeItem('HASLG')
             localStorage.setItem('getSessionStorageLogout', Date.now()) // 触发其他标签修改sessionStorage
+						localStorage.removeItem('IDENTIFICATION');
             this.$router.push({'path': '/'})
           }
         }, (mock) => {
@@ -150,33 +152,37 @@
       },
 			// 获取版本消息
 			getVersionRecord () {
-				let _params = {
-					mandatory: 1,        //是否强制阅读
-					readStatus: 0,       //是否阅读
-					pageSize: 1,      //条数
-				};
-				API.message.personalMessage(_params, (data) => {
-					if(data.status) {
-						this.version = data.other;
-						if(data.data.content != null) {
-							if(data.data.content.length > 0) {
-								let _list = data.data.content;
-								this.message = _list[0];
-								this.dialogVisible = true;
+				let _show = localStorage.getItem('IDENTIFICATION');
+				if(_show) {
+					let _params = {
+						mandatory: 1,        //是否强制阅读
+						readStatus: 0,       //是否阅读
+						pageSize: 1,      //条数
+					};
+					API.message.personalMessage(_params, (data) => {
+						if(data.status) {
+							this.version = data.other;
+							if(data.data.content != null) {
+								if(data.data.content.length > 0) {
+									let _list = data.data.content;
+									this.message = _list[0];
+									this.dialogVisible = true;
+								}else {
+									this.dialogVisible = false;
+									localStorage.removeItem('IDENTIFICATION');
+								}
 							}else {
 								this.dialogVisible = false;
+								localStorage.removeItem('IDENTIFICATION');
 							}
-						}else {
-							this.dialogVisible = false;
 						}
-					}
-				})
+					})
+				}
 			},
 			// 阅读完成
 			readFinsh (item) {
 				let _id = item.id;
 				API.message.msgRead({ids: _id}, (data) => {
-					console.log(data)
 					if(data.status && data.data == 1) {
 						this.dialogVisible = false;
 						this.getVersionRecord();
@@ -188,6 +194,10 @@
 			// 进入版本记录页面
 			goVersionRecordPage () {
 				this.$router.push('versionRecord')
+			},
+			closeIng(action) {
+				localStorage.removeItem('IDENTIFICATION');
+				this.dialogVisible = false;
 			},
     },
     created () {
