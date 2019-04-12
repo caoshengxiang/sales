@@ -99,6 +99,9 @@ const messageList = resolve => require.ensure([],
 const messageDetail = resolve => require.ensure([],
   () => resolve(require('../view/saleManage/message/detailInfo')),
   'message')
+const messageDetailS = resolve => require.ensure([],
+  () => resolve(require('../view/companyManage/message/detailInfo')),
+  'message')
 // 任务
 const taskApprovalList = resolve => require.ensure([],
   () => resolve(require('../view/saleManage/taskApproval/approval/list')),
@@ -699,6 +702,17 @@ const router = new Router({
               {name: '消息详情'}],
           },
         }, {
+          path: 'messageDetailS',
+          name: 'messageDetailS',
+          component: messageDetailS,
+          meta: {
+            title: '消息详情',
+            pos: [
+              {name: '销售管理系统', toName: 'saleHome'},
+              {name: '消息通知', toName: 'meMessageList'},
+              {name: '消息详情'}],
+          },
+        },  {
           path: 'taskApprovalList',
           name: 'taskApprovalList',
           component: taskApprovalList,

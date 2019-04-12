@@ -42,7 +42,7 @@
           width="200"
         >
           <template slot-scope="scope">
-            <span :class="{'read-message': scope.row.read}">{{ scope.row.msgType==1?'系统消息':'平台消息' }}</span>
+            <span :class="{'read-message': scope.row.readStatus}" >{{ scope.row.msgType==1?'系统消息':'平台消息' }}</span>
           </template>
         </el-table-column>
         <el-table-column
@@ -50,7 +50,7 @@
           label="消息标题"
         >
           <template slot-scope="scope">
-            <a class="col-link" @click="handleRouter('detail',scope.row.id)" :class="{'read-message': scope.row.read}">{{
+            <a class="col-link" @click="handleRouter('detail',scope.row.id)" :class="{'read-message': scope.row.readStatus}">{{
               scope.row.title }}</a>
           </template>
         </el-table-column>
@@ -263,7 +263,7 @@
       handleRouter (name, id) {
         API.message.msgRead({ids: id}, (da) => { // 先标记为已读
           if (da.data > 0) {
-            this.$router.push({name: 'messageDetail', params: {end: 'ME'}, query: {view: name, id: id}})
+            this.$router.push({name: 'messageDetailS', params: {end: 'ME'}, query: {view: name, id: id}})
           }
         })
       },
