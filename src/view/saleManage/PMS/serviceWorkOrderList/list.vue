@@ -279,29 +279,33 @@
         this.multipleSelection = val
       },
       excelExport () { // 导出
-        this.getQueryParams()
-        let as = {}
-        for (let key in this.advancedSearch) { // 去除null
-          if (this.advancedSearch[key]) {
-            as[key] = this.advancedSearch[key]
+        API.serviceManager.authCheck({}, (res) => {
+          if (res.status) {this.getQueryParams()
+            let as = {}
+            for (let key in this.advancedSearch) { // 去除null
+              if (this.advancedSearch[key]) {
+                as[key] = this.advancedSearch[key]
+              }
+            }
+            let dlp = {}
+            for (let key in this.defaultListParams) { // 去除分页
+              if (key !== 'page' && key !== 'pageSize') {
+                dlp[key] = this.defaultListParams[key]
+              }
+            }
+            let link = document.createElement('a') // 创建事件对象
+            let query = QS.stringify(Object.assign({}, dlp, this.sortObj, as,
+              {authKey: webStorage.getItem('userInfo').authKey}))
+            // console.log('下载参数：', query)
+            link.setAttribute('href', serverUrl + '/serviceWorkOrder/export?' + query)
+            link.setAttribute('download', '跟单记录导出')
+            let event = document.createEvent('MouseEvents') // 初始化事件对象
+            event.initMouseEvent('click', true, true, document.defaultView, 0, 0, 0, 0, 0, false, false, false, false, 0,
+              null) // 触发事件
+            link.dispatchEvent(event)
           }
-        }
-        let dlp = {}
-        for (let key in this.defaultListParams) { // 去除分页
-          if (key !== 'page' && key !== 'pageSize') {
-            dlp[key] = this.defaultListParams[key]
-          }
-        }
-        let link = document.createElement('a') // 创建事件对象
-        let query = QS.stringify(Object.assign({}, dlp, this.sortObj, as,
-          {authKey: webStorage.getItem('userInfo').authKey}))
-        // console.log('下载参数：', query)
-        link.setAttribute('href', serverUrl + '/serviceWorkOrder/export?' + query)
-        link.setAttribute('download', '跟单记录导出')
-        let event = document.createEvent('MouseEvents') // 初始化事件对象
-        event.initMouseEvent('click', true, true, document.defaultView, 0, 0, 0, 0, 0, false, false, false, false, 0,
-          null) // 触发事件
-        link.dispatchEvent(event)
+        })
+
       },
       sortChangeHandle (sortObj) {
         let order = null
