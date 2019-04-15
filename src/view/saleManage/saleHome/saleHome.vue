@@ -169,7 +169,7 @@
         })
       },
       getMesDetail (id) { // 消息详细，公告
-        API.message.msgDetail(id, da => {
+        API.message.msgDetails({id:id, announcement: true}, da => {
           this.announcement = da.data
         })
       },

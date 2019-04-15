@@ -9,6 +9,8 @@ const recoverPassword = resolve => require.ensure([],
   () => resolve(require('../view/sign/recoverPassword')), 'sign')
 const resetPassword = resolve => require.ensure([],
   () => resolve(require('../view/sign/resetPassword')), 'sign')
+const versionRecord = resolve => require.ensure([],
+  () => resolve(require('../view/saleManage/message/versionRecord')), 'versionRecord')
 
 // 合同
 const onetimeContract = resolve => require.ensure([],
@@ -96,6 +98,9 @@ const messageList = resolve => require.ensure([],
   'message')
 const messageDetail = resolve => require.ensure([],
   () => resolve(require('../view/saleManage/message/detailInfo')),
+  'message')
+const messageDetailS = resolve => require.ensure([],
+  () => resolve(require('../view/companyManage/message/detailInfo')),
   'message')
 // 任务
 const taskApprovalList = resolve => require.ensure([],
@@ -576,6 +581,14 @@ const router = new Router({
             pos: [{name: '销售管理系统', toName: 'saleHome'}, {name: '回款记录'}],
           },
         }, {
+          path: 'versionRecord',
+          name: 'versionRecord',
+          component: versionRecord, // remittanceRecords 之前命名
+          meta: {
+            title: '版本记录',
+            pos: [{name: '销售管理系统', toName: 'saleHome'}, {name: '版本记录'}],
+          },
+        }, {
           path: 'rebateRecordsList',
           name: 'rebateRecordsList',
           component: rebateRecordsList,
@@ -689,6 +702,17 @@ const router = new Router({
               {name: '消息详情'}],
           },
         }, {
+          path: 'messageDetailS',
+          name: 'messageDetailS',
+          component: messageDetailS,
+          meta: {
+            title: '消息详情',
+            pos: [
+              {name: '销售管理系统', toName: 'saleHome'},
+              {name: '消息通知', toName: 'meMessageList'},
+              {name: '消息详情'}],
+          },
+        },  {
           path: 'taskApprovalList',
           name: 'taskApprovalList',
           component: taskApprovalList,

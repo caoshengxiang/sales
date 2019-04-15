@@ -156,7 +156,7 @@ const API1 = {
       })
 	},
 	staffZX (params, success, error) {  //会议负责人 / 会议专员
-      $axios.get('/user/listMeetingUser').then((res) => {
+      $axios.get('/user/listOrgUser').then((res) => {
         success && success(res.data)
       }).catch((err) => {
         error && error(err)
@@ -2150,6 +2150,13 @@ const API1 = {
         error && error(err)
       })
     },
+    msgDetails (params, success, error) { // 查看消息详情
+      $axios.get('message/' + params.id, {params: {announcement: params.announcement}}).then(res => {
+        success && success(res.data)
+      }).catch(err => {
+        error && error(err)
+      })
+    },
     msgDelete (params, success, error) { // 查看消息详情
       $axios({
         method: 'delete',
@@ -2157,6 +2164,22 @@ const API1 = {
       }).then(res => {
         success && success(res.data)
       }).catch((err) => {
+        error && error(err)
+      })
+    },
+    getVersionRecordList (params, success, error) { // 获取版本消息消息列表
+      $axios.get('message/version/notice', {
+        params: params,
+      }).then(res => {
+        success && success(res.data)
+      }).catch(err => {
+        error && error(err)
+      })
+    },
+    getVersions (success, error) { // 获取版本消息消息列表
+      $axios.get('message/versions').then(res => {
+        success && success(res.data)
+      }).catch(err => {
         error && error(err)
       })
     },

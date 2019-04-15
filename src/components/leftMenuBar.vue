@@ -229,7 +229,7 @@
         </el-submenu>
         <el-submenu index="crm" v-if="listPermissions(menus, 'crmManagement')">
           <template slot="title">
-            <i class="iconfont icon-webicon319" style="transform: scale(1.1)"></i>
+            <i class="iconfont icon-qunzu"></i>
             <span>销售管理</span>
           </template>
           <el-menu-item-group>

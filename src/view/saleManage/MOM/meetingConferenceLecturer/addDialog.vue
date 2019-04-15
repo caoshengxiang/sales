@@ -29,10 +29,10 @@
 					<el-input :placeholder='this.params.type ? "" : "请输入开户银行"' :disabled='this.params.type' v-model='addForm.bankDeposit'></el-input>
 				</el-form-item>
 				<el-form-item label='银行账号'>
-					<el-input type='number' :placeholder='this.params.type ? "" : "请输入银行账号"' :disabled='this.params.type' v-model.number='addForm.bankAccount'></el-input>
+					<el-input type='number' :placeholder='this.params.type ? "" : "请输入银行账号"' :disabled='this.params.type' v-model='addForm.bankAccount'></el-input>
 				</el-form-item>
 				<el-form-item label='联系方式'>
-					<el-input type='number' :placeholder='this.params.type ? "" : "请输入联系方式"' :disabled='this.params.type' v-model.number='addForm.lecturePhone'></el-input>
+					<el-input type='number' :placeholder='this.params.type ? "" : "请输入联系方式"' :disabled='this.params.type' v-model='addForm.lecturePhone'></el-input>
 				</el-form-item>
 				<el-form-item label='联系地址'>
 					<el-input :placeholder='this.params.type ? "" : "请输入联系地址"' :disabled='this.params.type' v-model='addForm.address'></el-input>
@@ -91,7 +91,14 @@
 		watch: {
 			lectureType () {
 				if(!this.params.detail) {
-					this.addForm = {};
+					this.addForm.address = '';
+					this.addForm.bankAccount = '';
+					this.addForm.bankDeposit = '';
+					this.addForm.deptName = '';
+					this.addForm.idCard = '';
+					this.addForm.lectureName = '';
+					this.addForm.lecturePhone = '';
+					this.lectureName = ''
 				}else {
 				}
 			}
@@ -200,15 +207,15 @@
 					API.activity.getLecturerUserInfo({id: _id}, (data) => {
 						if(data.status) {
 							let _list = data.data;
-							this.lectureName = _list.id;
-							this.addForm.lectureName = _list.name;
-							this.addForm.idCard = _list.idCard;
-							this.addForm.bankDeposit = _list.bankDeposit;
-							this.addForm.bankAccount = _list.bankAccount;
-							this.addForm.lecturePhone = _list.mobilePhone;
-							this.addForm.address = _list.address;
+							this.lectureName = _list.id || '';
+							this.addForm.lectureName = _list.name || '';
+							this.addForm.idCard = _list.idCard || '';
+							this.addForm.bankDeposit = _list.bankDeposit || '';
+							this.addForm.bankAccount = _list.bankAccount ? _list.bankAccount.trim() : '';
+							this.addForm.lecturePhone = _list.mobilePhone ? _list.mobilePhone.trim() : '';
+							this.addForm.address = _list.address || '';
 							this.sex = _list.sex === '男' && '1' || _list.sex === '女' && '2' || '';
-							this.addForm.deptName = _list.organizationName;
+							this.addForm.deptName = _list.organizationName || '';
 						}
 					})
 				}

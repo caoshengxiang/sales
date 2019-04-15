@@ -19,7 +19,7 @@
       </div>
       <div class="download">
         <h3>附件下载</h3>
-        <a :title="item.name" v-for="item in msgDetail.attachments" :key="item.name" :href="item.url" :download="item.name">
+        <a :title="item.name" v-for="item in msgDetail.attachments" :key="item.name" :href="item.path" :download="item.name">
           <img style="width: 82px; height: 90px;" :src="item.url" alt="">
           <p>{{item.name}}</p>
         </a>

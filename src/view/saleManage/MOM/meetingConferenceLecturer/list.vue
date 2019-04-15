@@ -220,7 +220,7 @@
     methods: {
 		addHandle () {
 			this.$vDialog.modal(addDialog, {
-				title: '新增会议会议讲师',
+				title: '新增会议讲师',
 				width: 510,
 				height: 680,
 				params: {},

@@ -194,7 +194,7 @@
       getMessageList () { // 获取列表数据
         this.getQueryParams()
         this.dataLoading = true
-        API.message.personalMessage(Object.assign({}, this.defaultListParams, this.sortObj, this.advancedSearch),
+        API.message.personalMessage(Object.assign({type: 1}, this.defaultListParams, this.sortObj, this.advancedSearch),
           da => {
             this.tableData = da.data.content
             this.total = da.data.totalElements
