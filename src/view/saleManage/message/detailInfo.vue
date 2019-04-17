@@ -69,21 +69,21 @@
         })
       },
 			downloadCodeHandle (url, name) {
-// 				$('body').append('<a href="" id="download_goto" target="_blank"></a>');
-// 				var $download = $('#download_goto');
-// 				$download.attr('href', encodeURI(encodeURI(url)));
-// 				$download.attr('download', encodeURI(encodeURI(name)));
-// 				$download.get(0).click();
-// 				$download.remove();
+				$('body').append('<a href="" id="download_goto" target="_blank"></a>');
+				var $download = $('#download_goto');
+				$download.attr('href', 'https://tibosscms.dgg.net/api/cms/file/download.do?fileName=' + encodeURI(encodeURI(name)) + '&fileUrl=' + url);
+				$download.attr('download', encodeURI(encodeURI(name)));
+				$download.get(0).click();
+				$download.remove();
 
 
-					html2canvas(this.$refs.downloadCode).then(canvas => {
-						// document.body.appendChild(canvas)
-						var a = document.createElement('a');
-						a.href = canvas.toDataURL('image/png'); // 将画布内的信息导出为png图片数据
-						a.download = name; // 设定下载名称
-						a.click(); // 点击触发下载
-					});
+// 					html2canvas(this.$refs.downloadCode).then(canvas => {
+// 						// document.body.appendChild(canvas)
+// 						var a = document.createElement('a');
+// 						a.href = canvas.toDataURL('image/png'); // 将画布内的信息导出为png图片数据
+// 						a.download = name; // 设定下载名称
+// 						a.click(); // 点击触发下载
+// 					});
 			},
     },
     created () {
