@@ -1821,7 +1821,7 @@ const API1 = {
       $axios({
         method: 'put',
         url: `/codeConfig/${params.id}`,
-        data: {codeName: params.codeName},
+        data: {codeName: params.codeName, pCode: params.pCode},
       }).then((res) => {
         success && success(res.data)
       }).catch(() => {

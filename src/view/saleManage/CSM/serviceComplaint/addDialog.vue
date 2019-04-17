@@ -65,20 +65,20 @@
             </td>
           </tr>
           <tr>
-            <td class="td-title">投诉类型</td>
+            <td class="td-title">投诉对象</td>
             <td class="td-text">
               <el-form-item prop="code">
-                <el-select v-model.number="addForm.code" placeholder="请选择投诉类型" @change="selectCodeHandle" style="width: 100%">
+                <el-select v-model.number="addForm.code" placeholder="请选择投诉对象" @change="selectCodeHandle" style="width: 100%">
                   <el-option label="商务管家" :value="1"></el-option>
                   <el-option label="服务管家" :value="2"></el-option>
                   <el-option label="平台" :value="3"></el-option>
                 </el-select>
               </el-form-item>
             </td>
-            <td class="td-title">投诉对象</td>
+            <td class="td-title">投诉类型</td>
             <td class="td-text">
               <el-form-item prop="managerId">
-                <el-select v-model.number="addForm.managerId" placeholder="请选择投诉对象" style="width: 100%">
+                <el-select v-model.number="addForm.managerId" placeholder="请选择投诉类型" style="width: 100%">
                   <el-option v-for="(item, index) in serviceWorkOrderModels"
                              :key="index"
                              :label="item.managerName"
