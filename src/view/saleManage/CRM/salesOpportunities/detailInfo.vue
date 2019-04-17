@@ -61,6 +61,7 @@
           <li class="op-active" v-if="salesOpportunitiesDetail.stage !== -1"
               @click="operateOptions('move')">转移
           </li>
+          <li class="op-active" @click="editIntentionLeve">客户意向编辑</li>
           <li class="op-active" @click="operateOptions('delete')">删除</li>
         </ul>
       </div>
@@ -128,6 +129,25 @@
                 <!--<td colspan="5">暂未填写主营业务{{customerDetail.business}}</td>-->
                 <td colspan="5">{{customerDetail.business || '暂未填写主营业务'}}</td>
               </tr>
+              <tr>
+                <td class="td-title">客户有效性</td>
+                <td colspan="5" v-if='customerDetail.customerStatus != -1'>{{customerStatus[customerDetail.customerStatus] || '待判断'}}</td>
+                <td colspan="5" v-else>无效</td>
+              </tr>
+							<tr>
+								<td class='td-title'>无效原因</td>
+								<td colspan="5">{{customerDetail.invalidCauseName}}</td>
+							</tr>
+							<tr>
+								<td class='td-title'>无效描述</td>
+								<td colspan="5">{{customerDetail.invalidRemark}}</td>
+							</tr>
+							<tr>
+								<td class='td-title'>证明文件</td>
+								<td colspan="5">
+									<a :href="customerDetail.invalidFileUrl" :download="customerDetail.invalidFileName" target="_blank">{{customerDetail.invalidFileName}}</a>
+								</td>
+							</tr>
             </table>
             <!---->
             <p class="table-title">销售机会基本信息</p>
@@ -191,6 +211,26 @@
               <tr>
                 <td class="td-title">机会输单备注</td>
                 <td colspan="5">{{salesOpportunitiesDetail.discardRemark || '暂无备注信息'}}</td>
+              </tr>
+              <tr>
+                <td class="td-title">客户意向</td>
+                <td colspan="5">
+									<span v-if='salesOpportunitiesDetail.customerIntentionLevel == 0'>无</span>
+									<span v-if='salesOpportunitiesDetail.customerIntentionLevel == 1'>低</span>
+									<span v-if='salesOpportunitiesDetail.customerIntentionLevel == 2'>中</span>
+									<span v-if='salesOpportunitiesDetail.customerIntentionLevel == 3'>高</span>
+									<span v-if='salesOpportunitiesDetail.customerIntentionLevel == null'>暂未配置</span>
+								</td>
+              </tr>
+              <tr>
+                <td class="td-title">证据文件</td>
+                <td colspan="5">
+									<a :href="salesOpportunitiesDetail.recorderFileUrl" :download="salesOpportunitiesDetail.recorderFileName" target="_blank">{{salesOpportunitiesDetail.recorderFileName}}</a>
+								</td>
+              </tr>
+              <tr>
+                <td class="td-title">沟通记录</td>
+                <td colspan="5">{{salesOpportunitiesDetail.chatRecord}}</td>
               </tr>
             </table>
 
@@ -418,6 +458,7 @@
   // import { arrToStr } from '../../../utils/utils'
   import discard from './discard'
   import addDialog from './addDialog'
+  import intentionLevelDialog from './intentionLevelDialog'
   import webStorage from 'webStorage'
   import addContactDialog from '../contacts/addDialog'
   // import addChanceDialog from '../salesOpportunities/addDialog'
@@ -444,6 +485,10 @@
         isChanceCreater: true, // 当前用户是机会的创建人，
         isChanceCounselor: true, // 当前用户是机会的咨询师
         customerDetail: {}, // 客户详细
+				customerStatus: {
+					0: '待判断',
+					1: '有效',
+				},
       }
     },
     computed: {
@@ -472,6 +517,25 @@
       ...mapActions('salesOpportunities', [
         'ac_salesOpportunitiesDetail',
       ]),
+			editIntentionLeve () {
+				API.customer.chanceCheckValid({id: this.$route.query.id}, (data) => {
+					if(data.status && data.data == 1) {
+						this.$vDialog.modal(intentionLevelDialog, {
+							title: '客户需求意向程度',
+							width: 600,
+							height: 460,
+							params: {
+								intentionLeve: this.salesOpportunitiesDetail
+							},
+							callback: (data) => {
+								if (data.type === 'save') {
+									this.getList();
+								}
+							},
+						})
+					}
+				})
+			},
       handleTabsClick (tab, event) {
         // console.log(tab.name)
         this.$router.push(
@@ -648,6 +712,9 @@
         }
         return [...new Set(arrIds)] // 去重
       },
+			getList () {
+				this.getSalesOpportunitiesDetail();
+			},
       getSalesOpportunitiesDetail () {
         this.dataLoading = true
         API.salesOpportunities.detail(this.$route.query.id, (data) => {

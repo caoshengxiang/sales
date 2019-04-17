@@ -108,6 +108,22 @@
         </el-table-column>
         <el-table-column
           align="center"
+          sortable="custom"
+          prop="customerIntentionLevel"
+          label="客户意向"
+          width="160"
+          show-overflow-tooltip
+        >
+          <template slot-scope="scope">
+						<a class="col-link" v-if='scope.row.customerIntentionLevel == 0' @click='setCustomerIntentionLevel(scope.row)'><span>无</span></a>
+						<a class="col-link" v-if='scope.row.customerIntentionLevel == 1' @click='setCustomerIntentionLevel(scope.row)'><span>低</span></a>
+						<a class="col-link" v-if='scope.row.customerIntentionLevel == 2' @click='setCustomerIntentionLevel(scope.row)'><span>中</span></a>
+						<a class="col-link" v-if='scope.row.customerIntentionLevel == 3' @click='setCustomerIntentionLevel(scope.row)'><span>高</span></a>
+						<a class="col-link" v-if='scope.row.customerIntentionLevel == null' @click='setCustomerIntentionLevel(scope.row)'><span>点击配置客户意向</span></a>
+          </template>
+        </el-table-column>
+        <el-table-column
+          align="center"
           prop="contacter"
           label="联系人"
           width="160"
@@ -293,6 +309,7 @@
   import moveDialog from './moveDialog'
   import { arrToStr, underscoreName } from '../../../../utils/utils'
   import advancedSearch from './advancedSearch'
+  import intentionLevelDialog from './intentionLevelDialog'
   import bindCustomer from './bindCustomer'
 
   export default {
@@ -502,8 +519,8 @@
           API.salesOpportunities.list(Object.assign({}, this.defaultListParams, this.sortObj, this.advancedSearch),
             (data) => {
               this.ac_salesOpportunitiesList(data.data)
-              console.log(data.data)
-              console.log(this.salesOpportunitiesList)
+              // console.log(data.data)
+              // console.log(this.salesOpportunitiesList)
               setTimeout(() => {
                 this.dataLoading = false
               }, 500)
@@ -591,6 +608,29 @@
           this.organizationOptions = data.data
         })
       },
+			getList () {
+        this.getSalesOpportunititeisList()
+			},
+			// 配置客户意向
+			setCustomerIntentionLevel (item) {
+				API.customer.chanceCheckValid({id: item.id}, (data) => {
+					if(data.status && data.data == 1) {
+						this.$vDialog.modal(intentionLevelDialog, {
+							title: '客户需求意向程度',
+							width: 600,
+							height: 460,
+							params: {
+								intentionLeve: item
+							},
+							callback: (data) => {
+								if (data.type === 'save') {
+									this.getList();
+								}
+							},
+						})
+					}
+				})
+			},
     },
   }
 </script>

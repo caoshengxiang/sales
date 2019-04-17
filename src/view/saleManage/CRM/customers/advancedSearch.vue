@@ -107,6 +107,15 @@
               </el-select>
             </el-form-item>
           </el-col>
+          <el-col :span="8">
+            <el-form-item label="客户有效性：">
+              <el-select v-model="searchForm.customerStatus" placeholder="请选择客户有效性">
+                <el-option label="待判断" :value="0"></el-option>
+                <el-option label="有效" :value="1"></el-option>
+                <el-option label="无效" :value="-1"></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
         </el-row>
         <el-row class="el-row-cla">
           <el-col :span="24">
@@ -165,6 +174,7 @@
           endDate: null,
           cate: null,
           cdKey: null,
+					customerStatus: 0,
         },
         timeInterval: [],
         customerSourceType: [], // 客户来源
