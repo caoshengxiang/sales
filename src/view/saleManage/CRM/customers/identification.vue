@@ -305,7 +305,7 @@
 			:close-on-press-escape='false'>
 			<div>
 				<el-form :model='demand' label-width='80px'>
-					<el-form-item label='录音文件' style='margin-bottom: 15px;'>
+					<el-form-item label='证据文件' style='margin-bottom: 15px;'>
 						<el-upload
 								class="upload-demo"
 								:action="uploadUrl"
@@ -316,10 +316,10 @@
 								accept=".zip,.rar"
 								multiple
 								:limit="1">
-								<el-button size="small" type="primary">上传录音文件</el-button>
+								<el-button size="small" type="primary">上传证据文件</el-button>
 						</el-upload>
 					</el-form-item>
-					<el-form-item label='沟通记录'>
+					<el-form-item label='描述信息'>
 						<el-input type='textarea' :rows='6' v-model='demand.chatRecord' resize="none"></el-input>
 					</el-form-item>
 				</el-form>
@@ -388,9 +388,9 @@
 				tdText: '暂无需求数据',              //客户需求list文字
 				chanceId: '',
 				demand: {
-					chatRecord: '',                   //沟通记录
-					recorderFileName: '',             //录音文件名称
-					recorderFileUrl: '',              //录音文件路径
+					chatRecord: '',                   //描述信息
+					recorderFileName: '',             //证据文件名称
+					recorderFileUrl: '',              //证据文件路径
 				},
       }
     },
@@ -694,7 +694,7 @@
 			},
 			// 确定意向程度
 			subIdentification () {
-				let message = (!this.demand.recorderFileUrl && !this.demand.chatRecord) && '请上传录音文件或者输入沟通记录' || null;
+				let message = (!this.demand.recorderFileUrl && !this.demand.chatRecord) && '请上传证据文件或者输入描述信息' || null;
 				if(message) {
 					return this.$message({
 						type: 'error',

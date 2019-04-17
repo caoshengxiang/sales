@@ -229,7 +229,7 @@
 								</td>
               </tr>
               <tr>
-                <td class="td-title">沟通记录</td>
+                <td class="td-title">描述信息</td>
                 <td colspan="5">{{salesOpportunitiesDetail.chatRecord}}</td>
               </tr>
             </table>

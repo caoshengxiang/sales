@@ -11,7 +11,7 @@
 						<el-option label='无' :value='0'>无</el-option>
 					</el-select>
 				</el-form-item>
-				<el-form-item label='录音文件' style='margin-bottom: 15px;' v-if='addForm.customerIntentionLevel == 0'>
+				<el-form-item label='证据文件' style='margin-bottom: 15px;' v-if='addForm.customerIntentionLevel == 0'>
 					<el-upload
 						class="upload-demo"
 						:action="uploadUrl"
@@ -23,10 +23,10 @@
 						accept=".zip,.rar"
 						multiple
 						:limit="1">
-						<el-button size="small" type="primary">上传录音文件</el-button>
+						<el-button size="small" type="primary">上传证据文件</el-button>
 					</el-upload>
 				</el-form-item>
-				<el-form-item label='沟通记录' v-if='addForm.customerIntentionLevel == 0'>
+				<el-form-item label='描述信息' v-if='addForm.customerIntentionLevel == 0'>
 					<el-input type='textarea' :rows='6' v-model='addForm.chatRecord' resize="none"></el-input>
 				</el-form-item>
 			</el-form>
@@ -53,9 +53,9 @@
 				fileList: [],                                 //文件上传列表
 				addForm: {
 					customerIntentionLevel: '',               //意向程度
-					chatRecord: '',                           //沟通记录
-					recorderFileName: '',                     //录音文件名称
-					recorderFileUrl: '',                      //录音文件路径
+					chatRecord: '',                           //描述信息
+					recorderFileName: '',                     //证据文件名称
+					recorderFileUrl: '',                      //证据文件路径
 				},
 			}
 		},
@@ -81,7 +81,7 @@
 			// 确定
 			saveSubmitForm () {
 				let message = (!this.addForm.customerIntentionLevel && this.addForm.customerIntentionLevel != 0) && '请选择客户意向程度' ||
-				              (this.addForm.customerIntentionLevel == 0 && !this.addForm.recorderFileUrl && !this.addForm.chatRecord) && '请上传录音文件或者输入沟通记录' || null;
+				              (this.addForm.customerIntentionLevel == 0 && !this.addForm.recorderFileUrl && !this.addForm.chatRecord) && '请上传证据文件或者输入描述信息' || null;
 				if(message) {
 					return this.$message({
 						type: 'error',
