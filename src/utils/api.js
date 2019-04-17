@@ -541,6 +541,21 @@ const API1 = {
         error && error(err)
       })
     },
+    checkValid (params, success, error) { // 是否可以判定客户
+      $axios.get('customer/checkValid', {params: params}).then((res) => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+    },
+    chanceCheckValid (params, success, error) { // 机会列表是否可以判定客户
+      $axios.get('salerChance/checkValid', {params: params}).then((res) => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+    },
+	
   },
   // 客户公海,客户池
   customerSea: {
@@ -822,6 +837,17 @@ const API1 = {
       $axios({
         method: 'get',
         url: '/salerChance/' + params,
+      }).then(res => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+    },
+    edit (params, success, error) { // 修改销售机会
+      $axios({
+        method: 'put',
+        url: '/salerChance/' + params.id,
+		data: params
       }).then(res => {
         success && success(res.data)
       }).catch((err) => {

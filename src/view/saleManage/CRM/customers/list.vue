@@ -87,6 +87,14 @@
           </template>
         </el-table-column>
         <el-table-column
+          align="center"
+          label="操作"
+          width="120">
+          <template slot-scope="scope">
+            <span class='customer-identification' @click='customerIdentification(scope.row)'>客户鉴定</span>
+          </template>
+        </el-table-column>
+        <el-table-column
           show-overflow-tooltip
           align="center"
           sortable="custom"
@@ -96,6 +104,19 @@
           <template slot-scope="scope">
             <span v-if="scope.row.cate === 1">个人</span>
             <span v-if="scope.row.cate === 2">机构</span>
+          </template>
+        </el-table-column>
+        <el-table-column
+          show-overflow-tooltip
+          align="center"
+          sortable="custom"
+          label="客户有效性"
+          prop="cusomerStatus"
+          width="160">
+          <template slot-scope="scope">
+            <span v-if="scope.row.customerStatus == 0 || scope.row.customerStatus == null">待判断</span>
+            <span v-if="scope.row.customerStatus == 1">有效</span>
+            <span v-if="scope.row.customerStatus == -1">无效</span>
           </template>
         </el-table-column>
         <el-table-column
@@ -241,11 +262,12 @@
   import API from '../../../../utils/api'
   import { mapState, mapActions } from 'vuex'
   import addDialog from './addDialog'
+  import identification from './identification'
   import moveDialog from './moveDialog'
   import returnPoll from './returnPoll'
   import advancedSearch from './advancedSearch'
   import { underscoreName } from '../../../../utils/utils'
-  // import webStorage from 'webStorage'
+  import webStorage from 'webStorage'
 
   export default {
     name: 'list',
@@ -472,10 +494,39 @@
           this.organizationOptions = data.data
         })
       },
+		// 有效性判断
+		customerIdentification (item) {
+			let that = this;
+			API.customer.checkValid({customerId: item.id}, (data) => {
+				if(data.status && data.data == 1) {
+					that.$vDialog.modal(identification, {
+					  title: '客户鉴定',
+					  width: 900,
+					  height: 600,
+					  params: {
+						customer: item,
+					  },
+					  callback (data) {
+						if (data.type === 'save') {
+						  that.getCustomerList()
+						}
+					  },
+					})
+				}
+			})
+		},
     },
   }
 </script>
 
 <style scoped lang="scss" rel="stylesheet/scss">
   @import "../../../../styles/common";
+	
+	.customer-identification {
+		cursor: pointer;
+		color: #1E88E5;
+	}
+	.customer-identification:hover {
+		text-decoration: underline;
+	}
 </style>

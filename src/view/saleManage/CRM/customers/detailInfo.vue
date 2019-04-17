@@ -91,6 +91,25 @@
                 <!--<td colspan="5">暂未填写主营业务{{customerDetail.business}}</td>-->
                 <td colspan="5">{{customerDetail.business || '暂未填写主营业务'}}</td>
               </tr>
+              <tr>
+                <td class="td-title">客户有效性</td>
+                <td colspan="5" v-if='customerDetail.customerStatus != -1'>{{customerStatus[customerDetail.customerStatus] || '待判断'}}</td>
+                <td colspan="5" v-else>无效</td>
+              </tr>
+							<tr>
+								<td class='td-title'>无效原因</td>
+								<td colspan="5">{{customerDetail.invalidCauseName}}</td>
+							</tr>
+							<tr>
+								<td class='td-title'>无效描述</td>
+								<td colspan="5">{{customerDetail.invalidRemark}}</td>
+							</tr>
+							<tr>
+								<td class='td-title'>证明文件</td>
+								<td colspan="5">
+									<a :href="customerDetail.invalidFileUrl" :download="customerDetail.invalidFileName" target="_blank">{{customerDetail.invalidFileName}}</a>
+								</td>
+							</tr>
             </table>
 
             <p class="table-title">客户操作记录</p>
@@ -310,6 +329,10 @@
         chanceTotal: 0,
         orderList: [],
         orderTotal: 0,
+				customerStatus: {
+					0: '待判断',
+					1: '有效',
+				},
       }
     },
     computed: {

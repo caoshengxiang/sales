@@ -17,12 +17,16 @@
       <div class="con">
         {{msgDetail.content}}
       </div>
-      <div class="download">
+      <div class="download" ref='downloadCode'>
         <h3>附件下载</h3>
-        <a :title="item.name" v-for="item in msgDetail.attachments" :key="item.name" :href="item.path" :download="item.name">
-          <img style="width: 82px; height: 90px;" :src="item.url" alt="">
+<!--       <a :title="item.name" v-for="item in msgDetail.attachments" :key="item.name" :href="item.path" :download="item.name"  target="_blank">
+          <img style="width: 82px; height: 90px;" :src="item.path" alt="">
           <p>{{item.name}}</p>
-        </a>
+        </a> -->
+				<span class='fujian' v-for="item in msgDetail.attachments" :key="item.name" @click='downloadCodeHandle(item.path, item.name)'>
+          <img style="width: 82px; height: 90px;" :src="item.path" alt="">
+          <p>{{item.name}}</p>
+				</span>
       </div>
     </div>
   </div>
@@ -30,6 +34,7 @@
 
 <script>
   import API from '../../../utils/api'
+	import html2canvas from 'html2canvas';
 
   export default {
     name: 'detailInfo',
@@ -63,6 +68,23 @@
           this.msgDetail = da.data
         })
       },
+			downloadCodeHandle (url, name) {
+				$('body').append('<a href="" id="download_goto" target="_blank"></a>');
+				var $download = $('#download_goto');
+				$download.attr('href', 'https://tibosscms.dgg.net/api/cms/file/download.do?fileName=' + encodeURI(encodeURI(name)) + '&fileUrl=' + url);
+				$download.attr('download', encodeURI(encodeURI(name)));
+				$download.get(0).click();
+				$download.remove();
+
+
+// 					html2canvas(this.$refs.downloadCode).then(canvas => {
+// 						// document.body.appendChild(canvas)
+// 						var a = document.createElement('a');
+// 						a.href = canvas.toDataURL('image/png'); // 将画布内的信息导出为png图片数据
+// 						a.download = name; // 设定下载名称
+// 						a.click(); // 点击触发下载
+// 					});
+			},
     },
     created () {
       this.getMesDetail()
@@ -119,4 +141,11 @@
       }
     }
   }
+	.fujian {
+		cursor: pointer;
+		color: #1E88E5;
+	}
+	.fujian p:hover {
+		text-decoration: underline;
+	}
 </style>
