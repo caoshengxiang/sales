@@ -3,6 +3,18 @@
     <div class="com-dialog">
       <el-form :model="form" ref="form" :rules="rules" :disabled="isFormDisabled">
         <table class="com-dialog-table">
+          <tr  v-if="type==='7' || type==='8'">
+            <td class="td-title">请选择对象</td>
+            <td class="td-text">
+              <el-form-item prop="pCode">
+                <el-select
+                           v-model="form.pCode" placeholder="请选择对象" style="width: 100%">
+                  <el-option v-for="item in pCodeTypes" :key="item.id" :label="item.name"
+                             :value="item.id"></el-option>
+                </el-select>
+              </el-form-item>
+            </td>
+          </tr>
           <tr>
             <td class="td-title">请输入{{title}}名称</td>
             <td class="td-text">
@@ -36,6 +48,7 @@
         name: '',
         form: {
           pid: 0,
+          pCode: "",
         },
         rules: {
           name: [
@@ -48,6 +61,16 @@
         pName: '',
         ozTypeSelectDisabled: false,
         title: '',
+        pCodeTypes : [{
+          id: "1",
+          name: '商务管家'
+        },{
+          id: "2",
+          name: '服务管家'
+        },{
+          id: "3",
+          name: '平台'
+        }]
       }
     },
     computed: {
@@ -70,6 +93,7 @@
       if (that.params.action === 'add') {
       } else {
         that.form.name = that.params.name
+        that.form.pCode = that.params.pCode
       }
     },
     methods: {
@@ -80,11 +104,19 @@
         var that = this
         that.$refs[formName].validate((valid) => {
           if (valid) {
+            if((that.params.type ==='7' || that.params.type ==='8') && that.form.pCode === ''){
+              Message({
+                message: '请选择对象！',
+                type: 'error',
+              })
+              return;
+            }
             switch (that.params.action) {
               case 'add':
                 let params = {
                   codeName: that.form.name,
                   type: that.type,
+                  pCode: that.form.pCode,
                 }
                 that.loading = true
                 API.baseSetting.add(params, function (resData) {
@@ -110,6 +142,7 @@
                   codeName: that.form.name,
                   type: that.type,
                   id: that.params.id,
+                  pCode: that.form.pCode,
                 }
                 API.baseSetting.edit(param, function (resData) {
                   that.loading = false

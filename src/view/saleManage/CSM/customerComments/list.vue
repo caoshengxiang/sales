@@ -90,11 +90,39 @@
           <el-table-column
             align="center"
             sortable="custom"
+            prop="suggestionPName"
+            label="意见对象"
+            width="160"
+            show-overflow-tooltip
+          >
+            <template slot-scope="scope">
+              <span v-if="scope.row.suggestionPName === null">未知对象</span>
+              <span v-if="scope.row.suggestionPName != null">{{scope.row.suggestionPName}}</span>
+            </template>
+          </el-table-column>
+          <el-table-column
+            align="center"
+            sortable="custom"
             prop="suggestionType"
             label="意见类型"
             width="160"
             show-overflow-tooltip
           >
+          </el-table-column>
+          <el-table-column
+            align="center"
+            sortable="custom"
+            prop="suggestionPName"
+            label="意见对象人员"
+            width="160"
+            show-overflow-tooltip
+          >
+            <template slot-scope="scope">
+              <span v-if="scope.row.suggestionPCode === 1 && scope.row.businessName != null">{{scope.row.businessName}}</span>
+              <span v-else-if="scope.row.suggestionPCode === 2 && scope.row.serviceManagerNames != null">{{scope.row.serviceManagerNames}}</span>
+              <span v-else-if="scope.row.suggestionPCode === 3">平台</span>
+              <span  v-else>未知人员</span>
+            </template>
           </el-table-column>
           <el-table-column
             align="center"

@@ -36,7 +36,7 @@
       </div>
       <div class="com-bar-right">
         <!--<el-button>打印</el-button>-->
-        <com-button buttonType="export" icon="el-icon-download" @click="excelExport">导出</com-button>
+        <com-button buttonType="export" icon="el-icon-download" @click="excelExport"></com-button>
         <com-button buttonType="search" @click="advancedSearchHandle" style="">高级搜索</com-button>
       </div>
     </div>

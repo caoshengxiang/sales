@@ -4,6 +4,31 @@
       <el-form :model="addForm" ref="addForm" label-width="0px" :rules="rules">
         <table class="com-dialog-table">
           <tr>
+            <td class="td-title">订单单号</td>
+            <td class="td-text">
+              <el-form-item prop="orderId">
+                <!--<el-input type="text" v-model="searchOrderId">-->
+                <!--<el-button slot="append" icon="el-icon-search" @click="searchOrderIdHandle"></el-button>-->
+                <!--</el-input>-->
+                <el-select
+                  v-model="addForm.orderId"
+                  filterable
+                  remote
+                  reserve-keyword
+                  placeholder="请输入订单单号关键词"
+                  :remote-method="searchOrderIdHandle"
+                  @change="selectOrderIdHandle"
+                  :loading="searchOrderIdLoading"
+                  style="width: 100%">
+                  <el-option
+                    v-for="(item, index) in orderListNoAuth"
+                    :key="index"
+                    :label="item.orderId"
+                    :value="item.orderId">
+                  </el-option>
+                </el-select>
+              </el-form-item>
+            </td>
             <td class="td-title">投诉日期</td>
             <td class="td-text">
               <el-form-item prop="complaintTime">
@@ -16,64 +41,44 @@
                 </el-date-picker>
               </el-form-item>
             </td>
-
-            <td class="td-title">投诉客户</td>
+            <td class="td-title">服务产品</td>
             <td class="td-text">
-              {{orderIdAboutDetail.serviceCustomerName}}
+              {{orderIdAboutDetail.goodsName}}
             </td>
-
-            <td class="td-title">联系人</td>
-            <td class="td-text">
-              <el-form-item prop="contactName">
-                <el-input type="text" v-model="addForm.contactName"></el-input>
-              </el-form-item>
-            </td>
+          </tr>
+          <tr>
             <td class="td-title">商务电话</td>
             <td class="td-text">
               <el-form-item prop="contactPhone">
                 <el-input type="text" v-model="addForm.contactPhone"></el-input>
               </el-form-item>
             </td>
+            <td class="td-title">联系人</td>
+            <td class="td-text">
+              <el-form-item prop="contactName">
+                <el-input type="text" v-model="addForm.contactName"></el-input>
+              </el-form-item>
+            </td>
+            <td class="td-title">投诉客户</td>
+            <td class="td-text">
+              {{orderIdAboutDetail.serviceCustomerName}}
+            </td>
           </tr>
           <tr>
-            <td class="td-title">订单单号</td>
+            <td class="td-title">投诉类型</td>
             <td class="td-text">
-              <el-form-item prop="orderId">
-                <!--<el-input type="text" v-model="searchOrderId">-->
-                  <!--<el-button slot="append" icon="el-icon-search" @click="searchOrderIdHandle"></el-button>-->
-                <!--</el-input>-->
-                <el-select
-                  v-model="addForm.orderId"
-                  filterable
-                  remote
-                  reserve-keyword
-                  placeholder="请输入订单单号关键词"
-                  :remote-method="searchOrderIdHandle"
-                  @change="selectOrderIdHandle"
-                  :loading="searchOrderIdLoading">
-                  <el-option
-                    v-for="(item, index) in orderListNoAuth"
-                    :key="index"
-                    :label="item.orderId"
-                    :value="item.orderId">
-                  </el-option>
+              <el-form-item prop="code">
+                <el-select v-model.number="addForm.code" placeholder="请选择投诉类型" @change="selectCodeHandle" style="width: 100%">
+                  <el-option label="商务管家" :value="1"></el-option>
+                  <el-option label="服务管家" :value="2"></el-option>
+                  <el-option label="平台" :value="3"></el-option>
                 </el-select>
               </el-form-item>
-            <td class="td-title">服务产品</td>
-            <td class="td-text">
-              {{orderIdAboutDetail.goodsName}}
-            </td>
-            <td class="td-title">服务状态</td>
-            <td class="td-text">
-              <span v-if="orderIdAboutDetail.orderState === 1">待服务</span>
-              <span v-if="orderIdAboutDetail.orderState === 2">服务中</span>
-              <span v-if="orderIdAboutDetail.orderState === 3">已完成</span>
-              <span v-if="orderIdAboutDetail.orderState === 4">已退单</span>
             </td>
             <td class="td-title">投诉对象</td>
             <td class="td-text">
               <el-form-item prop="managerId">
-                <el-select v-model.number="addForm.managerId" placeholder="请选择管家">
+                <el-select v-model.number="addForm.managerId" placeholder="请选择投诉对象" style="width: 100%">
                   <el-option v-for="(item, index) in serviceWorkOrderModels"
                              :key="index"
                              :label="item.managerName"
@@ -82,10 +87,17 @@
                 </el-select>
               </el-form-item>
             </td>
+            <td class="td-title">服务状态</td>
+            <td class="td-text">
+              <span v-if="orderIdAboutDetail.orderState === 1">待服务</span>
+              <span v-if="orderIdAboutDetail.orderState === 2">服务中</span>
+              <span v-if="orderIdAboutDetail.orderState === 3">已完成</span>
+              <span v-if="orderIdAboutDetail.orderState === 4">已退单</span>
+            </td>
           </tr>
           <tr>
             <td class="td-title">投诉内容</td>
-            <td class="td-text" colspan="7">
+            <td class="td-text" colspan="5">
               <el-form-item prop="content">
                 <el-input type="textarea" :autosize="{ minRows: 5, maxRows: 20}" v-model="addForm.content"></el-input>
               </el-form-item>
@@ -116,6 +128,7 @@
           customerPhone: '',
           orderId: '',
           managerId: '',
+          code: '',
           content: '',
         },
         searchOrderId: '',
@@ -136,6 +149,9 @@
           managerId: [
             {required: true, message: '请选择投诉对象', trigger: 'blur'},
           ],
+          code: [
+            {required: true, message: '请选择投诉类型', trigger: 'blur'},
+          ],
           content: [
             {required: true, message: '请输入投诉内容', trigger: 'blur'},
           ],
@@ -152,10 +168,10 @@
     },
     props: ['params'],
     methods: {
-      cancelSubmitForm () {
+      cancelSubmitForm() {
         this.$vDialog.close({type: 'cancel'})
       },
-      saveSubmitForm (formName) {
+      saveSubmitForm(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
             this.dataLoading = true
@@ -197,38 +213,53 @@
           }
         })
       },
-      searchOrderIdHandle (query) {
+      searchOrderIdHandle(query) {
         this.searchOrderIdLoading = true
         API.serviceOrder.listNoAuth({orderId: query}, (da) => {
           this.searchOrderIdLoading = false
           this.orderListNoAuth = da.data.content
         })
       },
-      selectOrderIdHandle () {
+      selectOrderIdHandle() {
         this.orderListNoAuth.forEach(item => {
           if (item.orderId === this.addForm.orderId) {
             this.orderIdAboutDetail = item
-            let tempOjb = {}
-            if (item.serviceWorkOrderModels) {
-              this.serviceWorkOrderModels = item.serviceWorkOrderModels.filter(manager => {
-                if (!tempOjb[manager.managerId]) {
-                  tempOjb[manager.managerId] = 1
-                  return manager
-                }
-              })
-            } else {
-              this.serviceWorkOrderModels = []
-            }
+            this.selectCodeHandle()
           }
         })
-      }
-    },
-    created () {
-      if (this.params.detail) { // 联系人编辑
-        this.addForm = JSON.parse(JSON.stringify(this.params.detail))
-        this.dialogType = 'edit'
-      }
-    },
+      },
+      selectCodeHandle() {
+        this.addForm.managerId = null
+        if( JSON.stringify(this.orderIdAboutDetail) === '{}'){
+          return
+        }
+        if(this.addForm.code === 1){
+          this.serviceWorkOrderModels = [{
+            managerName: this.orderIdAboutDetail.businessManagerName,
+            managerId: this.orderIdAboutDetail.businessManagerId
+          }]
+        }else if(this.addForm.code === 2){
+          let tempOjb = {}
+          if (this.orderIdAboutDetail.serviceWorkOrderModels) {
+            this.serviceWorkOrderModels = this.orderIdAboutDetail.serviceWorkOrderModels.filter(manager => {
+              if (!tempOjb[manager.managerId]) {
+                tempOjb[manager.managerId] = 1
+                return manager
+              }
+            })
+
+          } else {
+            this.serviceWorkOrderModels = []
+          }
+        }else if(this.addForm.code === 3){
+          this.serviceWorkOrderModels = [{
+            managerName: '平台',
+            managerId: ''
+          }]
+        }
+
+      },
+    }
   }
 </script>
 

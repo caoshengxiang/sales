@@ -97,12 +97,20 @@
             </td>
           </tr>
           <tr>
-            <td class="td-title">被投诉对象</td>
+            <td class="td-title">被投诉人员</td>
             <td>{{detail.managerName}}</td>
             <td class="td-title">管家号</td>
             <td>{{detail.managerNo}}</td>
             <td class="td-title">投诉跟踪人</td>
             <td>{{detail.cusName}}</td>
+          </tr>
+          <tr>
+            <td class="td-title">被投诉对象</td>
+            <td colspan="6">
+              <span v-if="detail.code === 1">商务管家</span>
+              <span v-if="detail.code === 2">服务管家</span>
+              <span v-if="detail.code === 3">平台</span>
+            </td>
           </tr>
           <tr>
             <td class="td-title">首次投诉内容</td>

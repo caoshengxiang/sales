@@ -117,8 +117,22 @@
                 </td>
               </tr>
               <tr>
-                <td class="td-title">其他意见</td>
-                <td colspan="5">
+                <td class="td-title" rowspan="2">其他意见</td>
+                <td class="td-title">意见对象</td>
+                <td>
+                  <p>{{detail.retvisitContentModel.otherSuggestion.otherSuggestionPName}}</p>
+                </td>
+                <td>
+                  <p>{{detail.retvisitContentModel.otherSuggestion.otherSuggestionNameDetail}}</p>
+                </td>
+                <td class="td-title">意见类型</td>
+                <td colspan="3">
+                  <p>{{detail.retvisitContentModel.otherSuggestion.otherSuggestionName}}</p>
+                </td>
+              </tr>
+              <tr>
+                <td class="td-title" colspan="1">意见描述</td>
+                <td colspan="4">
                   <p>{{detail.retvisitContentModel.otherSuggestion.otherSuggestionDesc}}</p>
                 </td>
               </tr>

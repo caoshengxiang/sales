@@ -270,6 +270,11 @@
               <el-form-item label="" disabled>
                 <div class="flex-line">
                   <label class="label-ti">意见类型</label>
+                  <el-select v-model="dialogRuleForm.otherSuggestionPCode" placeholder="请选择对象" :disabled="dialogRuleForm.state != 3"  @change="getCodeConfig">
+                    <el-option label="商务管家" value="1"></el-option>
+                    <el-option label="服务管家" value="2"></el-option>
+                    <el-option label="平台" value="3"></el-option>
+                  </el-select>
                   <el-select v-model="dialogRuleForm.otherSuggestionName" placeholder="请选择其他意见类型" :disabled="dialogRuleForm.state != 3">
                     <el-option v-for="item in commentsTypes" :key="item.id" :label="item.codeName"
                                :value="item.codeName"></el-option>
@@ -318,6 +323,7 @@
           type3: '',
           reasonDesc: '',
           otherSuggestionName: '',
+          otherSuggestionPCode: '',
           otherSuggestionDesc: '',
           retEvaluation: 0,
           originStar: 0,
@@ -354,6 +360,7 @@
           type3: '',
           reasonDesc: '',
           otherSuggestionName: '',
+          otherSuggestionPCode: '',
           otherSuggestionDesc: '',
           retEvaluation: 0,
           originStar: 0,
@@ -376,6 +383,7 @@
         param.type = this.params.type
         param.state = this.dialogRuleForm.state
         param.otherSuggestion.otherSuggestionName = this.dialogRuleForm.otherSuggestionName // 其他意见
+        param.otherSuggestion.otherSuggestionPCode = this.dialogRuleForm.otherSuggestionPCode
         param.otherSuggestion.otherSuggestionDesc = this.dialogRuleForm.otherSuggestionDesc
 				param.revisitRemark = this.dialogRuleForm.revisitRemark
 				if(this.dialogRuleForm.state === 5) {
@@ -447,8 +455,9 @@
         })
       },
       getCodeConfig () {
-        var that = this
-        API.baseSetting.getCodeConfig({type: 7}, function (res) { // 7 意见类型
+        let that = this
+        that.dialogRuleForm.otherSuggestionName = null
+        API.baseSetting.getCodeConfig({type: 7 , pCode: that.dialogRuleForm.otherSuggestionPCode}, function (res) { // 7 意见类型
           if (res.status) {
             that.commentsTypes = res.data
           }
@@ -457,7 +466,6 @@
     },
     created () {
       this.currentUserId = webStorage.getItem('userInfo').id
-      this.getCodeConfig() // 意见类型
       if (this.params.type === 6) {
         this.getDetail()
       }

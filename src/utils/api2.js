@@ -99,6 +99,14 @@ export default {
         error && error(err)
       })
     },
+    authCheck  (params, success, error) {
+      $axios.get('serviceWorkOrder/authCheck', {params: params})
+        .then(res => {
+          success && success(res.data)
+        }).catch(err => {
+        error && error(err)
+      })
+    },
   },
   // 票据
   customerBill: {

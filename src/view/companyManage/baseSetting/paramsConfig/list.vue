@@ -184,6 +184,7 @@
           params: {
             id: that.multipleSelection.map(item => item.id).join(),
             name: that.multipleSelection.map(item => item.codeName).join(),
+            pCode: that.multipleSelection.map(item => item.pCode).join(),
             type: that.roleDefaultIndex,
             store: that.$store, // 弹窗组件如果需要用到vuex，必须传值过去赋值
             action: 'update',
