@@ -68,17 +68,17 @@
             <td class="td-title">投诉对象</td>
             <td class="td-text">
               <el-form-item prop="code">
-                <el-select v-model.number="addForm.code" placeholder="请选择投诉对象" @change="selectCodeHandle" style="width: 100%">
+                <el-select v-model.number="addForm.code" placeholder="请选择投诉类型" @change="selectCodeHandle" style="width: 100%">
                   <el-option label="商务管家" :value="1"></el-option>
                   <el-option label="服务管家" :value="2"></el-option>
                   <el-option label="平台" :value="3"></el-option>
                 </el-select>
               </el-form-item>
             </td>
-            <td class="td-title">投诉类型</td>
+            <td class="td-title">投诉对象管家</td>
             <td class="td-text">
               <el-form-item prop="managerId">
-                <el-select v-model.number="addForm.managerId" placeholder="请选择投诉类型" style="width: 100%">
+                <el-select v-model.number="addForm.managerId" placeholder="请选择投诉对象" style="width: 100%">
                   <el-option v-for="(item, index) in serviceWorkOrderModels"
                              :key="index"
                              :label="item.managerName"
@@ -93,6 +93,18 @@
               <span v-if="orderIdAboutDetail.orderState === 2">服务中</span>
               <span v-if="orderIdAboutDetail.orderState === 3">已完成</span>
               <span v-if="orderIdAboutDetail.orderState === 4">已退单</span>
+            </td>
+          </tr>
+          <tr>
+            <td class="td-title">投诉类型</td>
+            <td colspan="5">
+              <el-form-item prop="comments">
+                <el-checkbox-group v-model="addForm.comments">
+                  <el-checkbox v-for="item in commentsTypes"
+                               :key="item.id"
+                               :label="item.id" name="type">{{item.codeName}}</el-checkbox>
+                </el-checkbox-group>
+              </el-form-item>
             </td>
           </tr>
           <tr>
@@ -123,6 +135,7 @@
       return {
         dataLoading: false,
         addForm: { // 添加表单
+          comments: [],
           complaintTime: '',
           contactName: '',
           customerPhone: '',
@@ -133,6 +146,9 @@
         },
         searchOrderId: '',
         rules: {
+          comments: [
+            {required: true, message: '请选择投诉类型', trigger: 'blur'},
+          ],
           complaintTime: [
             {required: true, message: '请选择投诉日期', trigger: 'blur'},
           ],
@@ -162,6 +178,7 @@
         orderIdAboutDetail: {
           // serviceWorkOrderModels: []
         },
+        commentsTypes: [],
         searchOrderIdLoading: false,
         serviceWorkOrderModels: [],
       }
@@ -175,6 +192,17 @@
         this.$refs[formName].validate((valid) => {
           if (valid) {
             this.dataLoading = true
+            let a = new Array()
+            let that = this
+            that.commentsTypes.forEach(item1 => {
+              that.addForm.comments.forEach(item2 => {
+                if (item1.id === item2) {
+                  a.push(item1.codeName)
+                }
+              })
+            })
+            this.addForm.comments = this.addForm.comments.toString()
+            this.addForm.commentNames = a.toString()
             if (this.dialogType === 'add') {
               API.serviceComplaint.add(this.addForm, (data) => {
                 if (data.status) {
@@ -229,19 +257,29 @@
         })
       },
       selectCodeHandle() {
-        this.addForm.managerId = null
-        if( JSON.stringify(this.orderIdAboutDetail) === '{}'){
+        let that = this
+        that.addForm.managerId = null
+        that.addForm.comments = []
+        if( that.addForm.code){
+          API.baseSetting.getCodeConfig({type: 8 , pCode: that.addForm.code}, function (res) {
+            if (res.status) {
+              that.commentsTypes = res.data
+            }
+          })
+        }
+        if( JSON.stringify(that.orderIdAboutDetail) === '{}'){
           return
         }
-        if(this.addForm.code === 1){
-          this.serviceWorkOrderModels = [{
-            managerName: this.orderIdAboutDetail.businessManagerName,
-            managerId: this.orderIdAboutDetail.businessManagerId
-          }]
-        }else if(this.addForm.code === 2){
+        if(that.addForm.code === 1){
+          API.serviceComplaint.getBusinessManagers(that.orderIdAboutDetail, (res) => {
+            if (res.status) {
+              that.serviceWorkOrderModels = res.data
+            }
+          })
+        }else if(that.addForm.code === 2){
           let tempOjb = {}
-          if (this.orderIdAboutDetail.serviceWorkOrderModels) {
-            this.serviceWorkOrderModels = this.orderIdAboutDetail.serviceWorkOrderModels.filter(manager => {
+          if (that.orderIdAboutDetail.serviceWorkOrderModels) {
+            that.serviceWorkOrderModels = that.orderIdAboutDetail.serviceWorkOrderModels.filter(manager => {
               if (!tempOjb[manager.managerId]) {
                 tempOjb[manager.managerId] = 1
                 return manager
@@ -249,12 +287,12 @@
             })
 
           } else {
-            this.serviceWorkOrderModels = []
+            that.serviceWorkOrderModels = []
           }
-        }else if(this.addForm.code === 3){
-          this.serviceWorkOrderModels = [{
+        }else if(that.addForm.code === 3){
+          that.serviceWorkOrderModels = [{
             managerName: '平台',
-            managerId: ''
+            managerId: 1
           }]
         }
 

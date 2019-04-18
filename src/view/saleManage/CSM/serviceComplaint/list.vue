@@ -136,6 +136,20 @@
           <el-table-column
             align="center"
             sortable="custom"
+            prop="code"
+            label="被投诉对象"
+            width="160"
+            show-overflow-tooltip
+          >
+            <template slot-scope="scope">
+              <span v-if="scope.row.code === 1">商务管家</span>
+              <span v-if="scope.row.code === 2">服务管家</span>
+              <span v-if="scope.row.code === 3">平台</span>
+            </template>
+          </el-table-column>
+          <el-table-column
+            align="center"
+            sortable="custom"
             prop="managerName"
             label="被投诉管家"
             width="160"
@@ -312,7 +326,7 @@
         this.$vDialog.modal(addDialog, {
           title: '添加投诉',
           width: 1200,
-          height: 400,
+          height: 450,
           params: {},
           callback: (data) => {
             if (data.type === 'save') {

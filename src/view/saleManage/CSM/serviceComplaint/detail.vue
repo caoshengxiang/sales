@@ -106,10 +106,14 @@
           </tr>
           <tr>
             <td class="td-title">被投诉对象</td>
-            <td colspan="6">
+            <td>
               <span v-if="detail.code === 1">商务管家</span>
               <span v-if="detail.code === 2">服务管家</span>
               <span v-if="detail.code === 3">平台</span>
+            </td>
+            <td class="td-title">投诉类型</td>
+            <td colspan="3">
+              {{detail.commentNames}}
             </td>
           </tr>
           <tr>

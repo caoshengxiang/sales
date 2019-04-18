@@ -56,6 +56,34 @@
                 width="40">
               </el-table-column>
               <el-table-column
+                v-if="roleDefaultIndex === '7'"
+                align="left"
+                show-overflow-tooltip
+                label="意见对象"
+                prop="pCode"
+                width="100"
+              >
+                <template slot-scope="scope">
+                  <span v-if="scope.row.pCode === '1'">商务管家</span>
+                  <span v-if="scope.row.pCode === '2'">服务管家</span>
+                  <span v-if="scope.row.pCode === '3'">平台</span>
+                </template>
+              </el-table-column>
+              <el-table-column
+                v-if="roleDefaultIndex === '8'"
+                align="left"
+                show-overflow-tooltip
+                label="投诉对象"
+                prop="pCode"
+                width="100"
+              >
+                <template slot-scope="scope">
+                  <span v-if="scope.row.pCode === '1'">商务管家</span>
+                  <span v-if="scope.row.pCode === '2'">服务管家</span>
+                  <span v-if="scope.row.pCode === '3'">平台</span>
+                </template>
+              </el-table-column>
+              <el-table-column
                 align="left"
                 show-overflow-tooltip
                 label="参数名称"

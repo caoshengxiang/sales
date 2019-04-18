@@ -435,6 +435,14 @@ export default {
         error && error(err)
       })
     },
+    getBusinessManagers (params, success, error) { // 获取商务管家
+      $axios.get('serviceOrder/getBusinessManagers/' + params.customerId,
+        params).then(res => {
+        success && success(res.data)
+      }).catch(err => {
+        error && error(err)
+      })
+    },
   },
   // 服务回访
   serviceRetVisit: {

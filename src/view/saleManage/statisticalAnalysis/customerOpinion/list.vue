@@ -26,7 +26,7 @@
         <span>统计字段: </span>
         <el-select v-model="defaultListParams.suggestionType">
           <el-option label="意见对象统计" :value="0"></el-option>
-          <el-option label="具体意见的数量统计" :value="1"></el-option>
+          <el-option label="具体意见统计" :value="1"></el-option>
         </el-select>
         <span>意见类型: </span>
         <el-select v-model="defaultListParams.suggestionPCode">
