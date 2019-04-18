@@ -50,7 +50,7 @@
         el-table-column(align="center" sortable="custom" prop="billAmount" width='120' label="签单金额" show-overflow-tooltip)
         el-table-column(align="center" sortable="custom" prop="receivedAmount" width='120' label="回款金额" show-overflow-tooltip)
         el-table-column(align="center" sortable="custom" prop="noReceivedAmount" width='120' label="待回款金额" show-overflow-tooltip)
-        el-table-column(align="center" sortable="custom" prop="orderStatus" width='100' label="订单状态" show-overflow-tooltip)
+        el-table-column(align="center" sortable="custom" prop="orderState" width='100' label="订单状态" show-overflow-tooltip)
         el-table-column(align="center" sortable="custom" prop="customerSourceName" width='200' label="客户推荐来源" show-overflow-tooltip)
         el-table-column(align="center" sortable="custom" prop="orderSourceName" width='200' label="订单推荐来源" show-overflow-tooltip)
         el-table-column(align="center" sortable="custom" prop="providerName" width='120' label="需求提供人" show-overflow-tooltip)
@@ -199,31 +199,31 @@
                   // 支付状态赋值
                   switch (_state) {
                     case 1:
-                      a.orderStatus = '待支付';
+                      a.orderState = '待支付';
                       break;
                     case 2:
-                      a.orderStatus = '已支付';
+                      a.orderState = '已支付';
                       break;
                     case 3:
-                      a.orderStatus = '服务中';
+                      a.orderState = '服务中';
                       break;
                     case 4:
-                      a.orderStatus = '已完成';
+                      a.orderState = '已完成';
                       break;
                     case 5:
-                      a.orderStatus = '已取消';
+                      a.orderState = '已取消';
                       break;
                     case 0: 
-                      a.orderStatus = '预下单';
+                      a.orderState = '预下单';
                       break;
                     case 7: 
-                      a.orderStatus = '待服务';
+                      a.orderState = '待服务';
                       break;
                     case 8: 
-                      a.orderStatus = '已中止';
+                      a.orderState = '已中止';
                       break;
                     case 9: 
-                      a.orderStatus = '退单中';
+                      a.orderState = '退单中';
                       break;
                     default:
                       break;

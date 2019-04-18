@@ -67,12 +67,15 @@
         </el-table-column>
         <el-table-column
           align="center"
-          prop="orderSourceName"
+          prop="orderSource"
           label="来源渠道"
           width="115px"
           sortable="custom"
           show-overflow-tooltip
         >
+          <template slot-scope="scope">
+            {{ scope.row.orderSourceName }}
+          </template>
         </el-table-column>
         <el-table-column
           align="center"
@@ -157,7 +160,7 @@
         </el-table-column>
         <el-table-column
           align="center"
-          prop="auditDate"
+          prop="auditTime"
           label="回款审核日期"
           width="120"
           sortable="custom"

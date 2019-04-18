@@ -115,7 +115,6 @@
         </el-table-column>
         <el-table-column
           align="center"
-          sortable="custom"
           prop="latestFollowRecord"
           label="最近跟进记录"
           width="160"

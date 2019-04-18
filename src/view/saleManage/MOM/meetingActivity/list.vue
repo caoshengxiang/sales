@@ -93,7 +93,6 @@
         </el-table-column> -->
         <el-table-column
           align="center"
-          sortable="custom"
           prop="meetingHeadName"
           label="负责人"
           width="160"
@@ -101,7 +100,6 @@
         </el-table-column>
         <el-table-column
           align="center"
-          sortable="custom"
           prop="meetingLecturer"
           label="讲师"
           width="160"

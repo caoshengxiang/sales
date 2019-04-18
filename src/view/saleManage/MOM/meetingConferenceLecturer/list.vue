@@ -78,7 +78,7 @@
         <el-table-column
           align="center"
           sortable="custom"
-          prop="lectureSource"
+          prop="lectureType"
           label="讲师性质"
           show-overflow-tooltip>
 						<template slot-scope='scope'>
