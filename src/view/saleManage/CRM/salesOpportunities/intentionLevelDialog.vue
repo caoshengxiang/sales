@@ -81,7 +81,8 @@
 			// 确定
 			saveSubmitForm () {
 				let message = (!this.addForm.customerIntentionLevel && this.addForm.customerIntentionLevel != 0) && '请选择客户意向程度' ||
-				              (this.addForm.customerIntentionLevel == 0 && !this.addForm.recorderFileUrl && !this.addForm.chatRecord) && '请上传证据文件或者输入描述信息' || null;
+				              (this.addForm.customerIntentionLevel == 0 && !this.addForm.recorderFileUrl) && '请上传证据文件' ||
+				              (this.addForm.customerIntentionLevel == 0 && !this.addForm.chatRecord) && '请输入描述信息' || null;
 				if(message) {
 					return this.$message({
 						type: 'error',

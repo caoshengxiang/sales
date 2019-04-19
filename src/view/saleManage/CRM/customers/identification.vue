@@ -314,6 +314,7 @@
 								:on-success="onSuccessHandles"
 								:before-upload="deforeUpload"
 								accept=".zip,.rar"
+								:file-list='fileList'
 								multiple
 								:limit="1">
 								<el-button size="small" type="primary">上传证据文件</el-button>
@@ -382,6 +383,7 @@
         targetObj: null,
         selectedBindValue: [],
         userInfo: webStorage.getItem('userInfo'),
+		fileList: [],
         selectLastLevelMode: true,
 				detail: {},
 				opportunitiesList: [],              //客户需求列表
@@ -590,7 +592,6 @@
 			},
 			// 文件成功上传
 			onSuccessHandles (response, file, fileList) {
-					console.log('files: ', response)
 					this.demand.recorderFileUrl = response.data.url
 					this.demand.recorderFileName = response.data.name
 			},
@@ -663,18 +664,22 @@
 			},
 			// 选择意向程度
 			selectIntentionLevel (item) {
-				console.log(item.customerIntentionLevel)
 				if(item.customerIntentionLevel == 0) {
-					// this.showIntentionLeverl(item);
 					this.dialogVisible = true;
 					this.chanceId = item.id;
 				}else {
+					item.recorderFileUrl = '';
+					item.recorderFileName = '';
+					item.chatRecord = '';
+					this.demand.recorderFileUrl = '';
+					this.demand.recorderFileName = '';
+					this.demand.chatRecord = '';
+					this.fileList = [];
 					this.apiIntentionLeverl(item);
 				}
 			},
 			apiIntentionLeverl (item) {
 				API.salesOpportunities.edit(item, (data) => {
-					console.log(data)
 					if(data.status) {
 						this.$message({
 							type: 'success',
@@ -694,7 +699,8 @@
 			},
 			// 确定意向程度
 			subIdentification () {
-				let message = (!this.demand.recorderFileUrl && !this.demand.chatRecord) && '请上传证据文件或者输入描述信息' || null;
+				let message = !this.demand.recorderFileUrl && '请上传证据文件' ||
+				              !this.demand.chatRecord && '请输入描述信息' || null;
 				if(message) {
 					return this.$message({
 						type: 'error',

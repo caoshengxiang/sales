@@ -91,7 +91,8 @@
           label="操作"
           width="120">
           <template slot-scope="scope">
-            <span class='customer-identification' @click='customerIdentification(scope.row)'>客户鉴定</span>
+            <span class='customer-identification' @click='customerIdentification(scope.row)' v-if="scope.row.customerStatus == 0 || scope.row.customerStatus == null">客户鉴定</span>
+            <span class='customer-identification' @click='customerIdentification(scope.row)' v-else style='color: #DDDDDD !important;'>客户鉴定</span>
           </template>
         </el-table-column>
         <el-table-column
