@@ -15,10 +15,18 @@
             <!--@change="timeChangeHandle"-->
             <!--placeholder="服务开始时间">-->
           <!--</el-date-picker>-->
-          <el-date-picker
+          <el-date-picker v-if="this.params.itemNum == 4"
             style="width: 100%;"
             v-model="ruleForm.setTime"
             type="month"
+            value-format="timestamp"
+            @change="timeChangeHandle"
+            placeholder="服务开始时间">
+          </el-date-picker>
+          <el-date-picker v-if="this.params.itemNum == 40"
+            style="width: 100%;"
+            v-model="ruleForm.setTime"
+            type="date"
             value-format="timestamp"
             @change="timeChangeHandle"
             placeholder="服务开始时间">

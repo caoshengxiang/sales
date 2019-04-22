@@ -600,6 +600,7 @@
             params: {
               baseParam: baseParam,
               orderId: this.params.orderId,
+              itemNum:item.num,
             },
             callback: (data) => {
               if (data.type === 'itemSave') {
