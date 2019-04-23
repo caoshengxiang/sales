@@ -49,7 +49,7 @@
             <td class="td-title">客户行业</td>
             <td class="td-text">
               <!--<input type="text" v-model="addForm.industry">-->
-              <el-form-item prop="industry">
+              <el-form-item prop="industryArr">
                 <el-cascader
                   style="width: 100%"
                   :options="industryType"
@@ -169,6 +169,7 @@
           seaId: '',
           address: '',
           business: '',
+          industryArr: [],
         },
         areaOptionsData: [],
         // areaSelectedOptions: [],
@@ -176,7 +177,6 @@
         levelList: [], // 级别
         seaList: [], // 公海
         industryType: [],
-        industryArr: [],
         rules: {
           cate: [
             {required: true, message: '请选择客户类型', trigger: 'change'},
@@ -201,7 +201,7 @@
             // {required: true, message: '请输入客户联系人', trigger: 'blur'},
             {max: 30, message: '长度为 30 个字符以内', trigger: 'blur'},
           ],
-          industry: [
+          industryArr: [
             {required: true, message: '请选择客户行业', trigger: 'change'},
             {max: 30, message: '长度为 30 个字符以内', trigger: 'blur'},
           ],
@@ -270,6 +270,8 @@
         // console.log(this.$refs.areaSe.getSelectedValue(), '区域')
         this.$refs[formName].validate((valid) => {
           if (valid) {
+            this.addForm.industry = this.addForm.industryArr.join(',')
+            this.addForm.industryArr = []
             this.dataLoading = true
             if (this.dialogType === 'add') {
               API.customerSea.addCustomer({
@@ -422,13 +424,11 @@
               that.getLastItem(that.industryType, va, 'id')
               that.targetObj.children = arr
             }else {
-              that.industryArr.push(arr[0])
               that.industryType = arr
             }
           }else {
             that.getLastItem(that.industryType, va, 'id')
             that.targetObj.children = null
-            that.addForm.industry = va.join(',')
           }
         })
       },
