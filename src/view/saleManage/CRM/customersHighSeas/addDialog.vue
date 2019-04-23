@@ -50,10 +50,18 @@
             <td class="td-text">
               <!--<input type="text" v-model="addForm.industry">-->
               <el-form-item prop="industry">
-                <el-select v-model="addForm.industry" @change="selectIndustry" placeholder="请选择客户行业">
-                  <el-option v-for="item in industryList" :key="item.id" :label="item.codeName"
-                             :value="item.codeName"></el-option>
-                </el-select>
+                <el-cascader
+                  style="width: 100%"
+                  :options="industryType"
+                  :props="{
+                    value: 'id',
+                    label: 'name',
+                    children: 'children'
+                  }"
+                  :change-on-select="true"
+                  @change="industryChangeHandle"
+                  v-model="addForm.industryArr">
+                </el-cascader>
               </el-form-item>
             </td>
           </tr>
@@ -167,6 +175,8 @@
         industryList: [], // 行业
         levelList: [], // 级别
         seaList: [], // 公海
+        industryType: [],
+        industryArr: [],
         rules: {
           cate: [
             {required: true, message: '请选择客户类型', trigger: 'change'},
@@ -393,6 +403,35 @@
         console.log(va)
         this.addForm.customerSource = va.join('-')
       },
+      industryChangeHandle (va) {
+        let parentId;
+        let that = this;
+        if(va.length){
+          parentId = va[va.length - 1]
+        }else {
+          parentId = 0
+        }
+        API.common.industry({parentId: parentId,status: true}, (data) => {
+          // console.log('目标item:', this.targetObj)
+          if (data.data.length) {
+            let arr = data.data.map((item) => {
+              item.children = []
+              return item
+            })
+            if(va.length){
+              that.getLastItem(that.industryType, va, 'id')
+              that.targetObj.children = arr
+            }else {
+              that.industryArr.push(arr[0])
+              that.industryType = arr
+            }
+          }else {
+            that.getLastItem(that.industryType, va, 'id')
+            that.targetObj.children = null
+            that.addForm.industry = va.join(',')
+          }
+        })
+      },
       // customerSourceChange (va) {
       //   this.addForm.customerSource = va.join('-')
       // },
@@ -418,7 +457,7 @@
     created () {
       this.getAreaOptionsData(null)
       this.getConfigData(2)
-      this.getConfigData(3)
+      this.industryChangeHandle([])
       this.getConfigData(5, 0)
       this.getSeaList()
       if (this.params.detail) {

@@ -38,7 +38,10 @@
             <td class="td-title">公司职务</td>
             <td class="td-text">
               <el-form-item prop="position">
-                <el-input type="text" v-model="addForm.position"></el-input>
+                <el-select v-model="addForm.position" placeholder="请选择公司职务">
+                  <el-option v-for="item in positionList" :key="item.id" :label="item.name"
+                             :value="item.id"></el-option>
+                </el-select>
               </el-form-item>
             </td>
             <td class="td-title">联系QQ</td>
@@ -190,6 +193,7 @@
         },
         dialogType: 'add',
         customersList: [],
+        positionList: [],
       }
     },
     props: ['params'],
@@ -260,6 +264,11 @@
         this.addForm = JSON.parse(JSON.stringify(this.params.detail))
         this.dialogType = 'edit'
       }
+      let that = this
+      API.common.listPost(null, (data) => {
+        console.log(data.data)
+        that.positionList = data.data
+      })
       if (this.params.detailCustomersId) { // 详细页面的添加, 并禁用下拉列表
         this.addForm.customerId = this.params.detailCustomersId
       }
