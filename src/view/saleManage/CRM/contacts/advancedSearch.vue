@@ -21,8 +21,11 @@
         </el-row>
         <el-row class="el-row-cla">
           <el-col :span="8">
-            <el-form-item label="公司职务：">
-              <el-input type="text" v-model="searchForm.position"></el-input>
+            <el-form-item label="公司职务：" prop="position">
+              <el-select v-model="searchForm.position" placeholder="请选择公司职务">
+                <el-option v-for="item in positionList" :key="item.id" :label="item.name"
+                           :value="item.id"></el-option>
+              </el-select>
             </el-form-item>
           </el-col>
         </el-row>
@@ -62,7 +65,7 @@
 </template>
 
 <script>
-  // import API from '../../../utils/api'
+  import API from '../../../../utils/api'
   import { lastMonthDate } from '../../../../utils/utils'
 
   export default {
@@ -80,6 +83,7 @@
           endDate: null,
         },
         timeInterval: [],
+        positionList: [],
       }
     },
     props: ['params'],
@@ -105,6 +109,11 @@
       if (this.searchForm.startDate) { // 日期
         this.timeInterval = [this.searchForm.startDate, this.searchForm.endDate]
       }
+      let that = this
+      API.common.listPost({deleted: false, status: true}, (data) => {
+        console.log(data.data)
+        that.positionList = data.data
+      })
     },
   }
 </script>
