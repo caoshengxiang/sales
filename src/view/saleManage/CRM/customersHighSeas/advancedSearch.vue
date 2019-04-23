@@ -52,7 +52,7 @@
                   }"
                 :change-on-select="true"
                 @change="industryChangeHandle"
-               >
+                v-model="searchForm.industryArr">
               </el-cascader>
             </el-form-item>
           </el-col>
@@ -236,6 +236,8 @@
         return this.sourceNameArr.join('-')
       },
       saveSubmitForm () {
+        this.searchForm.industry = this.searchForm.industryArr.join(',')
+        this.searchForm.industryArr = []
         this.searchForm.sourceName = this.traverseTree(this.searchForm.customerSource)
         this.$vDialog.close({type: 'search', params: this.searchForm})
       },
