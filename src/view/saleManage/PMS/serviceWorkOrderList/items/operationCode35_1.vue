@@ -9,7 +9,7 @@
           <el-date-picker
             style="width: 100%"
             v-model="ruleForm.setTime"
-            type="datetime"
+            type="date"
             value-format="timestamp"
             placeholder="请选择服务开始时间">
           </el-date-picker>

@@ -350,11 +350,11 @@
               <span v-if="item.setTime">
                 <span v-if="item.num == 5">{{$moment(item.setTime).format('YYYY')}}</span>
                 <span v-else-if="item.num === 4 || item.num===40">
-                  {{$moment(item.setTime).format('YYYY-MM-DD HH:mm:ss')}}
+                  {{$moment(item.setTime).format('YYYY-MM-DD')}}
                   &nbsp;&nbsp;
-                  {{orderDetail.periodEnd && $moment(orderDetail.periodEnd).format('YYYY-MM-DD HH:mm:ss')}}
+                  {{orderDetail.periodEnd && $moment(orderDetail.periodEnd).format('YYYY-MM-DD')}}
                 </span>
-                <span v-else>{{$moment(item.setTime).format('YYYY-MM-DD HH:mm:ss')}}</span>
+                <span v-else>{{$moment(item.setTime).format('YYYY-MM-DD')}}</span>
               </span>
               <a style="color: blue" v-if="item.num === 34 || item.num === 39" @click="showContactDetail(item)">查看联系人信息</a>
               <a style="color: blue" v-if="item.num === 7" @click="showCustomerDetail(item)">查看客户信息表</a>
@@ -450,7 +450,7 @@
           ['确认开始服务时间'], // num 35
           ['上传服务成果'], // num 36
           ['添加服务阶段款项', '完成阶段款项添加'], // num 37
-          ['确认完成', '提醒用户确认', '确认完成服务'], // num 38, '用户确认'
+          ['向客户推送 “完结确认”', '提醒用户确认', '确认完成服务'], // num 38, '用户确认'
           ['完善联系人信息'], // num 39
           ['设置服务周期'], // num 40
           ['上传服务成果'], // num 41
