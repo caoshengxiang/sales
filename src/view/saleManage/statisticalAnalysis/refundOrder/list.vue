@@ -23,6 +23,13 @@
           start-placeholder="开始日期"
           end-placeholder="结束日期">
         </el-date-picker>
+				<span class='ml10'>统计商品: </span>
+				<el-select clearable placeholder="请选择商品分类" v-model='goodsTypeId' @change="selectGoodsType">
+					<el-option v-for='item in goodsTypeList' :key='item.objectId' :label="item.name" :value="item.objectId">{{item.name}}</el-option>
+				</el-select>
+				<el-select clearable placeholder="请选择商品" v-model='goodsId'>
+					<el-option v-for='item in goodsList' :key='item.objectId' :label="item.name" :value="item.objectId">{{item.name}}</el-option>
+				</el-select>
         <!--<el-button @click="searchHandle">查询</el-button>-->
         <com-button buttonType="search" @click="searchHandle">查询</com-button>
       </div>
@@ -51,6 +58,10 @@
             label="派单数量"
             show-overflow-tooltip
           >
+						<template slot-scope='scope'>
+							<span v-if='scope.row.total == 0'>{{scope.row.total}}</span>
+							<span class='blue-span' v-else @click='goDetail(scope.row, 1)'>{{scope.row.total}}</span>
+						</template>
           </el-table-column>
           <el-table-column
             align="center"
@@ -58,6 +69,10 @@
             label="拒单数量"
             show-overflow-tooltip
           >
+						<template slot-scope='scope'>
+							<span v-if='scope.row.refuse == 0'>{{scope.row.refuse}}</span>
+							<span class='blue-span' v-else @click='goDetail(scope.row, 2)'>{{scope.row.refuse}}</span>
+						</template>
           </el-table-column>
           <el-table-column
             align="center"
@@ -65,6 +80,10 @@
             label="退单数量"
             show-overflow-tooltip
           >
+						<template slot-scope='scope'>
+							<span v-if='scope.row.back == 0'>{{scope.row.back}}</span>
+							<span class='blue-span' v-else @click='goDetail(scope.row, 3)'>{{scope.row.back}}</span>
+						</template>
           </el-table-column>
         </el-table>
       </div>
@@ -96,6 +115,10 @@
             label="派单数量"
             show-overflow-tooltip
           >
+						<template slot-scope='scope'>
+							<span v-if='scope.row.total == 0'>{{scope.row.total}}</span>
+							<span class='blue-span' v-else @click='goDetail(scope.row, 1)'>{{scope.row.total}}</span>
+						</template>
           </el-table-column>
           <el-table-column
             align="center"
@@ -104,6 +127,10 @@
             label="拒单数量"
             show-overflow-tooltip
           >
+						<template slot-scope='scope'>
+							<span v-if='scope.row.refuse == 0'>{{scope.row.refuse}}</span>
+							<span class='blue-span' v-else @click='goDetail(scope.row, 2)'>{{scope.row.refuse}}</span>
+						</template>
           </el-table-column>
           <el-table-column
             align="center"
@@ -112,6 +139,10 @@
             label="退单数量"
             show-overflow-tooltip
           >
+						<template slot-scope='scope'>
+							<span v-if='scope.row.back == 0'>{{scope.row.back}}</span>
+							<span class='blue-span' v-else @click='goDetail(scope.row, 3)'>{{scope.row.back}}</span>
+						</template>
           </el-table-column>
           <el-table-column
             align="center"
@@ -120,6 +151,10 @@
             label="服务开始前退单"
             show-overflow-tooltip
           >
+						<template slot-scope='scope'>
+							<span v-if='scope.row.beforeServiceback == 0'>{{scope.row.beforeServiceback}}</span>
+							<span class='blue-span' v-else @click='goDetail(scope.row, 4)'>{{scope.row.beforeServiceback}}</span>
+						</template>
           </el-table-column>
           <el-table-column
             align="center"
@@ -128,6 +163,10 @@
             label="服务中退单"
             show-overflow-tooltip
           >
+						<template slot-scope='scope'>
+							<span v-if='scope.row.inServiceback == 0'>{{scope.row.inServiceback}}</span>
+							<span class='blue-span' v-else @click='goDetail(scope.row, 5)'>{{scope.row.inServiceback}}</span>
+						</template>
           </el-table-column>
         </el-table>
       </div>
@@ -177,7 +216,11 @@
         tableData: [],
         tableDataTotal: 0,
         totalData: [],
+				goodsTypeList: [],    //所有分类
+				goodsList: [],        //所有商品
         time: '',
+				goodsId: '',          //选中的商品id
+				goodsTypeId: '',      //选中的商品分类id
       }
     },
     watch: {
@@ -202,6 +245,59 @@
       comButton,
     },
     methods: {
+			// 获取商品分类
+			getGoodsTypeList () {
+				API.external.goodsTypeList((data) => {
+					if(data.status == 200) {
+						if(data.content == null) data.content = [];
+						data.content.unshift({name: '全部分类', objectId: 0});
+						this.goodsTypeList = data.content;
+					}
+				})
+			},
+			// 选择商品分类
+			selectGoodsType (item) {
+				this.goodsList = [];
+				this.goodsId = '';
+				let params = {
+					goodsType: this.goodsTypeId,
+				};
+				if(this.goodsTypeId == 0) delete params.goodsTypeId;
+				API.external.findGoods(params, (data) => {
+					if(data.status == 200) {
+						if(data.content == null) data.content = [];
+						data.content.unshift({name: '全部商品', objectId: 0, deleted: false, pullOff: false});
+						data.content.forEach(a => {
+							if(a.deleted && a.pullOff) {
+								a.name = a.name + ' [删除]'
+							}
+							if(a.deleted && !a.pullOff) {
+								a.name = a.name + ' [删除]'
+							}
+							if(!a.deleted && a.pullOff) {
+								a.name = a.name + ' [下架]'
+							}
+							
+						})
+						this.goodsList = data.content;
+					}
+				})
+			},
+			// 进入详情页
+			goDetail (item, type) {
+				let _data = {
+					dateStart: this.defaultListParams.dateStart,
+					dateEnd: this.defaultListParams.dateEnd,
+					goodsId: this.goodsId.toString(),
+					goodsTypeId: this.goodsTypeId.toString(),
+					managerId: item.managerId.toString(),
+					type: type.toString(),
+				};
+				this.$router.push({
+					path: 'refundOrderStaDetail',
+					query: _data,
+				})
+			},
       posTableHeight () {
         let h = document.body.clientHeight,
             new_h = h - 341;
@@ -234,11 +330,15 @@
       },
       getQueryParams () { // 请求参数配置
         this.defaultListParams = {
-          page: this.currentPage - 1,
-          pageSize: this.pagesOptions.pageSize,
-          dateStart: this.defaultListParams.dateStart,
-          dateEnd: this.defaultListParams.dateEnd,
+            page: this.currentPage - 1,
+            pageSize: this.pagesOptions.pageSize,
+            dateStart: this.defaultListParams.dateStart,
+            dateEnd: this.defaultListParams.dateEnd,
+			goodsId: this.goodsId,
+			goodsTypeId: this.goodsTypeId,
         }
+		if(this.defaultListParams.goodsId == 0) delete this.defaultListParams.goodsId;
+		if(this.defaultListParams.goodsTypeId == 0) delete this.defaultListParams.goodsTypeId;
       },
       getData () {
         this.getQueryParams()
@@ -253,10 +353,11 @@
         API.statistical.serviceWorkState(Object.assign({}, this.defaultListParams, this.sortObj, this.advancedSearch),
           (da) => {
             this.totalData = [{
-              total: da.data.total,
-              back: da.data.back,
-              refuse: da.data.refuse,
-              name: '合计数量',
+				managerId: '',
+                total: da.data.total,
+                back: da.data.back,
+                refuse: da.data.refuse,
+                name: '合计数量',
             }]
           })
       },
@@ -280,11 +381,12 @@
           }
         }
         let link = document.createElement('a') // 创建事件对象
-        let query = QS.stringify(Object.assign({}, dlp, this.sortObj, as,
+        let query = QS.stringify(Object.assign({}, dlp, this.sortObj,
           {authKey: webStorage.getItem('userInfo').authKey}))
         // console.log('下载参数：', query)
         link.setAttribute('href', serverUrl + '/countSystem/serviceWorkStateDetail/export?' + query)
         link.setAttribute('download', '拒单退单统计')
+        link.setAttribute('target', '_blank')
         let event = document.createEvent('MouseEvents') // 初始化事件对象
         event.initMouseEvent('click', true, true, document.defaultView, 0, 0, 0, 0, 0, false, false, false, false, 0,
           null) // 触发事件
@@ -308,8 +410,9 @@
         let query = QS.stringify(Object.assign({}, dlp, this.sortObj, as,
           {authKey: webStorage.getItem('userInfo').authKey}))
         // console.log('下载参数：', query)
-        link.setAttribute('href', serverUrl + '/serviceWorkState/export?' + query)
+        link.setAttribute('href', serverUrl + '/countSystem/serviceWorkState/export?' + query)
         link.setAttribute('download', '拒单退单统计')
+        link.setAttribute('target', '_blank')
         let event = document.createEvent('MouseEvents') // 初始化事件对象
         event.initMouseEvent('click', true, true, document.defaultView, 0, 0, 0, 0, 0, false, false, false, false, 0,
           null) // 触发事件
@@ -319,6 +422,7 @@
     created () {
       this.searchHandle()
       this.posTableHeight();            //根据屏幕高度设置table高度
+			this.getGoodsTypeList();
     },
     mounted() {
       // 监听页面高度
@@ -335,4 +439,14 @@
 
 <style scoped lang="scss" rel="stylesheet/scss">
   @import "../../../../styles/common";
+	.ml10 {
+		margin-left: 10px;
+	}
+	.blue-span {
+		color: #1E88E5;
+		cursor: pointer;
+	}
+	.blue-span:hover {
+		text-decoration: underline;
+	}
 </style>

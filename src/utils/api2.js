@@ -552,6 +552,13 @@ export default {
         error && error(err)
       })
     },
+    serviceWorkManagerDetail (params, success, error) { // 服务任务统计详情
+      $axios.get('countSystem/serviceTaskDetail', {params: params}).then(res => {
+        success && success(res.data)
+      }).catch(err => {
+        error && error(err)
+      })
+    },
     serviceTask (params, success, error) { // 客服任务统计
       $axios.get('countSystem/serviceTask', {params: params}).then(res => {
         success && success(res.data)
@@ -575,6 +582,13 @@ export default {
     },
     serviceWorkState (params, success, error) { // 拒单退单统计(总)
       $axios.get('countSystem/serviceWorkState', {params: params}).then(res => {
+        success && success(res.data)
+      }).catch(err => {
+        error && error(err)
+      })
+    },
+    serviceWorkStateDetail (params, success, error) { // 拒单退单统计详情
+      $axios.get('countSystem/serviceWorkDetail', {params: params}).then(res => {
         success && success(res.data)
       }).catch(err => {
         error && error(err)

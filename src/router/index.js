@@ -225,6 +225,11 @@ const serviceTaskSta = resolve => require.ensure([],
   () => resolve(
     require('../view/saleManage/statisticalAnalysis/serviceTask/list')),
   'serviceTaskSta')
+// 客户任务统计详情
+const serviceTaskStaDetail = resolve => require.ensure([],
+  () => resolve(
+    require('../view/saleManage/statisticalAnalysis/serviceTask/detailInfo')),
+  'serviceTaskStaDetail')
 // 客服任务统计
 const customerServiceTaskSta = resolve => require.ensure([],
   () => resolve(
@@ -245,6 +250,11 @@ const refundOrderSta = resolve => require.ensure([],
   () => resolve(
     require('../view/saleManage/statisticalAnalysis/refundOrder/list')),
   'refundOrderSta')
+// 拒单退单统计详情
+const refundOrderStaDetail = resolve => require.ensure([],
+  () => resolve(
+    require('../view/saleManage/statisticalAnalysis/refundOrder/detailInfo')),
+  'refundOrderStaDetail')
 // 客户投诉统计
 const customerComplaintSta = resolve => require.ensure([],
   () => resolve(
@@ -976,6 +986,17 @@ const router = new Router({
               {name: '服务任务统计'}],
           },
         }, {
+          path: 'serviceTaskStaDetail',
+          name: 'serviceTaskStaDetail',
+          component: serviceTaskStaDetail,
+          meta: {
+            title: '服务任务统计详情',
+            pos: [
+              {name: '销售管理系统', toName: 'saleHome'},
+              {name: '服务任务统计', toName: 'serviceTaskSta'},
+              {name: '服务任务统计详情'}],
+          },
+        }, {
           path: 'customerServiceTaskSta',
           name: 'customerServiceTaskSta',
           component: customerServiceTaskSta,
@@ -1018,6 +1039,17 @@ const router = new Router({
               {name: '销售管理系统', toName: 'saleHome'},
               {name: '统计分析'},
               {name: '退单拒单统计'}],
+          },
+        }, {
+          path: 'refundOrderStaDetail',
+          name: 'refundOrderStaDetail',
+          component: refundOrderStaDetail,
+          meta: {
+            title: '退单拒单统计详情',
+            pos: [
+              {name: '销售管理系统', toName: 'saleHome'},
+              {name: '退单拒单统计', toName: 'refundOrderSta'},
+              {name: '退单拒单统计详情'}],
           },
         }, {
           path: 'customerComplaintSta',
