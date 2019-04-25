@@ -404,6 +404,11 @@
 				return lastMonthDate()
 			},
 			timeIntervalHandle (value) {
+				if(value == null) {
+					this.defaultListParams.dateStart = '';
+					this.defaultListParams.dateEnd = '';
+					return;
+				};
 				this.defaultListParams.dateStart = value[0] || ''
 				this.defaultListParams.dateEnd = value[1] || ''
 			},
