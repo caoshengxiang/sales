@@ -109,7 +109,12 @@
         })
       },
       timeChangeHandle () {
-        this.getShedule(this.params.orderId, this.ruleForm.setTime)
+        if (this.ruleForm.setTime == null) {
+          this.periodEnd = ''
+        } else {
+          this.getShedule(this.params.orderId, this.ruleForm.setTime)
+        }
+
       }
     },
     created () {
