@@ -202,7 +202,15 @@
 			selectLecture () {
 				let _id = this.lectureName;
 				if(!_id) {
-					this.addForm = {};
+					this.lectureName = '';
+					this.addForm.lectureName = '';
+					this.addForm.idCard = '';
+					this.addForm.bankDeposit = '';
+					this.addForm.bankAccount = '';
+					this.addForm.lecturePhone = '';
+					this.addForm.address = '';
+					// this.sex = '';
+					this.addForm.deptName = '';
 				}else {
 					API.activity.getLecturerUserInfo({id: _id}, (data) => {
 						if(data.status) {
