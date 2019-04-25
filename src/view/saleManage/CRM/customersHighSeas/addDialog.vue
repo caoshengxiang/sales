@@ -203,7 +203,6 @@
           ],
           industryArr: [
             {required: true, message: '请选择客户行业', trigger: 'change'},
-            {max: 30, message: '长度为 30 个字符以内', trigger: 'blur'},
           ],
           provinceId: [
             {required: true, message: '请选择客户地区', trigger: 'change'},
@@ -271,7 +270,6 @@
         this.$refs[formName].validate((valid) => {
           if (valid) {
             this.addForm.industry = this.addForm.industryArr.join(',')
-            this.addForm.industryArr = []
             this.dataLoading = true
             if (this.dialogType === 'add') {
               API.customerSea.addCustomer({
@@ -425,12 +423,36 @@
               that.targetObj.children = arr
             }else {
               that.industryType = arr
+              that.addForm.industryArr = []
+              this.industryValue = []
+              that.initIndustry(that.addForm.industryArr, this.industryValue, that.industryType, that.addForm.industry.split(','), 0)
             }
           }else {
             that.getLastItem(that.industryType, va, 'id')
             that.targetObj.children = null
           }
         })
+      },
+      initIndustry(industryArr, industryValue, list, vals, index){
+        let that = this
+        if(index < vals.length)
+          for (let item of list) {
+            if (item['name'] === vals[index]) {
+              industryValue.push(item)
+              industryArr.push(item['id'])
+              API.common.industry({parentId: item['id'],status: true}, (data) => {
+                // console.log('目标item:', this.targetObj)
+                if (data.data.length) {
+                  let arr = data.data.map((item) => {
+                    item.children = []
+                    return item
+                  })
+                  item.children = arr
+                  that.initIndustry(industryArr,industryValue,item.children,vals,index+1)
+                }
+              })
+            }
+          }
       },
       // customerSourceChange (va) {
       //   this.addForm.customerSource = va.join('-')

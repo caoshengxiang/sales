@@ -79,10 +79,18 @@
             <td class="td-text">
               <!--<input type="text" v-model="addForm.industry">-->
               <el-form-item prop="industry">
-                <el-select v-model="addForm.industry" placeholder="请选择客户行业"  style="width: 100%">
-                  <el-option v-for="item in industryList" :key="item.id" :label="item.codeName"
-                             :value="item.codeName"></el-option>
-                </el-select>
+              <el-cascader
+                style="width: 100%"
+                :options="industryType"
+                :props="{
+                    value: 'id',
+                    label: 'name',
+                    children: 'children'
+                  }"
+                :change-on-select="true"
+                @change="industryChangeHandle"
+                v-model="addForm.industryArr">
+              </el-cascader>
               </el-form-item>
             </td>
           </tr>
@@ -122,7 +130,7 @@
             <td class="td-text">
               <el-form-item prop="provider">
                 <el-select :disabled="(addForm.provider && params.detail)?true:false"
-                  v-model="addForm.provider" filterable clearable  placeholder="请选择" style="width: 100%;">
+                           v-model="addForm.provider" filterable clearable  placeholder="请选择" style="width: 100%;">
                   <el-option
                     v-for="item in staffList"
                     :key="item.id"
@@ -204,7 +212,6 @@
         salesState: [],
         intentProductCateList: [],
         intentProductList: [],
-        industryList: [], // 行业
         seaList: [], // 公海
         showList: [],
         rules: {
@@ -240,7 +247,7 @@
           provinceId: [
             {required: true, message: '请选择地区', trigger: 'blur'},
           ],
-          industry: [
+          industryArr: [
             {required: true, message: '请选择行业', trigger: 'change'},
           ],
           chanceSeaId: [
@@ -252,6 +259,7 @@
         },
         chanceSourceType: [], // 客户来源
         chanceSourceArr: [],
+        industryType: [],
         props: {
           value: 'id',
           label: 'codeName',
@@ -271,7 +279,7 @@
       saveSubmitForm (formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
-
+            this.addForm.industry = this.addForm.industryArr.join(',')
             // 防止老数据可能选择的不是对应的商品而保存时获取商品id
             let _cusid = this.addForm.intentProductId;
             if(typeof(_cusid) === 'string') {
@@ -325,7 +333,7 @@
           if (data.status) {
             this.customersList = data.data
 
-          if (this.params.detail) { // 编辑
+            if (this.params.detail) { // 编辑
               let _cate = '';
               if(this.customersList.length > 0) {
                 let _list = this.customersList;
@@ -337,7 +345,7 @@
               }
               let servicePrincipalType = _cate == 1 ? 'Person' : 'Company';
               this.getIntentProductList({goodsTypeId: null, goodsName: null, servicePrincipalType})
-          }
+            }
           }
         })
       },
@@ -371,7 +379,7 @@
           servicePrincipalType: p.servicePrincipalType,
           organizationId: webStorage.getItem('userInfo').organizationId,
           saleable: 1,
-					status: 1,
+          status: 1,
           pullOff: false
         }, (data) => {
           this.intentProductList = data.data
@@ -398,8 +406,6 @@
         API.common.codeConfig({type: type, pCode: pCode}, (data) => {
           if (type === 2) {
             this.levelList = data.data
-          } else if (type === 3) {
-            this.industryList = data.data
           } else if (type === 5) {
             // let arr = data.data.map((item) => {
             //   item.children = []
@@ -443,6 +449,57 @@
         })
         console.log(va)
         this.addForm.chanceSource = va.join('-')
+      },
+      industryChangeHandle (va) {
+        let parentId;
+        let that = this;
+        if(va.length){
+          parentId = va[va.length - 1]
+        }else {
+          parentId = 0
+        }
+        API.common.industry({parentId: parentId,status: true}, (data) => {
+          // console.log('目标item:', this.targetObj)
+          if (data.data.length) {
+            let arr = data.data.map((item) => {
+              item.children = []
+              return item
+            })
+            if(va.length){
+              that.getLastItem(that.industryType, va, 'id')
+              that.targetObj.children = arr
+            }else {
+              that.industryType = arr
+              that.addForm.industryArr = []
+              this.industryValue = []
+              that.initIndustry(that.addForm.industryArr, this.industryValue, that.industryType, that.addForm.industry.split(','), 0)
+            }
+          }else {
+            that.getLastItem(that.industryType, va, 'id')
+            that.targetObj.children = null
+          }
+        })
+      },
+      initIndustry(industryArr, industryValue, list, vals, index){
+        let that = this
+        if(index < vals.length)
+          for (let item of list) {
+            if (item['name'] === vals[index]) {
+              industryValue.push(item)
+              industryArr.push(item['id'])
+              API.common.industry({parentId: item['id'],status: true}, (data) => {
+                // console.log('目标item:', this.targetObj)
+                if (data.data.length) {
+                  let arr = data.data.map((item) => {
+                    item.children = []
+                    return item
+                  })
+                  item.children = arr
+                  that.initIndustry(industryArr,industryValue,item.children,vals,index+1)
+                }
+              })
+            }
+          }
       },
       // chanceSourceChange (va) {
       //   this.addForm.chanceSource = va.join('-')
@@ -494,9 +551,9 @@
       }
       // 来源
       this.getConfigData(5, 0)
-      this.getConfigData(3) // 行业
       this.getSeaList()
       this.getStaffList()
+      this.industryChangeHandle([])
 
 
       // 防止老数据可能选择的不是对应的商品而保存时获取商品id 调取所有商品
@@ -504,7 +561,7 @@
         organizationId: webStorage.getItem('userInfo').organizationId,
         saleable: 1,
       }, (data) => {
-          this.showList = data.data;
+        this.showList = data.data;
       })
     },
   }

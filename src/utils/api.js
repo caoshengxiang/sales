@@ -333,6 +333,24 @@ const API1 = {
         error && error(err)
       })
     },
+    listPost(params, success, error) {
+      $axios.get('/post/list', {
+        params: params,
+      }).then((res) => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+    },
+    industry (params, success, error) { // 2 - 客户级别，3 - 客户行业， 5 - 客户源
+      $axios.get('category', {
+        params: params,
+      }).then((res) => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+    },
     getSaleCommissionConfig (params, success, error) { // 查询佣金比例设置记录
       $axios.get('saleCommissionConfig', {params: params}).then((res) => {
         success && success(res.data)

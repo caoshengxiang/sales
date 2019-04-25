@@ -49,11 +49,20 @@
             <td class="td-title">客户行业</td>
             <td class="td-text">
               <!--<input type="text" v-model="addForm.industry">-->
-              <el-form-item prop="industry">
-                <el-select v-model="addForm.industry" @change="selectIndustry" placeholder="请选择客户行业">
-                  <el-option v-for="item in industryList" :key="item.id" :label="item.codeName"
-                             :value="item.codeName"></el-option>
-                </el-select>
+              <el-form-item prop="industryArr">
+                <el-cascader
+                  style="width: 100%"
+                  :options="industryType"
+                  :value="industryValue"
+                  :props="{
+                    value: 'id',
+                    label: 'name',
+                    children: 'children'
+                  }"
+                  :change-on-select="true"
+                  @change="industryChangeHandle"
+                  v-model="addForm.industryArr">
+                </el-cascader>
               </el-form-item>
             </td>
           </tr>
@@ -161,12 +170,14 @@
           address: '',
           business: '',
           customerSource: '',
+          industryArr: [],
         },
         areaOptionsData: [],
         // areaSelectedOptions: [],
         industryList: [], // 行业
         levelList: [], // 级别
         seaList: [], // 公海
+        industryType: [],
         rules: {
           cate: [
             {required: true, message: '请选择客户类型', trigger: 'change'},
@@ -191,9 +202,8 @@
             // {required: true, message: '请输入客户简称', trigger: 'blur'},
             {max: 30, message: '长度为 30 个字符以内', trigger: 'blur'},
           ],
-          industry: [
+          industryArr: [
             {required: true, message: '请选择客户行业', trigger: 'change'},
-            {max: 30, message: '长度为 30 个字符以内', trigger: 'blur'},
           ],
           provinceId: [
             {required: true, message: '请选择客户地区', trigger: 'change'},
@@ -226,6 +236,7 @@
         dialogType: 'add',
         customerSourceType: [], // 客户来源
         customerSourceArr: [],
+        industryValue:[],
         props: {
           value: 'id',
           label: 'codeName',
@@ -260,6 +271,7 @@
         // console.log(this.$refs.areaSe.getSelectedValue(), '区域')
         this.$refs[formName].validate((valid) => {
           if (valid) {
+            this.addForm.industry = this.addForm.industryArr.join(',')
             this.dataLoading = true
             if (this.dialogType === 'add') {
               API.customer.add({
@@ -389,6 +401,36 @@
           this.addForm.customerSource = this.customerSourceArr.join('-')
         }
       },
+      industryChangeHandle (va) {
+        let parentId;
+        let that = this;
+        if(va.length){
+          parentId = va[va.length - 1]
+        }else {
+          parentId = 0
+        }
+        API.common.industry({parentId: parentId,status: true}, (data) => {
+          // console.log('目标item:', this.targetObj)
+          if (data.data.length) {
+            let arr = data.data.map((item) => {
+              item.children = []
+              return item
+            })
+            if(va.length){
+              that.getLastItem(that.industryType, va, 'id')
+              that.targetObj.children = arr
+            }else {
+              that.industryType = arr
+              that.addForm.industryArr = []
+              this.industryValue = []
+              that.initIndustry(that.addForm.industryArr, this.industryValue, that.industryType, this.addForm.industry.split(','), 0)
+            }
+          }else {
+            that.getLastItem(that.industryType, va, 'id')
+            that.targetObj.children = null
+          }
+        })
+      },
       // customerSourceChange (va) {
       //   this.addForm.customerSource = va.join('-')
       // },
@@ -405,6 +447,27 @@
           }
         }
       },
+      initIndustry (industryArr, industryValue, list, vals, index) {
+        let that = this
+        if(index < vals.length)
+          for (let item of list) {
+            if (item['name'] === vals[index]) {
+              industryValue.push(item)
+              industryArr.push(item['id'])
+              API.common.industry({parentId: item['id'], status: true}, (data) => {
+                // console.log('目标item:', this.targetObj)
+                if (data.data.length) {
+                  let arr = data.data.map((item) => {
+                    item.children = []
+                    return item
+                  })
+                  item.children = arr
+                  that.initIndustry(industryArr, industryValue, item.children, vals, index + 1)
+                }
+              })
+            }
+          }
+      },
       getSeaList () {
         API.customerSea.listAboutCustomer((data) => {
           this.seaList = data.data
@@ -414,13 +477,13 @@
     created () {
       this.getAreaOptionsData(null)
       this.getConfigData(2)
-      this.getConfigData(3)
       this.getConfigData(5, 0)
       this.getSeaList()
       if (this.params.detail) { // 编辑
         this.addForm = JSON.parse(JSON.stringify(this.params.detail))
         this.dialogType = 'edit'
       }
+      this.industryChangeHandle([])
     },
   }
 </script>

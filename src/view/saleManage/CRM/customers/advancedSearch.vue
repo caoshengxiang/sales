@@ -41,11 +41,19 @@
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="客户行业：">
-              <el-select v-model="searchForm.industry" placeholder="请选择客户行业">
-                <el-option v-for="(item, index) in industryList" :key="index" :label="item.codeName"
-                           :value="item.codeName"></el-option>
-              </el-select>
+            <el-form-item label="客户行业：" prop="industry">
+              <el-cascader
+                style="width: 100%"
+                :options="industryType"
+                :props="{
+                    value: 'id',
+                    label: 'name',
+                    children: 'children'
+                  }"
+                :change-on-select="true"
+                @change="industryChangeHandle"
+                v-model="searchForm.industryArr">
+              </el-cascader>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -187,6 +195,7 @@
         selectedBindValue: [],
         selectLastLevelMode: true,
         sourceNameArr: [],
+        industryType: [],
         pickerOptions: {
           // disabledDate (t) {
           //   let timestamp = Date.parse(t)
@@ -237,6 +246,7 @@
         return this.sourceNameArr.join('-')
       },
       saveSubmitForm () {
+        this.searchForm.industry = this.searchForm.industryArr.join(',')
         this.searchForm.sourceName = this.traverseTree(this.searchForm.customerSource)
         this.$vDialog.close({type: 'search', params: this.searchForm})
       },
@@ -277,6 +287,33 @@
         })
         this.searchForm.customerSource = va.join('-')
       },
+      industryChangeHandle (va) {
+        let parentId;
+        let that = this;
+        if(va.length){
+          parentId = va[va.length - 1]
+        }else {
+          parentId = 0
+        }
+        API.common.industry({parentId: parentId,status: true}, (data) => {
+          // console.log('目标item:', this.targetObj)
+          if (data.data.length) {
+            let arr = data.data.map((item) => {
+              item.children = []
+              return item
+            })
+            if(va.length){
+              that.getLastItem(that.industryType, va, 'id')
+              that.targetObj.children = arr
+            }else {
+              that.industryType = arr
+            }
+          }else {
+            that.getLastItem(that.industryType, va, 'id')
+            that.targetObj.children = null
+          }
+        })
+      },
       getLastItem (list, vals, key) { // 获取点击得目标对象, key 对应得 值vals 数组
         let LIST = list || []
         // console.log(LIST, vals, key)
@@ -311,7 +348,6 @@
     },
     created () {
       this.getConfigData(2)
-      this.getConfigData(3)
       this.getConfigData(5, 0)
       this.getSeaList()
       // this.customerSourceType = this.params.customerSourceType
@@ -320,6 +356,7 @@
       if (this.searchForm.startDate) { // 日期
         this.timeInterval = [this.searchForm.startDate, this.searchForm.endDate]
       }
+      this.industryChangeHandle([])
     },
   }
 </script>

@@ -113,12 +113,22 @@
 							</el-form-item>
 						</el-col>
 						<el-col class='md10' :span='8'>
-							<el-form-item label='客户行业'>
-                <el-select v-model="addForm.industry" @change="selectIndustry" placeholder="请选择客户行业">
-                  <el-option v-for="item in industryList" :key="item.id" :label="item.codeName"
-                             :value="item.codeName"></el-option>
-                </el-select>
-							</el-form-item>
+              <el-form-item label='客户行业' prop="industry">
+                <el-cascader
+                  style="width: 100%"
+                  :options="industryType"
+                  :props="{
+                    value: 'id',
+                    label: 'name',
+                    children: 'children'
+                  }"
+                  :value="industryValue"
+                  placeholder="addForm.industry"
+                  :change-on-select="true"
+                  @change="industryChangeHandle"
+                  v-model="addForm.industryArr">
+                </el-cascader>
+              </el-form-item>
 						</el-col>
 						<el-col class='md10' :span='8'>
 							<el-form-item label='客户公海'>
@@ -366,13 +376,14 @@
 					invalidRemark: '',           //无效描述
 					cate: 2,                     //客户性质
 					cdKey: '',                   //证件号码
+          industryArr: [],
         },
         areaOptionsData: [],
         // areaSelectedOptions: [],
-        industryList: [], // 行业
         levelList: [], // 级别
         seaList: [], // 公海
         dialogType: 'add',
+        industryList: [], // 行业
         customerSourceType: [], // 客户来源
 				invalidCauseList: [],               //无效原因
         customerSourceArr: [],
@@ -382,10 +393,12 @@
         },
         targetObj: null,
         selectedBindValue: [],
+        industryValue:[],
         userInfo: webStorage.getItem('userInfo'),
 		fileList: [],
         selectLastLevelMode: true,
 				detail: {},
+        industryType: [],
 				opportunitiesList: [],              //客户需求列表
 				tdText: '暂无需求数据',              //客户需求list文字
 				chanceId: '',
@@ -427,6 +440,7 @@
         // })
       },
       saveSubmitForm (formName, addContact) {
+        this.addForm.industry = this.addForm.industryArr.join(',')
 				let _data = this.addForm;
 				let message = (_data.customerStatus == -1 && !_data.invalidCause) && '请选择无效原因' ||
 				              (_data.customerStatus == -1 && !_data.invalidFileUrl) && '请上传无效证据' ||
@@ -436,7 +450,7 @@
 											(_data.customerStatus == 1 && _data.cate == 2 && !_data.contactName) && '请输入客户联系人' ||
 											(_data.customerStatus == 1 && !_data.phone) && '请输入联系电话' ||
 											(_data.customerStatus == 1 && (!_data.provinceId || !_data.cityId || !_data.areaId)) && '请选择客户地区' ||
-											(_data.customerStatus == 1 && !_data.industry) && '请选择客户行业' ||
+											(_data.customerStatus == 1 && !_data.industryArr) && '请选择客户行业' ||
 											(_data.customerStatus == 1 && !_data.seaId) && '请选择客户公海' || null;
 				if(message) {
 					return this.$message({
@@ -564,6 +578,36 @@
           this.addForm.customerSource = this.customerSourceArr.join('-')
         }
       },
+      industryChangeHandle (va) {
+        let parentId;
+        let that = this;
+        if(va.length){
+          parentId = va[va.length - 1]
+        }else {
+          parentId = 0
+        }
+        API.common.industry({parentId: parentId,status: true}, (data) => {
+          // console.log('目标item:', this.targetObj)
+          if (data.data.length) {
+            let arr = data.data.map((item) => {
+              item.children = []
+              return item
+            })
+            if(va.length){
+              that.getLastItem(that.industryType, va, 'id')
+              that.targetObj.children = arr
+            }else {
+              that.industryType = arr
+              that.addForm.industryArr = []
+              this.industryValue = []
+              that.initIndustry(that.addForm.industryArr, this.industryValue, that.industryType, this.detail.industry.split(','), 0)
+            }
+          }else {
+            that.getLastItem(that.industryType, va, 'id')
+            that.targetObj.children = null
+          }
+        })
+      },
       // customerSourceChange (va) {
       //   this.addForm.customerSource = va.join('-')
       // },
@@ -577,6 +621,27 @@
             break
           } else {
             this.getLastItem(item.children, vals, key)
+          }
+        }
+      },
+      initIndustry(industryArr, industryValue, list, vals, index){
+        let that = this
+        if(index < vals.length)
+        for (let item of list) {
+          if (item['name'] === vals[index]) {
+            industryValue.push(item)
+            industryArr.push(item['id'])
+            API.common.industry({parentId: item['id'],status: true}, (data) => {
+              // console.log('目标item:', this.targetObj)
+              if (data.data.length) {
+                let arr = data.data.map((item) => {
+                  item.children = []
+                  return item
+                })
+                item.children = arr
+                that.initIndustry(industryArr,industryValue,item.children,vals,index+1)
+              }
+            })
           }
         }
       },
@@ -723,7 +788,6 @@
 			this.getCodeConfig();
       this.getAreaOptionsData(null)
       this.getConfigData(2)
-      this.getConfigData(3)
       this.getConfigData(5, 0)
       this.getSeaList()
       this.detail = JSON.parse(JSON.stringify(this.params.customer))
@@ -747,6 +811,7 @@
 				this.addForm.seaId = obj.seaId;
 				// console.log('addForm', this.addForm)
 			}
+      this.industryChangeHandle([])
     },
   }
 </script>
