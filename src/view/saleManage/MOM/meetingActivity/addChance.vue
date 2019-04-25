@@ -74,10 +74,18 @@
 					</el-col>
 					<el-col :span="8">
 						<el-form-item label='客户行业' prop="industry">
-							<el-select v-model="addForm.industry" placeholder="请选择客户行业">
-								<el-option v-for="item in industryList" :key="item.id" :label="item.codeName"
-													 :value="item.codeName"></el-option>
-							</el-select>
+              <el-cascader
+                style="width: 100%"
+                :options="industryType"
+                :props="{
+                  value: 'id',
+                  label: 'name',
+                  children: 'children'
+                }"
+                :change-on-select="true"
+                @change="industryChangeHandle"
+                v-model="addForm.industryArr">
+              </el-cascader>
 						</el-form-item>
 					</el-col>
 					<el-col :span="8">
@@ -179,6 +187,7 @@
 			pageSource: 1,                    // 公海添加机会，传2. 其他传1
 			addType: 1,                       // 1主动添加 2扫活动二维码 3扫商务管家二维码
 			isMeetingAdd: true,               //来源标识
+          industryArr: [],
         },
         providerName: '',
         customersList: [],
@@ -190,6 +199,7 @@
         staffList: [],                        // 机构用户
         chanceSourceType: [],                 // 客户来源
         chanceSourceArr: [],
+        industryType: [],
         props: {
           value: 'id',
           label: 'codeName',
@@ -232,7 +242,7 @@
 										(this.addForm.customerCate === '2' && !this.addForm.contacter) && '请输入客户联系人' ||
 										!this.addForm.contactPhone && '请输入客户联系电话' ||
 										(!this.addForm.provinceId || !this.addForm.cityId || !this.addForm.areaId) && '请选择客户地区' ||
-										!this.addForm.industry && '请选择客户行业' ||
+										!this.addForm.industryArr && '请选择客户行业' ||
 										!this.addForm.seaId && '请选择客户公海' ||
 										!this.addForm.chanceSource && '请选择需求来源' ||
 										!this.addForm.provider && '请选择需求提供人' ||
@@ -258,6 +268,7 @@
 						})
 					})
 				}
+                this.addForm.industry = this.addForm.industryArr.join(',')
 				if (this.params.detail) { // 编辑
 					API.activity.addChance2(this.addForm, (data) => {
 						if (data.status) {
@@ -390,6 +401,57 @@
         })
         this.addForm.chanceSource = va.join('-')
       },
+      industryChangeHandle (va) {
+        let parentId;
+        let that = this;
+        if(va.length){
+          parentId = va[va.length - 1]
+        }else {
+          parentId = 0
+        }
+        API.common.industry({parentId: parentId,status: true}, (data) => {
+          // console.log('目标item:', this.targetObj)
+          if (data.data.length) {
+            let arr = data.data.map((item) => {
+              item.children = []
+              return item
+            })
+            if(va.length){
+              that.getLastItem(that.industryType, va, 'id')
+              that.targetObj.children = arr
+            }else {
+              that.industryType = arr
+              that.addForm.industryArr = []
+              this.industryValue = []
+              that.initIndustry(that.addForm.industryArr, this.industryValue, that.industryType, that.addForm.industry.split(','), 0)
+            }
+          }else {
+            that.getLastItem(that.industryType, va, 'id')
+            that.targetObj.children = null
+          }
+        })
+      },
+      initIndustry(industryArr, industryValue, list, vals, index){
+        let that = this
+        if(index < vals.length)
+          for (let item of list) {
+            if (item['name'] === vals[index]) {
+              industryValue.push(item)
+              industryArr.push(item['id'])
+              API.common.industry({parentId: item['id'],status: true}, (data) => {
+                // console.log('目标item:', this.targetObj)
+                if (data.data.length) {
+                  let arr = data.data.map((item) => {
+                    item.children = []
+                    return item
+                  })
+                  item.children = arr
+                  that.initIndustry(industryArr,industryValue,item.children,vals,index+1)
+                }
+              })
+            }
+          }
+      },
       // chanceSourceChange (va) {
       //   this.addForm.chanceSource = va.join('-')
       // },
@@ -489,9 +551,9 @@
       }
       // 来源
       this.getConfigData(5, 0)
-      this.getConfigData(3) // 行业
       this.getSeaList()
 	  this.getAllStaff()
+      this.industryChangeHandle([])
     },
   }
 </script>

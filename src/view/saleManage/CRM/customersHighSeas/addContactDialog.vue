@@ -265,8 +265,7 @@
         this.dialogType = 'edit'
       }
       let that = this
-      API.common.listPost(null, (data) => {
-        console.log(data.data)
+      API.common.listPost({deleted: false, status: true}, (data) => {
         that.positionList = data.data
       })
       if (this.params.detailCustomersId) { // 详细页面的添加, 并禁用下拉列表
