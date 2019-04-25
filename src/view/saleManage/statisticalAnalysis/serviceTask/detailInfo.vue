@@ -54,7 +54,6 @@
 					@sort-change="sortChangeHandle">
 					<el-table-column
 						align="center"
-						sortable="custom"
 						prop="orderNum"
 						label="任务工单单号"
 						show-overflow-tooltip
@@ -63,7 +62,6 @@
 					</el-table-column>
 					<el-table-column
 						align="center"
-						sortable="custom"
 						prop="serviceFinishStateName"
 						label="任务完成状态"
 						width='120px'
@@ -74,7 +72,6 @@
 					</el-table-column>
 					<el-table-column
 						align="center"
-						sortable="custom"
 						prop="serviceTypeName"
 						label="服务任务内容"
 						width='120px'
@@ -82,7 +79,6 @@
 					</el-table-column>
 					<el-table-column
 						align="center"
-						sortable="custom"
 						prop="orderId"
 						label="订单单号"
 						width='200px'
@@ -90,7 +86,6 @@
 					</el-table-column>
 					<el-table-column
 						align="center"
-						sortable="custom"
 						prop="serviceCustomerName"
 						label="客户名称"
 						width='200px'
@@ -98,7 +93,6 @@
 					</el-table-column>
 					<el-table-column
 						align="center"
-						sortable="custom"
 						prop="productTypeName"
 						label="服务商品类别"
 						width='150px'
@@ -106,7 +100,6 @@
 					</el-table-column>
 					<el-table-column
 						align="center"
-						sortable="custom"
 						prop="goodsName"
 						label="服务商品"
 						width='200px'
@@ -114,7 +107,6 @@
 					</el-table-column>
 					<el-table-column
 						align="center"
-						sortable="custom"
 						prop="provinceName"
 						label="服务所在地"
 						width='200px'
@@ -125,7 +117,6 @@
 					</el-table-column>
 					<el-table-column
 						align="center"
-						sortable="custom"
 						prop="contractSubject"
 						label="服务主体单位"
 						width='200px'
@@ -133,7 +124,6 @@
 					</el-table-column>
 					<el-table-column
 						align="center"
-						sortable="custom"
 						prop="managerName"
 						label="服务管家"
 						width='120px'
@@ -141,7 +131,6 @@
 					</el-table-column>
 					<el-table-column
 						align="center"
-						sortable="custom"
 						prop="managerTypeName"
 						label="管家类型"
 						width='120px'
@@ -149,7 +138,6 @@
 					</el-table-column>
 					<el-table-column
 						align="center"
-						sortable="custom"
 						prop="assignDate"
 						label="工单派单时间"
 						width='180px'
@@ -160,7 +148,6 @@
 					</el-table-column>
 					<el-table-column
 						align="center"
-						sortable="custom"
 						prop="orderStateName"
 						label="服务工单状态"
 						width='120px'
@@ -168,7 +155,6 @@
 					</el-table-column>
 					<el-table-column
 						align="center"
-						sortable="custom"
 						prop="serviceBeginDate"
 						label="服务开始时间"
 						width='180px'
@@ -179,7 +165,6 @@
 					</el-table-column>
 					<el-table-column
 						align="center"
-						sortable="custom"
 						prop="finishTime"
 						label="服务完成时间"
 						width='180px'

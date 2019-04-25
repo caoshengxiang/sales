@@ -63,7 +63,6 @@
 					</el-table-column>
 					<el-table-column
 						align="center"
-						sortable="custom"
 						prop="type"
 						label="派单工单状态"
 						width='120px'
@@ -74,7 +73,6 @@
 					</el-table-column>
 					<el-table-column
 						align="center"
-						sortable="custom"
 						prop="serviceTypeName"
 						label="服务类型"
 						width='150px'
@@ -98,7 +96,6 @@
 					</el-table-column>
 					<el-table-column
 						align="center"
-						sortable="custom"
 						prop="productTypeName"
 						label="服务商品类别"
 						width='200px'
@@ -114,7 +111,6 @@
 					</el-table-column>
 					<el-table-column
 						align="center"
-						sortable="custom"
 						prop="provinceName"
 						label="服务所在地"
 						width='200px'
@@ -160,7 +156,6 @@
 					</el-table-column>
 					<el-table-column
 						align="center"
-						sortable="custom"
 						prop="orderStateName"
 						label="服务工单状态"
 						width='120px'
