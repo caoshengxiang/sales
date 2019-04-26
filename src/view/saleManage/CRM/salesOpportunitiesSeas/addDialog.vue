@@ -82,6 +82,7 @@
               <el-cascader
                 style="width: 100%"
                 :options="industryType"
+                :value="industryValue"
                 :props="{
                     value: 'id',
                     label: 'name',
@@ -247,7 +248,7 @@
           provinceId: [
             {required: true, message: '请选择地区', trigger: 'blur'},
           ],
-          industryArr: [
+          industryValue: [
             {required: true, message: '请选择行业', trigger: 'change'},
           ],
           chanceSeaId: [

@@ -77,6 +77,7 @@
               <el-cascader
                 style="width: 100%"
                 :options="industryType"
+                :value="industryValue"
                 :props="{
                   value: 'id',
                   label: 'name',

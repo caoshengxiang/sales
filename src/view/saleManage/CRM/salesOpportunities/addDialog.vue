@@ -102,6 +102,7 @@ ps：该弹框除客户名称、需求来源渠道、需求提供人三个字段
                 <el-cascader
                   style="width: 100%"
                   :options="industryType"
+                  :value="industryValue"
                   :props="{
                     value: 'id',
                     label: 'name',
@@ -268,7 +269,7 @@ ps：该弹框除客户名称、需求来源渠道、需求提供人三个字段
           provinceId: [
             {required: true, message: '请选择地区', trigger: 'blur'},
           ],
-          industryArr: [
+          industryValue: [
             {required: true, message: '请选择行业', trigger: 'change'},
           ],
           chanceSeaId: [
