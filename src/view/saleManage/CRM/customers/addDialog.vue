@@ -421,7 +421,7 @@
               that.targetObj.children = arr
             }else {
               that.industryType = arr
-              that.addForm.industryArr = []
+              // that.addForm.industryArr = []
               this.industryValue = []
               that.initIndustry(that.addForm.industryArr, this.industryValue, that.industryType, this.addForm.industry.split(','), 0)
             }
