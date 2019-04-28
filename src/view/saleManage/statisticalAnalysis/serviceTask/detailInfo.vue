@@ -173,6 +173,16 @@
 							<span>{{scope.row.finishTime && $moment(scope.row.finishTime).format('YYYY.MM.DD HH:mm:ss') || '--'}}</span>
 						</template>
 					</el-table-column>
+          <el-table-column
+            align="center"
+            prop="finishTime"
+            label="派单审核时间"
+            width='180px'
+            show-overflow-tooltip>
+            <template slot-scope='scope'>
+              <span>{{scope.row.auditTime && $moment(scope.row.auditTime).format('YYYY.MM.DD HH:mm:ss') || '--'}}</span>
+            </template>
+          </el-table-column>
 				</el-table>
 			</div>
 			<!--分页-->
@@ -190,7 +200,7 @@
 			</div>
 		</div>
 	</div>
-	  
+
   </div>
 </template>
 
@@ -202,7 +212,7 @@
   import { serverUrl } from '../../../../utils/const'
   import webStorage from 'webStorage'
   import QS from 'qs'
-  
+
 	export default {
 		name: 'detail',
 		data () {
@@ -229,6 +239,7 @@
 					3: '正常完成',
 					4: '超期完成',
 					5: '超期未完成',
+					6: '超时未接单',
 				},
 				statusList: [
 					{
@@ -246,15 +257,18 @@
 					},{
 						id: 5,
 						name: '超期未完成'
+					},{
+						id: 6,
+						name: '超时未接单'
 					},
 				],                    //所有状态
-					
+
 				time: '',
 				goodsId: '',          //选中的商品id
 				goodsTypeId: '',      //选中的商品分类id
 				managerId: '',        //服务管家id
 				type: '',             //任务状态
-			  
+
 			}
 		},
 		watch: {
@@ -288,7 +302,7 @@
 			if(this.goodsTypeId == 0 && this.goodsTypeId != "") {
 				this.selectGoodsType();
 			}
-			
+
 			this.searchHandle()
 			this.posTableHeight();            //根据屏幕高度设置table高度
 			this.getGoodsTypeList();
@@ -314,7 +328,7 @@
 						this.goodsTypeList = data.content;
 					}
 				})
-						
+
 				// 进入页面后如果有默认分类则读取该分类下的所有商品
 				if(this.$route.query.goodsTypeId >= 0 && this.$route.query.goodsTypeId != '' && this.$route.query.goodsTypeId != null) {
 					let params = {
@@ -335,12 +349,12 @@
 								if(!a.deleted && a.pullOff) {
 									a.name = a.name + ' [下架]'
 								}
-								
+
 							})
 							this.goodsList = data.content;
 						}
 					})
-					
+
 				}
 			},
 			// 选择商品分类
@@ -363,7 +377,7 @@
 							if(!a.deleted && a.pullOff) {
 								a.name = a.name + ' [下架]'
 							}
-							
+
 						})
 						this.goodsList = data.content;
 					}
@@ -443,14 +457,14 @@
 					this.tableData = da.data.content
 					this.tableDataTotal = da.data.totalElements
 				})
-				
+
 			},
-			
+
 		},
 		components: {
 			comButton,
 		},
-	  
+
 	}
 </script>
 

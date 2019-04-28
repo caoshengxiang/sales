@@ -108,6 +108,18 @@
 							<span class='blue-span' v-else @click='goDetail(scope.row, 5)'>{{scope.row.oODServiceCount}}</span>
 						</template>
           </el-table-column>
+          <el-table-column
+            align="center"
+            sortable="custom"
+            prop="oODOrderCount"
+            label="超时未接单"
+            show-overflow-tooltip
+          >
+            <template slot-scope='scope'>
+              <span v-if='scope.row.oODOrderCount == 0'>{{scope.row.oODOrderCount}}</span>
+              <span class='blue-span' v-else @click='goDetail(scope.row, 6)'>{{scope.row.oODOrderCount}}</span>
+            </template>
+          </el-table-column>
         </el-table>
       </div>
     </div>
@@ -191,6 +203,18 @@
 							<span class='blue-span' v-else @click='goDetail(scope.row, 5)'>{{scope.row.oODServiceCount}}</span>
 						</template>
           </el-table-column>
+          <el-table-column
+            align="center"
+            sortable="custom"
+            prop="oODOrderCount"
+            label="超时未接单"
+            show-overflow-tooltip
+          >
+            <template slot-scope='scope'>
+              <span v-if='scope.row.oODOrderCount == 0'>{{scope.row.oODOrderCount}}</span>
+              <span class='blue-span' v-else @click='goDetail(scope.row, 6)'>{{scope.row.oODOrderCount}}</span>
+            </template>
+          </el-table-column>
         </el-table>
       </div>
 
@@ -241,7 +265,7 @@
         serviceTaskNum: [],
 				goodsTypeList: [],    //所有分类
 				goodsList: [],        //所有商品
-				
+
         time: '',
 				goodsId: '',          //选中的商品id
 				goodsTypeId: '',      //选中的商品分类id
@@ -301,7 +325,7 @@
 							if(!a.deleted && a.pullOff) {
 								a.name = a.name + ' [下架]'
 							}
-							
+
 						})
 						this.goodsList = data.content;
 					}
@@ -368,6 +392,7 @@
                 normalFinishCount: da.data.normalFinishCount,
                 oODFinishCount: da.data.oODFinishCount,
                 oODServiceCount: da.data.oODServiceCount,
+                oODOrderCount: da.data.oODOrderCount,
                 serviceCount: da.data.serviceCount,
             },
           ]
