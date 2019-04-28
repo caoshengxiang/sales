@@ -236,8 +236,10 @@
         return this.sourceNameArr.join('-')
       },
       saveSubmitForm () {
-        this.searchForm.industry = this.searchForm.industryArr.join(',')
-        this.searchForm.industryArr = []
+        if(this.searchForm.industryArr){
+          this.searchForm.industry = this.searchForm.industryArr.join(',')
+          this.searchForm.industryArr = []
+        }
         this.searchForm.sourceName = this.traverseTree(this.searchForm.customerSource)
         this.$vDialog.close({type: 'search', params: this.searchForm})
       },

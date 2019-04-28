@@ -182,7 +182,8 @@
           endDate: null,
           cate: null,
           cdKey: null,
-					customerStatus: 0,
+          customerStatus: 0,
+          industryArr: [],
         },
         timeInterval: [],
         customerSourceType: [], // 客户来源
@@ -246,7 +247,10 @@
         return this.sourceNameArr.join('-')
       },
       saveSubmitForm () {
-        this.searchForm.industry = this.searchForm.industryArr.join(',')
+        if (this.searchForm.industryArr){
+          this.searchForm.industry = this.searchForm.industryArr.join(',')
+          this.searchForm.industryArr = []
+        }
         this.searchForm.sourceName = this.traverseTree(this.searchForm.customerSource)
         this.$vDialog.close({type: 'search', params: this.searchForm})
       },

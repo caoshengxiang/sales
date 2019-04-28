@@ -53,6 +53,7 @@
                 <el-cascader
                   style="width: 100%"
                   :options="industryType"
+                  :value="industryValue"
                   :props="{
                     value: 'id',
                     label: 'name',
@@ -201,7 +202,7 @@
             // {required: true, message: '请输入客户联系人', trigger: 'blur'},
             {max: 30, message: '长度为 30 个字符以内', trigger: 'blur'},
           ],
-          industryArr: [
+          industryValue: [
             {required: true, message: '请选择客户行业', trigger: 'change'},
           ],
           provinceId: [

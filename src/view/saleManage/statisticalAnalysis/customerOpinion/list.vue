@@ -29,7 +29,7 @@
           <el-option label="具体意见统计" :value="1"></el-option>
         </el-select>
         <span>意见类型: </span>
-        <el-select v-model="defaultListParams.suggestionPCode">
+        <el-select v-model="defaultListParams.suggestionPCode" :disabled="defaultListParams.suggestionType == 0">
           <el-option label="全部" :value="null"></el-option>
           <el-option label="商务管家" :value="1"></el-option>
           <el-option label="服务管家" :value="2"></el-option>
@@ -83,6 +83,13 @@
         time: '',
       }
     },
+		watch: {
+			'defaultListParams.suggestionType' () {
+				if(this.defaultListParams.suggestionType == 0) {
+					this.defaultListParams.suggestionPCode = null;
+				}
+			}
+		},
     components: {
       PieOpinion
     },

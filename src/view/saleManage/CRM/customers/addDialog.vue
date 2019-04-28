@@ -202,7 +202,7 @@
             // {required: true, message: '请输入客户简称', trigger: 'blur'},
             {max: 30, message: '长度为 30 个字符以内', trigger: 'blur'},
           ],
-          industryArr: [
+          industryValue: [
             {required: true, message: '请选择客户行业', trigger: 'change'},
           ],
           provinceId: [
@@ -421,7 +421,7 @@
               that.targetObj.children = arr
             }else {
               that.industryType = arr
-              // that.addForm.industryArr = []
+              that.addForm.industryArr = []
               this.industryValue = []
               that.initIndustry(that.addForm.industryArr, this.industryValue, that.industryType, this.addForm.industry.split(','), 0)
             }
