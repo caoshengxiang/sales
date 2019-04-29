@@ -45,6 +45,7 @@
               <el-cascader
                 style="width: 100%"
                 :options="industryType"
+                class="selectIndustryModule"
                 :props="{
                     value: 'id',
                     label: 'name',
@@ -315,6 +316,11 @@
           }else {
             that.getLastItem(that.industryType, va, 'id')
             that.targetObj.children = null
+            setTimeout(function () {
+              if ($('.selectIndustryModule').hasClass('is-opened')) {
+                $('.selectIndustryModule').trigger('click')
+              }
+            }, 100)
           }
         })
       },

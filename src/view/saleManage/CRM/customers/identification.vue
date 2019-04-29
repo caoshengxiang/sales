@@ -113,16 +113,16 @@
 							</el-form-item>
 						</el-col>
 						<el-col class='md10' :span='8'>
-              <el-form-item label='客户行业' prop="industry">
+              <el-form-item label='客户行业' prop="industryArr">
                 <el-cascader
                   style="width: 100%"
                   :options="industryType"
+                  class="selectIndustryModule"
                   :props="{
                     value: 'id',
                     label: 'name',
                     children: 'children'
                   }"
-                  :value="industryValue"
                   placeholder="addForm.industry"
                   :change-on-select="true"
                   @change="industryChangeHandle"
@@ -393,7 +393,6 @@
         },
         targetObj: null,
         selectedBindValue: [],
-        industryValue:[],
         userInfo: webStorage.getItem('userInfo'),
 		fileList: [],
         selectLastLevelMode: true,
@@ -579,34 +578,61 @@
         }
       },
       industryChangeHandle (va) {
-        let parentId;
-        let that = this;
-        if(va.length){
+        let parentId
+        let that = this
+        if (va.length) {
           parentId = va[va.length - 1]
-        }else {
+        } else {
           parentId = 0
         }
-        API.common.industry({parentId: parentId,status: true}, (data) => {
+        API.common.industry({parentId: parentId, status: true}, (data) => {
           // console.log('目标item:', this.targetObj)
           if (data.data.length) {
             let arr = data.data.map((item) => {
               item.children = []
               return item
             })
-            if(va.length){
+            if (va.length){
               that.getLastItem(that.industryType, va, 'id')
               that.targetObj.children = arr
-            }else {
+            } else {
               that.industryType = arr
-              that.addForm.industryArr = []
-              this.industryValue = []
-              that.initIndustry(that.addForm.industryArr, this.industryValue, that.industryType, this.detail.industry.split(','), 0)
+              if (that.addForm.industry) {
+                that.addForm.industryArr = []
+                that.initIndustry(that.addForm.industryArr, that.industryType, that.addForm.industry.split(','), 0)
+              }
             }
-          }else {
+          } else {
             that.getLastItem(that.industryType, va, 'id')
             that.targetObj.children = null
+            setTimeout(function () {
+              if ($('.selectIndustryModule').hasClass('is-opened')) {
+                $('.selectIndustryModule').trigger('click')
+              }
+            }, 100)
           }
         })
+      },
+      initIndustry (industryArr, list, vals, index) {
+        let that = this
+        if (index < vals.length) {
+          for (let item of list) {
+            if (item['name'] === vals[index]) {
+              industryArr.push(item['id'])
+              API.common.industry({parentId: item['id'],status: true}, (data) => {
+                // console.log('目标item:', this.targetObj)
+                if (data.data.length) {
+                  let arr = data.data.map((item) => {
+                    item.children = []
+                    return item
+                  })
+                  item.children = arr
+                  that.initIndustry(industryArr, item.children, vals, index + 1)
+                }
+              })
+            }
+          }
+        }
       },
       // customerSourceChange (va) {
       //   this.addForm.customerSource = va.join('-')
@@ -621,27 +647,6 @@
             break
           } else {
             this.getLastItem(item.children, vals, key)
-          }
-        }
-      },
-      initIndustry(industryArr, industryValue, list, vals, index){
-        let that = this
-        if(index < vals.length)
-        for (let item of list) {
-          if (item['name'] === vals[index]) {
-            industryValue.push(item)
-            industryArr.push(item['id'])
-            API.common.industry({parentId: item['id'],status: true}, (data) => {
-              // console.log('目标item:', this.targetObj)
-              if (data.data.length) {
-                let arr = data.data.map((item) => {
-                  item.children = []
-                  return item
-                })
-                item.children = arr
-                that.initIndustry(industryArr,industryValue,item.children,vals,index+1)
-              }
-            })
           }
         }
       },

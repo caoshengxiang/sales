@@ -439,6 +439,14 @@
               </td>
             </tr>
             <tr>
+              <td class="td-title">认证擅长行业</td>
+              <td colspan="5">
+              <span v-for="(item, index) in managerDetail.industryNames" :key="index">
+                <span v-if="index > 0">、</span>{{item}}
+              </span>
+              </td>
+            </tr>
+            <tr>
               <td class="td-title">认证服务地区</td>
               <td colspan="5">
               <span v-for="(item, index) in managerDetail.serviceManagerAreaModels" :key="index">
@@ -450,7 +458,7 @@
               <td class="td-title">认证商品</td>
               <td colspan="5">
               <span v-for="(item, index) in managerDetail.serviceManagerGoodsModels" :key="index">
-                <span v-if="index > 0">、</span>{{item.goodsName}}
+                <span v-if="index > 0">、</span>{{item.goodsName}}/{{item.specificationName?item.specificationName:'所有规格'}}
               </span>
               </td>
             </tr>
@@ -686,10 +694,10 @@
               })
             } else if (that.detailInfo.approvalType === 7) { // erp订单退单详情
               API.serviceOrder.editZxDetail(that.detailInfo.businessId, (da) => {
-								if(da.status) {
-									this.orderDetail = da.data
-									this.businessServiceInformation = da.data.orderServiceWorkCompositeList;
-								}
+                if (da.status) {
+                  this.orderDetail = da.data
+                  this.businessServiceInformation = da.data.orderServiceWorkCompositeList;
+                }
               })
             }
           }

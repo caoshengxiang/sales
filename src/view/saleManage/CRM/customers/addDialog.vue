@@ -53,7 +53,7 @@
                 <el-cascader
                   style="width: 100%"
                   :options="industryType"
-                  :value="industryValue"
+                  class="selectIndustryModule"
                   :props="{
                     value: 'id',
                     label: 'name',
@@ -202,7 +202,7 @@
             // {required: true, message: '请输入客户简称', trigger: 'blur'},
             {max: 30, message: '长度为 30 个字符以内', trigger: 'blur'},
           ],
-          industryValue: [
+          industryArr: [
             {required: true, message: '请选择客户行业', trigger: 'change'},
           ],
           provinceId: [
@@ -236,7 +236,6 @@
         dialogType: 'add',
         customerSourceType: [], // 客户来源
         customerSourceArr: [],
-        industryValue:[],
         props: {
           value: 'id',
           label: 'codeName',
@@ -402,34 +401,61 @@
         }
       },
       industryChangeHandle (va) {
-        let parentId;
-        let that = this;
-        if(va.length){
+        let parentId
+        let that = this
+        if (va.length) {
           parentId = va[va.length - 1]
-        }else {
+        } else {
           parentId = 0
         }
-        API.common.industry({parentId: parentId,status: true}, (data) => {
+        API.common.industry({parentId: parentId, status: true}, (data) => {
           // console.log('目标item:', this.targetObj)
           if (data.data.length) {
             let arr = data.data.map((item) => {
               item.children = []
               return item
             })
-            if(va.length){
+            if (va.length){
               that.getLastItem(that.industryType, va, 'id')
               that.targetObj.children = arr
-            }else {
+            } else {
               that.industryType = arr
-              that.addForm.industryArr = []
-              this.industryValue = []
-              that.initIndustry(that.addForm.industryArr, this.industryValue, that.industryType, this.addForm.industry.split(','), 0)
+              if (that.addForm.industry) {
+                that.addForm.industryArr = []
+                that.initIndustry(that.addForm.industryArr, that.industryType, that.addForm.industry.split(','), 0)
+              }
             }
-          }else {
+          } else {
             that.getLastItem(that.industryType, va, 'id')
             that.targetObj.children = null
+            setTimeout(function () {
+              if ($('.selectIndustryModule').hasClass('is-opened')) {
+                $('.selectIndustryModule').trigger('click')
+              }
+            }, 100)
           }
         })
+      },
+      initIndustry (industryArr, list, vals, index) {
+        let that = this
+        if (index < vals.length) {
+          for (let item of list) {
+            if (item['name'] === vals[index]) {
+              industryArr.push(item['id'])
+              API.common.industry({parentId: item['id'],status: true}, (data) => {
+                // console.log('目标item:', this.targetObj)
+                if (data.data.length) {
+                  let arr = data.data.map((item) => {
+                    item.children = []
+                    return item
+                  })
+                  item.children = arr
+                  that.initIndustry(industryArr, item.children, vals, index + 1)
+                }
+              })
+            }
+          }
+        }
       },
       // customerSourceChange (va) {
       //   this.addForm.customerSource = va.join('-')
@@ -446,27 +472,6 @@
             this.getLastItem(item.children, vals, key)
           }
         }
-      },
-      initIndustry (industryArr, industryValue, list, vals, index) {
-        let that = this
-        if(index < vals.length)
-          for (let item of list) {
-            if (item['name'] === vals[index]) {
-              industryValue.push(item)
-              industryArr.push(item['id'])
-              API.common.industry({parentId: item['id'], status: true}, (data) => {
-                // console.log('目标item:', this.targetObj)
-                if (data.data.length) {
-                  let arr = data.data.map((item) => {
-                    item.children = []
-                    return item
-                  })
-                  item.children = arr
-                  that.initIndustry(industryArr, industryValue, item.children, vals, index + 1)
-                }
-              })
-            }
-          }
       },
       getSeaList () {
         API.customerSea.listAboutCustomer((data) => {

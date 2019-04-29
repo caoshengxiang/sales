@@ -73,11 +73,11 @@
 						</el-form-item>
 					</el-col>
 					<el-col :span="8">
-						<el-form-item label='客户行业' prop="industry">
+						<el-form-item label='客户行业' prop="industryArr">
               <el-cascader
                 style="width: 100%"
                 :options="industryType"
-                :value="industryValue"
+                class="selectIndustryModule"
                 :props="{
                   value: 'id',
                   label: 'name',
@@ -403,41 +403,46 @@
         this.addForm.chanceSource = va.join('-')
       },
       industryChangeHandle (va) {
-        let parentId;
-        let that = this;
-        if(va.length){
+        let parentId
+        let that = this
+        if (va.length) {
           parentId = va[va.length - 1]
-        }else {
+        } else {
           parentId = 0
         }
-        API.common.industry({parentId: parentId,status: true}, (data) => {
+        API.common.industry({parentId: parentId, status: true}, (data) => {
           // console.log('目标item:', this.targetObj)
           if (data.data.length) {
             let arr = data.data.map((item) => {
               item.children = []
               return item
             })
-            if(va.length){
+            if (va.length){
               that.getLastItem(that.industryType, va, 'id')
               that.targetObj.children = arr
-            }else {
+            } else {
               that.industryType = arr
-              that.addForm.industryArr = []
-              this.industryValue = []
-              that.initIndustry(that.addForm.industryArr, this.industryValue, that.industryType, that.addForm.industry.split(','), 0)
+              if (that.addForm.industry) {
+                that.addForm.industryArr = []
+                that.initIndustry(that.addForm.industryArr, that.industryType, that.addForm.industry.split(','), 0)
+              }
             }
-          }else {
+          } else {
             that.getLastItem(that.industryType, va, 'id')
             that.targetObj.children = null
+            setTimeout(function () {
+              if ($('.selectIndustryModule').hasClass('is-opened')) {
+                $('.selectIndustryModule').trigger('click')
+              }
+            }, 100)
           }
         })
       },
-      initIndustry(industryArr, industryValue, list, vals, index){
+      initIndustry (industryArr, list, vals, index) {
         let that = this
-        if(index < vals.length)
+        if (index < vals.length) {
           for (let item of list) {
             if (item['name'] === vals[index]) {
-              industryValue.push(item)
               industryArr.push(item['id'])
               API.common.industry({parentId: item['id'],status: true}, (data) => {
                 // console.log('目标item:', this.targetObj)
@@ -447,11 +452,12 @@
                     return item
                   })
                   item.children = arr
-                  that.initIndustry(industryArr,industryValue,item.children,vals,index+1)
+                  that.initIndustry(industryArr, item.children, vals, index + 1)
                 }
               })
             }
           }
+        }
       },
       // chanceSourceChange (va) {
       //   this.addForm.chanceSource = va.join('-')

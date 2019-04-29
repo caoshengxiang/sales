@@ -98,11 +98,11 @@ ps：该弹框除客户名称、需求来源渠道、需求提供人三个字段
             <td class="td-title">行业</td>
             <td class="td-text">
               <!--<input type="text" v-model="addForm.industry">-->
-              <el-form-item prop="industry">
+              <el-form-item prop="industryArr">
                 <el-cascader
                   style="width: 100%"
                   :options="industryType"
-                  :value="industryValue"
+                  class="selectIndustryModule"
                   :props="{
                     value: 'id',
                     label: 'name',
@@ -269,7 +269,7 @@ ps：该弹框除客户名称、需求来源渠道、需求提供人三个字段
           provinceId: [
             {required: true, message: '请选择地区', trigger: 'blur'},
           ],
-          industryValue: [
+          industryArr: [
             {required: true, message: '请选择行业', trigger: 'change'},
           ],
           chanceSeaId: [
@@ -307,6 +307,7 @@ ps：该弹框除客户名称、需求来源渠道、需求提供人三个字段
         this.$refs[formName].validate((valid) => {
           if (valid) {
 
+            this.addForm.industry = this.addForm.industryArr.join(',')
             // 防止老数据可能选择的不是对应的商品而保存时获取商品id
             let _cusid = this.addForm.intentProductId;
             if(typeof(_cusid) === 'string') {
@@ -320,7 +321,6 @@ ps：该弹框除客户名称、需求来源渠道、需求提供人三个字段
             }
 
             this.dataLoading = true
-            this.addForm.industry = this.addForm.industryArr.join(',')
             if (this.params.detail) { // 编辑
               API.salesOpportunities.confirm({path: this.addForm.id, body: this.addForm}, (data) => {
                 if (data.status) {
@@ -484,41 +484,46 @@ ps：该弹框除客户名称、需求来源渠道、需求提供人三个字段
         this.addForm.chanceSource = va.join('-')
       },
       industryChangeHandle (va) {
-        let parentId;
-        let that = this;
-        if(va.length){
+        let parentId
+        let that = this
+        if (va.length) {
           parentId = va[va.length - 1]
-        }else {
+        } else {
           parentId = 0
         }
-        API.common.industry({parentId: parentId,status: true}, (data) => {
+        API.common.industry({parentId: parentId, status: true}, (data) => {
           // console.log('目标item:', this.targetObj)
           if (data.data.length) {
             let arr = data.data.map((item) => {
               item.children = []
               return item
             })
-            if(va.length){
+            if (va.length){
               that.getLastItem(that.industryType, va, 'id')
               that.targetObj.children = arr
-            }else {
+            } else {
               that.industryType = arr
-              that.addForm.industryArr = []
-              that.industryValue = []
-              that.initIndustry( that.addForm.industryArr, that.industryValue, that.industryType, that.params.detail.industry.split(','),0)
+              if (that.addForm.industry) {
+                that.addForm.industryArr = []
+                that.initIndustry(that.addForm.industryArr, that.industryType, that.addForm.industry.split(','), 0)
+              }
             }
-          }else {
+          } else {
             that.getLastItem(that.industryType, va, 'id')
             that.targetObj.children = null
+            setTimeout(function () {
+              if ($('.selectIndustryModule').hasClass('is-opened')) {
+                $('.selectIndustryModule').trigger('click')
+              }
+            }, 100)
           }
         })
       },
-      initIndustry(industryArr, industryValue, list, vals, index){
+      initIndustry (industryArr, list, vals, index) {
         let that = this
-        if(index < vals.length)
+        if (index < vals.length) {
           for (let item of list) {
             if (item['name'] === vals[index]) {
-              industryValue.push(item)
               industryArr.push(item['id'])
               API.common.industry({parentId: item['id'],status: true}, (data) => {
                 // console.log('目标item:', this.targetObj)
@@ -528,11 +533,12 @@ ps：该弹框除客户名称、需求来源渠道、需求提供人三个字段
                     return item
                   })
                   item.children = arr
-                  that.initIndustry(industryArr,industryValue,item.children,vals,index+1)
+                  that.initIndustry(industryArr, item.children, vals, index + 1)
                 }
               })
             }
           }
+        }
       },
       // chanceSourceChange (va) {
       //   this.addForm.chanceSource = va.join('-')

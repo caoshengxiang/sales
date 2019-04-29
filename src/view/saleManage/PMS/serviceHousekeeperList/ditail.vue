@@ -157,6 +157,14 @@
             </td>
           </tr>
           <tr>
+            <td class="td-title">认证擅长行业</td>
+            <td colspan="5">
+              <span v-for="(item, index) in managerDetail.industryNames" :key="index">
+                <span v-if="index > 0">、</span>{{item}}
+              </span>
+            </td>
+          </tr>
+          <tr>
             <td class="td-title">认证服务地区</td>
             <td colspan="5">
               <span v-for="(item, index) in managerDetail.serviceManagerAreaModels" :key="index">
@@ -168,7 +176,7 @@
             <td class="td-title">认证商品</td>
             <td colspan="5">
               <span v-for="(item, index) in managerDetail.serviceManagerGoodsModels" :key="index">
-                <span v-if="index > 0">、</span>{{item.goodsName}}
+                <span v-if="index > 0">、</span>{{item.goodsName}}/{{item.specificationName?item.specificationName:'所有规格'}}
               </span>
             </td>
           </tr>
@@ -273,6 +281,20 @@
         this.dataLoading = true
         API.serviceManager.detail(this.$route.query.id, (da) => {
           this.managerDetail = da.data
+          this.managerDetail.serviceManagerGoodsModels.forEach(item => {
+            if (!item.specificationId) {
+              item.specificationName = '全部规格'
+              item.specificationId = ''
+            } else {
+              API.external.getProducts({goodsId: item.goodsId}, (data) => {
+                data.content.some((item2) => {
+                  item.specificationId = item2.objectId
+                  item.specificationName = item2.name
+                  return item2
+                })
+              })
+            }
+          })
           setTimeout(() => {
             this.dataLoading = false
           }, 500)

@@ -201,6 +201,33 @@
             </td>
           </tr>
           <tr>
+            <td class="td-title">认证擅长行业</td>
+            <td colspan="5">
+              <el-tag
+                style="margin-bottom: 5px;margin-right: 5px;"
+                v-for="(tag, index) in industryNames"
+                :key="index"
+                closable
+                @close="handleClose(tag, index, industryNames)">
+                {{tag}}
+              </el-tag>
+                <el-cascader
+                  multiple
+                  style="width: 100%"
+                  :props="{
+                    value: 'id',
+                    label: 'name',
+                    children: 'children'
+                  }"
+                  :change-on-select="true"
+                  @change="industryChangeHandle"
+                  :options="industryType"
+                  class="selectIndustryModule"
+                  v-model="addForm.industryArr">
+                </el-cascader>
+            </td>
+          </tr>
+          <tr>
             <td class="td-title">认证服务地区</td>
             <td colspan="5">
               <!--<span v-for="(item, index) in addForm.serviceManagerAreaModels" :key="index">-->
@@ -212,7 +239,7 @@
                 :key="index"
                 closable
                 :type="tag.type"
-                @close="handleClose(tag, index)">
+                @close="handleClose(tag, index, addForm.serviceManagerAreaModels)">
                 {{tag.provinceName+tag.cityName+tag.areaName}}
               </el-tag>
               <AreaSelect ref="areaSe"
@@ -225,18 +252,26 @@
           <tr>
             <td class="td-title">认证商品</td>
             <td colspan="5">
-              <el-select style="width: 700px;" v-model="serviceManagerGoodsModels"
-                         multiple
-                         filterable
-                         class="select-word-lg"
-                         placeholder="请选择认证商品">
-                <el-option
-                  v-for="(item, index) in goodsList"
-                  :key="index"
-                  :label="item.goodsName"
-                  :value="item.goodsId">
-                </el-option>
-              </el-select>
+              <el-tag
+                style="margin-bottom: 5px;margin-right: 5px;"
+                v-for="(item, index) in addForm.serviceManagerGoodsModels"
+                :key="index"
+                closable
+                @close="handleClose(item, index, addForm.serviceManagerGoodsModels)">
+                {{item.goodsName}}/{{item.specificationName}}
+              </el-tag>
+              <el-cascader
+                multiple
+                style="width: 100%"
+                :props="{
+                    value: 'id',
+                    label: 'name',
+                    children: 'children'
+                  }"
+                :change-on-select="true"
+                @change="goodsChangeHandle"
+                :options="goodsList">
+              </el-cascader>
             </td>
           </tr>
           <tr>
@@ -289,6 +324,9 @@
         photoData: {},
         addForm: { //
           managerTypes: [],
+          industryArr: [],
+          industry: '',
+          serviceManagerGoodsModels: [], // 参数
         },
         rules: {
           accountNumber: [
@@ -301,7 +339,12 @@
         managerTypeList: [],
         managerTypes: [], // 参数
         goodsList: [],
-        serviceManagerGoodsModels: [], // 参数
+        goodsModels: [],
+        industryType: [],
+        industryValue: [],
+        industryNames: [],
+        industryIds: [],
+        targetObj: null,
       }
     },
     props: ['params'],
@@ -325,11 +368,7 @@
                 codeConfigId: item,
               }
             })
-            this.addForm.serviceManagerGoodsModels = this.serviceManagerGoodsModels.map(item => {
-              return {
-                goodsId: item,
-              }
-            })
+            this.addForm.industryIds = this.industryIds
             API2.serviceManager.edit(this.addForm, (da) => {
               if (da.status) {
                 this.$message.success('编辑成功')
@@ -342,13 +381,51 @@
               }, 500)
             })
           } else {
-            console.log('error submit!!')
             return false
           }
         })
       },
-      handleClose (tag, index) {
-        this.addForm.serviceManagerAreaModels.splice(index, 1)
+      handleClose (tag, index, modles) {
+        modles.splice(index, 1)
+      },
+      handleIndustryAdd (list, va, index) {
+        let that = this
+        for (let item of list) {
+          if (item.id === va[index]) {
+            if (index === 0) {
+              that.industryNames.push('')
+              that.industryIds.push('')
+            } else {
+              that.industryNames[ that.industryNames.length - 1 ] += '/'
+              that.industryIds[ that.industryIds.length - 1 ] += ','
+            }
+            that.industryNames[ that.industryNames.length - 1 ] += item.name
+            that.industryIds[ that.industryIds.length - 1 ] += item.id
+            if (item.children) {
+              that.handleIndustryAdd(item.children, va, index + 1)
+            }
+            break
+          }
+        }
+      },
+      handleGoodsAdd (list, va) {
+        let that = this
+        let good = {}
+        for (let item of list) {
+          if (item.id === va[0]) {
+            good.goodsName = item.name
+            good.goodsId = va[0]
+            for (let o of item.children) {
+              if (o.id === va[1]) {
+                good.specificationName = o.name
+                good.specificationId = va[1]
+                break
+              }
+            }
+            break
+          }
+        }
+        that.addForm.serviceManagerGoodsModels.push(good)
       },
       uploadImg (e, type, attr) { // 上传图片
         // type 1-身份证；2-职称证明；3-学历证明；4-资质证明
@@ -376,15 +453,13 @@
         })
       },
       getGoodsList () { // 组织商品列表
-        // API.common.organizationGoodsConf({
-        //   // saleable: 1,
-        //   organizationId: webStorage.getItem('userInfo').organizationId,
-        // }, (da) => {
-        //   this.goodsList = da.data
-        // })
-
         API.baseSetting.getProductType({pageSize: 20000000}, (res) => {
-          this.goodsList = res.data.content
+          this.goodsList = res.data.content.map((item) => {
+            item.children = []
+            item.id = item.goodsId
+            item.name = item.goodsName
+            return item
+          })
         })
       },
       areaSelectedOptionsHandleChange (value) {
@@ -409,6 +484,116 @@
           }
         }
       },
+      industryChangeHandle (va) {
+        let parentId
+        let that = this
+        if (va.length) {
+          parentId = va[va.length - 1]
+        } else {
+          parentId = 0
+        }
+        API.common.industry({parentId: parentId, status: true}, (data) => {
+          // console.log('目标item:', this.targetObj)
+          if (data.data.length) {
+            let arr = data.data.map((item) => {
+              item.children = []
+              return item
+            })
+            if (va.length) {
+              that.getLastItem(that.industryType, va, 'id')
+              that.targetObj.children = arr
+            } else {
+              that.industryType = arr
+            }
+          } else {
+            that.getLastItem(that.industryType, va, 'id')
+            that.targetObj.children = null
+            let isRepeat = this.industryIds.some(item => {
+              return item === va.join(',')
+            })
+            if (isRepeat) {
+              this.$message.warning('行业已存在')
+            } else {
+              that.handleIndustryAdd(that.industryType, va, 0)
+              setTimeout(function () {
+                if ($('.selectIndustryModule').hasClass('is-opened')) {
+                  $('.selectIndustryModule').trigger('click')
+                }
+              }, 100)
+            }
+          }
+        })
+      },
+      goodsChangeHandle (va) {
+        let that = this
+        that.getLastItem(this.goodsList, va, 'id')
+        if (va.length === 1) {
+          that.getProductsList(va[0])
+        } else if (va.length === 2) {
+          let isRepeat = this.addForm.serviceManagerGoodsModels.some(function (item, index, array) {
+            let isRepeat = item.goodsId === va[0]
+            if (item.goodsId === va[0]) {
+              if ((item.specificationId && item.specificationId === va[1]) || (!item.specificationId && va[1] === '')) {
+                that.$message.warning('商品以及规格已存在')
+              } else {
+                item.specificationName = that.targetObj.name
+                item.specificationId = that.targetObj.id
+                that.addForm.serviceManagerGoodsModels.splice(index, 1, item)
+              }
+            }
+            return isRepeat
+          })
+          if (!isRepeat) {
+            that.handleGoodsAdd(that.goodsList, va)
+          }
+        }
+      },
+      initIndustry (industryArr, list, vals, index) {
+        let that = this
+        if (index < vals.length) {
+          for (let item of list) {
+            if (item['name'] === vals[index]) {
+              industryArr.push(item['id'])
+              API.common.industry({parentId: item['id'], status: true}, (data) => {
+                // console.log('目标item:', this.targetObj)
+                if (data.data.length) {
+                  let arr = data.data.map((item) => {
+                    item.children = []
+                    return item
+                  })
+                  item.children = arr
+                  that.initIndustry(industryArr, item.children, vals, index + 1)
+                }
+              })
+            }
+          }
+        }
+      },
+      getLastItem (list, vals, key) { // 获取点击得目标对象, key 对应得 值vals 数组
+        let LIST = list || []
+        // console.log(LIST, vals, key)
+        for (let item of LIST) {
+          if (item[key] === vals[vals.length - 1]) {
+            this.targetObj = item
+            break
+          } else {
+            this.getLastItem(item.children, vals, key)
+          }
+        }
+      },
+      getProductsList (goodsId) { // 产品【规格】列表
+        let that = this
+        API.external.getProducts({goodsId: goodsId}, (data) => {
+          that.targetObj.children = data.content.map((item) => {
+            item.id = item.objectId
+            return item
+          })
+          that.targetObj.children.unshift({
+            id: '',
+            name: '全部规格',
+          })
+        })
+      },
     },
     created () {
       this.userInfo = webStorage.getItem('userInfo')
@@ -423,13 +608,17 @@
         this.managerTypes = managerTypes
 
         // 商品
-        let serviceManagerGoodsModels = []
-        this.addForm.serviceManagerGoodsModels.forEach(item => {
-          serviceManagerGoodsModels.push(item.goodsId)
-        })
-        this.serviceManagerGoodsModels = serviceManagerGoodsModels
         this.dialogType = 'edit'
+        this.addForm.serviceManagerGoodsModels.forEach(item => {
+         if (!item.specificationName) {
+           item.specificationName = '全部规格'
+           item.specificationId = ''
+         }
+        })
       }
+      this.industryNames = this.addForm.industryNames
+      this.industryIds = this.addForm.industryIds
+      this.industryChangeHandle([])
     },
   }
 </script>
