@@ -75,7 +75,7 @@
                             :selectLastLevelMode="true"></AreaSelect>
               </el-form-item>
             </td>
-            <td class="td-title">行业aaa</td>
+            <td class="td-title">行业</td>
             <td class="td-text">
               <!--<input type="text" v-model="addForm.industry">-->
               <el-form-item prop="industryArr">

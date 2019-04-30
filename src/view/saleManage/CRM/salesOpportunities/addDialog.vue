@@ -504,8 +504,9 @@ ps：该弹框除客户名称、需求来源渠道、需求提供人三个字段
             } else {
               that.industryType = arr
               if (that.addForm.industry) {
-                that.addForm.industryArr = []
-                that.initIndustry(that.addForm.industryArr, that.industryType, that.addForm.industry.split(','), 0)
+                let industryArr = []
+                that.initIndustry(industryArr, that.industryType, that.addForm.industry.split(','), 0)
+                that.addForm.industryArr = industryArr
               }
             }
           } else {
