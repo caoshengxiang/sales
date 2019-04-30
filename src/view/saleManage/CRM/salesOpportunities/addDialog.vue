@@ -220,6 +220,7 @@ ps：该弹框除客户名称、需求来源渠道、需求提供人三个字段
           cityId: '',
           areaId: '',
           industry: '', // 行业
+					industryArr: [],
           chanceSeaId: '', // 机会公海
           billDate: '',
           intentBillAmount: '',
@@ -309,16 +310,16 @@ ps：该弹框除客户名称、需求来源渠道、需求提供人三个字段
 
             this.addForm.industry = this.addForm.industryArr.join(',')
             // 防止老数据可能选择的不是对应的商品而保存时获取商品id
-            let _cusid = this.addForm.intentProductId;
-            if(typeof(_cusid) === 'string') {
-              if(this.showList.length > 0) {
-                this.showList.forEach(pro => {
-                  if(_cusid === pro.goodsName) {
-                    this.addForm.intentProductId = pro.goodsId
-                  }
-                })
-              }
-            }
+            // let _cusid = this.addForm.intentProductId;
+            // if(typeof(_cusid) === 'string') {
+            //   if(this.showList.length > 0) {
+            //     this.showList.forEach(pro => {
+            //       if(_cusid === pro.goodsName) {
+            //         this.addForm.intentProductId = pro.goodsId
+            //       }
+            //     })
+            //   }
+            // }
 
             this.dataLoading = true
             if (this.params.detail) { // 编辑
@@ -412,8 +413,25 @@ ps：该弹框除客户名称、需求来源渠道、需求提供人三个字段
           saleable: 1,
 					status: 1,
           pullOff: false
-        }, (data) => {
-          this.intentProductList = data.data
+        }, (data) => {					//动态获取商品时如果是编辑会把原来选择过的一条商品信息加入，并进行去重，如果没有该商品则进行数组合并展示否则直接展示数据
+					let _new = data.data, _old = this.showList, isHas = 0;
+					if(_old.length > 0 && _new.length > 0) {
+						_new.forEach(a => {
+							_old.forEach(b => {
+								if(a.goodsId == b.goodsId) {
+									isHas = 1;
+								}
+							})
+						})
+					}else {
+						isHas = 0;
+					}
+					if(isHas) {
+						this.intentProductList = _new;
+					}else {
+						this.intentProductList = [..._new, ..._old]
+					}
+
         })
       },
       intentProductIdChangeHandle (id) { // 商品下拉改变
@@ -579,7 +597,9 @@ ps：该弹框除客户名称、需求来源渠道、需求提供人三个字段
       if (this.params.detail) { // 编辑
         let servicePrincipalType = this.params.detail.customerCate == 1 ? 'Person' : 'Company';
         this.addForm = this.params.detail // 需要根据分类id获取商品列表进行展示
-        this.addForm.intentProductId = this.params.detail.intentProductName.trim();
+				// 防止老数据可能选择的不是对应的商品而保存时获取商品id 动态添加一条商品信息
+				this.showList = [{goodsId: this.params.detail.intentProductId, goodsName: this.params.detail.intentProductName}];
+
         this.area = this.addF
         // this.getIntentProductList({goodsTypeId: this.addForm.intentProductCate})
         this.getIntentProductList({goodsTypeId: null, goodsName: null, servicePrincipalType})
@@ -596,14 +616,6 @@ ps：该弹框除客户名称、需求来源渠道、需求提供人三个字段
       this.industryChangeHandle([])
       this.getSeaList()
       this.getStaffList()
-
-      // 防止老数据可能选择的不是对应的商品而保存时获取商品id 调取所有商品
-      API.common.organizationGoodsConf({
-        organizationId: webStorage.getItem('userInfo').organizationId,
-        saleable: 1,
-      }, (data) => {
-          this.showList = data.data;
-      })
     },
   }
 </script>
