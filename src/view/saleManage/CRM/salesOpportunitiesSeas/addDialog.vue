@@ -471,8 +471,7 @@
         this.addForm.chanceSource = va.join('-')
       },
       industryChangeHandle (va) {
-        let parentId
-        let that = this
+        let parentId, that = this;
         if (va.length) {
           parentId = va[va.length - 1]
         } else {
@@ -564,6 +563,7 @@
       if (this.params.detail) { // 编辑
         let servicePrincipalType = this.params.detail.customerId == 1 ? 'Person' : 'Company';
         this.addForm = this.params.detail // 需要根据分类id获取商品列表进行展示
+				this.$set(this.addForm, 'industryArr', []);//给默认值
         // this.addForm.intentProductId = this.params.detail.intentProductName;
 				// 防止老数据可能选择的不是对应的商品而保存时获取商品id 动态添加一条商品信息
 				this.showList = [{goodsId: this.params.detail.intentProductId, goodsName: this.params.detail.intentProductName}];

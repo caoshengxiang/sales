@@ -320,7 +320,6 @@ ps：该弹框除客户名称、需求来源渠道、需求提供人三个字段
             //     })
             //   }
             // }
-
             this.dataLoading = true
             if (this.params.detail) { // 编辑
               API.salesOpportunities.confirm({path: this.addForm.id, body: this.addForm}, (data) => {
@@ -502,8 +501,7 @@ ps：该弹框除客户名称、需求来源渠道、需求提供人三个字段
         this.addForm.chanceSource = va.join('-')
       },
       industryChangeHandle (va) {
-        let parentId
-        let that = this
+        let parentId, that = this;
         if (va.length) {
           parentId = va[va.length - 1]
         } else {
@@ -522,7 +520,7 @@ ps：该弹框除客户名称、需求来源渠道、需求提供人三个字段
             } else {
               that.industryType = arr
               if (that.addForm.industry) {
-                let industryArr = []
+                let industryArr = [];
                 that.initIndustry(industryArr, that.industryType, that.addForm.industry.split(','), 0)
                 that.addForm.industryArr = industryArr
               }
@@ -597,6 +595,7 @@ ps：该弹框除客户名称、需求来源渠道、需求提供人三个字段
       if (this.params.detail) { // 编辑
         let servicePrincipalType = this.params.detail.customerCate == 1 ? 'Person' : 'Company';
         this.addForm = this.params.detail // 需要根据分类id获取商品列表进行展示
+				this.$set(this.addForm, 'industryArr', []);//给默认值
 				// 防止老数据可能选择的不是对应的商品而保存时获取商品id 动态添加一条商品信息
 				this.showList = [{goodsId: this.params.detail.intentProductId, goodsName: this.params.detail.intentProductName}];
 
