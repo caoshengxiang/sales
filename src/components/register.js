@@ -19,6 +19,8 @@ import vueDND from 'awe-dnd'
 /* 自定义组件 */
 // 引入行政区域下拉框联动组件
 import AreaSelect from '../components/areaSelect'
+// 配置行业选择下拉框联动组件
+import IndustrySelect from '../components/industrySelect'
 // 按钮
 import ComButton from './button'
 
@@ -29,4 +31,5 @@ Vue.prototype.$moment = moment
 Vue.use(preview)
 Vue.use(vueDND)
 Vue.use(AreaSelect)
+Vue.use(IndustrySelect)
 Vue.use(ComButton)

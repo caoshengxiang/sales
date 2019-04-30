@@ -207,11 +207,12 @@
           <el-menu-item-group>
             <!--<template slot="title">分组一</template>-->
             <el-menu-item index="siteList" v-if="listPermissions(menus, 'siteOnOff')">站点开关</el-menu-item>
-            <el-menu-item index="customerAreaSetting" v-if="listPermissions(menus, 'customerRegion')">客户地区</el-menu-item>
+            <!-- <el-menu-item index="customerAreaSetting" v-if="listPermissions(menus, 'customerRegion')">客户地区</el-menu-item> 去掉客户地区配置，综合到基础参数配置-->
             <el-menu-item index="customerSource" v-if="listPermissions(menus, 'customerSource')">客户源管理</el-menu-item>
             <el-menu-item index="baseSettingList" v-if="listPermissions(menus, 'paramConfig')">参数配置</el-menu-item>
             <el-menu-item index="settlementRulesList" v-if="listPermissions(menus, 'commissionConfig')">返佣规则
             </el-menu-item>
+            <el-menu-item index="basicParameterConfiguration" v-if="listPermissions(menus, 'basicConfig')">基础参数配置</el-menu-item>
             <el-menu-item index="productType" v-if="listPermissions(menus, 'orgGoodsConfig')">商品类型设置</el-menu-item>
             <el-menu-item index="serviceContent" v-if="listPermissions(menus, 'serviceContentConfig')">服务内容配置</el-menu-item>
 

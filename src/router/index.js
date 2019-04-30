@@ -345,6 +345,10 @@ const customerSource = resolve => require.ensure([],
 const siteList = resolve => require.ensure([],
   () => resolve(require('../view/companyManage/baseSetting/site/list')),
   'siteList')
+// 基础参数设置
+const basicParameterConfiguration = resolve => require.ensure([],
+  () => resolve(require('../view/companyManage/baseSetting/basicParameterConfiguration/list')),
+  'basicParameterConfiguration')
 
 // 商品管理
 const organizationProductSetting = resolve => require.ensure([],
@@ -1323,6 +1327,19 @@ const router = new Router({
               {name: '管理系统', toName: 'companyManageHome'},
               {name: '配置管理'},
               {name: '站点开关设置'}],
+          },
+        },
+        // 配置管理 -- 基础参数配置
+        {
+          path: 'basicParameterConfiguration',
+          name: 'basicParameterConfiguration',
+          component: basicParameterConfiguration,
+          meta: {
+            title: '站点开关设置',
+            pos: [
+              {name: '管理系统', toName: 'companyManageHome'},
+              {name: '配置管理'},
+              {name: '基础参数配置'}],
           },
         },
         // 配置管理 -- 返佣规则设置

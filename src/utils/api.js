@@ -1985,10 +1985,54 @@ const API1 = {
     },
   },
   customerAreaSetting: {
-    queryList (params, success, error) {
+    queryList (params, success, error) {    //获取地区层级
       $axios({
         method: 'get',
         url: 'region',
+        params: params,
+      }).then((res) => {
+        success && success(res.data)
+      }).catch((errorData) => {
+        error && error(errorData)
+      })
+    },
+    regionTransfer (params, success, error) {
+      $axios({
+        method: 'put',
+        url: 'region/transfer',
+        data: params,
+      }).then((res) => {
+        success && success(res.data)
+      }).catch((errorData) => {
+        error && error(errorData)
+      })
+    },
+    industryTransfer (params, success, error) {
+      $axios({
+        method: 'put',
+        url: 'category/transfer',
+        data: params,
+      }).then((res) => {
+        success && success(res.data)
+      }).catch((errorData) => {
+        error && error(errorData)
+      })
+    },
+    industryList (params, success, error) {   //获取行业层级
+      $axios({
+        method: 'get',
+        url: 'category',
+        params: params,
+      }).then((res) => {
+        success && success(res.data)
+      }).catch((errorData) => {
+        error && error(errorData)
+      })
+    },
+    placeList (params, success, error) {   //获取职位层级
+      $axios({
+        method: 'get',
+        url: 'post/list',
         params: params,
       }).then((res) => {
         success && success(res.data)
@@ -2007,6 +2051,28 @@ const API1 = {
         error && error(errorData)
       })
     },
+    industryAdd (params, success, error) {
+      $axios({
+        method: 'post',
+        url: 'category/add',
+        data: params,
+      }).then((res) => {
+        success && success(res.data)
+      }).catch((errorData) => {
+        error && error(errorData)
+      })
+    },
+    industryPlace (params, success, error) {
+      $axios({
+        method: 'post',
+        url: 'post/add',
+        data: params,
+      }).then((res) => {
+        success && success(res.data)
+      }).catch((errorData) => {
+        error && error(errorData)
+      })
+    },
     update (params, success, error) {
       $axios({
         method: 'put',
@@ -2018,10 +2084,54 @@ const API1 = {
         error && error(errorData)
       })
     },
+    industryUpdate (params, success, error) {
+      $axios({
+        method: 'put',
+        url: 'category/update/' + params.id,
+        data: params,
+      }).then((res) => {
+        success && success(res.data)
+      }).catch((errorData) => {
+        error && error(errorData)
+      })
+    },
+    placeUpdate (params, success, error) {
+      $axios({
+        method: 'put',
+        url: 'post/update/' + params.id,
+        data: params,
+      }).then((res) => {
+        success && success(res.data)
+      }).catch((errorData) => {
+        error && error(errorData)
+      })
+    },
     delete (params, success, error) {
       $axios({
         method: 'delete',
         url: '/region',
+        params: params,
+      }).then((res) => {
+        success && success(res.data)
+      }).catch((errorData) => {
+        error && error(errorData)
+      })
+    },
+    industryDelete (params, success, error) {
+      $axios({
+        method: 'delete',
+        url: '/category/deleteBatch',
+        params: params,
+      }).then((res) => {
+        success && success(res.data)
+      }).catch((errorData) => {
+        error && error(errorData)
+      })
+    },
+    placeDelete (params, success, error) {
+      $axios({
+        method: 'delete',
+        url: '/post/deleteBatch',
         params: params,
       }).then((res) => {
         success && success(res.data)
