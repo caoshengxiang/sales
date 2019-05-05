@@ -140,6 +140,22 @@
             </el-form-item>
           </el-col>
         </el-row>
+        <el-row class="el-row-cla">
+          <el-col :span="14">
+            <el-form-item label="服务接单时间：">
+              <el-date-picker
+                v-model="auditTimeInterval"
+                type="datetimerange"
+                value-format="yyyy-MM-dd HH:mm:ss"
+                @change="(value) => {this.timeBillDateIntervalHandle(value, 'auditTimeStart', 'auditTimeEnd')}"
+                :unlink-panels="true"
+                range-separator="至"
+                start-placeholder="开始日期"
+                end-placeholder="结束日期">
+              </el-date-picker>
+            </el-form-item>
+          </el-col>
+        </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button class="cancel-button" @click="$vDialog.close({type: 'cancel'})">取 消</el-button>
@@ -240,7 +256,7 @@
           },
         ],
         timeInterval: [],
-
+        auditTimeInterval: [],
         // server_pro_options:[],
         server_housekeeper_options: [],
         server_pro_options : [],
@@ -256,23 +272,20 @@
     props: ['params'],
     methods: {
       clearForm () {
-
         this.searchForm = {}
-        this.searchForm.managerIdStr = [];
-        this.goodsIdStr = [];
-        this.managerIdStr = [];
-        this.orderStateStr = [];
-        this.serviceStateStr = [];
-
+        this.searchForm.managerIdStr = []
+        this.goodsIdStr = []
+        this.managerIdStr = []
+        this.orderStateStr = []
+        this.serviceStateStr = []
+        this.timeInterval = []
+        this.auditTimeInterval = []
       },
       saveSubmitForm () {
-        
-        this.searchForm.goodsIdStr =  this.goodsIdStr.toString();
-        this.searchForm.managerIdStr =  this.managerIdStr.toString();
-        this.searchForm.orderStateStr =  this.orderStateStr.toString();
-        this.searchForm.serviceStateStr =  this.serviceStateStr.toString();
-        
-       
+        this.searchForm.goodsIdStr = this.goodsIdStr.toString();
+        this.searchForm.managerIdStr = this.managerIdStr.toString();
+        this.searchForm.orderStateStr = this.orderStateStr.toString();
+        this.searchForm.serviceStateStr = this.serviceStateStr.toString();
         //去重商品选择重复的
         let hash = {}; 
         this.checked_arry = this.checked_arry.reduce(function(item, next) { 
@@ -417,6 +430,9 @@
       /* 日期 */
       if (this.searchForm.assignDateStart) { // 日期
         this.timeInterval = [this.searchForm.assignDateStart, this.searchForm.assignDateEnd]
+      }
+      if (this.searchForm.auditTimeStart) { // 日期
+        this.auditTimeInterval = [this.searchForm.auditTimeStart, this.searchForm.auditTimeEnd]
       }
     },
   }

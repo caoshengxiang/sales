@@ -179,6 +179,18 @@
               {{scope.row.assignDate && $moment(scope.row.assignDate).format('YYYY-MM-DD HH:mm')}}
             </template>
           </el-table-column>
+          <el-table-column
+            align="center"
+            sortable="custom"
+            prop="auditTime"
+            label="服务接单时间"
+            width="160"
+            show-overflow-tooltip
+          >
+            <template slot-scope="scope">
+              {{scope.row.auditTime && $moment(scope.row.auditTime).format('YYYY-MM-DD HH:mm')}}
+            </template>
+          </el-table-column>
         </el-table>
       </div>
 
