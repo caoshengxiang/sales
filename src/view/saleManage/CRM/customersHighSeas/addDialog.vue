@@ -493,6 +493,7 @@
         this.userInfo = webStorage.getItem('userInfo')
         this.addForm = JSON.parse(JSON.stringify(this.params.detail))
         this.dialogType = 'edit'
+				this.$set(this.addForm, 'industryArr', []);//给默认值
         if (this.userInfo.id !== this.addForm.team.salerId) { // 判断更进人
           this.isFollower = false
         }

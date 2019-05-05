@@ -487,6 +487,7 @@
       if (this.params.detail) { // 编辑
         this.addForm = JSON.parse(JSON.stringify(this.params.detail))
         this.dialogType = 'edit'
+				this.$set(this.addForm, 'industryArr', []);//给默认值
       }
       this.industryChangeHandle([])
     },
