@@ -505,18 +505,20 @@
         this.getSalesOpportunititeisList()
       },
       handleRouter (name, id) {
-        this.$router.push({
+        let _url = this.$router.resolve({
           name: 'salesOpportunitiesDetailSeas',
           query: {view: name, id: id},
           params: {end: this.themeIndex === 0 ? 'FE' : 'ME'},
         })
+				window.open(_url.href, '_blank')
       },
       handleRouter2 (name, id) {
-        this.$router.push({
+        let _url = this.$router.resolve({
           name: 'customersDetail',
           query: {view: name, customerId: id},
           params: {end: this.themeIndex === 0 ? 'FE' : 'ME'},
         })
+				window.open(_url.href, '_blank')
       },
       searchHandle () {
         this.getSalesOpportunititeisList()
