@@ -531,19 +531,12 @@
           that.getProductsList(va[0])
         } else if (va.length === 2) {
           let isRepeat = this.addForm.serviceManagerGoodsModels.some(function (item, index, array) {
-            let isRepeat = item.goodsId === va[0]
-            if (item.goodsId === va[0]) {
-              if ((item.specificationId && item.specificationId === va[1]) || (!item.specificationId && va[1] === '')) {
-                that.$message.warning('商品以及规格已存在')
-              } else {
-                item.specificationName = that.targetObj.name
-                item.specificationId = that.targetObj.id
-                that.addForm.serviceManagerGoodsModels.splice(index, 1, item)
-              }
-            }
+            let isRepeat = (item.goodsId === va[0]) && ((item.specificationId && item.specificationId === va[1]) || (!item.specificationId && va[1] === ''))
             return isRepeat
           })
-          if (!isRepeat) {
+          if (isRepeat) {
+            that.$message.warning('商品以及规格已存在')
+          } else {
             that.handleGoodsAdd(that.goodsList, va)
           }
         }
