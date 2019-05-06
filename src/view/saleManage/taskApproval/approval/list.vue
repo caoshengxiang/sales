@@ -318,7 +318,8 @@
         this.getTaskList()
       },
       handleRouter (name, id) {
-        this.$router.push({name: 'taskApprovalDetail', params: {end: 'FE'}, query: {view: name, id: id}})
+        let _url = this.$router.resolve({name: 'taskApprovalDetail', params: {end: 'FE'}, query: {view: name, id: id}});
+				window.open(_url.href, '_blank')
       },
     },
   }

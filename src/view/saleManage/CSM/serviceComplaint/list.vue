@@ -48,7 +48,7 @@
             show-overflow-tooltip
           >
             <template slot-scope="scope">
-              <router-link class="col-link" :to="{name: 'serviceComplaintDetail', query: {id: scope.row.id}}">{{ scope.row.num }}</router-link>
+              <router-link class="col-link" :to="{name: 'serviceComplaintDetail', query: {id: scope.row.id}}" target="_blank">{{ scope.row.num }}</router-link>
             </template>
           </el-table-column>
           <el-table-column

@@ -48,7 +48,7 @@
             show-overflow-tooltip
           >
             <template slot-scope="scope">
-              <router-link class="col-link" :to="{name: 'housekeeperEnterDetail', query: {id: scope.row.id}}">{{ scope.row.accountNumber || '无' }}</router-link>
+              <router-link class="col-link" :to="{name: 'housekeeperEnterDetail', query: {id: scope.row.id}}" target="_blank">{{ scope.row.accountNumber || '无' }}</router-link>
             </template>
           </el-table-column>
           <el-table-column
