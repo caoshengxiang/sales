@@ -183,7 +183,7 @@
               <tr>
                 <td>
                   <router-link class="col-link"
-                               :to="{name: 'serviceCustomerDetail', query: {id: detail.customerId, view: 'base'}}">
+                               :to="{name: 'serviceCustomerDetail', query: {id: detail.customerId, view: 'base'}}" target="_blank">
                     {{customerDetail.name}}
                   </router-link>
                 </td>
@@ -245,7 +245,7 @@
               <tr v-for="(item, index) in orderListNoAuth" :key="index">
                 <td>
                   <router-link class="col-link"
-                               :to="{name: 'serviceOrderDetail', query: {id: item.id, view: 'order'}}">
+                               :to="{name: 'serviceOrderDetail', query: {id: item.id, view: 'order'}}" target="_blank">
                     {{item.orderId}}
                   </router-link>
                 </td>

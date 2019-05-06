@@ -58,7 +58,7 @@
           >
             <template slot-scope="scope">
               <router-link class="col-link"
-                           :to="{name: 'serviceWorkOrderDetail', query: {id: scope.row.id,orderId: scope.row.orderId, view: 'operate'}}">
+                           :to="{name: 'serviceWorkOrderDetail', query: {id: scope.row.id,orderId: scope.row.orderId, view: 'operate'}}" target="_blank">
                 {{ scope.row.orderNum }}
               </router-link>
             </template>

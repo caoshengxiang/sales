@@ -53,7 +53,7 @@
               <tr>
                 <td>
                   <router-link class="col-link"
-                               :to="{name: 'serviceCustomerDetail', query: {id: orderDetail.customerId, view: 'base'}}">
+                               :to="{name: 'serviceCustomerDetail', query: {id: orderDetail.customerId, view: 'base'}}" target="_blank">
                     {{customerDetail.name}}
                   </router-link>
                 </td>

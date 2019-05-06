@@ -51,7 +51,7 @@
             show-overflow-tooltip
           >
             <template slot-scope="scope">
-              <router-link class="col-link" :to="{name: 'customerBillDetail', query: {id: scope.row.id}}">{{
+              <router-link class="col-link" :to="{name: 'customerBillDetail', query: {id: scope.row.id}}" target="_blank">{{
                 scope.row.bizNum }}
               </router-link>
             </template>

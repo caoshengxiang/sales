@@ -407,11 +407,12 @@
         this.getList()
       },
       handleRouter (name, id) {
-        this.$router.push({
+        let _url = this.$router.resolve({
           name: 'meetingActivityDetail',
           query: {view: name, id: id},
           params: {end: this.themeIndex === 0 ? 'FE' : 'ME'},
-        })
+        });
+				window.open(_url.href, '_blank');
       },
       getList () {
         this.dataLoading = true
