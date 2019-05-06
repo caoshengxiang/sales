@@ -350,7 +350,8 @@
         this.getContactsList()
       },
       handleRouter (name, id) {
-        this.$router.push({name: 'contactsDetail', query: {view: name, contactsId: id}, params: {end: this.themeIndex === 0 ? 'FE' : 'ME'}})
+        let _url = this.$router.resolve({name: 'contactsDetail', query: {view: name, contactsId: id}, params: {end: this.themeIndex === 0 ? 'FE' : 'ME'}});
+				window.open(_url.href, '_blank')
       },
       getContactsList () {
         this.dataLoading = true

@@ -92,7 +92,7 @@
           width="160">
           <template slot-scope="scope">
             <router-link class="col-link"
-                         :to="{name: 'salesOpportunitiesDetail', query: {view: 'detail', id: scope.row.chanceId}, params: {end: 'FE'}}">
+                         :to="{name: 'salesOpportunitiesDetail', query: {view: 'detail', id: scope.row.chanceId}, params: {end: 'FE'}}" target="_blank">
               {{ scope.row.chanceName }}
             </router-link>
           </template>
@@ -106,7 +106,7 @@
           width="160">
           <template slot-scope="scope">
             <router-link class="col-link"
-                         :to="{name: 'customersDetail', query: {view: 'detail', customerId: scope.row.customerId}, params: {end: 'FE'}}">
+                         :to="{name: 'customersDetail', query: {view: 'detail', customerId: scope.row.customerId}, params: {end: 'FE'}}" target="_blank">
               {{ scope.row.customerName }}
             </router-link>
           </template>
@@ -120,7 +120,7 @@
           show-overflow-tooltip>
           <template slot-scope="scope">
             <router-link class="col-link"
-                         :to="{name: 'contactsDetail', query: {view: 'detail', contactsId: scope.row.contacterId}, params: {end: 'FE'}}">
+                         :to="{name: 'contactsDetail', query: {view: 'detail', contactsId: scope.row.contacterId}, params: {end: 'FE'}}" target="_blank">
               {{ scope.row.contacterName }}
             </router-link>
           </template>
@@ -480,7 +480,8 @@
         this.getSalesOrderList()
       },
       handleRouter (name, id, providerName) {
-        this.$router.push({name: 'salesOrdersDetail', query: {view: name, id: id}, params: {providerName: providerName, end: this.themeIndex === 0 ? 'FE' : 'ME'}})
+        let _url = this.$router.resolve({name: 'salesOrdersDetail', query: {view: name, id: id}, params: {providerName: providerName, end: this.themeIndex === 0 ? 'FE' : 'ME'}})
+				window.open(_url.href, '_blank')
       },
       getSalesOrderList () {
         this.dataLoading = true

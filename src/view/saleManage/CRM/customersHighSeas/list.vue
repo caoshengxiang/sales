@@ -456,11 +456,12 @@
         })
       },
       handleRouter (name, id) {
-        this.$router.push({
+        let _url = this.$router.resolve({
           name: 'customersHighSeasDetail',
           query: {view: name, customerId: id},
           params: {end: this.themeIndex === 0 ? 'FE' : 'ME'},
-        })
+        });
+				window.open(_url.href, '_blank')
       },
       getCustomersSeaList () {
         this.dataLoading = true

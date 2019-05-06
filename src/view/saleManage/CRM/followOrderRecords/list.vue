@@ -225,7 +225,8 @@
         this.getRecordsList()
       },
       handleRouter (name, id) {
-        this.$router.push({name: 'salesOpportunitiesDetail', query: {view: name, id: id}, params: {end: 'FE'}})
+        let _url = this.$router.resolve({name: 'salesOpportunitiesDetail', query: {view: name, id: id}, params: {end: 'FE'}})
+				window.open(_url.href, '_blank')
       },
       sortChangeHandle (sortObj) {
         // console.log(sortObj)

@@ -3,7 +3,10 @@
     <div class="welcome">欢迎进入众智联邦平台资源管理系统！</div>
     <div class="latest-announcement">
       <p class="com-title">最新公告</p>
-      <p class="announcement-con" v-if="announcement">{{announcement.content}}</p>
+      <div class="announcement-con" v-if="announcement">
+				<p class='announcement-con-h' v-for="item in announcement">{{item}}</p>
+				<!-- {{announcement.content}} -->
+			</div>
       <p style="padding-left: 10px;color: #ccc;"  v-else>暂无公告内容</p>
     </div>
     <div class="home-row">
@@ -97,7 +100,7 @@
         TodoItemTotal: 0,
         userInfo: {},
         messageList: [],
-        announcement: null
+        announcement: [],
       }
     },
     components: {
@@ -170,7 +173,9 @@
       },
       getMesDetail (id) { // 消息详细，公告
         API.message.msgDetails({id:id, announcement: true}, da => {
-          this.announcement = da.data
+					if(da.data) {
+						this.announcement = da.data.content.split('[&&]');
+					}
         })
       },
     },
@@ -204,6 +209,9 @@
       color: #4F5F6F;
     }
   }
+	.announcement-con-h {
+		line-height: 25px;
+	}
 
   .home-row {
     &.home-row-2 {

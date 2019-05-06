@@ -15,7 +15,8 @@
         <span class="span">{{$moment(msgDetail.sendTime).format('YYYY-MM-DD HH:mm:ss')}}</span>
         <a class="del" @click="delMessage"><i class="iconfont icon-shanchu"></i></a></div>
       <div class="con">
-        {{msgDetail.content}}
+				<p class='con-h' v-for="item in messageList">{{item}}</p>
+        <!-- {{msgDetail.content}} -->
       </div>
       <div class="download" ref='downloadCode'>
         <h3>附件下载</h3>
@@ -41,6 +42,7 @@
     data () {
       return {
         msgDetail: {},
+				messageList: [],
       }
     },
     methods: {
@@ -66,6 +68,9 @@
       getMesDetail () {
         API.message.msgDetail(this.$route.query.id, da => {
           this.msgDetail = da.data
+					if(da.data.content) {
+						this.messageList = da.data.content.split('[&&]')
+					}
         })
       },
 			downloadCodeHandle (url, name) {
@@ -147,5 +152,8 @@
 	}
 	.fujian p:hover {
 		text-decoration: underline;
+	}
+	.con-h {
+		margin-bottom: 10px;
 	}
 </style>

@@ -406,6 +406,7 @@
             if (data.type === 'search') {
               console.log('高级搜索数据：', data.params)
               this.advancedSearch = data.params
+							this.currentPage = 1;
               this.getCustomerList()
             }
           },
@@ -422,11 +423,12 @@
         this.getCustomerList()
       },
       handleRouter (name, id) {
-        this.$router.push({
+        let _url = this.$router.resolve({
           name: 'customersDetail',
           query: {view: name, customerId: id},
           params: {end: this.themeIndex === 0 ? 'FE' : 'ME'},
-        })
+        });
+				window.open(_url.href, '_blank')
       },
       addHandle () {
         let that = this

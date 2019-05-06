@@ -22,7 +22,10 @@
 					<el-button style='background: #4bcf99; color: #fff;'>查看</el-button>
 				</div>
 			</template>
-			<div class='grad-bg'>{{item.content}}</div>
+			<div class='grad-bg'>
+				<p v-for="itemp in item.messageList">{{itemp}}</p>
+				<!-- {{item.content}} -->
+			</div>
 		  </el-collapse-item>
 		</el-collapse>
 		</div>
@@ -88,6 +91,15 @@
 							this.tableDataTotal = data.data.totalElements
 							if(data.data.content.length > 0) {
 								let _list = data.data.content;
+								console.log(_list)
+								if(_list.length > 0) {
+									_list.forEach(a => {
+										if(a.content) {
+											a.messageList = a.content.split('[&&]');
+										}
+										console.log(a)
+									})
+								};
 								this.list = _list;
 							}
 						}

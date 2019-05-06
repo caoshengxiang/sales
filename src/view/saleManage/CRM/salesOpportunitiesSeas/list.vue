@@ -304,7 +304,7 @@
   import comButton from '../../../../components/button/comButton'
   import { mapState, mapActions } from 'vuex'
   import API from '../../../../utils/api'
-  import addDialog from './addDialog'
+  import chanceSeaAddDialog from './chanceSeaAddDialog'
   import moveDialog from './moveDialog'
   import { arrToStr, underscoreName } from '../../../../utils/utils'
   import { serverUrl } from '../../../../utils/const'
@@ -386,7 +386,7 @@
     },
     components: {
       comButton,
-      addDialog,
+      chanceSeaAddDialog,
       moveDialog,
     },
     methods: {
@@ -403,7 +403,7 @@
         let that = this
         switch (op) {
           case 'add':
-            this.$vDialog.modal(addDialog, {
+            this.$vDialog.modal(chanceSeaAddDialog, {
               title: '新增销售机会',
               width: 900,
               height: 500,
@@ -505,18 +505,20 @@
         this.getSalesOpportunititeisList()
       },
       handleRouter (name, id) {
-        this.$router.push({
+        let _url = this.$router.resolve({
           name: 'salesOpportunitiesDetailSeas',
           query: {view: name, id: id},
           params: {end: this.themeIndex === 0 ? 'FE' : 'ME'},
         })
+				window.open(_url.href, '_blank')
       },
       handleRouter2 (name, id) {
-        this.$router.push({
+        let _url = this.$router.resolve({
           name: 'customersDetail',
           query: {view: name, customerId: id},
           params: {end: this.themeIndex === 0 ? 'FE' : 'ME'},
         })
+				window.open(_url.href, '_blank')
       },
       searchHandle () {
         this.getSalesOpportunititeisList()

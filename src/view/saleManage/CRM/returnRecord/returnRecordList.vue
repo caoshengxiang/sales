@@ -60,7 +60,7 @@
         >
           <template slot-scope="scope">
             <router-link class="col-link"
-                         :to="{name: 'salesOrdersDetail', query: {view:'detail', id: scope.row.preOrderId}}">
+                         :to="{name: 'salesOrdersDetail', query: {view:'detail', id: scope.row.preOrderId}}" target='_blank'>
               {{ scope.row.orderId }}
             </router-link>
           </template>
