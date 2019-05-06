@@ -555,7 +555,8 @@
         this.getuserList(this.currentPage - 1, this.pagesOptions.pageSize, this.userType)
       },
       handleRouter (name, id) {
-        this.$router.push({name: 'userDetail', params: {end: 'ME'}, query: {view: name, userId: id}})
+        let _url = this.$router.resolve({name: 'userDetail', params: {end: 'ME'}, query: {view: name, userId: id}});
+				window.open(_url.href, '_blank')
       },
       addHandle () {
         this.addDialogOpen = true
