@@ -319,9 +319,8 @@
         }
       },
       //订单实付金额结束
-      numberEndHandle () {
-        if (this.searchForm[start] && this.searchForm[start] >
-          this.searchForm[end]) {
+      numberEndHandle (start, end) {
+        if (this.searchForm[start] && this.searchForm[start] > this.searchForm[end]) {
           this.searchForm[end] = this.searchForm[start]
         }
       },
