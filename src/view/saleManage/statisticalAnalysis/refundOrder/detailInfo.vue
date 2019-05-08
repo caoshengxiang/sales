@@ -333,7 +333,7 @@
 			},
 			// 选择商品分类
 			selectGoodsType (item) {
-				this.this.goodsList = [];
+				this.goodsList = [];
 				let params = {
 					goodsType: this.goodsTypeId,
 				};

@@ -262,7 +262,7 @@
 				let params = {
 					goodsType: this.goodsTypeId,
 				};
-				if(this.goodsTypeId == 0) delete params.goodsTypeId;
+				if(this.goodsTypeId == 0) delete params.goodsType;
 				API.external.findGoods(params, (data) => {
 					if(data.status == 200) {
 						if(data.content == null) data.content = [];
