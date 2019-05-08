@@ -77,6 +77,7 @@
           excludeId: this.params.excludeId,
           orderId: this.params.serviceOrderDetail.orderId,
           goodsId: this.params.serviceOrderDetail.goodsId,
+          specificationId: this.params.serviceOrderDetail.specificationId,
           provinceId: this.params.serviceOrderDetail.provinceId,
           cityId: this.params.serviceOrderDetail.cityId,
           areaId: this.params.serviceOrderDetail.areaId,
