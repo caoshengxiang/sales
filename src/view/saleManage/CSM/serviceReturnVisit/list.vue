@@ -144,6 +144,31 @@
           <el-table-column
             align="center"
             sortable="custom"
+            prop="reviewScore"
+            label="原评价星级"
+            width="160"
+            show-overflow-tooltip
+          >
+            <template slot-scope="scope">
+              <span v-if="scope.row.reviewScore">{{scope.row.reviewScore}}星</span>
+              <span v-if="!scope.row.reviewScore"></span>
+            </template>
+          </el-table-column>
+          <el-table-column
+            align="center"
+            sortable="custom"
+            prop="retEvaluation"
+            label="回访星级"
+            width="160"
+            show-overflow-tooltip
+          >
+            <template slot-scope="scope">
+              <span v-if="scope.row.retEvaluation">{{scope.row.retEvaluation}}星</span>
+              <span v-if="!scope.row.retEvaluation"></span></template>
+          </el-table-column>
+          <el-table-column
+            align="center"
+            sortable="custom"
             prop="state"
             label="回访状态"
             width="160"

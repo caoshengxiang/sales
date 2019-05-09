@@ -64,8 +64,9 @@
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="回访星级：">
+            <el-form-item label="原评价星级：">
               <el-select v-model="searchForm.reviewScore" placeholder="请选择">
+                <el-option label="全部" :value="null"></el-option>
                 <el-option label="0星" :value="0"></el-option>
                 <el-option label="1星" :value="1"></el-option>
                 <el-option label="2星" :value="2"></el-option>
@@ -78,7 +79,7 @@
         </el-row>
         <!--范围-->
         <el-row class="el-row-cla">
-          <el-col :span="14">
+          <el-col :span="16">
             <el-form-item label="回访派单时间：">
               <el-date-picker
                 v-model="timeInterval"
@@ -90,6 +91,19 @@
                 start-placeholder="开始日期"
                 end-placeholder="结束日期">
               </el-date-picker>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="回访星级：">
+              <el-select v-model="searchForm.retEvaluation" placeholder="请选择">
+                <el-option label="全部" :value="null"></el-option>
+                <el-option label="0星" :value="0"></el-option>
+                <el-option label="1星" :value="1"></el-option>
+                <el-option label="2星" :value="2"></el-option>
+                <el-option label="3星" :value="3"></el-option>
+                <el-option label="4星" :value="4"></el-option>
+                <el-option label="5星" :value="5"></el-option>
+              </el-select>
             </el-form-item>
           </el-col>
         </el-row>
