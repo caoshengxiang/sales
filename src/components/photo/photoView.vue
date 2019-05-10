@@ -1,6 +1,6 @@
 <template>
   <div style="position: relative;display: inline-block">
-    <span class="com-a-link">{{photoData.text}}</span>
+    <span class="com-a-link" v-bind:style="photoData.style">{{photoData.text}}</span>
     <slot></slot>
     <div style="position: absolute; top: 0;width: 100%;height: 100%;opacity: 0;overflow: hidden;">
       <img v-for="(item, index) in photoData.images" :key="index" :src="item.url" style="width: 100%;height: 100%;" :preview="previewVal" :preview-text="item.previewText">
@@ -33,6 +33,7 @@
         default () {
           return {
             text: '查看大图',
+            style: {},
             images: [
               {
                 previewText: '',

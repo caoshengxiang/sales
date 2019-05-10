@@ -339,27 +339,28 @@
           <table class="detail-table">
             <tr>
               <td class="td-title">平台用户</td>
-              <td>{{managerDetail.accountNumber}}</td>
+              <td v-bind:style="classComp('accountNumber')">{{managerDetail.accountNumber}}</td>
               <td class="td-title">联系姓名</td>
-              <td>{{managerDetail.name}}</td>
+              <td v-bind:style="classComp('name')">{{managerDetail.name}}</td>
               <td class="td-title">联系电话</td>
-              <td>{{managerDetail.mobilePhone}}</td>
+              <td v-bind:style="classComp('mobilePhone')">{{managerDetail.mobilePhone}}</td>
             </tr>
             <tr>
               <td class="td-title">民族</td>
-              <td>{{managerDetail.nation}}</td>
+              <td v-bind:style="classComp('nation')">{{managerDetail.nation}}</td>
               <td class="td-title">性别</td>
-              <td>{{managerDetail.sex}}</td>
+              <td v-bind:style="classComp('sex')">{{managerDetail.sex}}</td>
               <td class="td-title">出生日期</td>
-              <td>{{ managerDetail.birthday && $moment(managerDetail.birthday).format('YYYY-MM-DD') }}</td>
+              <td v-bind:style="classComp('birthday')">{{ managerDetail.birthday && $moment(managerDetail.birthday).format('YYYY-MM-DD') }}</td>
             </tr>
             <tr>
               <td class="td-title">居民身份证</td>
-              <td colspan="5">
+              <td colspan="5" v-bind:style="classComp('idCard')">
                 <span>{{managerDetail.idCard}}</span>
                 <photo-view v-if="managerDetail.identityCardPhoto"
                             :photo-data="{
                 text: '身份证查看大图',
+                style:classComp('identityCardPhoto'),
                 images: [
                   {url: managerDetail.identityCardPhoto, previewText: ''},
                 ]
@@ -369,31 +370,31 @@
             </tr>
             <tr>
               <td class="td-title">工作单位</td>
-              <td>{{managerDetail.organizationName}}</td>
+              <td v-bind:style="classComp('organizationName')">{{managerDetail.organizationName}}</td>
               <td class="td-title">工作部门</td>
-              <td>{{managerDetail.departmentName}}</td>
+              <td v-bind:style="classComp('departmentName')">{{managerDetail.departmentName}}</td>
               <td class="td-title"></td>
               <td></td>
             </tr>
             <tr>
               <td class="td-title">职称</td>
-              <td>{{managerDetail.jobTitle}}</td>
+              <td v-bind:style="classComp('jobTitle')">{{managerDetail.jobTitle}}</td>
               <td class="td-title">从业年限</td>
-              <td>{{managerDetail.workExperience}}</td>
+              <td v-bind:style="classComp('workExperience')">{{managerDetail.workExperience}}</td>
               <td class="td-title"></td>
               <td></td>
             </tr>
             <tr>
               <td class="td-title">最高学历</td>
-              <td>{{managerDetail.education}}</td>
+              <td v-bind:style="classComp('education')">{{managerDetail.education}}</td>
               <td class="td-title">毕业院校</td>
-              <td>{{managerDetail.graduateInstitutions}}</td>
+              <td v-bind:style="classComp('graduateInstitutions')">{{managerDetail.graduateInstitutions}}</td>
               <td class="td-title">专业</td>
-              <td>{{managerDetail.major}}</td>
+              <td v-bind:style="classComp('major')">{{managerDetail.major}}</td>
             </tr>
             <tr>
               <td class="td-title">专业资质证书</td>
-              <td colspan="5">{{managerDetail.certificate}}</td>
+              <td colspan="5" v-bind:style="classComp('certificate')">{{managerDetail.certificate}}</td>
             </tr>
             <tr>
               <td class="td-title">职称证明</td>
@@ -401,6 +402,7 @@
                 <photo-view v-if="managerDetail.jobTitleCertificate"
                             :photo-data="{
                 text: '查看大图',
+                style:classComp('jobTitleCertificate'),
                 images: [
                   {url: managerDetail.jobTitleCertificate, previewText: ''},
                 ]
@@ -412,6 +414,7 @@
                 <photo-view v-if="managerDetail.educationCertificate"
                             :photo-data="{
                 text: '查看大图',
+                style:classComp('educationCertificate'),
                 images: [
                   {url: managerDetail.educationCertificate, previewText: ''},
                 ]
@@ -423,6 +426,7 @@
                 <photo-view v-if="managerDetail.qualificationCertificate"
                             :photo-data="{
                 text: '查看大图',
+                style:classComp('qualificationCertificate'),
                 images: [
                   {url: managerDetail.qualificationCertificate, previewText: ''},
                 ]
@@ -432,7 +436,7 @@
             </tr>
             <tr>
               <td class="td-title">管家类型</td>
-              <td colspan="5">
+              <td colspan="5"  v-bind:style="classComp('serviceManagerTypeModels')">
               <span v-for="(item, index) in managerDetail.serviceManagerTypeModels" :key="index">
                 <span v-if="index > 0">、</span>{{item.managerType}}
               </span>
@@ -440,7 +444,7 @@
             </tr>
             <tr>
               <td class="td-title">认证擅长行业</td>
-              <td colspan="5">
+              <td colspan="5" v-bind:style="classComp('industryNames')">
               <span v-for="(item, index) in managerDetail.industryNames" :key="index">
                 <span v-if="index > 0">、</span>{{item}}
               </span>
@@ -448,7 +452,7 @@
             </tr>
             <tr>
               <td class="td-title">认证服务地区</td>
-              <td colspan="5">
+              <td colspan="5" v-bind:style="classComp('serviceManagerAreaModels')">
               <span v-for="(item, index) in managerDetail.serviceManagerAreaModels" :key="index">
                 <span v-if="index > 0">、</span>{{item.provinceName + item.cityName + item.areaName}}
               </span>
@@ -456,7 +460,7 @@
             </tr>
             <tr>
               <td class="td-title">认证商品</td>
-              <td colspan="5">
+              <td colspan="5" v-bind:style="classComp('serviceManagerGoodsModels')" >
               <span v-for="(item, index) in managerDetail.serviceManagerGoodsModels" :key="index">
                 <span v-if="index > 0">、</span>{{item.goodsName}}/{{item.specificationName?item.specificationName:'所有规格'}}
               </span>
@@ -464,15 +468,15 @@
             </tr>
             <tr>
               <td class="td-title">现从事专业及研究方向</td>
-              <td colspan="5">{{managerDetail.workReasearch}}</td>
+              <td colspan="5" v-bind:style="classComp('workReasearch')">{{managerDetail.workReasearch}}</td>
             </tr>
             <tr>
               <td class="td-title">社会重要职务</td>
-              <td colspan="5">{{managerDetail.socialFunctions}}</td>
+              <td colspan="5" v-bind:style="classComp('socialFunctions')">{{managerDetail.socialFunctions}}</td>
             </tr>
             <tr>
               <td class="td-title">个人简介</td>
-              <td colspan="5">{{managerDetail.resume}}</td>
+              <td colspan="5" v-bind:style="classComp('resume')">{{managerDetail.resume}}</td>
             </tr>
           </table>
         </div>
@@ -619,6 +623,7 @@
         salesOpportunitiesDetail: {},
         customerDetail: {},
         managerDetail: {},
+        managerDetailOld: {},
 				businessServiceInformation: [],  //商务服务信息
         orderDetail: {
 					salerOrderModel: {
@@ -642,6 +647,58 @@
       photoView,
     },
     methods: {
+      classComp (key) {
+        if (this.detailInfo.state !== 1) {
+          return {}
+        }
+        let style = {
+          color: 'red'
+        }
+        switch (key) {
+          case 'serviceManagerTypeModels':
+            if (this.comp(this.managerDetail[key], this.managerDetailOld[key], 'managerType')) {
+              style = {}
+            }
+            break
+          case 'industryNames':
+            if (this.comp(this.managerDetail[key], this.managerDetailOld[key], 'industryNames')) {
+              style = {}
+            }
+            break
+          case 'serviceManagerAreaModels':
+            if (this.comp(this.managerDetail[key], this.managerDetailOld[key], 'provinceName') &&
+              this.comp(this.managerDetail[key], this.managerDetailOld[key], 'cityName') &&
+              this.comp(this.managerDetail[key], this.managerDetailOld[key], 'areaName')) {
+              style = {}
+            }
+            break
+          case 'serviceManagerGoodsModels':
+            if (this.comp(this.managerDetail[key], this.managerDetailOld[key], 'goodsName') &&
+              this.comp(this.managerDetail[key], this.managerDetailOld[key], 'specificationName')) {
+              style = {}
+            }
+            break
+          default:
+            if (this.managerDetail[key] === this.managerDetailOld[key]) {
+              style = {}
+            }
+        }
+        return style
+      },
+      comp (a, b, k) {
+        if (typeof (a) === 'undefined' || typeof (b) === 'undefined') {
+          return false;
+        }
+        let aArr = []
+        let bArr = []
+        a.forEach(item => {
+          aArr.push(item[k])
+        })
+        b.forEach(item => {
+          bArr.push(item[k])
+        })
+        return aArr.sort().toString() === bArr.sort().toString()
+      },
       getChanceDetail () {
       },
       // 审批类型 1:申请咨询师协同 2:申请移除咨询师 3:app订单退单 4:服务工单退单 5:服务工单派单 6:管家信息修改 7:erp订单退单
@@ -691,6 +748,26 @@
             } else if (that.detailInfo.approvalType === 6) { // 管家信息修改
               API.serviceManager.updateDetailNoAuth(that.detailInfo.businessId, (da) => {
                 this.managerDetail = da.data
+                API.serviceManager.detailByUserId(this.managerDetail.userId, (da) => {
+                  this.managerDetailOld = da.data
+                  this.managerDetailOld.serviceManagerGoodsModels.forEach(item => {
+                    if (!item.specificationId) {
+                      item.specificationName = '全部规格'
+                      item.specificationId = ''
+                    } else {
+                      API.external.getProducts({goodsId: item.goodsId}, (data) => {
+                        data.content.some((item2) => {
+                          item.specificationId = item2.objectId
+                          item.specificationName = item2.name
+                          return item2
+                        })
+                      })
+                    }
+                  })
+                  setTimeout(() => {
+                    this.dataLoading = false
+                  }, 500)
+                })
               })
             } else if (that.detailInfo.approvalType === 7) { // erp订单退单详情
               API.serviceOrder.editZxDetail(that.detailInfo.businessId, (da) => {
