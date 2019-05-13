@@ -567,6 +567,7 @@ const API1 = {
       })
     },
     chanceCheckValid (params, success, error) { // 机会列表是否可以判定客户
+      // $axios.get('salerChance/checkValid', {params: params}).then((res) => {
       $axios.get('salerChance/checkValid', {params: params}).then((res) => {
         success && success(res.data)
       }).catch((err) => {
@@ -865,6 +866,28 @@ const API1 = {
       $axios({
         method: 'put',
         url: '/salerChance/' + params.id,
+		data: params
+      }).then(res => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+    },
+    demandJudgmentZX (params, success, error) { // 需求判断
+      $axios({
+        method: 'put',
+        url: '/salerChance/intentionJudge/' + params.id,
+		data: params
+      }).then(res => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+    },
+    getSigningAmountZX (params, success, error) { // 获取签单金额
+      $axios({
+        method: 'post',
+        url: '/salerChance/price',
 		data: params
       }).then(res => {
         success && success(res.data)

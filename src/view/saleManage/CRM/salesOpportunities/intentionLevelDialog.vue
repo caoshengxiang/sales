@@ -2,6 +2,8 @@
 	<div class="com-dialog-container" v-loading="dataLoading">
 		<div class="com-dialog">
 			<el-form :model='addForm' label-width='100px'>
+				<el-form-item label='需求来源'>{{params.intentionLeve.chanceSourceName}}</el-form-item>
+				<el-form-item label='需求提供人'>{{params.intentionLeve.providerName}}</el-form-item>
 				<el-form-item label='客户意向商品'>{{params.intentionLeve.intentProductName}}</el-form-item>
 				<el-form-item label='客户意向程度'>
 					<el-select v-model='addForm.customerIntentionLevel' @change="selectCustomerIntentionLevel" placeholder="请选择客户意向程度">
@@ -92,7 +94,7 @@
 				};
 				// return;
 				this.addForm.id = this.params.intentionLeve.id;
-				API.salesOpportunities.edit(this.addForm, (data) => {
+				API.salesOpportunities.demandJudgmentZX(this.addForm, (data) => {
 					if(data.status) {
 						this.$message({
 							type: 'success',
