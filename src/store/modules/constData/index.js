@@ -170,6 +170,28 @@ export default {
         percent: '100%',
       },
     ],
+    salesStateNew: [ // 销售阶段2 用于新高级搜索
+      {
+        type: -1, // 机会详细直接使用
+        value: '输单',
+      },
+      {
+        type: 1,
+        value: '创建',
+      }, {
+        type: 2,
+        value: '联系中',
+      }, {
+        type: 3,
+        value: '跟单中',
+      }, {
+        type: 4,
+        value: '跟单中',
+      },{
+        type: 5, 
+        value: '已下单',
+      },
+    ],
     demandSource: [
       {
         type: 1,

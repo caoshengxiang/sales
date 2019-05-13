@@ -52,20 +52,116 @@
       </div>
       <div class="step-box">
         <div class="step">
-          <!--<el-steps :active="salesOpportunitiesDetail.stage" align-center>-->
-            <!--<el-step @click.native="stepClickHandle(item)" v-for="(item, index) in salesState" :key="index"-->
-                     <!--:title="item.value + '(' + item.percent + ')'" v-if="index !== 0"></el-step>-->
-            <!--<el-step title="输单"></el-step>-->
-          <!--</el-steps>-->
-          <el-steps :active="salesOpportunitiesDetail.stage" align-center>
-            <el-step v-for="(item, index) in salesState" :key="index"
-                     :title="item.value + '(' + item.percent + ')'" v-if="index !== 0"></el-step>
-            <el-step title="输单"></el-step>
-          </el-steps>
+          <div class='step-all-div'>
+            <div class='step-all-line' :style='"width: " + stepLineWidth + "%"'></div>
+            <ul class='step-all-process'>
+              <!-- 创建 -->
+              <li>
+                <p class='step-all-process-personnel'>
+                  <span>
+                    <span class='step-all-process-personnel-type'>创建者</span>
+                    <span class='step-all-process-personnel-detail'>{{salesOpportunitiesDetail.team.creatorName}}</span>
+                    <span class='step-all-process-personnel-mobileimg'>
+                      <el-tooltip class="item" effect="dark" :content="salesOpportunitiesDetail.team.creatorMobilePhone" placement="top">
+                        <img src="../../../../assets/icon/detail-mobile.png" alt="">
+                      </el-tooltip>
+                    </span>
+                  </span>
+                </p>
+                <p class='step-all-process-circular'>
+                  <span>
+                    <span class='step-all-process-circular-ciryNew' v-if='salesOpportunitiesDetail.stage > 1 || salesOpportunitiesDetail.stage == -1'></span>
+                    <span class='step-all-process-circular-ciryIng' v-if='salesOpportunitiesDetail.stage == 1'></span>
+                  </span>
+                </p>
+                <p style='color: #333E48;'>创建</p>
+                <p class='step-all-process-time' style='color: #333E48;'>{{salesOpportunitiesDetail.created && $moment(salesOpportunitiesDetail.created).format('YYYY-MM-DD HH:mm:ss')}}</p>
+              </li>
+              <!-- 已联系 -->
+              <li>
+                <p class='step-all-process-personnel'>
+                  <span v-if='salesOpportunitiesDetail.stage >= 2 || salesOpportunitiesDetail.stage == -1'>
+                    <span class='step-all-process-personnel-type'>销售员</span>
+                    <span class='step-all-process-personnel-detail'>{{salesOpportunitiesDetail.team.salerName}}</span>
+                    <span class='step-all-process-personnel-mobileimg'>
+                      <el-tooltip class="item" effect="dark" :content="salesOpportunitiesDetail.team.salerMobilePhone" placement="top">
+                        <img src="../../../../assets/icon/detail-mobile.png" alt="">
+                      </el-tooltip>
+                    </span>
+                  </span>
+                </p>
+                <p class='step-all-process-circular'>
+                  <span>
+                    <span class='step-all-process-circular-ciry' v-if='salesOpportunitiesDetail.stage == 1'></span>
+                    <span class='step-all-process-circular-ciryNew' v-if='salesOpportunitiesDetail.stage > 2 || salesOpportunitiesDetail.stage == -1'></span>
+                    <span class='step-all-process-circular-ciryIng' v-if='salesOpportunitiesDetail.stage == 2'></span>
+                  </span>
+                </p>
+                <p :style='"color: " + ((salesOpportunitiesDetail.stage > 1 || salesOpportunitiesDetail.stage == -1) ? "#333E48;" : "#AAAAAA;")'>{{salesOpportunitiesDetail.contactDate ? '已联系' : '联系中'}}</p>
+                <p :style='"color: " + ((salesOpportunitiesDetail.stage > 1 || salesOpportunitiesDetail.stage == -1) ? "#333E48;" : "#AAAAAA;")' class='step-all-process-time' v-if='salesOpportunitiesDetail.contactDate'>{{salesOpportunitiesDetail.contactDate && $moment(salesOpportunitiesDetail.contactDate).format('YYYY-MM-DD HH:mm:ss')}}</p>
+              </li>
+              <!-- 跟单中 -->
+              <li>
+                <p class='step-all-process-personnel'>
+                  <span v-if='salesOpportunitiesDetail.team.counselorId != null'>
+                    <span class='step-all-process-personnel-type'>咨询师</span>
+                    <span class='step-all-process-personnel-detail'>{{salesOpportunitiesDetail.team.counselorName}}</span>
+                    <span class='step-all-process-personnel-mobileimg'>
+                      <el-tooltip class="item" effect="dark" :content="salesOpportunitiesDetail.team.counselorMobilePhone" placement="top">
+                        <img src="../../../../assets/icon/detail-mobile.png" alt="">
+                      </el-tooltip>
+                      <!-- <img src="../../../../assets/icon/detail-edit.png" alt=""> -->
+                    </span>
+                  </span>
+                </p>
+                <p class='step-all-process-circular'>
+                  <span>
+                    <span class='step-all-process-circular-ciry' v-if='salesOpportunitiesDetail.stage < 3 && salesOpportunitiesDetail.stage != -1'></span>
+                    <span class='step-all-process-circular-ciryNew' v-if='salesOpportunitiesDetail.stage > 4 || salesOpportunitiesDetail.stage == -1'></span>
+                    <span class='step-all-process-circular-ciryIng' v-if='salesOpportunitiesDetail.stage == 3 || salesOpportunitiesDetail.stage == 4'></span>
+                  </span>
+                </p>
+                <p :style='"color: " + ((salesOpportunitiesDetail.stage >= 3 || salesOpportunitiesDetail.stage == -1) ? "#333E48;" : "#AAAAAA;")'>跟单中</p>
+                <p :style='"color: " + ((salesOpportunitiesDetail.stage >= 3 || salesOpportunitiesDetail.stage == -1) ? "#333E48;" : "#AAAAAA;")' class='step-all-process-time' v-if='salesOpportunitiesDetail.florderDate'>{{salesOpportunitiesDetail.florderDate && $moment(salesOpportunitiesDetail.florderDate).format('YYYY-MM-DD HH:mm:ss')}}</p>
+              </li>
+              <!-- 已下单 -->
+              <li>
+                <p class='step-all-process-personnel'></p>
+                <p class='step-all-process-circular'>
+                  <span>
+                    <span class='step-all-process-circular-ciry' v-if='salesOpportunitiesDetail.stage < 5 && salesOpportunitiesDetail.stage != -1'></span>
+                    <span class='step-all-process-circular-ciryNew' v-if='salesOpportunitiesDetail.stage == -1'></span>
+                    <span class='step-all-process-circular-ciryIng' v-if='salesOpportunitiesDetail.stage == 5'></span>
+                  </span>
+                </p>
+                <p :style='"color: " + ((salesOpportunitiesDetail.stage == 5 || salesOpportunitiesDetail.stage == -1) ? "#333E48;" : "#AAAAAA;")'>已下单</p>
+                <p class='step-all-process-time' :style='"color: " + ((salesOpportunitiesDetail.stage == 5 || salesOpportunitiesDetail.stage == -1) ? "#333E48;" : "#AAAAAA;")' v-if='salesOpportunitiesDetail.finishDate'>{{salesOpportunitiesDetail.finishDate && $moment(salesOpportunitiesDetail.finishDate).format('YYYY-MM-DD HH:mm:ss')}}</p>
+              </li>
+              <!-- 输单 -->
+              <li>
+                
+                <p class='step-all-process-personnel'></p>
+                <p class='step-all-process-circular'>
+                  <span>
+                    <span class='step-all-process-circular-ciry' v-if='salesOpportunitiesDetail.stage != -1'></span>
+                    <span class='step-all-process-circular-ciryIng' v-if='salesOpportunitiesDetail.stage == -1'></span>
+                  </span>
+                </p>
+                <p :style='"color: " + (salesOpportunitiesDetail.stage == -1 ? "#333E48;" : "#AAAAAA;")'>输单</p>
+                <p :style='"color: " + (salesOpportunitiesDetail.stage == -1 ? "#333E48;" : "#AAAAAA;")' class='step-all-process-time' v-if='salesOpportunitiesDetail.discardDate'>{{salesOpportunitiesDetail.discardDate && $moment(salesOpportunitiesDetail.discardDate).format('YYYY-MM-DD HH:mm:ss')}}</p>
+              </li>
+            </ul>
+          </div>
+          <!-- <el-steps :active="salesOpportunitiesDetail.stage == 4 ? 3 : salesOpportunitiesDetail.stage" align-center> -->
+            <!-- <el-step @click.native="stepClickHandle(item)" v-for="(item, index) in salesState" :key="index" -->
+            <!-- <el-step v-for="(item, index) in salesState" :key="index" -->
+                     <!-- :title="item.value" v-if="index !== 0"></el-step> -->
+            <!-- <el-step title="输单"></el-step> -->
+          <!-- </el-steps> -->
         </div>
         <!--输单后隐藏删除以外得按钮， 调整为更近人操作-->
-        <!--<a v-if="salesOpportunitiesDetail.stage !== -1 && isChanceCreater" class="lose-bill"-->
-           <!--@click="operateOptions('discard')">输单</a>-->
+<!--        <a v-if="salesOpportunitiesDetail.stage !== -1 && isChangeFollower" class="lose-bill"
+           @click="operateOptions('discard')">输单</a> -->
       </div>
 
     </div>
@@ -127,9 +223,9 @@
                 <td>{{salesOpportunitiesDetail.contacter}}[{{salesOpportunitiesDetail.contactPhone}}]</td>
                 <td class="td-title">需求进度</td>
                 <td>
-                  <span v-for="item in salesState"
+                  <span v-for="item in salesStateNew"
                         :key="item.type"
-                        v-if="item.type === salesOpportunitiesDetail.stage">{{item.value}}&nbsp;{{item.percent}}</span>
+                        v-if="item.type === salesOpportunitiesDetail.stage">{{item.value}}</span>
                 </td>
               </tr>
               <tr>
@@ -427,11 +523,14 @@
         isChanceCreater: true, // 当前用户是机会的创建人，
         isChanceCounselor: true, // 当前用户是机会的咨询师
         customerDetail: {}, // 客户详细
+        
+        stepLineWidth: 0,        //step线的宽度
       }
     },
     computed: {
       ...mapState('constData', [
         'salesState',
+        'salesStateNew',
         'orderState',
         'themeIndex',
         'topSource',
@@ -679,6 +778,14 @@
           if (this.userInfo.id !== this.salesOpportunitiesDetail.team.counselorId) { // 判断机会的创建人
             this.isChanceCounselor = false
           }
+          // 根据状态设置step线的长度
+          let stepW = 0;
+          stepW = this.salesOpportunitiesDetail.stage == 2 && 25 ||
+                  this.salesOpportunitiesDetail.stage == 3 && 50 ||
+                  this.salesOpportunitiesDetail.stage == 4 && 50 ||
+                  this.salesOpportunitiesDetail.stage == 5 && 75 ||
+                  this.salesOpportunitiesDetail.stage == -1 && 100 || 0;
+          this.stepLineWidth = stepW;
         })
       },
       getCustomerDetail (customerId) {
@@ -883,16 +990,104 @@
   }
 </script>
 
+<style scoped>
+  .step >>> .is-process {
+    color: #c0c4cc;
+    font-weight: normal;
+    border-color: #c0c4cc;
+  }
+</style>
+
 <style scoped lang="scss" rel="stylesheet/scss">
-  @import "../../../../styles/common";
+  @import "../../../../styles/commons";
 
   .step-box {
     margin-top: 20px;
   }
 
   .step {
-    width: 90%;
+    width: calc(100% - 30px);
+    background: #F5F8FA;
+    padding: 75px 15px 90px 15px;
     display: inline-block;
+    overflow: hidden;
+    .step-all-div {
+      width: 85%;
+      margin: 0 auto;
+      height: 1px;
+      background: #BBBBBB;
+      position: relative;
+      .step-all-line {
+        width: 0;
+        height: 1px;
+        position: absolute;
+        top: 0;
+        left: 0;
+        background: #4BCF99;
+      }
+      .step-all-process {
+        width: 125%;
+        overflow: hidden;
+        position: absolute;
+        top: -41px;
+        left: -12.5%;
+        li {
+          width: 20%;
+          float: left;
+          text-align: center;
+          color: #AAAAAA;
+          font-size: 12px;
+          .step-all-process-personnel {
+            height: 40px;
+            line-height: 40px;
+            font-size: 12px;
+            color: #4F5F6F;
+            .step-all-process-personnel-type {
+              font-size: 14px;
+              font-weight: bold;
+            }
+            .step-all-process-personnel-mobileimg {
+              img {
+                width: 25px;
+                height: 25px;
+                position: relative;
+                top: 7px;
+                cursor: pointer;
+              }
+            }
+          }
+          .step-all-process-circular {
+            margin-bottom: 5px;
+            margin-top: -5px;
+            .step-all-process-circular-ciry {
+              display: inline-block;
+              width: 10px;
+              height: 10px;
+              background: #BBBBBB;
+              border-radius: 50%;
+            }
+            .step-all-process-circular-ciryNew {
+              display: inline-block;
+              width: 10px;
+              height: 10px;
+              background: #4BCF99;
+              border-radius: 50%;
+            }
+            .step-all-process-circular-ciryIng {
+              display: inline-block;
+              width: 12px;
+              height: 12px;
+              background: #4BCF99;
+              box-shadow: 0 0 5px #4BCF99;
+              border-radius: 50%;
+            }
+          }
+          .step-all-process-time {
+            margin-top: 5px;
+          }
+        }
+      }
+    }
   }
 
   .lose-bill {
@@ -929,6 +1124,20 @@
       @extend .base;
       border-color: #F94849;
       color: #F94849;
+    }
+  }
+  .mytep-ul {
+    width: 100%;
+    overflow: hidden;
+    li {
+      float: left;
+      width: 20%;
+      text-align: center;
+      font-size: 13px;
+      .mytep-created {
+        color: #aaa;
+        font-size: 13px;
+      }
     }
   }
 </style>

@@ -182,11 +182,11 @@
           width="160"
           show-overflow-tooltip>
           <template slot-scope="scope">
-            <span v-for="item in salesState" :key="item.type" v-if="item.type === scope.row.stage">{{item.value}}</span>
+            <span v-for="item in salesStateNew" :key="item.type" v-if="item.type === scope.row.stage">{{item.value}}</span>
             <!--<span v-if="scope.row.stage === -1">输单</span>-->
           </template>
         </el-table-column>
-        <el-table-column
+<!--        <el-table-column
           align="center"
           sortable="custom"
           prop="stage"
@@ -196,9 +196,8 @@
           <template slot-scope="scope">
             <span v-for="item in salesState" :key="item.type"
                   v-if="item.type === scope.row.stage">{{item.percent}}</span>
-            <!--<span v-if="scope.row.stage === -1">0%</span>-->
           </template>
-        </el-table-column>
+        </el-table-column> -->
         <el-table-column
           align="center"
           prop="chanceSourceName"
@@ -343,6 +342,7 @@
       ...mapState('constData', [
         'pagesOptions',
         'salesState',
+        'salesStateNew',
         'demandSource',
         'salesOpportunitiesOptions',
         'themeIndex',
@@ -540,7 +540,7 @@
           width: 900,
           height: 600,
           params: {
-            salesState: this.salesState,
+            salesState: this.salesStateNew,
             demandSource: this.demandSource,
             preAdvancedSearch: this.advancedSearch,
           },
