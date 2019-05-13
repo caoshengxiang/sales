@@ -320,6 +320,28 @@
                     {{operationList[item.num - 1][1-1]}}
                   </el-button>
                 </div>
+                <div v-if="item.num === 42">
+                  <el-button v-if="item.state === 1" type="text" @click="operationListHandle(item, 1)">
+                    {{operationList[item.num - 1][1-1]}}
+                  </el-button>
+                  <!--<el-button type="text" @click="operationListHandle(item, 1)">-->
+                  <!--{{operationList[item.num - 1][1-1]}}-->
+                  <!--</el-button>-->
+                  <!--审核未通过，状态-审核失败（隐藏录入按钮，显示修改按钮）-->
+                  <el-button type="text"  v-if=" item.state === 4" @click="operationListHandle(item, 2)">{{operationList[item.num - 1][2-1]}}
+                  </el-button>
+                </div>
+                <div v-if="item.num === 43">
+                  <el-button v-if="item.state === 1" type="text" @click="operationListHandle(item, 1)">
+                    {{operationList[item.num - 1][1-1]}}
+                  </el-button>
+                  <!--<el-button type="text" @click="operationListHandle(item, 1)">-->
+                  <!--{{operationList[item.num - 1][1-1]}}-->
+                  <!--</el-button>-->
+                  <!--审核未通过，状态-审核失败（隐藏录入按钮，显示修改按钮）-->
+                  <el-button type="text"  v-if=" item.state === 4" @click="operationListHandle(item, 2)">{{operationList[item.num - 1][2-1]}}
+                  </el-button>
+                </div>
               </div>
             </td>
             <td v-else>
@@ -357,7 +379,7 @@
                 <span v-else>{{$moment(item.setTime).format('YYYY-MM-DD')}}</span>
               </span>
               <a style="color: blue" v-if="item.num === 34 || item.num === 39" @click="showContactDetail(item)">查看联系人信息</a>
-              <a style="color: blue" v-if="item.num === 7" @click="showCustomerDetail(item)">查看客户信息表</a>
+              <a style="color: blue" v-if="item.num === 7 || item.num === 42 || item.num === 43" @click="showCustomerDetail(item)">查看客户信息表</a>
             </li>
           </ul>
         </div>
@@ -454,6 +476,8 @@
           ['完善联系人信息'], // num 39
           ['设置服务周期'], // num 40
           ['上传服务成果'], // num 41
+          ['录入客户信息表', '修改客户信息'], // num 42
+          ['录入客户信息表', '修改客户信息'],  // num 43
         ],
         form: {
           // serviceYear: new Date().getFullYear(),
@@ -645,7 +669,9 @@
               }
             },
           })
-        } else if ((item.num === 7 && operationCode === 1) || (item.num === 7 && operationCode === 2)) {
+        } else if ((item.num === 7 && operationCode === 1) || (item.num === 7 && operationCode === 2) ||
+          (item.num === 42 && operationCode === 1) || (item.num === 7 && operationCode === 2) ||
+          (item.num === 43 && operationCode === 1) || (item.num === 7 && operationCode === 2)) {
           let type = 'show'
           if (operationCode === 1) {
             type = 'add'

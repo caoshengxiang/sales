@@ -10,7 +10,7 @@
             <td class="td-title">客户名称</td>
             <td class="td-text">
               <el-form-item prop="name">
-                <el-input type="text" v-model="addForm.name" disabled></el-input>
+                <el-input type="text" v-model="addForm.name"></el-input>
               </el-form-item>
             </td>
             <td class="td-title">营业执照</td>
@@ -93,12 +93,6 @@
                   <el-option  v-for="(li, index) in baseSetingList13" :key="index" :label="li.codeName" :value="li.codeName"></el-option>
                 </el-select>
               </el-form-item>
-            <td class="td-title">营业期限</td>
-            <td class="td-text">
-              <el-form-item prop="businessTerm">
-                <el-input type="text" v-model="addForm.businessTime"></el-input>
-              </el-form-item>
-            </td>
             <td class="td-title">公司形式</td>
             <td class="td-text">
               <el-form-item prop="mode">
@@ -112,6 +106,12 @@
             <td class="td-text">
               <el-form-item prop="registryDepartment">
                 <el-input type="text" v-model="addForm.registryDepartment"></el-input>
+              </el-form-item>
+            </td>
+            <td class="td-title">营业期限</td>
+            <td class="td-text">
+              <el-form-item prop="businessTime">
+                <el-input type="text" v-model="addForm.businessTime"></el-input>
               </el-form-item>
             </td>
             <td class="td-title">营业范围</td>
@@ -323,10 +323,10 @@
                       <el-input type="text" v-model="item.name"></el-input>
                     </el-form-item>
                   </td>
-                  <td class="td-title">职务</td>
+                  <!--<td class="td-title">职务</td>
                   <td class="td-text">
                     <el-form-item prop="job">
-                      <!--<el-input type="text" v-model="item.job"></el-input>-->
+                      &lt;!&ndash;<el-input type="text" v-model="item.job"></el-input>&ndash;&gt;
                       <el-select v-model="item.job" placeholder="请选择">
                         <el-option  v-for="(li, index) in baseSetingList11" :key="index" :label="li.codeName" :value="li.codeName"></el-option>
                       </el-select>
@@ -339,19 +339,19 @@
                     </el-form-item>
                   </td>
                 </tr>
-                <tr>
+                <tr>-->
                   <td class="td-title">电话</td>
                   <td class="td-text">
                     <el-form-item prop="tel">
                       <el-input type="text" v-model="item.tel"></el-input>
                     </el-form-item>
-                  </td>
+                  </td><!--
                   <td class="td-title"></td>
                   <td class="td-text">
                   </td>
                   <td class="td-title"></td>
                   <td class="td-text">
-                  </td>
+                  </td>-->
                 </tr>
               </table>
               <el-button v-if="!item.id" type="danger" icon="el-icon-minus" style="margin: -10px 0 10px 10px;"
@@ -724,10 +724,63 @@
           // contacterName: [
           //   {required: true, message: '请输入联系人姓名', trigger: 'blur'},
           // ],
-          // phone: [
-          //   // {required: true, message: '请输入联系电话', trigger: 'blur'},
-          //   chartLengthRule.validatePhone,
-          // ],
+          name: [
+            {required: true, message: '请输入客户名称', trigger: 'blur'},
+          ],
+          businessLicense: [
+            {required: true, message: '请输入营业执照', trigger: 'blur'},
+          ],
+          registryAddress: [
+            {required: true, message: '请输入注册地址', trigger: 'blur'},
+          ],
+          workAddress: [
+            {required: true, message: '请输入办公地址', trigger: 'blur'},
+          ],
+          produceAddress: [
+            {required: true, message: '请输入生产地址', trigger: 'blur'},
+          ],
+          creditCode: [
+            {required: true, message: '请输入统一社会编码', trigger: 'blur'},
+          ],
+          checkTime: [
+            {required: true, message: '请输入核准时间', trigger: 'blur'},
+          ],
+          registryTime: [
+            {required: true, message: '请输入注册时间', trigger: 'blur'},
+          ],
+          registeredCapital: [
+            {required: true, message: '请输入注册资本', trigger: 'blur'},
+          ],
+          companyState: [
+            {required: true, message: '请输入公司状态', trigger: 'blur'},
+          ],
+          typesBusiness: [
+            {required: true, message: '请输入企业类型', trigger: 'blur'},
+          ],
+          businessTime: [
+            {required: true, message: '请输入营业期限', trigger: 'blur'},
+          ],
+          mode: [
+            {required: true, message: '请输入公司形式', trigger: 'blur'},
+          ],
+          registryDepartment: [
+            {required: true, message: '请输入登记机关', trigger: 'blur'},
+          ],
+          businessScope: [
+            {required: true, message: '请输入营业范围', trigger: 'blur'},
+          ],
+          phone: [
+            {required: true, message: '请输入电话', trigger: 'blur'},
+          ],
+          industry: [
+            {required: true, message: '请输入行业门类', trigger: 'blur'},
+          ],
+          legalPerson: [
+            {required: true, message: '请输入法人代表', trigger: 'blur'},
+          ],
+          business: [
+            {required: true, message: '请输入主营业务', trigger: 'blur'},
+          ],
         },
         baseSetingList9: [],
         baseSetingList10: [],
