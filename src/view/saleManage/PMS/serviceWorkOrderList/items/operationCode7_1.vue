@@ -771,6 +771,7 @@
           ],
           phone: [
             {required: true, message: '请输入电话', trigger: 'blur'},
+            chartLengthRule.validatePhone
           ],
           industry: [
             {required: true, message: '请输入行业门类', trigger: 'blur'},
@@ -795,17 +796,13 @@
       saveSubmitForm (formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            API.serviceCustomer.checkParmasBeforeSubmit(this.addForm, (data) => {
-              if (data.status) {
-                API.workOrder.serviceItemOperate(Object.assign({}, this.params.baseParam, {
-                  remark: this.ruleForm.remark,
-                  result: JSON.stringify(Object.assign({}, this.addForm)),
-                }), (res) => {
-                  if (res.status) {
-                    this.$message.success('操作成功')
-                    this.$vDialog.close({type: 'itemSave'})
-                  }
-                })
+            API.workOrder.serviceItemOperate(Object.assign({}, this.params.baseParam, {
+              remark: this.ruleForm.remark,
+              result: JSON.stringify(Object.assign({}, this.addForm)),
+            }), (res) => {
+              if (res.status) {
+                this.$message.success('操作成功')
+                this.$vDialog.close({type: 'itemSave'})
               }
             })
           } else {
