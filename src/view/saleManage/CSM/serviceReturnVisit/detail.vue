@@ -91,9 +91,15 @@
               </tr>
               <tr v-if="detail.type === 6 || detail.type === 7">
                 <td class="td-title">原评价星级</td>
-                <td>{{detail.retvisitContentModel.originStar}}星</td>
+                <td>
+                  <span v-if="detail.retvisitContentModel.originStar">{{detail.retvisitContentModel.originStar}}星</span>
+                  <span v-if="!detail.retvisitContentModel.originStar"></span>
+                </td>
                 <td class="td-title">回访评价</td>
-                <td>{{detail.retvisitContentModel.retEvaluation}}星</td>
+                <td>
+                  <span v-if="detail.retvisitContentModel.retEvaluation">{{detail.retvisitContentModel.retEvaluation}}星</span>
+                  <span v-if="!detail.retvisitContentModel.retEvaluation"></span>
+                </td>
                 <td class="td-title"></td>
                 <td></td>
               </tr>
