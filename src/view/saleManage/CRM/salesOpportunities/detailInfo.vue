@@ -424,6 +424,7 @@
                 <th class="td-title">微信</th>
                 <th class="td-title">QQ</th>
                 <th class="td-title">创建时间</th>
+                <th class="td-title" style='width: 260px;'>操作</th>
               </tr>
               <tr v-for="item in contactList" :key="item.id">
                 <td>{{item.contacterName}}</td>
@@ -432,6 +433,10 @@
                 <td>{{item.wx}}</td>
                 <td>{{item.qq}}</td>
                 <td>{{item.created && $moment(item.created).format('YYYY-MM-DD HH:mm:ss')}}</td>
+                <td>
+                  <el-button type="success" plain size="mini" icon="el-icon-phone-outline" @click='callIng(item, 1)'>呼叫</el-button>
+                  <el-button type="danger" plain size="mini" icon="el-icon-error" @click='callIng(item, 0)'>挂断</el-button>
+                </td>
               </tr>
             </table>
 
@@ -502,6 +507,39 @@
                 </td>
               </tr>
             </table>
+
+            <p class="table-title">通话记录</p>
+            <ul class='all-callRecord'>
+              <li class='noData' v-if='callList.length < 1'>暂无通话记录</li>
+              <li v-for='item in callList' :key='item.id'>
+                <div class='all-callRecord-time'>
+                  <p class='all-callRecord-time-date'>{{item.created && $moment(item.created).format('YYYY-MM-DD')}}</p>
+                  <p class='all-callRecord-time-time'>{{item.created && $moment(item.created).format('HH:mm:ss')}}</p>
+                </div>
+                <div class='all-callRecord-content'>
+                  <p class='all-callRecord-content-info'>
+                    <span class='all-callRecord-content-info-contant'>
+                      <img  class='all-callRecord-content-info-contant-img' src="../../../../assets/icon/call-cancat.png" alt="">
+                      <span class='all-callRecord-content-info-contant-name'>{{item.userName}}</span>
+                      <img class='all-callRecord-content-info-contant-jian' src="../../../../assets/icon/call-left-j.png" alt="" v-if='item.direct == 2'>
+                      <img class='all-callRecord-content-info-contant-jian' src="../../../../assets/icon/call-right-j.png" alt="" v-else>
+                      <img  class='all-callRecord-content-info-contant-img' src="../../../../assets/icon/call-cancat.png" alt="" v-if='item.direct == 3'>
+                      <img  class='all-callRecord-content-info-contant-img imgmt' src="../../../../assets/icon/call-cancat2.png" alt="" v-else>
+                      <span class='all-callRecord-content-info-contant-name'>{{item.contacterName}}</span>
+                    </span>
+                    <span class='all-callRecord-content-info-time' @click='listenSoundRecord(item)' v-if='item.answered == 1'>
+                      <span class='all-callRecord-content-info-time-duration'>{{getTimeDifference(item.callsec)}}</span>
+                      <span class='all-callRecord-content-info-time-frame'>{{item.startTime && $moment(item.startTime).format('HH:mm:ss')}}-{{item.endTime && $moment(item.endTime).format('HH:mm:ss')}}</span>
+                    </span>
+                    <span class='all-callRecord-content-info-time' v-if='item.answered == 2'>未接通</span>
+                    <span class='all-callRecord-content-info-time' v-if='item.answered == null'>同步中</span>
+                    <span class='all-callRecord-content-info-name'>{{item.intentProductName}}</span>
+                  </p>
+                  <p class='all-callRecord-content-remark' v-if='item.remark'>备注 : {{item.remark}}</p>
+                  <el-button type="success" plain size="mini" @click='addRemark(item)' v-else>添加备注</el-button>
+                </div>
+              </li>
+            </ul>
           </el-tab-pane>
         </el-tabs>
       </div>
@@ -573,6 +611,37 @@
         </div>
       </div>
     </div>
+    <!-- 录音弹框 -->
+    <el-dialog
+      title='录音文件'
+      :visible.sync="soundRecording"
+      width="600px"
+      :close-on-click-modal="false"
+      :close-on-press-escape="false">
+      <div>
+        <audio style='width: 100%;' :src="soundRecordingUrl" controls="controls"></audio>
+      </div>
+    </el-dialog>
+    <!-- 添加备注弹框 -->
+    <el-dialog
+      title='添加备注'
+      :visible.sync="showRemarks"
+      width="600px"
+      :close-on-click-modal="false"
+      :close-on-press-escape="false">
+      <div>
+        <el-form label-width="80px">
+          <el-form-item label='备注信息'>
+            <el-input type='textarea' :rows="5" placeholder="请输入备注信息" v-model="remark"></el-input>
+          </el-form-item>
+        </el-form>
+      </div>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="showRemarks = false">取 消</el-button>
+        <el-button type="primary" @click="subRemarksInfo">确 定</el-button>
+      </span>
+    </el-dialog>
+    
   </div>
 </template>
 
@@ -599,11 +668,17 @@
     data () {
       return {
         dataLoading: false,
+        showRemarks: false,     //备注弹框
+        remarkRecordId: '',    //要添加备注的id
+        remark: '',            //备注信息
+        soundRecording: false, //录音弹框
+        soundRecordingUrl: '', //音频地址
         activeViewName: '',
         contactList: [],
         contactTotal: 0,
         orderRecordsList: [],
         orderRecordsTotal: 0,
+        callList: [],          //通话记录列表
         orderList: [],
         orderTotal: 0,
         userInfo: '',
@@ -853,6 +928,8 @@
           }
           this.getOrderRecordsList(data.data.id)
           this.getAppOrderList(data.data.id)
+          
+          this.getCallRecordList(data.data.id);
           setTimeout(() => {
             this.dataLoading = false
           }, 500)
@@ -1050,6 +1127,115 @@
       routeToContract () {
         this.$router.push({name: 'onetimeContract', query: {name: '商品名称'}})
       },
+      // 进行呼叫/挂断
+      callIng (item, type) {
+        if(this.isChangeFollower) {
+          let phone = item.phone, contacterId = item.id, chanceId = this.$route.query.id;
+          if(!phone) {
+            return this.$message({
+              type: 'error',
+              message: item.contacterName + '没有联系电话',
+              duration: 1500
+            });
+          }
+          if(type) {  // 呼叫
+            let params = {
+                  phone,
+                  contacterId,
+                  chanceId
+                };
+             API.salesOrder.zhuxinCallIng(params, (da) => {
+             })
+          }else {// 挂断
+            let params = {
+              chanceId
+            };
+            API.salesOrder.zhuxinHangUp(params, (da) => {
+             if(da.status) {
+               this.getCallRecordList(this.$route.query.id);
+               this.$message('挂断成功');
+             }
+            })
+            
+          }
+        }else {
+          this.$message({
+            type: 'error',
+            message: '只有跟进人才能进行操作',
+            duration: 1500
+          })
+        }
+      },
+      // 获取通话记录
+      getCallRecordList (id) {
+        API.salesOrder.zhuxinSalesOpportunitiesCallRecordList(id, (da) => {
+          if(da.status) {
+            this.callList = da.data
+          }
+        })
+      },
+      // 去听录音
+      listenSoundRecord (item) {
+        if(this.isChangeFollower) {
+          this.soundRecordingUrl = item.record;
+          this.soundRecording = true;
+        }else {
+          this.$message({
+            type: 'error',
+            message: '只有跟进人才能进行操作',
+            duration: 1500
+          })
+        }
+      },
+      // 添加备注弹框
+      addRemark (item) {
+        if(this.isChangeFollower) {
+          this.remarkRecordId = item.id;
+          this.showRemarks = true;
+        }else {
+          this.$message({
+            type: 'error',
+            message: '只有跟进人才能进行操作',
+            duration: 1500
+          })
+        }
+      },
+      // 确定添加备注
+      subRemarksInfo () {
+        let _id = this.remarkRecordId, remark = this.remark;
+        if(!remark) {
+          return this.$message({
+            type: 'error',
+            message: '请输入备注信息',
+            duration: 1500
+          });
+        };
+        let _params = {
+          id: _id,
+          remark,
+        };
+        API.salesOrder.zhuxinCallAddRemark(_params, (data) => {
+          console.log('备注添加成功信息: ' + data);
+          if(data.status) {
+            this.showRemarks = false;
+            this.getCallRecordList(this.$route.query.id);
+            this.$message({
+              type: 'success',
+              message: '备注添加成功',
+              duration: 1500
+            })
+          }
+        })
+      },
+      getTimeDifference (oldsecond) {
+        let _totalSecond = oldsecond,
+            _day = Math.floor(_totalSecond / (24 * 60 * 60)),
+            _hour = Math.floor((_totalSecond % (24 * 60 * 60)) / (60 * 60)),
+            _minute = Math.floor(((_totalSecond % (24 * 60 * 60)) % (60 * 60)) / 60),
+            _second = Math.floor(((_totalSecond % (24 * 60 * 60)) % (60 * 60)) % 60),
+            _time = _hour + '时' + _minute + '分' + _second + '秒';
+        return _time
+      },
     },
     created () {
       this.activeViewName = this.$route.query.view
@@ -1204,6 +1390,102 @@
       .mytep-created {
         color: #aaa;
         font-size: 13px;
+      }
+    }
+  }
+  
+  .all-callRecord {
+    width: 100%;
+    border-top: 1px solid #e4e7ed;
+    .noData {
+      font-size: 14px;
+      text-align: center;
+      color: #aaa;
+      border: 0;
+    }
+    li {
+      padding: 15px;
+      border-bottom: 1px solid #e4e7ed;
+      overflow: hidden;
+      .all-callRecord-time {
+        float: left;
+        padding-right: 20px;
+        p {
+          line-height: 25px;
+          font-size: 12px;
+        }
+        .all-callRecord-time-time {
+          color: #aaa;
+        }
+      }
+      .all-callRecord-content {
+        width: calc(100% - 82px);
+        float: left;
+        .all-callRecord-content-info {
+          position: relative;
+          .all-callRecord-content-info-contant {
+            display: inline-block;
+            line-height: 25px;
+            overflow: hidden;
+            .all-callRecord-content-info-contant-img {
+              float: left;
+              width: 16px;
+              height: 16px;
+              margin-top: 2px;
+            }
+            .imgmt {
+              margin-top: 4px;
+            }
+            .all-callRecord-content-info-contant-name {
+              float: left;
+              margin-left: 5px;
+              font-size: 14px;
+            }
+            .all-callRecord-content-info-contant-jian {
+              float: left;
+              margin: 10px 10px 0 10px;
+              width: 55px;
+              height: 6px;
+            }
+          }
+          .all-callRecord-content-info-name {
+            display: inline-block;
+            width: 100%;
+            height: 25px;
+            text-align: center;
+            line-height: 25px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            font-size: 14px;
+            color: #6B6B6B;
+            font-weight: bold;
+          }
+          .all-callRecord-content-info-time {
+            position: relative;
+            z-index: 5;
+            text-decoration: underline;
+            cursor: pointer;
+            float: right;
+            color: #6B6B6B;
+            margin-left: 7%;
+            width: 225px;
+            text-align: left;
+            line-height: 25px;
+            .all-callRecord-content-info-time-duration {
+              font-weight: bold;
+            }
+            .all-callRecord-content-info-time-frame {
+              color: #aaa;
+            }
+          }
+        }
+        .all-callRecord-content-remark {
+          margin-top: -3px;
+          font-size: 13px;
+          color: #aaa;
+          line-height: 25px;
+        }
       }
     }
   }

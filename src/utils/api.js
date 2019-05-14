@@ -1216,13 +1216,66 @@ const API1 = {
         error && error(err)
       })
     },
-		zhuxinRefund (params, success, error) { // 退单申请
+	zhuxinRefund (params, success, error) { // 退单申请
       $axios.post('/salerOrderRefund', params).then((res) => {
         success && success(res.data)
       }).catch((err) => {
         error && error(err)
       })
-		},
+	},
+	zhuxinCallIng (params, success, error) { // 呼叫
+      $axios({
+        method: 'post',
+        url: '/zcall/api/call',
+        params: params,
+      }).then(res => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+	},
+	zhuxinHangUp (params, success, error) { // 挂断
+      $axios({
+        method: 'post',
+        url: '/zcall/api/hangup',
+        params: params,
+      }).then(res => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+	},
+    zhuxinSalesOpportunitiesCallRecordList (params, success, error) { // 获取销售机会的通话记录
+      $axios({
+        method: 'get',
+        url: '/zcall/api/chanceList/' + params,
+      }).then(res => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+    },
+    zhuxinCustomerCallRecordList (params, success, error) { // 获取客户的通话记录
+      $axios({
+        method: 'get',
+        url: '/zcall/api/customerList/' + params,
+      }).then(res => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+    },
+	zhuxinCallAddRemark (params, success, error) { // 添加备注
+      $axios({
+        method: 'put',
+        url: '/zcall/api/updateRemark',
+        params: params,
+      }).then(res => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+	},
   },
   // 跟单记录
   orderRecords: {
