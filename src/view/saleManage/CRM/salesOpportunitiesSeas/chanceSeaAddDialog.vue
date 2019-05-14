@@ -58,8 +58,8 @@
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label='客户公海' prop="seaId">
-              <el-select v-model.number="addForm.seaId" placeholder="请选择客户公海">
+            <el-form-item label='客户公海' prop="customerSeaId">
+              <el-select v-model.number="addForm.customerSeaId" placeholder="请选择客户公海">
                 <el-option v-for="item in seaList" :key="item.id" :label="item.name" :value="item.id"></el-option>
               </el-select>
             </el-form-item>
@@ -151,7 +151,7 @@
           intentProductIds: [],            //商品id
           intentProductNames: [],          //商品名称
           provider: '',                    // 需求提供人
-          seaId: '',                       // 客户公海
+          customerSeaId: '',                       // 客户公海
           chanceSeaId: '',                 // 机会公海
           chanceSource: '',                //需求来源
           applyUserId: '',                 //报名用户id
@@ -226,7 +226,7 @@
           !this.addForm.contactPhone && '请输入客户联系电话' ||
           (!this.addForm.provinceId || !this.addForm.cityId || !this.addForm.areaId) && '请选择客户地区' ||
           !this.addForm.industryArr && '请选择客户行业' ||
-          !this.addForm.seaId && '请选择客户公海' ||
+          !this.addForm.customerSeaId && '请选择客户公海' ||
           !this.addForm.chanceSeaId && '请选择机会公海' ||
           !this.addForm.chanceSource && '请选择需求来源' ||
           !this.addForm.provider && '请选择需求提供人' ||
