@@ -260,6 +260,7 @@
 				this.dataLoading = true
 				this.addForm.meetingId = this.params.meetingId
 				this.addForm.meetingSaleCreator = this.params.meetingCreatorId
+        this.addForm.intentProductNames = [];
 				if(this.addForm.intentProductIds.length > 0 && this.intentProductList.length > 0) {
 					this.addForm.intentProductIds.forEach(a => {
 						this.intentProductList.forEach(b => {

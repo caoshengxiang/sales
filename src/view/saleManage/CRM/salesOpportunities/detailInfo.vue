@@ -62,7 +62,7 @@
               @click="operateOptions('move')">转移
           </li>
           <li class="op-active" v-if="salesOpportunitiesDetail.stage !== -1 && isChangeFollower" @click="operateOptions('discard')">输单</li>
-          <li class="op-active" @click="editIntentionLeve" v-if='isChangeFollower'>客户意向</li>
+          <li class="op-active" @click="editIntentionLeve(0)" v-if='isChangeFollower'>客户意向</li>
           <li class="op-active" v-if='(salesOpportunitiesDetail.stage == 3 || salesOpportunitiesDetail.stage == 4) && salesOpportunitiesDetail.team && !salesOpportunitiesDetail.team.counselorId && isChangeFollower' @click="operateOptions('apply')">咨询师管理</li>
           <li class="op-active" @click="operateOptions('delete')">删除</li>
         </ul>
@@ -117,7 +117,7 @@
                 <p :style='"color: " + ((salesOpportunitiesDetail.stage > 1 || salesOpportunitiesDetail.stage == -1) ? "#333E48;" : "#AAAAAA;")'>{{salesOpportunitiesDetail.contactDate ? '已联系' : '联系中'}}</p>
                 <p :style='"color: " + ((salesOpportunitiesDetail.stage > 1 || salesOpportunitiesDetail.stage == -1) ? "#333E48;" : "#AAAAAA;")' class='step-all-process-time' v-if='salesOpportunitiesDetail.contactDate'>{{salesOpportunitiesDetail.contactDate && $moment(salesOpportunitiesDetail.contactDate).format('YYYY-MM-DD HH:mm:ss')}}</p>
                 <p class='step-all-process-time' v-if='!salesOpportunitiesDetail.contactDate && salesOpportunitiesDetail.stage == 2 && isChangeFollower'>
-                  <el-button type="success" plain size="mini" @click="editIntentionLeve">需求判断</el-button>
+                  <el-button type="success" plain size="mini" @click="editIntentionLeve(1)">需求判断</el-button>
                 </p>
               </li>
               <!-- 跟单中 -->
@@ -720,7 +720,7 @@
       ...mapActions('salesOpportunities', [
         'ac_salesOpportunitiesDetail',
       ]),
-			editIntentionLeve () {
+			editIntentionLeve (num) {
 				API.customer.chanceCheckValid({id: this.$route.query.id}, (data) => {
 					if(data.status && data.data == 1) {
 						this.$vDialog.modal(intentionLevelDialog, {
@@ -728,7 +728,8 @@
 							width: 600,
 							height: 460,
 							params: {
-								intentionLeve: this.salesOpportunitiesDetail
+								intentionLeve: this.salesOpportunitiesDetail,
+                type: num ? 1 : null,
 							},
 							callback: (data) => {
 								if (data.type === 'save') {

@@ -5,6 +5,9 @@
 				<el-form-item label='需求来源'>{{params.intentionLeve.chanceSourceName}}</el-form-item>
 				<el-form-item label='需求提供人'>{{params.intentionLeve.providerName}}</el-form-item>
 				<el-form-item label='客户意向商品'>{{params.intentionLeve.intentProductName}}</el-form-item>
+				<el-form-item label='需求备注' v-if='params.type == 1'>
+                    <el-input type='textarea' rows="5" placeholder="请输入需求备注" v-model='addForm.chanceRemark' resize="none"></el-input>
+                </el-form-item>
 				<el-form-item label='客户意向程度'>
 					<el-select v-model='addForm.customerIntentionLevel' @change="selectCustomerIntentionLevel" placeholder="请选择客户意向程度">
 						<el-option label='高' :value='3'>高</el-option>
@@ -56,6 +59,7 @@
 				addForm: {
 					customerIntentionLevel: '',               //意向程度
 					chatRecord: '',                           //描述信息
+                    chanceRemark: '',
 					recorderFileName: '',                     //证据文件名称
 					recorderFileUrl: '',                      //证据文件路径
 				},
@@ -70,6 +74,7 @@
 		created () {
 			let _detail = this.params.intentionLeve;
 			this.addForm.customerIntentionLevel = _detail.customerIntentionLevel;
+            this.addForm.chanceRemark = _detail.chanceRemark;
 			if(_detail.customerIntentionLevel == 0) {
 				this.addForm.chatRecord = _detail.chatRecord;
 				if(_detail.recorderFileUrl && _detail.recorderFileName) {
@@ -94,11 +99,12 @@
 				};
 				// return;
 				this.addForm.id = this.params.intentionLeve.id;
+                if(this.params.type == 1) {this.addForm.type = 1};
 				API.salesOpportunities.demandJudgmentZX(this.addForm, (data) => {
 					if(data.status) {
 						this.$message({
 							type: 'success',
-							message: '设置意向程度成功',
+							message: this.params.type == 1 ? '需求判断成功' : '设置意向程度成功',
 							duration: 1000
 						})
 						this.$vDialog.close({type: 'save'})
