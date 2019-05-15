@@ -180,7 +180,7 @@ export default {
         value: '创建',
       }, {
         type: 2,
-        value: '联系中',
+        value: '已联系',
       }, {
         type: 3,
         value: '跟单中',
