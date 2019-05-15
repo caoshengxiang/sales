@@ -1181,16 +1181,8 @@
       // 去听录音
       listenSoundRecord (item) {
         this.soundRecordingUrl = [];
-        if(this.isChangeFollower) {
-          this.soundRecordingUrl = item.record;
-          this.soundRecording = true;
-        }else {
-          this.$message({
-            type: 'error',
-            message: '只有跟进人才能进行操作',
-            duration: 1500
-          })
-        }
+        this.soundRecordingUrl = item.record;
+        this.soundRecording = true;
       },
       // 添加备注弹框
       addRemark (item) {
