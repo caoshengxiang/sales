@@ -302,6 +302,7 @@
             if (data.type === 'search') {
               this.advancedSearch = data.params
               console.log(this.advancedSearch)
+              this.currentPage = 1;
               // this.advancedSearch.paymentMonthStart = !this.advancedSearch.paymentMonthStart
               //   ? null
               //   : (this.advancedSearch.paymentMonthStart.getFullYear() + '' +
@@ -313,7 +314,12 @@
               //     ('00' + (1 + this.advancedSearch.paymentMonthEnd.getMonth())).slice(-2))
               // alert(this.advancedSearch.paymentMonthEnd)
               this.getCommissionClear()
+            }else {
+                this.advancedSearch = {};
             }
+          },
+          cancelCallback: (val) => {
+              this.advancedSearch = {};
           },
         })
       },

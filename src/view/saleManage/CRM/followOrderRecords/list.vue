@@ -195,6 +195,7 @@
       ...mapState('constData', [
         'pagesOptions',
         'salesState',
+        'salesStateNew',
       ]),
     },
     components: {
@@ -245,15 +246,21 @@
           width: 900,
           height: 360,
           params: {
-            salesState: this.salesState,
+            salesState: this.salesStateNew,
             preAdvancedSearch: this.advancedSearch
           },
           callback: (data) => {
             if (data.type === 'search') {
               console.log('高级搜索数据：', data.params)
+              this.currentPage = 1;
               this.advancedSearch = data.params
               this.getRecordsList()
+            }else {
+                this.advancedSearch = {};
             }
+          },
+          cancelCallback: (val) => {
+              this.advancedSearch = {};
           },
         })
       },
