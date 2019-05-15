@@ -36,7 +36,7 @@
 					<span class='message-title-name'>{{message.title}}</span>
 					<span class='message-title-time'>({{message.created && $moment(message.created).format('YYYY-MM-DD HH:mm')}})</span>
 				</p>
-				<p class='message-content' v-for="item in messageContent">{{item}}</p>
+				<p class='message-content' v-html="messageContent"></p>
 			</div>
 			<span slot="footer" class="dialog-footer">
 				<el-button type="primary" @click='readFinsh(message)'>阅读完成</el-button>
@@ -61,7 +61,7 @@
 				dialogVisible: false,
 				version: 'ERP',     //版本名称
 				message: {},        //消息
-				messageContent: [],
+				messageContent: '',
       }
     },
     computed: {
@@ -166,7 +166,7 @@
 								if(data.data.content.length > 0) {
 									let _list = data.data.content;
 									this.message = _list[0];
-									this.messageContent = this.message.content.split('[&&]');
+									this.messageContent = this.message.content.replace(/\[&&]/g, '<br/>');
 									this.dialogVisible = true;
 								}else {
 									this.dialogVisible = false;
@@ -244,7 +244,7 @@
 		font-size: 13px;
 		color: #949494;
 		line-height: 25px;
-		text-indent: 25px;
+    padding-left: 15px;
 	}
   .page-header {
     height: 52px;

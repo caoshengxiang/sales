@@ -1177,6 +1177,7 @@
       },
       // 去听录音
       listenSoundRecord (item) {
+        this.soundRecordingUrl = [];
         if(this.isChangeFollower) {
           this.soundRecordingUrl = item.record;
           this.soundRecording = true;
