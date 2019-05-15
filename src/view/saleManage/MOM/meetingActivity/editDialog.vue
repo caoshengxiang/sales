@@ -16,7 +16,7 @@
 					<td class='td-title'>主办单位</td>
 					<td colspan="5">
 						<!-- {{addForm.hostUnit}} -->
-						<el-tag type="success" style='margin-right: 5px;' v-for='item in host'>{{item}}</el-tag>
+						<el-tag type="success" style='margin-right: 5px;' v-for='(item, i) in host' :key='i'>{{item}}</el-tag>
 					</td>
 				</tr>
 				<tr>

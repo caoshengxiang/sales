@@ -106,7 +106,7 @@
 							<tr>
 								<td class="td-title">主办单位</td>
 								<td colspan="5">
-									<el-tag type="success" style="margin-right: 5px; margin-bottom: 5px; margin-top: 5px; cursor:pointer;" v-for="item in host">
+									<el-tag type="success" style="margin-right: 5px; margin-bottom: 5px; margin-top: 5px; cursor:pointer;" v-for="(item, i) in host" :key='i'>
 										<span @click="showErWeiMa(item)">
 											<img style="float: left; width: 15px;height: 15px;margin-top:3px;margin-right: 3px;" src="../../../../assets/icon/erweima.png" />
 											{{ item.name }}

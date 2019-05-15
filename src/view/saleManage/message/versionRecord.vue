@@ -14,7 +14,7 @@
 		  </el-breadcrumb>
 		</div>
 		<div class="com-box com-box-padding com-list-box"><el-collapse accordion>
-		  <el-collapse-item v-for="item in list" style='position: relative;'>
+		  <el-collapse-item v-for="(item, i) in list" :key='i' style='position: relative;'>
 			<template slot="title">
 				<p>{{item.title}} <span style='color: #aaa; margin-left: 10px;'>{{'(' + (item.created && $moment(item.created).format('YYYY-MM-DD HH:mm')) + ')'}}</span></p>
 				<div style='position: absolute;right: 25px; top: 0;'>
