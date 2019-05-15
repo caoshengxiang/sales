@@ -54,7 +54,7 @@
             <td class="td-title">请输入消息内容</td>
             <td class="td-text">
               <el-form-item prop="content">
-                <el-input type="textarea" v-model="form.content" placeholder="请输入消息内容" :rows="5"></el-input>
+                <el-input type="textarea" v-model="form.content" placeholder="请输入消息内容,文字末尾输入[&&]可进行换行或分段" :rows="5"></el-input>
               </el-form-item>
             </td>
           </tr>

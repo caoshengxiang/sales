@@ -306,7 +306,7 @@ const API1 = {
     },
     region (params, success, error) { // 地区
       $axios.get('region', {
-        params: {pid: params},
+        params: {pid: params, status: 1},
       }).then((res) => {
         success && success(res.data)
       }).catch((err) => {

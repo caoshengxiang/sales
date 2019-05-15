@@ -16,7 +16,7 @@
     <!--控制栏-->
     <div class="com-bar">
       <div class="com-bar-left">
-        <com-button buttonType="add" icon="el-icon-plus" @click="operateOptions('add')">新增</com-button>
+        <!-- <com-button buttonType="add" icon="el-icon-plus" @click="operateOptions('add')">新增</com-button> -->
         <!--<com-button buttonType="orange" @click="operateOptions('assign')"
                     :disabled="multipleSelection.length !== 1"><i class="el-icon-sort"
                                                                   style="transform: rotate(90deg)"></i> 分配

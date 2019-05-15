@@ -80,7 +80,7 @@ area,预显示地址
             for (var i = 0; i < list.length; i++) {
               var item = list[i]
               if (item.id === id) {
-                API.common.queryAreaList({pid: id}, function (res) {
+                API.common.queryAreaList({pid: id, status: 1}, function (res) {
                   if (res.status === true) {
                     var item = list.find((n) => n.id === id)
                     if (res.data && res.data.length > 0) {
@@ -102,7 +102,7 @@ area,预显示地址
           }
 
           var loopDo = function (id, list) {
-            API.common.queryAreaList({id: id}, function (res) {
+            API.common.queryAreaList({id: id, status: 1}, function (res) {
               if (res.status === true) {
                 if (res.data && res.data.length > 0) {
                   var loopArea = function (pid) {
@@ -154,7 +154,7 @@ area,预显示地址
       },
       queryList (pid) {
         var that = this
-        API.common.queryAreaList({pid: pid}, function (res) {
+        API.common.queryAreaList({pid: pid, status: 1}, function (res) {
           if (res.status === true) {
             if (res.data && res.data.length > 0) {
               for (var i = 0; i < res.data.length; i++) {
