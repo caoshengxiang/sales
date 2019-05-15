@@ -176,9 +176,15 @@
           },
           callback: (data) => {
             if (data.type === 'search') {
+              this.currentPage = 1;
               this.advancedSearch = data.params
               this.init()
+            }else {
+                this.advancedSearch = {};
             }
+          },
+          cancelCallback: (val) => {
+              this.advancedSearch = {};
           },
         })
       },

@@ -411,7 +411,12 @@
               this.show_page_status = true;
               this.currentPage = 1; //当搜索的时候刷新跳转到当前页
               this.getList()
+            }else {
+                this.advancedSearch = {};
             }
+          },
+          cancelCallback: (val) => {
+              this.advancedSearch = {};
           },
         })
       },

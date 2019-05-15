@@ -15,7 +15,7 @@
         <span class="span">{{$moment(msgDetail.sendTime).format('YYYY-MM-DD HH:mm:ss')}}</span>
         <a class="del" @click="delMessage"><i class="iconfont icon-shanchu"></i></a></div>
       <div class="con">
-				<p class='con-h' v-for="item in messageList">{{item}}</p>
+				<p class='con-h' v-html="messageList"></p>
         <!-- {{msgDetail.content}} -->
       </div>
       <div class="download">
@@ -41,7 +41,7 @@
     data () {
       return {
         msgDetail: {},
-				messageList: [],
+				messageList: '',
       }
     },
     methods: {
@@ -68,7 +68,7 @@
         API.message.msgDetail(this.$route.query.id, da => {
           this.msgDetail = da.data
 					if(da.data.content) {
-						this.messageList = da.data.content.split('[&&]')
+						this.messageList = da.data.content.replace(/\[&&]/g, '<br/>');
 					}
         })
       },

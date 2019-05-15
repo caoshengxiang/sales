@@ -19,7 +19,7 @@
           <el-col :span="8">
             <el-form-item label="销售阶段：">
               <el-select v-model="searchForm.stage" placeholder="请选择销售阶段">
-                <el-option v-for="item in salesState" :key="item.type" :label="item.value + ' ' + item.percent"
+                <el-option v-for="item in salesState" :key="item.type" :label="item.value"
                            :value="item.type"></el-option>
               </el-select>
             </el-form-item>

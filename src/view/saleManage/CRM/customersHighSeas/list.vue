@@ -16,7 +16,7 @@
     <!--控制栏-->
     <div class="com-bar">
       <div class="com-bar-left">
-        <com-button buttonType="add" icon="el-icon-plus" @click="operateOptions('add')">新增</com-button>
+        <!-- <com-button buttonType="add" icon="el-icon-plus" @click="operateOptions('add')">新增</com-button> -->
         <!--<com-button buttonType="orange" @click="operateOptions('assign')"
                     :disabled="multipleSelection.length !== 1"><i class="el-icon-sort"
                                                                   style="transform: rotate(90deg)"></i> 分配
@@ -449,9 +449,15 @@
           callback: (data) => {
             if (data.type === 'search') {
               console.log('高级搜索数据：', data.params)
+              this.currentPage = 1;
               this.advancedSearch = data.params
               this.getCustomersSeaList()
+            }else {
+                this.advancedSearch = {};
             }
+          },
+          cancelCallback: (val) => {
+              this.advancedSearch = {};
           },
         })
       },

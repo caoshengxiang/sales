@@ -4,7 +4,7 @@
     <div class="latest-announcement">
       <p class="com-title">最新公告</p>
       <div class="announcement-con" v-if="announcement">
-				<p class='announcement-con-h' v-for="item in announcement">{{item}}</p>
+				<p class='announcement-con-h' v-html="announcement"></p>
 				<!-- {{announcement.content}} -->
 			</div>
       <p style="padding-left: 10px;color: #ccc;"  v-else>暂无公告内容</p>
@@ -100,7 +100,7 @@
         TodoItemTotal: 0,
         userInfo: {},
         messageList: [],
-        announcement: [],
+        announcement: '',
       }
     },
     components: {
@@ -174,7 +174,7 @@
       getMesDetail (id) { // 消息详细，公告
         API.message.msgDetails({id:id, announcement: true}, da => {
 					if(da.data) {
-						this.announcement = da.data.content.split('[&&]');
+						this.announcement = da.data.content.replace(/\[&&]/g, '<br/>');
 					}
         })
       },

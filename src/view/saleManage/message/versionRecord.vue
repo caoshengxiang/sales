@@ -23,7 +23,7 @@
 				</div>
 			</template>
 			<div class='grad-bg'>
-				<p v-for="itemp in item.messageList">{{itemp}}</p>
+				<p v-html="item.messageList"></p>
 				<!-- {{item.content}} -->
 			</div>
 		  </el-collapse-item>
@@ -95,7 +95,7 @@
 								if(_list.length > 0) {
 									_list.forEach(a => {
 										if(a.content) {
-											a.messageList = a.content.split('[&&]');
+											a.messageList = a.content.replace(/\[&&]/g, '<br/>');
 										}
 										console.log(a)
 									})
@@ -150,7 +150,6 @@
   .grad-bg {
 	  background: #F0F3F6;
 	  padding: 15px 10px;
-	  text-indent: 25px;
 	  font-size: 13px;
   }
 </style>

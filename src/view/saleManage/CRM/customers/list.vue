@@ -408,7 +408,12 @@
               this.advancedSearch = data.params
 							this.currentPage = 1;
               this.getCustomerList()
+            }else {
+                this.advancedSearch = {};
             }
+          },
+          cancelCallback: (val) => {
+              this.advancedSearch = {};
           },
         })
       },
