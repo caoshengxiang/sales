@@ -702,6 +702,7 @@
 <script>
   import API from '../../../../../utils/api'
   // import { chartLengthRule } from '../../../../../utils/const'
+  import { chartLengthRule } from '../../../../../utils/const'
 
   export default {
     name: 'operationCode1_1',
@@ -771,7 +772,7 @@
           ],
           phone: [
             {required: true, message: '请输入电话', trigger: 'blur'},
-            chartLengthRule.validatePhone
+            chartLengthRule.validatePhone,
           ],
           industry: [
             {required: true, message: '请输入行业门类', trigger: 'blur'},
