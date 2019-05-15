@@ -284,7 +284,7 @@
               <tr>
                 <td class="td-title">税务主管机关</td>
                 <td class="td-text">
-                  <el-form-item prop="name">
+                  <el-form-item prop="nationalTaxBureau">
                     <el-input type="text" v-model="addForm.nationalTaxBureau"></el-input>
                   </el-form-item>
                 </td>
