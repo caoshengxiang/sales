@@ -435,7 +435,7 @@
                 <td>{{item.created && $moment(item.created).format('YYYY-MM-DD HH:mm:ss')}}</td>
                 <td>
                   <el-button type="success" plain size="mini" icon="el-icon-phone-outline" @click='callIng(item, 1)'>呼叫</el-button>
-                  <el-button type="danger" plain size="mini" icon="el-icon-error" @click='callIng(item, 0)'>挂断</el-button>
+                  <el-button type="danger" plain size="mini" icon="el-icon-error" @click='callIng(item, 0)' v-if="showHangUp">挂断</el-button>
                 </td>
               </tr>
             </table>
@@ -668,6 +668,7 @@
     data () {
       return {
         dataLoading: false,
+        showHangUp: false,
         showRemarks: false,     //备注弹框
         remarkRecordId: '',    //要添加备注的id
         remark: '',            //备注信息
@@ -1146,6 +1147,7 @@
                   chanceId
                 };
              API.salesOrder.zhuxinCallIng(params, (da) => {
+               this.showHangUp = true;
              })
           }else {// 挂断
             let params = {
@@ -1155,6 +1157,7 @@
              if(da.status) {
                this.getCallRecordList(this.$route.query.id);
                this.$message('挂断成功');
+               this.showHangUp = false;
              }
             })
             
