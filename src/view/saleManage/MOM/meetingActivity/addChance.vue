@@ -118,6 +118,11 @@
 							</el-select>
 						</el-form-item>
 					</el-col>
+          <el-col :span="24">
+            <el-form-item label='客户需求备注'>
+              <el-input type="text" placeholder='请填写客户需求备注信息' v-model="addForm.chanceRemark"></el-input>
+            </el-form-item>
+          </el-col>
 				</el-row>
 				<el-row class="el-row-cla" v-if='!this.params.detail'>
 					<el-col :span="24">
@@ -125,7 +130,14 @@
 					</el-col>
 				</el-row>
 				<el-row class="el-row-cla">
-					<el-col :span="24">
+					<el-col :span="8">
+						<el-form-item label='机会公海' prop="chanceSeaId">
+							<el-select v-model.number="addForm.chanceSeaId" placeholder="请选择机会公海">
+								<el-option v-for="item in chanceSeaList" :key="item.id" :label="item.name" :value="item.id"></el-option>
+							</el-select>
+						</el-form-item>
+					</el-col>
+					<el-col :span="16">
 						<el-form-item label='客户需求' prop="intentProductIds">
 							<el-select v-model="addForm.intentProductIds"
 							           style='width: 100%'
@@ -160,9 +172,10 @@
 		dialogVisibles: false,
 		conferenceExecutiveList: [],         //所有需求提供人
 		detail: {},                          //编辑时的详情
-        addForm: { // 添加表单
+    addForm: { // 添加表单
 			customerCate: '2',               //客户性质 1个人 2企业
 			customerName: '',                //客户名称
+      chanceRemark: '',                //机会备注
 			customerBusinessLicense: '',     //证件号码
 			contacter: '',                   //客户联系人
 			contactPhone: '',                //联系电话
@@ -170,7 +183,8 @@
 			intentProductIds: [],            //商品id
 			intentProductNames: [],          //商品名称
 			provider: '',                    // 需求提供人
-			customerSeaId: '',                       // 客户公海
+			customerSeaId: '',               // 客户公海
+      chanceSeaId: '',                 // 机会公海
 			chanceSource: '',                //需求来源
 			applyUserId: '',                 //报名用户id
 			chanceSourceName: '',            //报名用户name
@@ -197,6 +211,7 @@
         intentProductList: [],
         industryList: [],                     // 行业
         seaList: [],                          //客户公海
+        chanceSeaList: [],                       //机会公海
         staffList: [],                        // 机构用户
         chanceSourceType: [],                 // 客户来源
         chanceSourceArr: [],
@@ -495,6 +510,11 @@
           this.seaList = data.data
         })
       },
+      getChanceSeaList () { // 机会公海
+        API.salesOpportunitiesSea.listAboutCustomer((data) => {
+          this.chanceSeaList = data.data
+        })
+      },
       getStaffList () { // 用户信息
         API.user.listOrgUser((data) => {
           this.staffList = data.data
@@ -560,6 +580,7 @@
       // 来源
       this.getConfigData(5, 0)
       this.getSeaList()
+      this.getChanceSeaList()
 	  this.getAllStaff()
       this.industryChangeHandle([])
     },
