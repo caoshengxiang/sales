@@ -189,7 +189,7 @@
             <td class="td-title">管家类型</td>
             <td colspan="5">
               <el-form-item prop="managerTypes">
-                <el-select v-model="managerTypes" multiple placeholder="请选择管家类型">
+                <el-select v-model="managerTypes" filterable multiple placeholder="请选择管家类型">
                   <el-option
                     v-for="(item, index) in managerTypeList"
                     :key="index"
@@ -262,6 +262,7 @@
               </el-tag>
               <el-cascader
                 multiple
+                filterable
                 style="width: 100%"
                 :props="{
                     value: 'id',

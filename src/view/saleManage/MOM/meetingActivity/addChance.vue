@@ -113,7 +113,7 @@
 					</el-col>
 					<el-col :span="8">
 						<el-form-item label='需求提供人' prop="provider">
-							<el-select v-model.number="addForm.provider" placeholder="请选择需求提供人">
+							<el-select v-model.number="addForm.provider" filterable placeholder="请选择需求提供人">
 								<el-option v-for="item in conferenceExecutiveList" :key="item.id" :label="item.name" :value="item.id"></el-option>
 							</el-select>
 						</el-form-item>
@@ -141,6 +141,7 @@
 						<el-form-item label='客户需求' prop="intentProductIds">
 							<el-select v-model="addForm.intentProductIds"
 							           style='width: 100%'
+                         filterable
 												 multiple
 												 :multiple-limit="5"
 												 placeholder="请选择意向的商品 可多选">
