@@ -52,7 +52,9 @@
                     children: 'children'
                   }"
                 :change-on-select="true"
+                :placeholder="industryPlaceholder"
                 @change="industryChangeHandle"
+                @visible-change="visibleChange"
                 v-model="searchForm.industryArr">
               </el-cascader>
             </el-form-item>
@@ -197,7 +199,9 @@
           //     return false
           //   }
           // }
-        }
+        },
+        nameArr: [],
+        industryPlaceholder: '请选择',
       }
     },
     props: ['params'],
@@ -242,6 +246,7 @@
           this.searchForm.industryArr = []
         }
         this.searchForm.sourceName = this.traverseTree(this.searchForm.customerSource)
+        this.searchForm.nameArr = this.nameArr;
         this.$vDialog.close({type: 'search', params: this.searchForm})
       },
       getConfigData (type, pCode) {
@@ -314,6 +319,34 @@
           }
         })
       },
+      // 临时解决高级搜索选择客户行业后无法显示已选的行业信息
+      visibleChange (val) {
+        if(!val) {
+          let _list = this.industryType, _arr = this.searchForm.industryArr, _nameArr = [];
+          if(_list.length > 0 && _arr.length > 0) {
+            _list.forEach(a => {
+              if(a.id == _arr[0]) {
+                _nameArr.push(a.name);
+                if(_arr[1]) {
+                  a.children.forEach(b => {
+                    if(b.id == _arr[1]) {
+                      _nameArr.push(b.name);
+                      if(_arr[2]) {
+                        b.children.forEach(c => {
+                          if(c.id == _arr[2]) {
+                            _nameArr.push(c.name);
+                          }
+                        })
+                      }
+                    }
+                  })
+                }
+              }
+            })
+          }
+          this.nameArr = _nameArr;
+        }
+      },
       getLastItem (list, vals, key) { // 获取点击得目标对象, key 对应得 值vals 数组
         let LIST = list || []
         // console.log(LIST, vals, key)
@@ -354,6 +387,14 @@
       // this.customerSourceType = this.params.customerSourceType
       this.customerState = this.params.customerState
       this.searchForm = this.params.preAdvancedSearch
+      // if(this.params.preAdvancedSearch.nameArr.length > 0) {
+      //   this.industryPlaceholder = this.params.preAdvancedSearch.nameArr.split(',').replace(',', '/');
+      // }
+      if(this.params.preAdvancedSearch.nameArr) {
+        if(this.params.preAdvancedSearch.nameArr.length > 0) {
+          this.industryPlaceholder = this.params.preAdvancedSearch.nameArr.join('/');
+        }
+      }
       if (this.searchForm.startDate) { // 日期
         this.timeInterval = [this.searchForm.startDate, this.searchForm.endDate]
       }
