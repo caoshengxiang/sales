@@ -55,9 +55,9 @@
             </el-menu-item>
           </el-menu-item-group>
         </el-submenu>
-		
-		
-		
+
+
+
         <!-- <el-submenu index="MOM" v-if="listPermissions(menus, 'crmManageFront')"> -->
         <el-submenu index="MOM" v-if="listPermissions(menus, 'meetingManage')">
           <template slot="title">
@@ -73,9 +73,9 @@
             </el-menu-item>
           </el-menu-item-group>
         </el-submenu>
-		
-		
-		
+
+
+
         <el-submenu index="PMS" v-if="listPermissions(menus, 'pmsManageFront')">
           <template slot="title">
             <i class="iconfont icon-lvzhou_shebeipeizhi"></i>
@@ -101,13 +101,13 @@
             <el-menu-item index="customerComments" v-if="listPermissions(menus, 'serviceCustomerSuggestionManage')">客户意见管理</el-menu-item>
           </el-menu-item-group>
         </el-submenu>
-        <el-submenu index="financial" v-if="listPermissions(menus, 'commission')"><!--接口上这里有点小问题【没有放在子菜单里面】，但不影响-->
+        <el-submenu index="financial" v-if="listPermissions(menus, 'financialManage')"><!--接口上这里有点小问题【没有放在子菜单里面】，但不影响-->
           <template slot="title">
             <i class="iconfont icon-ai-wallet"></i>
             <span>财务管理</span>
           </template>
           <el-menu-item-group>
-            <el-menu-item index="rebateRecordsList" v-if="listPermissions(menus, 'commission')">财务佣金管理</el-menu-item>
+            <el-menu-item index="rebateRecordsList" v-if="listPermissions(menus, 'financialCommission')">财务佣金管理</el-menu-item>
           </el-menu-item-group>
         </el-submenu>
         <el-submenu index="task" v-if="listPermissions(menus, 'approval')">
