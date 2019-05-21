@@ -219,14 +219,14 @@
         <el-table-column
           align="center"
           prop="recommenderSourceName"
-          label="新客推荐来源"
+          label="客户推荐来源"
           width="160"
           show-overflow-tooltip>
         </el-table-column>
         <el-table-column
           align="center"
           prop="recommenderName"
-          label="新客推荐人"
+          label="客户推荐人"
           width="160"
           show-overflow-tooltip>
         </el-table-column>
