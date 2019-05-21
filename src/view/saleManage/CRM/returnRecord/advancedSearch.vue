@@ -73,7 +73,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="新客推荐来源：">
+            <el-form-item label="客户推荐来源：">
               <el-cascader
                 style="width: 100%"
                 :change-on-select="selectLastLevelMode"
@@ -88,7 +88,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="新客推荐人：">
+            <el-form-item label="客户推荐人：">
               <el-input type="text" v-model="searchForm.recommenderName"></el-input>
             </el-form-item>
           </el-col>
