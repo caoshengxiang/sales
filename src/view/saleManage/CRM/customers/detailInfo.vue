@@ -572,7 +572,7 @@
               this.$vDialog.modal(addChanceDialog, {
                 title: '新增销售机会',
                 width: 900,
-                height: 500,
+                height: 400,
                 params: {
                   salesState: this.salesState,
                   detailCustomersId: this.customerDetail.id,

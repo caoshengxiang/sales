@@ -402,9 +402,9 @@
             this.$vDialog.modal(addDialog, {
               title: '新增销售机会',
               width: 900,
-              height: 500,
+              height: 400,
               params: {
-                salesState: this.salesState,
+                salesState: this.salesStateNew,
                 topSource: this.topSource, // 顶级客户来源
               },
               callback (data) {
