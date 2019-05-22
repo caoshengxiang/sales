@@ -134,6 +134,18 @@
           <el-table-column
             align="center"
             sortable="custom"
+            prop="serviceRecordName"
+            label="当前服务进度"
+            width="160"
+            show-overflow-tooltip
+          >
+            <template slot-scope="scope">
+              <span :title="scope.row.serviceRecordTime && $moment(scope.row.serviceRecordTime).format('YYYY-MM-DD HH:mm')">{{scope.row.serviceRecordName}}</span>
+            </template>
+          </el-table-column>
+          <el-table-column
+            align="center"
+            sortable="custom"
             prop="specificationName"
             label="服务规格"
             width="160"
