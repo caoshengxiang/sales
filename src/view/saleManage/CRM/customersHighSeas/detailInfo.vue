@@ -304,6 +304,7 @@
         'customerState',
         'customerAddSource',
         'salesState',
+        'salesStateNew',
         'orderState',
         'themeIndex',
         'topSource',
@@ -506,9 +507,9 @@
               this.$vDialog.modal(addChanceDialog, {
                 title: '新增销售机会',
                 width: 900,
-                height: 500,
+                height: 400,
                 params: {
-                  salesState: this.salesState,
+                  salesState: this.salesStateNew,
                   stateValue: 1, // 设置默认，销售阶段
                   detailCustomersId: this.customerDetail.id,
                   topSource: this.topSource, // 顶级客户来源

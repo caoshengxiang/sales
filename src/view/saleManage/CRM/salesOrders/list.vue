@@ -72,15 +72,15 @@
           fixed
           align="center"
           sortable="custom"
-          prop="id"
+          prop="orderId"
           label="订单编号"
           show-overflow-tooltip
           width="200"
         >
           <template slot-scope="scope">
             <!--<a class="col-link" @click="handleRouter('detail', scope.row.id)">{{ scope.row.billOrderId }}</a>-->
-            <a class="col-link" @click="handleRouter('detail', scope.row.id, scope.row.providerName)">{{ scope.row.id}} <span
-              v-if="scope.row.orderId">-{{scope.row.orderId}}</span></a>
+            <a class="col-link" @click="handleRouter('detail', scope.row.id, scope.row.providerName)">{{ scope.row.orderId}} <span
+              v-if="!(scope.row.orderId)">-</span></a>
           </template>
         </el-table-column>
         <el-table-column
@@ -219,14 +219,14 @@
         <el-table-column
           align="center"
           prop="recommenderSourceName"
-          label="新客推荐来源"
+          label="客户推荐来源"
           width="160"
           show-overflow-tooltip>
         </el-table-column>
         <el-table-column
           align="center"
           prop="recommenderName"
-          label="新客推荐人"
+          label="客户推荐人"
           width="160"
           show-overflow-tooltip>
         </el-table-column>

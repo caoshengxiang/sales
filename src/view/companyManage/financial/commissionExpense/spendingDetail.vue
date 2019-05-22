@@ -174,7 +174,7 @@
         </el-table-column>
         <el-table-column
           align="center"
-          label="新客推荐人"
+          label="客户推荐人"
           show-overflow-tooltip>
           <template slot-scope="scope">
             {{ scope.row.referenceAmount }}({{ scope.row.referencePeriod }}/{{

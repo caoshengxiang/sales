@@ -572,7 +572,7 @@
               this.$vDialog.modal(addChanceDialog, {
                 title: '新增销售机会',
                 width: 900,
-                height: 500,
+                height: 400,
                 params: {
                   salesState: this.salesState,
                   detailCustomersId: this.customerDetail.id,
@@ -683,16 +683,9 @@
       },
       // 去听录音
       listenSoundRecord (item) {
-        if(this.isCustomerFollower) {
-          this.soundRecordingUrl = item.record;
-          this.soundRecording = true;
-        }else {
-          this.$message({
-            type: 'error',
-            message: '只有客户跟进人才能进行操作',
-            duration: 1500
-          })
-        }
+        this.soundRecordingUrl = [];
+        this.soundRecordingUrl = item.record;
+        this.soundRecording = true;
       },
       // 添加备注弹框
       addRemark (item) {

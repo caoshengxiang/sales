@@ -192,7 +192,7 @@
 
         <el-table-column
           align="center"
-          label="新客推荐人"
+          label="客户推荐人"
         >
 
           <el-table-column

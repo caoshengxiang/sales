@@ -351,6 +351,17 @@ const API1 = {
         error && error(err)
       })
     },
+    industrys (params, success, error) {   //获取行业树
+      $axios({
+        method: 'get',
+        url: 'category/tree',
+        params: params,
+      }).then((res) => {
+        success && success(res.data)
+      }).catch((errorData) => {
+        error && error(errorData)
+      })
+    },
     getSaleCommissionConfig (params, success, error) { // 查询佣金比例设置记录
       $axios.get('saleCommissionConfig', {params: params}).then((res) => {
         success && success(res.data)
