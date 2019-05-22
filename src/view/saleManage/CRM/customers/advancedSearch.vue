@@ -43,19 +43,15 @@
           <el-col :span="8">
             <el-form-item label="客户行业：" prop="industry">
               <el-cascader
+                v-model="searchForm.industryArr"
                 style="width: 100%"
                 :options="industryType"
                 class="selectIndustryModule"
-                :props="{
-                    value: 'id',
-                    label: 'name',
-                    children: 'children'
-                  }"
+                :props="{value: 'id', label: 'name', children: 'children'}"
                 :change-on-select="true"
                 :placeholder="industryPlaceholder"
                 @visible-change="visibleChange"
-                @change="industryChangeHandle"
-                v-model="searchForm.industryArr">
+                @change="industryChangeHandle">
               </el-cascader>
             </el-form-item>
           </el-col>
@@ -333,7 +329,9 @@
       visibleChange (val) {
         if(!val) {
           let _list = this.industryType, _arr = this.searchForm.industryArr, _nameArr = [];
+          console.log(this.industryType, this.searchForm.industryArr)
           if(_list.length > 0 && _arr.length > 0) {
+            console.log('vis', true);
             _list.forEach(a => {
               if(a.id == _arr[0]) {
                 _nameArr.push(a.name);
@@ -355,6 +353,7 @@
             })
           }
           this.nameArr = _nameArr;
+          console.log('n', this.nameArr)
         }
       },
       getLastItem (list, vals, key) { // 获取点击得目标对象, key 对应得 值vals 数组
