@@ -47,11 +47,11 @@
                 style="width: 100%"
                 :options="industryType"
                 class="selectIndustryModule"
-                :props="{value: 'id', label: 'name', children: 'children'}"
                 :change-on-select="true"
                 :placeholder="industryPlaceholder"
                 @visible-change="visibleChange"
-                @change="industryChangeHandle">
+                @change="industryChangeHandle"
+                :props="{value: 'id', label: 'name', children: 'children'}">
               </el-cascader>
             </el-form-item>
           </el-col>
