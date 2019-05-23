@@ -43,7 +43,7 @@
           <el-col :span="8">
             <el-form-item label="客户行业：" prop="industry">
               <el-cascader
-                @visible-change="visibleChange"
+                @visible-change="visibleChangeZX"
                 v-model="searchForm.industryArr"
                 style="width: 100%"
                 :options="industryType"
@@ -327,7 +327,7 @@
         })
       },
       // 临时解决高级搜索选择客户行业后无法显示已选的行业信息
-      visibleChange (val) {
+      visibleChangeZX (val) {
         console.log('open', val);
         if(!val) {
           let _list = this.industryType, _arr = this.searchForm.industryArr, _nameArr = [];
