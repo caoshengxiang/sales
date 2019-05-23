@@ -43,13 +43,13 @@
           <el-col :span="8">
             <el-form-item label="客户行业：" prop="industry">
               <el-cascader
+                @visible-change="visibleChange"
                 v-model="searchForm.industryArr"
                 style="width: 100%"
                 :options="industryType"
                 class="selectIndustryModule"
                 :change-on-select="true"
                 :placeholder="industryPlaceholder"
-                @visible-change="visibleChange"
                 @change="industryChangeHandle"
                 :props="{value: 'id', label: 'name', children: 'children'}">
               </el-cascader>
@@ -294,6 +294,7 @@
         this.searchForm.customerSource = va.join('-')
       },
       industryChangeHandle (va) {
+        console.log('change')
         let parentId;
         let that = this;
         if(va.length){
@@ -327,6 +328,7 @@
       },
       // 临时解决高级搜索选择客户行业后无法显示已选的行业信息
       visibleChange (val) {
+        console.log('open', val);
         if(!val) {
           let _list = this.industryType, _arr = this.searchForm.industryArr, _nameArr = [];
           console.log(this.industryType, this.searchForm.industryArr)
