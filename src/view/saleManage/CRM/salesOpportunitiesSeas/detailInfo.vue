@@ -97,8 +97,8 @@
                     <span class='step-all-process-circular-ciryIng' v-if='salesOpportunitiesDetail.stage == 2'></span>
                   </span>
                 </p>
-                <p :style='"color: " + ((salesOpportunitiesDetail.stage > 1 || salesOpportunitiesDetail.stage == -1) ? "#333E48;" : "#AAAAAA;")'>{{salesOpportunitiesDetail.contactDate ? '已联系' : '联系中'}}</p>
-                <p :style='"color: " + ((salesOpportunitiesDetail.stage > 1 || salesOpportunitiesDetail.stage == -1) ? "#333E48;" : "#AAAAAA;")' class='step-all-process-time' v-if='salesOpportunitiesDetail.contactDate'>{{salesOpportunitiesDetail.contactDate && $moment(salesOpportunitiesDetail.contactDate).format('YYYY-MM-DD HH:mm:ss')}}</p>
+                <p :style='"color: " + ((salesOpportunitiesDetail.stage > 1 || salesOpportunitiesDetail.stage == -1) ? "#333E48;" : "#AAAAAA;")'>联系中</p>
+                <p :style='"color: " + ((salesOpportunitiesDetail.stage > 1 || salesOpportunitiesDetail.stage == -1) ? "#333E48;" : "#AAAAAA;")' class='step-all-process-time' v-if='salesOpportunitiesDetail.obtainTime'>{{salesOpportunitiesDetail.obtainTime && $moment(salesOpportunitiesDetail.obtainTime).format('YYYY-MM-DD HH:mm:ss')}}</p>
               </li>
               <!-- 跟单中 -->
               <li>
@@ -122,7 +122,7 @@
                   </span>
                 </p>
                 <p :style='"color: " + ((salesOpportunitiesDetail.stage >= 3 || salesOpportunitiesDetail.stage == -1) ? "#333E48;" : "#AAAAAA;")'>跟单中</p>
-                <p :style='"color: " + ((salesOpportunitiesDetail.stage >= 3 || salesOpportunitiesDetail.stage == -1) ? "#333E48;" : "#AAAAAA;")' class='step-all-process-time' v-if='salesOpportunitiesDetail.florderDate'>{{salesOpportunitiesDetail.florderDate && $moment(salesOpportunitiesDetail.florderDate).format('YYYY-MM-DD HH:mm:ss')}}</p>
+                <p :style='"color: " + ((salesOpportunitiesDetail.stage >= 3 || salesOpportunitiesDetail.stage == -1) ? "#333E48;" : "#AAAAAA;")' class='step-all-process-time' v-if='salesOpportunitiesDetail.contactDate'>{{salesOpportunitiesDetail.contactDate && $moment(salesOpportunitiesDetail.contactDate).format('YYYY-MM-DD HH:mm:ss')}}</p>
               </li>
               <!-- 已下单 -->
               <li>
