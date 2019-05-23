@@ -43,7 +43,6 @@
           <el-col :span="8">
             <el-form-item label="客户行业：" prop="industry">
               <el-cascader
-                @visible-change="visibleChangeZX"
                 v-model="searchForm.industryArr"
                 style="width: 100%"
                 :options="industryType"
@@ -219,6 +218,8 @@
       clearForm () {
         this.searchForm = {}
         this.timeInterval = []
+        this.industryPlaceholder = '请选择';
+        this.nameArr = [];
       },
       treeGetName (id, node) { // 遍历树获取名称
         if (!node) {
@@ -249,12 +250,12 @@
       },
       saveSubmitForm () {
         if (this.searchForm.industryArr){
+          this.visibleChangeZX(false)
           this.searchForm.industry = this.searchForm.industryArr.join(',')
-          this.searchForm.industryArr = []
+          this.searchForm.industryArr = [];
         }
         this.searchForm.sourceName = this.traverseTree(this.searchForm.customerSource)
-        this.searchForm.nameArr = this.nameArr;
-        this.$vDialog.close({type: 'search', params: this.searchForm})
+        this.$vDialog.close({type: 'search', params: {preAdvancedSearch: this.searchForm, nameArr: this.nameArr}})
       },
       getConfigData (type, pCode) {
         API.common.codeConfig({type: type, pCode: pCode}, (data) => {
@@ -397,9 +398,9 @@
       // this.customerSourceType = this.params.customerSourceType
       this.customerState = this.params.customerState
       this.searchForm = this.params.preAdvancedSearch
-      if(this.params.preAdvancedSearch.nameArr) {
-        if(this.params.preAdvancedSearch.nameArr.length > 0) {
-          this.industryPlaceholder = this.params.preAdvancedSearch.nameArr.join('/');
+      if(this.params.nameArr) {
+        if(this.params.nameArr.length > 0) {
+          this.industryPlaceholder = this.params.nameArr.join('/');
         }
       }
       if (this.searchForm.startDate) { // 日期

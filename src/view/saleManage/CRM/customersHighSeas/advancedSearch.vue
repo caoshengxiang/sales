@@ -49,7 +49,6 @@
                 :change-on-select="true"
                 :placeholder="industryPlaceholder"
                 @change="industryChangeHandle"
-                @visible-change="visibleChange"
                 v-model="searchForm.industryArr"
                 :props="{value: 'id', label: 'name', children: 'children'}">
               </el-cascader>
@@ -208,6 +207,8 @@
       clearForm () {
         this.searchForm = {}
         this.timeInterval = []
+        this.industryPlaceholder = '请选择';
+        this.nameArr = [];
       },
       treeGetName (id, node) { // 遍历树获取名称
         if (!node) {
@@ -238,12 +239,12 @@
       },
       saveSubmitForm () {
         if(this.searchForm.industryArr){
+          this.visibleChangeZX(false)
           this.searchForm.industry = this.searchForm.industryArr.join(',')
           this.searchForm.industryArr = []
         }
         this.searchForm.sourceName = this.traverseTree(this.searchForm.customerSource)
-        this.searchForm.nameArr = this.nameArr;
-        this.$vDialog.close({type: 'search', params: this.searchForm})
+        this.$vDialog.close({type: 'search', params: {preAdvancedSearch: this.searchForm, nameArr: this.nameArr}})
       },
       getConfigData (type, pCode) {
         API.common.codeConfig({type: type, pCode: pCode}, (data) => {
@@ -316,7 +317,7 @@
         })
       },
       // 临时解决高级搜索选择客户行业后无法显示已选的行业信息
-      visibleChange (val) {
+      visibleChangeZX (val) {
         if(!val) {
           let _list = this.industryType, _arr = this.searchForm.industryArr, _nameArr = [];
           console.log(this.industryType, this.searchForm.industryArr);
@@ -389,9 +390,9 @@
       // if(this.params.preAdvancedSearch.nameArr.length > 0) {
       //   this.industryPlaceholder = this.params.preAdvancedSearch.nameArr.split(',').replace(',', '/');
       // }
-      if(this.params.preAdvancedSearch.nameArr) {
-        if(this.params.preAdvancedSearch.nameArr.length > 0) {
-          this.industryPlaceholder = this.params.preAdvancedSearch.nameArr.join('/');
+      if(this.params.nameArr) {
+        if(this.params.nameArr.length > 0) {
+          this.industryPlaceholder = this.params.nameArr.join('/');
         }
       }
       if (this.searchForm.startDate) { // 日期

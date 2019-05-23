@@ -293,6 +293,7 @@
         organizationId: null, // 选择的组织
         sortObj: {sort: 'created,desc'}, // 排序
         advancedSearch: {}, // 高级搜索
+        nameArr: [],
       }
     },
     watch: {
@@ -397,23 +398,28 @@
           title: '高级搜索',
           width: 900,
           height: 560,
+          nameArr: this.nameArr,
           params: {
             customerSourceType: this.customerSourceType,
             customerState: this.customerState,
             preAdvancedSearch: this.advancedSearch,
+            nameArr: this.nameArr,
           },
           callback: (data) => {
             if (data.type === 'search') {
               console.log('高级搜索数据：', data.params)
-              this.advancedSearch = data.params
+              this.advancedSearch = data.params.preAdvancedSearch
+              this.nameArr = data.params.nameArr;
 							this.currentPage = 1;
               this.getCustomerList()
             }else {
                 this.advancedSearch = {};
+                this.nameArr = [];
             }
           },
           cancelCallback: (val) => {
               this.advancedSearch = {};
+              this.nameArr = [];
           },
         })
       },
