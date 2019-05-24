@@ -98,24 +98,24 @@
     </div>
 
     <!--<el-dialog title="选择管家" :visible.sync="dialogTableVisible" style="z-index: 100001">-->
-      <!--<el-table-->
-        <!--ref="multipleTable"-->
-        <!--border-->
-        <!--stripe-->
-        <!--:data="managerList"-->
-        <!--tooltip-effect="dark"-->
-        <!--@selection-change="handleSelectionChange"-->
-      <!--&gt;-->
-        <!--<el-table-column-->
-          <!--fixed-->
-          <!--type="selection"-->
-          <!--align="center"-->
-          <!--width="40">-->
-        <!--</el-table-column>-->
-        <!--<el-table-column property="date" label="日期" width="150"></el-table-column>-->
-        <!--<el-table-column property="name" label="姓名" width="200"></el-table-column>-->
-        <!--<el-table-column property="address" label="地址"></el-table-column>-->
-      <!--</el-table>-->
+    <!--<el-table-->
+    <!--ref="multipleTable"-->
+    <!--border-->
+    <!--stripe-->
+    <!--:data="managerList"-->
+    <!--tooltip-effect="dark"-->
+    <!--@selection-change="handleSelectionChange"-->
+    <!--&gt;-->
+    <!--<el-table-column-->
+    <!--fixed-->
+    <!--type="selection"-->
+    <!--align="center"-->
+    <!--width="40">-->
+    <!--</el-table-column>-->
+    <!--<el-table-column property="date" label="日期" width="150"></el-table-column>-->
+    <!--<el-table-column property="name" label="姓名" width="200"></el-table-column>-->
+    <!--<el-table-column property="address" label="地址"></el-table-column>-->
+    <!--</el-table>-->
     <!--</el-dialog>-->
   </div>
 </template>
@@ -164,9 +164,9 @@
         API.workOrder.orderAssignManagerList({
           orderId: orderId,
         }, (res) => {
-            this.workOrderManagers = res.data
-            this.workOrderManagersOld = JSON.parse(JSON.stringify(res.data))
-          })
+          this.workOrderManagers = res.data
+          this.workOrderManagersOld = JSON.parse(JSON.stringify(res.data))
+        })
       },
       selectManagerHandle (item, index) {
         // this.dialogTableVisible = true
@@ -188,6 +188,7 @@
               item.managerName = data.manager.name
               item.managerId = data.manager.userId
               item.serviceName = data.manager.serviceName
+              item.limitTime = data.manager.limitTime
               // console.log(item)
               // this.getDetail()
             }
@@ -205,7 +206,8 @@
                 orderId: this.detail.orderId,
                 managerId: item.managerId,
                 serviceType: item.serviceType,
-                managerType: item.managerType
+                managerType: item.managerType,
+                limitTime: item.limitTime
               })
             } else {
               if (item.managerId !== this.workOrderManagersOld[index].managerId) { // 修改了管家，重派单,需要工单id,(id即为工单id)
@@ -214,7 +216,8 @@
                   orderId: this.detail.orderId,
                   managerId: item.managerId,
                   serviceType: item.serviceType,
-                  managerType: item.managerType
+                  managerType: item.managerType,
+                  limitTime: item.limitTime
                 })
               }
             }

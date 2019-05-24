@@ -1,6 +1,18 @@
 <template>
   <div class="com-dialog-container">
     <div class="com-dialog">
+      <span v-if="showLimit">
+      <el-row class="el-row-cla" >
+          <el-row>
+            <el-col :span="6">
+              工单完结时长：
+            </el-col>
+            <el-col :span="18">
+              <el-input type="number" v-model="limitTime"></el-input>
+            </el-col>
+          </el-row>
+      </el-row>
+      </span>
       <el-table
         ref="multipleTable"
         border
@@ -38,7 +50,7 @@
         </el-table-column>
       </el-table>
       <div slot="footer" class="dialog-footer">
-        <el-button class="save-button" @click="saveSubmitForm" :disabled="multipleSelection.length != 1">确 定</el-button>
+        <el-button class="save-button" @click="saveSubmitForm" :disabled="multipleSelection.length != 1 || limitTime &lt; 1 && showLimit">确 定</el-button>
       </div>
     </div>
   </div>
@@ -52,6 +64,8 @@
       return {
         multipleSelection: [],
         managerList: [],
+        limitTime: 0,
+        showLimit: false,
         managerCategory: [ // 管家类别
           {
             name: '平台直属',
@@ -85,6 +99,13 @@
           pageSize: 200000
         }, (res) => {
           this.managerList = res.data.content
+          API.common.serviceContentConfigDetail({goodId: this.params.serviceOrderDetail.goodsId}, (da) => {
+            this.showLimit = JSON.parse(da.data.serviceContent).some(item => {
+              return item.serviceType === 6 && item.managerType === this.params.managerType && item.items.some(v => {
+                return v.itemType === 35
+              })
+            })
+          })
         })
       },
       handleSelectionChange (val) {
@@ -98,7 +119,8 @@
             orderId: this.params.orderId,
             managerId: this.multipleSelection[0].userId,
             serviceType: this.params.serviceType,
-            managerType: this.params.managerType
+            managerType: this.params.managerType,
+            limitTime: this.limitTime
           }], (res) => {
             if (res.status) {
               if (res.data.fail > 0) {
@@ -110,6 +132,7 @@
             }
           })
         } else {
+          this.multipleSelection[0].limitTime = this.limitTime
           this.$vDialog.close({type: 'selectManager', manager: this.multipleSelection[0]})
         }
       }
