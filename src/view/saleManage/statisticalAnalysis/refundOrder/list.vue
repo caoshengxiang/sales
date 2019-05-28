@@ -168,6 +168,19 @@
 							<span class='blue-span' v-else @click='goDetail(scope.row, 5)'>{{scope.row.inServiceback}}</span>
 						</template>
           </el-table-column>
+
+          <el-table-column
+            align="center"
+            sortable="custom"
+            prop="overTime"
+            label="超时未接单"
+            show-overflow-tooltip
+          >
+            <template slot-scope='scope'>
+              <span v-if='scope.row.overTime == 0'>{{scope.row.overTime}}</span>
+              <span class='blue-span' v-else @click='goDetail(scope.row, 6)'>{{scope.row.overTime}}</span>
+            </template>
+          </el-table-column>
         </el-table>
       </div>
 
@@ -277,7 +290,7 @@
 							if(!a.deleted && a.pullOff) {
 								a.name = a.name + ' [下架]'
 							}
-							
+
 						})
 						this.goodsList = data.content;
 					}
