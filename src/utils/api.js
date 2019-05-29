@@ -275,8 +275,8 @@ const API1 = {
 			error && error(err)
 		})
 	},
-	
-	
+
+
     end  (params, success, error) { // 新增
       // console.log(params)
       $axios.post('meetingSale/meetingSaleBatchEnd', null, {params: params}).then((res) => {
@@ -585,7 +585,7 @@ const API1 = {
         error && error(err)
       })
     },
-	
+
   },
   // 客户公海,客户池
   customerSea: {
@@ -678,7 +678,11 @@ const API1 = {
       })
     },
     crossCompanyTransfer (params, success, error) { //跨公司转移
-      $axios.put('salerChance/' + params.chanceId, {chanceSeaId: params.chanceSeaId}).then((res) => {
+      $axios({
+        method: 'put',
+        url: 'salerChance/chanceSeaId',
+        params: params
+      }).then((res) => {
         success && success(res.data)
       }).catch((err) => {
         error && error(err)
