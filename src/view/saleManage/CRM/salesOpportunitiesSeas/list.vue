@@ -507,7 +507,6 @@
         this.multipleSelection = val
       },
       getSalesOpportunititeisList () { // 获取列表
-      alert(123)
         this.dataLoading = true
         this.getQueryParams()
         API.salesOpportunities.seaList(Object.assign({}, this.defaultListParams, this.sortObj, this.advancedSearch),
