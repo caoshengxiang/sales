@@ -65,6 +65,7 @@
         } else {
           that.form.codeName = that.params.currentNode.codeName
           that.form.id = that.params.currentNode.id
+          that.form.pCode = that.params.currentNode.pCode
         }
       }
     },

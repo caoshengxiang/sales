@@ -115,7 +115,7 @@
                   </span>
                 </p>
                 <p :style='"color: " + ((salesOpportunitiesDetail.stage > 1 || salesOpportunitiesDetail.stage == -1) ? "#333E48;" : "#AAAAAA;")'>联系中</p>
-                <p :style='"color: " + ((salesOpportunitiesDetail.stage > 1 || salesOpportunitiesDetail.stage == -1) ? "#333E48;" : "#AAAAAA;")' class='step-all-process-time' v-if='salesOpportunitiesDetail.obtainTime'>{{salesOpportunitiesDetail.obtainTime && $moment(salesOpportunitiesDetail.obtainTime).format('YYYY-MM-DD HH:mm:ss')}}</p>
+                <p :style='"color: " + ((salesOpportunitiesDetail.stage > 1 || salesOpportunitiesDetail.stage == -1) ? "#333E48;" : "#AAAAAA;")' class='step-all-process-time' v-if='salesOpportunitiesDetail.obtainTime || salesOpportunitiesDetail.created'>{{salesOpportunitiesDetail.obtainTime && $moment(salesOpportunitiesDetail.obtainTime).format('YYYY-MM-DD HH:mm:ss') || salesOpportunitiesDetail.created && $moment(salesOpportunitiesDetail.created).format('YYYY-MM-DD HH:mm:ss')}}</p>
                 <p class='step-all-process-time' v-if='salesOpportunitiesDetail.stage == 2 && isChangeFollower'>
                   <el-button type="success" plain size="mini" @click="editIntentionLeve(1)">需求判断</el-button>
                 </p>
@@ -143,7 +143,7 @@
                 </p>
                 <p :style='"color: " + ((salesOpportunitiesDetail.stage >= 3 || salesOpportunitiesDetail.stage == -1) ? "#333E48;" : "#AAAAAA;")'>跟单中</p>
                 <p :style='"color: " + ((salesOpportunitiesDetail.stage >= 3 || salesOpportunitiesDetail.stage == -1) ? "#333E48;" : "#AAAAAA;")' class='step-all-process-time' v-if='salesOpportunitiesDetail.contactDate'>{{salesOpportunitiesDetail.contactDate && $moment(salesOpportunitiesDetail.contactDate).format('YYYY-MM-DD HH:mm:ss')}}</p>
-                <p class='step-all-process-time'  v-if='salesOpportunitiesDetail.contactDate'>
+                <p class='step-all-process-time'>
                   <el-button type="success" plain size="mini" v-if='salesOpportunitiesDetail.stage == 3 && isChangeFollower' @click='stepClickHandle({type: salesOpportunitiesDetail.stage})'>需求定价</el-button>
                   <el-button type="success" plain size="mini" v-if='salesOpportunitiesDetail.stage == 4 && isChangeFollower' @click='stepClickHandle({type: salesOpportunitiesDetail.stage})'>通知客户</el-button>
                 </p>
