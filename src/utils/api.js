@@ -598,6 +598,13 @@ const API1 = {
         error && error(err)
       })
     },
+    getAllCustomerSea (success, error) { //获取所有机会公海，没有权限
+      $axios.get('chanceSea/all/defaultSea').then((res) => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+    },
     listAboutCustomer (success, error) { // 人员相关公海列表,客户
       $axios.get('customerSea/list').then((res) => {
         success && success(res.data)
@@ -665,6 +672,13 @@ const API1 = {
     },
     regroup (params, success, error) { // 分组
       $axios.post('customerSea/regroup', params).then((res) => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+    },
+    crossCompanyTransfer (params, success, error) { //跨公司转移
+      $axios.put('salerChance/' + params.chanceId, {chanceSeaId: params.chanceSeaId}).then((res) => {
         success && success(res.data)
       }).catch((err) => {
         error && error(err)

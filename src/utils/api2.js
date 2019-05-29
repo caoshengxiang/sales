@@ -403,6 +403,14 @@ export default {
         error && error(err)
       })
     },
+    formulate (params, success, error) { // 投诉方案
+      $axios.post('serviceComplaint/' + params.id + '/formulate',
+        params).then(res => {
+        success && success(res.data)
+      }).catch(err => {
+        error && error(err)
+      })
+    },
     handle (params, success, error) { // 投诉处理
       $axios.post('serviceComplaint/' + params.id + '/handle',
         params).then(res => {
@@ -443,6 +451,14 @@ export default {
         error && error(err)
       })
     },
+    getProcessInformation (params, success, error) {//获取投诉单处理信息
+      $axios.get('serviceComplaint/getInfo/' + params,
+        params).then(res => {
+        success && success(res.data)
+      }).catch(err => {
+        error && error(err)
+      })
+    }
   },
   // 服务回访
   serviceRetVisit: {

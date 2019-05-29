@@ -63,10 +63,11 @@
               <span v-if="scope.row.state === 1">待派单</span>
               <span v-if="scope.row.state === 2">跟进中</span>
               <span v-if="scope.row.state === 3">待处理</span>
-              <span v-if="scope.row.state === 4">待回访</span>
-              <span v-if="scope.row.state === 5">升级跟进中</span>
-              <span v-if="scope.row.state === 6">升级待处理</span>
-              <span v-if="scope.row.state === 7">已完成</span>
+              <span v-if="scope.row.state === 4">处理中</span>
+              <span v-if="scope.row.state === 5">待回访</span>
+              <span v-if="scope.row.state === 6">升级跟进中</span>
+              <span v-if="scope.row.state === 7">升级待处理</span>
+              <span v-if="scope.row.state === 8">已完成</span>
             </template>
           </el-table-column>
           <el-table-column
@@ -206,6 +207,17 @@
             width="160"
             show-overflow-tooltip
           >
+          </el-table-column>
+          <el-table-column
+            align="center"
+            sortable="custom"
+            prop="checkResult"
+            label="责任认定"
+            width="120"
+          >
+            <template slot-scope="scope">
+              <span>{{scope.row.checkResult === '0' && '无责任' || scope.row.checkResult === '1' && '有责任' || scope.row.checkResult == null && '' || ''}}</span>
+            </template>
           </el-table-column>
         </el-table>
       </div>

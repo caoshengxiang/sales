@@ -27,6 +27,9 @@
         <com-button buttonType="theme" icon="el-icon-refresh" @click="operateOptions('group')"
                     :disabled="multipleSelection.length <= 0">改变分组
         </com-button>
+        <com-button buttonType="transfer" icon="el-icon-refresh" @click="crossCompanyTransfer"
+                    :disabled="multipleSelection.length <= 0 || multipleSelection.length > 1">跨公司转移
+        </com-button>
       </div>
       <div class="com-bar-right" v-if="themeIndex === 0"><!--前端-->
         <el-select v-model="salesOpportunitiesOptionsType" placeholder="请选择" class="com-el-select">
@@ -310,6 +313,7 @@
   import advancedSearch from './advancedSearch'
   import assignDialog from './assignDialog'
   import groupDialog from './groupDialog'
+  import companyTransfer from './companyTransfer'
   import QS from 'qs'
   import webStorage from 'webStorage'
 
@@ -481,10 +485,29 @@
             break
         }
       },
+      // 跨公司转移
+      crossCompanyTransfer () {
+        let that = this;
+        this.$vDialog.modal(companyTransfer, {
+          title: '跨公司转移',
+          width: 500,
+          height: 240,
+          params: {
+            chanceId: arrToStr(this.multipleSelection, 'id'),
+          },
+          callback (data) {
+            if (data.type === 'save') {
+              that.getSalesOpportunititeisList()
+            }
+          },
+        })
+        
+      },
       handleSelectionChange (val) {
         this.multipleSelection = val
       },
       getSalesOpportunititeisList () { // 获取列表
+      alert(123)
         this.dataLoading = true
         this.getQueryParams()
         API.salesOpportunities.seaList(Object.assign({}, this.defaultListParams, this.sortObj, this.advancedSearch),

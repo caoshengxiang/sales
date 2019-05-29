@@ -45,6 +45,7 @@
             'grey': this.buttonType === 'grey',
             'theme': this.buttonType === 'theme',
             'orange': this.buttonType === 'orange',
+            'transfer': this.buttonType === 'transfer',
           })
         } else if (this.themeIndex === 1) {
           btnObj = Object.assign({}, base, {
@@ -53,6 +54,7 @@
             'm-grey': this.buttonType === 'grey',
             'm-theme': this.buttonType === 'theme',
             'm-orange': this.buttonType === 'orange',
+            'm-transfer': this.buttonType === 'transfer',
           })
         }
         return btnObj
@@ -109,6 +111,10 @@
 
   .orange {
     @include btn-style(#FFA94B)
+  }
+  
+  .transfer {
+    @include btn-style(#6491e0)
   }
 
   /* 销售前端 e*/
@@ -173,6 +179,11 @@
   }
   .m-orange {
     border-color: #FFC593 !important;
+    color: #FF7700 !important;
+    width: 100px;
+  }
+  .m-transfer {
+    border-color: #6491e0 !important;
     color: #FF7700 !important;
     width: 100px;
   }

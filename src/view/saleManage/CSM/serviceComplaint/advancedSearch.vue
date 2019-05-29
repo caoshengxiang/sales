@@ -82,6 +82,16 @@
             </el-form-item>
           </el-col>
         </el-row>
+        <el-row class="el-row-cla">
+          <el-col :span="8">
+            <el-form-item label="责任认定：">
+              <el-select v-model="searchForm.checkResult" placeholder="请选择认定">
+                <el-option  label="有责任" value="1"></el-option>
+                <el-option  label="无责任" value="0"></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+        </el-row>
         <!--范围-->
         <el-row class="el-row-cla">
           <el-col :span="14">
@@ -133,6 +143,7 @@
     data () {
       return {
         searchForm: { // 表单
+          checkResult: null,
         },
         stateList: [{
           value: 1,

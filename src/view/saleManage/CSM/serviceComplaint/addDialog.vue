@@ -138,7 +138,7 @@
           comments: [],
           complaintTime: '',
           contactName: '',
-          customerPhone: '',
+          // customerPhone: '',
           orderId: '',
           managerId: '',
           code: '',

@@ -1,5 +1,5 @@
 <!--
- type 2-6 投诉调查，投诉处理，投诉回访，升级调查，升级处理
+ type 2-7 投诉调查，方案制定，投诉处理，投诉回访，升级调查，升级处理
 -->
 
 <template>
@@ -61,6 +61,17 @@
             </td>
           </tr>
           <tr>
+            <td class="td-title" style="width: 20%">调查经过</td>
+            <td>
+              <el-form-item label="" disabled>
+                <div class="flex-line">
+                  <el-input style="margin-left: 8px;margin-top: 10px;" type="textarea"
+                            v-model="ruleForm2.checkResult.course"></el-input>
+                </div>
+              </el-form-item>
+            </td>
+          </tr>
+          <tr>
             <td class="td-title" style="width: 20%">处理方案</td>
             <td>
               <el-form-item label="" disabled>
@@ -76,37 +87,44 @@
           <el-input style="width: 100%;"
                     type="textarea"
                     :rows="10"
-                    placeholder="请输入投诉处理结果"
-                    v-model="ruleForm3.handleResult"></el-input>
+                    placeholder="请输入投诉处理方案"
+                    v-model="ruleForm3.handleFormulate"></el-input>
         </div>
-        <table class="com-dialog-table" v-if="params.type === 4">
+        <div class="com-dialog-table" v-if="params.type === 4">
+          <el-input style="width: 100%;"
+                    type="textarea"
+                    :rows="10"
+                    placeholder="请输入投诉处理结果"
+                    v-model="ruleForm7.handleResult"></el-input>
+        </div>
+        <table class="com-dialog-table" v-if="params.type === 5">
           <tr>
             <td class="td-title" style="width: 20%">是否满意</td>
             <td>
               <el-form-item label="" prop="duty" style="margin-top: 10px;margin-bottom: 10px;">
-                <el-radio-group v-model="ruleForm4.state" @change="initRuleForm4">
+                <el-radio-group v-model="ruleForm7.state" @change="initRuleForm5">
                   <el-radio :label="1">满意（投诉完成）</el-radio>
                   <el-radio :label="2">不满意（升级投诉）</el-radio>
                 </el-radio-group>
                 <div style="margin-top: 10px;">
-                  <el-input :disabled="ruleForm4.state !== 2" style="width: 100%;"
+                  <el-input :disabled="ruleForm7.state !== 2" style="width: 100%;"
                             type="textarea"
                             :rows="6"
                             placeholder="请输入不满意原因"
-                            v-model="ruleForm4.content"></el-input>
+                            v-model="ruleForm7.content"></el-input>
                 </div>
               </el-form-item>
             </td>
           </tr>
         </table>
-        <div class="com-dialog-table" v-if="params.type === 5">
+        <div class="com-dialog-table" v-if="params.type === 6">
           <el-input style="width: 100%;"
                     type="textarea"
                     :rows="10"
                     placeholder=" 请输入升级投诉处理方案"
-                    v-model="ruleForm5.upgradePlan"></el-input>
+                    v-model="ruleForm7.upgradePlan"></el-input>
         </div>
-        <table class="com-dialog-table" v-if="params.type === 6">
+        <table class="com-dialog-table" v-if="params.type === 7">
           <tr>
             <td class="td-title" style="width: 20%">处理结果</td>
             <td>
@@ -114,7 +132,7 @@
                 <div class="flex-line">
                   <el-input style="margin-left: 8px;margin-top: 10px;" type="textarea"
                             placeholder="请输入投诉处理结果"
-                            v-model="ruleForm6.upgradeReuslt"></el-input>
+                            v-model="ruleForm7.upgradeReuslt"></el-input>
                 </div>
               </el-form-item>
             </td>
@@ -126,13 +144,13 @@
                 <div class="flex-line">
                   <div style="flex: 1;">
                     <div>
-                      <el-checkbox v-model="ruleForm6.complaintReuslt.cancelReward">取消该笔订单的服务奖励</el-checkbox>
-                      <el-checkbox v-model="ruleForm6.complaintReuslt.stopCooperation">中止服务供应商合作</el-checkbox>
+                      <el-checkbox v-model="ruleForm7.complaintReuslt.cancelReward">取消该笔订单的服务奖励</el-checkbox>
+                      <el-checkbox v-model="ruleForm7.complaintReuslt.stopCooperation">中止服务供应商合作</el-checkbox>
                     </div>
                     <div>
-                      <el-checkbox v-model="ruleForm6.complaintReuslt.other" @change="changeOther">其他</el-checkbox>
-                      <el-input style="" type="textarea" :disabled="!ruleForm6.complaintReuslt.other"
-                                v-model="ruleForm6.complaintReuslt.otherDesc"></el-input>
+                      <el-checkbox v-model="ruleForm7.complaintReuslt.other" @change="changeOther">其他</el-checkbox>
+                      <el-input style="" type="textarea" :disabled="!ruleForm7.complaintReuslt.other"
+                                v-model="ruleForm7.complaintReuslt.otherDesc"></el-input>
                     </div>
                   </div>
                 </div>
@@ -168,21 +186,25 @@
             serviceContent: false,
             servicePrice: false,
             dutyTypes: [],
+            course: '',
           },
           serviceComplaintTypeModels: [],
           handlePlan: '',
         },
         ruleForm3: {
-          handleResult: '',
+          handleFormulate: '',
         },
         ruleForm4: {
+          handleResult: '',
+        },
+        ruleForm5: {
           content: '',
           state: 1,
         },
-        ruleForm5: {
+        ruleForm6: {
           upgradePlan: '',
         },
-        ruleForm6: {
+        ruleForm7: {
           upgradeReuslt: '',
           complaintReuslt: {
             cancelReward: false,
@@ -218,10 +240,10 @@
           handlePlan: '',
         }
       },
-      initRuleForm4 () {
-        this.ruleForm4 = {
+      initRuleForm5 () {
+        this.ruleForm7 = {
           content: '',
-          state: this.ruleForm4.state,
+          state: this.ruleForm7.state,
         }
       },
       cancelSubmitForm () {
@@ -251,36 +273,47 @@
         })
       },
       apiHandle3 () {
+        if (!this.ruleForm3.handleFormulate) {
+          this.$message.warning('必须输入处理方案')
+          this.dataLoading = false
+          return
+        }
         let param = Object.assign({}, {id: this.params.id}, this.ruleForm3)
-        API.serviceComplaint.handle(param, (data) => {
+        API.serviceComplaint.formulate(param, (data) => {
           this.requireBack(data)
         })
       },
       apiHandle4 () {
-        let param = Object.assign({}, {id: this.params.id}, {handleVisit: this.ruleForm4})
-        API.serviceComplaint.visit(param, (data) => {
+        let param = Object.assign({}, {id: this.params.id}, this.ruleForm7)
+        API.serviceComplaint.handle(param, (data) => {
           this.requireBack(data)
         })
       },
       apiHandle5 () {
-        let param = Object.assign({}, {id: this.params.id}, this.ruleForm5)
-        API.serviceComplaint.upInquire(param, (data) => {
+        let param = Object.assign({}, {id: this.params.id}, {handleVisit: this.ruleForm7})
+        API.serviceComplaint.visit(param, (data) => {
           this.requireBack(data)
         })
       },
       apiHandle6 () {
-        if (this.ruleForm6.complaintReuslt.other && !this.ruleForm6.complaintReuslt.otherDesc) {
+        let param = Object.assign({}, {id: this.params.id}, this.ruleForm7)
+        API.serviceComplaint.upInquire(param, (data) => {
+          this.requireBack(data)
+        })
+      },
+      apiHandle7 () {
+        if (this.ruleForm7.complaintReuslt.other && !this.ruleForm7.complaintReuslt.otherDesc) {
           this.$message.warning('必须输入处理办法')
           this.dataLoading = false
           return
         }
-        let param = Object.assign({}, {id: this.params.id}, this.ruleForm6)
+        let param = Object.assign({}, {id: this.params.id}, this.ruleForm7)
         API.serviceComplaint.upHandle(param, (data) => {
           this.requireBack(data)
         })
       },
       changeOther () {
-        this.ruleForm6.complaintReuslt.otherDesc = ''
+        this.ruleForm7.complaintReuslt.otherDesc = ''
         this.ruleForm2.checkResult.otherContent = ''
       },
       saveSubmitForm (formName) {
@@ -303,6 +336,9 @@
                 break
               case 6:
                 this.apiHandle6()
+                break
+              case 7:
+                this.apiHandle7()
                 break
               default:
                 break
