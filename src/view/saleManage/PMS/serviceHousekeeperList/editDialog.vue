@@ -538,6 +538,14 @@
           if (isRepeat) {
             that.$message.warning('商品以及规格已存在')
           } else {
+            if (va[1] === '') {
+              for (let i = 0; i < this.addForm.serviceManagerGoodsModels.length; i++) {
+                if (this.addForm.serviceManagerGoodsModels[i].goodsId === va[0]) {
+                  this.addForm.serviceManagerGoodsModels.splice(i, 1)
+                  i = i - 1
+                }
+              }
+            }
             that.handleGoodsAdd(that.goodsList, va)
           }
         }
