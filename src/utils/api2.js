@@ -229,6 +229,27 @@ export default {
         error && error(err)
       })
     },
+    serverCloseGoods (params, success, error) { // 获取管家需要打烊的商品
+      $axios.post('dcstar/manager/info', params).then(res => {
+        success && success(res.data)
+      }).catch(err => {
+        error && error(err)
+      })
+    },
+    serverGoods (params, success, error) { // 获取管家管理的商品
+      $axios.get('dcstar/manager/serverGoods').then(res => {
+        success && success(res.data)
+      }).catch(err => {
+        error && error(err)
+      })
+    },
+    closeDaYang (params, success, error) {
+      $axios.put('dcstar/manager/close',  null, {params: params}).then(res => {
+        success && success(res.data)
+      }).catch(err => {
+        error && error(err)
+      })
+    },
     detailNoAuth (params, success, error) { // 详情,noAuth
       $axios.get('serviceWorkOrder/noAuth/' + params).then(res => {
         success && success(res.data)

@@ -464,8 +464,8 @@
               销售订单({{orderTotal}})
               <!--<a class="more" v-if="orderTotal > 5" @click="handleRoute('order')">更多》</a>-->
               <!--（-1 输单）-->
-              <a v-if="salesOpportunitiesDetail.stage !== -1 && isChangeFollower" class="table-add"
-                 @click="quickOperation('addOrder')"><i class="el-icon-plus"></i>新增关联订单</a>
+<!--              <a v-if="salesOpportunitiesDetail.stage !== -1 && isChangeFollower" class="table-add"
+                 @click="quickOperation('addOrder')"><i class="el-icon-plus"></i>新增关联订单</a> -->
             </p>
             <table class="detail-table related-table">
               <tr>

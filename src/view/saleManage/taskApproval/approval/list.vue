@@ -67,6 +67,7 @@
             <span v-if="scope.row.approvalType === 5">服务工单派单</span>
             <span v-if="scope.row.approvalType === 6">管家信息修改</span>
             <span v-if="scope.row.approvalType === 7">erp订单退单</span>
+            <span v-if="scope.row.approvalType === 8">打烊申请</span>
           </template>
         </el-table-column>
         <el-table-column

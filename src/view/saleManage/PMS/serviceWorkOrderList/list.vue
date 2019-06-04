@@ -23,7 +23,8 @@
         <com-button buttonType="add" icon=""
                     v-if="managerDetail"
                     @click="orderHandle('laze')">
-          {{managerDetail.workState === 1 ? '服务中' : '打烊中'}}
+          <!-- {{managerDetail.workState === 1 ? '服务中' : '打烊中'}} -->
+          打烊设置
         </com-button>
         <com-button buttonType="export" icon="el-icon-download" @click="excelExport">导出</com-button>
         <com-button buttonType="search" @click="advancedSearchHandle" style="">高级搜索</com-button>
@@ -230,6 +231,7 @@
   import comButton from '../../../../components/button/comButton'
   import returnOrder from './returnOrder'
   import selectManager from './selectManager'
+  import laze from './laze'
   import webStorage from 'webStorage'
   import advancedSearch from './advancedSearch'
   import QS from 'qs'
@@ -392,12 +394,24 @@
             })
             break
           case 'laze':
-            API.serviceManager.changeWorkState({workState: this.managerDetail.workState === 1 ? 2 : 1}, (res) => {
-              if (res.status) {
-                this.$message.success('操作成功')
-                this.getManagerDetail(this.userInfo.id)
-              }
+            this.$vDialog.modal(laze, {
+              title: '打烊设置',
+              width: 600,
+              height: 550,
+              params: {
+              },
+              callback: (data) => {
+                if (data.type === 'save') {
+                  this.getList()
+                }
+              },
             })
+            // API.serviceManager.changeWorkState({workState: this.managerDetail.workState === 1 ? 2 : 1}, (res) => {
+            //   if (res.status) {
+            //     this.$message.success('操作成功')
+            //     this.getManagerDetail(this.userInfo.id)
+            //   }
+            // })
             break
           default:
         }

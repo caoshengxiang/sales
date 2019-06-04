@@ -22,6 +22,7 @@
             <span v-if="detailInfo.approvalType === 5">服务工单派单</span>
             <span v-if="detailInfo.approvalType === 6">管家信息修改</span>
             <span v-if="detailInfo.approvalType === 7">erp订单退单</span>
+            <span v-if="detailInfo.approvalType === 8">打烊申请</span>
           </td>
           <td class="td-title">发布人</td>
           <td>{{detailInfo.publisherName}}</td>
@@ -580,6 +581,14 @@
 						</tr>
 					</table>
 				</div>
+				
+				<!-- 管家打烊 -->
+				<div v-if="detailInfo.approvalType === 8">
+					<p class="table-title">打烊商品</p>
+          <div class='dayang'>
+            <el-tag type="success" v-for='(item, i) in closeGoods' :key="i">{{item.goodsName}}</el-tag>
+          </div>
+        </div>
 
         <table class="detail-table" style="text-align: center">
           <tr>
@@ -620,6 +629,7 @@
     data () {
       return {
         detailInfo: {},
+        closeGoods: [],
         salesOpportunitiesDetail: {},
         customerDetail: {},
         managerDetail: {},
@@ -647,6 +657,18 @@
       photoView,
     },
     methods: {
+      // 获取打烊的商品
+      getCloseGoods () {
+        let params = {
+          state: 2,
+          userId: this.detailInfo.publisherId,
+        };
+        API.workOrder.serverCloseGoods(params, (res) => {
+          if(res.status) {
+            this.closeGoods = res.data;
+          }
+        })
+      },
       classComp (key) {
         if (this.detailInfo.state !== 1) {
           return {}
@@ -712,6 +734,7 @@
           that.loading = false
           if (res.status) {
             that.detailInfo = res.data
+            that.getCloseGoods();
             that.detailInfo.publishTime = moment(that.detailInfo.publishTime).format('YYYY-MM-DD HH:mm:ss')
             that.detailInfo.deadline = moment(that.detailInfo.deadline).format('YYYY-MM-DD HH:mm:ss')
 
@@ -853,5 +876,10 @@
 
   .detail-table {
     width: 100%;
+  }
+  .dayang {
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    padding: 20px;
   }
 </style>

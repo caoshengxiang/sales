@@ -225,7 +225,7 @@
             <p class="table-title">
               销售订单({{orderTotal}})
               <!--<a class="more" v-if="orderTotal > 5" @click="handleRoute('order')">更多》</a>-->
-              <a class="table-add" @click="quickOperation('addOrder')"><i class="el-icon-plus"></i>新增销售订单</a>
+              <!-- <a class="table-add" @click="quickOperation('addOrder')"><i class="el-icon-plus"></i>新增销售订单</a> -->
             </p>
             <table class="detail-table related-table">
               <tr>
