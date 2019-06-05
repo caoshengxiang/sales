@@ -442,7 +442,7 @@
         this.addForm.industry = this.addForm.industryArr.join(',')
 				let _data = this.addForm;
 				let message = (_data.customerStatus == -1 && !_data.invalidCause) && '请选择无效原因' ||
-				              (_data.customerStatus == -1 && !_data.invalidFileUrl) && '请上传无效证据' ||
+				              (_data.customerStatus == -1 && !_data.invalidFileUrl && !this.detail.callIds) && '请上传无效证据' ||
 											(_data.customerStatus == -1 && !_data.invalidRemark) && '请输入无效描述' ||
 											(_data.customerStatus == 1 && _data.cate == 2 && !_data.name) && '请输入客户名称' ||
 											(_data.customerStatus == 1 && _data.cate == 2 && !_data.cdKey) && '请输入证件号码' ||
