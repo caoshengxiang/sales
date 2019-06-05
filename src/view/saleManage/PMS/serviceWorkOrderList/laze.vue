@@ -74,7 +74,7 @@
                 let check = this.$refs.tree.getCheckedNodes(), _list = [], need = 0;
                 if(check.length > 0) {
                     check.forEach(a => {
-                        if(a.state == 1 || a.state == 3) {
+                        if(a.state == null || a.state == 1 || a.state == 3) {
                             _list.push(a.goodsId)
                             if(a.needAudit) {
                                 need = 1;
