@@ -155,11 +155,11 @@
                   <span>
                     <span class='step-all-process-circular-ciry' v-if='salesOpportunitiesDetail.stage < 5 && salesOpportunitiesDetail.stage != -1'></span>
                     <span class='step-all-process-circular-ciryNew' v-if='salesOpportunitiesDetail.stage == -1'></span>
-                    <span class='step-all-process-circular-ciryIng' v-if='salesOpportunitiesDetail.stage == 5'></span>
+                    <span class='step-all-process-circular-ciryIng' v-if='salesOpportunitiesDetail.stage > 4'></span>
                   </span>
                 </p>
-                <p :style='"color: " + ((salesOpportunitiesDetail.stage == 5 || salesOpportunitiesDetail.stage == -1) ? "#333E48;" : "#AAAAAA;")'>已下单</p>
-                <p class='step-all-process-time' :style='"color: " + ((salesOpportunitiesDetail.stage == 5 || salesOpportunitiesDetail.stage == -1) ? "#333E48;" : "#AAAAAA;")' v-if='salesOpportunitiesDetail.finishDate'>{{salesOpportunitiesDetail.finishDate && $moment(salesOpportunitiesDetail.finishDate).format('YYYY-MM-DD HH:mm:ss')}}</p>
+                <p :style='"color: " + ((salesOpportunitiesDetail.stage > 4 || salesOpportunitiesDetail.stage == -1) ? "#333E48;" : "#AAAAAA;")'>已下单</p>
+                <p class='step-all-process-time' :style='"color: " + ((salesOpportunitiesDetail.stage > 4 || salesOpportunitiesDetail.stage == -1) ? "#333E48;" : "#AAAAAA;")' v-if='salesOpportunitiesDetail.finishDate'>{{salesOpportunitiesDetail.finishDate && $moment(salesOpportunitiesDetail.finishDate).format('YYYY-MM-DD HH:mm:ss')}}</p>
               </li>
               <!-- 输单 -->
               <li>
