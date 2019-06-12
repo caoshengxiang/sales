@@ -6,7 +6,8 @@
           <el-input
             type="textarea"
             :rows="6"
-            placeholder="请输入内容"
+            maxlength="200"
+            placeholder="请输入内容(<=200字)"
             v-model="addForm.followDesc">
           </el-input>
         </el-form-item>

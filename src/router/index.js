@@ -33,6 +33,9 @@ const customersList = resolve => require.ensure([],
 const customersDetail = resolve => require.ensure([],
   () => resolve(require('../view/saleManage/CRM/customers/detailInfo')),
   'customers')
+const customersVisDetail = resolve => require.ensure([],
+  () => resolve(require('../view/saleManage/CRM/channelRepository/detailInfo')),
+  'customers')
 
 // 联系人
 const contactsList = resolve => require.ensure([],
@@ -45,6 +48,10 @@ const salesOpportunitiesList = resolve => require.ensure([],
   'salesOpportunities')
 const salesOpportunitiesDetail = resolve => require.ensure([],
   () => resolve(require('../view/saleManage/CRM/salesOpportunities/detailInfo')),
+  'salesOpportunities')
+// 渠道资源库管理
+const salesChannelRepositoryList = resolve => require.ensure([],
+  () => resolve(require('../view/saleManage/CRM/channelRepository/list')),
   'salesOpportunities')
 // 销售机会
 const salesOpportunitiesListSeas = resolve => require.ensure([],
@@ -482,6 +489,21 @@ const router = new Router({
               {name: '客户', toName: 'customersList'},
               {name: '客户详情'}],
           },
+        },  {
+          path: 'customersVisDetail',
+          name: 'customersVisDetail',
+          component: customersVisDetail,
+          meta: {
+            title: '客户详情',
+            pos: [
+              {name: '销售管理系统', toName: 'saleHome'},
+              {name: '渠道资源库管理', toName: 'salesChannelRepositoryList'},
+              {name: '客户详情'}],
+            pos2: [
+              {name: '管理系统', toName: 'companyManageHome'},
+              {name: '渠道资源库管理', toName: 'salesChannelRepositoryList'},
+              {name: '客户详情'}],
+          },
         }, {
           path: 'contactsList',
           name: 'contactsList',
@@ -514,6 +536,15 @@ const router = new Router({
             title: '销售机会',
             pos: [{name: '销售管理系统', toName: 'saleHome'}, {name: '销售机会'}],
             pos2: [{name: '管理系统', toName: 'companyManageHome'}, {name: '销售机会'}],
+          },
+        },  {
+          path: 'salesChannelRepositoryList',
+          name: 'salesChannelRepositoryList',
+          component: salesChannelRepositoryList,
+          meta: {
+            title: '渠道资源库',
+            pos: [{name: '销售管理系统', toName: 'saleHome'}, {name: '渠道资源库管理'}],
+            pos2: [{name: '管理系统', toName: 'salesChannelRepositoryList'}, {name: '渠道资源库管理'}],
           },
         }, {
           path: 'salesOpportunitiesDetail',

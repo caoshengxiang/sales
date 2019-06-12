@@ -495,6 +495,31 @@ const API1 = {
         error && error(err)
       })
     },
+    salerChanceListVisZX (params, success, error) { // 渠道资源库管理的需求列表
+      $axios.get('salerChance/list', {
+        params: params,
+      }).then((res) => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+    },
+    salerOrderListVisZX (params, success, error) { // 渠道资源库管理的销售订单列表
+      $axios.get('salerOrder/list', {
+        params: params,
+      }).then((res) => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+    },
+    visImport (params, success, error) {      //渠道资源库管理的批量导入
+      $axios.post('customer/import', params).then(res => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+    },
     listAdmin (params, success, error) { // 客户列表,后端
       $axios.get('customer/admin', {
         params: params,
@@ -549,8 +574,15 @@ const API1 = {
         error && error(err)
       })
     },
-    edit (params, success, error) {
+    edit (params, success, error) {  //客户编辑
       $axios.put('customer/' + params.path, params.body).then(res => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+    },
+    visEdit (params, success, error) {   //访客编辑
+      $axios.put('customer/visitor/' + params.path, params.body).then(res => {
         success && success(res.data)
       }).catch((err) => {
         error && error(err)
@@ -902,6 +934,15 @@ const API1 = {
         error && error(err)
       })
     },
+    // 新增访客
+    addVisitor (params, success, error) {
+      $axios.post('customer/visitor', params).then((res) => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+    },
+    
     demandJudgmentZX (params, success, error) { // 需求判断
       $axios({
         method: 'put',
