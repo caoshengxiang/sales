@@ -495,6 +495,15 @@ const API1 = {
         error && error(err)
       })
     },
+    VisListZX (params, success, error) { // 渠道资源库列表
+      $axios.get('customer/visitor/list', {
+        params: params,
+      }).then((res) => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+    },
     salerChanceListVisZX (params, success, error) { // 渠道资源库管理的需求列表
       $axios.get('salerChance/list', {
         params: params,

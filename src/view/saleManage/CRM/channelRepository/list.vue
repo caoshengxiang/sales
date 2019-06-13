@@ -634,7 +634,7 @@
       getCustomerList () { // 获取列表数据
         this.getQueryParams()
         this.dataLoading = true
-        API.customer.seaList(Object.assign({pageSource: 1}, this.defaultListParams, this.sortObj, this.advancedSearch), (data) => {
+        API.customer.VisListZX(Object.assign({pageSource: 1}, this.defaultListParams, this.sortObj, this.advancedSearch), (data) => {
           if(data.status) {
             this.tableData = data.data.content
             this.total = data.data.totalElements
@@ -675,6 +675,9 @@
             if (data.type === 'search') {
               console.log('高级搜索数据：', data.params)
               this.advancedSearch = data.params.preAdvancedSearch
+              if(data.params.preAdvancedSearch.visitorType) {
+                this.selectVisType = data.params.preAdvancedSearch.visitorType || 0;
+              }
               this.nameArr = data.params.nameArr;
 							this.currentPage = 1;
               this.getCustomerList()
