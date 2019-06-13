@@ -73,6 +73,7 @@
                   :props="props"
                   :placeholder="addForm.visitorResourceName"
                   :value="selectedBindValue"
+                  :disabled="addForm.visitorResource"
                 >
                 </el-cascader>
               </el-form-item>
@@ -80,7 +81,7 @@
             <td class="td-title">访客推荐人</td>
             <td class="td-text">
               <el-form-item>
-                <el-select v-model="addForm.visitorReferrer" placeholder="请选择客户类型">
+                <el-select v-model="addForm.visitorReferrer" placeholder="请选择客户类型" :disabled="addForm.visitorReferrer">
                   <el-option v-for="item in conferenceExecutiveList" :key="item.id" :label="item.name" :value="item.id"></el-option>
                 </el-select>
               </el-form-item>

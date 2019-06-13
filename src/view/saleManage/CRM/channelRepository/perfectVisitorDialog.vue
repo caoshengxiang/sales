@@ -144,6 +144,7 @@
         addForm: { // 添加表单
 			customerCate: '2',               //客户性质 1个人 2企业
 			customerName: '',                //客户名称
+			customerId: '',                  //客户id
             chanceRemark: '',                //机会备注
 			customerBusinessLicense: '',     //证件号码
 			contacter: '',                   //客户联系人
@@ -503,7 +504,7 @@
 
       if (this.params.detail) { // 完善
 		this.detail = this.params.detail;
-        
+        this.addForm.customerId = this.detail.id;
         this.addForm.customerName = this.detail.name;
         this.addForm.contacter = this.detail.contactName;
         this.addForm.contactPhone = this.detail.phone;

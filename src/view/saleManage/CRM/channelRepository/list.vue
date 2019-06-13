@@ -18,6 +18,18 @@
       <div class="com-bar-left">
         <com-button buttonType="add" @click="addHandle">新增</com-button>
         <com-button buttonType="add" :disabled="multipleSelection.length != 1" @click='perfectVisitor'>完善访客</com-button>
+        
+        <span style='margin-left: 10px;'>
+            <el-select
+              v-model="selectVisType"
+              @change="selectVis"
+              placeholder="选择客户类型" class="com-el-select" style="width: 200px">
+              <el-option label="全部类型" :value="0"></el-option>
+              <el-option label="访客" :value="1"></el-option>
+              <el-option label="准客户" :value="2"></el-option>
+              <el-option label="客户" :value="3"></el-option>
+            </el-select>
+        </span>
         <!--<com-button buttonType="orange" @click="moveHandle"-->
                     <!--:disabled="multipleSelection.length !== 1"><i class="el-icon-sort"-->
                                                                   <!--style="transform: rotate(90deg)"></i> 转移-->
@@ -27,6 +39,7 @@
         <!--</com-button>-->
       </div>
       <div class="com-bar-right" v-if="themeIndex === 0"><!--前端-->
+        <com-button buttonType="export" icon="el-icon-download" @click="excelExport">导入模板下载</com-button>
         <com-button buttonType="import" style="position: relative;overflow: hidden;">
           <input @change="fileUploadHandle" type="file" style="position: absolute;top: 0;left: 0; right: 0;bottom: 0;opacity: 0;">
           批量导入
@@ -492,8 +505,10 @@
   import { mapState, mapActions } from 'vuex'
   import addDialog from './addDialog'
   import advancedSearch from './advancedSearch'
+  import { serverUrl } from '../../../../utils/const'
   import perfectVisitorDialog from './perfectVisitorDialog'
   import { underscoreName } from '../../../../utils/utils'
+  import QS from 'qs'
   import webStorage from 'webStorage'
 
   export default {
@@ -503,6 +518,7 @@
         h: document.body.clientHeight,
         posheight: 100,
         timer: false,
+        selectVisType: 0,
         listText: '需求列表',
         orderDialogShow: false,
         orderDialogVisible: false,
@@ -581,6 +597,11 @@
       // moment (Timestamps, str) {
       //   return moment(Timestamps).format(str)
       // },
+      // 选择客户类型
+      selectVis () {
+          this.currentPage = 1
+          this.getCustomerList()
+      },
       // 查看客户的需求列表以及订单列表
       lookOrder (_type, id) {
         this.orderDialogList = [];
@@ -767,6 +788,10 @@
           type: this.customerType, // 前端
           organizationId: this.organizationId, // 后端
         }
+        if(this.selectVisType != 0) {
+            this.defaultListParams.visitorType = this.selectVisType;
+            this.advancedSearch.visitorType = this.selectVisType;
+        }
         if (this.customerId) { // 更多
           this.defaultListParams.customerId = this.customerId
         }
@@ -790,6 +815,17 @@
               this.$message.error('导入失败，未知错误');
           }
         })
+      },
+      excelExport () { // 模板下载
+        let link = document.createElement('a') // 创建事件对象
+        let query = QS.stringify(Object.assign({}, {authKey: webStorage.getItem('userInfo').authKey}))
+        // console.log('下载参数：', query)
+        link.setAttribute('href', serverUrl + '/template/?' + query)
+        link.setAttribute('download', '访客导入模板')
+        let event = document.createEvent('MouseEvents') // 初始化事件对象
+        event.initMouseEvent('click', true, true, document.defaultView, 0, 0, 0, 0, 0, false, false, false, false, 0,
+          null) // 触发事件
+        link.dispatchEvent(event)
       },
 		// 有效性判断
 		// customerIdentification (item) {

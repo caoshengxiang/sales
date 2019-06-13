@@ -343,12 +343,16 @@
                   </el-button>
                 </div>
               </div>
+              <!-- 申请延期 未完成状态前都显示  && (index == (serviceItem.length - 1))-->
+              <!-- <el-button type="text" @click="applicationForExtension(item)" v-if="item.state !== 9">申请延期</el-button> -->
             </td>
             <td v-else>
               <div v-if="item.num === 34 || item.num === 39">
                 <el-button type="text" @click="operationListHandle(item, 1)">{{operationList[item.num - 1][1-1]}}
                 </el-button>
               </div>
+              <!-- 申请延期 未完成状态前都显示  && (index == (serviceItem.length - 1))-->
+              <!-- <el-button type="text" @click="applicationForExtension(item)" v-if="item.state !== 9">申请延期</el-button> -->
             </td>
           </tr>
         </table>
@@ -404,6 +408,51 @@
         </el-card>
       </div>
     </div>
+    <!-- 申请延期弹框 -->
+    <el-dialog
+      title="延期申请"
+      :visible.sync="applicationForExtensionShow"
+      :close-on-click-modal="false"
+      :close-on-press-escape="false"
+      :append-to-body="true"
+      width="500px">
+      <div>
+          <el-form ref='appForm' label-width="100px">
+            <el-form-item label="延期原因类型">
+                <el-select v-model="applicationForm.type" placeholder="请选择延期原因类型">
+                  <el-option label="客户原因" value="客户原因"></el-option>
+                  <el-option label="政策原因" value="政策原因"></el-option>
+                </el-select>
+            </el-form-item>
+            <el-form-item label="其他说明">
+                <el-input v-model="applicationForm.other" type="textarea" resize="none" rows="4" placeholder="请填写说明" maxlength="200"></el-input>
+            </el-form-item>
+            <el-form-item label="计划完成时间">
+                <el-date-picker
+                  v-model="applicationForm.date"
+                  type="date"
+                  placeholder="选择日期">
+                </el-date-picker>
+            </el-form-item>
+            <el-form-item label="上传资料">
+                <el-upload
+                    class="upload-demo"
+                    :action="uploadUrl"
+                    :on-remove="onRemoveHandle"
+                    :headers="{authKey: userInfo.authKey}"
+                    :on-success="onSuccessHandle"
+                    :file-list="fileList"
+                    :limit="1">
+                    <el-button type="success" size="small" class='edit-upload-button'>上传</el-button>
+                </el-upload>
+            </el-form-item>
+          </el-form>
+      </div>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="applicationForExtensionShow = false">取 消</el-button>
+        <el-button type="primary" @click="subApplication">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -419,12 +468,13 @@
   import operationCode341 from './items/operationCode34_1'
   import operationCode351 from './items/operationCode35_1'
   import operationCode371 from './items/operationCode37_1'
-  // import { serverUrl } from '../../../../utils/const'
+  import { uploadUrl } from '../../../../utils/const'
   import recordContact from './items/recordContact'
   import operationCode71 from './items/operationCode7_1'
   import operationCode171 from './items/operationCode17_1'
   import operationCode181 from './items/operationCode18_1'
   import operationCode261 from './items/operationCode26_1'
+  import webStorage from 'webStorage'
 
   export default {
     name: 'opItem',
@@ -432,6 +482,17 @@
       return {
         serviceLog: [],
         serviceItem: [],
+        applicationForExtensionShow: false,
+        userInfo: webStorage.getItem('userInfo'),
+        fileList: [],
+        applicationItem: {},
+        applicationForm: {
+            type: '',       //延期原因类型
+            other: '',      //其他说明
+            meansPlan: '',  //上传资料
+            meansName: '',  //上传资料
+            date: '',       //计划完成时间
+        },
         other: null,
         date_num: 1000 * 60 * 60 * 24 * 7,
         operationList: [ // 根据num值确定按钮
@@ -492,13 +553,48 @@
         orderDetail: '',
       }
     },
-    // computed: {
-    //   serverUrl () {
-    //     return serverUrl
-    //   }
-    // },
+    computed: {
+      // serverUrl () {
+      //   return serverUrl
+      // }
+        uploadUrl () {
+            return uploadUrl
+        }
+    },
     props: ['params'],
     methods: {
+      // 申请延期弹框显示
+      applicationForExtension (item) {
+        // 清空信息
+        this.applicationForm = {
+            type: '',
+            other: '',
+            meansPlan: '',
+            meansName: '',
+            date: '',
+        };
+        this.fileList = [];
+        this.applicationForExtensionShow = true;
+        this.applicationItem = item;
+      },
+      subApplication () {
+          let message = !this.applicationForm.type && '请选择延期原因类型' ||
+                        !this.applicationForm.date && '请选择计划完成时间' ||
+                        !this.applicationForm.meansPlan && '请上传资料' || null;
+          if(message) return this.$message.info(message);
+          let item = this.applicationItem;
+          console.log(item)
+      },
+        // 资料成功上传
+        onSuccessHandle (response, file, fileList) {
+            this.applicationForm.meansPlan = response.data.url
+            this.applicationForm.meansName = response.data.name
+        },
+        // 删除已上传文件
+        onRemoveHandle () {
+            this.applicationForm.meansPlan = '';
+            this.applicationForm.meansName = '';
+        },
       getOrderDetail (orderId) {
         API.serviceOrder.detailByOrderId(orderId, (da) => {
           this.orderDetail = da.data
