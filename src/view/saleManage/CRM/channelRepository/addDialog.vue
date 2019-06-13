@@ -329,7 +329,8 @@
 		},
     // 保存访客
     saveVisSubmitForm (formName) {
-      let message = !this.visForm.phone && '请输入联系电话' ||
+      let message = !this.visForm.name && '请输入访客名称' ||
+                    !this.visForm.phone && '请输入联系电话' ||
                     !this.visForm.visitorResource && '请选择访客来源' ||
                     !this.visForm.visitorReferrer && '请选择访客推荐人' || null;
       if(message) {
