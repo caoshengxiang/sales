@@ -820,7 +820,7 @@
         let link = document.createElement('a') // 创建事件对象
         let query = QS.stringify(Object.assign({}, {authKey: webStorage.getItem('userInfo').authKey}))
         // console.log('下载参数：', query)
-        link.setAttribute('href', serverUrl + '/template/?' + query)
+        link.setAttribute('href', serverUrl + '/template/visitorImport.xlsx?' + query)
         link.setAttribute('download', '访客导入模板')
         let event = document.createEvent('MouseEvents') // 初始化事件对象
         event.initMouseEvent('click', true, true, document.defaultView, 0, 0, 0, 0, 0, false, false, false, false, 0,
