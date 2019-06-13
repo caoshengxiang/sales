@@ -794,6 +794,8 @@
         if(this.selectVisType != 0) {
             this.defaultListParams.visitorType = this.selectVisType;
             this.advancedSearch.visitorType = this.selectVisType;
+        }else {
+            this.advancedSearch.visitorType = '';
         }
         if (this.customerId) { // 更多
           this.defaultListParams.customerId = this.customerId
