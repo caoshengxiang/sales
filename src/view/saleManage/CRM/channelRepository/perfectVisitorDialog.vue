@@ -338,7 +338,18 @@
               return item
             })
             if (this.chanceSourceType.length === 0) {
-              this.chanceSourceType = arr
+              // this.chanceSourceType = arr
+              this.chanceSourceType = [
+                  {
+                      // 公司资源
+                      codeName: this.params.topSource[2].name,
+                      id: this.params.topSource[2].value,
+                      children: []
+                  }
+              ];
+              // this.selectedBindValue.push(this.topSource[0].value)
+              this.chanceSourceArr.push(this.params.topSource[2].value);
+              this.chanceSourceChangeHandle([this.params.topSource[2].value]); // 默认获取第二级
             } else {
 
             }

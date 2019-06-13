@@ -90,11 +90,19 @@
               </el-cascader>
             </el-form-item>
           </el-col>
-          <el-col :span="8">
+<!--          <el-col :span="8">
             <el-form-item label="状态：">
               <el-select v-model="searchForm.state" placeholder="请选择状态">
                 <el-option v-for="item in customerState" :key="item.type" :label="item.value"
                            :value="item.type"></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col> -->
+          <el-col :span="8">
+            <el-form-item label="客户类型：">
+              <el-select v-model="searchForm.cate" placeholder="请选择客户类型">
+                <el-option label="个人" :value="1"></el-option>
+                <el-option label="机构" :value="2"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
@@ -105,14 +113,6 @@
               <!--<el-input type="text" v-model="searchForm.phone"></el-input>-->
             <!--</el-form-item>-->
           <!--</el-col>-->
-          <el-col :span="8">
-            <el-form-item label="客户类型：">
-              <el-select v-model="searchForm.cate" placeholder="请选择客户类型">
-                <el-option label="个人" :value="1"></el-option>
-                <el-option label="机构" :value="2"></el-option>
-              </el-select>
-            </el-form-item>
-          </el-col>
           <el-col :span="8">
             <el-form-item label="客户有效性：">
               <el-select v-model="searchForm.customerStatus" placeholder="请选择客户有效性">
@@ -131,8 +131,6 @@
               </el-select>
             </el-form-item>
           </el-col>
-        </el-row>
-        <el-row class="el-row-cla">
           <el-col :span="8">
             <el-form-item label="访客来源：">
               <el-cascader
@@ -148,6 +146,8 @@
               </el-cascader>
             </el-form-item>
           </el-col>
+        </el-row>
+        <el-row class="el-row-cla">
           <el-col :span="8">
             <el-form-item label="访客推荐人：">
               <el-select
@@ -213,7 +213,7 @@
           seaId: null,
           customerSource: null,
           visitorResource: null,
-          state: null,
+          // state: null,
           startDate: null,
           endDate: null,
           cate: null,

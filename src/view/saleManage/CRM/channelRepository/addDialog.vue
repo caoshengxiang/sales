@@ -503,7 +503,15 @@
               return item
             })
             if (this.chanceSourceType.length === 0) {
-              this.chanceSourceType = arr
+              // this.chanceSourceType = arr
+              this.chanceSourceType = [
+                  {
+                      // 公司资源
+                      codeName: this.params.topSource[2].name,
+                      id: this.params.topSource[2].value,
+                      children: []
+                  }
+              ];
             }
             if (this.visitorResourceType.length === 0) {
               this.visitorResourceType = [
