@@ -41,7 +41,7 @@
       <div class="com-bar-right" v-if="themeIndex === 0"><!--前端-->
         <com-button buttonType="export" icon="el-icon-download" @click="excelExport">导入模板下载</com-button>
         <com-button buttonType="import" style="position: relative;overflow: hidden;">
-          <input @change="fileUploadHandle" type="file" style="position: absolute;top: 0;left: 0; right: 0;bottom: 0;opacity: 0;">
+          <input id="modelValue" @change="fileUploadHandle" type="file" style="position: absolute;top: 0;left: 0; right: 0;bottom: 0;opacity: 0;">
           批量导入
         </com-button>
         
@@ -803,24 +803,28 @@
       },
       // 批量导入
       fileUploadHandle (e) {
-        let files = e.target.files || e.dataTransfer.files
-        let formData = new FormData()
-        formData.append('filename', files[0].name)
-        formData.append('file', files[0])
-        API.customer.visImport(formData, up => {
-          if (up.status && up.data > 0) {
-              this.$message.success('导入成功');
-              this.getCustomerList();
-          }else {
-              this.$message.error('导入失败，未知错误');
-          }
-        })
+        let value = $('#modelValue').val();
+        if(value) {
+            let files = e.target.files || e.dataTransfer.files
+            let formData = new FormData()
+            formData.append('filename', files[0].name)
+            formData.append('file', files[0])
+            API.customer.visImport(formData, up => {
+              if (up.status && up.data > 0) {
+                  this.$message.success('导入成功');
+                  this.getCustomerList();
+              }else {
+                  this.$message.error('导入失败，未知错误');
+              }
+            })
+            $('#modelValue').val('');
+        }
       },
       excelExport () { // 模板下载
         let link = document.createElement('a') // 创建事件对象
         let query = QS.stringify(Object.assign({}, {authKey: webStorage.getItem('userInfo').authKey}))
         // console.log('下载参数：', query)
-        link.setAttribute('href', serverUrl + '/template/visitorImport.xlsx?' + query)
+        link.setAttribute('href', serverUrl + '/template/访客导入模板.xlsx?' + query)
         link.setAttribute('download', '访客导入模板')
         let event = document.createEvent('MouseEvents') // 初始化事件对象
         event.initMouseEvent('click', true, true, document.defaultView, 0, 0, 0, 0, 0, false, false, false, false, 0,
