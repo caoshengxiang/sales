@@ -92,7 +92,7 @@
           show-overflow-tooltip
         >
           <template slot-scope="scope">
-            <a class="col-link" @click="handleRouter('detail', scope.row.id)">{{ scope.row.name }}</a>
+            <a class="col-link" @click="handleRouter('detail', scope.row.id)">{{ scope.row.name || '——' }}</a>
           </template>
         </el-table-column>
         <el-table-column
