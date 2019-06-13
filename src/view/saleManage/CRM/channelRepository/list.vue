@@ -393,7 +393,7 @@
                   <a class="col-link" v-if='scope.row.customerIntentionLevel == 1' @click='setCustomerIntentionLevel(scope.row)'><span>低</span></a>
                   <a class="col-link" v-if='scope.row.customerIntentionLevel == 2' @click='setCustomerIntentionLevel(scope.row)'><span>中</span></a>
                   <a class="col-link" v-if='scope.row.customerIntentionLevel == 3' @click='setCustomerIntentionLevel(scope.row)'><span>高</span></a>
-                  <a class="col-link" v-if='scope.row.customerIntentionLevel == null' @click='setCustomerIntentionLevel(scope.row)'><span>无</span></a>
+                  <a class="col-link" v-if='scope.row.customerIntentionLevel == null' @click='setCustomerIntentionLevel(scope.row)'><span>待判断</span></a>
                 </template>
               </el-table-column>
               <el-table-column
