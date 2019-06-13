@@ -247,7 +247,7 @@
                 this.addForm.chanceSourceName = this.traverseTree(this.addForm.chanceSource)
                 // console.log(this.addForm); return;
 				if (this.params.detail) { // 完善
-					API.salesOpportunitiesSea.addChance(this.addForm, (data) => {
+					API.salesOpportunitiesSea.addChance(Object.assign({type: 1}, this.addForm), (data) => {
 						if (data.status) {
 							this.$message.success('完善成功')
 							setTimeout(() => {

@@ -412,8 +412,7 @@
 				} else {
 					this.addForm.chanceSourceName = this.traverseTree(this.addForm.chanceSource)
 					console.log(this.addForm);
-          // return;
-					API.salesOpportunitiesSea.addChance(this.addForm, (data) => {
+					API.salesOpportunitiesSea.addChance(Object.assign({type: 1}, this.addForm), (data) => {
 						if (data.status) {
 							this.$message.success('添加成功')
 							setTimeout(() => {
