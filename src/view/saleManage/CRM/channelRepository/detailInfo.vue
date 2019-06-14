@@ -434,7 +434,7 @@
       handleTabsClick (tab, event) {
         // console.log(tab.name)
         this.$router.push({
-          name: 'customersDetail',
+          name: 'customersVisDetail',
           params: {end: this.themeIndex === 0 ? 'FE' : 'ME'},
           query: {view: tab.name, customerId: this.$route.query.customerId},
         })
