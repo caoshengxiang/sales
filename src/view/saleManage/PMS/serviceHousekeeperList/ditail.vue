@@ -181,6 +181,14 @@
             </td>
           </tr>
           <tr>
+            <td class="td-title">可接单商品</td>
+            <td colspan="5">
+              <span v-for="(item, index) in managerDetail.serviceManagerGoodsModels" :key="index">
+                <span v-if="item.state != 3">[{{item.goodsName}}]</span>
+              </span>
+            </td>
+          </tr>
+          <tr>
             <td class="td-title">现从事专业及研究方向</td>
             <td colspan="5">{{managerDetail.workReasearch}}</td>
           </tr>

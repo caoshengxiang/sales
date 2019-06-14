@@ -126,6 +126,17 @@
               </span>
             </template>
           </el-table-column>
+          <el-table-column
+            align="center"
+            label="可接单商品"
+            show-overflow-tooltip
+          >
+            <template slot-scope="scope">
+              <span v-for="(item, index) in scope.row.serviceManagerGoodsModels" :key="index">
+                <span v-if="item.state != 3">[{{item.goodsName}}]</span>
+              </span>
+            </template>
+          </el-table-column>
         </el-table>
       </div>
 
