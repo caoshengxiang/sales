@@ -23,6 +23,7 @@
             <span v-if="detailInfo.approvalType === 6">管家信息修改</span>
             <span v-if="detailInfo.approvalType === 7">erp订单退单</span>
             <span v-if="detailInfo.approvalType === 8">打烊申请</span>
+            <span v-if="detailInfo.approvalType === 9">延期申请</span>
           </td>
           <td class="td-title">发布人</td>
           <td>{{detailInfo.publisherName}}</td>
@@ -588,6 +589,39 @@
           <div class='dayang'>
             <el-tag type="success" v-for='(item, i) in closeGoods' :key="i">{{item.goodsName}}</el-tag>
           </div>
+        </div>
+        <!-- 延期申请 -->
+        <div v-if="detailInfo.approvalType === 9">
+          <table class="detail-table" style="text-align: center">
+            <tr>
+              <td class="td-title">服务客户</td>
+              <td></td>
+              <td class="td-title">服务商品</td>
+              <td></td>
+              <td class="td-title">服务管家</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td class="td-title">事项名称</td>
+              <td></td>
+              <td class="td-title">计划完成时限</td>
+              <td></td>
+              <td class="td-title">延期原因类型</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td class="td-title">其他说明</td>
+              <td colspan="5"></td>
+            </tr>
+            <tr>
+              <td class="td-title">证明资料</td>
+              <td><a href="">查看</a></td>
+              <td class="td-title">计划完成时间</td>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
+          </table>
         </div>
 
         <table class="detail-table" style="text-align: center">

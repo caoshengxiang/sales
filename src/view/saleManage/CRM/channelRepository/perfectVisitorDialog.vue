@@ -144,6 +144,7 @@
         addForm: { // 添加表单
 			customerCate: '2',               //客户性质 1个人 2企业
 			customerName: '',                //客户名称
+			customerId: '',                  //客户id
             chanceRemark: '',                //机会备注
 			customerBusinessLicense: '',     //证件号码
 			contacter: '',                   //客户联系人
@@ -246,7 +247,7 @@
                 this.addForm.chanceSourceName = this.traverseTree(this.addForm.chanceSource)
                 // console.log(this.addForm); return;
 				if (this.params.detail) { // 完善
-					API.salesOpportunitiesSea.addChance(this.addForm, (data) => {
+					API.salesOpportunitiesSea.addChance(Object.assign({type: 1}, this.addForm), (data) => {
 						if (data.status) {
 							this.$message.success('完善成功')
 							setTimeout(() => {
@@ -337,7 +338,18 @@
               return item
             })
             if (this.chanceSourceType.length === 0) {
-              this.chanceSourceType = arr
+              // this.chanceSourceType = arr
+              this.chanceSourceType = [
+                  {
+                      // 公司资源
+                      codeName: this.params.topSource[2].name,
+                      id: this.params.topSource[2].value,
+                      children: []
+                  }
+              ];
+              // this.selectedBindValue.push(this.topSource[0].value)
+              this.chanceSourceArr.push(this.params.topSource[2].value);
+              this.chanceSourceChangeHandle([this.params.topSource[2].value]); // 默认获取第二级
             } else {
 
             }
@@ -503,7 +515,7 @@
 
       if (this.params.detail) { // 完善
 		this.detail = this.params.detail;
-        
+        this.addForm.customerId = this.detail.id;
         this.addForm.customerName = this.detail.name;
         this.addForm.contacter = this.detail.contactName;
         this.addForm.contactPhone = this.detail.phone;

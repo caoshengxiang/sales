@@ -329,7 +329,8 @@
 		},
     // 保存访客
     saveVisSubmitForm (formName) {
-      let message = !this.visForm.phone && '请输入联系电话' ||
+      let message = !this.visForm.name && '请输入访客名称' ||
+                    !this.visForm.phone && '请输入联系电话' ||
                     !this.visForm.visitorResource && '请选择访客来源' ||
                     !this.visForm.visitorReferrer && '请选择访客推荐人' || null;
       if(message) {
@@ -411,8 +412,7 @@
 				} else {
 					this.addForm.chanceSourceName = this.traverseTree(this.addForm.chanceSource)
 					console.log(this.addForm);
-          // return;
-					API.salesOpportunitiesSea.addChance(this.addForm, (data) => {
+					API.salesOpportunitiesSea.addChance(Object.assign({type: 1}, this.addForm), (data) => {
 						if (data.status) {
 							this.$message.success('添加成功')
 							setTimeout(() => {
@@ -503,7 +503,15 @@
               return item
             })
             if (this.chanceSourceType.length === 0) {
-              this.chanceSourceType = arr
+              // this.chanceSourceType = arr
+              this.chanceSourceType = [
+                  {
+                      // 公司资源
+                      codeName: this.params.topSource[2].name,
+                      id: this.params.topSource[2].value,
+                      children: []
+                  }
+              ];
             }
             if (this.visitorResourceType.length === 0) {
               this.visitorResourceType = [
