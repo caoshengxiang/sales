@@ -372,7 +372,8 @@
       saveSubmitForm (formName, addContact) {
         // console.log(this.$refs.areaSe.getSelectedValue(), '区域')
         if(this.params.detail.visitorType === 1) {
-            let message = !this.addForm.phone && '请输入联系人电话' ||
+            let message = !this.addForm.name && '请输入访客名称' ||
+                          !this.addForm.phone && '请输入联系人电话' ||
                           !this.addForm.visitorResource && '请选择访客来源' ||
                           !this.addForm.visitorReferrer && '请选择访客推荐人' || null;
             if(message) {
