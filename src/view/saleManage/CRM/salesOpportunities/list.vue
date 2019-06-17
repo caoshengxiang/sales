@@ -109,32 +109,13 @@
         <el-table-column
           align="center"
           sortable="custom"
-          prop="customerIntentionLevel"
-          label="客户意向"
+          prop="created"
+          label="创建日期"
           width="160"
-          show-overflow-tooltip
-        >
+          show-overflow-tooltip>
           <template slot-scope="scope">
-						<a class="col-link" v-if='scope.row.customerIntentionLevel == 0' @click='setCustomerIntentionLevel(scope.row)'><span>无</span></a>
-						<a class="col-link" v-if='scope.row.customerIntentionLevel == 1' @click='setCustomerIntentionLevel(scope.row)'><span>低</span></a>
-						<a class="col-link" v-if='scope.row.customerIntentionLevel == 2' @click='setCustomerIntentionLevel(scope.row)'><span>中</span></a>
-						<a class="col-link" v-if='scope.row.customerIntentionLevel == 3' @click='setCustomerIntentionLevel(scope.row)'><span>高</span></a>
-						<a class="col-link" v-if='scope.row.customerIntentionLevel == null' @click='setCustomerIntentionLevel(scope.row)'><span>点击配置客户意向</span></a>
+            {{scope.row.created && $moment(scope.row.created).format('YYYY-MM-DD HH:mm')}}
           </template>
-        </el-table-column>
-        <el-table-column
-          align="center"
-          prop="contacter"
-          label="联系人"
-          width="160"
-          show-overflow-tooltip>
-          </el-table-column>
-        <el-table-column
-          align="center"
-          prop="contactPhone"
-          label="联系电话"
-          width="160"
-          show-overflow-tooltip>
         </el-table-column>
         <el-table-column
           align="center"
@@ -153,6 +134,36 @@
           label="最近跟单记录"
           width="160"
           show-overflow-tooltip>
+        </el-table-column>
+        <el-table-column
+          align="center"
+          prop="contacter"
+          label="联系人"
+          width="160"
+          show-overflow-tooltip>
+        </el-table-column>
+        <el-table-column
+          align="center"
+          prop="contactPhone"
+          label="联系电话"
+          width="160"
+          show-overflow-tooltip>
+        </el-table-column>
+        <el-table-column
+          align="center"
+          sortable="custom"
+          prop="customerIntentionLevel"
+          label="客户意向"
+          width="160"
+          show-overflow-tooltip
+        >
+          <template slot-scope="scope">
+						<a class="col-link" v-if='scope.row.customerIntentionLevel == 0' @click='setCustomerIntentionLevel(scope.row)'><span>无</span></a>
+						<a class="col-link" v-if='scope.row.customerIntentionLevel == 1' @click='setCustomerIntentionLevel(scope.row)'><span>低</span></a>
+						<a class="col-link" v-if='scope.row.customerIntentionLevel == 2' @click='setCustomerIntentionLevel(scope.row)'><span>中</span></a>
+						<a class="col-link" v-if='scope.row.customerIntentionLevel == 3' @click='setCustomerIntentionLevel(scope.row)'><span>高</span></a>
+						<a class="col-link" v-if='scope.row.customerIntentionLevel == null' @click='setCustomerIntentionLevel(scope.row)'><span>点击配置客户意向</span></a>
+          </template>
         </el-table-column>
         <el-table-column
           align="center"
@@ -220,17 +231,6 @@
           label="需求咨询师"
           width="160"
           show-overflow-tooltip>
-        </el-table-column>
-        <el-table-column
-          align="center"
-          sortable="custom"
-          prop="created"
-          label="创建日期"
-          width="160"
-          show-overflow-tooltip>
-          <template slot-scope="scope">
-            {{scope.row.created && $moment(scope.row.created).format('YYYY-MM-DD HH:mm')}}
-          </template>
         </el-table-column>
         <el-table-column
           align="center"
