@@ -595,29 +595,32 @@
           <table class="detail-table" style="text-align: center">
             <tr>
               <td class="td-title">服务客户</td>
-              <td></td>
+              <td>{{applicationForExtensionDetail.customer}}</td>
               <td class="td-title">服务商品</td>
-              <td></td>
+              <td>{{applicationForExtensionDetail.goods}}</td>
               <td class="td-title">服务管家</td>
-              <td></td>
+              <td>{{applicationForExtensionDetail.manager}}</td>
             </tr>
             <tr>
               <td class="td-title">事项名称</td>
-              <td></td>
+              <td>{{applicationForExtensionDetail.title}}</td>
               <td class="td-title">计划完成时限</td>
-              <td></td>
+              <td>{{$moment(applicationForExtensionDetail.oldScheduleTime).format('YYYY-MM-DD')}}</td>
               <td class="td-title">延期原因类型</td>
-              <td></td>
+              <td>
+                <span v-if='applicationForExtensionDetail.type === 1'>客户原因</span>
+                <span v-if='applicationForExtensionDetail.type === 2'>政策原因</span>
+              </td>
             </tr>
             <tr>
               <td class="td-title">其他说明</td>
-              <td colspan="5"></td>
+              <td colspan="5">{{applicationForExtensionDetail.remark}}</td>
             </tr>
             <tr>
               <td class="td-title">证明资料</td>
-              <td><a href="">查看</a></td>
+              <td><a :href="applicationForExtensionDetail.attachment">查看</a></td>
               <td class="td-title">计划完成时间</td>
-              <td></td>
+              <td>{{$moment(applicationForExtensionDetail.newScheduleTime).format('YYYY-MM-DD')}}</td>
               <td></td>
               <td></td>
             </tr>
@@ -664,6 +667,7 @@
       return {
         detailInfo: {},
         closeGoods: [],
+        applicationForExtensionDetail: {},
         salesOpportunitiesDetail: {},
         customerDetail: {},
         managerDetail: {},
@@ -691,6 +695,18 @@
       photoView,
     },
     methods: {
+      // 获取延期申请详情
+      getApplicationForExtensionDetail () {
+        let params = {
+          extendId: this.detailInfo.businessId,
+        };
+        API.workOrder.applicationForExtensionDetail(params, (data) => {
+          if(data.status) {
+            this.applicationForExtensionDetail = data.data;
+            console.log(222,this.applicationForExtensionDetail)
+          }
+        })
+      },
       // 获取打烊的商品
       getCloseGoods () {
         let params = {
@@ -769,6 +785,7 @@
           if (res.status) {
             that.detailInfo = res.data
             that.getCloseGoods();
+            that.getApplicationForExtensionDetail();
             that.detailInfo.publishTime = moment(that.detailInfo.publishTime).format('YYYY-MM-DD HH:mm:ss')
             that.detailInfo.deadline = moment(that.detailInfo.deadline).format('YYYY-MM-DD HH:mm:ss')
 

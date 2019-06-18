@@ -332,6 +332,27 @@ export default {
         error && error(err)
       })
     },
+    applicationForExtension (params, success, error) { // 申请延期
+      $axios.post('serviceItem/extend', params).then(res => {
+        success && success(res.data)
+      }).catch(err => {
+        error && error(err)
+      })
+    },
+    applicationForExtensionDetail (params, success, error) { // 获取工单服务日志列表
+      $axios.get('/serviceItem/extend/detail/' + params.extendId).then(res => {
+        success && success(res.data)
+      }).catch(err => {
+        error && error(err)
+      })
+    },
+    serviceItemOperateAll (params, success, error) { // 新推送消息——客户告知书和推送首次交接清单合体
+      $axios.post('serviceItem/operate', params).then(res => {
+        success && success(res.data)
+      }).catch(err => {
+        error && error(err)
+      })
+    },
     serviceItemOperate (params, success, error) { // 操作服务事项
       console.log(params, 1111)
       $axios.post('serviceItem/operate', params).then(res => {

@@ -249,6 +249,11 @@
 				if (this.params.detail) { // 完善
 					API.salesOpportunitiesSea.addChance(Object.assign({type: 1}, this.addForm), (data) => {
 						if (data.status) {
+                            if(data.data.message) {
+                                this.$message.info(data.data.message);
+                                this.dataLoading = false
+                                return;
+                            }
 							this.$message.success('完善成功')
 							setTimeout(() => {
 								this.dataLoading = false

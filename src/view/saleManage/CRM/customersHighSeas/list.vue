@@ -198,8 +198,8 @@
           align="center"
           sortable="custom"
           prop="returnTimes"
-          label="退回次数"
-          width="140"
+          label="客户需求退回次数"
+          width="160"
           show-overflow-tooltip>
         </el-table-column>
         <el-table-column

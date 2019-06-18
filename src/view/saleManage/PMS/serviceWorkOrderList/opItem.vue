@@ -54,6 +54,7 @@
               <span v-if="item.state === 3">待审核</span>
               <span v-if="item.state === 4">已拒绝</span>
               <span v-if="item.state === 5">重新发起审核</span>
+              <span v-if="item.state === 6">待完成</span>
               <span v-if="item.state === 9">已完成</span>
             </td>
             <td v-if="!params.isShow || other.isServiceDirector">
@@ -73,19 +74,28 @@
               -->
               <div>
                 <div v-if="item.num === 1">
-                  <el-button v-if="item.state !== 9" type="text" @click="operationListHandle(item, 1)">
+                  <el-button v-if="item.state !== 9 && item.state === 1" type="text" @click="operationListHandle(item, 1)">
                     {{operationList[item.num - 1][1-1]}}
                   </el-button>
+                  
+                  <span v-if='isNew'>
+                      <el-button v-if="item.state === 6" type="text" @click="operationListHandle(item, 5)">
+                        {{operationList[1][1-1]}}
+                      </el-button>
+                     <el-button v-if="item.state === 2" type="text"
+                                 @click="operationListHandle(item, 6, 1)">{{operationList[1][2-1]}}
+                      </el-button>
+                  </span>
                 </div>
-                <div v-if="item.num === 2">
+               <div v-if="item.num === 2 && !isNew">
                   <el-button v-if="item.state === 1" type="text" @click="operationListHandle(item, 1)">
                     {{operationList[item.num - 1][1-1]}}
                   </el-button>
-                  <el-button v-if="item.state !== 9 && item.state !== 1" type="text"
+                 <el-button v-if="item.state !== 9 && item.state !== 1" type="text"
                              @click="operationListHandle(item, 2)">{{operationList[item.num - 1][2-1]}}
                   </el-button>
                 </div>
-                <div v-if="item.num === 3">
+              <div v-if="item.num === 3 && !isNew">
                   <el-button v-if="item.state === 1" type="text" @click="operationListHandle(item, 1)">
                     {{operationList[item.num - 1][1-1]}}
                   </el-button>
@@ -344,15 +354,13 @@
                 </div>
               </div>
               <!-- 申请延期 未完成状态前都显示  && (index == (serviceItem.length - 1))-->
-              <!-- <el-button type="text" @click="applicationForExtension(item)" v-if="item.state !== 9">申请延期</el-button> -->
+              <el-button type="text" @click="applicationForExtension(item)" v-if="((item.type === 1 && item.num === 1 && item.state === 1) || (item.type === 18 && item.num === 34) || (item.type === 18 && item.num === 35) || (item.type === 19 && item.num === 36) || (item.type === 19 && item.num === 37) || (item.type === 20 && item.num === 39) || (item.type === 20 && item.num === 40) || (item.type === 21 && item.num === 41) || (item.type === 21 && item.num === 42) || (item.type === 19 && item.num === 43)) && item.state !== 9 && isNew">申请延期</el-button>
             </td>
             <td v-else>
               <div v-if="item.num === 34 || item.num === 39">
                 <el-button type="text" @click="operationListHandle(item, 1)">{{operationList[item.num - 1][1-1]}}
                 </el-button>
               </div>
-              <!-- 申请延期 未完成状态前都显示  && (index == (serviceItem.length - 1))-->
-              <!-- <el-button type="text" @click="applicationForExtension(item)" v-if="item.state !== 9">申请延期</el-button> -->
             </td>
           </tr>
         </table>
@@ -419,17 +427,17 @@
       <div>
           <el-form ref='appForm' label-width="100px">
             <el-form-item label="延期原因类型">
-                <el-select v-model="applicationForm.type" placeholder="请选择延期原因类型">
-                  <el-option label="客户原因" value="客户原因"></el-option>
-                  <el-option label="政策原因" value="政策原因"></el-option>
+                <el-select v-model="applicationForm.operationCode" placeholder="请选择延期原因类型">
+                  <el-option label="客户原因" :value="1"></el-option>
+                  <el-option label="政策原因" :value="2"></el-option>
                 </el-select>
             </el-form-item>
             <el-form-item label="其他说明">
-                <el-input v-model="applicationForm.other" type="textarea" resize="none" rows="4" placeholder="请填写说明" maxlength="200"></el-input>
+                <el-input v-model="applicationForm.remark" type="textarea" resize="none" rows="4" placeholder="请填写说明" maxlength="200"></el-input>
             </el-form-item>
             <el-form-item label="计划完成时间">
                 <el-date-picker
-                  v-model="applicationForm.date"
+                  v-model="applicationForm.scheduleTime"
                   type="date"
                   placeholder="选择日期">
                 </el-date-picker>
@@ -459,6 +467,7 @@
 <script>
   import API from '../../../../utils/api'
   import operationCode11 from './items/operationCode1_1'
+  import operationCode15 from './items/operationCode1_5'
   import operationCode21 from './items/operationCode2_1'
   import operationCode41 from './items/operationCode4_1'
   import operationCode51 from './items/operationCode5_1'
@@ -487,11 +496,11 @@
         fileList: [],
         applicationItem: {},
         applicationForm: {
-            type: '',       //延期原因类型
-            other: '',      //其他说明
-            meansPlan: '',  //上传资料
-            meansName: '',  //上传资料
-            date: '',       //计划完成时间
+            operationCode: '',       //延期原因类型
+            remark: '',              //其他说明
+            attachment: '',          //上传资料
+            attachName: '',          //上传资料
+            scheduleTime: '',        //计划完成时间
         },
         other: null,
         date_num: 1000 * 60 * 60 * 24 * 7,
@@ -551,6 +560,7 @@
         },
         dateDisabled: true,
         orderDetail: '',
+        isNew: false,
       }
     },
     computed: {
@@ -567,33 +577,46 @@
       applicationForExtension (item) {
         // 清空信息
         this.applicationForm = {
-            type: '',
-            other: '',
-            meansPlan: '',
-            meansName: '',
-            date: '',
+            operationCode: '',
+            remark: '',
+            attachment: '',
+            attachmentName: '',
+            scheduleTime: '',
         };
         this.fileList = [];
         this.applicationForExtensionShow = true;
         this.applicationItem = item;
       },
       subApplication () {
-          let message = !this.applicationForm.type && '请选择延期原因类型' ||
-                        !this.applicationForm.date && '请选择计划完成时间' ||
-                        !this.applicationForm.meansPlan && '请上传资料' || null;
+          let message = !this.applicationForm.operationCode && '请选择延期原因类型' ||
+                        !this.applicationForm.scheduleTime && '请选择计划完成时间' ||
+                        !this.applicationForm.attachment && '请上传资料' || null;
           if(message) return this.$message.info(message);
+          // 时间变化
+          let newTime = new Date(this.$moment(this.applicationForm.scheduleTime).format('YYYY-MM-DD') + ' 23:59:59');
+          this.applicationForm.scheduleTime = newTime;
           let item = this.applicationItem;
-          console.log(item)
+          this.applicationForm.orderId = item.orderId;
+          this.applicationForm.workOrderId = item.workOrderId;
+          this.applicationForm.id = item.id;
+          this.applicationForm.type = item.type;
+          this.applicationForm.num = item.num;
+          API.workOrder.applicationForExtension(this.applicationForm, (data) => {
+              if(data.status && data.data === 1) {
+                this.$message.success('申请延期成功');
+                this.applicationForExtensionShow = false;
+              }
+          })
       },
         // 资料成功上传
         onSuccessHandle (response, file, fileList) {
-            this.applicationForm.meansPlan = response.data.url
-            this.applicationForm.meansName = response.data.name
+            this.applicationForm.attachment = response.data.url
+            this.applicationForm.attachmentName = response.data.name
         },
         // 删除已上传文件
         onRemoveHandle () {
-            this.applicationForm.meansPlan = '';
-            this.applicationForm.meansName = '';
+            this.applicationForm.attachment = '';
+            this.applicationForm.attachmentName = '';
         },
       getOrderDetail (orderId) {
         API.serviceOrder.detailByOrderId(orderId, (da) => {
@@ -630,6 +653,15 @@
           }
         }
         API.workOrder.serviceItem(Object.assign({}, p), (da) => {
+          this.isNew = false;
+          if(da.data.content.length == 1) {
+              // da.data.content.splice(1, 2)
+              da.data.content.forEach(a => {
+                  if(a.num === 1) {
+                      this.isNew = true;
+                  }
+              })
+          }
           this.serviceItem = da.data.content
           this.other = da.other
         })
@@ -637,7 +669,7 @@
       yearChangeHandle () {
         this.form.serviceMonth = null
       },
-      operationListHandle (item, operationCode) {
+      operationListHandle (item, operationCode, distinguish) {
         let contactId = null // 完善联系人信息时判断 编辑用， 有id就是编辑
         if (item.num === 34 || item.num === 39) {
           contactId = item.result ? JSON.parse(item.result).id : null
@@ -650,7 +682,6 @@
           num: item.num,
           operationCode: contactId ? (operationCode + 1) : operationCode,
         }
-        console.log(item, operationCode)
         if (item.num === 1 && operationCode === 1) {
           this.$vDialog.modal(operationCode11, {
             title: this.operationList[item.num - 1][operationCode - 1],
@@ -666,7 +697,36 @@
               }
             },
           })
-        } else if ((item.num === 2 && operationCode === 1) || (item.num === 3 && operationCode === 1) ||
+        } else if (item.num === 1 && operationCode === 5) {
+            // 新告知客户书和推送交接清单合并
+          this.$vDialog.modal(operationCode15, {
+            title: '推送信息',
+            width: 600,
+            height: 400,
+            params: {
+              baseParam: baseParam,
+            },
+            callback: (data) => {
+              if (data.type === 'itemSave') {
+                this.getServiceLog()
+                this.getServiceItem()
+              }
+            },
+          })
+            
+        } else if (distinguish === 1 && operationCode === 6) {// 无弹窗  新提醒用户
+          API.workOrder.serviceItemOperateAll(Object.assign({}, baseParam, {
+            num: 1,
+            operationCode: 3,
+          }), (res) => {
+            if (res.status) {
+              this.$message.success('操作成功')
+              this.getServiceLog()
+              this.getServiceItem()
+            }
+          })
+            
+        } else if ((item.num === 2 && operationCode === 1 && !this.isNew) || (item.num === 3 && operationCode === 1 && !this.isNew) ||
           (item.num === 9 && operationCode === 1) || (item.num === 19 && operationCode === 1) ||
           (item.num === 20 && operationCode === 1) ||
           (item.num === 23 && operationCode === 1) || (item.num === 24 && operationCode === 1) ||
@@ -680,6 +740,7 @@
             height: 220,
             params: {
               baseParam: baseParam,
+              distinguish: distinguish,
             },
             callback: (data) => {
               if (data.type === 'itemSave') {
@@ -688,11 +749,10 @@
               }
             },
           })
-        } else if ((item.num === 2 && operationCode === 2) || (item.num === 3 && operationCode === 2) ||
+        } else if ((item.num === 1 && operationCode === 5 && this.isNew) || (item.num === 2 && operationCode === 2 && !this.isNew) || (item.num === 3 && operationCode === 2 && !this.isNew) ||
           (item.num === 25 && operationCode === 2) || (item.num === 29 && operationCode === 2) ||
           (item.num === 31 && operationCode === 1) || (item.num === 38 && operationCode === 2)
         ) { // 无弹窗
-          console.log(baseParam)
           API.workOrder.serviceItemOperate(Object.assign({}, baseParam, {
             // remark: this.ruleForm.remark,
             // result: JSON.stringify({})
@@ -704,7 +764,6 @@
             }
           })
         } else if (item.num === 38 && operationCode === 3) { // 无弹窗
-          console.log(item, operationCode)
           API.workOrder.serviceItemOperate(baseParam, (res) => {
             if (res.status) {
               this.$message.success('操作成功')
