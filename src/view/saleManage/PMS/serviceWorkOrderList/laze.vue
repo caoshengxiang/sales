@@ -3,6 +3,7 @@
         <div class="com-dialog">
             <p class='laze-title'>请选择需要打烊的商品:</p>
             <div>
+                <el-checkbox style='margin-bottom: 10px;margin-left: 25px;' v-model="all" v-if='list.length > 0' @change="checkedAll">全选</el-checkbox>
                 <el-tree
                    ref='tree'
                   :data="list"
@@ -29,6 +30,7 @@
     export default {
         data () {
             return {
+                all: false,
                 defaultProps: {
                     children: 'children',
                     label: 'goodsName',
@@ -52,7 +54,6 @@
             getList () {
                 this.defaultCheckedKeys = [];
                 API.workOrder.serverGoods({}, (res) => {
-                    console.log(res)
                     if(res.status) {
                         let data = res.data;
                         if(data != null) {
@@ -68,6 +69,29 @@
                         }
                     }
                 })
+            },
+            // 全选
+            checkedAll (type) {
+                console.log(type)
+                if(type) {
+                    let _list = this.list;
+                    this.defaultCheckedKeys = [];
+                    if(_list.length > 0) {
+                        _list.forEach(a => {
+                            this.defaultCheckedKeys.push(a.goodsId)
+                        })
+                    }
+                }else {
+                    let _list = this.list, ids = [];
+                    if(_list.length > 0) {
+                        _list.forEach(a => {
+                            if(a.state == 2) {
+                                ids.push(a.goodsId)
+                            }
+                        })
+                    };
+                    this.$refs.tree.setCheckedKeys(ids);
+                }
             },
             // 保存
             saveSubmitForm () {
