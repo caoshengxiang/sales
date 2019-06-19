@@ -354,12 +354,13 @@
                 </div>
               </div>
               <!-- 申请延期 未完成状态前都显示  && (index == (serviceItem.length - 1))-->
-              <el-button type="text" @click="applicationForExtension(item)" v-if="((item.type === 1 && item.num === 1 && item.state === 1) || (item.type === 18 && item.num === 34) || (item.type === 18 && item.num === 35) || (item.type === 19 && item.num === 36) || (item.type === 19 && item.num === 37) || (item.type === 20 && item.num === 39) || (item.type === 20 && item.num === 40) || (item.type === 21 && item.num === 41) || (item.type === 21 && item.num === 42) || (item.type === 19 && item.num === 43)) && item.state !== 9 && isNew">申请延期</el-button>
+              <el-button type="text" @click="applicationForExtension(item)" v-if="isShowApplication(item)">申请延期</el-button>
             </td>
             <td v-else>
               <div v-if="item.num === 34 || item.num === 39">
                 <el-button type="text" @click="operationListHandle(item, 1)">{{operationList[item.num - 1][1-1]}}
                 </el-button>
+                <el-button type="text" @click="applicationForExtension(item)" v-if="isShowApplication(item)">申请延期</el-button>
               </div>
             </td>
           </tr>
@@ -439,6 +440,7 @@
                 <el-date-picker
                   v-model="applicationForm.scheduleTime"
                   type="date"
+                  :picker-options="pickerOptions"
                   placeholder="选择日期">
                 </el-date-picker>
             </el-form-item>
@@ -558,6 +560,7 @@
           current: 1,
           pageSize: 10000,
         },
+        pickerOptions: this.pickerOptionses(),
         dateDisabled: true,
         orderDetail: '',
         isNew: false,
@@ -573,6 +576,21 @@
     },
     props: ['params'],
     methods: {
+        isShowApplication (item) {
+            // (item.type === 1 && item.num === 1 && item.state === 1 && isNew) || (item.type === 18 && item.num === 34) || (item.type === 18 && item.num === 35) || (item.type === 19 && item.num === 36) || (item.type === 19 && item.num === 37) || (item.type === 20 && item.num === 39) || (item.type === 20 && item.num === 40) || (item.type === 21 && item.num === 41) || (item.type === 21 && item.num === 42) || (item.type === 19 && item.num === 43)) && item.state !== 9
+            let _type = (item.type === 1 && item.num === 1 && item.state === 1 && this.isNew && item.state !== 9) && true ||
+                        (item.type === 18 && item.num === 34 && item.state !== 9) && true ||
+                        (item.type === 18 && item.num === 35 && item.state !== 9) && true ||
+                        (item.type === 19 && item.num === 36 && item.state !== 9) && true ||
+                        (item.type === 19 && item.num === 37 && item.state !== 9) && true ||
+                        (item.type === 19 && item.num === 38 && item.state !== 9) && true ||
+                        (item.type === 20 && item.num === 39 && item.state !== 9) && true ||
+                        (item.type === 20 && item.num === 40 && item.state !== 9) && true ||
+                        (item.type === 21 && item.num === 41 && item.state !== 9) && true ||
+                        (item.type === 21 && item.num === 42 && item.state !== 9) && true ||
+                        (item.type === 19 && item.num === 43 && item.state !== 9) && true || false;
+            return _type;
+        },
       // 申请延期弹框显示
       applicationForExtension (item) {
         // 清空信息
@@ -587,6 +605,14 @@
         this.applicationForExtensionShow = true;
         this.applicationItem = item;
       },
+      pickerOptionses () {
+          let _this = this;
+         return {
+            disabledDate(time) {
+                return time.getTime() < (+_this.applicationItem.scheduleTime);
+            }
+         }
+      },
       subApplication () {
           let message = !this.applicationForm.operationCode && '请选择延期原因类型' ||
                         !this.applicationForm.scheduleTime && '请选择计划完成时间' ||
@@ -596,6 +622,7 @@
           let newTime = new Date(this.$moment(this.applicationForm.scheduleTime).format('YYYY-MM-DD') + ' 23:59:59');
           this.applicationForm.scheduleTime = newTime;
           let item = this.applicationItem;
+          if(item.scheduleTime > +newTime) return this.$message.info('请选择原计划完成时间之后的时间');
           this.applicationForm.orderId = item.orderId;
           this.applicationForm.workOrderId = item.workOrderId;
           this.applicationForm.id = item.id;
@@ -653,17 +680,17 @@
           }
         }
         API.workOrder.serviceItem(Object.assign({}, p), (da) => {
+          this.serviceItem = da.data.content
+          this.other = da.other
           this.isNew = false;
-          if(da.data.content.length == 1) {
-              // da.data.content.splice(1, 2)
-              da.data.content.forEach(a => {
+          if(this.serviceItem.length == 1) {
+              // this.serviceItem.splice(1, 2)
+              this.serviceItem.forEach(a => {
                   if(a.num === 1) {
                       this.isNew = true;
                   }
               })
           }
-          this.serviceItem = da.data.content
-          this.other = da.other
         })
       },
       yearChangeHandle () {

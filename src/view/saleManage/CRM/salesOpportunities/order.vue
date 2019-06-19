@@ -85,7 +85,7 @@
       <div slot="footer" class="dialog-footer">
         <el-button class="cancel-button" @click="$vDialog.close({type: 'cancel'})">取 消</el-button>
         <el-button :disabled="multipleSelection.length===1?false:true" class="save-button"
-                   @click="saveSubmitForm('addForm')">确 定
+                   @click="saveSubmitForm('addForm')" :loading='btnLoading'>确 定
         </el-button>
       </div>
     </div>
@@ -106,6 +106,7 @@
         salesOpportunitiesDetail: {},
         orderList: [],
         orderTotal: 0,
+        btnLoading: false,
         addForm: { // 添加表单
           salerOrderId: '',
           mobilePhone: '',
@@ -153,10 +154,12 @@
       saveSubmitForm (formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            this.dataLoading = true
+            this.btnLoading = true;
+            // this.dataLoading = true
             API.salesOrder.appOrder(this.addForm, (da) => {
               setTimeout(() => {
-                this.dataLoading = false
+                this.btnLoading = false;
+                // this.dataLoading = false
                 if (da.status) {
                   this.$message.success('APP下单成功成功')
                   this.$vDialog.close({type: 'save'})
