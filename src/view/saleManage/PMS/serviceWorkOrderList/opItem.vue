@@ -356,13 +356,13 @@
               <!-- 申请延期 未完成状态前都显示  && (index == (serviceItem.length - 1))-->
               <el-button type="text" @click="applicationForExtension(item)" v-if="isShowApplication(item)">申请延期</el-button>
             </td>
-            <td v-else>
+<!--            <td v-else>
               <div v-if="item.num === 34 || item.num === 39">
                 <el-button type="text" @click="operationListHandle(item, 1)">{{operationList[item.num - 1][1-1]}}
                 </el-button>
                 <el-button type="text" @click="applicationForExtension(item)" v-if="isShowApplication(item)">申请延期</el-button>
               </div>
-            </td>
+            </td> -->
           </tr>
         </table>
         <div style="margin-top: 20px;">
@@ -583,7 +583,7 @@
                         (item.type === 18 && item.num === 35 && item.state !== 9) && true ||
                         (item.type === 19 && item.num === 36 && item.state !== 9) && true ||
                         (item.type === 19 && item.num === 37 && item.state !== 9) && true ||
-                        (item.type === 19 && item.num === 38 && item.state !== 9) && true ||
+                        (item.type === 19 && item.num === 38 && item.state !== 9 && item.state !== 2) && true ||
                         (item.type === 20 && item.num === 39 && item.state !== 9) && true ||
                         (item.type === 20 && item.num === 40 && item.state !== 9) && true ||
                         (item.type === 21 && item.num === 41 && item.state !== 9) && true ||

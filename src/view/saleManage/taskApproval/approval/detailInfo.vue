@@ -784,8 +784,12 @@
           that.loading = false
           if (res.status) {
             that.detailInfo = res.data
-            that.getCloseGoods();
-            that.getApplicationForExtensionDetail();
+            if(that.detailInfo.approvalType === 8) {
+              that.getCloseGoods(); 
+            }
+            if(that.detailInfo.approvalType === 9) {
+              that.getApplicationForExtensionDetail();
+            }
             that.detailInfo.publishTime = moment(that.detailInfo.publishTime).format('YYYY-MM-DD HH:mm:ss')
             that.detailInfo.deadline = moment(that.detailInfo.deadline).format('YYYY-MM-DD HH:mm:ss')
 
