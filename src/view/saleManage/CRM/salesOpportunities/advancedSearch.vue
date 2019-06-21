@@ -31,6 +31,13 @@
               <el-input type="text" v-model="searchForm.contactPhone"></el-input>
             </el-form-item>
           </el-col>
+          <el-col :span="8">
+            <el-form-item label="所属公司：">
+              <el-select v-model='searchForm.subordinateCompanyId' filterable placeholder="请选择所属公司">
+                <el-option v-for="(item, i) in subordinateCompany" :key="i" :value="item.id" :label="item.name"></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
         </el-row>
         <el-row class="el-row-cla">
           <el-col :span="8">
@@ -138,6 +145,7 @@
       return {
         salesState: [], // 销售阶段
         demandSource: [], // 需求来源
+        subordinateCompany: [], //所属公司
         searchForm: { // 表单
           intentProductName: null,
           customerName: null,
@@ -152,6 +160,7 @@
           endBillDate: null,
           contactPhone: null,
           contacter: null,
+          subordinateCompanyId: null,
         },
         timeInterval: [],
         timeInterval2: [],
@@ -286,8 +295,16 @@
           }
         }
       },
+      getCompany () {
+        API.organization.queryAllList({pid: 1}, (data) => {
+          if(data.status) {
+            this.subordinateCompany = data.data;
+          }
+        })
+      },
     },
     created () {
+      this.getCompany()
       this.salesState = this.params.salesState
       this.demandSource = this.params.demandSource
       // 来源

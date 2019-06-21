@@ -10,6 +10,12 @@
     </div>
     <!--控制栏-->
     <div class="com-bar">
+      <div style="margin-bottom: 15px;">
+        <el-row>
+          <el-button :type='!classNum ? "primary" : ""' @click='selectClass(0)'>客服任务统计</el-button>
+          <el-button :type='classNum ? "primary" : ""' @click='selectClass(1)'>客评统计表</el-button>
+        </el-row>
+      </div>
       <div class="com-bar-left">
         <span>统计时间</span>
         <el-date-picker
@@ -30,7 +36,7 @@
         <!--<el-button>打印</el-button>-->
         <com-button buttonType="export" icon="el-icon-download" @click="excelExport">导出</com-button>
       </div>
-      <div>
+      <div v-if='!classNum'>
         <el-table
           ref="multipleTable2"
           border
@@ -102,10 +108,60 @@
           </el-table-column>
         </el-table>
       </div>
+      <div v-else>
+        <el-table
+          ref="multipleTable3"
+          border
+          :data="totalData2"
+          tooltip-effect="dark">
+          <el-table-column
+            align="center"
+            prop="type"
+            label=""
+            show-overflow-tooltip>
+          </el-table-column>
+          <el-table-column
+            align="center"
+            prop="total"
+            label="应回访数"
+            show-overflow-tooltip>
+          </el-table-column>
+          <el-table-column
+            align="center"
+            prop="actual"
+            label="实际回访数"
+            show-overflow-tooltip>
+          </el-table-column>
+          <el-table-column
+            align="center"
+            prop="success"
+            label="成功回访数"
+            show-overflow-tooltip>
+          </el-table-column>
+          <el-table-column
+            align="center"
+            prop="refuse"
+            label="拒绝回访数"
+            show-overflow-tooltip>
+          </el-table-column>
+          <el-table-column
+            align="center"
+            prop="actualPercent"
+            label="回访完成率"
+            show-overflow-tooltip>
+          </el-table-column>
+          <el-table-column
+            align="center"
+            prop="successPercent"
+            label="成功回访率"
+            show-overflow-tooltip>
+          </el-table-column>
+        </el-table>
+      </div>
     </div>
     <!--详细-->
     <div class="com-box com-box-padding com-list-box">
-      <div>
+      <div v-if='!classNum'>
         <el-table
           ref="multipleTable"
           border
@@ -189,9 +245,67 @@
           </el-table-column>
         </el-table>
       </div>
-
+      
+      <div v-else style='margin-bottom: 20px;'>
+        <el-table
+          ref="multipleTable3"
+          border
+          stripe
+          :data="tableData2"
+          :max-height='posheight'
+          tooltip-effect="dark"
+          @sort-change="sortChangeHandle">
+          <el-table-column
+            align="center"
+            prop="codeName"
+            show-overflow-tooltip>
+          </el-table-column>
+          <el-table-column
+            align="center"
+            prop="one"
+            label="1星"
+            show-overflow-tooltip>
+          </el-table-column>
+          <el-table-column
+            align="center"
+            prop="two"
+            label="2星"
+            show-overflow-tooltip>
+          </el-table-column>
+          <el-table-column
+            align="center"
+            prop="three"
+            label="3星"
+            show-overflow-tooltip>
+          </el-table-column>
+          <el-table-column
+            align="center"
+            prop="four"
+            label="4星"
+            show-overflow-tooltip>
+          </el-table-column>
+          <el-table-column
+            align="center"
+            prop="five"
+            label="5星"
+            show-overflow-tooltip>
+          </el-table-column>
+          <el-table-column
+            align="center"
+            prop="defualt"
+            label="默认三星"
+            show-overflow-tooltip>
+          </el-table-column>
+          <el-table-column
+            align="center"
+            prop="total"
+            label="合计"
+            show-overflow-tooltip>
+          </el-table-column>
+        </el-table>
+      </div>
       <!--分页-->
-      <div class="com-pages-box">
+      <div class="com-pages-box" v-if='!classNum'>
         <el-pagination
           background
           :total="tableDataTotal"
@@ -230,10 +344,13 @@
           timeStart: null,
           timeEnd: null,
         },
+        classNum: 0,
         sortObj: {}, // 排序
         advancedSearch: {}, // 高级搜索
         tableData: [],
+        tableData2: [],
         tableDataTotal: 0,
+        totalData2: [],
         totalData: [],
         time: '',
       }
@@ -298,23 +415,37 @@
           timeEnd: this.defaultListParams.timeEnd,
         }
       },
+      selectClass (num) {
+        if(this.classNum === num) return;
+        this.classNum = num;
+        this.time = '';
+        this.defaultListParams.timeStart = '';
+        this.defaultListParams.timeEnd = '';
+        this.getData();
+      },
       getData () {
         this.getQueryParams()
-        API.statistical.serviceTask(Object.assign({}, this.defaultListParams, this.sortObj, this.advancedSearch),
+        let _name = this.classNum ? 'serviceTask2' : 'serviceTask';
+        API.statistical[_name](Object.assign({}, this.defaultListParams, this.sortObj, this.advancedSearch),
           (da) => {
-            this.tableData = da.data.content
             this.tableDataTotal = da.data.totalElements
-            this.totalData = [{
-              retAgain: da.other.retAgainAll,
-              retRefuse: da.other.retRefuseAll,
-              retSuccess: da.other.retSuccessAll,
-              retTotal: da.other.retTotalAll,
-              retWait: da.other.retWaitAll,
-              success: da.other.successAll,
-              total: da.other.totalAll,
-              wait: da.other.waitAll,
-              name: '合计数量',
-            }]
+            if(!this.classNum) {
+              this.tableData = da.data.content
+              this.totalData = [{
+                retAgain: da.other.retAgainAll,
+                retRefuse: da.other.retRefuseAll,
+                retSuccess: da.other.retSuccessAll,
+                retTotal: da.other.retTotalAll,
+                retWait: da.other.retWaitAll,
+                success: da.other.successAll,
+                total: da.other.totalAll,
+                wait: da.other.waitAll,
+                name: '合计数量',
+              }]
+            }else {
+              this.tableData2 = da.data.listInner;
+              this.totalData2 = da.data.list;
+            }
           })
       },
       searchHandle () {
@@ -338,8 +469,10 @@
         let query = QS.stringify(Object.assign({}, dlp, this.sortObj, as,
           {authKey: webStorage.getItem('userInfo').authKey}))
         // console.log('下载参数：', query)
-        link.setAttribute('href', serverUrl + '/countSystem/serviceTaskExport?' + query)
-        link.setAttribute('download', '客服任务统计')
+        let _url = this.classNum ? '/countSystem/serviceTaskStatisticsExport?' : '/countSystem/serviceTaskExport?';
+        let _name = this.classNum ? '客评统计表' : '客服任务统计';
+        link.setAttribute('href', serverUrl + _url + query)
+        link.setAttribute('download', _name)
         let event = document.createEvent('MouseEvents') // 初始化事件对象
         event.initMouseEvent('click', true, true, document.defaultView, 0, 0, 0, 0, 0, false, false, false, false, 0,
           null) // 触发事件

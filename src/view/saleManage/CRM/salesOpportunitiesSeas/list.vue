@@ -284,6 +284,14 @@
           label="预计签单金额"
           width="160">
         </el-table-column>
+        <el-table-column
+          show-overflow-tooltip
+          align="center"
+          sortable="custom"
+          prop="subordinateCompanyName"
+          label="所属公司"
+          width="160">
+        </el-table-column>
       </el-table>
     </div>
     <!--分页-->

@@ -301,6 +301,14 @@
           label="代理商维护者"
         >
         </el-table-column>
+        <el-table-column
+          show-overflow-tooltip
+          align="center"
+          prop="subordinateCompanyName"
+					width='160'
+          label="所属公司"
+        >
+        </el-table-column>
       </el-table>
     </div>
     <!--分页-->

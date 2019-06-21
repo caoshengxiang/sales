@@ -92,6 +92,22 @@
           </el-col>
         </el-row>
         <el-row class="el-row-cla">
+          <el-col :span="8">
+            <el-form-item label="需求公司：">
+              <el-select v-model='searchForm.chanceSubordinateCompanyId' filterable placeholder="请选择需求公司">
+                <el-option v-for="(item, i) in subordinateCompany" :key="i" :value="item.id" :label="item.name"></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="销售公司：">
+              <el-select v-model='searchForm.salerSubordinateCompanyId' filterable placeholder="请选择销售公司">
+                <el-option v-for="(item, i) in subordinateCompany" :key="i" :value="item.id" :label="item.name"></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row class="el-row-cla">
           <el-col :span="14">
             <el-form-item label="创建日期：">
               <el-date-picker
@@ -182,6 +198,7 @@
         orderState: [], // 订单状态
         orderSource: [], // 订单来源
         recommenderSource: [], // 订单来源
+        subordinateCompany: [], //公司
         searchForm: { // 表单
           orderId: null,
           customerName: null,
@@ -202,6 +219,8 @@
           endRefundAmount: null,
           startNotRefundAmount: null,
           endNotRefundAmount: null,
+          chanceSubordinateCompanyId: null,
+          salerSubordinateCompanyId: null,
         },
         timeInterval: [],
         orderSourceType: [], // 客户来源
@@ -383,8 +402,16 @@
           }
         }
       },
+      getCompany () {
+        API.organization.queryAllList({pid: 1}, (data) => {
+          if(data.status) {
+            this.subordinateCompany = data.data;
+          }
+        })
+      },
     },
     created () {
+      this.getCompany()
       this.orderState = this.params.orderState
       this.orderSource = this.params.orderSource
       this.recommenderSource = this.params.recommenderSource

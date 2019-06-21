@@ -274,6 +274,22 @@
           label="所属组织"
           width="160">
         </el-table-column>
+        <el-table-column
+          align="center"
+          sortable="custom"
+          prop="chanceSubordinateCompanyName"
+          label="需求公司"
+          width="160"
+          show-overflow-tooltip>
+        </el-table-column>
+        <el-table-column
+          align="center"
+          sortable="custom"
+          prop="salerSubordinateCompanyName"
+          label="销售公司"
+          width="160"
+          show-overflow-tooltip>
+        </el-table-column>
       </el-table>
     </div>
     <!--分页-->

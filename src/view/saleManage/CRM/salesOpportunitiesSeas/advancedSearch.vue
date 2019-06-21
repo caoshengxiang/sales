@@ -71,7 +71,7 @@
           </el-col>
         </el-row>
         <el-row class="el-row-cla">
-          <el-col :span="14">
+          <el-col :span="16">
             <el-form-item label="创建日期：">
               <el-date-picker
                 v-model="timeInterval"
@@ -86,9 +86,16 @@
               </el-date-picker>
             </el-form-item>
           </el-col>
+          <el-col :span="8">
+            <el-form-item label="所属公司：">
+              <el-select v-model='searchForm.subordinateCompanyId' filterable placeholder="请选择所属公司">
+                <el-option v-for="(item, i) in subordinateCompany" :key="i" :value="item.id" :label="item.name"></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
         </el-row>
         <el-row class="el-row-cla">
-          <el-col :span="14">
+          <el-col :span="16">
             <el-form-item label="预计签单日期：">
               <el-date-picker
                 v-model="timeInterval2"
@@ -104,7 +111,7 @@
           </el-col>
         </el-row>
         <el-row class="el-row-cla">
-          <el-col :span="14">
+          <el-col :span="16">
             <el-form-item label="退回日期：">
               <el-date-picker
                 v-model="timeInterval3"
@@ -120,7 +127,7 @@
           </el-col>
         </el-row>
         <el-row class="el-row-cla">
-          <el-col :span="14">
+          <el-col :span="16">
             <el-form-item label="预计签单金额：">
               <el-row>
                 <el-col :span="10">
@@ -139,7 +146,7 @@
           </el-col>
         </el-row>
         <el-row class="el-row-cla">
-          <el-col :span="14">
+          <el-col :span="16">
             <el-form-item label="退回次数：">
               <el-row>
                 <el-col :span="10">
@@ -177,6 +184,7 @@
       return {
         salesState: [], // 销售阶段
         demandSource: [], // 需求来源
+        subordinateCompany: [], //所属公司
         searchForm: { // 表单
           intentProductName: null,
           customerName: null,
@@ -196,6 +204,7 @@
           latestFollowerName: null,
           startReturnDate: null,
           endReturnDate: null,
+          subordinateCompanyId: null,
         },
         timeInterval: [],
         timeInterval2: [],
@@ -347,8 +356,16 @@
           }
         }
       },
+      getCompany () {
+        API.organization.queryAllList({pid: 1}, (data) => {
+          if(data.status) {
+            this.subordinateCompany = data.data;
+          }
+        })
+      },
     },
     created () {
+      this.getCompany()
       this.salesState = this.params.salesState
       this.demandSource = this.params.demandSource
       // 来源

@@ -166,6 +166,13 @@
                   {{scope.row.created && $moment(scope.row.created).format('YYYY-MM-DD HH:mm')}}
                 </template>
               </el-table-column>
+              <el-table-column
+                show-overflow-tooltip
+                align="center"
+                label="所属公司"
+                prop="subordinateCompanyName"
+              >
+              </el-table-column>
             </el-table>
           </div>
           <div style="width: 20px;"></div>

@@ -90,6 +90,13 @@
               </el-select>
             </el-form-item>
           </el-col>
+          <el-col :span="8">
+            <el-form-item label="所属公司：">
+              <el-select v-model='searchForm.subordinateCompanyId' filterable placeholder="请选择所属公司">
+                <el-option v-for="(item, i) in subordinateCompany" :key="i" :value="item.id" :label="item.name"></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
           <el-col :span="8" v-if="type===1">
             <el-form-item label="代理商维护者：">
               <el-input type="text" v-model="searchForm.managerName"></el-input>
@@ -208,6 +215,7 @@
         customerState: [], // 客户状态
 				sourceState: [],   //注册来源
 				identityType: '',
+        subordinateCompany: [], //注册公司
         searchForm: { // 表单
           mobilePhone: null,
           jobNo: null,
@@ -229,6 +237,7 @@
 					createdEnd: null,           //注册结束时间
 					identityType: null,         //选择的身份类型
 					managerName: null,          //代理商维护者
+          subordinateCompanyId: null,
         },
         organizationOptions: [], // 组织列表
 				identityList: [],        //所有身份类型
@@ -311,8 +320,16 @@
           this.searchForm.endNetReceipts = this.searchForm.startNetReceipts
         }
       },
+      getCompany () {
+        API.organization.queryAllList({pid: 1}, (data) => {
+          if(data.status) {
+            this.subordinateCompany = data.data;
+          }
+        })
+      },
     },
     created () {
+      this.getCompany()
       var that = this
       that.getOrganization({pid: 1})
       let params = {

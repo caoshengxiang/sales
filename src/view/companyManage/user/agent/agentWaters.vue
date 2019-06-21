@@ -275,6 +275,15 @@
           width="80"
         >
         </el-table-column>
+        <el-table-column
+          show-overflow-tooltip
+          align="center"
+          prop="subordinateCompanyName"
+          label="所属公司"
+          sortable="custom"
+          width="100"
+        >
+        </el-table-column>
       </el-table>
     </div>
     <!--分页-->

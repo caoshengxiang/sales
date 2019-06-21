@@ -332,6 +332,27 @@ export default {
         error && error(err)
       })
     },
+    addServiceLog (params, success, error) { // 添加日志
+      $axios.post('serviceLog', params).then(res => {
+        success && success(res.data)
+      }).catch(err => {
+        error && error(err)
+      })
+    },
+    editServiceLog (params, success, error) { // 修改日志
+      $axios.put('serviceLog/' + params.id, params.params).then(res => {
+        success && success(res.data)
+      }).catch(err => {
+        error && error(err)
+      })
+    },
+    deleteServiceLog (params, success, error) { // 删除日志
+      $axios.delete('serviceLog/' + params).then(res => {
+        success && success(res.data)
+      }).catch(err => {
+        error && error(err)
+      })
+    },
     applicationForExtension (params, success, error) { // 申请延期
       $axios.post('serviceItem/extend', params).then(res => {
         success && success(res.data)
@@ -619,6 +640,13 @@ export default {
     },
     serviceTask (params, success, error) { // 客服任务统计
       $axios.get('countSystem/serviceTask', {params: params}).then(res => {
+        success && success(res.data)
+      }).catch(err => {
+        error && error(err)
+      })
+    },
+    serviceTask2 (params, success, error) { // 客评统计表
+      $axios.get('countSystem/serviceTaskStatistics', {params: params}).then(res => {
         success && success(res.data)
       }).catch(err => {
         error && error(err)

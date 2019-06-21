@@ -50,7 +50,7 @@
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="10">
+          <el-col :span="16">
             <el-form-item label="注册日期：">
               <el-date-picker
                 v-model="created"
@@ -83,6 +83,13 @@
 
             </el-form-item>
           </el-col>
+          <el-col :span="8">
+            <el-form-item label="所属公司：">
+              <el-select v-model='searchForm.subordinateCompanyId' filterable placeholder="请选择所属公司">
+                <el-option v-for="(item, i) in subordinateCompany" :key="i" :value="item.id" :label="item.name"></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
         </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -110,6 +117,7 @@
         customerSourceType: [], // 客户来源
         customerState: [], // 客户状态
 				identityType: '',
+        subordinateCompany: [], //所属公司
         searchForm: { // 表单
           mobilePhone: null,
           name: null,
@@ -121,6 +129,7 @@
 					createdStart: null,         //注册开始时间
 					createdEnd: null,           //注册结束时间
 					identityType: null,         //选择的身份类型
+          subordinateCompanyId: null,
         },
         organizationOptions: [], // 组织列表
 				identityList: [],        //所有身份类型
@@ -194,8 +203,16 @@
           this.searchForm.endNetReceipts = this.searchForm.startNetReceipts
         }
       },
+      getCompany () {
+        API.organization.queryAllList({pid: 1}, (data) => {
+          if(data.status) {
+            this.subordinateCompany = data.data;
+          }
+        })
+      },
     },
     created () {
+      this.getCompany()
       var that = this
       that.getOrganization({pid: 1})
       this.searchForm = this.params.preAdvancedSearch

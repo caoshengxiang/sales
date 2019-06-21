@@ -356,13 +356,13 @@
               <!-- 申请延期 未完成状态前都显示  && (index == (serviceItem.length - 1))-->
               <el-button type="text" @click="applicationForExtension(item)" v-if="isShowApplication(item)">申请延期</el-button>
             </td>
-<!--            <td v-else>
-              <div v-if="item.num === 34 || item.num === 39">
+           <td v-else>
+<!--              <div v-if="item.num === 34 || item.num === 39">
                 <el-button type="text" @click="operationListHandle(item, 1)">{{operationList[item.num - 1][1-1]}}
                 </el-button>
                 <el-button type="text" @click="applicationForExtension(item)" v-if="isShowApplication(item)">申请延期</el-button>
-              </div>
-            </td> -->
+              </div> -->
+            </td>
           </tr>
         </table>
         <div style="margin-top: 20px;">
@@ -402,9 +402,12 @@
         <el-card class="box-card">
           <div slot="header" class="clearfix">
             <span>服务日志</span>
+            <span style="float: right;" v-if='this.params.typeItem.managerId'>
+                <el-button @click='showLog(null)'>添加</el-button>
+            </span>
           </div>
-          <div style="min-height: 200px;">
-            <div v-for="(item, index) in serviceLog" :key="index" class="log-item">
+          <div style="max-height: 400px;">
+<!--            <div v-for="(item, index) in serviceLog" :key="index" class="log-item">
               {{item.operatorName}}
               &nbsp;&nbsp;
               {{item.created && $moment(item.created).format('YYYY-MM-DD HH:mm:ss')}}
@@ -412,6 +415,39 @@
               {{item.description}}
               &nbsp;&nbsp;
               {{item.remark}}
+            </div> -->
+            <div>
+                <el-table
+                  ref="multipleTable"
+                  border
+                  stripe
+                  :data="serviceLog"
+                  style="text-align: center"
+                  tooltip-effect="dark">
+                    <el-table-column label="管家" prop="operatorName"></el-table-column>
+                    <el-table-column label="操作时间" prop="opTime" width="160">
+                        <template slot-scope="scope">
+                            <span>{{scope.row.opTime && $moment(scope.row.opTime).format('YYYY-MM-DD HH:mm:ss')}}</span>
+                        </template>
+                    </el-table-column>
+                    <el-table-column label="事项名称" prop="recordName"></el-table-column>
+                    <el-table-column label="操作描述" prop="description"></el-table-column>
+                    <el-table-column label="办理结果" prop="result"></el-table-column>
+                    <el-table-column label="成果附件" >
+                        <template slot-scope="scope">
+                            <span style='cursor: pointer' v-if="scope.row.attachment"><a :href="scope.row.attachment">查看</a></span>
+                        </template>
+                    </el-table-column>
+                    <el-table-column label="备注信息" prop="remark"></el-table-column>
+                    <el-table-column label="操作">
+                        <template slot-scope="scope">
+                            <span v-if="scope.row.operatorId === userInfo.id">
+                                <el-button type="text" @click='showLog(scope.row)'>编辑</el-button>
+                                <el-button type="text" @click="deleteLog(scope.row)">删除</el-button>
+                            </span>
+                        </template>
+                    </el-table-column>
+                </el-table>
             </div>
           </div>
         </el-card>
@@ -485,6 +521,7 @@
   import operationCode171 from './items/operationCode17_1'
   import operationCode181 from './items/operationCode18_1'
   import operationCode261 from './items/operationCode26_1'
+  import Log from './log'
   import webStorage from 'webStorage'
 
   export default {
@@ -613,6 +650,47 @@
             }
          }
       },
+      showLog (item) {
+        this.$vDialog.modal(Log, {
+            title: item ? '修改日志' : '添加日志',
+            width: 500,
+            height: 500,
+            params: {
+                detail: item,
+                serviceItem: this.serviceItem,
+            },
+            callback: (data) => {
+                if (data.type === 'itemSave') {
+                    this.getServiceLog()
+                }
+            },
+        })
+      },
+      // 删除日志
+      deleteLog (item) {
+            let id = item.id;
+            this.$confirm('确定删除该条日志信息?', '提示', {
+              confirmButtonText: '确定',
+              cancelButtonText: '取消',
+              type: 'warning'
+            }).then(() => {
+                API.workOrder.deleteServiceLog(item.id, (data) => {
+                    if(data.status && data.data === 1) {
+                      this.$message({
+                        type: 'success',
+                        message: '删除成功!'
+                      });
+                      this.getServiceLog()
+                    }
+                })
+            }).catch(() => {
+              this.$message({
+                type: 'info',
+                message: '已取消删除'
+              });          
+            });
+        
+      },
       subApplication () {
           let message = !this.applicationForm.operationCode && '请选择延期原因类型' ||
                         !this.applicationForm.scheduleTime && '请选择计划完成时间' ||
@@ -662,7 +740,16 @@
         }
       },
       getServiceLog () {
-        API.workOrder.serviceLog({orderId: this.params.orderId}, (da) => {
+        API.workOrder.serviceLog({orderId: this.params.orderId, type: this.params.numItem.type}, (da) => {
+          if(this.serviceItem.length > 0 && da.data.length > 0) {
+              this.serviceItem.forEach(a => {
+                  da.data.forEach(b => {
+                      if(a.id === b.recordId) {
+                          b.recordName = a.title
+                      }
+                  })
+              })
+          }
           this.serviceLog = da.data
         })
       },
@@ -691,6 +778,7 @@
                   }
               })
           }
+          this.getServiceLog()
         })
       },
       yearChangeHandle () {
@@ -1042,7 +1130,6 @@
     },
     created () {
       this.dateDisabled = !this.params.isSetInterval
-      this.getServiceLog()
       this.getServiceItem()
       this.getOrderDetail(this.params.orderId)
     },

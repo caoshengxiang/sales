@@ -122,6 +122,13 @@
               </el-select>
             </el-form-item>
           </el-col>
+          <el-col :span="8">
+            <el-form-item label="所属公司：">
+              <el-select v-model='searchForm.subordinateCompanyId' filterable placeholder="请选择所属公司">
+                <el-option v-for="(item, i) in subordinateCompany" :key="i" :value="item.id" :label="item.name"></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
         </el-row>
         <el-row class="el-row-cla">
           <el-col :span="24">
@@ -163,6 +170,7 @@
         levelList: [], // 级别
         seaList: [], // 公海
         customerState: [], // 客户状态
+        subordinateCompany: [], //所属公司
         searchForm: { // 表单
           name: null,
           businessLicense: null,
@@ -182,6 +190,7 @@
           cdKey: null,
           customerStatus: 0,
           industryArr: [],
+          subordinateCompanyId: '',
         },
         timeInterval: [],
         customerSourceType: [], // 客户来源
@@ -390,11 +399,19 @@
         this.searchForm.startDate = value[0] || ''
         this.searchForm.endDate = value[1] || ''
       },
+      getCompany () {
+        API.organization.queryAllList({pid: 1}, (data) => {
+          if(data.status) {
+            this.subordinateCompany = data.data;
+          }
+        })
+      },
     },
     created () {
       this.getConfigData(2)
       this.getConfigData(5, 0)
       this.getSeaList()
+      this.getCompany()
       // this.customerSourceType = this.params.customerSourceType
       this.customerState = this.params.customerState
       this.searchForm = this.params.preAdvancedSearch
