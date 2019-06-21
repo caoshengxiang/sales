@@ -94,7 +94,7 @@
                 this.ruleForm.attachments = this.params.detail.attachment ? this.params.detail.attachment : '';
                 this.ruleForm.attachmentNames = this.params.detail.attachmentName ? this.params.detail.attachmentName : '';
                 this.ruleForm.remarks = this.params.detail.remark ? this.params.detail.remark : '';
-                // this.fileList.push(this.params.detail.attachment);
+                if(this.ruleForm.attachments) this.fileList.push({name: this.params.detail.attachment, url: this.params.detail.attachment});
             }
         },
         mounted () {},
