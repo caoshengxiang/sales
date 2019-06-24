@@ -98,6 +98,7 @@
                   border
                   stripe
                   :data="serviceLog"
+                  height="400px"
                   style="text-align: center"
                   tooltip-effect="dark">
                     <el-table-column label="管家" prop="operatorName"></el-table-column>

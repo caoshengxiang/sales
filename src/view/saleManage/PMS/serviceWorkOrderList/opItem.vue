@@ -423,6 +423,7 @@
                   stripe
                   :data="serviceLog"
                   style="text-align: center"
+                  height="400px"
                   tooltip-effect="dark">
                     <el-table-column label="管家" prop="operatorName"></el-table-column>
                     <el-table-column label="操作时间" prop="opTime" width="160">
