@@ -441,7 +441,8 @@
                     <el-table-column label="备注信息" prop="remark"></el-table-column>
                     <el-table-column label="操作">
                         <template slot-scope="scope">
-                            <span v-if="scope.row.operatorId === userInfo.id">
+                            <!-- 权限： 当前登陆用户是该事项的服务管家 && 没有处理结果(服务管家自己添加的) -->
+                            <span v-if="(scope.row.operatorId === userInfo.id) && scope.row.result">
                                 <el-button type="text" @click='showLog(scope.row)'>编辑</el-button>
                                 <el-button type="text" @click="deleteLog(scope.row)">删除</el-button>
                             </span>
