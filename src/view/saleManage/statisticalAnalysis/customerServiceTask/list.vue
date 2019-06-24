@@ -290,12 +290,12 @@
             label="5星"
             show-overflow-tooltip>
           </el-table-column>
-          <el-table-column
+<!--          <el-table-column
             align="center"
             prop="defualt"
             label="默认三星"
             show-overflow-tooltip>
-          </el-table-column>
+          </el-table-column> -->
           <el-table-column
             align="center"
             prop="total"
