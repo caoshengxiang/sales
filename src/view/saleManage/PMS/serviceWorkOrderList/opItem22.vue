@@ -74,7 +74,7 @@
       <el-card class="box-card">
         <div slot="header" class="clearfix">
           <span>服务日志</span>
-          <span style="float: right;" v-if='this.params.typeItem.managerId'>
+          <span style="float: right;" v-if='params.typeItem.managerId === userInfo.id'>
               <el-button @click='showLog(null)'>添加</el-button>
           </span>
         </div>
