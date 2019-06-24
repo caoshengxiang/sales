@@ -94,14 +94,14 @@
         <el-row class="el-row-cla">
           <el-col :span="8">
             <el-form-item label="需求公司：">
-              <el-select v-model='searchForm.chanceSubordinateCompanyId' filterable placeholder="请选择需求公司">
+              <el-select v-model='searchForm.chanceSubordinateCompany' filterable placeholder="请选择需求公司">
                 <el-option v-for="(item, i) in subordinateCompany" :key="i" :value="item.id" :label="item.name"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item label="销售公司：">
-              <el-select v-model='searchForm.salerSubordinateCompanyId' filterable placeholder="请选择销售公司">
+              <el-select v-model='searchForm.salerSubordinateCompany' filterable placeholder="请选择销售公司">
                 <el-option v-for="(item, i) in subordinateCompany" :key="i" :value="item.id" :label="item.name"></el-option>
               </el-select>
             </el-form-item>
@@ -219,8 +219,8 @@
           endRefundAmount: null,
           startNotRefundAmount: null,
           endNotRefundAmount: null,
-          chanceSubordinateCompanyId: null,
-          salerSubordinateCompanyId: null,
+          chanceSubordinateCompany: null,
+          salerSubordinateCompany: null,
         },
         timeInterval: [],
         orderSourceType: [], // 客户来源

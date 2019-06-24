@@ -85,7 +85,7 @@
           </el-col>
           <el-col :span="8">
             <el-form-item label="所属公司：">
-              <el-select v-model='searchForm.subordinateCompanyId' filterable placeholder="请选择所属公司">
+              <el-select v-model='searchForm.subordinateCompany' filterable placeholder="请选择所属公司">
                 <el-option v-for="(item, i) in subordinateCompany" :key="i" :value="item.id" :label="item.name"></el-option>
               </el-select>
             </el-form-item>
@@ -129,7 +129,7 @@
 					createdStart: null,         //注册开始时间
 					createdEnd: null,           //注册结束时间
 					identityType: null,         //选择的身份类型
-          subordinateCompanyId: null,
+          subordinateCompany: null,
         },
         organizationOptions: [], // 组织列表
 				identityList: [],        //所有身份类型

@@ -161,7 +161,7 @@
           </el-col>
           <el-col :span="8">
             <el-form-item label="所属公司：">
-              <el-select v-model='searchForm.subordinateCompanyId' filterable placeholder="请选择所属公司">
+              <el-select v-model='searchForm.subordinateCompany' filterable placeholder="请选择所属公司">
                 <el-option v-for="(item, i) in subordinateCompany" :key="i" :value="item.id" :label="item.name"></el-option>
               </el-select>
             </el-form-item>
@@ -230,7 +230,7 @@
           industryArr: [],
           visitorType: null,                 //资源类型
           visitorReferrer: null,             //访客推荐人
-          subordinateCompanyId: null,
+          subordinateCompany: null,
         },
         timeInterval: [],
         customerSourceType: [], // 客户来源
