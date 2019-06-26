@@ -488,6 +488,30 @@
               <el-table-column
                 align="center"
                 sortable="custom"
+                prop="orderSourceName"
+                label="订单来源"
+                width="160"
+                show-overflow-tooltip>
+              </el-table-column>
+              <el-table-column
+                align="center"
+                sortable="custom"
+                prop="providerName"
+                label="订单提供人"
+                width="160"
+                show-overflow-tooltip>
+              </el-table-column>
+              <el-table-column
+                align="center"
+                sortable="custom"
+                prop="salerName"
+                label="订单销售人"
+                width="160"
+                show-overflow-tooltip>
+              </el-table-column>
+              <el-table-column
+                align="center"
+                sortable="custom"
                 prop="created"
                 label="创建时间"
                 width="160"
