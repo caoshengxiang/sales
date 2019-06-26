@@ -172,7 +172,7 @@
     props: ['params'],
     methods: {
       getServiceLog () {
-        API.workOrder.serviceLog({orderId: this.params.orderId, type: this.params.numItem.type}, (da) => {
+        API.workOrder.serviceLog({orderId: this.params.orderId}, (da) => {
           if(this.serviceItem.length > 0 && da.data.length > 0) {
               this.serviceItem.forEach(a => {
                   da.data.forEach(b => {
