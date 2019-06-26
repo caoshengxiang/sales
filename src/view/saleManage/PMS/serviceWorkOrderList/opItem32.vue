@@ -107,7 +107,7 @@
                             <span>{{scope.row.opTime && $moment(scope.row.opTime).format('YYYY-MM-DD HH:mm:ss')}}</span>
                         </template>
                     </el-table-column>
-                    <el-table-column label="事项名称" prop="recordName"></el-table-column>
+                    <el-table-column label="事项名称" prop="title"></el-table-column>
                     <el-table-column label="操作描述" prop="description"></el-table-column>
                     <el-table-column label="办理结果" prop="result"></el-table-column>
                     <el-table-column label="成果附件" >
@@ -176,8 +176,8 @@
           if(this.serviceItem.length > 0 && da.data.length > 0) {
               this.serviceItem.forEach(a => {
                   da.data.forEach(b => {
-                      if(a.id === b.recordId) {
-                          b.recordName = a.title
+                      if(a.id === b.recordId && !b.title) {
+                          b.title = a.title
                       }
                   })
               })
@@ -210,6 +210,7 @@
             height: 500,
             params: {
                 detail: item,
+                workOrderId: this.params.workOrderId,
                 serviceItem: this.serviceItem,
             },
             callback: (data) => {

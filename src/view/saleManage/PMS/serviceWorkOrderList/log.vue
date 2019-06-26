@@ -2,15 +2,8 @@
     <div class="com-dialog-container">
         <div class="com-dialog">
             <el-form :model="ruleForm" :rules="rules" ref="formName" label-width="100px" class="demo-ruleForm">
-                <el-form-item label="事项名称" prop='recordIds'>
-                <el-select v-model="ruleForm.recordIds" placeholder="请选择事项">
-                    <el-option
-                        v-for="(item, i) in matter"
-                        :key="item.i"
-                        :label="item.title"
-                        :value="item.id">
-                    </el-option>
-                </el-select>
+                <el-form-item label="事项名称" prop='title'>
+                    <el-input v-model="ruleForm.title" placeholder="请填写事项名称(<=10字)" maxlength="10" show-word-limit></el-input>
                 </el-form-item>
                 <el-form-item label="操作时间" prop='opTimes'>
                     <el-date-picker
@@ -57,17 +50,17 @@
             return {
                 userInfo: webStorage.getItem('userInfo'),
                 fileList: [],
-                matter: [],               //所有事项
+                matter: [],                //所有事项
                 ruleForm: {
-                    recordIds: '',         //事项名称
-                    opTimes: '',             //操作时间
+                    title: '',             //事项名称
+                    opTimes: '',           //操作时间
                     results: '',           //办理结果
                     attachments: '',       //附件url
                     attachmentNames: '',   //附件名称
                     remarks: '',           //备注信息
                 },
                 rules: {
-                    recordIds: [
+                    title: [
                         { required: true, message: '请输入事项名称', trigger: 'blur' },
                     ],
                     opTimes: [
@@ -88,7 +81,7 @@
         created () {
             this.matter = this.params.serviceItem;
             if(this.params.detail) {
-                this.ruleForm.recordIds = this.params.detail.recordId ? this.params.detail.recordId : '';
+                this.ruleForm.title = this.params.detail.title ? this.params.detail.title : '';
                 this.ruleForm.opTimes = this.params.detail.opTime ? this.params.detail.opTime : '';
                 this.ruleForm.results = this.params.detail.result ? this.params.detail.result : '';
                 this.ruleForm.attachments = this.params.detail.attachment ? this.params.detail.attachment : '';
@@ -103,7 +96,7 @@
                 this.$refs[formName].validate((valid) => {
                   if (valid) {
                       let _form = {
-                        recordId: this.ruleForm.recordIds ? this.ruleForm.recordIds : '',
+                        title: this.ruleForm.title ? this.ruleForm.title : '',
                         opTime: this.ruleForm.opTimes ? this.ruleForm.opTimes : '',
                         result: this.ruleForm.results ? this.ruleForm.results : '',
                         attachment: this.ruleForm.attachments ? this.ruleForm.attachments : '',
@@ -111,7 +104,6 @@
                         remark: this.ruleForm.remarks ? this.ruleForm.remarks : '',
                       };
                       if(this.params.detail) {    //编辑
-                            // console.log(_form); return;
                           let _params = {
                               id: this.params.detail.id,
                               params: _form,
@@ -123,6 +115,7 @@
                               }
                           })
                       }else {                     //添加
+                          _form.workOrderId = this.params.workOrderId;
                           API.workOrder.addServiceLog(_form, (data) => {
                               if(data.status && data.data === 1) {
                                   this.$message.success('添加成功');
