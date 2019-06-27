@@ -117,7 +117,7 @@
                     <el-table-column label="办理结果" prop="result"></el-table-column>
                     <el-table-column label="成果附件" >
                         <template slot-scope="scope">
-                            <span style='cursor: pointer' v-if="scope.row.attachment"><a :href="scope.row.attachment">查看</a></span>
+                            <span style='cursor: pointer' v-if="scope.row.attachment"><a :href="scope.row.attachment" target="_blank">查看</a></span>
                         </template>
                     </el-table-column>
                     <el-table-column label="备注信息" prop="remark"></el-table-column>
