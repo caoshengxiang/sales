@@ -103,12 +103,17 @@
                             <span>{{scope.row.opTime && $moment(scope.row.opTime).format('YYYY-MM-DD HH:mm:ss')}}</span>
                         </template>
                     </el-table-column>
-                    <el-table-column label="事项名称" prop="title"></el-table-column>
+                    <el-table-column label="事项名称" prop="title">
+                      <template slot-scope="scope">
+                        <span v-if='scope.row.title'>{{scope.row.title}}</span>
+                        <span v-else>{{scope.row.recordName}}</span>
+                      </template>
+                    </el-table-column>
                     <el-table-column label="操作描述" prop="description"></el-table-column>
                     <el-table-column label="办理结果" prop="result"></el-table-column>
                     <el-table-column label="成果附件" >
                         <template slot-scope="scope">
-                            <span style='cursor: pointer' v-if="scope.row.attachment"><a :href="scope.row.attachment">查看</a></span>
+                            <span style='cursor: pointer' v-if="scope.row.attachment"><a :href="scope.row.attachment" target="_blank">查看</a></span>
                         </template>
                     </el-table-column>
                     <el-table-column label="备注信息" prop="remark"></el-table-column>
@@ -169,15 +174,15 @@
     methods: {
       getServiceLog () {
         API.workOrder.serviceLog({orderId: this.params.orderId}, (da) => {
-          if(this.serviceItem.length > 0 && da.data.length > 0) {
-              this.serviceItem.forEach(a => {
-                  da.data.forEach(b => {
-                      if(a.id === b.recordId && !b.title) {
-                          b.title = a.title
-                      }
-                  })
-              })
-          }
+          // if(this.serviceItem.length > 0 && da.data.length > 0) {
+          //     this.serviceItem.forEach(a => {
+          //         da.data.forEach(b => {
+          //             if(a.id === b.recordId && !b.title) {
+          //                 b.title = a.title
+          //             }
+          //         })
+          //     })
+          // }
           this.serviceLog = da.data
         })
       },
