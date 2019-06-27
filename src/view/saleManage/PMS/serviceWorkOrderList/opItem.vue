@@ -799,6 +799,7 @@
           type: item.type,
           num: item.num,
           operationCode: contactId ? (operationCode + 1) : operationCode,
+          serviceMonth:item.serviceMonth,
         }
         if (item.num === 1 && operationCode === 1) {
           this.$vDialog.modal(operationCode11, {
