@@ -15,17 +15,24 @@
         <span class="span">{{$moment(msgDetail.sendTime).format('YYYY-MM-DD HH:mm:ss')}}</span>
         <a class="del" @click="delMessage"><i class="iconfont icon-shanchu"></i></a></div>
       <div class="con">
-				<p class='con-h' v-html="messageList"></p>
+        <p class='con-h' v-html="messageList"></p>
+        <span v-for="item in msgDetail.attachments" :key="item.name">
+          <span v-if="item.path.indexOf('.mp4') >-1">
+          <video :src="item.path" controls="controls">
+            您的浏览器不支持 video 标签，无法播放{{item.name}}。
+          </video>
+          </span>
+        </span>
         <!-- {{msgDetail.content}} -->
       </div>
-      <div class="download" ref='downloadCode'>
+      <div class="download" ref='downloadCode' >
         <h3>附件下载</h3>
 <!--       <a :title="item.name" v-for="item in msgDetail.attachments" :key="item.name" :href="item.path" :download="item.name"  target="_blank">
           <img style="width: 82px; height: 90px;" :src="item.path" alt="">
           <p>{{item.name}}</p>
         </a> -->
 				<span class='fujian' v-for="item in msgDetail.attachments" :key="item.name" @click='downloadCodeHandle(item.path, item.name)'>
-          <img style="width: 82px; height: 90px;" :src="item.path" alt="">
+          <img v-if="item.path.indexOf('.mp4') === -1" style="width: 82px; height: 90px;" :src="item.path" alt="">
           <p>{{item.name}}</p>
 				</span>
       </div>

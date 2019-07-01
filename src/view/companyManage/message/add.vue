@@ -8,13 +8,14 @@
 						<td>
 							<el-radio v-model="type" label="1">普通消息</el-radio>
 							<el-radio v-model="type" label="2">版本提示</el-radio>
+              <el-radio v-model="type" label="3">规章制度</el-radio>
 						</td>
 					</tr>
           <tr>
-            <td class="td-title">请输入消息名称</td>
+            <td class="td-title">请输入消息标题</td>
             <td class="td-text">
               <el-form-item prop="title">
-                <el-input type="text" v-model="form.title" placeholder="请输入消息名称" :maxlength="30"></el-input>
+                <el-input type="text" v-model="form.title" placeholder="请输入消息标题" :maxlength="30"></el-input>
               </el-form-item>
             </td>
           </tr>
@@ -65,6 +66,7 @@
                 <fileUpload
                   :limit="1"
                   :fileList="imgurl"
+                  allowFileTypes='.jpg|.jpeg|.gif|.png|.rar|.mp4'
                   ref="uploadControl"
                   flag="notice"
                   :multiple="false"
