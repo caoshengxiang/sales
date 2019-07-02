@@ -13,7 +13,7 @@
     <div class="com-bar">
       <div class="com-bar-left">
         <com-button buttonType="add" icon="el-icon-refresh" @click="orderHandle('back')"
-                    :disabled="multipleSelection.length != 1">申请退单
+                    :disabled="multipleSelection.length != 1 || (multipleSelection.length === 1 && multipleSelection[0].orderState === 1)">申请退单
         </com-button>
         <com-button buttonType="add" icon="el-icon-sort" @click="orderHandle('move')"
                     :disabled="multipleSelection.length != 1">转移
