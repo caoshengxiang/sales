@@ -19,6 +19,7 @@
         <com-button buttonType="grey" icon="el-icon-edit" :disabled="this.multipleSelection.length < 1"
                     @click="modifyHandle">分配
         </com-button>
+        <com-button buttonType="export" icon="el-icon-download" @click="excelExport">导出代理商公海数据</com-button>
         <!--<com-button buttonType="grey" icon="el-icon-remove-outline" :disabled="this.multipleSelection.length <= 0"-->
         <!--@click="disableHandle">禁用-->
         <!--</com-button>-->
@@ -92,12 +93,20 @@
         <el-table-column
           show-overflow-tooltip
           align="center"
-          sortable="custom"
-          label="代理商号"
-          width="120"
-          prop="jobNo"
+          label="代理商Id"
+          width="100"
+          prop="id"
         >
         </el-table-column>
+        <!--<el-table-column-->
+          <!--show-overflow-tooltip-->
+          <!--align="center"-->
+          <!--sortable="custom"-->
+          <!--label="代理商号"-->
+          <!--width="120"-->
+          <!--prop="jobNo"-->
+        <!--&gt;-->
+        <!--</el-table-column>-->
         <el-table-column
           show-overflow-tooltip
           align="center"
@@ -310,6 +319,9 @@
   import personnelSetup from '../personnelSetup'
   import advancedSearch from './advancedSearch'
   import { underscoreName } from '../../../../utils/utils'
+  import { serverUrl } from '../../../../utils/const'
+  import QS from 'qs'
+  import webStorage from 'webStorage'
 
   export default {
     name: 'list',
@@ -370,7 +382,7 @@
           }
         })
       },
-      
+
       // 页面高度改变过后改变table的max_height高度
       h (val) {
         if(!this.timer) {
@@ -593,6 +605,31 @@
             // that.$refs.multipleTable.clearSelection()
           },
         })
+      },
+      excelExport () { // 导出
+        let as = {}
+        for (let key in this.advancedSearch) { // 去除null
+          if (this.advancedSearch[key]) {
+            as[key] = this.advancedSearch[key]
+          }
+        }
+        let dlp = {}
+        for (let key in this.defaultListParams) { // 去除分页
+          if (key !== 'page' && key !== 'pageSize') {
+            dlp[key] = this.defaultListParams[key]
+          }
+        }
+        let link = document.createElement('a') // 创建事件对象
+        let query = QS.stringify(Object.assign({}, dlp, this.sortObj, as,
+          {authKey: webStorage.getItem('userInfo').authKey}))
+        // console.log('下载参数：', query)
+        link.setAttribute('href', serverUrl + '/user/fosterPersonSea/export?' + query)
+        link.setAttribute('download', '代理商公海数据导出')
+        link.setAttribute('target', '_blank')
+        let event = document.createEvent('MouseEvents') // 初始化事件对象
+        event.initMouseEvent('click', true, true, document.defaultView, 0, 0, 0, 0, 0, false, false, false, false, 0,
+          null) // 触发事件
+        link.dispatchEvent(event)
       },
       deleteHandle () {
         this.$confirm('确定删除当前选中所有用户, 是否继续?', '提示', {

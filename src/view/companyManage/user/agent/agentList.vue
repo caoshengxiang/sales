@@ -33,6 +33,7 @@
         <com-button buttonType="grey" icon="el-icon-setting" :disabled="this.multipleSelection.length !== 1"
                     @click="resetPassword">重置密码
         </com-button>
+        <com-button buttonType="export" icon="el-icon-download" @click="excelExport">代理商数据导出</com-button>
       </div>
       <div class="com-bar-right" style="float: right">
         <com-button buttonType="search" @click="searchHandle">搜索</com-button>
@@ -93,11 +94,20 @@
           show-overflow-tooltip
           align="center"
           sortable="custom"
-          label="代理商号"
+          label="代理商Id"
           width="120"
-          prop="jobNo"
+          prop="id"
         >
         </el-table-column>
+        <!--<el-table-column-->
+          <!--show-overflow-tooltip-->
+          <!--align="center"-->
+          <!--sortable="custom"-->
+          label="代理商号"
+          <!--width="120"-->
+          <!--prop="jobNo"-->
+        <!--&gt;-->
+        <!--</el-table-column>-->
         <el-table-column
           show-overflow-tooltip
           align="center"
@@ -334,6 +344,9 @@
   import addDialog from '../addDialog'
   import advancedSearch from '../advancedSearch'
   import { underscoreName } from '../../../../utils/utils'
+  import { serverUrl } from '../../../../utils/const'
+  import QS from 'qs'
+  import webStorage from 'webStorage'
 
   export default {
     name: 'list',
@@ -692,6 +705,31 @@
             message: '已取消禁用',
           })
         })
+      },
+      excelExport () { // 导出
+        let as = {}
+        for (let key in this.advancedSearch) { // 去除null
+          if (this.advancedSearch[key]) {
+            as[key] = this.advancedSearch[key]
+          }
+        }
+        let dlp = {}
+        for (let key in this.defaultListParams) { // 去除分页
+          if (key !== 'page' && key !== 'pageSize') {
+            dlp[key] = this.defaultListParams[key]
+          }
+        }
+        let link = document.createElement('a') // 创建事件对象
+        let query = QS.stringify(Object.assign({}, dlp, this.sortObj, as,
+          {authKey: webStorage.getItem('userInfo').authKey}))
+        // console.log('下载参数：', query)
+        link.setAttribute('href', serverUrl + '/user/fosterPerson/export?' + query)
+        link.setAttribute('download', '代理商数据导出')
+        link.setAttribute('target', '_blank')
+        let event = document.createEvent('MouseEvents') // 初始化事件对象
+        event.initMouseEvent('click', true, true, document.defaultView, 0, 0, 0, 0, 0, false, false, false, false, 0,
+          null) // 触发事件
+        link.dispatchEvent(event)
       },
       resetPassword () {
         this.$confirm('确定重置当前选中所有用户密码, 是否继续?', '提示', {

@@ -173,6 +173,12 @@
 
           </el-col>
 
+          <el-col :span="8" v-if="type===1">
+            <el-form-item label="代理商Id：">
+              <el-input type="text" v-model="searchForm.id"></el-input>
+            </el-form-item>
+          </el-col>
+
           <el-col :span="16">
             <el-form-item label="出生日期：">
               <el-date-picker
@@ -351,7 +357,7 @@
       }
       this.type = this.params.type
 			this.sourceState = this.params.sourceState;
-			
+
 			this.getIdentity();
     },
   }

@@ -90,6 +90,11 @@
               </el-select>
             </el-form-item>
           </el-col>
+          <el-col :span="8">
+            <el-form-item label="代理商Id：">
+              <el-input type="text" v-model="searchForm.id"></el-input>
+            </el-form-item>
+          </el-col>
         </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -220,7 +225,7 @@
         this.created = [this.searchForm.createdStart, this.searchForm.createdEnd]
       }
       this.type = this.params.type
-			
+
 			this.getIdentity();
     },
   }
