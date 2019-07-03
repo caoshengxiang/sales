@@ -22,6 +22,14 @@
             v-model="ruleForm.remark">
           </el-input>
         </el-form-item>
+      <el-form-item label="客户准备资料清单" prop="noticeRemark">
+        <el-input
+          type="textarea"
+          placeholder="请输入客户准备资料清单"
+          :rows="3"
+          v-model="ruleForm.noticeRemark">
+        </el-input>
+      </el-form-item>
       </el-form>
     </div>
     <div class="dialog-footer">
@@ -40,10 +48,14 @@
         ruleForm: {
           setTime: '',
           remark: '',
+          noticeRemark: '',
         },
         rules: {
           setTime: [
             {required: true, message: '请选择服务开始时间', trigger: 'change'},
+          ],
+          noticeRemark: [
+            {required: true, message: '请输入客户准备资料清单', trigger: 'change'},
           ],
         },
       }
@@ -56,6 +68,7 @@
             API.workOrder.serviceItemOperate(Object.assign({}, this.params.baseParam, {
               setTime: this.ruleForm.setTime,
               remark: this.ruleForm.remark,
+              noticeRemark: this.ruleForm.noticeRemark,
               // result: JSON.stringify({
               //   isSendMsg: this.ruleForm.isSendMsg,
               //   message: this.ruleForm.message
