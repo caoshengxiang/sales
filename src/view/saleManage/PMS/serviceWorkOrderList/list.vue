@@ -85,7 +85,8 @@
               <span v-if="scope.row.serviceState === 1">待服务</span>
               <span v-if="scope.row.serviceState === 2">服务中</span>
               <span v-if="scope.row.serviceState === 3">已完成</span>
-              <span v-if="scope.row.serviceState === 4">已退单</span>
+              <span v-if="scope.row.orderState === 4">退单中</span>
+              <span v-if="scope.row.orderState === 5">已接单</span>
             </template>
           </el-table-column>
           <el-table-column
