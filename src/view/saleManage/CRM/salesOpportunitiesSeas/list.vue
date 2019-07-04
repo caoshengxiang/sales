@@ -32,15 +32,15 @@
         </com-button>
       </div>
       <div class="com-bar-right" v-if="themeIndex === 0"><!--前端-->
-        <el-select v-model="salesOpportunitiesOptionsType" placeholder="请选择" class="com-el-select">
-          <el-option
-            v-for="item in salesOpportunitiesOptions"
-            :key="item.type"
-            :label="item.value"
-            :value="item.type">
-          </el-option>
-        </el-select>
-        <com-button buttonType="search" @click="searchHandle">搜索</com-button>
+        <!--<el-select v-model="salesOpportunitiesOptionsType" placeholder="请选择" class="com-el-select">-->
+          <!--<el-option-->
+            <!--v-for="item in salesOpportunitiesOptions"-->
+            <!--:key="item.type"-->
+            <!--:label="item.value"-->
+            <!--:value="item.type">-->
+          <!--</el-option>-->
+        <!--</el-select>-->
+        <!--<com-button buttonType="search" @click="searchHandle">搜索</com-button>-->
         <com-button buttonType="search" @click="advancedSearchHandle" style="">高级搜索</com-button>
         <com-button buttonType="export" icon="el-icon-download" @click="excelExport">导入模板下载</com-button>
         <com-button buttonType="import" style="position: relative;overflow: hidden;">
@@ -48,7 +48,7 @@
                  style="position: absolute;top: 0;left: 0; right: 0;bottom: 0;opacity: 0;">
           导入
         </com-button>
-        <com-button buttonType="export" icon="el-icon-download" @click="excelExport1">导出销售机会公海数据</com-button>
+        <com-button buttonType="export" icon="el-icon-download" @click="excelExport1">导出</com-button>
       </div>
       <div class="com-bar-right" v-if="themeIndex === 1"><!--后端-->
         <el-select
