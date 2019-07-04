@@ -19,6 +19,7 @@
         <com-button buttonType="delete" icon="el-icon-delete" @click="operateOptions('delete')"
                     :disabled="multipleSelection.length <= 0">删除
         </com-button>
+        <com-button buttonType="export" icon="el-icon-download" @click="excelExport">导出订单数据</com-button>
         <!-- <com-button buttonType="add" icon="el-icon-plus" @click="operateOptions('add')">新增</com-button> -->
       </div>
       <div class="com-bar-right" v-if="themeIndex === 0"><!--前端-->
@@ -82,6 +83,14 @@
             <a class="col-link" @click="handleRouter('detail', scope.row.id, scope.row.providerName)">{{ scope.row.orderId}} <span
               v-if="!(scope.row.orderId)">-</span></a>
           </template>
+        </el-table-column>
+        <el-table-column
+          align="center"
+          sortable="custom"
+          prop="customerId"
+          label="关联客户ID"
+          width="160"
+          show-overflow-tooltip>
         </el-table-column>
         <el-table-column
           align="center"
@@ -313,6 +322,9 @@
   import comButton from '../../../../components/button/comButton'
   import API from '../../../../utils/api'
   import addDialog from './addDialog'
+  import { serverUrl } from '../../../../utils/const'
+  import QS from 'qs'
+  import webStorage from 'webStorage'
   import advancedSearch from './advancedSearch'
   import { underscoreName, arrToStr } from '../../../../utils/utils'
 
@@ -444,6 +456,32 @@
             })
             break
         }
+      },
+      excelExport () { // 导出
+        this.getQueryParams()
+        let as = {}
+        for (let key in this.advancedSearch) { // 去除null
+          if (this.advancedSearch[key]) {
+            as[key] = this.advancedSearch[key]
+          }
+        }
+        let dlp = {}
+        for (let key in this.defaultListParams) { // 去除分页
+          if (key !== 'page' && key !== 'pageSize') {
+            dlp[key] = this.defaultListParams[key]
+          }
+        }
+        let link = document.createElement('a') // 创建事件对象
+        let query = QS.stringify(Object.assign({}, dlp, this.sortObj, as,
+          {authKey: webStorage.getItem('userInfo').authKey}))
+        // console.log('下载参数：', query)
+        link.setAttribute('href', serverUrl + '/salerOrder/order/export?' + query)
+        link.setAttribute('download', '销售订单数据导出')
+        link.setAttribute('target', '_blank')
+        let event = document.createEvent('MouseEvents') // 初始化事件对象
+        event.initMouseEvent('click', true, true, document.defaultView, 0, 0, 0, 0, 0, false, false, false, false, 0,
+          null) // 触发事件
+        link.dispatchEvent(event)
       },
       posTableHeight () {
         let h = document.body.clientHeight,
