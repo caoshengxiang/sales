@@ -36,9 +36,9 @@
         <el-table
           ref="multipleTable"
           border
-          stripe
           :data="tableData"
           :max-height='posheight'
+          :row-style="tableRowStyle"
           tooltip-effect="dark"
           @sort-change="sortChangeHandle"
           @selection-change="handleSelectionChange"
@@ -53,6 +53,7 @@
             align="center"
             sortable="custom"
             prop="orderNum"
+            cell-style="col-warn"
             label="派单单号"
             width="160"
             show-overflow-tooltip
@@ -148,6 +149,18 @@
           <el-table-column
             align="center"
             sortable="custom"
+            prop="scheduleTime"
+            label="计划完结时间"
+            width="160"
+            show-overflow-tooltip
+          >
+            <template slot-scope="scope">
+              {{scope.row.scheduleTime && $moment(scope.row.scheduleTime).format('YYYY-MM-DD HH:mm')}}
+            </template>
+          </el-table-column>
+          <el-table-column
+            align="center"
+            sortable="custom"
             prop="specificationName"
             label="服务规格"
             width="160"
@@ -157,11 +170,14 @@
           <el-table-column
             align="center"
             sortable="custom"
-            prop="serviceTypeName"
+            prop="serviceType"
             label="派单类型"
             width="160"
             show-overflow-tooltip
           >
+            <template slot-scope="scope">
+              {{scope.row.serviceTypeName}}
+            </template>
           </el-table-column>
           <el-table-column
             align="center"
@@ -213,7 +229,6 @@
         <el-pagination
           background
           :total="tableDataTotal"
-          @size-change="handleSizeChange"
           @current-change="handleCurrentChange"
           :current-page="currentPage"
           :layout="pagesOptions.layout"
@@ -447,6 +462,19 @@
           },
         })
       },
+      // 修改table tr行的背景色
+      tableRowStyle ({ row, rowIndex }) {
+        if (row.orderState === 6) {
+          return ''
+        } else if (row.finishTime && row.limitTime && row.auditTime && (row.finishTime - row.auditTime - row.limitTime * 86400000) > 0) {
+          return 'background-color: pink'
+        } else if (!row.finishTime && row.limitTime && row.auditTime && ((new Date()).valueOf()) - row.auditTime - row.limitTime * 86400000 > 0) {
+          return 'background-color: pink'
+        } else if (!row.overTime) {
+          return 'background-color: yellow'
+        }
+        return ''
+      },
     },
     created () {
       this.userInfo = webStorage.getItem('userInfo')
@@ -469,4 +497,10 @@
 
 <style scoped lang="scss" rel="stylesheet/scss">
   @import "../../../../styles/common";
+  .col-error {
+    background: #bd2c00;
+  }
+  .col-warn {
+    background: #ee9900;
+  }
 </style>
