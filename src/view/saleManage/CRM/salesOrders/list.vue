@@ -19,7 +19,7 @@
         <com-button buttonType="delete" icon="el-icon-delete" @click="operateOptions('delete')"
                     :disabled="multipleSelection.length <= 0">删除
         </com-button>
-        <com-button buttonType="export" icon="el-icon-download" @click="excelExport">导出订单数据</com-button>
+        <com-button buttonType="export" icon="el-icon-download" @click="excelExport">导出</com-button>
         <!-- <com-button buttonType="add" icon="el-icon-plus" @click="operateOptions('add')">新增</com-button> -->
       </div>
       <div class="com-bar-right" v-if="themeIndex === 0"><!--前端-->

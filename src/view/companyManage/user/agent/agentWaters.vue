@@ -19,7 +19,7 @@
         <com-button buttonType="grey" icon="el-icon-edit" :disabled="this.multipleSelection.length < 1"
                     @click="modifyHandle">分配
         </com-button>
-        <com-button buttonType="export" icon="el-icon-download" @click="excelExport">导出代理商公海数据</com-button>
+        <com-button buttonType="export" icon="el-icon-download" @click="excelExport">导出</com-button>
         <!--<com-button buttonType="grey" icon="el-icon-remove-outline" :disabled="this.multipleSelection.length <= 0"-->
         <!--@click="disableHandle">禁用-->
         <!--</com-button>-->
@@ -621,7 +621,7 @@
         }
         let link = document.createElement('a') // 创建事件对象
         let query = QS.stringify(Object.assign({}, dlp, this.sortObj, as,
-          {authKey: webStorage.getItem('userInfo').authKey}))
+          {authKey: webStorage.getItem('userInfo').authKey}, this.advancedSearch, this.form))
         // console.log('下载参数：', query)
         link.setAttribute('href', serverUrl + '/user/fosterPersonSea/export?' + query)
         link.setAttribute('download', '代理商公海数据导出')

@@ -33,7 +33,7 @@
         <com-button buttonType="grey" icon="el-icon-setting" :disabled="this.multipleSelection.length !== 1"
                     @click="resetPassword">重置密码
         </com-button>
-        <com-button buttonType="export" icon="el-icon-download" @click="excelExport">代理商数据导出</com-button>
+        <com-button buttonType="export" icon="el-icon-download" @click="excelExport">导出</com-button>
       </div>
       <div class="com-bar-right" style="float: right">
         <com-button buttonType="search" @click="searchHandle">搜索</com-button>
@@ -721,7 +721,7 @@
         }
         let link = document.createElement('a') // 创建事件对象
         let query = QS.stringify(Object.assign({}, dlp, this.sortObj, as,
-          {authKey: webStorage.getItem('userInfo').authKey}))
+          {authKey: webStorage.getItem('userInfo').authKey}, this.advancedSearch, this.form))
         // console.log('下载参数：', query)
         link.setAttribute('href', serverUrl + '/user/fosterPerson/export?' + query)
         link.setAttribute('download', '代理商数据导出')
