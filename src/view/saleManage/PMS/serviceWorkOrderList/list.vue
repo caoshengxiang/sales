@@ -470,7 +470,7 @@
           return 'background-color: pink'
         } else if (!row.finishTime && row.limitTime && row.auditTime && ((new Date()).valueOf()) - row.auditTime - row.limitTime * 86400000 > 0) {
           return 'background-color: pink'
-        } else if (!row.overTime) {
+        } else if (row.overTime) {
           return 'background-color: yellow'
         }
         return ''
