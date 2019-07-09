@@ -131,7 +131,7 @@
           </el-col>
         </el-row>
         <el-row class="el-row-cla">
-          <el-col :span="24">
+          <el-col :span="14">
             <el-form-item label="创建日期：">
               <el-date-picker
                 v-model="timeInterval"
@@ -145,6 +145,11 @@
                 start-placeholder="开始日期"
                 end-placeholder="结束日期">
               </el-date-picker>
+            </el-form-item>
+          </el-col>
+          <el-col :span="10">
+            <el-form-item label="客户ID：">
+              <el-input type="text" v-model="searchForm.id"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -191,6 +196,7 @@
           customerStatus: 0,
           industryArr: [],
           subordinateCompany: '',
+          id: null,
         },
         timeInterval: [],
         customerSourceType: [], // 客户来源

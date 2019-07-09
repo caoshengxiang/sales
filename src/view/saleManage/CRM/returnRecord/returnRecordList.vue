@@ -79,6 +79,15 @@
         </el-table-column>
         <el-table-column
           align="center"
+          prop="customerId"
+          label="客户ID"
+          width="115px"
+          sortable="custom"
+          show-overflow-tooltip
+        >
+        </el-table-column>
+        <el-table-column
+          align="center"
           prop="customerName"
           label="来自客户"
           width="115px"

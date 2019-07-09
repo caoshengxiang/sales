@@ -89,6 +89,11 @@
               </el-date-picker>
             </el-form-item>
           </el-col>
+          <el-col :span="10">
+            <el-form-item label="客户ID：">
+              <el-input type="text" v-model="searchForm.customerId"></el-input>
+            </el-form-item>
+          </el-col>
         </el-row>
         <el-row class="el-row-cla">
           <el-col :span="14">
@@ -161,6 +166,7 @@
           contactPhone: null,
           contacter: null,
           subordinateCompany: null,
+          customerId: null,
         },
         timeInterval: [],
         timeInterval2: [],

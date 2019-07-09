@@ -85,6 +85,14 @@
         <el-table-column
           fixed
           align="center"
+          prop="id"
+          label="客户ID"
+          width="60"
+          show-overflow-tooltip>
+        </el-table-column>
+        <el-table-column
+          fixed
+          align="center"
           sortable="custom"
           label="客户名称"
           prop="name"

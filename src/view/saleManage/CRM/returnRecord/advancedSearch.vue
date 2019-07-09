@@ -102,6 +102,11 @@
               </el-select>
             </el-form-item>
           </el-col>
+          <el-col :span="8">
+            <el-form-item label="客户ID：">
+              <el-input type="text" v-model="searchForm.customerId"></el-input>
+            </el-form-item>
+          </el-col>
         </el-row>
         <el-row class="el-row-cla">
           <el-col :span="24">
@@ -194,6 +199,7 @@
           endRefundDate: null,
           startAuditTime: null, // 审核时间下限
           endAuditTime: null,
+          customerId: null,
         },
         selectLastLevelMode: true,
         props: {

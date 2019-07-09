@@ -63,6 +63,16 @@
         <el-table-column
           fixed
           align="center"
+          sortable="customerId"
+          label="客户ID"
+          prop="customerId"
+          show-overflow-tooltip
+          width="180">
+          <!--<template slot-scope="scope">{{ scope.row.customerName }}</template>-->
+        </el-table-column>
+        <el-table-column
+          fixed
+          align="center"
           sortable="custom"
           label="来自客户"
           prop="customerName"
