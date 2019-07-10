@@ -467,11 +467,11 @@
         if (row.orderState === 6) {
           return ''
         } else if (row.finishTime && row.limitTime && row.auditTime && (row.finishTime - row.auditTime - row.limitTime * 86400000) > 0) {
-          return 'background-color: pink'
+          return 'background-color: #ff7474'
         } else if (!row.finishTime && row.limitTime && row.auditTime && ((new Date()).valueOf()) - row.auditTime - row.limitTime * 86400000 > 0) {
-          return 'background-color: pink'
+          return 'background-color: #ff7474'
         } else if (row.overTime) {
-          return 'background-color: yellow'
+          return 'background-color: #ffe762'
         }
         return ''
       },
