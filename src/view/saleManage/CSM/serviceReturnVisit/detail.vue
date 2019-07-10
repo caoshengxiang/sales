@@ -198,6 +198,20 @@
                 <td>{{orderDetail.created && $moment(orderDetail.created).format('YYYY-MM-DD HH:mm:ss')}}</td>
                 <td>{{orderDetail.orderTime && $moment(orderDetail.orderTime).format('YYYY-MM-DD HH:mm:ss')}}</td>
               </tr>
+              <tr>
+                <td class="td-title">商务管家</td>
+                <td class="td-title"></td>
+                <td class="td-title"></td>
+                <td class="td-title"></td>
+                <td class="td-title"></td>
+              </tr>
+              <tr>
+                <td>{{orderDetail.businessManagerName}}</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
             </table>
 
             <p class="table-title">服务派单 <span>（{{assignOrderList.length}}）</span></p>
