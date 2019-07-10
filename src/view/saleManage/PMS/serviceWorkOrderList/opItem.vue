@@ -295,8 +295,8 @@
                     {{operationList[item.num - 1][1-1]}}
                   </el-button>
                 </div>
-                <div v-if="item.num === 36">
-                  <el-button v-if="item.state === 1" type="text" @click="operationListHandle(item, 1)">
+                <div v-if="item.num === 36"><!--针对计次类型的服务产品，在上传服务成果之后到客户未确认之前，可以进行修改成果资料,354 服务事项按钮开启时机的修改-->
+                  <el-button v-if="serviceItem[2].state !== 9 && item.state !== 1" type="text" @click="operationListHandle(item, 1)">
                     {{operationList[item.num - 1][1-1]}}
                   </el-button>
                 </div>
@@ -308,7 +308,7 @@
                   </el-button>
                 </div>
                 <div v-if="item.num === 38">
-                  <el-button v-if="item.state === 1" type="text" @click="operationListHandle(item, 1)">
+                  <el-button v-if="item.state === 6" type="text" @click="operationListHandle(item, 1)">
                     {{operationList[item.num - 1][1-1]}}
                   </el-button>
                   <el-button v-if="item.state === 2" type="text" @click="operationListHandle(item, 3)" :disabled="other.isServiceDirector ? false : true">
@@ -326,7 +326,7 @@
                   </el-button>
                 </div>
                 <div v-if="item.num === 41">
-                  <el-button v-if="item.state === 1" type="text" @click="operationListHandle(item, 1)">
+                  <el-button type="text" @click="operationListHandle(item, 1)">
                     {{operationList[item.num - 1][1-1]}}
                   </el-button>
                 </div>
