@@ -296,9 +296,11 @@
                   </el-button>
                 </div>
                 <div v-if="item.num === 36"><!--针对计次类型的服务产品，在上传服务成果之后到客户未确认之前，可以进行修改成果资料,354 服务事项按钮开启时机的修改-->
-                  <el-button v-if="serviceItem[2].state !== 9 && item.state !== 1" type="text" @click="operationListHandle(item, 1)">
-                    {{operationList[item.num - 1][1-1]}}
-                  </el-button>
+                  <div v-for="(o, i) in serviceItem" :key="i">
+                    <el-button v-if="o.num === 38 && o.state !== 9 && item.state !== 1" type="text" @click="operationListHandle(item, 1)">
+                      {{operationList[item.num - 1][1-1]}}
+                    </el-button>
+                  </div>
                 </div>
                 <div v-if="item.num === 37">
                   <el-button v-if="item.state === 1" type="text" @click="operationListHandle(item, 1)">
