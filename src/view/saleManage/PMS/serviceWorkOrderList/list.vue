@@ -466,9 +466,9 @@
       tableRowStyle ({ row, rowIndex }) {
         if (row.orderState === 6) {
           return ''
-        } else if (row.finishTime && row.limitTime && row.auditTime && (row.finishTime - row.auditTime - row.limitTime * 86400000) > 0) {
+        } else if (row.finishTime && row.scheduleTime && row.auditTime && (row.finishTime - row.scheduleTime) > 0) {
           return 'background-color: #ff7474'
-        } else if (!row.finishTime && row.limitTime && row.auditTime && ((new Date()).valueOf()) - row.auditTime - row.limitTime * 86400000 > 0) {
+        } else if (!row.finishTime && row.scheduleTime && row.auditTime && ((new Date()).valueOf()) - row.scheduleTime > 0) {
           return 'background-color: #ff7474'
         } else if (row.overTime) {
           return 'background-color: #ffe762'
