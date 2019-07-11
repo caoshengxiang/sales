@@ -141,6 +141,27 @@
               }
             },
           })
+        } else if (numItem.type === 21) {
+          this.$vDialog.modal(opItem, {
+            title: numItem.title,
+            width: 1200,
+            height: 600,
+            params: {
+              numItem: numItem,
+              typeItem: typeItem,
+              customerName: this.customerName,
+              customerId: this.customerId,
+              orderId: this.orderId,
+              workOrderId: typeItem.id,
+              isShow: false,
+              isSetInterval: isSetInterval,
+            },
+            callback: (data) => {
+              if (data.type === 'save') {
+                this.getOrderWorkingList()
+              }
+            },
+          })
         } else if (numItem.type <= 21) {
           this.$vDialog.modal(opItem, {
             title: numItem.title,
