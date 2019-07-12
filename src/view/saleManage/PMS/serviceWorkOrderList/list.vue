@@ -53,6 +53,7 @@
             align="center"
             sortable="custom"
             prop="orderNum"
+            fixed
             cell-style="col-warn"
             label="派单单号"
             width="160"
@@ -63,6 +64,8 @@
                            :to="{name: 'serviceWorkOrderDetail', query: {id: scope.row.id,orderId: scope.row.orderId, view: 'operate'}}" target="_blank">
                 {{ scope.row.orderNum }}
               </router-link>
+              <img v-if="scope.row.chaoR == 1" src="../../../../assets/icon/overtime_red.png" alt="" style="position: absolute;top: 0; left: 0;">
+              <img v-if="scope.row.chaoR == 2" src="../../../../assets/icon/overtime_yellow.png" alt="" style="position: absolute;top: 0; left: 0;">
             </template>
           </el-table-column>
           <el-table-column
@@ -467,11 +470,17 @@
         if (row.orderState === 6) {
           return ''
         } else if (row.finishTime && row.scheduleTime && row.auditTime && (row.finishTime - row.scheduleTime) > 0) {
-          return 'background-color: #ff7474'
+          this.$set(row, 'chaoR', 1);
+          // return 'background-color: #ff7474'
+          return ''
         } else if (!row.finishTime && row.scheduleTime && row.auditTime && ((new Date()).valueOf()) - row.scheduleTime > 0) {
-          return 'background-color: #ff7474'
+          this.$set(row, 'chaoR', 1);
+          // return 'background-color: #ff7474'
+          return ''
         } else if (row.overTime) {
-          return 'background-color: #ffe762'
+          this.$set(row, 'chaoR', 2);
+          // return 'background-color: #ffe762'
+          return ''
         }
         return ''
       },
