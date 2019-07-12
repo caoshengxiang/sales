@@ -534,6 +534,15 @@ export default {
         error && error(err)
       })
     },
+    infoDateList (params, success, error) { // 相关列表
+      $axios.get('revisit/serviceRetVisit/infoDateList', {
+        params: params,
+      }).then(res => {
+        success && success(res.data)
+      }).catch(err => {
+        error && error(err)
+      })
+    },
     detail (params, success, error) { // 详情
       $axios.get('revisit/serviceRetVisit/detail/' + params).then(res => {
         success && success(res.data)

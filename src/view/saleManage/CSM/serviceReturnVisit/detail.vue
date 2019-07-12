@@ -149,7 +149,77 @@
                 </td>
               </tr>
             </table>
-
+            <p class="table-title">相关回访信息</p>
+            <div style="min-height: 200px;">
+              <!--          <div v-for="(item, index) in serviceLog" :key="index" class="log-item">
+                          {{item.operatorName}}
+                          &nbsp;&nbsp;
+                          {{item.created && $moment(item.created).format('YYYY-MM-DD HH:mm:ss')}}
+                          &nbsp;&nbsp;
+                          {{item.description}}
+                          &nbsp;&nbsp;
+                          {{item.remark}}
+                        </div> -->
+              <div>
+                <el-table
+                  ref="multipleTable"
+                  border
+                  stripe
+                  :data="infoDate"
+                  height="400px"
+                  style="text-align: center"
+                  tooltip-effect="dark">
+                  <el-table-column label="回访单号" prop="num">
+                    <template slot-scope="scope">
+                      <router-link class="col-link" :to="{name: 'serviceReturnVisitDetail', query: {id: scope.row.id, view: 'service'}}" target="_blank">{{
+                        scope.row.num }}
+                      </router-link>
+                    </template>
+                  </el-table-column>
+                  <el-table-column label="回访日期" prop="modified" width="160">
+                    <template slot-scope="scope">
+                      <span>{{scope.row.modified && $moment(scope.row.modified).format('YYYY-MM-DD HH:mm:ss')}}</span>
+                    </template>
+                  </el-table-column>
+                  <el-table-column label="客户名称" prop="customerName">
+                  </el-table-column>
+                  <el-table-column label="订单号" prop="orderId"></el-table-column>
+                  <el-table-column label="服务商品" prop="goodsName"></el-table-column>
+                  <el-table-column label="回访类型" prop="type">
+                    <template slot-scope="scope">
+                      <span v-if="scope.row.type === 1">客户主动退单订单回访</span>
+                      <span v-if="scope.row.type === 2">回款异常订单回访</span>
+                      <span v-if="scope.row.type === 3">A类产品续费异常订单回访</span>
+                      <span v-if="scope.row.type === 4">非记账托管业务首次沟通订单回访</span>
+                      <span v-if="scope.row.type === 5">外勤首次上门回访</span>
+                      <span v-if="scope.row.type === 6">2-3星评价回访</span>
+                      <span v-if="scope.row.type === 7">未评价订单回访</span>
+                    </template>
+                  </el-table-column>
+                  <el-table-column label="原评价星级" prop="reviewScore">
+                    <template slot-scope="scope">
+                      <span v-if="scope.row.reviewScore">{{scope.row.reviewScore}}星</span>
+                      <span v-if="!scope.row.reviewScore"></span>
+                    </template>
+                  </el-table-column>
+                  <el-table-column label="回复星级" prop="retEvaluation">
+                    <template slot-scope="scope">
+                      <span v-if="scope.row.retEvaluation">{{scope.row.retEvaluation}}星</span>
+                      <span v-if="!scope.row.retEvaluation"></span></template>
+                  </el-table-column>
+                  <el-table-column label="回复状态" prop="state">
+                    <template slot-scope="scope">
+                      <span v-if="scope.row.state === 1">待派单</span>
+                      <span v-if="scope.row.state === 2">待回访</span>
+                      <span v-if="scope.row.state === 3">已回访</span>
+                      <span v-if="scope.row.state === 4">拒绝回访</span>
+                      <span v-if="scope.row.state === 5">待再回访</span>
+                    </template>
+                  </el-table-column>
+                  <el-table-column label="备注信息" prop="revisitRemark"></el-table-column>
+                </el-table>
+              </div>
+            </div>
           </el-tab-pane>
           <el-tab-pane label="订单相关信息" name="related">
             <p class="table-title">服务客户</p>
@@ -280,6 +350,7 @@
     name: 'detail',
     data () {
       return {
+        infoDate: [],
         dataLoading: false,
         activeViewName: 'service',
         detail: {
@@ -292,6 +363,7 @@
         orderListNoAuth: [], // 客户历史订单
         orderListNoAuthTotal: 0,
         orderDetail: {}, // 订单信息
+        tableData: [],
         assignOrderList: [], // 派单列表
       }
     },
@@ -344,11 +416,21 @@
         this.dataLoading = true
         API.serviceRetVisit.detail(this.$route.query.id, (da) => {
           this.detail = da.data
+          this.getInfoDate(da.data.contactPhone)
           this.getDetailByOrderId(this.detail.orderId)
           setTimeout(() => {
             this.dataLoading = false
           }, 500)
         })
+      },
+      getInfoDate (contactPhone) {
+        API.serviceRetVisit.infoDateList({
+            contactPhone: contactPhone,
+            id: this.$route.query.id,
+          },
+          (res) => {
+            this.infoDate = res.data
+          })
       },
       getCustomerAbout (customerId, orderId) {
         API.serviceCustomer.detailAbout({customerId: customerId, orderId: orderId}, (da) => {
