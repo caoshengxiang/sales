@@ -19,7 +19,7 @@
         <com-button buttonType="grey" icon="el-icon-edit" :disabled="this.multipleSelection.length < 1"
                     @click="modifyHandle">分配
         </com-button>
-        <com-button buttonType="export" icon="el-icon-download" @click="excelExport">导出</com-button>
+        <com-button buttonType="export" icon="el-icon-download" @click="excelExport1">导出</com-button>
         <!--<com-button buttonType="grey" icon="el-icon-remove-outline" :disabled="this.multipleSelection.length <= 0"-->
         <!--@click="disableHandle">禁用-->
         <!--</com-button>-->
@@ -606,7 +606,16 @@
           },
         })
       },
-      excelExport () { // 导出
+      // 权限判断
+      excelExport1 () {
+        API.salesOpportunitiesSea.checkAuthority((data) => {
+          console.log(data)
+          if (data.status && data.data == 1) {
+            this.excelExport2()
+          }
+        })
+      },
+      excelExport2 () { // 导出
         let as = {}
         for (let key in this.advancedSearch) { // 去除null
           if (this.advancedSearch[key]) {

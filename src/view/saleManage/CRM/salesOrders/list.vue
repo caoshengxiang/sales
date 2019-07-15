@@ -19,7 +19,7 @@
         <com-button buttonType="delete" icon="el-icon-delete" @click="operateOptions('delete')"
                     :disabled="multipleSelection.length <= 0">删除
         </com-button>
-        <com-button buttonType="export" icon="el-icon-download" @click="excelExport">导出</com-button>
+        <com-button buttonType="export" icon="el-icon-download" @click="excelExport1">导出</com-button>
         <!-- <com-button buttonType="add" icon="el-icon-plus" @click="operateOptions('add')">新增</com-button> -->
       </div>
       <div class="com-bar-right" v-if="themeIndex === 0"><!--前端-->
@@ -457,7 +457,16 @@
             break
         }
       },
-      excelExport () { // 导出
+      // 权限判断
+      excelExport1 () {
+        API.salesOpportunitiesSea.checkAuthority((data) => {
+          console.log(data)
+          if (data.status && data.data == 1) {
+            this.excelExport2()
+          }
+        })
+      },
+      excelExport2 () { // 导出
         this.getQueryParams()
         let as = {}
         for (let key in this.advancedSearch) { // 去除null
