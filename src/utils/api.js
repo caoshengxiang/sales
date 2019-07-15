@@ -951,7 +951,7 @@ const API1 = {
         error && error(err)
       })
     },
-    
+
     demandJudgmentZX (params, success, error) { // 需求判断
       $axios({
         method: 'put',
@@ -1047,6 +1047,13 @@ const API1 = {
       $axios.get('chanceSea', {
         params: {organizationId: params},
       }).then((res) => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+    },
+    checkAuthority (success, error) { // 判断是否有导出权限
+      $axios.get('salerChance/checkAuthority/export').then((res) => {
         success && success(res.data)
       }).catch((err) => {
         error && error(err)

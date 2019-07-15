@@ -33,7 +33,7 @@
         <com-button buttonType="grey" icon="el-icon-setting" :disabled="this.multipleSelection.length !== 1"
                     @click="resetPassword">重置密码
         </com-button>
-        <com-button buttonType="export" icon="el-icon-download" @click="excelExport">导出</com-button>
+        <com-button buttonType="export" icon="el-icon-download" @click="excelExport1">导出</com-button>
       </div>
       <div class="com-bar-right" style="float: right">
         <com-button buttonType="search" @click="searchHandle">搜索</com-button>
@@ -706,7 +706,16 @@
           })
         })
       },
-      excelExport () { // 导出
+      // 权限判断
+      excelExport1 () {
+        API.salesOpportunitiesSea.checkAuthority((data) => {
+          console.log(data)
+          if (data.status && data.data == 1) {
+            this.excelExport2()
+          }
+        })
+      },
+      excelExport2 () { // 导出
         let as = {}
         for (let key in this.advancedSearch) { // 去除null
           if (this.advancedSearch[key]) {
