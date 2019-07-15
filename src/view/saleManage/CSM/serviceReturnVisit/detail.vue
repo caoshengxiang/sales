@@ -420,7 +420,6 @@
         this.dataLoading = true
         API.serviceRetVisit.detail(this.$route.query.id, (da) => {
           this.detail = da.data
-          this.getInfoDate()
           this.getDetailByOrderId(this.detail.orderId)
           setTimeout(() => {
             this.dataLoading = false
@@ -461,6 +460,7 @@
           this.getOrderListNoAuth(this.orderDetail.customerId)
           this.getCustomerAbout(this.orderDetail.customerId, this.orderDetail.orderId)
           this.getAssignOrderList(this.orderDetail.orderId)
+          this.getInfoDate()
         })
       },
       handleCommand (command) {
