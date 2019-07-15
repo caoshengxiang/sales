@@ -416,16 +416,16 @@
         this.dataLoading = true
         API.serviceRetVisit.detail(this.$route.query.id, (da) => {
           this.detail = da.data
-          this.getInfoDate(da.data.contactPhone)
+          this.getInfoDate()
           this.getDetailByOrderId(this.detail.orderId)
           setTimeout(() => {
             this.dataLoading = false
           }, 500)
         })
       },
-      getInfoDate (contactPhone) {
+      getInfoDate () {
         API.serviceRetVisit.infoDateList({
-            contactPhone: contactPhone,
+            customerId: this.orderDetail.customerId,
             id: this.$route.query.id,
           },
           (res) => {
