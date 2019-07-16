@@ -107,6 +107,22 @@
             </el-form-item>
           </el-col>
         </el-row>
+        <el-row class="el-row-cla">
+          <el-col :span="24">
+            <el-form-item label="服务管家：">
+              <el-select
+                v-model="managerIdList"
+                filterable
+                multiple
+                :multiple-limit="5"
+                placeholder="请选择服务管家, 可多选, 数量<=5"
+                style="width: 100%"
+              >
+                <el-option v-for="item in managerList" :key="item.userId" :label="item.name" :value="item.userId"></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+        </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button class="cancel-button" @click="$vDialog.close({type: 'cancel'})">取 消</el-button>
@@ -124,6 +140,8 @@
     name: 'advancedSearch',
     data () {
       return {
+        managerList: [],
+        managerIdList: [],
         searchForm: { // 表单
         },
         typeList: [{
@@ -174,6 +192,7 @@
         this.searchForm = {}
       },
       saveSubmitForm () {
+        this.searchForm.managerIds = this.managerIdList.join(',')
         this.$vDialog.close({type: 'search', params: this.searchForm})
       },
       areaSelectedOptionsHandleChange (value) {
@@ -207,11 +226,21 @@
         this.searchForm[start] = value[0] || ''
         this.searchForm[end] = value[1] || ''
       },
+      getmanagerList () { // 获取管家
+        API.baseSetting.getManagerList({}, (res) => { // 6 管家类型
+          if (res.status) {
+            this.managerList = res.data
+          }
+        })
+      },
     },
     created () {
       this.searchForm = this.params.preAdvancedSearch
+      if (this.searchForm.managerIds) {
+        this.managerIdList = this.searchForm.managerIds.split(',').map(Number)
+      }
       this.getCodeConfig()
-
+      this.getmanagerList()
       /* 日期 */
       if (this.searchForm.assginStartTime) { // 日期
         this.timeInterval = [this.searchForm.assginStartTime, this.searchForm.assginEndTime]

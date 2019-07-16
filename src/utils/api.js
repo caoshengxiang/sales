@@ -853,6 +853,16 @@ const API1 = {
         error && error(err)
       })
     },
+    detailByCustomerIdNoAuth (params, success, error) { // 联系人详细
+      $axios({
+        method: 'get',
+        url: '/customerContacter/noAuth/byCustomerId/' + params,
+      }).then(res => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+    },
     add (params, success, error) {
       $axios({
         method: 'post',
@@ -1962,6 +1972,17 @@ const API1 = {
     },
     getCodeConfig (params, success, error) { // 用户列表
       $axios.get('codeConfig', {
+        params: params,
+      }).then((res) => {
+        success && success(res.data)
+      }).catch(() => {
+        setTimeout((err) => {
+          error && error(err)
+        }, 1000)
+      })
+    },
+    getManagerList (params, success, error) { // 用户列表
+      $axios.get('serviceManager/simpleList', {
         params: params,
       }).then((res) => {
         success && success(res.data)
