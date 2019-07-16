@@ -853,16 +853,6 @@ const API1 = {
         error && error(err)
       })
     },
-    detailByCustomerIdNoAuth (params, success, error) { // 联系人详细
-      $axios({
-        method: 'get',
-        url: '/customerContacter/noAuth/byCustomerId/' + params,
-      }).then(res => {
-        success && success(res.data)
-      }).catch((err) => {
-        error && error(err)
-      })
-    },
     add (params, success, error) {
       $axios({
         method: 'post',
