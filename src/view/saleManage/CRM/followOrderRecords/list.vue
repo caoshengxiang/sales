@@ -118,6 +118,22 @@
             {{scope.row.created && $moment(scope.row.created).format('YYYY-MM-DD HH:mm')}}
           </template>
         </el-table-column>
+        <el-table-column
+          align="center"
+          sortable="custom"
+          prop="chanceProviderName"
+          label="需求提供人"
+          width="160"
+          show-overflow-tooltip>
+        </el-table-column>
+        <el-table-column
+          align="center"
+          sortable="custom"
+          prop="chanceSourceName"
+          label="需求来源"
+          width="160"
+          show-overflow-tooltip>
+        </el-table-column>
       </el-table>
     </div>
     <!--分页-->

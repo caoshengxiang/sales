@@ -659,7 +659,17 @@
           null) // 触发事件
         link.dispatchEvent(event)
       },
-      excelExport1 () { // 导出
+      // 有效性判断
+      excelExport1 () {
+        API.salesOpportunitiesSea.checkAuthority((data) => {
+          console.log(data)
+          if (data.status && data.data == 1) {
+            this.excelExport2()
+          }
+        })
+      },
+      excelExport2 () { // 导出
+        alert()
         this.getQueryParams()
         let as = {}
         for (let key in this.advancedSearch) { // 去除null

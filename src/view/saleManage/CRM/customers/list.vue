@@ -95,14 +95,27 @@
           </template>
         </el-table-column>
         <el-table-column
+          show-overflow-tooltip
           align="center"
-          label="操作"
-          width="120">
+          sortable="custom"
+          label="客户有效性"
+          prop="cusomerStatus"
+          width="160">
           <template slot-scope="scope">
-            <span class='customer-identification' @click='customerIdentification(scope.row)' v-if="scope.row.customerStatus == 0 || scope.row.customerStatus == null">客户鉴定</span>
-            <span class='customer-identification' @click='customerIdentification(scope.row)' v-else style='color: #DDDDDD !important;'>客户鉴定</span>
+            <span class='customer-identification' @click='customerIdentification(scope.row)' v-if="scope.row.customerStatus == 0 || scope.row.customerStatus == null">待判断</span>
+            <span v-if="scope.row.customerStatus == 1">有效</span>
+            <span v-if="scope.row.customerStatus == -1">无效</span>
           </template>
         </el-table-column>
+        <!--<el-table-column-->
+          <!--align="center"-->
+          <!--label="操作"-->
+          <!--width="120">-->
+          <!--<template slot-scope="scope">-->
+            <!--<span class='customer-identification' @click='customerIdentification(scope.row)' v-if="scope.row.customerStatus == 0 || scope.row.customerStatus == null">客户鉴定</span>-->
+            <!--<span class='customer-identification' @click='customerIdentification(scope.row)' v-else style='color: #DDDDDD !important;'>客户鉴定</span>-->
+          <!--</template>-->
+        <!--</el-table-column>-->
         <el-table-column
           show-overflow-tooltip
           align="center"
@@ -113,19 +126,6 @@
           <template slot-scope="scope">
             <span v-if="scope.row.cate === 1">个人</span>
             <span v-if="scope.row.cate === 2">机构</span>
-          </template>
-        </el-table-column>
-        <el-table-column
-          show-overflow-tooltip
-          align="center"
-          sortable="custom"
-          label="客户有效性"
-          prop="cusomerStatus"
-          width="160">
-          <template slot-scope="scope">
-            <span v-if="scope.row.customerStatus == 0 || scope.row.customerStatus == null">待判断</span>
-            <span v-if="scope.row.customerStatus == 1">有效</span>
-            <span v-if="scope.row.customerStatus == -1">无效</span>
           </template>
         </el-table-column>
         <el-table-column
@@ -551,7 +551,7 @@
 
 <style scoped lang="scss" rel="stylesheet/scss">
   @import "../../../../styles/common";
-	
+
 	.customer-identification {
 		cursor: pointer;
 		color: #1E88E5;

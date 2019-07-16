@@ -204,8 +204,12 @@
                   </el-table-column>
                   <el-table-column label="回复星级" prop="retEvaluation">
                     <template slot-scope="scope">
-                      <span v-if="scope.row.retEvaluation">{{scope.row.retEvaluation}}星</span>
-                      <span v-if="!scope.row.retEvaluation"></span></template>
+                      <span v-if="scope.row.reviewScore > 3">{{scope.row.reviewScore}}星</span>
+                      <span v-if="scope.row.reviewScore <= 3">
+                        <span v-if="scope.row.retEvaluation">{{scope.row.retEvaluation}}星</span>
+                        <span v-if="!scope.row.retEvaluation"></span>
+                      </span>
+                    </template>
                   </el-table-column>
                   <el-table-column label="回复状态" prop="state">
                     <template slot-scope="scope">
@@ -416,16 +420,15 @@
         this.dataLoading = true
         API.serviceRetVisit.detail(this.$route.query.id, (da) => {
           this.detail = da.data
-          this.getInfoDate(da.data.contactPhone)
           this.getDetailByOrderId(this.detail.orderId)
           setTimeout(() => {
             this.dataLoading = false
           }, 500)
         })
       },
-      getInfoDate (contactPhone) {
+      getInfoDate () {
         API.serviceRetVisit.infoDateList({
-            contactPhone: contactPhone,
+            customerId: this.orderDetail.customerId,
             id: this.$route.query.id,
           },
           (res) => {
@@ -457,6 +460,7 @@
           this.getOrderListNoAuth(this.orderDetail.customerId)
           this.getCustomerAbout(this.orderDetail.customerId, this.orderDetail.orderId)
           this.getAssignOrderList(this.orderDetail.orderId)
+          this.getInfoDate()
         })
       },
       handleCommand (command) {

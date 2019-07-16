@@ -1052,6 +1052,13 @@ const API1 = {
         error && error(err)
       })
     },
+    checkAuthority (success, error) { // 判断是否有导出权限
+      $axios.get('salerChance/checkAuthority/export').then((res) => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+    },
     editChance (params, success, error) { // 列表
       $axios.put('chanceSea/modifyChance/' + params.id, params).then((res) => {
         success && success(res.data)
