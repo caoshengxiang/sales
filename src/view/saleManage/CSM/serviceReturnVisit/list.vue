@@ -163,11 +163,8 @@
             show-overflow-tooltip
           >
             <template slot-scope="scope">
-              <span v-if="scope.row.reviewScore > 3">{{scope.row.reviewScore}}星</span>
-              <span v-if="scope.row.reviewScore <= 3">
-                <span v-if="scope.row.retEvaluation">{{scope.row.retEvaluation}}星</span>
-                <span v-if="!scope.row.retEvaluation"></span>
-              </span>
+              <span v-if="scope.row.retEvaluation">{{scope.row.retEvaluation}}星</span>
+              <span v-if="!scope.row.retEvaluation"></span>
             </template>
           </el-table-column>
           <el-table-column
