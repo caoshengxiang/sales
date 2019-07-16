@@ -951,7 +951,7 @@ const API1 = {
         error && error(err)
       })
     },
-    
+
     demandJudgmentZX (params, success, error) { // 需求判断
       $axios({
         method: 'put',
@@ -2567,6 +2567,125 @@ const API1 = {
         }).catch((errorData) => {
             error && error(errorData)
         })
+    },
+  },
+  // 商品管理
+  zhuxinGoodsManage: {
+     // 商品列表
+     getGoodsList (params, success, error) {
+        $axios({
+            method: 'get',
+            url: 'goodsType',
+            params: params,
+        }).then((res) => {
+            success && success(res.data)
+        }).catch((errorData) => {
+            error && error(errorData)
+        })
+     },
+     // 商品详情
+     getGoodsDetail (params, success, error) {
+        $axios({
+            method: 'get',
+            url: 'goodsType/goodsId/' + params,
+        }).then((res) => {
+            success && success(res.data)
+        }).catch((errorData) => {
+            error && error(errorData)
+        })
+     },
+     // 新增-产品类型
+     addProductType (params, success, error) {
+        $axios({
+            method: 'get',
+            url: 'goodsCategory/all/' + params,
+        }).then((res) => {
+            success && success(res.data)
+        }).catch((errorData) => {
+            error && error(errorData)
+        })
+     },
+     // 新增-产品规格类型查询
+     addProductTypeSearch (success, error) {
+        $axios({
+            method: 'get',
+            url: 'goodsSpecificationsType/all',
+        }).then((res) => {
+            success && success(res.data)
+        }).catch((errorData) => {
+            error && error(errorData)
+        })
+     },
+     // 新增-根据产品规格类型查询规格
+     addProductTypeSearchSpec (params, success, error) {
+        $axios({
+            method: 'get',
+            url: 'goodsSpecifications/specifications/' + params,
+        }).then((res) => {
+            success && success(res.data)
+        }).catch((errorData) => {
+            error && error(errorData)
+        })
+     },
+     // 新增-服务协议查询
+     ServiceAgreementSearch (success, error) {
+        $axios({
+            method: 'get',
+            url: 'goodsAgreement/all',
+        }).then((res) => {
+            success && success(res.data)
+        }).catch((errorData) => {
+            error && error(errorData)
+        })
+     },
+     // 新增-签约主体查询
+     subjectOfContractSearch (success, error) {
+        $axios({
+            method: 'get',
+            url: 'goodsContractSubject/all',
+        }).then((res) => {
+            success && success(res.data)
+        }).catch((errorData) => {
+            error && error(errorData)
+        })
+     },
+    // 保存商品
+    addProduct (params, success, error) {
+      $axios({
+        method: 'post',
+        url: 'goodsType',
+        data: params,
+      }).then((res) => {
+        success && success(res.data)
+      }).catch(() => {
+        setTimeout((err) => {
+          error && error(err)
+        }, 1000)
+      })
+    },
+    // 编辑商品
+    editProduct (params, success, error) {
+      $axios.put('goodsType/' + params.goodsId, params.data).then((res) => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+    },
+    // 更改商品排序 id,goodsSort
+    editProductSort (params, success, error) {
+      $axios.put('goodsType/update', params.data).then((res) => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+    },
+    // 商品上架/下架/线上销售 type:{1: 上架，2：下架，3：线上销售}， goodsId = '1,2,3'
+    editProductSort (params, success, error) {
+      $axios.put('goodsType/' + params.type, '', {params: params.data}).then((res) => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
     },
   }
 }
