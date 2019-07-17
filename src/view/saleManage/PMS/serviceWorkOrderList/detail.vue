@@ -95,7 +95,7 @@
                 <td class="td-title">客满项目名称</td>
                 <td class="td-title">状态</td>
                 <td class="td-title">客服人员</td>
-                <td class="td-title">生成时间</td>
+                <td class="td-title">回访时间</td>
               </tr>
               <tr v-for="(item, index) in csInOrderList" :key="index">
                 <td>

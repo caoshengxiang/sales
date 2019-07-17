@@ -1971,6 +1971,17 @@ const API1 = {
         }, 1000)
       })
     },
+    getManagerList (params, success, error) { // 用户列表
+      $axios.get('serviceManager/simpleList', {
+        params: params,
+      }).then((res) => {
+        success && success(res.data)
+      }).catch(() => {
+        setTimeout((err) => {
+          error && error(err)
+        }, 1000)
+      })
+    },
     delete (params, success, error) { // 用户列表
       $axios({
         method: 'delete',
