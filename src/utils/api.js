@@ -2656,6 +2656,28 @@ const API1 = {
             error && error(errorData)
         })
      },
+     // 新增-获取服务事项
+     getServiceMatters (success, error) {
+        $axios({
+            method: 'get',
+            url: 'serviceModuleItem/all',
+        }).then((res) => {
+            success && success(res.data)
+        }).catch((errorData) => {
+            error && error(errorData)
+        })
+     },
+     // 新增-获取所有可选择工单名称
+     getWorkNames (success, error) {
+        $axios({
+            method: 'get',
+            url: 'serviceType/all',
+        }).then((res) => {
+            success && success(res.data)
+        }).catch((errorData) => {
+            error && error(errorData)
+        })
+     },
     // 保存商品
     addProduct (params, success, error) {
       $axios({
@@ -2680,14 +2702,14 @@ const API1 = {
     },
     // 更改商品排序 id,goodsSort
     editProductSort (params, success, error) {
-      $axios.put('goodsType/update', params.data).then((res) => {
+      $axios.put('goodsType/update', params).then((res) => {
         success && success(res.data)
       }).catch((err) => {
         error && error(err)
       })
     },
     // 商品上架/下架/线上销售 type:{1: 上架，2：下架，3：线上销售}， goodsId = '1,2,3'
-    editProductSort (params, success, error) {
+    editProductTion (params, success, error) {
       $axios.put('goodsType/' + params.type, '', {params: params.data}).then((res) => {
         success && success(res.data)
       }).catch((err) => {
