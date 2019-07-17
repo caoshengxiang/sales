@@ -202,13 +202,13 @@
                       <span v-if="!scope.row.reviewScore"></span>
                     </template>
                   </el-table-column>
-                  <el-table-column label="回复星级" prop="retEvaluation">
+                  <el-table-column label="回访星级" prop="retEvaluation">
                     <template slot-scope="scope">
                       <span v-if="scope.row.retEvaluation">{{scope.row.retEvaluation}}星</span>
                       <span v-if="!scope.row.retEvaluation"></span>
                     </template>
                   </el-table-column>
-                  <el-table-column label="回复状态" prop="state">
+                  <el-table-column label="回访状态" prop="state">
                     <template slot-scope="scope">
                       <span v-if="scope.row.state === 1">待派单</span>
                       <span v-if="scope.row.state === 2">待回访</span>
