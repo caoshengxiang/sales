@@ -32,7 +32,8 @@
               </tr>
               <tr>
                 <td class="td-title">身份证编号</td>
-                <td>{{userDetail.idCard}}</td>
+                <td v-if="userDetail.bankIdCard" >{{userDetail.bankIdCard}}</td>
+                <td v-if ="userDetail.bankIdCard == false" >{{userDetail.idCard}}</td>
                 <td class="td-title">性别</td>
                 <td>{{userDetail.sex}}</td>
                 <td class="td-title">年龄</td>
