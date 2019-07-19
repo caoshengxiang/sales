@@ -669,7 +669,6 @@
         })
       },
       excelExport2 () { // 导出
-        alert()
         this.getQueryParams()
         let as = {}
         for (let key in this.advancedSearch) { // 去除null
