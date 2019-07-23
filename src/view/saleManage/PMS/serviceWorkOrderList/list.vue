@@ -158,7 +158,7 @@
             show-overflow-tooltip
           >
             <template slot-scope="scope">
-              {{scope.row.scheduleTime && $moment(scope.row.scheduleTime).format('YYYY-MM-DD HH:mm')}}
+              {{scope.row.periodEnd && $moment(scope.row.periodEnd).format('YYYY-MM-DD HH:mm')}}
             </template>
           </el-table-column>
           <el-table-column
@@ -469,11 +469,11 @@
       tableRowStyle ({ row, rowIndex }) {
         if (row.orderState === 6) {
           return ''
-        } else if (row.finishTime && row.scheduleTime && row.auditTime && (row.finishTime - row.scheduleTime) > 0) {
+        } else if (row.finishTime && row.periodEnd && row.auditTime && (row.finishTime - row.periodEnd) > 0) {
           this.$set(row, 'chaoR', 1);
           // return 'background-color: #ff7474'
           return ''
-        } else if (!row.finishTime && row.scheduleTime && row.auditTime && ((new Date()).valueOf()) - row.scheduleTime > 0) {
+        } else if (!row.finishTime && row.periodEnd && row.auditTime && ((new Date()).valueOf()) - row.periodEnd > 0) {
           this.$set(row, 'chaoR', 1);
           // return 'background-color: #ff7474'
           return ''
