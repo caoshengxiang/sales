@@ -382,7 +382,7 @@
 
               <span v-if="item.attachment">
                 <span>{{getFileNameFromUrl(item.attachment)}}</span>
-                <a target="_blank" :href="item.attachment">附件下载</a>
+                <a target="_blank" :href="getUrl(item.attachment)">附件下载</a>
               </span>
               <span v-if="item.setTime">
                 <span v-if="item.num == 5">{{$moment(item.setTime).format('YYYY')}}</span>
@@ -742,11 +742,40 @@
         if (!url) {
           return ''
         }
-        let arr = url.split('/')
-        if (arr.length) {
-          return arr[arr.length - 1]
-        } else {
+        try {
+          let obj = JSON.parse(url)
+          if (typeof obj === 'object' && obj) {
+            return obj.name
+          } else {
+            let arr = url.split('/')
+            if (arr.length) {
+              return arr[arr.length - 1]
+            } else {
+              return ''
+            }
+          }
+        } catch (e) {
+          let arr = url.split('/')
+          if (arr.length) {
+            return arr[arr.length - 1]
+          } else {
+            return ''
+          }
+        }
+      },
+      getUrl (url) {
+        if (!url) {
           return ''
+        }
+        try {
+          let obj = JSON.parse(url)
+          if (typeof obj === 'object' && obj) {
+            return obj.url
+          } else {
+            return url
+          }
+        } catch (e) {
+          return url
         }
       },
       getServiceLog () {
