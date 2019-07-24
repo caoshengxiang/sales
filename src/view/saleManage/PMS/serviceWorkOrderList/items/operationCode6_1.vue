@@ -81,7 +81,7 @@
         })
       },
       onSuccessHandle (response, file, fileList) {
-        this.ruleForm.attachment = response.data.url
+        this.ruleForm.attachment = this.params.baseParam.num === 36 || this.params.baseParam.num === 41 ? JSON.stringify(response.data) : response.data.url
       }
     },
   }
