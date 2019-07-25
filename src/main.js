@@ -13,7 +13,8 @@ Vue.config.productionTip = false // 关闭生产模式下给出的提示
 
 // 防止按键盘空格键和确定但模态框弹出多个
 document.onkeydown = function() { 
-	if(window.event.keyCode==13 || window.event.keyCode== 32) { 
+	// if(window.event.keyCode==13 || window.event.keyCode== 32) {
+	if(window.event.keyCode== 32) {
 		// console.log(window.event.keyCode)
 		window.event.preventDefault(); 
 	}

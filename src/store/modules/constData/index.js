@@ -292,6 +292,7 @@ export default {
       },
     ],
     themeIndex: 0, // 主题数组索引，默认为0销售前端
+    addProductStatus: 1,  //新增商品或编辑商品时的步骤  1，2，3，4
     theme: [ // 主题颜色
       {
         end: 'FE',

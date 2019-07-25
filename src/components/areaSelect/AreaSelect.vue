@@ -16,6 +16,7 @@ area,预显示地址
       :options="list"
       @change="handleItemChange"
       @active-item-change="handleItemChange"
+      @visible-change="handleVisibleChange"
       :props="props"
       :change-on-select="selectLastLevelMode"
       :value="selectedBindValue"
@@ -52,6 +53,10 @@ area,预显示地址
         default: '',
       },
       disabled: {
+        type: Boolean,
+        default: false,
+      },
+      needClick: {
         type: Boolean,
         default: false,
       },
@@ -194,7 +199,8 @@ area,预显示地址
               }
               loopDo(that.list, pid)
               that.selectedBindValue = that.selectedValue
-
+              
+              if(that.needClick) return;
               setTimeout(function () {
                 if ($('.selectAreaModule').hasClass('is-opened')) {
                   $('.selectAreaModule').trigger('click')
@@ -220,6 +226,9 @@ area,预显示地址
         that.selectedValue = val
         that.$options.methods.queryList.bind(that)(val[val.length - 1])
         this.$emit('change', val)
+      },
+      handleVisibleChange (val) {
+        this.$emit('visibleChange', val)
       },
       getSelectedName (val) { // 通过value获取名称
         let name = []

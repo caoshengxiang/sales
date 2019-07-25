@@ -2705,13 +2705,13 @@ const API1 = {
     },
     // 编辑商品
     editProduct (params, success, error) {
-      $axios.put('goodsType/' + params.goodsId, params.data).then((res) => {
+      $axios.put('goodsType/updateGoodsType', params).then((res) => {
         success && success(res.data)
       }).catch((err) => {
         error && error(err)
       })
     },
-    // 更改商品排序 id,goodsSort
+    // 更改商品排序 id,goodsSort;;; 商品推荐
     editProductSort (params, success, error) {
       $axios.put('goodsType/update', params).then((res) => {
         success && success(res.data)
@@ -2719,7 +2719,7 @@ const API1 = {
         error && error(err)
       })
     },
-    // 商品上架/下架/线上销售 type:{1: 上架，2：下架，3：线上销售}， goodsId = '1,2,3'
+    // 商品上架/下架/线上销售 type:{1: 上架，2：下架，3：线上销售, 4线下销售，5启用商品版本}， goodsId = '1,2,3'
     editProductTion (params, success, error) {
       $axios.put('goodsType/' + params.type, '', {params: params.data}).then((res) => {
         success && success(res.data)
@@ -2727,6 +2727,25 @@ const API1 = {
         error && error(err)
       })
     },
+    // 删除上传文件
+    deleteFile (params, success, error) {
+      $axios.delete('file/delete', {params: params}).then((res) => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+    },
+     // 列表/详情-获取商品的所有版本
+     getAllVersionList (params, success, error) {
+        $axios({
+            method: 'get',
+            url: 'goodsType/allVersion/' + params,
+        }).then((res) => {
+            success && success(res.data)
+        }).catch((errorData) => {
+            error && error(errorData)
+        })
+     },
   }
 }
 

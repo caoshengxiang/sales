@@ -277,6 +277,23 @@ const customerOpinionSta = resolve => require.ensure([],
   () => resolve(
     require('../view/saleManage/statisticalAnalysis/customerOpinion/list')),
   'customerOpinionSta')
+  
+// 商品管理
+// 商品列表
+const listOfGoods = resolve => require.ensure([],
+  () => resolve(
+    require('../view/saleManage/MOG/goodsList/list')),
+  'listOfGoods')
+// 商品详情
+const listOfGoodsDetail = resolve => require.ensure([],
+  () => resolve(
+    require('../view/saleManage/MOG/goodsList/detailInfo')),
+  'listOfGoodsDetail')
+// 新增商品
+const addGoods = resolve => require.ensure([],
+  () => resolve(
+    require('../view/saleManage/MOG/goodsList/add')),
+  'addGoods')
 
 // 销售前端 end
 // 销售前端 end
@@ -846,6 +863,41 @@ const router = new Router({
               {name: '销售管理系统', toName: 'saleHome'},
               {name: '服务管理'},
               {name: '服务工单管理'}],
+          },
+        }, {
+          path: 'listOfGoods',
+          name: 'listOfGoods',
+          component: listOfGoods,
+          meta: {
+            title: '商品列表管理',
+            pos: [
+              {name: '销售管理系统', toName: 'saleHome'},
+              {name: '商品管理'},
+              {name: '商品列表'}],
+          },
+        }, {
+          path: 'listOfGoodsDetail',
+          name: 'listOfGoodsDetail',
+          component: listOfGoodsDetail,
+          meta: {
+            title: '商品列表管理',
+            pos: [
+              {name: '销售管理系统', toName: 'saleHome'},
+              {name: '商品管理'},
+              {name: '商品列表', toName: 'listOfGoods'},
+              {name: '商品详情'}],
+          },
+        }, {
+          path: 'addGoods',
+          name: 'addGoods',
+          component: addGoods,
+          meta: {
+            title: '新增',
+            pos: [
+              {name: '销售管理系统', toName: 'saleHome'},
+              {name: '商品管理'},
+              {name: '商品列表', toName: 'listOfGoods'},
+              {name: '新增'}],
           },
         }, {
           path: 'customerBill',
