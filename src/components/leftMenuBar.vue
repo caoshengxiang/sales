@@ -90,13 +90,13 @@
           </el-menu-item-group>
         </el-submenu>
 
-        <el-submenu index="MOG">
+        <el-submenu index="MOG" v-if="listPermissions(menus, 'goodsManage')">
           <template slot="title">
             <i class="iconfont icon-shengchanguanli"></i>
             <span>商品管理</span>
           </template>
           <el-menu-item-group>
-            <el-menu-item index="listOfGoods">商品管理</el-menu-item>
+            <el-menu-item index="listOfGoods" v-if="listPermissions(menus, 'goodsChiManage')">商品管理</el-menu-item>
           </el-menu-item-group>
         </el-submenu>
 
