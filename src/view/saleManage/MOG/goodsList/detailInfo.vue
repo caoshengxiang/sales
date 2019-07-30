@@ -23,7 +23,7 @@
             <div class="fl ml10" style="margin-top: 2px;">
               <el-tag type="info" class="ml5" v-if="goodsDetail.billingType">{{goodsDetail.billingType === 'TIMES' && '计次' || goodsDetail.billingType === 'ANNUALLY' && '计时' || null}}</el-tag>
               <el-tag type="info" class="ml5" v-if="goodsDetail.servicePrincipalType">{{goodsDetail.servicePrincipalType === 'Person' && '个人' || goodsDetail.servicePrincipalType === 'Company' && '企业' || goodsDetail.servicePrincipalType === 'Both' && '个人/企业' || null}}</el-tag>
-              <el-tag type="info" class="ml5">{{goodsDetail.pullOff ? '上架' : '下架'}}</el-tag>
+              <el-tag type="info" class="ml5">{{goodsDetail.pullOff ? '下架' : '上架'}}</el-tag>
               <el-tag type="info" class="ml5" v-if="goodsDetail.pricingMethod">{{goodsDetail.pricingMethod == 1 && '标准商品' || goodsDetail.pricingMethod == 2 && '非标准商品' || null}}</el-tag>
             </div>
           </div>
@@ -73,7 +73,7 @@
               </el-table-column>
               <el-table-column align="center" label="价格">
                 <template slot-scope="scope">
-                  <span>{{scope.row.goodsRegionSpecificationsList.length ? (scope.row.goodsRegionSpecificationsList[scope.row.goodsRegionSpecificationsList.length - 1].price ? scope.row.goodsRegionSpecificationsList[scope.row.goodsRegionSpecificationsList.length - 1].price : scope.row.goodsRegionSpecificationsList[0].price) : ''}}</span>
+                  <span>{{scope.row.goodsRegionSpecificationsList.length ? (scope.row.goodsRegionSpecificationsList[scope.row.goodsRegionSpecificationsList.length - 1].price ? scope.row.goodsRegionSpecificationsList[scope.row.goodsRegionSpecificationsList.length - 1].price : scope.row.goodsRegionSpecificationsList[0].price) : scope.row.price}}</span>
                 </template>
               </el-table-column>
             </el-table>

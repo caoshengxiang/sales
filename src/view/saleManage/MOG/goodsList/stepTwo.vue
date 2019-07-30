@@ -12,6 +12,7 @@
                                 <el-option v-for="(item, i) in serviceAgreement" :key="i" :value='item.id' :label='item.name'></el-option>
                             </el-select>
                             <el-button class="ml10" type="primary" v-if='agreementUrl' style="background: #409eff; border-color: #409eff;"><a style="color: #fff; text-decoration: none;" :href="agreementUrl" target="_blank">预览</a></el-button>
+                            <!-- <el-button class="ml10" type="primary" v-if="agreementHtml" style="background: #409eff; border-color: #409eff;" @click="agreementHtmlShow = true">新预览</el-button> -->
                         </template>
                     </el-form-item>
                     <el-form-item label="是否服务商收费">
@@ -36,6 +37,16 @@
                 <span class="step-next-button ml20" @click="goDownStep(3)">下一步</span>
             </span>
         </p>
+        <el-dialog
+          title="模板预览"
+          :visible.sync="agreementHtmlShow"
+          width="80%"
+          center>
+          <div style="height: 500px;overflow: hidden;overflow-y: scroll;" v-html="agreementHtml"></div>
+          <span slot="footer" class="dialog-footer">
+            <el-button type="primary" @click="agreementHtmlShow = false">关 闭</el-button>
+          </span>
+        </el-dialog>
     </div>
 </template>
 
@@ -49,13 +60,15 @@
             return {
                 stepTwo: {
                     goodsAgreementId: '',                       //服务协议
-                    serviceProviderFees: null,                  //是否允许服务商收费
+                    serviceProviderFees: 0,                     //是否允许服务商收费
                     defaultContractIds: '',                     //签约主体
                 },
                 serviceAgreement: [],                           //服务协议
                 agreementUrl: '',                               //服务协议地址
                 subjectOfContract: [],                          //签约主体
                 defaultContract: [],                            //选择的签约主体
+                agreementHtmlShow: false,                       //是否显示预览html
+                agreementHtml: '',
             }
         },
         props: {
@@ -86,6 +99,7 @@
                         if(this.stepTwo.goodsAgreementId == ser.id) {
                           if(ser.goodsAgreementTemplateModel.attachmentUrl) {
                               this.agreementUrl = ser.goodsAgreementTemplateModel.attachmentUrl;
+                              this.agreementHtml = ser.templateValue;
                           }
                         }
                       })
@@ -106,6 +120,7 @@
                       this.stepTwo.goodsAgreementId = data.goodsAgreementModel.id
                       if(data.goodsAgreementModel.goodsAgreementTemplateModel) {
                         this.agreementUrl = data.goodsAgreementModel.goodsAgreementTemplateModel.attachmentUrl
+                        this.agreementHtml = data.goodsAgreementModel.templateValue
                       }
                     }
                 }
@@ -131,8 +146,10 @@
                     if(serviceId == item.id) {
                         if(item.goodsAgreementTemplateModel.attachmentUrl) {
                             this.agreementUrl = item.goodsAgreementTemplateModel.attachmentUrl;
+                            this.agreementHtml = item.templateValue;
                         }else {
                             this.agreementUrl = '';
+                            this.agreementHtml = ''
                         }
                     }
                 })

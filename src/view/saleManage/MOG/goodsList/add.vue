@@ -283,7 +283,7 @@
                 delete b.spec;
               })
             }
-            delete a.price
+            // delete a.price
           })
           // 组合城市数据
           let _de = ~~this.$route.query.detail;

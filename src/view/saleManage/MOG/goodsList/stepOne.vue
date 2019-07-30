@@ -276,7 +276,6 @@
                   })
                 }
 
-
                 data.goodsRegionList.forEach((goods, i) => {
                   if(goods.goodsRegionSpecificationsList.length) {
                     goods.price = goods.goodsRegionSpecificationsList[goods.goodsRegionSpecificationsList.length - 1].price
@@ -341,7 +340,7 @@
                 if(message) return this.$message.warning(message);
                 if(!this.goodsRegionSpecificationsList.length && !this.stepOne.goodsRegionList.length) return this.$message.warning('请添加产品规格行列');
                 if(this.goodsRegionSpecificationsList.length && !this.stepOne.goodsRegionList.length) return this.$message.warning('请添加产品规格行');
-                if(!this.goodsRegionSpecificationsList.length && this.stepOne.goodsRegionList.length) return this.$message.warning('请添加产品规格列');
+                // if(!this.goodsRegionSpecificationsList.length && this.stepOne.goodsRegionList.length) return this.$message.warning('请添加产品规格列');
                 if(hasArea) return this.$message.warning('请完善产品规格地区');
                 if(hasSpec) return this.$message.warning('请完善产品规格');
                 if(hasPrice) return this.$message.warning('请完善产品规格价格');

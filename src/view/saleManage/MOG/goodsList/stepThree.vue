@@ -121,7 +121,7 @@
     import API from '../../../../utils/api'
     import webStorage from 'webStorage'
     import Editor from 'wangeditor';
-    import 'wangeditor/release/wangEditor.min.css';
+    // import 'wangeditor/release/wangEditor.min.css';
     import workOrder from './addWorkOrder'
     import { uploadUrl } from '../../../../utils/const'
     import { mapState, mapMutations  } from 'vuex'
@@ -131,7 +131,6 @@
             return {
                 userInfo: webStorage.getItem('userInfo'),
                 imgUrl: '',
-                editor: {},
                 liHeight: '45px',
                 prossesInfo: 1,
                 stepThree: {
@@ -358,20 +357,20 @@
                 this.goodsWorkList.splice(idx, 1);
             },
             createdEditor() {
-                this.editor = new Editor('#serviceContent');
-                this.editor.customConfig.zIndex = 100;
+                var zxEditor = new Editor('#serviceContent');
+                zxEditor.customConfig.zIndex = 100;
                 //把这个html通过catchData的方法传入父组件
-                this.editor.customConfig.onchange = html => {
+                zxEditor.customConfig.onchange = html => {
                     this.stepThree.information = html;
                 };
-                this.editor.customConfig.uploadImgShowBase64 = true
-                this.editor.customConfig.uploadImgServer = uploadUrl;
-                this.editor.customConfig.uploadFileName = 'file'
-                this.editor.customConfig.uploadImgHeaders = {
+                zxEditor.customConfig.uploadImgShowBase64 = true
+                zxEditor.customConfig.uploadImgServer = uploadUrl;
+                zxEditor.customConfig.uploadFileName = 'file'
+                zxEditor.customConfig.uploadImgHeaders = {
                     authKey: this.userInfo.authKey //头部token
                 };
                 //下面是最重要的的方法
-                this.editor.customConfig.uploadImgHooks = {
+                zxEditor.customConfig.uploadImgHooks = {
                     before: function(xhr, editor, files) {
                         // 图片上传之前触发
                         // xhr 是 XMLHttpRequst 对象，editor 是编辑器对象，files 是选择的图片文件
@@ -412,7 +411,7 @@
                     }
                 };
                 // 自定义颜色
-                this.editor.customConfig.colors = [
+                zxEditor.customConfig.colors = [
                     '#000000',
                     '#eeece0',
                     '#1c487f',
@@ -440,13 +439,13 @@
                     '#aaaaaa',
                     '#E1E1E1'
                 ]
-                this.editor.create();
+                zxEditor.create();
                 // 如果编辑情况下填充已经填写的内容
                 if(webStorage.getItem('stepThree')) {
-                    this.editor.txt.html(this.stepThree.information)
+                    zxEditor.txt.html(this.stepThree.information)
                 }else {
                   if(~~this.$route.query.detail) {
-                    this.editor.txt.html(this.detail.information)
+                    zxEditor.txt.html(this.detail.information)
                   }
                 }
             },
@@ -726,7 +725,11 @@
     }
 </style>
 <style scoped>
-    .step-content >>> .w-e-text-container {
+   .step-content >>> .w-e-text-container {
         height: 160px !important;
+    }
+   .step-content >>> .w-e-droplist {
+      height: 161px;
+      overflow: scroll;
     }
 </style>
