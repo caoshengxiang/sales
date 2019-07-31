@@ -65,6 +65,7 @@
         loading: false,
         isFormDisabled: false,
         form: {
+          name: '',
           pid: 0,
 					code: '',
 					sort: '',

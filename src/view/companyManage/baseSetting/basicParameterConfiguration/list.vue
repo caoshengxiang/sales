@@ -65,7 +65,7 @@
 			</span>
 		</el-tree>
 	</div>
-	
+
 	<!-- 行业配置 -->
 	<div class="com-box com-box-padding com-list-box"  v-if='activeName === "industry"'>
 		<table :style='list.length > 0 ? "width: 100%; min-width: 984px; border-bottom-color: #fff;" : "width: 100%; min-width: 984px; border-bottom-color: #DDDDDD;"' border="1" bordercolor="#DDDDDD">
@@ -108,7 +108,7 @@
 			</span>
 		</el-tree>
 	</div>
-	
+
 	<!-- 职位配置 -->
 	<div class="com-box com-box-padding com-list-box"  v-if='activeName === "place"'>
 		<table :style='list.length > 0 ? "width: 100%; min-width: 984px; border-bottom-color: #fff;" : "width: 100%; min-width: 984px; border-bottom-color: #DDDDDD;"' border="1" bordercolor="#DDDDDD">
@@ -152,7 +152,7 @@
 		</el-tree>
 	</div>
 		<!-- 转移弹框 -->
-		<el-dialog 
+		<el-dialog
 			title='转移'
 			:visible.sync="dialogVisible"
 			width='430px'
@@ -164,14 +164,14 @@
 												@change="areaSelectedOptionsHandleChange"
 												:selectLastLevelMode="false"
 												area='请选择要转移到的位置'></AreaSelect>
-						
+
 					</el-form-item>
 					<el-form-item label="转移至" v-if='activeName === "industry"'>
 						<IndustrySelect ref="areaSe"
 												@change="areaSelectedOptionsHandleChange"
 												:selectLastLevelMode="false"
 												area='请选择要转移到的位置'></IndustrySelect>
-						
+
 					</el-form-item>
 				</el-form>
 			</div>
@@ -255,7 +255,7 @@
           that.loading = false
           if (res.status) {
             that.list = res.data
-						console.log(that.list)
+						// console.log(that.list)
 						setTimeout(()=> {
 							$('.el-tree-node__content').css({'borderTop': '1px solid #DDDDDD', 'borderLeft': '1px solid #DDDDDD', 'borderRight': '1px solid #DDDDDD', 'height': '45px'})
 						}, 500)
@@ -272,7 +272,7 @@
             type: 'error',
           })
         })
-				
+
 			},
 			// 获取职位配置
 			getPlace () {
@@ -282,7 +282,7 @@
           that.loading = false
           if (res.status) {
             that.list = res.data
-						console.log(that.list)
+						// console.log(that.list)
 						setTimeout(()=> {
 							$('.el-tree-node__content').css({'borderTop': '1px solid #DDDDDD', 'borderLeft': '1px solid #DDDDDD', 'borderRight': '1px solid #DDDDDD', 'height': '45px'})
 						}, 500)
@@ -299,7 +299,7 @@
             type: 'error',
           })
         })
-				
+
 			},
       init () {
         var that = this;
@@ -315,7 +315,7 @@
 					default:
 						this.getRegion();
 						break;
-				} 
+				}
       },
       add (node) {
         var that = this
@@ -518,7 +518,7 @@
 							})
 						})
 						break;
-				} 
+				}
 			},
       handleNodeClick () {
         var that = this;
@@ -701,7 +701,7 @@
       background-color: $select_bg;
     }
   }
-	
+
 	.right-span {
     height: 100%;
     line-height: 46px;
@@ -742,7 +742,7 @@
 	.el-tabs__header {
 		margin-bottom: 0 !important;
 	}
-	
+
 	.el-tabs__item.is-active {
 		color: #67c23a !important;
 	}
