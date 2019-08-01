@@ -47,7 +47,7 @@
         <el-table-column
           align="center"
           sortable="custom"
-          prop="goodsId"
+          prop="goodsFlag"
           label="商品ID"
           show-overflow-tooltip
           width="160">
