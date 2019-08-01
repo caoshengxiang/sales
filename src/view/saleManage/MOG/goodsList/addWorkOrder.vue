@@ -23,7 +23,7 @@
                     <el-row class="el-row-cla">
                         <el-col :span="12">
                             <el-form-item label='服务佣金'>
-                                <el-select v-model="addForm.commissionType" placeholder="请选择">
+                                <el-select v-model="addForm.commissionType" placeholder="请选择" style="width: 190px;">
                                     <el-option :value="1" label="按比例返佣"></el-option>
                                     <el-option :value="2" label="固定返佣"></el-option>
                                 </el-select>

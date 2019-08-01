@@ -59,8 +59,8 @@
                             <div class="service-table-item-top" :style="'background: ' + (!item.selected ? 'none;' : '#F5FDFE;')">
                                 <div class="service-table-item">{{getName(item.serviceTypeId)}}</div>
                                 <div class="service-table-item"><span class="table-title-title"></span>{{searchManager(item.serviceManagerType)}}</div>
-                                <div class="service-table-item"><span class="table-title-title">{{commissionType[item.commissionType]}} — {{item.commissionProportion}}</span></div>
-                                <div class="service-table-item"><span class="table-title-title">{{item.timeLimit}}</span></div>
+                                <div class="service-table-item"><span class="table-title-title">{{commissionType[item.commissionType]}} — {{item.commissionProportion}}{{item.commissionType == 1 && '%' || item.commissionType == 2 && '天' || ''}}</span></div>
+                                <div class="service-table-item"><span class="table-title-title">{{item.timeLimit}}天</span></div>
                                 <div class="service-table-item"><span class="table-title-title">{{processType[item.process]}}</span></div>
                                 <div class="service-table-item">
                                     <div class="table-title-title">
