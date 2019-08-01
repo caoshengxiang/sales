@@ -73,7 +73,7 @@
                             </div>
                             <div class="service-table-item-bottom">
                                 <p class='stepOne-head'>
-                                    <span class='stepOne-head-title'>工单流程</span>
+                                    <span class='stepOne-head-title'>工单环节</span>
                                 </p>
                                 <div class="prosses-info">
                                     <div class="prosses-info-left">
@@ -83,7 +83,7 @@
                                     </div>
                                     <div class="prosses-info-right">
                                         <p class="prosses-info-right-head">
-                                            <span>延期时限: {{selectPoressDetal.timeLimit}}</span>
+                                            <span>延期时限: {{selectPoressDetal.timeLimit}}天</span>
                                             <span class="ml20">延期审批角色: {{approvalRole[selectPoressDetal.approvalRole]}}</span>
                                         </p>
                                         <div class="prosses-info-right-table">

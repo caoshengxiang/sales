@@ -223,7 +223,7 @@
             <!-- <el-button type="text" @click="operateOptions('edit', scope.row)">编辑</el-button> -->
             <el-button type="text" @click="showRecommentModel(scope.row)">推荐</el-button>
             <el-button type="text" @click="setSortModel(scope.row)">排序值</el-button>
-            <el-button type="text" @click="versionReplacement(scope.row.goodsFlag)">版本设置</el-button>
+            <el-button type="text" @click="versionReplacement(scope.row.goodsFlag, scope.row)">版本设置</el-button>
             <!-- <el-button type="text">历史数据处理</el-button> -->
           </template>
         </el-table-column>
@@ -351,6 +351,7 @@
       <div class="goodsEdition-div">
         <el-scrollbar style="height: 100%">
           <ul>
+            <li class="mb15">商品名称: {{benRow.goodsName}}</li>
             <li class="goodsEdition-li voerflow" v-for="(item, i) in versionAll" :key="i">
               <span class="editionNum fl">{{item.versionNum}}</span>
               <div class="fr" style="width: 60px; min-height: 1px;">
@@ -426,6 +427,7 @@
         productType: [],                              //商品类别
         advancedSearch: {},                           // 高级搜索
         deleteImg: [],                                //要删除的图片
+        benRow: {},
       }
     },
     watch: {
@@ -623,9 +625,10 @@
         })
       },
       // 弹出版本设置
-      versionReplacement (id) {
+      versionReplacement (id, row) {
         this.versionAll = [];
         this.versionGoodsId = id;
+        this.benRow = row;
         this.getAllVersion();
         this.goodsEditionDialog = true;
       },

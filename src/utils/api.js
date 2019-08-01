@@ -974,6 +974,16 @@ const API1 = {
         error && error(err)
       })
     },
+    getCustomerRenewalRoel (success, error) {    //获取是否有客户续签的权限
+      $axios({
+        method: 'get',
+        url: '/salerOrder/checkAuthority/renewal',
+      }).then(res => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+    },
     add (params, success, error) {
       $axios.post('salerChance', params).then((res) => {
         success && success(res.data)
@@ -2586,6 +2596,28 @@ const API1 = {
             error && error(errorData)
         })
     },
+    getStatisticsOfServices (params, success, error) { // 服务事项统计
+      $axios({
+          method: 'get',
+          url: 'countSystem/serviceRecord',
+          params: params,
+      }).then((res) => {
+          success && success(res.data)
+      }).catch((errorData) => {
+          error && error(errorData)
+      })
+    },
+    getStatisticsOfServicesDetail (params, success, error) { // 服务事项统计详情
+      $axios({
+          method: 'get',
+          url: 'countSystem/serviceRecordDetail',
+          params: params,
+      }).then((res) => {
+          success && success(res.data)
+      }).catch((errorData) => {
+          error && error(errorData)
+      })
+    },
   },
   // 商品管理
   zhuxinGoodsManage: {
@@ -2713,7 +2745,7 @@ const API1 = {
     },
     // 更改商品排序 id,goodsSort;;; 商品推荐
     editProductSort (params, success, error) {
-      $axios.put('goodsType/update', params).then((res) => {
+      $axios.put('goodsType/updateSort', params).then((res) => {
         success && success(res.data)
       }).catch((err) => {
         error && error(err)

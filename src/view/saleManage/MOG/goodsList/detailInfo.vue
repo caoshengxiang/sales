@@ -120,9 +120,9 @@
                       <div class="service-table-item-top" :style="'background: ' + (!item.selected ? 'none;' : '#F5FDFE;')">
                           <div class="service-table-item">{{item.serviceTypeName}}</div>
                           <div class="service-table-item"><span class="table-title-title"></span>{{searchManager(item.serviceManagerType)}}</div>
-                          <div class="service-table-item"><span class="table-title-title">{{commissionType[item.commissionType]}} — {{item.commissionProportion}}</span></div>
-                          <div class="service-table-item"><span class="table-title-title">完成时限{{item.timeLimit}}天</span></div>
-                          <div class="service-table-item"><span class="table-title-title">{{processType[item.process]}}</span></div>
+                          <div class="service-table-item"><span class="table-title-title">{{commissionType[item.commissionType]}} — {{item.commissionProportion}}{{item.commissionType == 1 && '%' || item.commissionType == 2 && '元' || ''}}</span></div>
+                          <div class="service-table-item"><span class="table-title-title">完成时限: {{item.timeLimit}}天</span></div>
+                          <div class="service-table-item"><span class="table-title-title">工单服务方式: {{processType[item.process]}}</span></div>
                           <div class="service-table-item">
                               <div class="table-title-title">
                                   <el-button type="text" @click="lookProcess(item)" style="color: #1E88E5;">查看 <i :class="!item.selected ? 'el-icon-caret-right' : 'el-icon-caret-bottom'"></i></el-button>
@@ -131,7 +131,7 @@
                       </div>
                       <div class="service-table-item-bottom">
                           <p class='stepOne-head'>
-                              <span class='stepOne-head-title'>工单流程</span>
+                              <span class='stepOne-head-title'>工单环节</span>
                           </p>
                           <div class="prosses-info">
                               <div class="prosses-info-left">
@@ -141,7 +141,7 @@
                               </div>
                               <div class="prosses-info-right">
                                   <p class="prosses-info-right-head">
-                                      <span>延期时限: {{selectPoressDetal.timeLimit}}</span>
+                                      <span>延期时限: {{selectPoressDetal.timeLimit}}天</span>
                                       <span class="ml20">延期审批角色: {{approvalRole[selectPoressDetal.approvalRole]}}</span>
                                   </p>
                                   <div class="prosses-info-right-table">
