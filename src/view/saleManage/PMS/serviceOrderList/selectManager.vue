@@ -1,18 +1,16 @@
 <template>
   <div class="com-dialog-container">
     <div class="com-dialog">
-      <span v-if="showLimit">
-      <el-row class="el-row-cla" >
-          <el-row>
-            <el-col :span="6">
-              工单完结时长：
-            </el-col>
-            <el-col :span="18">
-              <el-input type="number" v-model="limitTime"></el-input>
-            </el-col>
-          </el-row>
-      </el-row>
-      </span>
+      <div v-if="showLimit" class="workOrder-time-date">
+        <el-row class="el-row-cla" >
+          <el-col :span="4">
+            工单完结时长：
+          </el-col>
+          <el-col :span="5">
+            <el-input class="workOrder-input" type="number" v-model.number="limitTime" placeholder="请输入工单完结时长"></el-input>
+          </el-col>
+        </el-row>
+      </div>
       <el-table
         ref="multipleTable"
         border
@@ -50,7 +48,7 @@
         </el-table-column>
       </el-table>
       <div slot="footer" class="dialog-footer">
-        <el-button class="save-button" @click="saveSubmitForm" :disabled="multipleSelection.length != 1 || limitTime &lt; 1 && showLimit">确 定</el-button>
+        <el-button class="save-button" @click="saveSubmitForm" :disabled="multipleSelection.length != 1 || limitTime &lt; 1 && showLimit || !reg.test(limitTime) || limitTime == 0">确 定</el-button>
       </div>
     </div>
   </div>
@@ -65,6 +63,7 @@
         multipleSelection: [],
         managerList: [],
         limitTime: 0,
+        reg: /^([0-9]*)$/,
         showLimit: false,
         managerCategory: [ // 管家类别
           {
@@ -145,4 +144,10 @@
 
 <style scoped lang="scss" rel="stylesheet/scss">
   @import "../../../../styles/common";
+  .workOrder-time-date {
+    margin-bottom: 15px;
+  }
+  .workOrder-input {
+    margin-top: -6px;
+  }
 </style>
