@@ -25,7 +25,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button class="cancel-button" @click="$vDialog.close({type: 'cancel'})">取 消</el-button>
-        <el-button class="save-button" @click="saveSubmitForm('addForm')">确 定</el-button>
+        <el-button class="save-button" @click="saveSubmitForm('addForm')" :loading="buttonLoading">确 定</el-button>
       </div>
     </div>
   </div>
@@ -43,6 +43,7 @@
       return {
         dataLoading: false, // loading
         orderDetail: null,
+        buttonLoading: false, //确定的lodading
         addForm: { // 添加表单
           salerOrderId: '',
           mobilePhone: '',
@@ -72,12 +73,14 @@
         this.$refs[formName].validate((valid) => {
           if (valid) {
             this.dataLoading = true
+            this.buttonLoading = true;
             API.salesOrder.appOrder(this.addForm, (da) => {
               setTimeout(() => {
                 this.dataLoading = false
                 if (da.status) {
                   this.$message.success('APP下单成功成功')
                   this.$vDialog.close({type: 'save'})
+                  this.buttonLoading = false;
                 }
               }, 500)
             })

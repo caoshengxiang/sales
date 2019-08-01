@@ -73,7 +73,7 @@
                             </div>
                             <div class="service-table-item-bottom">
                                 <p class='stepOne-head'>
-                                    <span class='stepOne-head-title'>工单流程【代办业务流程】</span>
+                                    <span class='stepOne-head-title'>工单流程</span>
                                 </p>
                                 <div class="prosses-info">
                                     <div class="prosses-info-left">
@@ -459,7 +459,7 @@
 
     .divPosition {
         background: #fff;
-        padding: 20px 15px 25px 15px;
+        padding: 20px 30px 25px 30px;
     }
     .fwb {
         width: 100%;
@@ -697,13 +697,13 @@
             margin-bottom: 30px;
             .step-last-button {
                 display: inline-block;
-                width: 180px;
-                height: 40px;
+                width: 179px;
+                height: 39px;
+                border: 1px solid #4BCF99;
+                color: #4BCF99;
                 line-height: 40px;
                 text-align: center;
-                background: #E0E3E7;
                 font-size: 14px;
-                color: #fff;
                 cursor: pointer;
                 margin-top: 50px;
                 border-radius: 4px;

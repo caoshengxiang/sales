@@ -101,9 +101,10 @@
             <el-form-item label="创建时间：">
               <el-date-picker
                 v-model="created"
-                type="daterange"
                 @change="timeIntervalHandle"
                 :default-value="lastMonthDate()"
+                type="datetimerange"
+                value-format="yyyy-MM-dd HH:mm:ss"
                 range-separator="至"
                 start-placeholder="开始日期"
                 end-placeholder="结束日期">

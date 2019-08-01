@@ -193,13 +193,13 @@
 
     .divPosition {
         background: #fff;
-        padding: 20px 15px 25px 15px;
+        padding: 20px 30px 25px 30px;
     }
 
     .step-content {
         width: 100%;
         .stepOne-head {
-            padding: 15px 15px;
+            padding: 15px 0;
             width: calc(100% - 30px);
             .stepOne-head-title {
                 font-size: 15px;
@@ -209,7 +209,6 @@
             }
         }
         .com-dialog {
-            padding-left: 15px;
 
             .step-last-button {
                 display: inline-block;
@@ -243,13 +242,13 @@
             margin-bottom: 30px;
             .step-last-button {
                 display: inline-block;
-                width: 180px;
-                height: 40px;
+                width: 179px;
+                height: 39px;
+                border: 1px solid #4BCF99;
+                color: #4BCF99;
                 line-height: 40px;
                 text-align: center;
-                background: #E0E3E7;
                 font-size: 14px;
-                color: #fff;
                 cursor: pointer;
                 margin-top: 50px;
                 border-radius: 4px;

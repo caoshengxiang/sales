@@ -392,7 +392,7 @@ export default {
 
     .divPosition {
         background: #fff;
-        padding: 20px 15px 25px 15px;
+        padding: 20px 30px 25px 30px;
     }
 
     .step-content {
@@ -428,13 +428,13 @@ export default {
             margin-top: 20px;
             .step-last-button {
                 display: inline-block;
-                width: 180px;
-                height: 40px;
+                width: 179px;
+                height: 39px;
+                border: 1px solid #4BCF99;
+                color: #4BCF99;
                 line-height: 40px;
                 text-align: center;
-                background: #e0e3e7;
                 font-size: 14px;
-                color: #fff;
                 cursor: pointer;
                 margin-top: 50px;
                 border-radius: 4px;

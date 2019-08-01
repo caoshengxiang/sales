@@ -22,12 +22,13 @@
                     </el-row>
                     <el-row class="el-row-cla">
                         <el-col :span="12">
-                            <el-form-item label='佣金比例'>
+                            <el-form-item label='服务佣金'>
                                 <el-select v-model="addForm.commissionType" placeholder="请选择">
                                     <el-option :value="1" label="按比例返佣"></el-option>
                                     <el-option :value="2" label="固定返佣"></el-option>
                                 </el-select>
-                                <el-input type="number" v-model.number="addForm.commissionProportion" placeholder="请输入" style="width: 90px;"></el-input>
+                                <el-input type="number" v-model.number="addForm.commissionProportion" placeholder="请输入" style="width: 70px;"></el-input>
+                                <span style="color: #606266;">{{addForm.commissionType == 1 && '%' || addForm.commissionType == 2 && '元' || ''}}</span>
                             </el-form-item>
                         </el-col>
                         <el-col :span="12">
@@ -38,7 +39,7 @@
                     </el-row>
                 </el-form>
             </div>
-            <p class="com-titles">工单流程</p>
+            <p class="com-titles">工单环节设置</p>
             <div class="prosses">
                 <el-form class='el-form' :model="addForm" ref="addForm" label-width="130px">
                     <el-form-item label='工单服务环节类型'>
@@ -61,8 +62,8 @@
                         <div class="service-info-content-top">
                             <span class="fl">
                                 <img src="../../../../assets/icon/sevice-wujiaoxing.png" alt="">
-                                <span>流程名称</span>
-                                <el-input v-model="startService.name" placeholder="请输入流程名称" style="width: 200px;" class="ml10" disabled></el-input>
+                                <span>环节名称</span>
+                                <el-input v-model="startService.name" placeholder="请输入环节名称" style="width: 200px;" class="ml10" disabled></el-input>
                             </span>
                             <span class="fr">
                                 <span>延期角色</span>
@@ -77,8 +78,8 @@
                         </div>
                         <div class="service-info-content-bottom">
                             <p class="content-top">
-                                <span class="fl">服务事项</span>
-                                <el-button class="fr" type="text" icon="el-icon-plus" @click="addInList('start', 'none')">新增</el-button>
+                                <span class="fl" style="line-height: 25px;">服务事项</span>
+                                <el-button class="fl ml10" type="success" plain size="mini" icon="el-icon-plus" @click="addInList('start', 'none')">新增</el-button>
                             </p>
                             <div class="content-bottom">
                                 <el-table
@@ -119,8 +120,8 @@
                             </div>
                             <span class="fl">
                                 <img src="../../../../assets/icon/sevice-wujiaoxing.png" alt="">
-                                <span>流程名称</span>
-                                <el-input v-model="item.name" placeholder="请输入流程名称" style="width: 200px;" class="ml10"></el-input>
+                                <span>环节名称</span>
+                                <el-input v-model="item.name" placeholder="请输入环节名称" style="width: 200px;" class="ml10"></el-input>
                             </span>
                             <span class="fr">
                                 <span>延期角色</span>
@@ -135,8 +136,8 @@
                         </div>
                         <div class="service-info-content-bottom">
                             <p class="content-top">
-                                <span class="fl">服务事项</span>
-                                <el-button class="fr" type="text" icon="el-icon-plus" @click="addInList('center', i)">新增</el-button>
+                                <span class="fl" style="line-height: 25px;">服务事项</span>
+                                <el-button class="fl ml10" type="success" plain size="mini" icon="el-icon-plus" @click="addInList('center', i)">新增</el-button>
                             </p>
                             <div class="content-bottom">
                                 <el-table
@@ -168,7 +169,7 @@
                         </div>
                     </li>
                     <li>
-                        <span><el-button type="success" plain icon="el-icon-plus" style="width: 550px;" @click="addOutList">添加流程</el-button></span>
+                        <span><el-button type="success" plain icon="el-icon-plus" style="width: 550px;" @click="addOutList">添加环节</el-button></span>
                     </li>
 <!--                    <li>
                         <span class="fixed-title"><img src="../../../../assets/icon/sevice-wujiaoxing.png" alt=""> 结束服务</span>
@@ -179,8 +180,8 @@
                         <div class="service-info-content-top">
                             <span class="fl">
                                 <img src="../../../../assets/icon/sevice-wujiaoxing.png" alt="">
-                                <span>流程名称</span>
-                                <el-input v-model="endService.name" placeholder="请输入流程名称" style="width: 200px;" class="ml10" disabled></el-input>
+                                <span>环节名称</span>
+                                <el-input v-model="endService.name" placeholder="请输入环节名称" style="width: 200px;" class="ml10" disabled></el-input>
                             </span>
                             <span class="fr">
                                 <span>延期角色</span>
@@ -195,8 +196,8 @@
                         </div>
                         <div class="service-info-content-bottom">
                             <p class="content-top">
-                                <span class="fl">服务事项</span>
-                                <el-button class="fr" type="text" icon="el-icon-plus" @click="addInList('end', 'none')">新增</el-button>
+                                <span class="fl" style="line-height: 25px;">服务事项</span>
+                                <el-button class="fl ml10" type="success" plain size="mini" icon="el-icon-plus" @click="addInList('end', 'none')">新增</el-button>
                             </p>
                             <div class="content-bottom">
                                 <el-table
@@ -270,14 +271,14 @@
                 matterAll: [],                     //所有事项
                 selectedMatter: [],                //已选择的事项
                 startService: {                    //固定开始服务
-                    name: '开始服务',                    //流程名称
+                    name: '开始服务',                    //环节名称
                     approvalRole: '',                   //延期角色
                     timeLimit: '',                      //延期时限
                     serviceModuleItemModelList: [],     //开始服务的服务事项
                     selected: true,
                 },
                 endService: {                      //固定结束服务
-                    name: '结束服务',                    //流程名称
+                    name: '结束服务',                    //环节名称
                     approvalRole: '',                   //延期角色
                     timeLimit: '',                      //延期时限
                     serviceModuleItemModelList: [],     //结束服务的服务事项
@@ -332,7 +333,9 @@
             }
         },
         props: ['params'],
-        mounted () {},
+        mounted () {
+          $('.el-table__empty-text').html('请添加服务事项');
+        },
         methods: {
             // 选择工单流程类型时
             selectProessType () {
@@ -347,6 +350,9 @@
             addOutList () {
                 this.serviceModuleModelList.push({name: '', timeLimit: '', approvalRole: '', serviceModuleItemModelList: [], selected: false})
                 console.log(this.serviceModuleModelList)
+                setTimeout(function() {
+                  $('.el-table__empty-text').html('请添加服务事项');
+                }, 500);
             },
             // 添加流程内的服务事项
             addInList (type, num) {
@@ -463,7 +469,7 @@
                     })
 
                 }
-                let messages = _outName && '请完善流程名称' ||
+                let messages = _outName && '请完善环节名称' ||
                                _times && '请完善延期时限' ||
                                _role && '请完善延期角色' ||
                                _hasInProsess && '请完善流程服务事项' || null;
@@ -515,7 +521,7 @@
     .workOrder {
         width: 100%;
         height: 100%;
-        padding: 15px;
+        padding: 15px 40px;
         box-sizing: border-box;
         .com-titles {
             width: 100%;
@@ -555,7 +561,7 @@
                     background: #FAFAFA;
                     position: relative;
                     .service-info-content-top {
-                        padding: 0 15px 10px 15px;
+                        padding: 0 20px 10px 20px;
                         // height: 50px;
                         line-height: 50px;
                         color: #333E48;
@@ -573,7 +579,7 @@
                         }
                     }
                     .service-info-content-bottom {
-                        padding: 0 15px;
+                        padding: 0 20px;
                         .content-top {
                             overflow: hidden;
                             padding: 10px 0;
@@ -600,4 +606,15 @@
             border-radius: 4px;
         }
     }
+</style>
+<style scoped>
+  .service-info-content >>> th {
+    background-color: #FAFAFA !important;
+  }
+  .service-info-content >>> td {
+    background-color: #FAFAFA !important;
+  }
+  .service-info-content >>> .el-table__empty-block {
+    background-color: #FAFAFA !important;
+  }
 </style>

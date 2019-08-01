@@ -131,7 +131,7 @@
                       </div>
                       <div class="service-table-item-bottom">
                           <p class='stepOne-head'>
-                              <span class='stepOne-head-title'>工单流程【代办业务流程】</span>
+                              <span class='stepOne-head-title'>工单流程</span>
                           </p>
                           <div class="prosses-info">
                               <div class="prosses-info-left">

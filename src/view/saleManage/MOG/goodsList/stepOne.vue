@@ -550,7 +550,7 @@
     .fr {float: right;}
   .divPosition {
       background: #fff;
-      padding: 20px 15px 25px 15px;
+      padding: 20px 30px 25px 30px;
   }
   .step-content {
       width: 100%;

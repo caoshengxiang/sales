@@ -19,10 +19,10 @@
         <!-- </com-button> -->
       </div>
       <div class="com-bar-right" v-if="themeIndex === 0"><!--前端-->
-        <el-button type="primary" icon="el-icon-news" :disabled="multipleSelection.length < 1" @click="setProductType">返佣类别</el-button>
-        <el-button type="primary" icon="el-icon-sort-up" :disabled="multipleSelection.length < 1" @click="setGoods(1)">上架</el-button>
-        <el-button type="primary" icon="el-icon-sort-down" :disabled="multipleSelection.length < 1" @click="setGoods(2)">下架</el-button>
-        <el-button type="primary" icon="el-icon-sort-up" :disabled="multipleSelection.length < 1" @click="setIsOnlineSales('')">线上销售设置</el-button>
+        <el-button style="background: #39C189 !important;" type="primary" icon="el-icon-news" :disabled="multipleSelection.length < 1" @click="setProductType">返佣类别</el-button>
+        <el-button style="background: #39C189 !important;" type="primary" icon="el-icon-sort-up" :disabled="multipleSelection.length < 1" @click="setGoods(1)">上架</el-button>
+        <el-button style="background: #39C189 !important;" type="primary" icon="el-icon-sort-down" :disabled="multipleSelection.length < 1" @click="setGoods(2)">下架</el-button>
+        <el-button style="background: #39C189 !important;" type="primary" icon="el-icon-sort-up" :disabled="multipleSelection.length < 1" @click="setIsOnlineSales('')">线上销售设置</el-button>
         <com-button buttonType="search" @click="advancedSearchHandle">高级搜索</com-button>
       </div>
     </div>
@@ -578,7 +578,7 @@
         if(!this.sort) return this.$message.warning('请输入大于0得排序值');
         let row = this.sortRow;
         let _data = {
-          id: row.id,
+          goodsFlag: row.goodsFlag,
           goodsSort: this.sort,
         };
         API.zhuxinGoodsManage.editProductSort(_data, (data) => {
@@ -692,14 +692,14 @@
             new_h = h - 260;
         this.posheight = new_h;
       },
-        // 获取产品类型
-        getProductType () {
-            API.zhuxinGoodsManage.addProductType(0, (data) => {
-                if(data.status) {
-                    this.productType = data.data;
-                }
-            })
-        },
+      // 获取产品类型
+      getProductType () {
+          API.zhuxinGoodsManage.addProductType(0, (data) => {
+              if(data.status) {
+                  this.productType = data.data;
+              }
+          })
+      },
       advancedSearchHandle () {
         this.$vDialog.modal(advancedSearch, {
           title: '高级搜索',
@@ -714,6 +714,7 @@
               console.log('高级搜索数据：', data.params)
               this.currentPage = 1;
               this.advancedSearch = data.params
+              this.tableDataTotal = 0;
               this.getGoodsList()
             }else {
                 this.advancedSearch = {};
@@ -751,6 +752,7 @@
         this.dataLoading = true
         this.getQueryParams()
         //排序增加 this.sortObj
+        console.log(1111, this.advancedSearch);
         API.zhuxinGoodsManage.getGoodsList(Object.assign({}, this.defaultListParams, this.sortObj, this.advancedSearch), (data) => {
           if(data.status) {
               this.tableData = data.data.content
