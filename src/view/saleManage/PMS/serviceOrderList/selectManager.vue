@@ -48,7 +48,7 @@
         </el-table-column>
       </el-table>
       <div slot="footer" class="dialog-footer">
-        <el-button class="save-button" @click="saveSubmitForm" :disabled="multipleSelection.length != 1 || limitTime &lt; 1 && showLimit || !reg.test(limitTime) || limitTime == 0">确 定</el-button>
+        <el-button class="save-button" @click="saveSubmitForm" :disabled="multipleSelection.length != 1 || showLimit && limitTime < 1 || showLimit && !reg.test(limitTime)">确 定</el-button>
       </div>
     </div>
   </div>
