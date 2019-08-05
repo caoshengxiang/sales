@@ -129,7 +129,7 @@ const housekeeperEnterDetail = resolve => require.ensure([],
   () => resolve(
     require('../view/saleManage/taskApproval/housekeeperEnter/detail')),
   'housekeeperEnter')
-  
+
 // --------------会议管理----------------
 // 活动会议
 const meetingActivity = resolve => require.ensure([],
@@ -252,6 +252,16 @@ const serviceBillSta = resolve => require.ensure([],
   () => resolve(
     require('../view/saleManage/statisticalAnalysis/customerBill/list')),
   'serviceBillSta')
+// 服务事项统计
+const serviceEventStatistics = resolve => require.ensure([],
+  () => resolve(
+    require('../view/saleManage/statisticalAnalysis/serviceEventStatistics/list')),
+  'serviceEventStatistics')
+// 服务事项统计明细表
+const serviceEventStatisticsDetail = resolve => require.ensure([],
+  () => resolve(
+    require('../view/saleManage/statisticalAnalysis/serviceEventStatistics/detailInfo')),
+  'serviceEventStatisticsDetail')
 // 拒单退单统计
 const refundOrderSta = resolve => require.ensure([],
   () => resolve(
@@ -277,7 +287,7 @@ const customerOpinionSta = resolve => require.ensure([],
   () => resolve(
     require('../view/saleManage/statisticalAnalysis/customerOpinion/list')),
   'customerOpinionSta')
-  
+
 // 商品管理
 // 商品列表
 const listOfGoods = resolve => require.ensure([],
@@ -817,7 +827,7 @@ const router = new Router({
             title: '服务管家管理',
             pos: [
               {name: '销售管理系统', toName: 'saleHome'},
-              {name: '服务管理'},
+              {name: '服务管理', toName: 'serviceHousekeeperList'},
               {name: '服务管家管理'}],
           },
         }, {
@@ -839,7 +849,7 @@ const router = new Router({
             title: '服务订单管理',
             pos: [
               {name: '销售管理系统', toName: 'saleHome'},
-              {name: '服务管理'},
+              {name: '服务管理', toName: 'serviceOrderList'},
               {name: '服务订单管理'}],
           },
         }, {
@@ -861,7 +871,7 @@ const router = new Router({
             title: '服务工单管理',
             pos: [
               {name: '销售管理系统', toName: 'saleHome'},
-              {name: '服务管理'},
+              {name: '服务管理', toName: 'serviceWorkOrderList'},
               {name: '服务工单管理'}],
           },
         }, {
@@ -940,7 +950,7 @@ const router = new Router({
             title: '服务客户管理',
             pos: [
               {name: '销售管理系统', toName: 'saleHome'},
-              {name: '服务管理'},
+              {name: '服务管理', toName: 'serviceCustomer'},
               {name: '服务客户管理'}],
           },
         }, {
@@ -962,7 +972,7 @@ const router = new Router({
             title: '服务投诉管理',
             pos: [
               {name: '销售管理系统', toName: 'saleHome'},
-              {name: '客满管理'},
+              {name: '客满管理', toName: 'serviceComplaint'},
               {name: '服务投诉管理'}],
           },
         }, {
@@ -984,7 +994,7 @@ const router = new Router({
             title: '服务回访管理',
             pos: [
               {name: '销售管理系统', toName: 'saleHome'},
-              {name: '客满管理'},
+              {name: '客满管理', toName: 'serviceReturnVisit'},
               {name: '服务回访管理'}],
           },
         }, {
@@ -1006,7 +1016,7 @@ const router = new Router({
             title: '服务抽查管理',
             pos: [
               {name: '销售管理系统', toName: 'saleHome'},
-              {name: '客满管理'},
+              {name: '客满管理', toName: 'serviceSpotCheck'},
               {name: '服务抽查管理'}],
           },
         }, {
@@ -1050,7 +1060,7 @@ const router = new Router({
             title: '管家入驻',
             pos: [
               {name: '销售管理系统', toName: 'saleHome'},
-              {name: '业务审批'},
+              {name: '业务审批', toName: 'housekeeperEnterList'},
               {name: '管家入驻详情'}],
           },
         }, {
@@ -1115,6 +1125,29 @@ const router = new Router({
               {name: '销售管理系统', toName: 'saleHome'},
               {name: '统计分析'},
               {name: '服务票据统计'}],
+          },
+        }, {
+          path: 'serviceEventStatistics',
+          name: 'serviceEventStatistics',
+          component: serviceEventStatistics,
+          meta: {
+            title: '服务事项统计',
+            pos: [
+              {name: '销售管理系统', toName: 'saleHome'},
+              {name: '统计分析'},
+              {name: '服务事项统计'}],
+          },
+        }, {
+          path: 'serviceEventStatisticsDetail',
+          name: 'serviceEventStatisticsDetail',
+          component: serviceEventStatisticsDetail,
+          meta: {
+            title: '服务事项统计明细表',
+            pos: [
+              {name: '销售管理系统', toName: 'saleHome'},
+              {name: '统计分析'},
+              {name: '服务事项统计', toName: 'serviceEventStatistics'},
+              {name: '统计明细表'}],
           },
         }, {
           path: 'refundOrderSta',
@@ -1203,7 +1236,7 @@ const router = new Router({
             title: '用户管理',
             pos: [
               {name: '管理系统', toName: 'companyManageHome'},
-              {name: '用户管理'},
+              {name: '用户管理', toName: 'userList'},
               {name: '用户详细'}],
           },
         },

@@ -143,6 +143,7 @@
              <el-menu-item index="customerServiceTaskSta" v-if="listPermissions(menus, 'statisticCustomerServiceTask')">客服任务统计</el-menu-item>
              <el-menu-item index="serviceCustomerSta" v-if="listPermissions(menus, 'statisticServiceCustomer')">服务客户统计</el-menu-item>
              <el-menu-item index="serviceBillSta" v-if="listPermissions(menus, 'statisticCustomerBill')">服务票据统计</el-menu-item>
+             <el-menu-item index="serviceEventStatistics" v-if="listPermissions(menus, 'statisticServiceRecord')">服务事项统计</el-menu-item>
              <el-menu-item index="refundOrderSta" v-if="listPermissions(menus, 'statisticChargeBack')">退单拒单统计</el-menu-item>
              <el-menu-item index="customerComplaintSta" v-if="listPermissions(menus, 'statisticCustomerComplaint')">客户投诉统计</el-menu-item>
              <el-menu-item index="customerCommentsSta" v-if="listPermissions(menus, 'statisticCustomerReview')">客户评价统计</el-menu-item>
