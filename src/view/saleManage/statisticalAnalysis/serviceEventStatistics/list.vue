@@ -46,8 +46,8 @@
           <el-table-column label="首次沟通">
             <el-table-column label="准时完成数" width="100">
               <template slot-scope="scope">
-                <span v-if="scope.row.option1.compNum > 0"><a class="optionItemA" @click="goDetail(defaultListParams.time, scope.row.codeId, scope.row.option1.type, scope.row.cityId, 1, scope.row.goodsId)">{{scope.row.option1.compNum}}</a></span>
-                <span v-else>{{scope.row.option1.compNum}}</span>
+                <span v-if="scope.row.option1.onCompNum > 0"><a class="optionItemA" @click="goDetail(defaultListParams.time, scope.row.codeId, scope.row.option1.type, scope.row.cityId, 1, scope.row.goodsId)">{{scope.row.option1.onCompNum}}</a></span>
+                <span v-else>{{scope.row.option1.onCompNum}}</span>
               </template>
             </el-table-column>
             <el-table-column label="超时完成数" width="100">
@@ -66,8 +66,8 @@
           <el-table-column label="首次上门">
             <el-table-column label="准时完成数" width="100">
               <template slot-scope="scope">
-                <span v-if="scope.row.option2.compNum > 0"><a class="optionItemA" @click="goDetail(defaultListParams.time, scope.row.codeId, scope.row.option2.type, scope.row.cityId, 1, scope.row.goodsId)">{{scope.row.option2.compNum}}</a></span>
-                <span v-else>{{scope.row.option2.compNum}}</span>
+                <span v-if="scope.row.option2.onCompNum > 0"><a class="optionItemA" @click="goDetail(defaultListParams.time, scope.row.codeId, scope.row.option2.type, scope.row.cityId, 1, scope.row.goodsId)">{{scope.row.option2.onCompNum}}</a></span>
+                <span v-else>{{scope.row.option2.onCompNum}}</span>
               </template>
             </el-table-column>
             <el-table-column label="超时完成数" width="100">
@@ -86,8 +86,8 @@
           <el-table-column label="录入资料">
             <el-table-column label="准时完成数" width="100">
               <template slot-scope="scope">
-                <span v-if="scope.row.option3.compNum > 0"><a class="optionItemA" @click="goDetail(defaultListParams.time, scope.row.codeId, scope.row.option3.type, scope.row.cityId, 1, scope.row.goodsId)">{{scope.row.option3.compNum}}</a></span>
-                <span v-else>{{scope.row.option3.compNum}}</span>
+                <span v-if="scope.row.option3.onCompNum > 0"><a class="optionItemA" @click="goDetail(defaultListParams.time, scope.row.codeId, scope.row.option3.type, scope.row.cityId, 1, scope.row.goodsId)">{{scope.row.option3.onCompNum}}</a></span>
+                <span v-else>{{scope.row.option3.onCompNum}}</span>
               </template>
             </el-table-column>
             <el-table-column label="超时完成数" width="100">
@@ -141,8 +141,8 @@
             <el-table-column align="center" label="资料审核">
               <el-table-column label="准时完成数" width="100" align="center">
                 <template slot-scope="scope">
-                  <span v-if="scope.row.option1.compNum > 0"><a class="optionItemA" @click="goDetail(defaultListParams.times, scope.row.codeId, scope.row.option1.type, scope.row.cityId, 1, scope.row.goodsId)">{{scope.row.option1.compNum}}</a></span>
-                  <span v-else>{{scope.row.option1.compNum || 0}}</span>
+                  <span v-if="scope.row.option1.onCompNum > 0"><a class="optionItemA" @click="goDetail(defaultListParams.times, scope.row.codeId, scope.row.option1.type, scope.row.cityId, 1, scope.row.goodsId)">{{scope.row.option1.onCompNum}}</a></span>
+                  <span v-else>{{scope.row.option1.onCompNum || 0}}</span>
                 </template>
               </el-table-column>
               <el-table-column label="超时完成数" width="100" align="center">
@@ -161,8 +161,8 @@
             <el-table-column align="center" label="资料存档">
               <el-table-column label="准时完成数" width="100" align="center">
                 <template slot-scope="scope">
-                  <span v-if="scope.row.option2.compNum > 0"><a class="optionItemA" @click="goDetail(defaultListParams.times, scope.row.codeId, scope.row.option2.type, scope.row.cityId, 1, scope.row.goodsId)">{{scope.row.option2.compNum}}</a></span>
-                  <span v-else>{{scope.row.option2.compNum || 0}}</span>
+                  <span v-if="scope.row.option2.onCompNum > 0"><a class="optionItemA" @click="goDetail(defaultListParams.times, scope.row.codeId, scope.row.option2.type, scope.row.cityId, 1, scope.row.goodsId)">{{scope.row.option2.onCompNum}}</a></span>
+                  <span v-else>{{scope.row.option2.onCompNum || 0}}</span>
                 </template>
               </el-table-column>
               <el-table-column label="超时完成数" width="100" align="center">
@@ -181,8 +181,8 @@
             <el-table-column align="center" label="开设账套">
               <el-table-column label="准时完成数" width="100" align="center">
                 <template slot-scope="scope">
-                  <span v-if="scope.row.option3.compNum > 0"><a class="optionItemA" @click="goDetail(defaultListParams.times, scope.row.codeId, scope.row.option3.type, scope.row.cityId, 1, scope.row.goodsId)">{{scope.row.option3.compNum}}</a></span>
-                  <span v-else>{{scope.row.option3.compNum || 0}}</span>
+                  <span v-if="scope.row.option3.onCompNum > 0"><a class="optionItemA" @click="goDetail(defaultListParams.times, scope.row.codeId, scope.row.option3.type, scope.row.cityId, 1, scope.row.goodsId)">{{scope.row.option3.onCompNum}}</a></span>
+                  <span v-else>{{scope.row.option3.onCompNum || 0}}</span>
                 </template>
               </el-table-column>
               <el-table-column label="超时完成数" width="100" align="center">
@@ -203,8 +203,8 @@
             <el-table-column align="center" label="出具财务报表">
               <el-table-column label="准时完成数" width="100" align="center">
                 <template slot-scope="scope">
-                  <span v-if="scope.row.option4.compNum > 0"><a class="optionItemA" @click="goDetail(defaultListParams.times, scope.row.codeId, scope.row.option4.type, scope.row.cityId, 1, scope.row.goodsId)">{{scope.row.option4.compNum}}</a></span>
-                  <span v-else>{{scope.row.option4.compNum || 0}}</span>
+                  <span v-if="scope.row.option4.onCompNum > 0"><a class="optionItemA" @click="goDetail(defaultListParams.times, scope.row.codeId, scope.row.option4.type, scope.row.cityId, 1, scope.row.goodsId)">{{scope.row.option4.onCompNum}}</a></span>
+                  <span v-else>{{scope.row.option4.onCompNum || 0}}</span>
                 </template>
               </el-table-column>
               <el-table-column label="超时完成数" width="100" align="center">
@@ -223,8 +223,8 @@
             <el-table-column align="center" label="纳税申报">
               <el-table-column label="准时完成数" width="100" align="center">
                 <template slot-scope="scope">
-                  <span v-if="scope.row.option5.compNum > 0"><a class="optionItemA" @click="goDetail(defaultListParams.times, scope.row.codeId, scope.row.option5.type, scope.row.cityId, 1, scope.row.goodsId)">{{scope.row.option5.compNum}}</a></span>
-                  <span v-else>{{scope.row.option5.compNum || 0}}</span>
+                  <span v-if="scope.row.option5.onCompNum > 0"><a class="optionItemA" @click="goDetail(defaultListParams.times, scope.row.codeId, scope.row.option5.type, scope.row.cityId, 1, scope.row.goodsId)">{{scope.row.option5.onCompNum}}</a></span>
+                  <span v-else>{{scope.row.option5.onCompNum || 0}}</span>
                 </template>
               </el-table-column>
               <el-table-column label="超时完成数" width="100" align="center">
