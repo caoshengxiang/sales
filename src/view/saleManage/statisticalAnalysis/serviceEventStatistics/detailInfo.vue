@@ -361,11 +361,11 @@
           }
         }
         let link = document.createElement('a') // 创建事件对象
-        let query = QS.stringify(Object.assign({}, dlp, this.sortObj, as,
+        let query = QS.stringify(Object.assign({}, dlp, this.sortObj, as, this.queryParams,
           {authKey: webStorage.getItem('userInfo').authKey}))
         // console.log('下载参数：', query)
-        let test = this.queryParams.codeId == 301 && '外勤管家服务统计' || this.queryParams.codeId == 300 && '记账管家服务统计' || '服务事项统计';
-        link.setAttribute('href', serverUrl + '/countSystem/serviceWork/export?' + query)
+        let test = '服务事项统计';
+        link.setAttribute('href', serverUrl + '/countSystem/serviceRecordDetailExport?' + query)
         link.setAttribute('download', test)
         link.setAttribute('target', '_blank')
         let event = document.createEvent('MouseEvents') // 初始化事件对象
