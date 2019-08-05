@@ -40,7 +40,7 @@
           </template>
         </el-table-column>
         <el-table-column label="管家类型" show-overflow-tooltip>
-          <template slot-scope="scope"><span>{{scope.row.codeName}}</span></template>
+          <template slot-scope="scope"><span>{{scope.row.codeName}} ({{scope.row.cityName}})</span></template>
         </el-table-column>
         <el-table-column label="首次服务">
           <el-table-column label="首次沟通">
