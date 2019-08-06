@@ -4,7 +4,7 @@
     <div class="com-head">
       <el-breadcrumb separator-class="el-icon-arrow-right">
         <el-breadcrumb-item v-for="(item, index) in $route.meta.pos" :key="index" :to="{name: item.toName}">
-          {{item.name}}
+          {{index == ($route.meta.pos.length - 1) ? (queryParams.overState == 2 || queryParams.overState == 3) && '超时明细表' || queryParams.overState == 1 && '准时明细表' || item.name : item.name}}
         </el-breadcrumb-item>
       </el-breadcrumb>
     </div>

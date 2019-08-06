@@ -20,6 +20,7 @@
                     :disabled="multipleSelection.length <= 0">删除
         </com-button>
         <com-button buttonType="export" icon="el-icon-download" @click="excelExport1">导出</com-button>
+        <com-button buttonType="add" icon="el-icon-plus" @click="operateOptions('customerRenewal')">客户续签</com-button>
         <!-- <com-button buttonType="add" icon="el-icon-plus" @click="operateOptions('add')">新增</com-button> -->
       </div>
       <div class="com-bar-right" v-if="themeIndex === 0"><!--前端-->
@@ -322,6 +323,7 @@
   import comButton from '../../../../components/button/comButton'
   import API from '../../../../utils/api'
   import addDialog from './addDialog'
+  import customerRenewal from './customerRenewal'
   import { serverUrl } from '../../../../utils/const'
   import QS from 'qs'
   import webStorage from 'webStorage'
@@ -453,6 +455,20 @@
                 type: 'info',
                 message: '已取消删除',
               })
+            })
+            break
+          case 'customerRenewal':
+            this.$vDialog.modal(customerRenewal, {
+              title: '客户续签',
+              width: 900,
+              height: 480,
+              params: {
+              },
+              callback: (data) => {
+                if (data.type === 'save') {
+                  this.getSalesOrderList()
+                }
+              },
             })
             break
         }
