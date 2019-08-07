@@ -422,7 +422,13 @@
               that.industryType = arr
               if (that.addForm.industry) {
                 that.addForm.industryArr = []
-                that.initIndustry(that.addForm.industryArr, that.industryType, that.addForm.industry.split(','), 0)
+                let line = '-';
+                // 两种格式不同进行判断用什么分割
+                if(that.addForm.industry.indexOf(line) == -1) {
+                  that.initIndustry(that.addForm.industryArr, that.industryType, that.addForm.industry.split(','), 0)
+                }else {
+                  that.initIndustry(that.addForm.industryArr, that.industryType, that.addForm.industry.split('-'), 0)
+                }
               }
             }
           } else {
