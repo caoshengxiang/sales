@@ -123,6 +123,16 @@
             </el-form-item>
           </el-col>
         </el-row>
+        <el-row v-if="searchForm.state === 3 && searchForm.type === 5" class="el-row-cla">
+          <el-col :span="24">
+            <el-form-item label="是否指导安装并使用APP：">
+              <el-select v-model="searchForm.reasonType" placeholder="请选择" style="width: 100%">
+                <el-option label="是" :value="30"></el-option>
+                <el-option label="否" :value="31"></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+        </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button class="cancel-button" @click="$vDialog.close({type: 'cancel'})">取 消</el-button>
