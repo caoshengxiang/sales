@@ -160,6 +160,14 @@
         <el-table-column
           align="center"
           sortable="custom"
+          prop="salerName"
+          label="需求销售员"
+          width="160"
+          show-overflow-tooltip>
+        </el-table-column>
+        <el-table-column
+          align="center"
+          sortable="custom"
           prop="customerIntentionLevel"
           label="客户意向"
           width="160"
@@ -221,14 +229,6 @@
           sortable="custom"
           prop="creatorName"
           label="需求创建人"
-          width="160"
-          show-overflow-tooltip>
-        </el-table-column>
-        <el-table-column
-          align="center"
-          sortable="custom"
-          prop="salerName"
-          label="需求销售员"
           width="160"
           show-overflow-tooltip>
         </el-table-column>
