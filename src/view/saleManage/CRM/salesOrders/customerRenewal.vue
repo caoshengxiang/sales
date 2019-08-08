@@ -151,6 +151,7 @@
           areaId: '',
           cityName: '',
           areaName: '',
+          isRenew: true,
         },
         orderState: null,
         rules: {
