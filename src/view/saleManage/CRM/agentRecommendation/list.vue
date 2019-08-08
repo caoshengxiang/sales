@@ -45,13 +45,14 @@
               <div>
                 <p class="title">推荐代理商扫码加入平台</p>
                 <div class="code-show"  ref="downloadCode">
-                  <vue-qr
+<!--                  <vue-qr
                     :logoSrc="config.logo"
                     :text="config.value"
                     :size="200"
                     :margin="0"
                     :callback="agentRecCallback"
-                    qid="agentRec"></vue-qr>
+                    qid="agentRec"></vue-qr> -->
+                    <img :src="imgSrc" alt="" style="width: 100%;">
                 </div>
                 <p class="name">{{otherData.directName || otherDataOldApi.directName}}</p>
               </div>
@@ -237,6 +238,7 @@
           id: null,
         },
         userInfo: webStorage.getItem('userInfo'),
+        imgSrc: '',
       }
     },
     computed: {
@@ -274,6 +276,7 @@
         this.getDepts(this.agentType, (id) => {
           this.agentTypeOption = id
           this.getList()
+          this.getQr();
         })
       })
       this.posTableHeight();            //根据屏幕高度设置table高度
@@ -283,6 +286,16 @@
       VueQr,
     },
     methods: {
+      getQr () {
+        let _data = {
+          eventKey: this.agentTypeOption + ',' + this.agentType,
+        };
+        API.user.getUserCode(_data, (res) => {
+          if(res.status) {
+            this.imgSrc = 'https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=' + res.data;
+          }
+        })
+      },
       handleSizeChange (val) {
         // console.log(`每页 ${val} 条`)
         this.getList()
@@ -346,6 +359,7 @@
       },
       searchHandle () {
         this.getList()
+        this.getQr()
       },
       agentTypeChange (va) {
         this.getDepts(va, (id) => {

@@ -1424,6 +1424,15 @@ const API1 = {
         error && error(err)
       })
     },
+    getUserCode (params, success, error) { // 下拉用户列表
+      $axios.get('user/getRegisterQRcode', {
+        params: params,
+      }).then((res) => {
+        success && success(res.data)
+      }).catch(err => {
+        error && error(err)
+      })
+    },
     userSearch (params, success, error) { // 下拉用户列表
       $axios.get('user/list', {
         params: params,
