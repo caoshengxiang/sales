@@ -554,13 +554,6 @@ const API1 = {
         error && error(err)
       })
     },
-    customerRenewallist (params, success, error) { // 团队成员相关客户列表
-      $axios.get('customerContacter/renew', {params: params}).then((res) => {
-        success && success(res.data)
-      }).catch((err) => {
-        error && error(err)
-      })
-    },
     customerSearch (params, success, error) { // 客户搜索
       $axios.get('customer/search', {params: params}).then((res) => {
         success && success(res.data)
@@ -824,6 +817,13 @@ const API1 = {
         url: '/customerContacter',
         params: params,
       }).then(res => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+    },
+    customerContacterRenewallist (params, success, error) { // 团队成员相关客户列表
+      $axios.get('customerContacter/renew', {params: params}).then((res) => {
         success && success(res.data)
       }).catch((err) => {
         error && error(err)
@@ -1314,6 +1314,13 @@ const API1 = {
     },
     batchDeleteOrder (params, success, error) { // 批量删除销售订单
       $axios.post('salerOrder/batch/delete', params).then((res) => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+    },
+    batchCancelOrder (params, success, error) { // 批量删除销售订单
+      $axios.post('salerOrder/batch/cancel', params).then((res) => {
         success && success(res.data)
       }).catch((err) => {
         error && error(err)

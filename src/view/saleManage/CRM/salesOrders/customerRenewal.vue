@@ -10,7 +10,7 @@
                 <el-select @change="customerChange"
                             filterable
                            v-model.number="addForm.customerId" placeholder="请选择客户" style="width: 100%">
-                  <el-option v-for="item in customersList" :key="item.id" :label="item.customerName"
+                  <el-option v-for="item in customersList" :key="item.id" :label="item.name"
                              :value="item.id"></el-option>
                 </el-select>
               </el-form-item>
@@ -266,9 +266,10 @@
       },
       getCustomersList () { // 当前登陆用户所有的拥有团队成员权限的客户信息
         // API.customer.teamAboutCustomerlist({identy: 'renewal'}, data => {
-        API.customer.customerRenewallist({identy: 'renewal'}, data => {
+        API.customer.teamAboutCustomerlist({identy: 'renewal'}, data => {
           if (data.status) {
-            this.customersList = data.data.content
+            this.customersList = data.data
+
             // 客户详情快捷添加销售机会时默认有客户调取商品
             if(this.params.detailCustomersId > 0) {
               let _cate = '';
@@ -306,7 +307,7 @@
         })
       },
       getContactList (customerId) {
-        API.contacts.list({customerId: customerId, pageSize: 10000}, (da) => {
+        API.contacts.customerContacterRenewallist({customerId: customerId, pageSize: 10000}, (da) => {
           this.contactList = da.data.content
           // this.contactTotal = da.data.totalElements
         })
