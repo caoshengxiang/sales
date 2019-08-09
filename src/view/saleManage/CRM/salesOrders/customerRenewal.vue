@@ -10,7 +10,7 @@
                 <el-select @change="customerChange"
                             filterable
                            v-model.number="addForm.customerId" placeholder="请选择客户" style="width: 100%">
-                  <el-option v-for="item in customersList" :key="item.id" :label="item.name"
+                  <el-option v-for="item in customersList" :key="item.id" :label="item.customerName"
                              :value="item.id"></el-option>
                 </el-select>
               </el-form-item>
