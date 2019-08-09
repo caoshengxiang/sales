@@ -554,6 +554,13 @@ const API1 = {
         error && error(err)
       })
     },
+    customerRenewallist (params, success, error) { // 团队成员相关客户列表
+      $axios.get('customerContacter/renew', {params: params}).then((res) => {
+        success && success(res.data)
+      }).catch((err) => {
+        error && error(err)
+      })
+    },
     customerSearch (params, success, error) { // 客户搜索
       $axios.get('customer/search', {params: params}).then((res) => {
         success && success(res.data)

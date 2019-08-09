@@ -265,10 +265,10 @@
         })
       },
       getCustomersList () { // 当前登陆用户所有的拥有团队成员权限的客户信息
-        API.customer.teamAboutCustomerlist({identy: 'renewal'}, data => {
+        // API.customer.teamAboutCustomerlist({identy: 'renewal'}, data => {
+        API.customer.customerRenewallist({identy: 'renewal'}, data => {
           if (data.status) {
-            this.customersList = data.data
-
+            this.customersList = data.data.content
             // 客户详情快捷添加销售机会时默认有客户调取商品
             if(this.params.detailCustomersId > 0) {
               let _cate = '';
