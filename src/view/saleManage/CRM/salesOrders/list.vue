@@ -19,6 +19,9 @@
         <com-button buttonType="delete" icon="el-icon-delete" @click="operateOptions('delete')"
                     :disabled="multipleSelection.length <= 0">删除
         </com-button>
+        <com-button buttonType="grey" icon="el-icon-remove-outline" @click="operateOptions('cancel')"
+                    :disabled="multipleSelection.length <= 0">取消
+        </com-button>
         <com-button buttonType="export" icon="el-icon-download" @click="excelExport1">导出</com-button>
         <com-button buttonType="add" icon="el-icon-plus" @click="operateOptions('customerRenewal')">客户续签</com-button>
         <!-- <com-button buttonType="add" icon="el-icon-plus" @click="operateOptions('add')">新增</com-button> -->
@@ -433,6 +436,38 @@
                 }
               },
             })
+            break
+          case 'cancel':
+            let sta = true
+            this.multipleSelection.forEach(item => {
+              if (item.orderState !== 1) {
+                this.$message.warning('取消待支付订单失败，状态不为待支付！')
+                sta = false
+              }
+            })
+            if (sta) {
+              this.$confirm('确定取消销售订单, 是否继续?', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning',
+              }).then(() => {
+                API.salesOrder.batchCancelOrder({salerOrderIds: arrToStr(this.multipleSelection, 'id')}, (da) => {
+                  if (da.status) {
+                    if (da.data.fail > 0) {
+                      this.$message.warning(`成功${da.data.success}, 失败${da.data.fail}, 失败原因：${da.data.errorMessage}`)
+                    } else {
+                      this.$message.success(`成功${da.data.success},失败${da.data.fail}`)
+                    }
+                    this.getSalesOrderList()
+                  }
+                })
+              }).catch(() => {
+                this.$message({
+                  type: 'info',
+                  message: '已取消',
+                })
+              })
+            }
             break
           case 'delete':
             this.$confirm('确定删除销售订单, 是否继续?', '提示', {
