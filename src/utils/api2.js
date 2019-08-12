@@ -229,6 +229,22 @@ export default {
         error && error(err)
       })
     },
+    housekeepingScore (params, success, error) {     //获取管家评分列表
+      $axios.get('serviceWorkOrder/mutualEvaluation', {
+        params: params,
+      }).then(res => {
+        success && success(res.data)
+      }).catch(err => {
+        error && error(err)
+      })
+    },
+    addHousekeepingScore (params, success, error) { // 进行评分
+      $axios.post('serviceWorkOrder/addMutualEvaluation', params).then(res => {
+        success && success(res.data)
+      }).catch(err => {
+        error && error(err)
+      })
+    },
     serverCloseGoods (params, success, error) { // 获取管家需要打烊的商品
       $axios.post('dcstar/manager/info', params).then(res => {
         success && success(res.data)

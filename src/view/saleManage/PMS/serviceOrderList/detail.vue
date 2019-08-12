@@ -152,7 +152,7 @@
               </tr>
             </table>
 
-            <p class="table-title">服务派单</p>
+            <p class="table-title">管家评价</p>
             <table class="detail-table">
               <tr>
                 <td class="td-title">管家类型</td>
@@ -160,6 +160,10 @@
                 <td class="td-title">服务主体</td>
                 <td class="td-title">派单单号</td>
                 <td class="td-title">派单时间</td>
+                <td class="td-title">总评分</td>
+                <td class="td-title">评价人</td>
+                <td class="td-title">评价分数</td>
+                <td class="td-title">评价内容</td>
               </tr>
               <tr v-for="(item, index) in assignOrderList" :key="index">
                 <td class="td-center">{{item.managerTypeName}}</td>
@@ -167,6 +171,16 @@
                 <td class="td-center">{{item.serviceName}}</td>
                 <td class="td-center">{{item.orderNum}}</td>
                 <td class="td-center">{{item.assignDate && $moment(item.assignDate).format('YYYY-MM-DD HH:mm:ss')}}</td>
+                <td class="td-center">{{item.totalScore}}</td>
+                <td class="td-center padding0">
+                  <p class="td-content-p" v-for="(opta, idx) in item.mutualEvaluationModel" :key="idx">{{opta.operator.name}}</p>
+                </td>
+                <td class="td-center padding0">
+                  <p class="td-content-p" v-for="(opta2, idx2) in item.mutualEvaluationModel" :key="idx2">{{opta2.fraction}}</p>
+                </td>
+                <td class="td-center padding0">
+                  <p class="td-content-p" v-for="(opta3, idx3) in item.mutualEvaluationModel" :key="idx3">{{opta3.remark}}</p>
+                </td>
               </tr>
             </table>
           </el-tab-pane>
@@ -342,8 +356,20 @@
         })
       },
       getAssignOrderList (orderId) { // 订单下得派单列表
-        API.workOrder.workOrderAsignList({orderId: orderId}, (res) => {
+        // API.workOrder.workOrderAsignList({orderId: orderId}, (res) => {
+        API.workOrder.housekeepingScore({orderId: orderId}, (res) => {
             if (res.status) {
+            if(res.data.length > 0) {
+              res.data.forEach((item, idx) => {
+                this.$set(item, 'totalScore', null);
+                if(item.mutualEvaluationModel && item.mutualEvaluationModel.length > 0) {
+                  item.mutualEvaluationModel.forEach((items, i) => {
+                    item.totalScore += items.fraction
+                  })
+                }
+                if(item.totalScore) item.totalScore = item.totalScore.toFixed(0);
+              })
+            }
               this.assignOrderList = res.data
             }
           },
@@ -393,4 +419,18 @@
 
 <style scoped lang="scss" rel="stylesheet/scss">
   @import "../../../../styles/common";
+  .td-content-p {
+    height: 25px;
+    line-height: 25px;
+    border-bottom: 1px solid #ccc;
+  }
+  .td-content-p:last-child {
+    border: 0 !important;
+  }
+  .padding0 {
+    padding: 0 !important;
+  }
+  .border0 {
+    border: 0 !important;
+  }
 </style>

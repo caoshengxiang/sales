@@ -149,10 +149,64 @@
                 <td>{{item.finishTime && $moment(item.finishTime).format('YYYY-MM-DD HH:mm:ss')}}</td>
               </tr>
             </table>
+            <p class="table-title">管家评价</p>
+            <table class="detail-table">
+              <tr>
+                <td class="td-title">管家类型</td>
+                <td class="td-title">服务管家</td>
+                <td class="td-title">服务主体</td>
+                <td class="td-title">派单单号</td>
+                <td class="td-title">派单时间</td>
+                <td class="td-title">总评分</td>
+                <td class="td-title">评级分数</td>
+                <td class="td-title">评价内容</td>
+              </tr>
+              <tr v-for="(item, i) in evaluateDetail" :key="i">
+                <td class="center">{{item.managerTypeName}}</td>
+                <td class="td-center">{{item.managerName}}</td>
+                <td class="td-center">{{item.serviceName}}</td>
+                <td class="td-center">{{item.orderNum}}</td>
+                <td class="td-center">{{item.assignDate && $moment(item.assignDate).format('YYYY-MM-DD HH:mm:ss')}}</td>
+                <td class="center">
+                  <p v-if="detail.managerId == userInfo.id && item.managerId == detail.managerId">{{item.totalScore}}</p>
+                  <p v-else>/</p>
+                </td>
+                <td class="center">
+                  <p v-if="detail.managerId == item.managerId">/</p>
+                  <p v-else>
+                    <span v-if="item.mutualEvaluationModel && item.mutualEvaluationModel.length > 0">{{item.mutualEvaluationModel[0].fraction}}</span>
+                    <el-button type="text" @click="showEvaluate(item)" v-if="(!item.mutualEvaluationModel || item.mutualEvaluationModel.length == 0) && detail.managerId == userInfo.id">评价</el-button>
+                    <!-- <el-button type="text" @click="showEvaluate(item)">评价</el-button> -->
+                  </p>
+                </td>
+                <td class="center">{{(item.mutualEvaluationModel && item.mutualEvaluationModel.length > 0) ? item.mutualEvaluationModel[0].remark : ''}}</td>
+              </tr>
+            </table>
           </el-tab-pane>
         </el-tabs>
       </div>
     </div>
+    <el-dialog
+      title="管家评价"
+      :visible.sync="evaluateModel"
+      width="30%">
+      <div>
+        <el-form :model="evaluateForm" :rules="rules" label-width="100px" ref="ruleForm">
+          <el-form-item label="管家类型"><span>{{showEvaluateItem.managerTypeName}}</span></el-form-item>
+          <el-form-item label="服务管家"><span>{{showEvaluateItem.managerName}}</span></el-form-item>
+          <el-form-item label="评价分数" prop="fraction">
+            <el-input type="number" placeholder="请输入评价分数" v-model="evaluateForm.fraction"></el-input>
+          </el-form-item>
+          <el-form-item label="评价内容">
+            <el-input type="textarea" resize="none" rows="5" placeholder="请输入评价内容" v-model="evaluateForm.remark"></el-input>
+          </el-form-item>
+        </el-form>
+      </div>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="evaluateModel = false">取 消</el-button>
+        <el-button type="primary" @click="subEvaluate('ruleForm')">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -169,8 +223,29 @@
   export default {
     name: 'detail',
     data () {
+      // 添加评价分数的正则
+      let evaluationScore = (rule, value, callback) => {
+          let reg=/^\d+(\.\d{0,1})?$/;
+          if(value < 1){callback(new Error('评分最低为1分'))
+          }else{
+            if(value > 5){callback(new Error('评分最高为5分'))
+            }else{
+              if(!reg.test(value)){callback(new Error('评分只能有一位小数'))
+              }else{
+                callback()
+              }
+            }
+          }
+      };
       return {
         dataLoading: false,
+        evaluateModel: false,
+        evaluateForm: {
+          fraction: '',
+          remark: '',
+        },
+        evaluateDetail: [],
+        showEvaluateItem: {},
         activeViewName: 'operate', // operate，related
         detail: {}, // 详情
         userInfo: {},
@@ -179,6 +254,13 @@
         orderListNoAuthTotal: 0,
         orderDetail: {}, // 订单信息
         csInOrderList: [], // 客满
+        rules: {
+          fraction: [
+            { required: true, message: '请输入评价分数', trigger: 'blur' },
+            {validator:evaluationScore,trigger:'blur'},
+            {validator:evaluationScore,trigger:'change'}
+          ],
+        },
       }
     },
     computed: {
@@ -196,6 +278,40 @@
       workingOp,
     },
     methods: {
+      // 显示评价弹框
+      showEvaluate (item) {
+        this.showEvaluateItem = item;
+        this.evaluateForm.fraction = '';
+        this.evaluateForm.remark = '';
+        this.evaluateModel = true;
+      },
+      // 确定评价
+      subEvaluate (formName) {
+        this.$refs[formName].validate((valid) => {
+          if (valid) {
+            let _data = {
+              fraction: this.evaluateForm.fraction,
+              remark: this.evaluateForm.remark,
+              workOrderId: this.showEvaluateItem.id,
+              operator: {
+                id: webStorage.getItem('userInfo').id
+              }
+            };
+            console.log(_data)
+            API.workOrder.addHousekeepingScore(_data, (data) => {
+              console.log(data)
+              if(data.status && data.data == 1) {
+                this.$message.success('管家评价成功');
+                this.evaluateModel = false;
+                this.getHousekeeping();
+              }
+            })
+          } else {
+            console.log('error submit!!');
+            return false;
+          }
+        });
+      },
       operateOptions () {
       },
       stepClickHandle () {},
@@ -213,9 +329,34 @@
           this.detail = da.data
           this.getDetailByOrderId(this.detail.orderId)
           this.getCsInOrderList(this.detail.orderId)
+          this.getHousekeeping()
           setTimeout(() => {
             this.dataLoading = false
           }, 500)
+        })
+      },
+      getHousekeeping () {
+        API.workOrder.housekeepingScore({orderId: this.detail.orderId, id: this.detail.id, managerId: this.detail.managerId}, (data) => {
+          if(data.status) {
+            if(data.data.length > 0) {
+              let objectItem = {};
+              data.data.forEach((item, idx) => {
+                if(item.managerId == this.detail.managerId) {
+                  objectItem = item;
+                  data.data.splice(idx, 1);
+                  data.data.unshift(objectItem);
+                }
+                this.$set(item, 'totalScore', null);
+                if(item.mutualEvaluationModel && item.mutualEvaluationModel.length > 0) {
+                  item.mutualEvaluationModel.forEach((items, i) => {
+                    item.totalScore += items.fraction
+                  })
+                }
+                if(item.totalScore) item.totalScore = item.totalScore.toFixed(0);
+              })
+            }
+            this.evaluateDetail = data.data;
+          }
         })
       },
       getCustomerAbout (customerId, orderId) {
@@ -312,4 +453,7 @@
 
 <style scoped lang="scss" rel="stylesheet/scss">
   @import "../../../../styles/common";
+  .center {
+    text-align: center;
+  }
 </style>
