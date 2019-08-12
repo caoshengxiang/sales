@@ -22,6 +22,7 @@
             <span class="com-d-item">派单时间: <span>{{detail.assignDate && $moment(detail.assignDate).format('YYYY-MM-DD HH:mm:ss')}}</span></span>
             <span class="com-d-item">接单时间: <span>{{detail.auditTime && $moment(detail.auditTime).format('YYYY-MM-DD HH:mm:ss')}}</span></span>
             <span class="com-d-item">计划完结时间: <span>{{detail.periodEnd && $moment(detail.periodEnd).format('YYYY-MM-DD HH:mm:ss')}}</span></span>
+            <span class="com-d-item">实际完结时间: <span>{{detail.finishTime && $moment(detail.finishTime).format('YYYY-MM-DD HH:mm:ss')}}</span></span>
           </p>
         </div>
       </div>
