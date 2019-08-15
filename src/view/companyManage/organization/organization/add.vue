@@ -62,6 +62,9 @@
         loading: false,
         isFormDisabled: false,
         form: {
+          name: '',
+          areaCode: '',
+          type: '',
           pid: 0,
         },
         rules: {
@@ -136,6 +139,8 @@
                 break
               case 'update':
                 that.loading = true
+                if(that.form.type) delete that.form.type;
+                if(that.form.areaCode) delete that.form.areaCode;
                 API.organization.update(that.form, function (resData) {
                   that.loading = false
                   if (resData.status) {
