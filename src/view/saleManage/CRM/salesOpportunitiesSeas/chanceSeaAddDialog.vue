@@ -94,13 +94,13 @@
         </el-row>
         <el-row class="el-row-cla" v-if='!this.params.detail'>
           <el-col :span="24">
-            <p style='width: calc(100% - 30px);border-top: 1px dashed #DDDDDD; line-height: 45px;color: #333E48;font-size: 14px;font-weight: bold;'>客户销售机会（为客户新建销售机会信息）</p>
+            <p style='width: calc(100% - 30px);border-top: 1px dashed #DDDDDD; line-height: 45px;color: #333E48;font-size: 14px;font-weight: bold;'>客户销售需求（为客户新建销售需求信息）</p>
           </el-col>
         </el-row>
         <el-row class="el-row-cla">
           <el-col :span="8">
-            <el-form-item label='机会公海' prop="chanceSeaId">
-              <el-select v-model.number="addForm.chanceSeaId" placeholder="请选择机会公海">
+            <el-form-item label='需求公海' prop="chanceSeaId">
+              <el-select v-model.number="addForm.chanceSeaId" placeholder="请选择需求公海">
                 <el-option v-for="item in chanceSeaList" :key="item.id" :label="item.name" :value="item.id"></el-option>
               </el-select>
             </el-form-item>
@@ -144,7 +144,7 @@
         addForm: { // 添加表单
           customerCate: '2',               //客户性质 1个人 2企业
           customerName: '',                //客户名称
-          chanceRemark: '',                //机会备注
+          chanceRemark: '',                //需求备注
           customerBusinessLicense: '',     //证件号码
           contacter: '',                   //客户联系人
           contactPhone: '',                //联系电话
@@ -153,7 +153,7 @@
           intentProductNames: [],          //商品名称
           provider: '',                    // 需求提供人
           customerSeaId: '',                       // 客户公海
-          chanceSeaId: '',                 // 机会公海
+          chanceSeaId: '',                 // 需求公海
           chanceSource: '',                //需求来源
           applyUserId: '',                 //报名用户id
           chanceSourceName: '',            //报名用户name
@@ -168,7 +168,7 @@
           // billDate: '',
           // intentBillAmount: '',
           // chanceRemark: '',
-          pageSource: 2,                    // 公海添加机会，传2. 其他传1
+          pageSource: 2,                    // 公海添加需求，传2. 其他传1
           isMeetingAdd: true,               //来源标识
           industryArr: [],
         },
@@ -179,7 +179,7 @@
         intentProductList: [],
         industryList: [],                     // 行业
         seaList: [],                          //客户公海
-        chanceSeaList: [],                       //机会公海
+        chanceSeaList: [],                       //需求公海
         staffList: [],                        // 机构用户
         chanceSourceType: [],                 // 客户来源
         chanceSourceArr: [],
@@ -228,7 +228,7 @@
           (!this.addForm.provinceId || !this.addForm.cityId || !this.addForm.areaId) && '请选择客户地区' ||
           !this.addForm.industryArr && '请选择客户行业' ||
           !this.addForm.customerSeaId && '请选择客户公海' ||
-          !this.addForm.chanceSeaId && '请选择机会公海' ||
+          !this.addForm.chanceSeaId && '请选择需求公海' ||
           !this.addForm.chanceSource && '请选择需求来源' ||
           !this.addForm.provider && '请选择需求提供人' ||
           this.addForm.intentProductIds.length < 1 && '请选择客户意向商品' || null;
@@ -285,7 +285,7 @@
           if (data.status) {
             this.customersList = data.data
 
-            // 客户详情快捷添加销售机会时默认有客户调取商品
+            // 客户详情快捷添加销售需求时默认有客户调取商品
             if(this.params.detail.customerId > 0) {
               let _cate = '';
               if(this.customersList.length > 0) {
@@ -351,6 +351,10 @@
                 { // 公司资源
                   codeName: this.params.topSource[2].name,
                   id: this.params.topSource[2].value,
+                  children: [],
+                }, { // 员工推荐
+                  codeName: this.params.topSource[5].name,
+                  id: this.params.topSource[5].value,
                   children: [],
                 }]
               // this.selectedBindValue.push(this.topSource[0].value)
@@ -470,7 +474,7 @@
           this.seaList = data.data
         })
       },
-      getChanceSeaList () { // 机会公海
+      getChanceSeaList () { // 需求公海
         API.salesOpportunitiesSea.listAboutCustomer((data) => {
           this.chanceSeaList = data.data
         })
@@ -520,7 +524,7 @@
       this.getIntentProductList({goodsTypeId: null, goodsName: null, servicePrincipalType})
       if (this.params.stateValue) { // 设置默认2，销售阶段；[公海1]
         this.addForm.state = this.params.stateValue
-        this.addForm.pageSource = 2 // 公海添加机会，传2. 其他传1
+        this.addForm.pageSource = 2 // 公海添加需求，传2. 其他传1
       }
       // 来源
       this.getConfigData(5, 0)
