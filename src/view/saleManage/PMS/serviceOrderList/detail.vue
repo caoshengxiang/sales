@@ -367,7 +367,7 @@
                     item.totalScore += items.fraction
                   })
                 }
-                if(item.totalScore) item.totalScore = item.totalScore.toFixed(0);
+                if(item.totalScore) item.totalScore = (item.totalScore/item.mutualEvaluationModel.length).toFixed(0);
               })
             }
               this.assignOrderList = res.data
