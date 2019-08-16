@@ -60,7 +60,7 @@
             <p class="table-title">销售订单基本信息</p>
             <table class="detail-table">
               <tr>
-                <td class="td-title">销售机会</td>
+                <td class="td-title">销售需求</td>
                 <td>{{orderDetail.chanceName}}</td>
                 <td class="td-title">客户名称</td>
                 <td>{{orderDetail.customerName}}</td>
@@ -182,9 +182,9 @@
             </p>
             <table class="detail-table related-table">
               <tr>
-                <th class="td-title">销售机会开发人</th>
-                <th class="td-title">销售机会跟单人</th>
-                <th class="td-title">销售机会咨询师</th>
+                <th class="td-title">销售需求开发人</th>
+                <th class="td-title">销售需求跟单人</th>
+                <th class="td-title">销售需求咨询师</th>
               </tr>
               <tr>
                 <td>{{orderDetail.team.creatorName && orderDetail.team.creatorName + '[' +

@@ -3,51 +3,56 @@
     <div class="com-dialog">
       <el-form :model="searchForm" ref="searchForm" label-width="120px">
         <el-row class="el-row-cla">
-          <el-col :span="8">
+          <el-col :span="4">
             <el-form-item label="客户名称：">
-              <el-input type="text" v-model="searchForm.customerName"></el-input>
+              <el-input type="text" v-model="searchForm.customerName" placeholder="客户名称"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="8">
+          <el-col :span="4">
             <el-form-item label="联系人名称：">
-              <el-input type="text" v-model="searchForm.contacterName"></el-input>
+              <el-input type="text" v-model="searchForm.contacterName" placeholder="联系人名称"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="8">
+          <el-col :span="4">
             <el-form-item label="商品名称：">
-              <el-input type="text" v-model="searchForm.productName"></el-input>
+              <el-input type="text" v-model="searchForm.productName" placeholder="商品名称"></el-input>
             </el-form-item>
           </el-col>
-        </el-row>
-        <el-row class="el-row-cla">
-          <el-col :span="8">
+          <el-col :span="4">
             <el-form-item label="规格名称：">
-              <el-input type="text" v-model="searchForm.specificationName"></el-input>
+              <el-input type="text" v-model="searchForm.specificationName" placeholder="规格名称"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="8">
+          <el-col :span="4">
             <el-form-item label="款项名称：">
-              <el-input type="text" v-model="searchForm.name"></el-input>
+              <el-input type="text" v-model="searchForm.name" placeholder="款项名称"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="8">
+          <el-col :span="4">
             <el-form-item label="返佣主体：">
-              <el-input type="text" v-model="searchForm.rebateSubjectName"></el-input>
+              <el-input type="text" v-model="searchForm.rebateSubjectName" placeholder="返佣主体"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row class="el-row-cla">
-          <el-col :span="8">
+        </el-row>
+        <el-row class="el-row-cla">
+          <el-col :span="4">
             <el-form-item label="返佣相关人员：">
-              <el-input type="text" v-model="searchForm.rebateRelUserName"></el-input>
+              <el-input type="text" v-model="searchForm.rebateRelUserName" placeholder="返佣相关人员"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="8">
+          <el-col :span="4">
             <el-form-item label="回款审核状态：">
-              <el-input type="text" v-model="searchForm.refundStatus"></el-input>
+              <el-input type="text" v-model="searchForm.refundStatus" placeholder="回款审核状态"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="8">
+          <el-col :span="4">
+            <el-form-item label="客户推荐人：">
+              <el-input type="text" v-model="searchForm.recommenderName" placeholder="客户推荐人"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="4">
             <el-form-item label="是否续费：">
               <el-select v-model="searchForm.isRenew" placeholder="请选择">
                 <el-option label="否" :value="0"></el-option>
@@ -55,9 +60,7 @@
               </el-select>
             </el-form-item>
           </el-col>
-        </el-row>
-        <el-row class="el-row-cla">
-          <el-col :span="8">
+          <el-col :span="4">
             <el-form-item label="需求来源：">
               <el-cascader
                 style="width: 100%"
@@ -67,12 +70,12 @@
                 @active-item-change="orderSourceChangeHandle"
                 @change="orderSourceChangeHandle"
                 :props="props"
-                placeholder="请选择"
+                :placeholder="searchForm.sourceName"
               >
               </el-cascader>
             </el-form-item>
           </el-col>
-          <el-col :span="8">
+          <el-col :span="4">
             <el-form-item label="客户推荐来源：">
               <el-cascader
                 style="width: 100%"
@@ -87,14 +90,9 @@
               </el-cascader>
             </el-form-item>
           </el-col>
-          <el-col :span="8">
-            <el-form-item label="客户推荐人：">
-              <el-input type="text" v-model="searchForm.recommenderName"></el-input>
-            </el-form-item>
-          </el-col>
         </el-row>
         <el-row class="el-row-cla">
-          <el-col :span="8">
+          <el-col :span="4">
             <el-form-item label="返佣方式：">
               <el-select v-model="searchForm.rebateType" placeholder="请选择">
                 <el-option label="分子公司独立结算" :value="1"></el-option>
@@ -104,12 +102,29 @@
           </el-col>
           <el-col :span="8">
             <el-form-item label="客户ID：">
-              <el-input type="text" v-model="searchForm.customerId"></el-input>
+              <el-input type="text" v-model="searchForm.customerId" placeholder="客户ID"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="回款金额：">
+              <el-row>
+                <el-col :span="11">
+                  <el-input @change="intervalStartHandle" type="number"
+                            v-model.number="searchForm.startNetReceipts"></el-input>
+                </el-col>
+                <el-col :span="2">
+                  <div style="text-align: center">-</div>
+                </el-col>
+                <el-col :span="11">
+                  <el-input @change="intervalEndHandle" type="number"
+                            v-model.number="searchForm.endNetReceipts"></el-input>
+                </el-col>
+              </el-row>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row class="el-row-cla">
-          <el-col :span="24">
+          <el-col :span="12">
             <el-form-item label="回款日期：">
               <el-date-picker
                 v-model="timeIntervalRefundDate"
@@ -122,9 +137,7 @@
               </el-date-picker>
             </el-form-item>
           </el-col>
-        </el-row>
-        <el-row class="el-row-cla">
-          <el-col :span="24">
+          <el-col :span="12">
             <el-form-item label="审核时间：">
               <el-date-picker
                 v-model="timeIntervalAuditTime"
@@ -139,26 +152,11 @@
           </el-col>
         </el-row>
         <el-row class="el-row-cla">
-          <el-form-item label="回款金额：">
-            <el-row>
-              <el-col :span="5">
-                <el-input @change="intervalStartHandle" type="number"
-                          v-model.number="searchForm.startNetReceipts"></el-input>
-              </el-col>
-              <el-col :span="2">
-                <div style="text-align: center">-</div>
-              </el-col>
-              <el-col :span="5">
-                <el-input @change="intervalEndHandle" type="number"
-                          v-model.number="searchForm.endNetReceipts"></el-input>
-              </el-col>
-            </el-row>
-          </el-form-item>
         </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button class="cancel-button" @click="$vDialog.close({type: 'cancel'})">取 消</el-button>
-        <el-button class="cancel-button" @click="clearForm">清 除</el-button>
+        <!-- <el-button class="cancel-button" @click="$vDialog.close({type: 'cancel'})">取 消</el-button> -->
+        <el-button class="cancel-button" @click="clearForm">重 置</el-button>
         <el-button class="save-button" @click="saveSubmitForm">确 定</el-button>
       </div>
     </div>
@@ -215,7 +213,10 @@
         recommendersourceNameArr: [],
       }
     },
-    props: ['params'],
+    // props: ['params'],
+    props: {
+      preAdvancedSearch: {},
+    },
     methods: {
       clearForm () {
         this.searchForm = {}
@@ -345,7 +346,8 @@
       saveSubmitForm () {
         this.searchForm.sourceName = this.traverseTree(this.searchForm.orderSource)
         this.searchForm.recommenderSourcename = this.traverseTree(this.searchForm.recommenderSource)
-        this.$vDialog.close({type: 'search', params: this.searchForm})
+        // this.$vDialog.close({type: 'search', params: this.searchForm})
+        this.$emit('subAdvanced', this.searchForm);
       },
       timeIntervalRefundDateHandle (value) {
         this.searchForm.startRefundDate = value[0] || ''
@@ -367,15 +369,15 @@
       },
     },
     created () {
-      this.orderSource = this.params.orderSource
-      this.recommenderSource = this.params.recommenderSource
+      this.orderSource = this.orderSource
+      this.recommenderSource = this.recommenderSource
       // 来源
       this.getConfigData(5, 0)
-      this.searchForm = this.params.preAdvancedSearch
+      this.searchForm = this.preAdvancedSearch
       if (this.searchForm.startDate) { // 日期
         this.timeInterval = [this.searchForm.startDate, this.searchForm.endDate]
       }
-      this.searchForm = this.params.preAdvancedSearch
+      this.searchForm = this.preAdvancedSearch
       if (this.searchForm.startRefundDate) { // 日期
         this.timeIntervalRefundDate = [this.searchForm.startRefundDate, this.searchForm.startRefundDate]
       }
@@ -388,4 +390,7 @@
 
 <style scoped lang="scss" rel="stylesheet/scss">
   @import "../../../../styles/common";
+    .dialog-footer {
+      margin-top: 15px !important;
+    }
 </style>

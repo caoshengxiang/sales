@@ -5,7 +5,7 @@
   "author": "caoshengxiang <1104729815@qq.com>",
   "private": true,
   "scripts": {
-    "dev": "set external_url=http://119.23.31.110:80&& set server_url=http://sales.dcstar-inc.com/sales&& set activityCodePre=http://king.dcstar-inc.com/#/activityAddCustomer/index?&& set activityCodePres=http://king.dcstar-inc.com/#/registrationPage? && set agentRegister=http://king.dcstar-inc.com/#/account/registe?&& webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
+    "dev": "set external_url=http://119.23.31.110:80&& set server_url=http://192.168.2.45:8081/sales&& set activityCodePre=http://jys.zzcfo.cn/#/activityAddCustomer/index?&& set activityCodePres=http://jys.zzcfo.cn/#/registrationPage? && set agentRegister=http://jys.zzcfo.cn/#/account/registe?&& webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
     "start": "npm run dev",
     "unit": "jest --config test/unit/jest.conf.js --coverage",
     "e2e": "node test/e2e/runner.js",
@@ -25,7 +25,7 @@
     "awe-dnd": "^0.3.1",
     "axios": "^0.18.0",
     "echarts": "^4.1.0",
-    "element-ui": "^2.3.4",
+    "element-ui": "^2.11.0",
     "html2canvas": "^1.0.0-alpha.12",
     "jquery": "^3.3.1",
     "js-sha1": "^0.6.0",

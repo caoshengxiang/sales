@@ -62,10 +62,10 @@
                         </td>
                     </tr>
                     <tr>
-                        <td class="td-title">机会公海</td>
+                        <td class="td-title">需求公海</td>
                         <td class="td-text">
                             <el-form-item prop="chanceSeaId">
-                                <el-select v-model.number="addForm.chanceSeaId" placeholder="请选择机会公海" style="width: 100%;">
+                                <el-select v-model.number="addForm.chanceSeaId" placeholder="请选择需求公海" style="width: 100%;">
                                     <el-option v-for="item in seaList" :key="item.id" :label="item.name" :value="item.id"></el-option>
                                 </el-select>
                             </el-form-item>
@@ -118,9 +118,9 @@ export default {
                 state: 2, // 阶段，默认
                 intentProductIds: [], // 商品
                 intentProductNames: [],
-                chanceSeaId: '', // 机会公海
+                chanceSeaId: '', // 需求公海
                 chanceRemark: '',
-                pageSource: 1, // 公海添加机会，传2. 其他传1
+                pageSource: 1, // 公海添加需求，传2. 其他传1
                 chanceSource: '',
                 provider: '' // 需求提供人
             },
@@ -133,7 +133,7 @@ export default {
             showList: [],
             rules: {
                 customerId: [{ required: true, message: '请绑定客户', trigger: 'change' }],
-                chanceSeaId: [{ required: true, message: '请选择机会公海', trigger: 'change' }],
+                chanceSeaId: [{ required: true, message: '请选择需求公海', trigger: 'change' }],
                 provider: [{ required: true, message: '请选择需求提供人', trigger: 'change' }],
                 intentProductIds: [{ required: true, message: '请选择需求提供人', trigger: 'change' }]
             },
@@ -215,7 +215,7 @@ export default {
                 if (data.status) {
                     this.customersList = data.data;
 
-                    // 客户详情快捷添加销售机会时默认有客户调取商品
+                    // 客户详情快捷添加销售需求时默认有客户调取商品
                     // console.log(2, this.params.detailCustomersId)
                     if (this.params.detailCustomersId > 0) {
                         let _cate = '';
@@ -355,7 +355,7 @@ export default {
             }
         },
         getSeaList() {
-            // 机会公海
+            // 需求公海
             API.salesOpportunitiesSea.listAboutCustomer(data => {
                 this.seaList = data.data;
             });
@@ -387,7 +387,7 @@ export default {
         if (this.params.stateValue) {
             // 设置默认2，销售阶段；[公海1]
             this.addForm.state = this.params.stateValue;
-            this.addForm.pageSource = 2; // 公海添加机会，传2. 其他传1
+            this.addForm.pageSource = 2; // 公海添加需求，传2. 其他传1
         }
         if (this.params.detailCustomersId) {
             // 详细页面的添加, 并禁用下拉列表

@@ -791,7 +791,7 @@
         if (this.customerId) { // 更多[来至客户，联系人]
           this.defaultListParams.customerId = this.customerId
         }
-        if (this.chanceId) { // 更多[来至机会]
+        if (this.chanceId) { // 更多[来至需求]
           this.defaultListParams.chanceId = this.chanceId
         }
       },

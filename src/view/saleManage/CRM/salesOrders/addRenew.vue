@@ -39,14 +39,14 @@
             </td>
           </tr>
           <tr>
-            <td class="td-title">关联销售机会</td>
+            <td class="td-title">关联销售需求</td>
             <td class="td-text">
               <el-form-item prop="chanceId">
                 <el-select style="width: 100%"
                            :disabled="true"
                            @change="intentProductChange"
                            v-model.number="addForm.chanceId"
-                           placeholder="请选择关联销售机会">
+                           placeholder="请选择关联销售需求">
                   <el-option v-for="item in chanceList" :key="item.id" :label="item.intentProductName"
                              :value="item.id"></el-option>
                 </el-select>
@@ -150,7 +150,7 @@
       return {
         dataLoading: false, // loading
         customersList: [], // 客户列表
-        chanceList: [], // 客户对应的机会列表
+        chanceList: [], // 客户对应的需求列表
         contactList: [], // 客户对应的联系人列表
         productsList: [], // 产品【规格】列表
         contractSubjects: [], // 签约主体
@@ -184,7 +184,7 @@
             {required: true, message: '请选择签单联系人', trigger: 'change'},
           ],
           // chanceId: [
-          //   {required: true, message: '请选择关联销售机会', trigger: 'change'},
+          //   {required: true, message: '请选择关联销售需求', trigger: 'change'},
           // ],
           // productId: [
           //   {required: true, message: '请选择购买商品', trigger: 'change'},
@@ -241,7 +241,7 @@
           }
         })
       },
-      getChanceList (customerId) { // 签单客户对应的机会中【需过滤：操作人为销售机会的销售跟进人[更进人就是销售人]的销售机会列表】
+      getChanceList (customerId) { // 签单客户对应的需求中【需过滤：操作人为销售需求的销售跟进人[更进人就是销售人]的销售需求列表】
         API.salesOpportunities.list({customerId: customerId, pageSize: 10000}, (da) => {
           this.chanceList = da.data.content
           let userId = webStorage.getItem('userInfo').id
@@ -270,7 +270,7 @@
           this.contractSubjects = da.data
         })
       },
-      intentProductChange () { // 机会change
+      intentProductChange () { // 需求change
         this.chanceList.forEach(item => {
           if (item.id === this.addForm.chanceId) {
             this.addForm.productId = item.intentProductId
@@ -286,9 +286,9 @@
             this.getContractSubjects(item.intentProductId)
             // 重置来源
             // console.log(item.orderSourceName)
-            this.orderSourceArr = item.chanceSource.split('-') // 获取机会对应来源
+            this.orderSourceArr = item.chanceSource.split('-') // 获取需求对应来源
             this.addForm.orderSource = item.orderSourceName
-            this.addForm.orderSourceName = item.orderSourceName || '' // 获取机会对应来源
+            this.addForm.orderSourceName = item.orderSourceName || '' // 获取需求对应来源
           }
         })
       },
@@ -299,7 +299,7 @@
           }
         })
       },
-      customerChange () { // 客户对应的机会和联系人
+      customerChange () { // 客户对应的需求和联系人
         this.getChanceList(this.addForm.customerId)
         this.getContactList(this.addForm.customerId)
         //
@@ -395,7 +395,7 @@
           quantity: orD.quantity,
           remark: orD.remark,
           orderSource: orD.orderSource,
-          orderSourceName: orD.orderSourceName || '', // 获取机会对应来源
+          orderSourceName: orD.orderSourceName || '', // 获取需求对应来源
           isRenew: true,
           preId: orD.id,
           provinceId: orD.provinceId,
@@ -407,7 +407,7 @@
         this.getProductsList(this.params.orderDetail.productId)
         this.getContractSubjects(this.params.orderDetail.productId) // 签约主体
         this.getContactList(this.params.orderDetail.customerId)
-        this.orderState = this.params.orderDetail.orderState // 订单状态 【销售订单-修改，预下订单后，客户、机会、商品信息不可更改，客户签单后，所有信息都不可修改】
+        this.orderState = this.params.orderDetail.orderState // 订单状态 【销售订单-修改，预下订单后，客户、需求、商品信息不可更改，客户签单后，所有信息都不可修改】
       }
       // if (this.params.detailCustomersId) { // 详细页面的添加, 并禁用下拉列表
       //   this.addForm.customerId = this.params.detailCustomersId

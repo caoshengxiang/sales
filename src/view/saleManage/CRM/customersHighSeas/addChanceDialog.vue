@@ -135,7 +135,7 @@
           intentProductId: '',
           intentProductName: '',
           chanceRemark: '',
-          pageSource: 1, // 公海添加机会，传2. 其他传1
+          pageSource: 1, // 公海添加需求，传2. 其他传1
           chanceSource: '',
           provider: '', // 需求提供人
         },
@@ -352,7 +352,7 @@
       }
       if (this.params.stateValue) { // 设置默认2，销售阶段；[公海1]
         this.addForm.state = this.params.stateValue
-        this.addForm.pageSource = 2 // 公海添加机会，传2. 其他传1
+        this.addForm.pageSource = 2 // 公海添加需求，传2. 其他传1
       }
       if (this.params.detailCustomersId) { // 详细页面的添加, 并禁用下拉列表
         this.addForm.customerId = this.params.detailCustomersId

@@ -41,21 +41,22 @@
           <!--</el-option>-->
         <!--</el-select>-->
         <!--<com-button buttonType="search" @click="searchHandle">搜索</com-button>-->
-        <com-button buttonType="search" @click="advancedSearchHandle" style="">高级搜索</com-button>
-        <com-button buttonType="export" icon="el-icon-download" @click="excelExport">导入模板下载</com-button>
-        <com-button buttonType="import" style="position: relative;overflow: hidden;">
+        <!-- <com-button buttonType="search" @click="advancedSearchHandle" style="">高级搜索</com-button> -->
+        <com-button buttonType="export" icon="el-icon-download" @click="excelExport" class="sear">导入模板下载</com-button>
+        <com-button buttonType="import" style="position: relative;overflow: hidden;" class="sear">
           <input @change="fileUploadHandle" type="file"
                  style="position: absolute;top: 0;left: 0; right: 0;bottom: 0;opacity: 0;">
           导入
         </com-button>
-        <com-button buttonType="export" icon="el-icon-download" @click="excelExport1">导出</com-button>
+        <com-button buttonType="export" icon="el-icon-download" class="sear" @click="excelExport1">导出</com-button>
+        <com-button style="background: #F7F8F7;" class="sear" @click="showAdvanceSearch">高级搜索<i :class="advancedSearchShow ? 'el-icon-arrow-up el-icon--right' : 'el-icon-arrow-down el-icon--right'"></i></com-button>
       </div>
       <div class="com-bar-right" v-if="themeIndex === 1"><!--后端-->
         <el-select
           v-model="organizationId"
           @change="searchHandle"
           placeholder="请选择组织" class="com-el-select" style="width: 200px">
-          <el-option label="全部组织的销售机会" :value="null"></el-option>
+          <el-option label="全部组织的销售需求" :value="null"></el-option>
           <el-option
             v-for="item in organizationOptions"
             :key="item.id"
@@ -64,9 +65,19 @@
           </el-option>
         </el-select>
         <!--<com-button buttonType="search" @click="searchHandle">搜索</com-button>-->
-        <com-button buttonType="search" @click="advancedSearchHandle" style="">高级搜索</com-button>
+        <!-- <com-button buttonType="search" @click="advancedSearchHandle" style="">高级搜索</com-button> -->
+        <com-button style="background: #F7F8F7;" class="sear" @click="showAdvanceSearch">高级搜索<i :class="advancedSearchShow ? 'el-icon-arrow-up el-icon--right' : 'el-icon-arrow-down el-icon--right'"></i></com-button>
       </div>
     </div>
+    <!-- 高级搜素 -->
+    <transition name="el-zoom-in-top">
+      <div class="advancedSearch" v-if="advancedSearchShow">
+        <div class="advancedSearch-left">
+          <p style="font-size: 15px; padding-top: 10px;color: #606266; text-indent: 15px;">填写搜索条件></p>
+          <advancedSearch ref="advanced" :salesState="salesState" :demandSource="demandSource" :preAdvancedSearch="advancedSearch" @subAdvanced="subAdvanced"></advancedSearch>
+        </div>
+      </div>
+    </transition>
     <!--详细-->
     <div class="com-box com-box-padding com-list-box">
       <el-table
@@ -86,6 +97,22 @@
           width="40">
         </el-table-column>
         <el-table-column
+          show-overflow-tooltip
+          align="center"
+          sortable="custom"
+          prop="customerId"
+          label="客户ID"
+          width="160">
+        </el-table-column>
+        <el-table-column
+          align="center"
+          sortable="custom"
+          prop="customerName"
+          label="客户名称"
+          width="160"
+          show-overflow-tooltip>
+        </el-table-column>
+        <el-table-column
           fixed
           align="center"
           sortable="custom"
@@ -100,17 +127,29 @@
           </template>
         </el-table-column>
         <el-table-column
-          show-overflow-tooltip
           align="center"
-          sortable="custom"
-          prop="customerId"
-          label="客户ID"
-          width="160">
+          prop="chanceSourceName"
+          label="需求来源"
+          width="160"
+          show-overflow-tooltip>
+          <!--<template slot-scope="scope">-->
+          <!--<span v-for="item in demandSource" :key="item.type"-->
+          <!--v-if="item.type === scope.row.source">{{item.value}}</span>-->
+          <!--</template>-->
         </el-table-column>
         <el-table-column
           align="center"
-          prop="returnTimes"
-          label="退回次数"
+          sortable="custom"
+          prop="providerName"
+          label="需求提供人"
+          width="160"
+          show-overflow-tooltip>
+        </el-table-column>
+        <el-table-column
+          align="center"
+          sortable="custom"
+          prop="salerName"
+          label="商务管家"
           width="160"
           show-overflow-tooltip>
         </el-table-column>
@@ -135,8 +174,26 @@
         <el-table-column
           align="center"
           sortable="custom"
+          prop="created"
+          label="创建日期"
+          width="160"
+          show-overflow-tooltip>
+          <template slot-scope="scope">
+            {{scope.row.created && $moment(scope.row.created).format('YYYY-MM-DD HH:mm')}}
+          </template>
+        </el-table-column>
+        <el-table-column
+          align="center"
+          sortable="custom"
           prop="latestFollowerName"
           label="最近跟进人"
+          width="160"
+          show-overflow-tooltip>
+        </el-table-column>
+        <el-table-column
+          align="center"
+          prop="returnTimes"
+          label="退回次数"
           width="160"
           show-overflow-tooltip>
         </el-table-column>
@@ -150,25 +207,6 @@
           <template slot-scope="scope">
             {{scope.row.returnDate && $moment(scope.row.returnDate).format('YYYY-MM-DD HH:mm')}}
           </template>
-        </el-table-column>
-        <el-table-column
-          align="center"
-          sortable="custom"
-          prop="created"
-          label="创建日期"
-          width="160"
-          show-overflow-tooltip>
-          <template slot-scope="scope">
-            {{scope.row.created && $moment(scope.row.created).format('YYYY-MM-DD HH:mm')}}
-          </template>
-        </el-table-column>
-        <el-table-column
-          align="center"
-          sortable="custom"
-          prop="customerName"
-          label="客户名称"
-          width="160"
-          show-overflow-tooltip>
         </el-table-column>
         <el-table-column
           align="center"
@@ -212,36 +250,9 @@
         </el-table-column> -->
         <el-table-column
           align="center"
-          prop="chanceSourceName"
-          label="需求来源"
-          width="160"
-          show-overflow-tooltip>
-          <!--<template slot-scope="scope">-->
-          <!--<span v-for="item in demandSource" :key="item.type"-->
-          <!--v-if="item.type === scope.row.source">{{item.value}}</span>-->
-          <!--</template>-->
-        </el-table-column>
-        <el-table-column
-          align="center"
-          sortable="custom"
-          prop="providerName"
-          label="需求提供人"
-          width="160"
-          show-overflow-tooltip>
-        </el-table-column>
-        <el-table-column
-          align="center"
           sortable="custom"
           prop="creatorName"
           label="需求创建人"
-          width="160"
-          show-overflow-tooltip>
-        </el-table-column>
-        <el-table-column
-          align="center"
-          sortable="custom"
-          prop="salerName"
-          label="需求销售员"
           width="160"
           show-overflow-tooltip>
         </el-table-column>
@@ -367,12 +378,18 @@
   import QS from 'qs'
   import webStorage from 'webStorage'
 
+  // import 'element-ui/lib/theme-chalk/base.css';
+  import CollapseTransition from 'element-ui/lib/transitions/collapse-transition';
+  import Vue from 'vue'
+  Vue.component(CollapseTransition.name, CollapseTransition)
+
   export default {
     name: 'list',
     data () {
       return {
         h: document.body.clientHeight,
         posheight: 100,
+        advancedSearchShow: false,
         timer: false,
         dataLoading: false,
         salesOpportunitiesOptionsType: null,
@@ -411,7 +428,8 @@
       // 页面高度改变过后改变table的max_height高度
       h (val) {
         if(!this.timer) {
-          this.posheight = val - 260
+          // this.posheight = val - (this.advancedSearchShow ? 575 : 275)
+          this.posheight = val - 275
           this.timer = true
           let that = this
           setTimeout(function (){
@@ -442,15 +460,25 @@
       comButton,
       chanceSeaAddDialog,
       moveDialog,
+      advancedSearch,
     },
     methods: {
       ...mapActions('salesOpportunities', [
         'ac_salesOpportunitiesList',
       ]),
-
+      subAdvanced (item) {
+        this.currentPage = 1;
+        this.advancedSearch = item
+        this.getSalesOpportunititeisList()
+      },
+      showAdvanceSearch () {
+        this.advancedSearchShow = !this.advancedSearchShow;
+        this.posTableHeight();
+      },
       posTableHeight () {
         let h = document.body.clientHeight,
-            new_h = h - 260;
+            // new_h = h - (this.advancedSearchShow ? 575 : 275);
+            new_h = h - 275;
         this.posheight = new_h;
       },
       operateOptions (op) {
@@ -458,7 +486,7 @@
         switch (op) {
           case 'add':
             this.$vDialog.modal(chanceSeaAddDialog, {
-              title: '新增销售机会',
+              title: '新增销售需求',
               width: 900,
               height: 500,
               params: {
@@ -687,7 +715,7 @@
           {authKey: webStorage.getItem('userInfo').authKey}))
         // console.log('下载参数：', query)
         link.setAttribute('href', serverUrl + '/salerChance/salerChanceSea/export?' + query)
-        link.setAttribute('download', '销售机会公海公海数据导出')
+        link.setAttribute('download', '销售需求公海公海数据导出')
         link.setAttribute('target', '_blank')
         let event = document.createEvent('MouseEvents') // 初始化事件对象
         event.initMouseEvent('click', true, true, document.defaultView, 0, 0, 0, 0, 0, false, false, false, false, 0,
@@ -718,5 +746,32 @@
 </script>
 
 <style scoped lang="scss" rel="stylesheet/scss">
-  @import "../../../../styles/common";
+  @import "../../../../styles/commons";
+  .com-container .com-bar {
+    padding: 15px 20px;
+  }
+  .advancedSearch {
+    overflow: hidden;
+    border-top: 8px solid #F0F3F6;
+    border-bottom: 8px solid #F0F3F6;
+    .com-dialog-container {
+      padding: 15px 20px 15px 10px;
+    }
+    .advancedSearch-left {
+      float: left;
+      overflow: hidden;
+    }
+  }
+  .com-bar {
+    padding-bottom: 7px;
+    .com-el-select {
+      float: left;
+      margin-top: -7px;
+      margin-right: 10px;
+    }
+    .sear {
+      float:left;
+      margin-top: -7px;
+    }
+  }
 </style>

@@ -221,7 +221,7 @@
       },
       fmtBoolColumn (row, column, cellValue) {
         if (cellValue === 1) {
-          return '销售机会'
+          return '销售需求'
         } else {
           return '未知'
         }

@@ -137,7 +137,7 @@
       <!---->
       <el-tab-pane label="活动需求信息" name="related">
         <div class="com-box com-box-padding com-list-box">
-          <el-button style="float: right;margin-bottom: 20px;" @click="addChanceHandle">添加销售机会</el-button>
+          <el-button style="float: right;margin-bottom: 20px;" @click="addChanceHandle">添加销售需求</el-button>
           <el-table
             ref="multipleTable"
             border
@@ -318,7 +318,7 @@
             :callback="agentRecCallback"
             qid="activity-2"></vue-qr>
         </div>
-        <p class="name">活动的专属二维码录入销售机会</p>
+        <p class="name">活动的专属二维码录入销售需求</p>
       </div>
       <span slot="footer" class="dialog-footer">
     <el-button @click="dialogVisible = false">取 消</el-button>
@@ -627,7 +627,7 @@
       },
       addChanceHandle () {
         this.$vDialog.modal(addChance, {
-          title: '新增销售机会',
+          title: '新增销售需求',
           width: 900,
           height: 500,
           params: {

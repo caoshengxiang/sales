@@ -1,43 +1,41 @@
 <template>
   <div class="com-dialog-container">
     <div class="com-dialog">
-      <el-form :model="searchForm" ref="searchForm" label-width="120px">
+      <el-form :model="searchForm" ref="searchForm" label-width="110px">
         <el-row class="el-row-cla">
-          <el-col :span="8">
+          <el-col :span="4">
             <el-form-item label="订单编号：">
-              <el-input type="text" v-model="searchForm.orderId"></el-input>
+              <el-input type="text" v-model="searchForm.orderId" placeholder="订单编号"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="8">
+          <el-col :span="4">
             <el-form-item label="客户名称：">
-              <el-input type="text" v-model="searchForm.customerName"></el-input>
+              <el-input type="text" v-model="searchForm.customerName" placeholder="客户名称"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="8">
+          <el-col :span="4">
             <el-form-item label="联系人：">
               <el-input type="text" v-model="searchForm.contacterName"></el-input>
             </el-form-item>
           </el-col>
-        </el-row>
-        <el-row class="el-row-cla">
-          <el-col :span="8">
+          <el-col :span="4">
             <el-form-item label="购买商品：">
               <el-input type="text" v-model="searchForm.productName"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="8">
-            <el-form-item label="销售相关人员：">
+          <el-col :span="4">
+            <el-form-item label="商务管家：">
               <el-input type="text" v-model="searchForm.salerRelName"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="8">
+          <el-col :span="4">
             <el-form-item label="关联客户ID：">
               <el-input type="text" v-model="searchForm.customerId"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row class="el-row-cla">
-          <el-col :span="8">
+          <el-col :span="4">
             <el-form-item label="订单状态：">
               <el-select v-model="searchForm.orderState" placeholder="请选择订单状态">
                 <el-option v-for="item in orderState" :key="item.type" :label="item.value"
@@ -45,7 +43,7 @@
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="8">
+          <el-col :span="4">
             <el-form-item label="需求来源：">
               <el-cascader
                 style="width: 100%"
@@ -60,7 +58,7 @@
               </el-cascader>
             </el-form-item>
           </el-col>
-          <el-col :span="8">
+          <el-col :span="4">
             <el-form-item label="是否续费：">
               <el-select v-model="searchForm.isRenew" placeholder="请选择是否续费">
                 <el-option label="续费订单" :value="true"></el-option>
@@ -68,14 +66,12 @@
               </el-select>
             </el-form-item>
           </el-col>
-        </el-row>
-        <el-row class="el-row-cla">
-          <el-col :span="8">
+          <el-col :span="4">
             <el-form-item label="需求提供人：">
               <el-input type="text" v-model="searchForm.providerName"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="8">
+          <el-col :span="4">
             <el-form-item label="客户推荐来源：">
               <el-cascader
                 style="width: 100%"
@@ -90,30 +86,81 @@
               </el-cascader>
             </el-form-item>
           </el-col>
-          <el-col :span="8">
+          <el-col :span="4">
             <el-form-item label="客户推荐人：">
               <el-input type="text" v-model="searchForm.recommenderName"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row class="el-row-cla">
-          <el-col :span="8">
+          <el-col :span="4">
             <el-form-item label="需求公司：">
               <el-select v-model='searchForm.chanceSubordinateCompany' filterable placeholder="请选择需求公司">
                 <el-option v-for="(item, i) in subordinateCompany" :key="i" :value="item.id" :label="item.name"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="8">
+          <el-col :span="4">
             <el-form-item label="销售公司：">
               <el-select v-model='searchForm.salerSubordinateCompany' filterable placeholder="请选择销售公司">
                 <el-option v-for="(item, i) in subordinateCompany" :key="i" :value="item.id" :label="item.name"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
+          <el-col :span="8">
+            <el-form-item label="签单金额：">
+              <el-row>
+                <el-col :span="11">
+                  <el-input @change="intervalStartHandle" type="number"
+                            v-model.number="searchForm.startBillAmount"></el-input>
+                </el-col>
+                <el-col :span="2">
+                  <div style="text-align: center">-</div>
+                </el-col>
+                <el-col :span="11">
+                  <el-input @change="intervalEndHandle" type="number"
+                            v-model.number="searchForm.endBillAmount"></el-input>
+                </el-col>
+              </el-row>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="回款金额：">
+              <el-row>
+                <el-col :span="11">
+                  <el-input @change="intervalStartHandle" type="number"
+                            v-model.number="searchForm.startRefundAmount"></el-input>
+                </el-col>
+                <el-col :span="2">
+                  <div style="text-align: center">-</div>
+                </el-col>
+                <el-col :span="11">
+                  <el-input @change="intervalEndHandle" type="number"
+                            v-model.number="searchForm.endRefundAmount"></el-input>
+                </el-col>
+              </el-row>
+            </el-form-item>
+          </el-col>
         </el-row>
         <el-row class="el-row-cla">
-          <el-col :span="14">
+          <el-col :span="8">
+            <el-form-item label="待回款金额：">
+              <el-row>
+                <el-col :span="11">
+                  <el-input @change="intervalStartHandle" type="number"
+                            v-model.number="searchForm.startNotRefundAmount"></el-input>
+                </el-col>
+                <el-col :span="2">
+                  <div style="text-align: center">-</div>
+                </el-col>
+                <el-col :span="11">
+                  <el-input @change="intervalEndHandle" type="number"
+                            v-model.number="searchForm.endNotRefundAmount"></el-input>
+                </el-col>
+              </el-row>
+            </el-form-item>
+          </el-col>
+          <el-col :span="16">
             <el-form-item label="创建日期：">
               <el-date-picker
                 v-model="timeInterval"
@@ -130,62 +177,15 @@
           </el-col>
         </el-row>
         <el-row class="el-row-cla">
-          <el-col :span="12">
-            <el-form-item label="签单金额：">
-              <el-row>
-                <el-col :span="10">
-                  <el-input @change="intervalStartHandle" type="number"
-                            v-model.number="searchForm.startBillAmount"></el-input>
-                </el-col>
-                <el-col :span="2">
-                  <div style="text-align: center">-</div>
-                </el-col>
-                <el-col :span="10">
-                  <el-input @change="intervalEndHandle" type="number"
-                            v-model.number="searchForm.endBillAmount"></el-input>
-                </el-col>
-              </el-row>
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="回款金额：">
-              <el-row>
-                <el-col :span="10">
-                  <el-input @change="intervalStartHandle" type="number"
-                            v-model.number="searchForm.startRefundAmount"></el-input>
-                </el-col>
-                <el-col :span="2">
-                  <div style="text-align: center">-</div>
-                </el-col>
-                <el-col :span="10">
-                  <el-input @change="intervalEndHandle" type="number"
-                            v-model.number="searchForm.endRefundAmount"></el-input>
-                </el-col>
-              </el-row>
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="待回款金额：">
-              <el-row>
-                <el-col :span="10">
-                  <el-input @change="intervalStartHandle" type="number"
-                            v-model.number="searchForm.startNotRefundAmount"></el-input>
-                </el-col>
-                <el-col :span="2">
-                  <div style="text-align: center">-</div>
-                </el-col>
-                <el-col :span="10">
-                  <el-input @change="intervalEndHandle" type="number"
-                            v-model.number="searchForm.endNotRefundAmount"></el-input>
-                </el-col>
-              </el-row>
-            </el-form-item>
-          </el-col>
+        </el-row>
+        <el-row class="el-row-cla">
+        </el-row>
+        <el-row class="el-row-cla">
         </el-row>
       </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button class="cancel-button" @click="$vDialog.close({type: 'cancel'})">取 消</el-button>
-        <el-button class="cancel-button" @click="clearForm">清 除</el-button>
+     <div slot="footer" class="dialog-footer">
+        <!-- <el-button class="cancel-button" @click="$vDialog.close({type: 'cancel'})">取 消</el-button> -->
+        <el-button class="cancel-button" @click="clearForm">重 置</el-button>
         <el-button class="save-button" @click="saveSubmitForm">确 定</el-button>
       </div>
     </div>
@@ -200,8 +200,8 @@
     name: 'advancedSearch',
     data () {
       return {
-        orderState: [], // 订单状态
-        orderSource: [], // 订单来源
+        // orderState: [], // 订单状态
+        // orderSource: [], // 订单来源
         recommenderSource: [], // 订单来源
         subordinateCompany: [], //公司
         searchForm: { // 表单
@@ -243,7 +243,12 @@
         recommendersourceNameArr: [],
       }
     },
-    props: ['params'],
+    // props: ['params'],
+    props: {
+      orderState: '',
+      orderSource: '',
+      preAdvancedSearch: {},
+    },
     methods: {
       lastMonthDate () {
         return lastMonthDate()
@@ -334,7 +339,8 @@
       saveSubmitForm () {
         this.searchForm.sourceName = this.traverseTree(this.searchForm.orderSource)
         this.searchForm.recommenderSourcename = this.traverseTree2(this.searchForm.recommenderSource)
-        this.$vDialog.close({type: 'search', params: this.searchForm})
+        // this.$vDialog.close({type: 'search', params: this.searchForm})
+        this.$emit('subAdvanced', this.searchForm);
       },
       timeIntervalHandle (value) {
         this.searchForm.startDate = value[0] || ''
@@ -417,12 +423,14 @@
     },
     created () {
       this.getCompany()
-      this.orderState = this.params.orderState
-      this.orderSource = this.params.orderSource
-      this.recommenderSource = this.params.recommenderSource
+      // this.orderState = this.params.orderState
+      // this.orderSource = this.params.orderSource
+      // this.recommenderSource = this.params.recommenderSource
+      // this.recommenderSource = this.recommenderSource
       // 来源
       this.getConfigData(5, 0)
-      this.searchForm = this.params.preAdvancedSearch
+      // this.searchForm = this.params.preAdvancedSearch
+      this.searchForm = this.preAdvancedSearch
       if (this.searchForm.startDate) { // 日期
         this.timeInterval = [this.searchForm.startDate, this.searchForm.endDate]
       }
@@ -432,4 +440,7 @@
 
 <style scoped lang="scss" rel="stylesheet/scss">
   @import "../../../../styles/common";
+    .dialog-footer {
+      margin-top: 15px !important;
+    }
 </style>

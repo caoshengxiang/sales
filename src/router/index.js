@@ -42,7 +42,7 @@ const contactsList = resolve => require.ensure([],
   () => resolve(require('../view/saleManage/CRM/contacts/list')), 'contacts')
 const contactsDetail = resolve => require.ensure([],
   () => resolve(require('../view/saleManage/CRM/contacts/detailInfo')), 'customers')
-// 销售机会
+// 销售需求
 const salesOpportunitiesList = resolve => require.ensure([],
   () => resolve(require('../view/saleManage/CRM/salesOpportunities/list')),
   'salesOpportunities')
@@ -53,7 +53,7 @@ const salesOpportunitiesDetail = resolve => require.ensure([],
 const salesChannelRepositoryList = resolve => require.ensure([],
   () => resolve(require('../view/saleManage/CRM/channelRepository/list')),
   'salesOpportunities')
-// 销售机会
+// 销售需求
 const salesOpportunitiesListSeas = resolve => require.ensure([],
   () => resolve(require('../view/saleManage/CRM/salesOpportunitiesSeas/list')),
   'salesOpportunities')
@@ -356,7 +356,7 @@ const organizationList = resolve => require.ensure([],
 const customerPool = resolve => require.ensure([],
   () => resolve(require('../view/companyManage/organization/customerPool/customerPool')),
   'organization')
-// 机会池管理
+// 需求池管理
 const chancePool = resolve => require.ensure([],
   () => resolve(require('../view/companyManage/organization/chancePool/chancePool')),
   'organization')
@@ -560,9 +560,9 @@ const router = new Router({
           name: 'salesOpportunitiesList',
           component: salesOpportunitiesList,
           meta: {
-            title: '销售机会',
-            pos: [{name: '销售管理系统', toName: 'saleHome'}, {name: '销售机会'}],
-            pos2: [{name: '管理系统', toName: 'companyManageHome'}, {name: '销售机会'}],
+            title: '销售需求',
+            pos: [{name: '销售管理系统', toName: 'saleHome'}, {name: '销售需求'}],
+            pos2: [{name: '管理系统', toName: 'companyManageHome'}, {name: '销售需求'}],
           },
         },  {
           path: 'salesChannelRepositoryList',
@@ -578,39 +578,39 @@ const router = new Router({
           name: 'salesOpportunitiesDetail',
           component: salesOpportunitiesDetail,
           meta: {
-            title: '销售机会详情',
+            title: '销售需求详情',
             pos: [
               {name: '销售管理系统', toName: 'saleHome'},
-              {name: '销售机会', toName: 'salesOpportunitiesList'},
-              {name: '销售机会详情'}],
+              {name: '销售需求', toName: 'salesOpportunitiesList'},
+              {name: '销售需求详情'}],
             pos2: [
               {name: '管理系统', toName: 'companyManageHome'},
-              {name: '销售机会', toName: 'salesOpportunitiesList'},
-              {name: '销售机会详情'}],
+              {name: '销售需求', toName: 'salesOpportunitiesList'},
+              {name: '销售需求详情'}],
           },
         }, {
           path: 'salesOpportunitiesListSeas',
           name: 'salesOpportunitiesListSeas',
           component: salesOpportunitiesListSeas,
           meta: {
-            title: '销售机会公海',
-            pos: [{name: '销售管理系统', toName: 'saleHome'}, {name: '销售机会公海'}],
-            pos2: [{name: '管理系统', toName: 'companyManageHome'}, {name: '销售机会公海'}],
+            title: '销售需求公海',
+            pos: [{name: '销售管理系统', toName: 'saleHome'}, {name: '销售需求公海'}],
+            pos2: [{name: '管理系统', toName: 'companyManageHome'}, {name: '销售需求公海'}],
           },
         }, {
           path: 'salesOpportunitiesDetailSeas',
           name: 'salesOpportunitiesDetailSeas',
           component: salesOpportunitiesDetailSeas,
           meta: {
-            title: '销售机会详情',
+            title: '销售需求详情',
             pos: [
               {name: '销售管理系统', toName: 'saleHome'},
-              {name: '销售机会公海', toName: 'salesOpportunitiesListSeas'},
-              {name: '销售机会详情'}],
+              {name: '销售需求公海', toName: 'salesOpportunitiesListSeas'},
+              {name: '销售需求详情'}],
             pos2: [
               {name: '管理系统', toName: 'companyManageHome'},
-              {name: '销售机会公海', toName: 'salesOpportunitiesListSeas'},
-              {name: '销售机会详情'}],
+              {name: '销售需求公海', toName: 'salesOpportunitiesListSeas'},
+              {name: '销售需求详情'}],
           },
         }, {
           path: 'salesOrdersList',
@@ -1340,17 +1340,17 @@ const router = new Router({
               {name: '客户池管理'}],
           },
         },
-        // 企业管理 -- 机会池管理
+        // 企业管理 -- 需求池管理
         {
           path: 'chancePool',
           name: 'chancePool',
           component: chancePool,
           meta: {
-            title: '机会池管理',
+            title: '需求池管理',
             pos: [
               {name: '管理系统', toName: 'companyManageHome'},
               {name: '组织管理'},
-              {name: '机会池管理'}],
+              {name: '需求池管理'}],
           },
         },
         // 企业管理 -- 组织商品配置管理

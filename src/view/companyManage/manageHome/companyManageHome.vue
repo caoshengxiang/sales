@@ -60,7 +60,7 @@
         <el-col :span="8">
           <div class="col-box">
             <div class="title">
-              <span class="text">销售机会总量</span>
+              <span class="text">销售需求总量</span>
               <span class="tag">当前</span>
             </div>
             <div class="show">

@@ -3,9 +3,9 @@
     <div class="com-dialog">
       <el-form :model="searchForm" ref="searchForm" label-width="100px">
         <el-row class="el-row-cla">
-          <el-col :span="8">
+          <el-col :span="4">
             <el-form-item label="客户名称：">
-              <el-input type="text" v-model="searchForm.name"></el-input>
+              <el-input type="text" v-model="searchForm.name" placeholder="客户名称"></el-input>
             </el-form-item>
           </el-col>
           <!--<el-col :span="8">-->
@@ -13,26 +13,17 @@
               <!--<el-input type="text" v-model="searchForm.businessLicense"></el-input>-->
             <!--</el-form-item>-->
           <!--</el-col>-->
-          <el-col :span="8">
+          <el-col :span="4">
             <el-form-item label="客户识别码：">
-              <el-input type="text" v-model="searchForm.cdKey"></el-input>
+              <el-input type="text" v-model="searchForm.cdKey" placeholder="客户识别码"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="8">
+          <el-col :span="4">
             <el-form-item label="创建人：">
-              <el-input type="text" v-model="searchForm.creatorName"></el-input>
+              <el-input type="text" v-model="searchForm.creatorName" placeholder="创建人"></el-input>
             </el-form-item>
           </el-col>
-        </el-row>
-        <!--<el-row class="el-row-cla">-->
-        <!--<el-col :span="8">-->
-        <!--<el-form-item label="销售人：">-->
-        <!--<el-input type="text" v-model="searchForm.salerName"></el-input>-->
-        <!--</el-form-item>-->
-        <!--</el-col>-->
-        <!--</el-row>-->
-        <el-row class="el-row-cla">
-          <el-col :span="8">
+          <el-col :span="4">
             <el-form-item label="客户级别：">
               <el-select v-model="searchForm.level" placeholder="请选择客户级别">
                 <el-option v-for="(item, index) in levelList" :key="index" :label="item.codeName"
@@ -40,7 +31,7 @@
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="8">
+          <el-col :span="4">
             <el-form-item label="客户行业：" prop="industry">
               <el-cascader
                 v-model="searchForm.industryArr"
@@ -54,7 +45,7 @@
               </el-cascader>
             </el-form-item>
           </el-col>
-          <el-col :span="8">
+          <el-col :span="4">
             <el-form-item label="客户地区：">
               <AreaSelect ref="areaSe"
                           :area="(searchForm.provinceName?searchForm.provinceName:'') + ' ' + (searchForm.cityName?searchForm.cityName:'')  + ' ' + (searchForm.areaName?searchForm.areaName:'')"
@@ -63,15 +54,22 @@
             </el-form-item>
           </el-col>
         </el-row>
+        <!--<el-row class="el-row-cla">-->
+        <!--<el-col :span="8">-->
+        <!--<el-form-item label="销售人：">-->
+        <!--<el-input type="text" v-model="searchForm.salerName"></el-input>-->
+        <!--</el-form-item>-->
+        <!--</el-col>-->
+        <!--</el-row>-->
         <el-row class="el-row-cla">
-          <el-col :span="8">
+          <el-col :span="4">
             <el-form-item label="所属公海：">
               <el-select v-model.number="searchForm.seaId" placeholder="请选择所属公海">
                 <el-option v-for="item in seaList" :key="item.id" :label="item.name" :value="item.id"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="8">
+          <el-col :span="4">
             <el-form-item label="客户来源：">
               <!--<el-select v-model="searchForm.customerSource" placeholder="请选择客户来源">-->
               <!--<el-option v-for="item in customerSourceType" :key="item.type" :label="item.value"-->
@@ -79,7 +77,7 @@
               <!--</el-select>-->
               <el-cascader
                 :change-on-select="selectLastLevelMode"
-                :options="customerSourceType"
+                :options="customerSourceTypees"
                 v-model="customerSourceArr"
                 @active-item-change="customerSourceChangeHandle"
                 @change="customerSourceChangeHandle"
@@ -90,11 +88,35 @@
               </el-cascader>
             </el-form-item>
           </el-col>
-          <el-col :span="8">
+          <el-col :span="4">
             <el-form-item label="状态：">
               <el-select v-model="searchForm.state" placeholder="请选择状态">
                 <el-option v-for="item in customerState" :key="item.type" :label="item.value"
                            :value="item.type"></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="4">
+            <el-form-item label="客户类型：">
+              <el-select v-model="searchForm.cate" placeholder="请选择客户类型">
+                <el-option label="个人" :value="1"></el-option>
+                <el-option label="机构" :value="2"></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="4">
+            <el-form-item label="客户有效性：">
+              <el-select v-model="searchForm.customerStatus" placeholder="请选择客户有效性">
+                <el-option label="待判断" :value="0"></el-option>
+                <el-option label="有效" :value="1"></el-option>
+                <el-option label="无效" :value="-1"></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="4">
+            <el-form-item label="所属公司：">
+              <el-select v-model='searchForm.subordinateCompany' filterable placeholder="请选择所属公司">
+                <el-option v-for="(item, i) in subordinateCompany" :key="i" :value="item.id" :label="item.name"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
@@ -105,33 +127,14 @@
               <!--<el-input type="text" v-model="searchForm.phone"></el-input>-->
             <!--</el-form-item>-->
           <!--</el-col>-->
-          <el-col :span="8">
-            <el-form-item label="客户类型：">
-              <el-select v-model="searchForm.cate" placeholder="请选择客户类型">
-                <el-option label="个人" :value="1"></el-option>
-                <el-option label="机构" :value="2"></el-option>
-              </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="客户有效性：">
-              <el-select v-model="searchForm.customerStatus" placeholder="请选择客户有效性">
-                <el-option label="待判断" :value="0"></el-option>
-                <el-option label="有效" :value="1"></el-option>
-                <el-option label="无效" :value="-1"></el-option>
-              </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="所属公司：">
-              <el-select v-model='searchForm.subordinateCompany' filterable placeholder="请选择所属公司">
-                <el-option v-for="(item, i) in subordinateCompany" :key="i" :value="item.id" :label="item.name"></el-option>
-              </el-select>
-            </el-form-item>
-          </el-col>
         </el-row>
         <el-row class="el-row-cla">
-          <el-col :span="14">
+          <el-col :span="8">
+            <el-form-item label="客户ID：">
+              <el-input type="text" v-model="searchForm.id" placeholder="客户ID"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="16">
             <el-form-item label="创建日期：">
               <el-date-picker
                 v-model="timeInterval"
@@ -147,16 +150,11 @@
               </el-date-picker>
             </el-form-item>
           </el-col>
-          <el-col :span="10">
-            <el-form-item label="客户ID：">
-              <el-input type="text" v-model="searchForm.id"></el-input>
-            </el-form-item>
-          </el-col>
         </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button class="cancel-button" @click="$vDialog.close({type: 'cancel'})">取 消</el-button>
-        <el-button class="cancel-button" @click="clearForm">清 除</el-button>
+        <!-- <el-button class="cancel-button" @click="$vDialog.close({type: 'cancel'})">取 消</el-button> -->
+        <el-button class="cancel-button" @click="clearForm">重 置</el-button>
         <el-button class="save-button" @click="saveSubmitForm">确 定</el-button>
       </div>
     </div>
@@ -174,7 +172,7 @@
         industryList: [], // 行业
         levelList: [], // 级别
         seaList: [], // 公海
-        customerState: [], // 客户状态
+        // customerState: [], // 客户状态
         subordinateCompany: [], //所属公司
         searchForm: { // 表单
           name: null,
@@ -199,7 +197,7 @@
           id: null,
         },
         timeInterval: [],
-        customerSourceType: [], // 客户来源
+        // customerSourceType: [], // 客户来源
         customerSourceArr: [],
         props: {
           value: 'id',
@@ -221,11 +219,18 @@
           //   }
           // }
         },
-        nameArr: [],
+        // nameArr: [],
         industryPlaceholder: '请选择',
+        customerSourceTypees: this.customerSourceType,
       }
     },
-    props: ['params'],
+    // props: ['params'],
+    props: {
+      customerSourceType: '',
+      customerState: '',
+      nameArr: '',
+      preAdvancedSearch: {},
+    },
     methods: {
       lastMonthDate () {
         return lastMonthDate()
@@ -234,7 +239,7 @@
         this.searchForm = {}
         this.timeInterval = []
         this.industryPlaceholder = '请选择';
-        this.nameArr = [];
+        this.nameArr = '';
       },
       treeGetName (id, node) { // 遍历树获取名称
         if (!node) {
@@ -259,7 +264,7 @@
         let sourceArr = source.split('-')
         this.sourceNameArr = [] // 初始
         sourceArr.forEach((item, index) => {
-          this.treeGetName(parseInt(item, 10), this.customerSourceType)
+          this.treeGetName(parseInt(item, 10), this.customerSourceTypees)
         })
         return this.sourceNameArr.join('-')
       },
@@ -270,7 +275,8 @@
           this.searchForm.industryArr = [];
         }
         this.searchForm.sourceName = this.traverseTree(this.searchForm.customerSource)
-        this.$vDialog.close({type: 'search', params: {preAdvancedSearch: this.searchForm, nameArr: this.nameArr}})
+        // this.$vDialog.close({type: 'search', params: {preAdvancedSearch: this.searchForm, nameArr: this.nameArr}})
+        this.$emit('subAdvanced', {preAdvancedSearch: this.searchForm, nameArr: this.nameArr});
       },
       getConfigData (type, pCode) {
         API.common.codeConfig({type: type, pCode: pCode}, (data) => {
@@ -283,8 +289,8 @@
               item.children = []
               return item
             })
-            if (this.customerSourceType.length === 0) {
-              this.customerSourceType = arr
+            if (this.customerSourceTypees.length === 0) {
+              this.customerSourceTypees = arr
             } else {
 
             }
@@ -295,7 +301,7 @@
       //   this.searchForm.customerSource = va.join('-')
       // },
       customerSourceChangeHandle (va) {
-        this.getLastItem(this.customerSourceType, va, 'id')
+        this.getLastItem(this.customerSourceTypees, va, 'id')
         API.common.codeConfig({type: 5, pCode: va[va.length - 1]}, (data) => {
           if (data.data.length) {
             let arr = data.data.map((item) => {
@@ -418,12 +424,12 @@
       this.getConfigData(5, 0)
       this.getSeaList()
       this.getCompany()
-      // this.customerSourceType = this.params.customerSourceType
-      this.customerState = this.params.customerState
-      this.searchForm = this.params.preAdvancedSearch
-      if(this.params.nameArr) {
-        if(this.params.nameArr.length > 0) {
-          this.industryPlaceholder = this.params.nameArr.join('/');
+      // this.customerSourceType = this.customerSourceType
+      this.customerState = this.customerState
+      this.searchForm = this.preAdvancedSearch
+      if(this.nameArr) {
+        if(this.nameArr.length > 0) {
+          this.industryPlaceholder = this.nameArr.join('/');
         }
       }
       if (this.searchForm.startDate) { // 日期
@@ -436,4 +442,7 @@
 
 <style scoped lang="scss" rel="stylesheet/scss">
   @import "../../../../styles/common";
+    .dialog-footer {
+      margin-top: 15px !important;
+    }
 </style>

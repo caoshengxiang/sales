@@ -17,7 +17,7 @@
       //- 后端
       div.com-bar-right(v-if="themeIndex === 1")
         el-select.com-el-select(v-model="organizationId" @change="searchHandle" placeholder="请选择组织" style="width: 200px")
-          el-option(label="全部组织的销售机会" :value="null")
+          el-option(label="全部组织的销售需求" :value="null")
           el-option(v-for="item in organizationOptions" :key="item.id" :label="item.name" :value="item.id")
         //- com-button(buttonType="search" @click="searchHandle") 搜索
         com-button(buttonType="search" @click="advancedSearchHandle") 高级搜索

@@ -119,10 +119,10 @@
             </td>
           </tr>
           <tr>
-            <td class="td-title">机会公海</td>
+            <td class="td-title">需求公海</td>
             <td class="td-text">
               <el-form-item prop="chanceSeaId">
-                <el-select v-model.number="addForm.chanceSeaId" placeholder="请选择机会公海" style="width: 100%;">
+                <el-select v-model.number="addForm.chanceSeaId" placeholder="请选择需求公海" style="width: 100%;">
                   <el-option v-for="item in seaList" :key="item.id" :label="item.name" :value="item.id"></el-option>
                 </el-select>
               </el-form-item>
@@ -200,11 +200,11 @@
           cityId: '',
           areaId: '',
           industry: '', // 行业
-          chanceSeaId: '', // 机会公海
+          chanceSeaId: '', // 需求公海
           billDate: '',
           intentBillAmount: '',
           chanceRemark: '',
-          pageSource: 2, // 公海添加机会，传2. 其他传1
+          pageSource: 2, // 公海添加需求，传2. 其他传1
           chanceSource: '',
           provider: '', // 需求提供人
         },
@@ -252,7 +252,7 @@
             {required: true, message: '请选择行业', trigger: 'change'},
           ],
           chanceSeaId: [
-            {required: true, message: '请选择机会公海', trigger: 'change'},
+            {required: true, message: '请选择需求公海', trigger: 'change'},
           ],
           provider: [
             {required: true, message: '请选择需求提供人', trigger: 'change'},
@@ -544,7 +544,7 @@
       },
       billDateChangeHandle (t) {
       },
-      getSeaList () { // 机会公海
+      getSeaList () { // 需求公海
         API.salesOpportunitiesSea.listAboutCustomer((data) => {
           this.seaList = data.data
         })
@@ -573,7 +573,7 @@
       }
       if (this.params.stateValue) { // 设置默认2，销售阶段；[公海1]
         this.addForm.state = this.params.stateValue
-        this.addForm.pageSource = 2 // 公海添加机会，传2. 其他传1
+        this.addForm.pageSource = 2 // 公海添加需求，传2. 其他传1
       }
       if (this.params.detailCustomersId) { // 详细页面的添加, 并禁用下拉列表
         this.addForm.customerId = this.params.detailCustomersId

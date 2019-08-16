@@ -121,7 +121,7 @@
         dataLoading: false, // loading
         buttonLoading: false,
         customersList: [], // 客户列表
-        chanceList: [], // 客户对应的机会列表
+        chanceList: [], // 客户对应的需求列表
         contactList: [], // 客户对应的联系人列表
         productsList: [], // 产品【规格】列表
         contractSubjects: [], // 签约主体
@@ -270,7 +270,7 @@
           if (data.status) {
             this.customersList = data.data
 
-            // 客户详情快捷添加销售机会时默认有客户调取商品
+            // 客户详情快捷添加销售需求时默认有客户调取商品
             if(this.params.detailCustomersId > 0) {
               let _cate = '';
               if(this.customersList.length > 0) {
@@ -287,14 +287,14 @@
           }
         })
       },
-      getChanceList (customerId) { // 签单客户对应的机会中【需过滤：操作人为销售机会的销售跟进人[更进人就是销售人]的销售机会列表】
+      getChanceList (customerId) { // 签单客户对应的需求中【需过滤：操作人为销售需求的销售跟进人[更进人就是销售人]的销售需求列表】
         API.salesOpportunities.list({customerId: customerId, pageSize: 10000, stage: -2}, (da) => {
           this.chanceList = da.data.content
           let userId = webStorage.getItem('userInfo').id
           this.chanceList = this.chanceList.filter(item => {
             return item.salerId === userId
           })
-          if (this.params.detailChanceId) { // 销售机会详细页面，添加订单
+          if (this.params.detailChanceId) { // 销售需求详细页面，添加订单
             this.addForm.chanceId = this.params.detailChanceId
             this.intentProductChange() // 对应购买商品
           }
@@ -345,7 +345,7 @@
         // 清除签约主体
         // this.addForm.contractSubjectId = ''
       },
-      intentProductChange () { // 机会change
+      intentProductChange () { // 需求change
         this.chanceList.forEach(item => {
           if (item.id === this.addForm.chanceId) {
             this.productIds = item.intentProductId
@@ -373,9 +373,9 @@
             // 对应的签约主体
             this.getContractSubjects(item.intentProductId)
             // 重置来源
-            this.orderSourceArr = item.chanceSource.split('-') // 获取机会对应来源
+            this.orderSourceArr = item.chanceSource.split('-') // 获取需求对应来源
             this.addForm.orderSource = item.chanceSource
-            this.addForm.orderSourceName = item.chanceSourceName || '' // 获取机会对应来源
+            this.addForm.orderSourceName = item.chanceSourceName || '' // 获取需求对应来源
           }
         })
       },
@@ -404,7 +404,7 @@
           }
         })
       },
-      customerChange (value) { // 客户对应的机会和联系人
+      customerChange (value) { // 客户对应的需求和联系人
         // this.getChanceList(this.addForm.customerId)
         this.getContactList(this.addForm.customerId)
 

@@ -42,8 +42,8 @@
             <span>销售管理</span>
           </template>
           <el-menu-item-group>
-            <el-menu-item index="salesOpportunitiesList" v-if="listPermissions(menus, 'salerChance')">销售机会管理</el-menu-item>
-            <el-menu-item index="salesOpportunitiesListSeas" v-if="listPermissions(menus, 'chanceSea')">机会公海管理</el-menu-item>
+            <el-menu-item index="salesOpportunitiesList" v-if="listPermissions(menus, 'salerChance')">销售需求管理</el-menu-item>
+            <el-menu-item index="salesOpportunitiesListSeas" v-if="listPermissions(menus, 'chanceSea')">需求公海管理</el-menu-item>
             <el-menu-item index="salesOrdersList" v-if="listPermissions(menus, 'salerOrder')">销售订单管理</el-menu-item>
             <el-menu-item index="returnRecordList" v-if="listPermissions(menus, 'refund')">回款记录管理</el-menu-item>
             <el-menu-item index="orderRecordsList" v-if="listPermissions(menus, 'followOrder')">跟单记录管理</el-menu-item>
@@ -186,7 +186,7 @@
             <el-menu-item index="organizationList" v-if="listPermissions(menus, 'orgManagementSub')">组织管理</el-menu-item>
             <el-menu-item index="customerPool" v-if="listPermissions(menus, 'customerPool')">客户池管理</el-menu-item>
             <el-menu-item index="organizationProductSetting" v-if="listPermissions(menus, 'orgGoodsConfig')">组织商品配置</el-menu-item>
-            <el-menu-item index="chancePool" v-if="listPermissions(menus, 'chancePool')">机会池管理</el-menu-item>
+            <el-menu-item index="chancePool" v-if="listPermissions(menus, 'chancePool')">需求池管理</el-menu-item>
           </el-menu-item-group>
         </el-submenu>
         <el-submenu index="financial" v-if="listPermissions(menus, 'financialManagement')">
@@ -248,7 +248,7 @@
           <el-menu-item-group>
             <el-menu-item index="customersList" v-if="listPermissions(menus, 'customerManagement')">客户管理</el-menu-item>
             <el-menu-item index="contactsList" v-if="listPermissions(menus, 'contactManagement')">联系人管理</el-menu-item>
-            <el-menu-item index="salesOpportunitiesList" v-if="listPermissions(menus, 'salerChanceManagement')">销售机会管理
+            <el-menu-item index="salesOpportunitiesList" v-if="listPermissions(menus, 'salerChanceManagement')">销售需求管理
             </el-menu-item>
             <el-menu-item index="salesOrdersList" v-if="listPermissions(menus, 'salerOrderManagement')">销售订单管理
             </el-menu-item>

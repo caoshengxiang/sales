@@ -349,7 +349,7 @@
 				<div ref="downloadCode" style="min-height: 200px;margin: 20px;padding: 20px;display: inline-block">
 					<vue-qr :logoSrc="config1.logo" :text="config1.value" :size="200" :margin="0" :callback="agentRecCallback" qid="activity-2"></vue-qr>
 				</div>
-				<p class="name">活动的专属二维码录入销售机会</p>
+				<p class="name">活动的专属二维码录入销售需求</p>
 			</div>
 			<span slot="footer" class="dialog-footer">
 				<el-button @click="dialogVisible = false">取 消</el-button>

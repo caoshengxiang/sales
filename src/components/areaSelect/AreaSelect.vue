@@ -48,6 +48,11 @@ area,预显示地址
         required: false,
         default: 0,
       },
+      // 是否清空绑定值
+      isNullVlaue: {
+        type: Number,
+        default: 0,
+      },
       area: {
         type: String,
         default: '',
@@ -75,6 +80,8 @@ area,预显示地址
     created () {
       var that = this
       that.$options.methods.init.bind(that)()
+    },
+    watch: {
     },
     methods: {
       init () {
@@ -199,7 +206,7 @@ area,预显示地址
               }
               loopDo(that.list, pid)
               that.selectedBindValue = that.selectedValue
-              
+
               if(that.needClick) return;
               setTimeout(function () {
                 if ($('.selectAreaModule').hasClass('is-opened')) {

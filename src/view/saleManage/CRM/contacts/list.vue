@@ -27,8 +27,9 @@
             :value="item.type">
           </el-option>
         </el-select>
-        <com-button buttonType="search" @click="searchHandle">搜索</com-button>
-        <com-button buttonType="search" @click="advancedSearchHandle" style="">高级搜索</com-button>
+        <com-button buttonType="search" @click="searchHandle" class="sear">筛选</com-button>
+        <!-- <com-button buttonType="search" @click="advancedSearchHandle" style="">高级搜索</com-button> -->
+        <com-button style="background: #F7F8F7;" class="sear" @click="showAdvanceSearch">高级搜索<i :class="advancedSearchShow ? 'el-icon-arrow-up el-icon--right' : 'el-icon-arrow-down el-icon--right'"></i></com-button>
       </div>
       <div class="com-bar-right" v-if="themeIndex === 1"><!--后端-->
         <el-select
@@ -44,9 +45,19 @@
           </el-option>
         </el-select>
         <!--<com-button buttonType="search" @click="searchHandle">搜索</com-button>-->
-        <com-button buttonType="search" @click="advancedSearchHandle" style="">高级搜索</com-button>
+        <!-- <com-button buttonType="search" @click="advancedSearchHandle" style="">高级搜索</com-button> -->
+        <com-button style="background: #F7F8F7;" class="sear" @click="showAdvanceSearch">高级搜索<i :class="advancedSearchShow ? 'el-icon-arrow-up el-icon--right' : 'el-icon-arrow-down el-icon--right'"></i></com-button>
       </div>
     </div>
+    <!-- 高级搜素 -->
+    <transition name="el-zoom-in-top">
+      <div class="advancedSearch" v-if="advancedSearchShow">
+        <div class="advancedSearch-left">
+          <p style="font-size: 15px; padding-top: 10px;color: #606266; text-indent: 15px;">填写搜索条件></p>
+          <advancedSearch ref="advanced" :contactsStatus="contactsStatus" :preAdvancedSearch="advancedSearch" @subAdvanced="subAdvanced"></advancedSearch>
+        </div>
+      </div>
+    </transition>
     <!--详细-->
     <div class="com-box com-box-padding com-list-box">
       <el-table
@@ -247,12 +258,18 @@
   import advancedSearch from './advancedSearch'
   import { underscoreName } from '../../../../utils/utils'
 
+  // import 'element-ui/lib/theme-chalk/base.css';
+  import CollapseTransition from 'element-ui/lib/transitions/collapse-transition';
+  import Vue from 'vue'
+  Vue.component(CollapseTransition.name, CollapseTransition)
+
   export default {
     name: 'list',
     data () {
       return {
         h: document.body.clientHeight,
         posheight: 100,
+        advancedSearchShow: false,
         timer: false,
         dataLoading: false,
         // addDialogOpen: false,
@@ -318,11 +335,21 @@
     components: {
       comButton,
       addDialog,
+      advancedSearch,
     },
     methods: {
       ...mapActions('contacts', [
         'ac_contactsList',
       ]),
+      subAdvanced (item) {
+        this.currentPage = 1;
+        this.advancedSearch = item
+        this.getContactsList()
+      },
+      showAdvanceSearch () {
+        this.advancedSearchShow = !this.advancedSearchShow;
+        this.posTableHeight();
+      },
       posTableHeight () {
         let h = document.body.clientHeight,
             new_h = h - 260;
@@ -445,5 +472,32 @@
 </script>
 
 <style scoped lang="scss" rel="stylesheet/scss">
-  @import "../../../../styles/common";
+  @import "../../../../styles/commons";
+  .com-container .com-bar {
+    padding: 15px 20px;
+  }
+  .advancedSearch {
+    overflow: hidden;
+    border-top: 8px solid #F0F3F6;
+    border-bottom: 8px solid #F0F3F6;
+    .com-dialog-container {
+      padding: 15px 20px 15px 10px;
+    }
+    .advancedSearch-left {
+      float: left;
+      overflow: hidden;
+    }
+  }
+  .com-bar {
+    padding-bottom: 7px;
+    .com-el-select {
+      float: left;
+      margin-top: -7px;
+      margin-right: 10px;
+    }
+    .sear {
+      float:left;
+      margin-top: -7px;
+    }
+  }
 </style>

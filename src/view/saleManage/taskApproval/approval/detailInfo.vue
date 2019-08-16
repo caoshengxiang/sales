@@ -105,7 +105,7 @@
             </tr>
           </table>
 
-          <p class="table-title">销售机会基本信息</p>
+          <p class="table-title">销售需求基本信息</p>
           <table class="detail-table">
             <tr>
               <td class="td-title">客户名称</td>
@@ -138,7 +138,7 @@
             <!--<td></td>-->
             <!--</tr>-->
             <tr>
-              <td class="td-title">销售机会备注</td>
+              <td class="td-title">销售需求备注</td>
               <td colspan="5">{{salesOpportunitiesDetail.chanceRemark || '暂无备注信息'}}</td>
             </tr>
             <tr>
@@ -155,7 +155,7 @@
               </td>
             </tr>
             <tr>
-              <td class="td-title">机会输单备注</td>
+              <td class="td-title">需求输单备注</td>
               <td colspan="5">{{salesOpportunitiesDetail.discardRemark || '暂无备注信息'}}</td>
             </tr>
           </table>
@@ -793,10 +793,10 @@
             that.detailInfo.publishTime = moment(that.detailInfo.publishTime).format('YYYY-MM-DD HH:mm:ss')
             that.detailInfo.deadline = moment(that.detailInfo.deadline).format('YYYY-MM-DD HH:mm:ss')
 
-            if (that.detailInfo.approvalType === 1 || that.detailInfo.approvalType === 2) { // 1:申请咨询师协同 2:申请移除咨询师 【businessId 机会id】
+            if (that.detailInfo.approvalType === 1 || that.detailInfo.approvalType === 2) { // 1:申请咨询师协同 2:申请移除咨询师 【businessId 需求id】
               API.task.chanceDetail({chanceId: that.detailInfo.businessId}, (data) => {
                 that.salesOpportunitiesDetail = data.data
-                if (that.salesOpportunitiesDetail.customerId) { // 机会有客户id
+                if (that.salesOpportunitiesDetail.customerId) { // 需求有客户id
                   API.task.customerDetail({customerId: that.salesOpportunitiesDetail.customerId}, (data) => {
                     that.customerDetail = data.data
                     setTimeout(() => {

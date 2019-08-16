@@ -18,7 +18,7 @@
       <div class="com-bar-left">
         <com-button buttonType="add" @click="addHandle">新增</com-button>
         <com-button buttonType="add" :disabled="multipleSelection.length != 1" @click='perfectVisitor'>完善访客</com-button>
-        
+
         <span style='margin-left: 10px;'>
             <el-select
               v-model="selectVisType"
@@ -39,13 +39,14 @@
         <!--</com-button>-->
       </div>
       <div class="com-bar-right" v-if="themeIndex === 0"><!--前端-->
-        <com-button buttonType="export" icon="el-icon-download" @click="excelExport">导入模板下载</com-button>
-        <com-button buttonType="import" style="position: relative;overflow: hidden;">
+        <com-button buttonType="export" icon="el-icon-download" @click="excelExport" class="sear">导入模板下载</com-button>
+        <com-button buttonType="import" style="position: relative;overflow: hidden;" class="sear">
           <input id="modelValue" @change="fileUploadHandle" type="file" style="position: absolute;top: 0;left: 0; right: 0;bottom: 0;opacity: 0;">
           批量导入
         </com-button>
-        
-        <com-button buttonType="search" @click="advancedSearchHandle" style="">高级搜索</com-button>
+
+        <!-- <com-button buttonType="search" @click="advancedSearchHandle" style="">高级搜索</com-button> -->
+        <com-button style="background: #F7F8F7;" class="sear" @click="showAdvanceSearch">高级搜索<i :class="advancedSearchShow ? 'el-icon-arrow-up el-icon--right' : 'el-icon-arrow-down el-icon--right'"></i></com-button>
       </div>
       <div class="com-bar-right" v-if="themeIndex === 1"><!--后端-->
         <el-select
@@ -61,9 +62,19 @@
           </el-option>
         </el-select>
         <!--<com-button buttonType="search" @click="searchHandle">搜索</com-button>-->
-        <com-button buttonType="search" @click="advancedSearchHandle" style="">高级搜索</com-button>
+        <!-- <com-button buttonType="search" @click="advancedSearchHandle" style="">高级搜索</com-button> -->
+        <com-button style="background: #F7F8F7;" class="sear" @click="showAdvanceSearch">高级搜索<i :class="advancedSearchShow ? 'el-icon-arrow-up el-icon--right' : 'el-icon-arrow-down el-icon--right'"></i></com-button>
       </div>
     </div>
+    <!-- 高级搜素 -->
+    <transition name="el-zoom-in-top">
+      <div class="advancedSearch" v-if="advancedSearchShow">
+        <div class="advancedSearch-left">
+          <p style="font-size: 15px; padding-top: 10px;color: #606266; text-indent: 15px;">填写搜索条件></p>
+          <advancedSearch ref="advanced" :customerSourceType="[]" :customerState="customerState" :nameArr="nameArr"  :preAdvancedSearch="advancedSearch" @subAdvanced="subAdvanced"></advancedSearch>
+        </div>
+      </div>
+    </transition>
     <!--详细-->
     <div class="com-box com-box-padding com-list-box">
       <el-table
@@ -323,7 +334,7 @@
         :page-size="pagesOptions.pageSize">
       </el-pagination>
     </div>
-    
+
     <el-dialog
       :title="listText"
       :visible.sync="orderDialogVisible"
@@ -551,12 +562,18 @@
   import QS from 'qs'
   import webStorage from 'webStorage'
 
+  // import 'element-ui/lib/theme-chalk/base.css';
+  import CollapseTransition from 'element-ui/lib/transitions/collapse-transition';
+  import Vue from 'vue'
+  Vue.component(CollapseTransition.name, CollapseTransition)
+
   export default {
     name: 'list',
     data () {
       return {
         h: document.body.clientHeight,
         posheight: 100,
+        advancedSearchShow: false,
         timer: false,
         selectVisType: 0,
         listText: '需求列表',
@@ -632,11 +649,22 @@
       comButton,
       addDialog,
       // moveDialog,
+      advancedSearch,
     },
     methods: {
       // moment (Timestamps, str) {
       //   return moment(Timestamps).format(str)
       // },
+      subAdvanced (item) {
+        this.currentPage = 1;
+        this.advancedSearch = item.preAdvancedSearch
+        this.nameArr = item.nameArr;
+        this.getCustomerList()
+      },
+      showAdvanceSearch () {
+        this.advancedSearchShow = !this.advancedSearchShow;
+        this.posTableHeight();
+      },
       // 选择客户类型
       selectVis () {
           this.currentPage = 1
@@ -903,8 +931,8 @@
 </script>
 
 <style scoped lang="scss" rel="stylesheet/scss">
-  @import "../../../../styles/common";
-	
+  @import "../../../../styles/commons";
+
 	.customer-identification {
 		cursor: pointer;
 		color: #1E88E5;
@@ -916,5 +944,32 @@
     max-height: 500px;
     overflow: hidden;
     overflow-y: scroll;
+  }
+  .com-container .com-bar {
+    padding: 15px 20px;
+  }
+  .advancedSearch {
+    overflow: hidden;
+    border-top: 8px solid #F0F3F6;
+    border-bottom: 8px solid #F0F3F6;
+    .com-dialog-container {
+      padding: 15px 20px 15px 10px;
+    }
+    .advancedSearch-left {
+      float: left;
+      overflow: hidden;
+    }
+  }
+  .com-bar {
+    padding-bottom: 7px;
+    .com-el-select {
+      // float: left;
+      margin-top: -7px;
+      margin-right: 10px;
+    }
+    .sear {
+      float:left;
+      margin-top: -7px;
+    }
   }
 </style>

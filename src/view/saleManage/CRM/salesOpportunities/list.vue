@@ -20,16 +20,16 @@
                     :disabled="multipleSelection.length <= 0">删除
         </com-button>
         <com-button buttonType="add" icon="el-icon-plus" @click="operateOptions('add')">新增</com-button>
-        <!-- 销售机会模块列表中“转移”按钮与销售机会详情里面“转移”按钮隐藏
-          业务模式发生变化，同一客户（含该客户的销售机会）同一时间在同一分子公司只能存在一个销售跟进人员，为了避免同一客户多个销售机会被多个用户跟进，故需要隐藏销售机会“转移”功能
+        <!-- 销售需求模块列表中“转移”按钮与销售需求详情里面“转移”按钮隐藏
+          业务模式发生变化，同一客户（含该客户的销售需求）同一时间在同一分子公司只能存在一个销售跟进人员，为了避免同一客户多个销售需求被多个用户跟进，故需要隐藏销售需求“转移”功能
           [期望]
-          销售机会模块列表中“转移”按钮与销售机会详情里面“转移”按钮隐藏-->
+          销售需求模块列表中“转移”按钮与销售需求详情里面“转移”按钮隐藏-->
         <com-button buttonType="orange" @click="operateOptions('move')"
         :disabled="multipleSelection.length <= 0"><i class="el-icon-sort"
         style="transform: rotate(90deg)"></i> 转移
         </com-button>
         <com-button buttonType="backHighSeas" icon="el-icon-back" @click="operateOptions('return')"
-        :disabled="multipleSelection.length <= 0">退回机会公池
+        :disabled="multipleSelection.length <= 0">退回需求公池
         </com-button>
       </div>
       <div class="com-bar-right" v-if="themeIndex === 0"><!--前端-->
@@ -41,15 +41,16 @@
             :value="item.type">
           </el-option>
         </el-select>
-        <com-button buttonType="search" @click="searchHandle">搜索</com-button>
-        <com-button buttonType="search" @click="advancedSearchHandle" style="">高级搜索</com-button>
+        <com-button buttonType="search" @click="searchHandle" class="sear">筛选</com-button>
+        <!-- <com-button buttonType="search" @click="advancedSearchHandle" style="">高级搜索</com-button> -->
+        <com-button style="background: #F7F8F7;" class="sear" @click="showAdvanceSearch">高级搜索<i :class="advancedSearchShow ? 'el-icon-arrow-up el-icon--right' : 'el-icon-arrow-down el-icon--right'"></i></com-button>
       </div>
       <div class="com-bar-right" v-if="themeIndex === 1"><!--后端-->
         <el-select
           v-model="organizationId"
           @change="searchHandle"
           placeholder="请选择组织" class="com-el-select" style="width: 200px">
-          <el-option label="全部组织的销售机会" :value="null"></el-option>
+          <el-option label="全部组织的销售需求" :value="null"></el-option>
           <el-option
             v-for="item in organizationOptions"
             :key="item.id"
@@ -58,9 +59,19 @@
           </el-option>
         </el-select>
         <!--<com-button buttonType="search" @click="searchHandle">搜索</com-button>-->
-        <com-button buttonType="search" @click="advancedSearchHandle" style="">高级搜索</com-button>
+        <!-- <com-button buttonType="search" @click="advancedSearchHandle" style="">高级搜索</com-button> -->
+        <com-button style="background: #F7F8F7;" class="sear" @click="showAdvanceSearch">高级搜索<i :class="advancedSearchShow ? 'el-icon-arrow-up el-icon--right' : 'el-icon-arrow-down el-icon--right'"></i></com-button>
       </div>
     </div>
+    <!-- 高级搜素 -->
+    <transition name="el-zoom-in-top">
+      <div class="advancedSearch" v-if="advancedSearchShow">
+        <div class="advancedSearch-left">
+          <p style="font-size: 15px; padding-top: 10px;color: #606266; text-indent: 15px;">填写搜索条件></p>
+          <advancedSearch ref="advanced" :salesState="salesState" :demandSource="demandSource" :preAdvancedSearch="advancedSearch" @subAdvanced="subAdvanced"></advancedSearch>
+        </div>
+      </div>
+    </transition>
     <!--详细-->
     <div class="com-box com-box-padding com-list-box">
       <el-table
@@ -161,7 +172,7 @@
           align="center"
           sortable="custom"
           prop="salerName"
-          label="需求销售员"
+          label="商务管家"
           width="160"
           show-overflow-tooltip>
         </el-table-column>
@@ -326,12 +337,18 @@
   import intentionLevelDialog from './intentionLevelDialog'
   import bindCustomer from './bindCustomer'
 
+  // import 'element-ui/lib/theme-chalk/base.css';
+  import CollapseTransition from 'element-ui/lib/transitions/collapse-transition';
+  import Vue from 'vue'
+  Vue.component(CollapseTransition.name, CollapseTransition)
+
   export default {
     name: 'list',
     data () {
       return {
         h: document.body.clientHeight,
         posheight: 100,
+        advancedSearchShow: false,
         timer: false,
         dataLoading: false,
         salesOpportunitiesOptionsType: null,
@@ -370,7 +387,8 @@
       // 页面高度改变过后改变table的max_height高度
       h (val) {
         if(!this.timer) {
-          this.posheight = val - 260
+          // this.posheight = val - (this.advancedSearchShow ? 535 : 275)
+          this.posheight = val - 275
           this.timer = true
           let that = this
           setTimeout(function (){
@@ -400,6 +418,7 @@
       comButton,
       addDialog,
       moveDialog,
+      advancedSearch,
     },
     methods: {
       ...mapActions('salesOpportunities', [
@@ -407,8 +426,18 @@
       ]),
       posTableHeight () {
         let h = document.body.clientHeight,
-            new_h = h - 260;
+            // new_h = h - (this.advancedSearchShow ? 535 : 275);
+            new_h = h - 275;
         this.posheight = new_h;
+      },
+      subAdvanced (item) {
+        this.currentPage = 1;
+        this.advancedSearch = item
+        this.getSalesOpportunititeisList()
+      },
+      showAdvanceSearch () {
+        this.advancedSearchShow = !this.advancedSearchShow;
+        this.posTableHeight();
       },
       operateOptions (op, row) {
         let that = this
@@ -416,7 +445,7 @@
         switch (op) {
           case 'add':
             this.$vDialog.modal(addDialog, {
-              title: '新增销售机会',
+              title: '新增销售需求',
               width: 900,
               height: 400,
               params: {
@@ -447,7 +476,7 @@
             break
           case 'move':
             this.$vDialog.modal(moveDialog, {
-              title: '转移销售机会',
+              title: '转移销售需求',
               width: 500,
               height: 240,
               params: {
@@ -461,7 +490,7 @@
             })
             break
           case 'delete':
-            this.$confirm('确定删除销售机会, 是否继续?', '提示', {
+            this.$confirm('确定删除销售需求, 是否继续?', '提示', {
               confirmButtonText: '确定',
               cancelButtonText: '取消',
               type: 'warning',
@@ -492,7 +521,7 @@
             })
             break
           case 'return':
-            this.$confirm('确定退回机会公池, 是否继续?', '提示', {
+            this.$confirm('确定退回需求公池, 是否继续?', '提示', {
               confirmButtonText: '确定',
               cancelButtonText: '取消',
               type: 'warning',
@@ -659,5 +688,32 @@
 </script>
 
 <style scoped lang="scss" rel="stylesheet/scss">
-  @import "../../../../styles/common";
+  @import "../../../../styles/commons";
+  .com-container .com-bar {
+    padding: 15px 20px;
+  }
+  .advancedSearch {
+    overflow: hidden;
+    border-top: 8px solid #F0F3F6;
+    border-bottom: 8px solid #F0F3F6;
+    .com-dialog-container {
+      padding: 15px 20px 15px 10px;
+    }
+    .advancedSearch-left {
+      float: left;
+      overflow: hidden;
+    }
+  }
+  .com-bar {
+    padding-bottom: 7px;
+    .com-el-select {
+      float: left;
+      margin-top: -7px;
+      margin-right: 10px;
+    }
+    .sear {
+      float:left;
+      margin-top: -7px;
+    }
+  }
 </style>

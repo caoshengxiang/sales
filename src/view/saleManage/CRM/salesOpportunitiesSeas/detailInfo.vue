@@ -1,6 +1,6 @@
 <!-- 客户回复的：
-按钮设置逻辑，跟进人可以操作销售机会所有按钮，创建人员，只能操作“添加联系人”，
-公海池的销售机会详情页面，非团队成员无权限查看，所以，不存在，没有跟进这个销售机会的去操作这个销售机会，
+按钮设置逻辑，跟进人可以操作销售需求所有按钮，创建人员，只能操作“添加联系人”，
+公海池的销售需求详情页面，非团队成员无权限查看，所以，不存在，没有跟进这个销售需求的去操作这个销售需求，
 也就不用控制那些按钮的显示了
 -->
 <template>
@@ -29,7 +29,7 @@
             <span class="com-d-item">预计签单金额: <span>{{salesOpportunitiesDetail.intentBillAmount}}</span></span>
             <span class="com-d-item">预计签单日期: <span>{{salesOpportunitiesDetail.billDate && $moment(salesOpportunitiesDetail.billDate).format('YYYY-MM-DD')}}</span></span>
             <br>
-            <span class="com-d-item">销售机会所有人: <span>{{salesOpportunitiesDetail.ownerName}}</span></span>
+            <span class="com-d-item">销售需求所有人: <span>{{salesOpportunitiesDetail.ownerName}}</span></span>
           </p>
         </div>
       </div>
@@ -37,10 +37,10 @@
         <ul class="com-info-op-group">
           <!--输单后隐藏删除以外得按钮-->
 
-         <!-- 销售机会模块列表中“转移”按钮与销售机会详情里面“转移”按钮隐藏
-          业务模式发生变化，同一客户（含该客户的销售机会）同一时间在同一分子公司只能存在一个销售跟进人员，为了避免同一客户多个销售机会被多个用户跟进，故需要隐藏销售机会“转移”功能
+         <!-- 销售需求模块列表中“转移”按钮与销售需求详情里面“转移”按钮隐藏
+          业务模式发生变化，同一客户（含该客户的销售需求）同一时间在同一分子公司只能存在一个销售跟进人员，为了避免同一客户多个销售需求被多个用户跟进，故需要隐藏销售需求“转移”功能
           [期望]
-          销售机会模块列表中“转移”按钮与销售机会详情里面“转移”按钮隐藏-->
+          销售需求模块列表中“转移”按钮与销售需求详情里面“转移”按钮隐藏-->
           <!--<li class="op-active" v-if="salesOpportunitiesDetail.stage !== -1 && isChangeFollower"-->
               <!--@click="operateOptions('move')">转移-->
           <!--</li>-->
@@ -169,7 +169,7 @@
     <div class="com-box detail-info-box">
       <div class="detail-left com-box-padding">
         <el-tabs v-model="activeViewName" type="card" @tab-click="handleTabsClick">
-          <el-tab-pane label="销售机会资料信息" name="detail">
+          <el-tab-pane label="销售需求资料信息" name="detail">
             <p class="table-title" v-if="salesOpportunitiesDetail.customerId">客户基本信息</p>
             <table class="detail-table" v-if="salesOpportunitiesDetail.customerId">
               <tr>
@@ -214,7 +214,7 @@
               </tr>
             </table>
             <!---->
-            <p class="table-title">销售机会基本信息</p>
+            <p class="table-title">销售需求基本信息</p>
             <table class="detail-table">
               <tr>
                 <td class="td-title">客户名称</td>
@@ -247,11 +247,11 @@
                 <td>{{salesOpportunitiesDetail.billAmount}}</td>
               </tr>
               <tr>
-                <td class="td-title">销售机会公海</td>
+                <td class="td-title">销售需求公海</td>
                 <td colspan="5">{{salesOpportunitiesDetail.chanceSeaName}}</td>
               </tr>
               <tr>
-                <td class="td-title">销售机会备注</td>
+                <td class="td-title">销售需求备注</td>
                 <td colspan="5">{{salesOpportunitiesDetail.chanceRemark || '暂无备注信息'}}</td>
               </tr>
               <tr>
@@ -273,15 +273,15 @@
                 </td>
               </tr>
               <tr>
-                <td class="td-title">机会输单备注</td>
+                <td class="td-title">需求输单备注</td>
                 <td colspan="5">{{salesOpportunitiesDetail.discardRemark || '暂无备注信息'}}</td>
               </tr>
             </table>
 
-            <p class="table-title">销售机会操作记录</p>
+            <p class="table-title">销售需求操作记录</p>
             <table class="detail-table">
               <!--<tr>-->
-                <!--<td class="td-title">销售机会创建时间</td>-->
+                <!--<td class="td-title">销售需求创建时间</td>-->
                 <!--<td colspan="3">{{salesOpportunitiesDetail.created &&-->
                   <!--$moment(salesOpportunitiesDetail.created).format('YYYY-MM-DD HH:mm:ss')}}-->
                 <!--</td>-->
@@ -289,7 +289,7 @@
                 <!--<td>{{salesOpportunitiesDetail.creatorName}}</td>-->
               <!--</tr>-->
               <!--<tr>-->
-                <!--<td class="td-title">销售机会修改时间</td>-->
+                <!--<td class="td-title">销售需求修改时间</td>-->
                 <!--<td colspan="3">{{salesOpportunitiesDetail.modified &&-->
                   <!--$moment(salesOpportunitiesDetail.modified).format('YYYY-MM-DD HH:mm:ss')}}-->
                 <!--</td>-->
@@ -297,7 +297,7 @@
                 <!--<td>{{salesOpportunitiesDetail.modifierName}}</td>-->
               <!--</tr>-->
               <!--<tr>-->
-                <!--<td class="td-title">销售机会活动时间</td>-->
+                <!--<td class="td-title">销售需求活动时间</td>-->
                 <!--<td colspan="3">{{ salesOpportunitiesDetail.followDate &&-->
                   <!--$moment(salesOpportunitiesDetail.followDate).format('YYYY-MM-DD HH:mm:ss')}}-->
                 <!--</td>-->
@@ -305,7 +305,7 @@
                 <!--<td>{{salesOpportunitiesDetail.team.salerName}}</td>-->
               <!--</tr>-->
               <tr>
-                <td colspan="5" class="td-title">销售机会操作记录</td>
+                <td colspan="5" class="td-title">销售需求操作记录</td>
                 <td class="td-title">操作人</td>
                 <td class="td-title">操作时间</td>
               </tr>
@@ -317,7 +317,7 @@
             </table>
           </el-tab-pane>
           <!---->
-          <el-tab-pane label="销售机会相关信息" name="related">
+          <el-tab-pane label="销售需求相关信息" name="related">
 
             <div class="related-btn-group">
               <com-button buttonType="theme" @click="handleRoute('contact')">联系人({{contactTotal}})</com-button>
@@ -441,7 +441,7 @@
               <span class="post-tag-1">创建人</span>
             </div>
           </li>
-          <!--公池机会因不可能存在跟进人与咨询师，故两个信息不显示。-->
+          <!--公池需求因不可能存在跟进人与咨询师，故两个信息不显示。-->
           <!--<li class="team-member-item">-->
             <!--<div class="head">-->
               <!--<img style="width: 58px;height: 58px;border-radius: 100%;"-->
@@ -474,7 +474,7 @@
           <!--</li>-->
         </ul>
         <!--输单后隐藏删除以外得按钮-->
-        <!--当销售机会进入100%阶段后，咨询师相关的操作按钮作隐藏处理。包含“申请咨询师协同”“申请替换咨询师”“咨询师主动退出”-->
+        <!--当销售需求进入100%阶段后，咨询师相关的操作按钮作隐藏处理。包含“申请咨询师协同”“申请替换咨询师”“咨询师主动退出”-->
         <!--<div class="team-btn-group" v-if="salesOpportunitiesDetail.stage !== -1 && salesOpportunitiesDetail.stage !== 5">-->
           <!--<div v-if="salesOpportunitiesDetail.team && !salesOpportunitiesDetail.team.counselorId && isChangeFollower"-->
                <!--class="btn-item-1" @click="operateOptions('apply')">申请咨询师协同-->
@@ -519,9 +519,9 @@
         orderList: [],
         orderTotal: 0,
         userInfo: '',
-        isChangeFollower: true, // 当前用户是机会的更进人
-        isChanceCreater: true, // 当前用户是机会的创建人，
-        isChanceCounselor: true, // 当前用户是机会的咨询师
+        isChangeFollower: true, // 当前用户是需求的更进人
+        isChanceCreater: true, // 当前用户是需求的创建人，
+        isChanceCounselor: true, // 当前用户是需求的咨询师
         customerDetail: {}, // 客户详细
         
         stepLineWidth: 0,        //step线的宽度
@@ -563,7 +563,7 @@
         switch (op) {
           case 'edit':
             this.$vDialog.modal(addDialog, {
-              title: '修改销售机会',
+              title: '修改销售需求',
               width: 900,
               height: 500,
               params: {
@@ -581,7 +581,7 @@
           case 'move': // 转移
             // this.moveDialogOpen = true
             this.$vDialog.modal(moveDialog, {
-              title: '转移销售机会',
+              title: '转移销售需求',
               width: 500,
               height: 240,
               params: {
@@ -592,7 +592,7 @@
             })
             break
           case 'delete': // 删除
-            this.$confirm('确定删除销售机会, 是否继续?', '提示', {
+            this.$confirm('确定删除销售需求, 是否继续?', '提示', {
               confirmButtonText: '确定',
               cancelButtonText: '取消',
               type: 'warning',
@@ -769,13 +769,13 @@
           setTimeout(() => {
             this.dataLoading = false
           }, 500)
-          if (this.userInfo.id !== this.salesOpportunitiesDetail.team.salerId) { // 判断机会的更进人
+          if (this.userInfo.id !== this.salesOpportunitiesDetail.team.salerId) { // 判断需求的更进人
             this.isChangeFollower = false
           }
-          if (this.userInfo.id !== this.salesOpportunitiesDetail.team.creator) { // 判断机会的创建人
+          if (this.userInfo.id !== this.salesOpportunitiesDetail.team.creator) { // 判断需求的创建人
             this.isChanceCreater = false
           }
-          if (this.userInfo.id !== this.salesOpportunitiesDetail.team.counselorId) { // 判断机会的创建人
+          if (this.userInfo.id !== this.salesOpportunitiesDetail.team.counselorId) { // 判断需求的创建人
             this.isChanceCounselor = false
           }
           // 根据状态设置step线的长度
@@ -821,11 +821,11 @@
         switch (step.type) {
           case 3:
             if (this.salesOpportunitiesDetail.stage === -1) {
-              this.$message.warning('销售机会已经输单，不能操作！')
+              this.$message.warning('销售需求已经输单，不能操作！')
             } else if (!this.isChangeFollower) {
               this.$message.warning('不是销售跟进人员，不能操作！')
             } else if (this.salesOpportunitiesDetail.stage >= 3) {
-              this.$message.warning('销售机会已确认！')
+              this.$message.warning('销售需求已确认！')
             } else {
               this.$vDialog.modal(addDialog, {
                 title: '确定销售需求',
@@ -846,7 +846,7 @@
             break
           case 4:
             if (this.salesOpportunitiesDetail.stage === -1) {
-              this.$message.warning('销售机会已经输单，不能操作！')
+              this.$message.warning('销售需求已经输单，不能操作！')
             } else if (!this.isChangeFollower) {
               this.$message.warning('不是销售跟进人员，不能操作！')
             } else if (this.salesOpportunitiesDetail.stage !== 3) {
@@ -871,7 +871,7 @@
             break
           case 5:
             if (this.salesOpportunitiesDetail.stage === -1) {
-              this.$message.warning('销售机会已经输单，不能操作！')
+              this.$message.warning('销售需求已经输单，不能操作！')
             } else if (!this.isChangeFollower) {
               this.$message.warning('不是销售跟进人员，不能操作！')
             } else if (this.salesOpportunitiesDetail.stage !== 4) {
@@ -900,7 +900,7 @@
           case 'contact':
             // this.$router.push({name: 'contactsList', query: {customerId: this.salesOpportunitiesDetail.customerId}})
             break
-          case 'orderRecords': // 机会
+          case 'orderRecords': // 需求
             // this.$router.push({name: 'orderRecordsList', query: {chanceId: this.salesOpportunitiesDetail.id}})
             break
           case 'order':

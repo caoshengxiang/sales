@@ -51,11 +51,11 @@
         </el-col>
         <el-col :span="8" class="lr-part">
           <div class="col-box">
-            <p class="com-title">销售机会列表</p>
+            <p class="com-title">销售需求列表</p>
             <ul class="list no-list">
-              <li>全部销售机会 <span>{{chanceTotal}}</span></li>
-              <li>我开发的销售机会 <span>{{chanceMy}}</span></li>
-              <li>即将签单销售机会 <span>{{chanceOrder}}</span></li>
+              <li>全部销售需求 <span>{{chanceTotal}}</span></li>
+              <li>我开发的销售需求 <span>{{chanceMy}}</span></li>
+              <li>即将签单销售需求 <span>{{chanceOrder}}</span></li>
             </ul>
             <div class="link">
               <router-link :to="{name: 'salesOpportunitiesList'}" class="link-all">查看全部 ></router-link>
@@ -110,7 +110,7 @@
       orderChart,
     },
     methods: {
-      getSalesOpportunititeisList () { // 获取机会
+      getSalesOpportunititeisList () { // 获取需求
         API.salesOpportunities.list({page: 0, pageSize: 1}, (da) => {
           this.chanceTotal = da.data.totalElements
         })

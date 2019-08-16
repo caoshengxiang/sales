@@ -6,7 +6,7 @@
       <el-breadcrumb separator-class="el-icon-arrow-right">
         <el-breadcrumb-item :to="{ name: 'companyManageHome' }">管理系统</el-breadcrumb-item>
         <el-breadcrumb-item>组织管理</el-breadcrumb-item>
-        <el-breadcrumb-item>机会池管理</el-breadcrumb-item>
+        <el-breadcrumb-item>需求池管理</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <!--控制栏-->
@@ -60,42 +60,42 @@
                      label-width="100px"
                      label-position="top"
                      class="demo-ruleForm">
-              <el-form-item label="请设置该机会池管理员" prop="adminList">
-                <el-select v-model="ruleForm.adminList" multiple placeholder="请设置该机会池管理员">
+              <el-form-item label="请设置该需求池管理员" prop="adminList">
+                <el-select v-model="ruleForm.adminList" multiple placeholder="请设置该需求池管理员">
                   <el-option v-for="item in adminList" :key="item.id" :label="item.name" :value="item.id"></el-option>
                 </el-select>
               </el-form-item>
-              <el-form-item label="请设置该机会池需求录入员" prop="keyboarderList">
-                <el-select v-model="ruleForm.keyboarderList" multiple placeholder="请设置该机会池需求录入员">
+              <el-form-item label="请设置该需求池需求录入员" prop="keyboarderList">
+                <el-select v-model="ruleForm.keyboarderList" multiple placeholder="请设置该需求池需求录入员">
                   <el-option v-for="item in keyboarderList" :key="item.id" :label="item.name"
                              :value="item.id"></el-option>
                 </el-select>
               </el-form-item>
-              <el-form-item label="请设置该机会池销售跟进员" prop="followerList">
-                <el-select v-model="ruleForm.followerList" multiple placeholder="请设置该机会池销售跟进员">
+              <el-form-item label="请设置该需求池销售跟进员" prop="followerList">
+                <el-select v-model="ruleForm.followerList" multiple placeholder="请设置该需求池销售跟进员">
                   <el-option v-for="item in followerList" :key="item.id" :label="item.name"
                              :value="item.id"></el-option>
                 </el-select>
               </el-form-item>
-              <el-form-item label="机会池回收规则设置" prop="dayOfNo">
+              <el-form-item label="需求池回收规则设置" prop="dayOfNo">
                 <div class="box">
                   <div class="item">
                     获取之后
                     <el-input class="item-input" type="number" v-model.number="ruleForm.dayOfNoFollow"
                               auto-complete="off"></el-input>
-                    天没有跟进机会；
+                    天没有跟进需求；
                   </div>
                   <div class="item">
                     跟进之后
                     <el-input class="item-input" type="number" v-model.number="ruleForm.dayOfNoFollowAgain"
                               auto-complete="off"></el-input>
-                    天没有再次跟进机会；
+                    天没有再次跟进需求；
                   </div>
                   <!--<div class="item">
                     获取之后
                     <el-input class="item-input" type="number" v-model.number="ruleForm.dayOfNoChance"
                               auto-complete="off"></el-input>
-                    天没有添加销售机会；
+                    天没有添加销售需求；
                   </div>-->
                   <div class="item">
                     获取之后
@@ -141,7 +141,7 @@
             this.ruleForm.dayOfNoFollowAgain >= 0) {
             callback()
           } else {
-            return callback(new Error('请设置机会池回收规则'))
+            return callback(new Error('请设置需求池回收规则'))
           }
         }
       }
@@ -171,13 +171,13 @@
             {required: true, validator: validate, trigger: 'blur'},
           ],
           adminList: [
-            {required: true, message: '请设置该机会池管理员', trigger: 'change'},
+            {required: true, message: '请设置该需求池管理员', trigger: 'change'},
           ],
           keyboarderList: [
-            {required: true, message: '请设置该机会池需求录入员', trigger: 'change'},
+            {required: true, message: '请设置该需求池需求录入员', trigger: 'change'},
           ],
           followerList: [
-            {required: true, message: '请设置该机会池销售跟进员', trigger: 'change'},
+            {required: true, message: '请设置该需求池销售跟进员', trigger: 'change'},
           ],
         },
         activeIndex: '',
@@ -301,7 +301,7 @@
       add () {
         var that = this
         this.$vDialog.modal(add, {
-          title: '新增机会池',
+          title: '新增需求池',
           width: 420,
           height: 250,
           params: {
@@ -349,7 +349,7 @@
       },
       update () {
         this.$vDialog.modal(add, {
-          title: '编辑机会池',
+          title: '编辑需求池',
           width: 420,
           height: 250,
           params: {
@@ -368,7 +368,7 @@
           },
         })
       },
-      getAdminList (organizationId) { // 机会池管理员
+      getAdminList (organizationId) { // 需求池管理员
         API.user.userSearch({bilityIds: 5, organizationId: organizationId}, (data) => {
           this.adminList = data.data
         })

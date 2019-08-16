@@ -35,8 +35,9 @@
             :value="item.type">
           </el-option>
         </el-select>
-        <com-button buttonType="search" @click="searchHandle">搜索</com-button>
-        <com-button buttonType="search" @click="advancedSearchHandle" style="">高级搜索</com-button>
+        <com-button buttonType="search" @click="searchHandle" class="sear">筛选</com-button>
+        <!-- <com-button buttonType="search" @click="advancedSearchHandle" style="">高级搜索</com-button> -->
+        <com-button style="background: #F7F8F7;" class="sear" @click="showAdvanceSearch">高级搜索<i :class="advancedSearchShow ? 'el-icon-arrow-up el-icon--right' : 'el-icon-arrow-down el-icon--right'"></i></com-button>
       </div>
       <div class="com-bar-right" v-if="themeIndex === 1"><!--后端-->
         <el-select
@@ -52,9 +53,19 @@
           </el-option>
         </el-select>
         <!--<com-button buttonType="search" @click="searchHandle">搜索</com-button>-->
-        <com-button buttonType="search" @click="advancedSearchHandle" style="">高级搜索</com-button>
+        <!-- <com-button buttonType="search" @click="advancedSearchHandle" style="">高级搜索</com-button> -->
+        <com-button style="background: #F7F8F7;" class="sear" @click="showAdvanceSearch">高级搜索<i :class="advancedSearchShow ? 'el-icon-arrow-up el-icon--right' : 'el-icon-arrow-down el-icon--right'"></i></com-button>
       </div>
     </div>
+    <!-- 高级搜素 -->
+    <transition name="el-zoom-in-top">
+      <div class="advancedSearch" v-if="advancedSearchShow">
+        <div class="advancedSearch-left">
+          <p style="font-size: 15px; padding-top: 10px;color: #606266; text-indent: 15px;">填写搜索条件></p>
+          <advancedSearch ref="advanced" :orderState="orderState" :orderSource="orderSource" :preAdvancedSearch="advancedSearch" @subAdvanced="subAdvanced"></advancedSearch>
+        </div>
+      </div>
+    </transition>
     <!--详细-->
     <div class="com-box com-box-padding com-list-box">
       <el-table
@@ -91,16 +102,8 @@
         <el-table-column
           align="center"
           sortable="custom"
-          prop="customerId"
-          label="关联客户ID"
-          width="160"
-          show-overflow-tooltip>
-        </el-table-column>
-        <el-table-column
-          align="center"
-          sortable="custom"
           prop="chanceName"
-          label="关联销售机会"
+          label="关联销售需求"
           show-overflow-tooltip
           width="160">
           <template slot-scope="scope">
@@ -123,6 +126,14 @@
               {{ scope.row.customerName }}
             </router-link>
           </template>
+        </el-table-column>
+        <el-table-column
+          align="center"
+          sortable="custom"
+          prop="customerId"
+          label="关联客户ID"
+          width="160"
+          show-overflow-tooltip>
         </el-table-column>
         <el-table-column
           align="center"
@@ -255,7 +266,7 @@
           align="center"
           sortable="custom"
           prop="salerName"
-          label="销售员"
+          label="商务管家"
           width="160"
           show-overflow-tooltip>
         </el-table-column>
@@ -333,12 +344,18 @@
   import advancedSearch from './advancedSearch'
   import { underscoreName, arrToStr } from '../../../../utils/utils'
 
+  // import 'element-ui/lib/theme-chalk/base.css';
+  import CollapseTransition from 'element-ui/lib/transitions/collapse-transition';
+  import Vue from 'vue'
+  Vue.component(CollapseTransition.name, CollapseTransition)
+
   export default {
     name: 'list',
     data () {
       return {
         h: document.body.clientHeight,
         posheight: 100,
+        advancedSearchShow: false,
         timer: false,
         dataLoading: false,
         options: [
@@ -368,7 +385,7 @@
           organizationId: null,
         },
         customerId: null, // 路由参数
-        chanceId: null, // 路由参数，机会id
+        chanceId: null, // 路由参数，需求id
         organizationOptions: [], // 组织列表
         organizationId: null, // 选择的组织
         sortObj: {sort: 'created,desc'}, // 排序
@@ -379,7 +396,8 @@
       // 页面高度改变过后改变table的max_height高度
       h (val) {
         if(!this.timer) {
-          this.posheight = val - 260
+          // this.posheight = val - (this.advancedSearchShow ? 580 : 275)
+          this.posheight = val - 275
           this.timer = true
           let that = this
           setTimeout(function (){
@@ -417,8 +435,18 @@
     },
     components: {
       comButton,
+      advancedSearch,
     },
     methods: {
+      subAdvanced (item) {
+        this.currentPage = 1;
+        this.advancedSearch = item
+        this.getSalesOrderList()
+      },
+      showAdvanceSearch () {
+        this.advancedSearchShow = !this.advancedSearchShow;
+        this.posTableHeight();
+      },
       operateOptions (op) {
         switch (op) {
           case 'add':
@@ -545,7 +573,8 @@
       },
       posTableHeight () {
         let h = document.body.clientHeight,
-            new_h = h - 260;
+            // new_h = h - (this.advancedSearchShow ? 580 : 275);
+            new_h = h - 275;
         this.posheight = new_h;
       },
       searchHandle () {
@@ -636,7 +665,7 @@
         if (this.customerId) { // 更多[来至客户，联系人]
           this.defaultListParams.customerId = this.customerId
         }
-        if (this.chanceId) { // 更多[来至机会]
+        if (this.chanceId) { // 更多[来至需求]
           this.defaultListParams.chanceId = this.chanceId
         }
       },
@@ -650,5 +679,32 @@
 </script>
 
 <style scoped lang="scss" rel="stylesheet/scss">
-  @import "../../../../styles/common";
+  @import "../../../../styles/commons";
+  .com-container .com-bar {
+    padding: 15px 20px;
+  }
+  .advancedSearch {
+    overflow: hidden;
+    border-top: 8px solid #F0F3F6;
+    border-bottom: 8px solid #F0F3F6;
+    .com-dialog-container {
+      padding: 15px 20px 15px 10px;
+    }
+    .advancedSearch-left {
+      float: left;
+      overflow: hidden;
+    }
+  }
+  .com-bar {
+    padding-bottom: 7px;
+    .com-el-select {
+      float: left;
+      margin-top: -7px;
+      margin-right: 10px;
+    }
+    .sear {
+      float:left;
+      margin-top: -7px;
+    }
+  }
 </style>

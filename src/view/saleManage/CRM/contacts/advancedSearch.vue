@@ -3,24 +3,22 @@
     <div class="com-dialog">
       <el-form :model="searchForm" ref="searchForm" label-width="100px">
         <el-row class="el-row-cla">
-          <el-col :span="8">
+          <el-col :span="4">
             <el-form-item label="客户名称：">
-              <el-input type="text" v-model="searchForm.customerName"></el-input>
+              <el-input type="text" v-model="searchForm.customerName" placeholder="客户名称"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="8">
+          <el-col :span="4">
             <el-form-item label="客户联系人：">
-              <el-input type="text" v-model="searchForm.contacterName"></el-input>
+              <el-input type="text" v-model="searchForm.contacterName" placeholder="客户联系人"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="8">
+          <el-col :span="4">
             <el-form-item label="联系电话：">
               <el-input type="text" v-model="searchForm.phone"></el-input>
             </el-form-item>
           </el-col>
-        </el-row>
-        <el-row class="el-row-cla">
-          <el-col :span="8">
+          <el-col :span="4">
             <el-form-item label="公司职务：" prop="position">
               <el-select v-model="searchForm.position" placeholder="请选择公司职务">
                 <el-option v-for="item in positionList" :key="item.id" :label="item.name"
@@ -28,14 +26,7 @@
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="8">
-            <el-form-item label="客户ID：">
-              <el-input type="text" v-model="searchForm.customerId"></el-input>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row class="el-row-cla">
-          <el-col :span="8">
+          <el-col :span="4">
             <el-form-item label="状态：">
               <el-select v-model="searchForm.status" placeholder="请选择状态">
                 <el-option v-for="item in contactsStatus" :key="item.type" :label="item.value"
@@ -43,6 +34,13 @@
               </el-select>
             </el-form-item>
           </el-col>
+          <el-col :span="4">
+            <el-form-item label="客户ID：">
+              <el-input type="text" v-model="searchForm.customerId" placeholder="客户ID"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row class="el-row-cla">
           <el-col :span="16">
             <el-form-item label="创建日期：">
               <el-date-picker
@@ -61,8 +59,8 @@
         </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button class="cancel-button" @click="$vDialog.close({type: 'cancel'})">取 消</el-button>
-        <el-button class="cancel-button" @click="clearForm">清 除</el-button>
+        <!-- <el-button class="cancel-button" @click="$vDialog.close({type: 'cancel'})">取 消</el-button> -->
+        <el-button class="cancel-button" @click="clearForm">重 置</el-button>
         <el-button class="save-button" @click="saveSubmitForm">确 定</el-button>
       </div>
     </div>
@@ -77,7 +75,7 @@
     name: 'advancedSearch',
     data () {
       return {
-        contactsStatus: [], // 联系人状态
+        // contactsStatus: [], // 联系人状态
         searchForm: { // 表单
           customerName: null,
           contacterName: null,
@@ -92,7 +90,11 @@
         positionList: [],
       }
     },
-    props: ['params'],
+    // props: ['params'],
+    props: {
+      contactsStatus: '',
+      preAdvancedSearch: {},
+    },
     methods: {
       lastMonthDate () {
         return lastMonthDate()
@@ -102,7 +104,8 @@
         this.timeInterval = []
       },
       saveSubmitForm () {
-        this.$vDialog.close({type: 'search', params: this.searchForm})
+        // this.$vDialog.close({type: 'search', params: this.searchForm})
+        this.$emit('subAdvanced', this.searchForm);
       },
       timeIntervalHandle (value) {
         this.searchForm.startDate = value[0] || ''
@@ -110,8 +113,8 @@
       },
     },
     created () {
-      this.contactsStatus = this.params.contactsStatus
-      this.searchForm = this.params.preAdvancedSearch
+      // this.contactsStatus = this.contactsStatus
+      this.searchForm = this.preAdvancedSearch
       if (this.searchForm.startDate) { // 日期
         this.timeInterval = [this.searchForm.startDate, this.searchForm.endDate]
       }

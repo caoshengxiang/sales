@@ -63,7 +63,7 @@ const API1 = {
         error && error(err)
       })
     },
-    chance (params, success, error) { // 活动下机会列表
+    chance (params, success, error) { // 活动下需求列表
       // console.log(params)
       $axios.post('meetingSale/searchOrQueryChanceOfMeeting', null,
         {params: params}).then((res) => {
@@ -72,7 +72,7 @@ const API1 = {
         error && error(err)
       })
     },
-    addChance (params, success, error) { // 添加机会
+    addChance (params, success, error) { // 添加需求
       // console.log(params)
       $axios.post('meetingSale/limit/addSaleChance', params).then((res) => {
         success && success(res.data)
@@ -80,7 +80,7 @@ const API1 = {
         error && error(err)
       })
     },
-    addChance2 (params, success, error) { // 添加机会
+    addChance2 (params, success, error) { // 添加需求
       // console.log(params)
       $axios.post('meetingSale/addSaleChance', params).then((res) => {
         success && success(res.data)
@@ -618,7 +618,7 @@ const API1 = {
         error && error(err)
       })
     },
-    chanceCheckValid (params, success, error) { // 机会列表是否可以判定客户
+    chanceCheckValid (params, success, error) { // 需求列表是否可以判定客户
       // $axios.get('salerChance/checkValid', {params: params}).then((res) => {
       $axios.get('salerChance/checkValid', {params: params}).then((res) => {
         success && success(res.data)
@@ -639,7 +639,7 @@ const API1 = {
         error && error(err)
       })
     },
-    getAllCustomerSea (success, error) { //获取所有机会公海，没有权限
+    getAllCustomerSea (success, error) { //获取所有需求公海，没有权限
       $axios.get('chanceSea/all/defaultSea').then((res) => {
         success && success(res.data)
       }).catch((err) => {
@@ -752,7 +752,7 @@ const API1 = {
         error && error(err)
       })
     },
-    chanceList (params, success, error) { // 客户池获取机会列表
+    chanceList (params, success, error) { // 客户池获取需求列表
       $axios.get('customerSea/salerChance', {
         params: params,
       }).then((res) => {
@@ -883,9 +883,9 @@ const API1 = {
       })
     },
   },
-  // 销售机会
+  // 销售需求
   salesOpportunities: {
-    listNoAuth (params, success, error) { // 销售机会列表,相关【无权限】
+    listNoAuth (params, success, error) { // 销售需求列表,相关【无权限】
       $axios({
         method: 'get',
         url: 'salerChance/page',
@@ -896,7 +896,7 @@ const API1 = {
         error && error(err)
       })
     },
-    list (params, success, error) { // 销售机会列表
+    list (params, success, error) { // 销售需求列表
       $axios({
         method: 'get',
         url: '/salerChance',
@@ -907,7 +907,7 @@ const API1 = {
         error && error(err)
       })
     },
-    listAdmin (params, success, error) { // 销售机会列表
+    listAdmin (params, success, error) { // 销售需求列表
       $axios({
         method: 'get',
         url: '/salerChance/admin',
@@ -918,7 +918,7 @@ const API1 = {
         error && error(err)
       })
     },
-    seaList  (params, success, error) { // 公海机会列表
+    seaList  (params, success, error) { // 公海需求列表
       $axios({
         method: 'get',
         url: '/salerChance/sea/list',
@@ -929,7 +929,7 @@ const API1 = {
         error && error(err)
       })
     },
-    detail (params, success, error) { // 销售机会详细
+    detail (params, success, error) { // 销售需求详细
       $axios({
         method: 'get',
         url: '/salerChance/' + params,
@@ -939,7 +939,7 @@ const API1 = {
         error && error(err)
       })
     },
-    edit (params, success, error) { // 修改销售机会
+    edit (params, success, error) { // 修改销售需求
       $axios({
         method: 'put',
         url: '/salerChance/' + params.id,
@@ -1058,7 +1058,7 @@ const API1 = {
       })
     },
   },
-  // 机会公池
+  // 需求公池
   salesOpportunitiesSea: {
     list (params, success, error) { // 列表
       $axios.get('chanceSea', {
@@ -1185,7 +1185,7 @@ const API1 = {
         error && error(err)
       })
     },
-    chanceList (params, success, error) { // 客户池获取机会列表
+    chanceList (params, success, error) { // 客户池获取需求列表
       $axios.get('chanceSea/salerChance', {
         params: params,
       }).then((res) => {
@@ -1355,7 +1355,7 @@ const API1 = {
         error && error(err)
       })
 	},
-    zhuxinSalesOpportunitiesCallRecordList (params, success, error) { // 获取销售机会的通话记录
+    zhuxinSalesOpportunitiesCallRecordList (params, success, error) { // 获取销售需求的通话记录
       $axios({
         method: 'get',
         url: '/zcall/api/chanceList/' + params,
@@ -1493,7 +1493,7 @@ const API1 = {
         error && error(err)
       })
     },
-    seaChanceFollowersList (params, success, error) { // 机会池池销售跟进员列表
+    seaChanceFollowersList (params, success, error) { // 需求池池销售跟进员列表
       // console.log(params)
       $axios.get('user/chanceSea/followers', {
         params: params,
@@ -1903,7 +1903,7 @@ const API1 = {
         error && error(err)
       })
     },
-    chanceDetail (params, success, error) { // 审批销售机会
+    chanceDetail (params, success, error) { // 审批销售需求
       $axios({
         method: 'get',
         url: 'approval/salerChance',
@@ -2405,7 +2405,7 @@ const API1 = {
         error && error(err)
       })
     },
-    chanceStat (params, success, error) { // 销售机会统计
+    chanceStat (params, success, error) { // 销售需求统计
       $axios.get('home/chanceStat', {
         params: params,
       }).then(res => {

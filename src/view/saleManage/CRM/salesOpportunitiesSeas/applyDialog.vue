@@ -35,7 +35,7 @@
         dataLoading: false,
         principalType: 3, // 咨询师类型，3 专业 ，2 同机构其他销售
         ruleForm: {
-          businessType: 1, // 关联业务类型 1:销售机会
+          businessType: 1, // 关联业务类型 1:销售需求
           type: 0,
           counselorId: '',
           chanceId: '',

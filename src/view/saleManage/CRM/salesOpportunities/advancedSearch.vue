@@ -1,46 +1,49 @@
 <template>
   <div class="com-dialog-container">
     <div class="com-dialog">
-      <el-form :model="searchForm" ref="searchForm" label-width="120px">
+      <el-form :model="searchForm" ref="searchForm" label-width="110px">
         <el-row class="el-row-cla">
-          <el-col :span="8">
+          <el-col :span="4">
             <el-form-item label="意向商品：">
-              <el-input type="text" v-model="searchForm.intentProductName"></el-input>
+              <el-input type="text" v-model="searchForm.intentProductName" placeholder="意向商品"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="8">
+          <el-col :span="4">
             <el-form-item label="客户名称：">
-              <el-input type="text" v-model="searchForm.customerName"></el-input>
+              <el-input type="text" v-model="searchForm.customerName" placeholder="客户名称"></el-input>
             </el-form-item>
           </el-col>
           <!--去除了联系人-->
-          <el-col :span="8">
-            <el-form-item label="销售相关人员：">
-              <el-input type="text" v-model="searchForm.salerRelName"></el-input>
+          <el-col :span="4">
+            <el-form-item label="商务管家：">
+              <el-input type="text" v-model="searchForm.salerRelName" placeholder="商务管家"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="4">
+            <el-form-item label="联系人：">
+              <el-input type="text" v-model="searchForm.contacter" placeholder="联系人"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="4">
+            <el-form-item label="联系电话：">
+              <el-input type="text" v-model="searchForm.contactPhone" placeholder="联系电话"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="4">
+            <el-form-item label="客户ID：">
+              <el-input type="text" v-model="searchForm.customerId" placeholder="客户ID"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row class="el-row-cla">
-          <el-col :span="8">
-            <el-form-item label="联系人：">
-              <el-input type="text" v-model="searchForm.contacter"></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="联系电话：">
-              <el-input type="text" v-model="searchForm.contactPhone"></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
+          <el-col :span="4">
             <el-form-item label="所属公司：">
               <el-select v-model='searchForm.subordinateCompany' filterable placeholder="请选择所属公司">
                 <el-option v-for="(item, i) in subordinateCompany" :key="i" :value="item.id" :label="item.name"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
-        </el-row>
-        <el-row class="el-row-cla">
-          <el-col :span="8">
+          <el-col :span="4">
             <el-form-item label="销售阶段：">
               <el-select v-model="searchForm.stage" placeholder="请选择销售阶段">
                 <el-option v-for="item in salesState" :key="item.type" :label="item.value"
@@ -49,7 +52,7 @@
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="8">
+          <el-col :span="4">
             <el-form-item label="需求来源：">
               <el-cascader
                 style="width: 100%"
@@ -64,17 +67,35 @@
               </el-cascader>
             </el-form-item>
           </el-col>
-          <el-col :span="8">
+          <el-col :span="4">
             <el-form-item prop="provinceId" label="地区：">
               <AreaSelect ref="areaSe"
+                          :isNullVlaue="isNullVlaue"
                           :area="(searchForm.provinceName?searchForm.provinceName:'') + ' ' + (searchForm.cityName?searchForm.cityName:'')  + ' ' + (searchForm.areaName?searchForm.areaName:'')"
                           @change="areaSelectedOptionsHandleChange"
                           :selectLastLevelMode="true"></AreaSelect>
             </el-form-item>
           </el-col>
+          <el-col :span="8">
+            <el-form-item label="预计签单金额：">
+              <el-row>
+                <el-col :span="11">
+                  <el-input @change="intentBillAmountStartHandle" type="number"
+                            v-model.number="searchForm.startIntentBillAmount"></el-input>
+                </el-col>
+                <el-col :span="2">
+                  <div style="text-align: center">-</div>
+                </el-col>
+                <el-col :span="11">
+                  <el-input @change="intentBillAmountEndHandle" type="number"
+                            v-model.number="searchForm.endIntentBillAmount"></el-input>
+                </el-col>
+              </el-row>
+            </el-form-item>
+          </el-col>
         </el-row>
         <el-row class="el-row-cla">
-          <el-col :span="14">
+          <el-col :span="8">
             <el-form-item label="创建日期：">
               <el-date-picker
                 v-model="timeInterval"
@@ -89,13 +110,6 @@
               </el-date-picker>
             </el-form-item>
           </el-col>
-          <el-col :span="10">
-            <el-form-item label="客户ID：">
-              <el-input type="text" v-model="searchForm.customerId"></el-input>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row class="el-row-cla">
           <el-col :span="14">
             <el-form-item label="预计签单日期：">
               <el-date-picker
@@ -111,29 +125,10 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <el-row class="el-row-cla">
-          <el-col :span="14">
-            <el-form-item label="预计签单金额：">
-              <el-row>
-                <el-col :span="10">
-                  <el-input @change="intentBillAmountStartHandle" type="number"
-                            v-model.number="searchForm.startIntentBillAmount"></el-input>
-                </el-col>
-                <el-col :span="2">
-                  <div style="text-align: center">-</div>
-                </el-col>
-                <el-col :span="10">
-                  <el-input @change="intentBillAmountEndHandle" type="number"
-                            v-model.number="searchForm.endIntentBillAmount"></el-input>
-                </el-col>
-              </el-row>
-            </el-form-item>
-          </el-col>
-        </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button class="cancel-button" @click="$vDialog.close({type: 'cancel'})">取 消</el-button>
-        <el-button class="cancel-button" @click="clearForm">清 除</el-button>
+        <!-- <el-button class="cancel-button" @click="$vDialog.close({type: 'cancel'})">取 消</el-button> -->
+        <el-button class="cancel-button" @click="clearForm">重 置</el-button>
         <el-button class="save-button" @click="saveSubmitForm">确 定</el-button>
       </div>
     </div>
@@ -148,9 +143,10 @@
     name: 'advancedSearch',
     data () {
       return {
-        salesState: [], // 销售阶段
-        demandSource: [], // 需求来源
+        // salesState: [], // 销售阶段
+        // demandSource: [], // 需求来源
         subordinateCompany: [], //所属公司
+        isNullVlaue: 0,
         searchForm: { // 表单
           intentProductName: null,
           customerName: null,
@@ -182,7 +178,12 @@
         sourceNameArr: [],
       }
     },
-    props: ['params'],
+    // props: ['params'],
+    props: {
+      salesState: '',
+      demandSource: '',
+      preAdvancedSearch: {},
+    },
     methods: {
       areaSelectedOptionsHandleChange (value) {
         let name = this.$refs.areaSe.getSelectedName(value)
@@ -211,6 +212,7 @@
         this.searchForm = {}
         this.timeInterval = []
         this.timeInterval2 = []
+        this.chanceSourceArr = []
       },
       treeGetName (id, node) { // 遍历树获取名称
         if (!node) {
@@ -241,7 +243,8 @@
       },
       saveSubmitForm () {
         this.searchForm.sourceName = this.traverseTree(this.searchForm.chanceSource)
-        this.$vDialog.close({type: 'search', params: this.searchForm})
+        // this.$vDialog.close({type: 'search', params: this.searchForm})
+        this.$emit('subAdvanced', this.searchForm);
       },
       timeIntervalHandle (value) {
         this.searchForm.startCreateDate = value[0] || ''
@@ -311,11 +314,12 @@
     },
     created () {
       this.getCompany()
-      this.salesState = this.params.salesState
-      this.demandSource = this.params.demandSource
+      // this.salesState = this.params.salesState
+      // this.demandSource = this.params.demandSource
       // 来源
       this.getConfigData(5, 0)
-      this.searchForm = this.params.preAdvancedSearch
+      // this.searchForm = this.params.preAdvancedSearch
+      this.searchForm = this.preAdvancedSearch
       if (this.searchForm.startCreateDate) { // 日期
         this.timeInterval = [this.searchForm.startCreateDate, this.searchForm.endCreateDate]
       }
@@ -328,4 +332,7 @@
 
 <style scoped lang="scss" rel="stylesheet/scss">
   @import "../../../../styles/common";
+    .dialog-footer {
+      margin-top: 15px !important;
+    }
 </style>

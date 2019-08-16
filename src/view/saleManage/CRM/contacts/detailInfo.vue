@@ -122,14 +122,14 @@
           <el-tab-pane label="联系人相关信息" name="related">
 
             <div class="related-btn-group">
-              <com-button buttonType="grey" @click="handleRoute('chance')">销售机会({{chanceTotal}})</com-button>
+              <com-button buttonType="grey" @click="handleRoute('chance')">销售需求({{chanceTotal}})</com-button>
               <com-button buttonType="grey" @click="handleRoute('order')">销售订单({{orderTotal}})</com-button>
             </div>
 
             <p class="table-title">
-              销售机会({{chanceTotal}})
+              销售需求({{chanceTotal}})
               <!--<a class="more" v-if="chanceTotal > 5" @click="handleRoute('chance')">更多》</a>-->
-              <a class="table-add" @click="quickOperation('addChance')"><i class="el-icon-plus"></i>新增销售机会</a>
+              <a class="table-add" @click="quickOperation('addChance')"><i class="el-icon-plus"></i>新增销售需求</a>
             </p>
             <table class="detail-table related-table">
               <tr>
@@ -138,7 +138,7 @@
                 <th class="td-title">预计签单金额</th>
                 <th class="td-title">预计签单时间</th>
                 <th class="td-title">销售人</th>
-                <th class="td-title">销售机会创建时间</th>
+                <th class="td-title">销售需求创建时间</th>
               </tr>
               <tr v-for="item in chanceList" :key="item.id">
                 <td>{{item.intentProductName}}</td>
@@ -351,7 +351,7 @@
           case 'addChance':
             if (this.currentUserIsTeamNum()) {
               this.$vDialog.modal(addChanceDialog, {
-                title: '新增销售机会',
+                title: '新增销售需求',
                 width: 900,
                 height: 500,
                 params: {

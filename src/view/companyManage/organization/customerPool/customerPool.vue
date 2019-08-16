@@ -95,7 +95,7 @@
                     获取之后
                     <el-input class="item-input" type="age" v-model.number="ruleForm.dayOfNoChance"
                               auto-complete="off"></el-input>
-                    天没有添加销售机会；
+                    天没有添加销售需求；
                   </div>
                   <div class="item">
                     获取之后
