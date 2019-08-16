@@ -53,7 +53,7 @@
           prop="msgType"
         >
           <template slot-scope="scope">
-            <span :class="{'read-message': scope.row.readStatus}">{{ scope.row.msgType === 1 ? '系统消息': '平台通知' }}</span>
+            <span :class="{'read-message': scope.row.readStatus}">{{ scope.row.msgType === 1 || scope.row.msgType === 3? '系统消息': '平台通知' }}</span>
           </template>
         </el-table-column>
         <el-table-column
@@ -61,7 +61,11 @@
           label="消息标题"
         >
           <template slot-scope="scope">
-            <a class="col-link" @click="handleRouter('detail', scope.row.id)"
+            <a v-if="scope.row.msgType !== 3" class="col-link" @click="handleRouter('detail', scope.row.id)"
+               :class="{'read-message': scope.row.readStatus}">
+              {{scope.row.title }}
+            </a>
+            <a v-if="scope.row.msgType === 3" class="col-link" @click="handleOrderRouter(scope.row)"
                :class="{'read-message': scope.row.readStatus}">
               {{scope.row.title }}
             </a>
@@ -188,6 +192,15 @@
           this.getMessageTotal()
           if (da.data > 0) {
             this.$router.push({name: 'messageDetail', params: {end: 'FE'}, query: {view: name, id: id}})
+          }
+        })
+      },
+      handleOrderRouter (row) {
+        API.message.msgRead({ids: row.id}, (da) => { // 先标记为已读
+          this.getMessageTotal()
+          row.readStatus = 1
+          if (da.data > 0) {
+            window.open(row.content, "_blank")
           }
         })
       },
