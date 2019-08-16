@@ -9,6 +9,7 @@
 							<el-radio v-model="type" label="1">普通消息</el-radio>
 							<el-radio v-model="type" label="2">版本提示</el-radio>
               <el-radio v-model="type" label="3">规章制度</el-radio>
+              <el-radio v-model="type" label="4">金钥匙更新日志</el-radio>
 						</td>
 					</tr>
           <tr>
@@ -19,7 +20,7 @@
               </el-form-item>
             </td>
           </tr>
-          <tr>
+          <tr v-if="type != 4">
             <td class="td-title">请选择接收角色</td>
             <td class="td-text">
               <el-form-item prop="businessSystems">
@@ -34,7 +35,7 @@
               </el-form-item>
             </td>
           </tr>
-          <tr>
+          <tr v-if="type != 4">
             <td class="td-title">请选择接收组织</td>
             <td class="td-text">
               <el-form-item prop="bilities">

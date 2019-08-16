@@ -51,22 +51,22 @@ export default {
     salesOpportunitiesOptions: [
       {
         type: null,
-        value: '全部销售机会',
+        value: '全部销售需求',
       },
       {
         type: 1, // 注意： 首页有直接使用 1这个值
-        value: '我创建的销售机会',
+        value: '我创建的销售需求',
       },
       {
         type: 2,
-        value: '我跟进的销售机会',
+        value: '我跟进的销售需求',
       },
       {
         type: 3,
-        value: '我参与的销售机会',
+        value: '我参与的销售需求',
       }, {
         type: 4,
-        value: '我下属跟进的销售机会',
+        value: '我下属跟进的销售需求',
       },
     ],
     customerState: [ // 客户状态
@@ -144,7 +144,7 @@ export default {
 		},
     salesState: [ // 销售阶段
       {
-        type: -1, // 机会详细直接使用
+        type: -1, // 需求详细直接使用
         value: '输单',
         percent: '0%',
       },
@@ -165,14 +165,14 @@ export default {
         value: ' 预下订单',
         percent: '80%',
       }, {
-        type: 5, // 机会详细直接使用
+        type: 5, // 需求详细直接使用
         value: '客户签单',
         percent: '100%',
       },
     ],
     salesStateNew: [ // 销售阶段2 用于新高级搜索
       {
-        type: -1, // 机会详细直接使用
+        type: -1, // 需求详细直接使用
         value: '输单',
       },
       {
@@ -406,6 +406,9 @@ export default {
       }, {
         name: '自然客户',
         value: 110,
+      }, {
+        name: '员工推荐',
+        value: 411,
       },
     ],
     // menusObj: {
@@ -497,8 +500,8 @@ export default {
     //       {name: '客户管理', value: 'userManagementSub'},
     //       {name: '客户公海管理', value: 'userManagementSub'},
     //       {name: '联系人管理', value: 'userManagementSub'},
-    //       {name: '销售机会管理', value: 'userManagementSub'},
-    //       {name: '机会公海管理', value: 'userManagementSub'},
+    //       {name: '销售需求管理', value: 'userManagementSub'},
+    //       {name: '需求公海管理', value: 'userManagementSub'},
     //       {name: '销售订单管理', value: 'userManagementSub'},
     //       {name: '会议活动管理', value: 'userManagementSub'},
     //       {name: '跟单记录管理', value: 'userManagementSub'},
