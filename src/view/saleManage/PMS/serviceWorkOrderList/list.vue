@@ -113,6 +113,15 @@
           <el-table-column
             align="center"
             sortable="custom"
+            prop="customerId"
+            label="客户ID"
+            width="160"
+            show-overflow-tooltip
+          >
+          </el-table-column>
+          <el-table-column
+            align="center"
+            sortable="custom"
             prop="customerName"
             label="服务客户"
             width="160"
