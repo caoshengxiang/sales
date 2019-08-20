@@ -98,6 +98,7 @@
         </el-table-column>
         <el-table-column
           show-overflow-tooltip
+          fixed
           align="center"
           sortable="custom"
           prop="customerId"
@@ -106,6 +107,7 @@
         </el-table-column>
         <el-table-column
           align="center"
+          fixed
           sortable="custom"
           prop="customerName"
           label="客户名称"
