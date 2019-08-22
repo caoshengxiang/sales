@@ -132,13 +132,27 @@
           </el-col>
         </el-row>
         <el-row class="el-row-cla">
-          <el-col :span="12">
+          <el-col :span="8">
             <el-form-item label="退回日期：">
               <el-date-picker
                 v-model="timeInterval3"
                 type="datetimerange"
                 value-format="yyyy-MM-dd HH:mm:ss"
                 @change="returnDateIntervalHandle"
+                :unlink-panels="true"
+                range-separator="至"
+                start-placeholder="开始日期"
+                end-placeholder="结束日期">
+              </el-date-picker>
+            </el-form-item>
+          </el-col>
+          <el-col :span="16">
+            <el-form-item label="预计签单日期：">
+              <el-date-picker
+                v-model="timeInterval2"
+                type="datetimerange"
+                value-format="yyyy-MM-dd HH:mm:ss"
+                @change="timeBillDateIntervalHandle"
                 :unlink-panels="true"
                 range-separator="至"
                 start-placeholder="开始日期"

@@ -103,7 +103,17 @@
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="8">
+         <el-col :span="8">
+            <el-form-item label="状态：">
+              <el-select v-model="searchForm.state" placeholder="请选择状态">
+                <el-option v-for="item in customerState" :key="item.type" :label="item.value"
+                           :value="item.type"></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="16">
             <el-form-item label="创建日期：">
               <el-date-picker
                 v-model="timeInterval"
@@ -119,16 +129,6 @@
               </el-date-picker>
             </el-form-item>
           </el-col>
-<!--          <el-col :span="8">
-            <el-form-item label="状态：">
-              <el-select v-model="searchForm.state" placeholder="请选择状态">
-                <el-option v-for="item in customerState" :key="item.type" :label="item.value"
-                           :value="item.type"></el-option>
-              </el-select>
-            </el-form-item>
-          </el-col> -->
-        </el-row>
-        <el-row>
           <!--<el-col :span="8">-->
           <!--<el-form-item label="联系电话：">-->
           <!--<el-input type="text" v-model="searchForm.phone"></el-input>-->
